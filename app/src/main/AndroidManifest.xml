@@ -14,6 +14,7 @@
         android:theme="@style/Theme.MovieCatalog">
         <activity
             android:name=".MainActivity"
+            android:theme="@style/splashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,7 +8,7 @@ import com.rick.moviecatalog.data.remote.LinkDto
 import com.rick.moviecatalog.data.remote.MovieCatalogDto
 import com.rick.moviecatalog.data.remote.MultimediaDto
 import com.rick.moviecatalog.data.remote.ResultDto
-import com.rick.xmoviecatalog.data.model.Link
+import com.rick.moviecatalog.data.model.Link
 
 fun LinkDto.toLink(): Link =
     Link(
