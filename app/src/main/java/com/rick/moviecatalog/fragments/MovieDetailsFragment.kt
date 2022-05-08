@@ -23,8 +23,6 @@ class MovieDetailsFragment: Fragment() {
     ): View? {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
 
-        binding.webView.settings.javaScriptEnabled = true
-        binding.webView.loadUrl("https://www.nytimes.com/2022/05/05/movies/reflection-review.html")
         return binding.root
     }
 

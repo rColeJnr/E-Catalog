@@ -5,4 +5,6 @@
     <string name="no_more_movies">No more movies</string>
     <string name="release_date">Release date:</string>
     <string name="rated">Rated:</string>
+    <string name="movie_published_on">Movie published on:</string>
+    <string name="read_article">Read the complete movie article:</string>
 </resources>
