@@ -1,7 +1,6 @@
-package com.rick.moviecatalog.data
+package com.rick.moviecatalog.data.remote
 
 import com.rick.moviecatalog.BuildConfig
-import com.rick.moviecatalog.data.remote.MovieCatalogDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

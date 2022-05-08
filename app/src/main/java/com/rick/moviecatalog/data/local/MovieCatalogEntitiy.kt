@@ -6,6 +6,7 @@ import com.rick.moviecatalog.data.model.Result
 
 @Entity
 data class MovieCatalogEntitiy(
-    @PrimaryKey val id: Int,
-    val movieCatalog: List<Result>
+    @PrimaryKey val id: Int? = null,
+    val movieCatalog: List<Result>,
+    val hasMore: Boolean
 )

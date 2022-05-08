@@ -2,8 +2,8 @@ package com.rick.moviecatalog.di
 
 import android.content.Context
 import androidx.room.Room
-import com.rick.moviecatalog.data.MovieCatalogApi
-import com.rick.moviecatalog.data.MovieCatalogApi.Companion.BASE_URL
+import com.rick.moviecatalog.data.remote.MovieCatalogApi
+import com.rick.moviecatalog.data.remote.MovieCatalogApi.Companion.BASE_URL
 import com.rick.moviecatalog.data.local.MovieCatalogDatabase
 import com.rick.moviecatalog.data.local.MovieCatalogDatabase.Companion.DATABASE_NAME
 import dagger.Module
