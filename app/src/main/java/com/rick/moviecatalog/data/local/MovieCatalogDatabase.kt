@@ -1,0 +1,19 @@
+package com.rick.moviecatalog.data.local
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+
+@Database(
+    entities = [MovieCatalogEntitiy::class],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(Converters::class)
+abstract class MovieCatalogDatabase: RoomDatabase() {
+    abstract val dao: MovieCatalogDao
+
+    companion object {
+        const val DATABASE_NAME = "MOVIE_DB"
+    }
+}

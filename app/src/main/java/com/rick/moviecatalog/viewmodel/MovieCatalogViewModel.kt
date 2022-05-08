@@ -9,9 +9,12 @@ import com.rick.moviecatalog.R
 import com.rick.moviecatalog.data.model.Result
 import com.rick.moviecatalog.repository.MovieCatalogRepository
 import com.rick.moviecatalog.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieCatalogViewModel(
+@HiltViewModel
+class MovieCatalogViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
