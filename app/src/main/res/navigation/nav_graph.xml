@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/movieCatalogFragment">
 
 
+    <fragment
+        android:id="@+id/movieCatalogFragment"
+        android:name="com.rick.moviecatalog.fragments.MovieCatalogFragment"
+        android:label="MovieCatalogFragment" />
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.rick.moviecatalog.fragments.MovieDetailsFragment"
+        android:label="MovieDetailsFragment" >
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
 </navigation>
