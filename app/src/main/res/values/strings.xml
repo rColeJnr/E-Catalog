@@ -3,4 +3,5 @@
     <string name="error_message">Не удалось загрузить данные</string>
     <string name="error_toast_message">"Проведите по экрану, чтобы обновить, произошла ошибка: %1$s"</string>
     <string name="no_more_movies">No more movies</string>
+    <string name="release_date">Release date:</string>
 </resources>
