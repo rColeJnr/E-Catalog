@@ -66,5 +66,16 @@ class MovieCatalogViewModel @Inject constructor(
         }
     }
 
+    fun loadMoreData(){
+        _isLoading.postValue(true)
+        paginationNumber += 10
+        fetchMovieCatalog(paginationNumber)
+    }
+
+    fun refreshData() {
+        _isRefreshing.postValue(true)
+        movieMutableList = mutableListOf()
+        fetchMovieCatalog(15)
+    }
 
 }
