@@ -2,10 +2,13 @@ package com.rick.moviecatalog.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.gson.Gson
+import com.rick.moviecatalog.data.local.Converters
 import com.rick.moviecatalog.data.local.MovieCatalogDatabase
 import com.rick.moviecatalog.data.local.MovieCatalogDatabase.Companion.DATABASE_NAME
 import com.rick.moviecatalog.data.remote.MovieCatalogApi
 import com.rick.moviecatalog.data.remote.MovieCatalogApi.Companion.BASE_URL
+import com.rick.moviecatalog.data.util.GsonParser
 import com.rick.moviecatalog.repository.MovieCatalogRepository
 import dagger.Module
 import dagger.Provides
@@ -46,7 +49,7 @@ object AppModule {
             context,
             MovieCatalogDatabase::class.java,
             DATABASE_NAME
-        ).build()
+        ).addTypeConverter(Converters(GsonParser(Gson()))).build()
 
     @Provides
     @Singleton

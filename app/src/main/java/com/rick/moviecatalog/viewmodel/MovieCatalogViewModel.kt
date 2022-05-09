@@ -5,12 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.rick.moviecatalog.R
+import com.rick.moviecatalog.data.model.MovieCatalog
 import com.rick.moviecatalog.data.model.Result
+import com.rick.moviecatalog.data.util.GsonParser
 import com.rick.moviecatalog.repository.MovieCatalogRepository
 import com.rick.moviecatalog.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,6 +69,10 @@ class MovieCatalogViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {
+        return GsonParser(Gson()).toJsonObject(result.data!!, object : TypeToken<MovieCatalog>() {}.type)
     }
 
     fun loadMoreData(){

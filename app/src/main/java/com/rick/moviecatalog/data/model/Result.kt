@@ -4,7 +4,7 @@ data class Result(
     val title: String,
     val summary: String,
     val rating: String,
-    val openingDate: String,
+    val openingDate: String?,
     val link: Link,
     val multimedia: Multimedia,
 )
