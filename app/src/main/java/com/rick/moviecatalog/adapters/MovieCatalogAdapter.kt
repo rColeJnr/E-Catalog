@@ -1,7 +1,9 @@
 package com.rick.moviecatalog.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -25,16 +27,22 @@ class MovieCatalogAdapter (private val activity: MainActivity) :
 
     val moviesDiffer = AsyncListDiffer(this, moviesDiffUtil)
 
-    inner class MovieCatalogViewHolder(binding: MovieEntryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MovieCatalogViewHolder(binding: MovieEntryBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         internal val title = binding.movieName
         internal val rating = binding.movieRating
         internal val image = binding.movieImage
+
+        init {
+            binding.root.isClickable = true
+            binding.root.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            Toast.makeText(activity, title.text, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCatalogViewHolder {
-//        return MovieCatalogViewHolder(
-//            LayoutInflater.from(parent.context).inflate((R.layout.movie_entry), parent, false)
-//        )
         val itemBinding = MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieCatalogViewHolder(itemBinding)
     }
