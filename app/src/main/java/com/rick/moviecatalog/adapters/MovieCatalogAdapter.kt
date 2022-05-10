@@ -3,7 +3,6 @@ package com.rick.moviecatalog.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +11,10 @@ import com.rick.moviecatalog.MainActivity
 import com.rick.moviecatalog.data.model.Result
 import com.rick.moviecatalog.databinding.MovieEntryBinding
 
-class MovieCatalogAdapter (private val activity: MainActivity) :
+class MovieCatalogAdapter(
+    private val activity: MainActivity,
+    private val onItemClicked: (Int) -> Unit
+) :
     RecyclerView.Adapter<MovieCatalogAdapter.MovieCatalogViewHolder>() {
 
     private val moviesDiffUtil = object : DiffUtil.ItemCallback<Result>() {
@@ -27,7 +29,10 @@ class MovieCatalogAdapter (private val activity: MainActivity) :
 
     val moviesDiffer = AsyncListDiffer(this, moviesDiffUtil)
 
-    inner class MovieCatalogViewHolder(binding: MovieEntryBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    inner class MovieCatalogViewHolder(
+        binding: MovieEntryBinding,
+        private val onItemClicked: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         internal val title = binding.movieName
         internal val rating = binding.movieRating
         internal val image = binding.movieImage
@@ -38,13 +43,13 @@ class MovieCatalogAdapter (private val activity: MainActivity) :
         }
 
         override fun onClick(v: View?) {
-            Toast.makeText(activity, title.text, Toast.LENGTH_LONG).show()
+            onItemClicked(adapterPosition)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCatalogViewHolder {
         val itemBinding = MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieCatalogViewHolder(itemBinding)
+        return MovieCatalogViewHolder(itemBinding, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: MovieCatalogViewHolder, position: Int) {

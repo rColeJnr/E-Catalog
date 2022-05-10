@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,7 +33,7 @@ class MovieCatalogFragment : Fragment() {
     ): View? {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
         val mActivity = activity as MainActivity
-        val adapter = MovieCatalogAdapter(mActivity)
+        val adapter = MovieCatalogAdapter(mActivity, this::onMovieClick)
 
         val layoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
@@ -89,6 +90,10 @@ class MovieCatalogFragment : Fragment() {
             viewModel.refreshData()
         }
         return binding.root
+    }
+
+    private fun onMovieClick(int: Int) {
+        findNavController().navigate(R.id.action_movieCatalogFragment_to_movieDetailsFragment)
     }
 
     override fun onDestroy() {
