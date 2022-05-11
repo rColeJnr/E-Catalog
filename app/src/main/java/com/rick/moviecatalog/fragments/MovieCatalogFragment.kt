@@ -25,6 +25,7 @@ class MovieCatalogFragment : Fragment() {
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieCatalogViewModel by viewModels()
+    private lateinit var adapter: MovieCatalogAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +34,7 @@ class MovieCatalogFragment : Fragment() {
     ): View? {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
         val mActivity = activity as MainActivity
-        val adapter = MovieCatalogAdapter(mActivity, this::onMovieClick)
+        adapter = MovieCatalogAdapter(mActivity, this::onMovieClick)
 
         val layoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
@@ -92,8 +93,9 @@ class MovieCatalogFragment : Fragment() {
         return binding.root
     }
 
-    private fun onMovieClick(int: Int) {
-        findNavController().navigate(R.id.action_movieCatalogFragment_to_movieDetailsFragment)
+    private fun onMovieClick(position: Int) {
+        val action = MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(adapter.moviesDiffer.currentList[position])
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {

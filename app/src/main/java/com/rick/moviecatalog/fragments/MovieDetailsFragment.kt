@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
+import com.rick.moviecatalog.data.model.Result
 import com.rick.moviecatalog.databinding.FragmentMovieDetailsBinding
 import com.rick.moviecatalog.viewmodel.MovieCatalogViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +19,7 @@ class MovieDetailsFragment: Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieCatalogViewModel by activityViewModels()
+    private lateinit var movie: Result
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
@@ -25,6 +28,19 @@ class MovieDetailsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+
+        arguments?.let {
+            val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
+            movie = safeArgs.movie
+        }
+
+        binding.movieName.text = movie.title
+        Glide.with(requireContext()).load(movie.multimedia.src).into(binding.movieImage)
+        binding.articleLink.text = movie.link.url
+        binding.moviePublicationDate.text = movie.openingDate
+        binding.movieSummary.text = movie.summary
+        binding.movieRating.text = movie.rating
+        binding.moviePublicationDate.text = movie.openingDate
 
         return binding.root
     }
