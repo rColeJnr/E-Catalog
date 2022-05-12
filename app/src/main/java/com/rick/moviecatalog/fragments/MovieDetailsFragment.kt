@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import com.rick.moviecatalog.R
 import com.rick.moviecatalog.data.model.Result
 import com.rick.moviecatalog.databinding.FragmentMovieDetailsBinding
 import com.rick.moviecatalog.viewmodel.MovieCatalogViewModel
@@ -36,11 +37,10 @@ class MovieDetailsFragment: Fragment() {
 
         binding.movieName.text = movie.title
         Glide.with(requireContext()).load(movie.multimedia.src).into(binding.movieImage)
-        binding.articleLink.text = movie.link.url
-        binding.moviePublicationDate.text = movie.openingDate
+        binding.movieArticleLink.text = getString(R.string.read_article, movie.link.url)
+        binding.moviePublicationDate.text = getString(R.string.movie_published_on, movie.openingDate)
         binding.movieSummary.text = movie.summary
         binding.movieRating.text = movie.rating
-        binding.moviePublicationDate.text = movie.openingDate
 
         return binding.root
     }
