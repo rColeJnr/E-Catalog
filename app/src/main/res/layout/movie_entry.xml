@@ -3,43 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_margin="8dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/movieName"
-        style="?attr/textAppearanceHeadline5"
-        android:layout_width="wrap_content"
+        style="@style/TextAppearance.Material3.HeadlineSmall"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        app:layout_constraintStart_toStartOf="@id/movieImage"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/rating"
-        style="?attr/textAppearanceBodySmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/rated"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/movieName"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/movieRating"
-        style="?attr/textAppearanceBody1"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintStart_toEndOf="@id/rating"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/movieImage"/>
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/movieImage"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="260dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/movieName" />
 

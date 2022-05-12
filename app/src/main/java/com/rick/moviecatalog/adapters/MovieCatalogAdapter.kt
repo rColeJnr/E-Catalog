@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rick.moviecatalog.MainActivity
+import com.rick.moviecatalog.R
 import com.rick.moviecatalog.data.model.Result
 import com.rick.moviecatalog.databinding.MovieEntryBinding
 
@@ -48,7 +49,8 @@ class MovieCatalogAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCatalogViewHolder {
-        val itemBinding = MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding =
+            MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieCatalogViewHolder(itemBinding, onItemClicked)
     }
 
@@ -56,7 +58,11 @@ class MovieCatalogAdapter(
         val movie = moviesDiffer.currentList[position]
         with(holder) {
             this.title.text = movie.title
-            this.rating.text = movie.rating
+            if (movie.rating.isNotBlank()) {
+                this.rating.text =
+                    activity.getString(R.string.rated, movie.rating)
+                rating.visibility = View.VISIBLE
+            } else rating.visibility = View.INVISIBLE
             if (movie.multimedia.src.isNotBlank()) {
                 Glide.with(activity)
                     .load(movie.multimedia.src)
