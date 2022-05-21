@@ -3,7 +3,6 @@ package com.rick.data_movie
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.rick.core.Converters
 
 @Database(
     entities = [MovieCatalogEntitiy::class],

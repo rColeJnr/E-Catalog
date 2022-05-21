@@ -16,6 +16,8 @@ dependencies {
     kapt Hilt.compiler
 
     implementation(Room.roomRuntime)
+    implementation(Room.room)
+    kapt Room.compiler
 
     implementation(Coroutines.core)
 }
