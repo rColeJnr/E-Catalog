@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MovieCatalog"
 include ':app'
+include ':core'
+include ':movie:domain-movie'
+include ':movie:screen-movie'
