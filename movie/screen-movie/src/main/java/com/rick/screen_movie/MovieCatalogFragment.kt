@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.moviecatalog.MainActivity
-import com.rick.moviecatalog.databinding.FragmentMovieCatalogBinding
+import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +29,7 @@ class MovieCatalogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
-        val mActivity = activity as MainActivity
+        val mActivity = requireActivity()
         adapter = MovieCatalogAdapter(mActivity, this::onMovieClick)
 
         val layoutManager = LinearLayoutManager(context)

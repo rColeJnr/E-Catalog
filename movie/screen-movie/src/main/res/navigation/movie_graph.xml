@@ -7,9 +7,20 @@
     <fragment
         android:id="@+id/movieCatalogFragment"
         android:name="com.rick.screen_movie.MovieCatalogFragment"
-        android:label="MovieCatalogFragment" />
+        android:label="MovieCatalogFragment" >
+        <action
+            android:id="@+id/action_movieCatalogFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.rick.screen_movie.MovieDetailsFragment"
-        android:label="MovieDetailsFragment" />
+        android:label="MovieDetailsFragment" >
+        <argument
+            android:name="movie"
+            app:argType="com.rick.data_movie.Result" />
+    </fragment>
+
 </navigation>

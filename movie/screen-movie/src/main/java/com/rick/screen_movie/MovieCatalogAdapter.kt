@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rick.data_movie.Result
+import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogAdapter(
     private val activity: Activity,

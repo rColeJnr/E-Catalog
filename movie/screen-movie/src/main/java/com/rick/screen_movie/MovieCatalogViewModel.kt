@@ -57,7 +57,7 @@ class MovieCatalogViewModel @Inject constructor(
                             _movieList.postValue(
                                 result.data!!.results
                             )
-                            _hasMore.value = result.data.hasMore
+                            _hasMore.value = result.data!!.hasMore
                             _isRefreshing.value = false
                         }
                     }

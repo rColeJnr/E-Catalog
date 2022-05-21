@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.rick.data_movie.Result
-import com.rick.moviecatalog.databinding.FragmentMovieDetailsBinding
+import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +25,7 @@ class MovieDetailsFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
 
         arguments?.let {

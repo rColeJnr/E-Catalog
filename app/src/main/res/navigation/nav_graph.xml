@@ -2,8 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/movieCatalogFragment">
+    app:startDestination="@id/homeFragment">
 
+    <include app:graph="@navigation/movie_graph"/>
 
-
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.rick.moviecatalog.HomeFragment"
+        android:label="HomeFragment" />
 </navigation>
