@@ -41,8 +41,10 @@ android {
 dependencies {
 
     implementation project(Modules.core)
-    implementation project(Modules.movieDomain)
+    implementation project(Modules.movieData)
     implementation project(Modules.movieScreen)
+    implementation project(Modules.bookData)
+    implementation project(Modules.bookScreen)
 
     implementation AndroidX.coreKtx
     implementation AndroidX.appCompat

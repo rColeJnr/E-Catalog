@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieCatalog</string>
+    <string name="movie">movie</string>
+    <string name="book">book</string>
 </resources>

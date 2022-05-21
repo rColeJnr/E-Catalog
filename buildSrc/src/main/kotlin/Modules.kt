@@ -4,6 +4,9 @@ object Modules {
 
     const val core = ":core"
 
-    const val movieDomain = ":movie:domain-movie"
+    const val movieData = ":movie:domain-movie"
     const val movieScreen = ":movie:screen-movie"
+
+    const val bookData = ":book:data-book"
+    const val bookScreen = ":book:screen-book"
 }
