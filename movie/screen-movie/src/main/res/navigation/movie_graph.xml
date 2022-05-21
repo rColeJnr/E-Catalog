@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_graph"
+    app:startDestination="@id/movieCatalogFragment">
+
+    <fragment
+        android:id="@+id/movieCatalogFragment"
+        android:name="com.rick.screen_movie.MovieCatalogFragment"
+        android:label="MovieCatalogFragment" />
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.rick.screen_movie.MovieDetailsFragment"
+        android:label="MovieDetailsFragment" />
+</navigation>

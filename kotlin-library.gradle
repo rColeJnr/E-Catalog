@@ -1,8 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdk 32
@@ -31,20 +28,4 @@ android {
 }
 
 dependencies {
-
-    implementation(Nav.navFrag)
-    implementation(Nav.navUI)
-
-    implementation Hilt.android
-    kapt Hilt.compiler
-
-    implementation Deps.swipeLayout
-    implementation Deps.glide
-
-    implementation(Coroutines.core)
-    implementation(Coroutines.coroutines)
-
-    implementation AndroidX.coreKtx
-    implementation AndroidX.appCompat
-    implementation AndroidX.material
 }
