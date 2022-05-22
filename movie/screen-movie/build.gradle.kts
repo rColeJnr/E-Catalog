@@ -4,7 +4,7 @@ apply {
 
 dependencies {
 
-    "implementation" (project(":core"))
-    "implementation" (project(":movie:domain-movie"))
+    "implementation" (project(Modules.core))
+    "implementation"(project(Modules.movieData))
 
 }

@@ -19,11 +19,11 @@ class MovieCatalogAdapter(
 
     private val moviesDiffUtil = object : DiffUtil.ItemCallback<Result>() {
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
-            return oldItem.title == newItem.title
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
-            return oldItem.summary == newItem.summary
+            return oldItem.title == newItem.title
         }
     }
 

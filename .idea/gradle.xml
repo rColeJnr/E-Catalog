@@ -20,7 +20,7 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/movie" />
-            <option value="$PROJECT_DIR$/movie/domain-movie" />
+            <option value="$PROJECT_DIR$/movie/data-movie" />
             <option value="$PROJECT_DIR$/movie/screen-movie" />
           </set>
         </option>

@@ -41,6 +41,9 @@ dependencies {
     implementation Hilt.android
     kapt Hilt.compiler
 
+    implementation Paging.paging
+    implementation Paging.runtime
+
     implementation Deps.swipeLayout
     implementation Deps.glide
 
