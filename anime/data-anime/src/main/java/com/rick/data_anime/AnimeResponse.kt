@@ -8,6 +8,7 @@ data class AnimeResponse(
 ){
     companion object {
         const val link = "https://api.aniapi.com/v1/anime?title=One%20Piece"
+        const val linkm = "kkbox"
     }
 }
 

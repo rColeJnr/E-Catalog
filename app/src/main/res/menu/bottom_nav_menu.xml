@@ -2,9 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/movie_graph"
-        android:title="@string/movie"/>
+        android:title="@string/movie"
+        android:icon="@drawable/ic_moviefolder"/>
 
     <item android:id="@+id/book_graph"
-        android:title="@string/book"/>
+        android:title="@string/book"
+        android:icon="@drawable/ic_book"
+        />
+
+<!--    <item android:id="@+id/anime_graph"-->
+<!--        android:title="@string/anime"-->
+<!--        android:icon="@drawable/ic_anime"/>-->
+
+<!--    <item android:id="@+id/music_graph"-->
+<!--        android:title="@string/music"-->
+<!--        android:icon="@drawable/ic_music"-->
+<!--        />-->
 
 </menu>

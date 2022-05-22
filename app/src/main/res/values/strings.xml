@@ -2,4 +2,6 @@
     <string name="app_name">MovieCatalog</string>
     <string name="movie">movie</string>
     <string name="book">book</string>
+    <string name="music">music</string>
+    <string name="anime">anime</string>
 </resources>
