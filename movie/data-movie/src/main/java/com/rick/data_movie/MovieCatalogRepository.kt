@@ -1,5 +1,8 @@
 package com.rick.data_movie
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.rick.core.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -9,7 +12,7 @@ import javax.inject.Inject
 
 class MovieCatalogRepository @Inject constructor(
     private val api: MovieCatalogApi,
-    db: MovieCatalogDatabase
+    private val db: MovieCatalogDatabase,
 ) {
 
     private val dao = db.dao
@@ -49,6 +52,16 @@ class MovieCatalogRepository @Inject constructor(
                 emit(Resource.Loading(false))
             }
         }
+    }
+
+    fun getMovies(offset: Int): Flow<PagingData<ResultDto>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = offset,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { MovieCatalogPagingSource(api, db) }
+        ).flow
     }
 }
 

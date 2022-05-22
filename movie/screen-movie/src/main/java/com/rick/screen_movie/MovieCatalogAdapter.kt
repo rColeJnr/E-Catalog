@@ -4,30 +4,21 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rick.data_movie.Result
+import com.rick.data_movie.ResultDto
 import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogAdapter(
     private val activity: Activity,
     private val onItemClicked: (Int) -> Unit
 ) :
-    RecyclerView.Adapter<MovieCatalogAdapter.MovieCatalogViewHolder>() {
+    PagingDataAdapter<ResultDto, MovieCatalogAdapter.MovieCatalogViewHolder>(RESULT_COMPARATOR) {
 
-    private val moviesDiffUtil = object : DiffUtil.ItemCallback<Result>() {
-        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
-            return oldItem.title == newItem.title
-        }
-    }
-
-    val moviesDiffer = AsyncListDiffer(this, moviesDiffUtil)
 
     inner class MovieCatalogViewHolder(
         binding: MovieEntryBinding,
@@ -54,12 +45,12 @@ class MovieCatalogAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieCatalogViewHolder, position: Int) {
-        val movie = moviesDiffer.currentList[position]
+        val movie = getItem(position)!!
         with(holder) {
-            this.title.text = movie.title
-            if (movie.rating.isNotBlank()) {
+            this.title.text = movie.headline
+            if (movie.mpaa_rating.isNotBlank()) {
                 this.rating.text =
-                    activity.getString(R.string.rated, movie.rating)
+                    activity.getString(R.string.rated, movie.mpaa_rating)
                 rating.visibility = View.VISIBLE
             } else rating.visibility = View.INVISIBLE
             if (movie.multimedia.src.isNotBlank()) {
@@ -70,5 +61,15 @@ class MovieCatalogAdapter(
         }
     }
 
-    override fun getItemCount(): Int = moviesDiffer.currentList.size
+    companion object {
+        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<ResultDto>() {
+            override fun areItemsTheSame(oldItem: ResultDto, newItem: ResultDto): Boolean {
+                return (oldItem.headline == newItem.headline || oldItem.summary_short == newItem.summary_short)
+            }
+
+            override fun areContentsTheSame(oldItem: ResultDto, newItem: ResultDto): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }
