@@ -1,5 +1,6 @@
 package com.rick.data_movie
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
@@ -12,23 +13,28 @@ private const val ITEMS_PER_PAGE = 20
 
 class MovieCatalogPagingSource(
     private val api: MovieCatalogApi,
-    db: MovieCatalogDatabase
+    db: MovieCatalogDatabase,
 ) : PagingSource<Int, ResultDto>() {
 
+    var off = 0
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResultDto> {
         // Start paging with the starting_key if this is the first load
         val position = params.key ?: STARTING_PAGE
+        val movies = mutableListOf<ResultDto>()
         return try {
-            val response = api.fetchMovieCatalog(20, "", "")
-            val movies = response.results
+            off+=10
+            val response = api.fetchMovieCatalog(off)
+            val sublist = response.results.dropWhile { movies.contains(it) }
+            movies.addAll(sublist)
             val nextKey = if (movies.isEmpty()) null
             else {
                 // initial load size = 3 * NETWORK_PAGE_SIZE
                 // ensure we're not requesting duplicating items, at the 2nd request
-                position + (params.loadSize / ITEMS_PER_PAGE)
+                position + (off /params.loadSize)
             }
+            Log.w("taggoo", "$position and ${params.loadSize} and $off")
             LoadResult.Page(
-                data = movies,
+                data = movies.toList(),
                 prevKey = if (position == STARTING_PAGE) null else position - 1,
                 nextKey = nextKey
             )

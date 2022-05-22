@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class MovieCatalogRepository @Inject constructor(
     private val api: MovieCatalogApi,
-    private val db: MovieCatalogDatabase
+    private val db: MovieCatalogDatabase,
 ) {
 
     private val dao = db.dao
@@ -57,7 +57,7 @@ class MovieCatalogRepository @Inject constructor(
     fun getMovies(offset: Int): Flow<PagingData<ResultDto>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = offset,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { MovieCatalogPagingSource(api, db) }
