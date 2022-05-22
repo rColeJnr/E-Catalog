@@ -19,5 +19,8 @@ dependencies {
     implementation(Room.room)
     kapt Room.compiler
 
+    implementation Paging.paging
+    implementation Paging.runtime
+
     implementation(Coroutines.core)
 }
