@@ -3,4 +3,5 @@
     <dimen name="eight_dimen">8dp</dimen>
     <dimen name="movie_title">320dp</dimen>
     <dimen name="image_height">280dp</dimen>
+    <dimen name="sixteen_dimen">16dp</dimen>
 </resources>
