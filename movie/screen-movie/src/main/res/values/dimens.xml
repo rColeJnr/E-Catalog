@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="eight_dimen">8dp</dimen>
+    <dimen name="movie_title">320dp</dimen>
+    <dimen name="image_height">280dp</dimen>
+</resources>
