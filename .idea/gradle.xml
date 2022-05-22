@@ -10,6 +10,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/anime" />
+            <option value="$PROJECT_DIR$/anime/data-anime" />
+            <option value="$PROJECT_DIR$/anime/screen-anime" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/book" />
             <option value="$PROJECT_DIR$/book/data-book" />
