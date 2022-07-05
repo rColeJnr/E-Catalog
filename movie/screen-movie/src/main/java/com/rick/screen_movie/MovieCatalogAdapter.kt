@@ -47,7 +47,7 @@ class MovieCatalogAdapter(
     override fun onBindViewHolder(holder: MovieCatalogViewHolder, position: Int) {
         val movie = getItem(position)!!
         with(holder) {
-            this.title.text = movie.headline
+            this.title.text = movie.display_title
             if (movie.mpaa_rating.isNotBlank()) {
                 this.rating.text =
                     activity.getString(R.string.rated, movie.mpaa_rating)
@@ -64,7 +64,7 @@ class MovieCatalogAdapter(
     companion object {
         private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<ResultDto>() {
             override fun areItemsTheSame(oldItem: ResultDto, newItem: ResultDto): Boolean {
-                return (oldItem.headline == newItem.headline || oldItem.summary_short == newItem.summary_short)
+                return (oldItem.display_title == newItem.display_title || oldItem.summary_short == newItem.summary_short)
             }
 
             override fun areContentsTheSame(oldItem: ResultDto, newItem: ResultDto): Boolean {

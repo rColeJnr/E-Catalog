@@ -9,12 +9,12 @@ import androidx.room.Query
 interface MovieCatalogDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovieCatalog(movieCatalogEntitiy: MovieCatalogEntitiy)
+    suspend fun insertMovieCatalog(movieCatalogEntity: MovieCatalogEntity)
 
-    @Query("DELETE FROM moviecatalogentitiy")
+    @Query("DELETE FROM moviecatalogentity")
     suspend fun clearMovieCatalogEntities()
 
-    @Query("SELECT * FROM moviecatalogentitiy")
-    suspend fun getMovieCatalog(): List<MovieCatalogEntitiy>
+    @Query("SELECT * FROM moviecatalogentity")
+    suspend fun getMovieCatalog(): List<MovieCatalogEntity>
 
 }

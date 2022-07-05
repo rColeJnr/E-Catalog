@@ -46,6 +46,8 @@ object AppModule {
             context,
             MovieCatalogDatabase::class.java,
             MovieCatalogDatabase.DATABASE_NAME
-        ).addTypeConverter(Converters(GsonParser(Gson()))).build()
+        ).fallbackToDestructiveMigration()
+            .addTypeConverter(Converters(GsonParser(Gson())))
+            .build()
 
 }

@@ -73,5 +73,5 @@ class MovieCatalogViewModel @Inject constructor(
         super.onCleared()
     }
 
-    var startoffset = 0
+    var startoffset = 21
 }

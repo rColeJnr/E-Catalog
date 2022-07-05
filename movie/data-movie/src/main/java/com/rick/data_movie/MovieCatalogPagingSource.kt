@@ -9,30 +9,30 @@ import java.lang.Integer.max
 
 private const val STARTING_PAGE = 1
 private const val LOAD_DELAY_MILLIS = 3_000L
-private const val ITEMS_PER_PAGE = 20
+private var ITEMS_PER_PAGE = 7
 
 class MovieCatalogPagingSource(
     private val api: MovieCatalogApi,
     db: MovieCatalogDatabase,
 ) : PagingSource<Int, ResultDto>() {
 
-    var off = 0
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResultDto> {
         // Start paging with the starting_key if this is the first load
         val position = params.key ?: STARTING_PAGE
-        val movies = mutableListOf<ResultDto>()
+        var movies = mutableListOf<ResultDto>()
         return try {
-            off+=10
-            val response = api.fetchMovieCatalog(off)
-            val sublist = response.results.dropWhile { movies.contains(it) }
-            movies.addAll(sublist)
+            ITEMS_PER_PAGE+=20
+            movies = mutableListOf()
+            val response = api.fetchMovieCatalog(ITEMS_PER_PAGE)
+            val result = response.results.toMutableList()
+            Log.d("taggoo", "result -> $result")
+            movies.addAll(result)
             val nextKey = if (movies.isEmpty()) null
             else {
                 // initial load size = 3 * NETWORK_PAGE_SIZE
                 // ensure we're not requesting duplicating items, at the 2nd request
-                position + (off /params.loadSize)
+                position + (ITEMS_PER_PAGE /params.loadSize)
             }
-            Log.w("taggoo", "$position and ${params.loadSize} and $off")
             LoadResult.Page(
                 data = movies.toList(),
                 prevKey = if (position == STARTING_PAGE) null else position - 1,
