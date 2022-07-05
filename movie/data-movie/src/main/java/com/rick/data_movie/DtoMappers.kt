@@ -21,13 +21,13 @@ fun MovieCatalogDto.toMovieCatalog(): MovieCatalog =
         hasMore = has_more
     )
 
-fun MovieCatalogDto.toMovieCatalogEntity(): MovieCatalogEntitiy =
-    MovieCatalogEntitiy(
+fun MovieCatalogDto.toMovieCatalogEntity(): MovieCatalogEntity =
+    MovieCatalogEntity(
         movieCatalog = results.map { it.toResult() },
         hasMore = has_more
     )
 
-fun MovieCatalogEntitiy.toMovieCatalog(): MovieCatalog =
+fun MovieCatalogEntity.toMovieCatalog(): MovieCatalog =
     MovieCatalog(
         results = movieCatalog,
         hasMore = hasMore
