@@ -5,19 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rick.data_movie.Result
-import com.rick.data_movie.ResultDto
 import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogAdapter(
     private val activity: Activity,
     private val onItemClicked: (Int) -> Unit
 ) :
-    PagingDataAdapter<ResultDto, MovieCatalogAdapter.MovieCatalogViewHolder>(RESULT_COMPARATOR) {
+    PagingDataAdapter<Result, MovieCatalogAdapter.MovieCatalogViewHolder>(RESULT_COMPARATOR) {
 
 
     inner class MovieCatalogViewHolder(
@@ -34,6 +32,7 @@ class MovieCatalogAdapter(
         }
 
         override fun onClick(v: View?) {
+            // TODO deprecation
             onItemClicked(adapterPosition)
         }
     }
@@ -47,10 +46,10 @@ class MovieCatalogAdapter(
     override fun onBindViewHolder(holder: MovieCatalogViewHolder, position: Int) {
         val movie = getItem(position)!!
         with(holder) {
-            this.title.text = movie.display_title
-            if (movie.mpaa_rating.isNotBlank()) {
+            this.title.text = movie.title
+            if (movie.rating.isNotBlank()) {
                 this.rating.text =
-                    activity.getString(R.string.rated, movie.mpaa_rating)
+                    activity.getString(R.string.rated, movie.rating)
                 rating.visibility = View.VISIBLE
             } else rating.visibility = View.INVISIBLE
             if (movie.multimedia.src.isNotBlank()) {
@@ -62,12 +61,12 @@ class MovieCatalogAdapter(
     }
 
     companion object {
-        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<ResultDto>() {
-            override fun areItemsTheSame(oldItem: ResultDto, newItem: ResultDto): Boolean {
-                return (oldItem.display_title == newItem.display_title || oldItem.summary_short == newItem.summary_short)
+        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<Result>() {
+            override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+                return (oldItem.title == newItem.title || oldItem.summary == newItem.summary)
             }
 
-            override fun areContentsTheSame(oldItem: ResultDto, newItem: ResultDto): Boolean {
+            override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
                 return oldItem == newItem
             }
         }

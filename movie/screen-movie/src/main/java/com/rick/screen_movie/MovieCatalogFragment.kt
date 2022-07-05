@@ -4,21 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_movie.ResultDto
+import com.rick.data_movie.Result
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -104,8 +105,8 @@ class MovieCatalogFragment : Fragment() {
 
     private fun FragmentMovieCatalogBinding.bindState(
 //        uiState: StateFlow<UiState>,
-        pagingData: Flow<PagingData<ResultDto>>,
-//        uiAction: () -> Unit
+        pagingData: Flow<PagingData<Result>>,
+//        uiAction: (UiAction) -> Unit
     ) {
         val movieCatalogAdapter = MovieCatalogAdapter(requireActivity(), {})
         recyclerView.adapter = movieCatalogAdapter
@@ -121,7 +122,7 @@ class MovieCatalogFragment : Fragment() {
     private fun FragmentMovieCatalogBinding.bindList(
         movieCatalogAdapter: MovieCatalogAdapter,
 //        uiState: StateFlow<UiState>,
-        pagingData: Flow<PagingData<ResultDto>>,
+        pagingData: Flow<PagingData<Result>>,
 //        onScrollChanged: () -> Unit
     ){
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

@@ -54,10 +54,10 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
-    fun getMovies(): Flow<PagingData<ResultDto>> {
+    fun getMovies(): Flow<PagingData<Result>> {
         return Pager(
             config = PagingConfig(
-                pageSize = offset,
+                pageSize = ITEMS_PER_PAGE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { MovieCatalogPagingSource(api, db) }

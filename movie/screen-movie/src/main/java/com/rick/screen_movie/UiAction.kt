@@ -1,8 +1,7 @@
 package com.rick.screen_movie
 
-import com.rick.data_movie.ResultDto
+import com.rick.data_movie.Result
 
 sealed class UiAction {
-    sealed class Scroll: UiAction()
-//    data class navigateToDetails(val movie: ResultDto): UiAction()
+    data class navigateToDetails(val movie: Result): UiAction()
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.ResultDto
+import com.rick.data_movie.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class MovieCatalogViewModel @Inject constructor(
      */
 //    val state: StateFlow<UiState>
 
-    val pagingDataFLow: Flow<PagingData<ResultDto>>
+    val pagingDataFLow: Flow<PagingData<Result>>
 
 //    val accept: () -> Unit
 
@@ -44,7 +44,7 @@ class MovieCatalogViewModel @Inject constructor(
 //        }
     }
 
-    private fun searchMovies(): Flow<PagingData<ResultDto>> {
+    private fun searchMovies(): Flow<PagingData<Result>> {
         return repository.getMovies()
     }
 
