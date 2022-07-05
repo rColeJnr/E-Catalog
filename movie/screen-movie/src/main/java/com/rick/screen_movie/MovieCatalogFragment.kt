@@ -50,13 +50,6 @@ class MovieCatalogFragment : Fragment() {
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
         binding.recyclerView.adapter = adapter
 
-
-        binding.bindState(
-//            uiState = viewModel.state,
-            pagingData = viewModel.pagingDataFLow,
-//            uiAction = viewModel.accept
-        )
-
 //        viewModel.movieList.observe(viewLifecycleOwner) { list ->
 //            viewModel.movieMutableList.addAll(list)
 //            // ответ API иногда отправляет один и тот же фильм
@@ -100,6 +93,13 @@ class MovieCatalogFragment : Fragment() {
 //        binding.root.setOnRefreshListener {
 //            viewModel.refreshData()
 //        }
+
+        binding.bindState(
+//            uiState = viewModel.state,
+            pagingData = viewModel.pagingDataFLow,
+//            uiAction = viewModel.accept
+        )
+
         return binding.root
     }
 
