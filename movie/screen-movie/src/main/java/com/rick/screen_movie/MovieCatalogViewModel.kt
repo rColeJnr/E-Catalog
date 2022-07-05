@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.rick.data_movie.ITEMS_PER_PAGE
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.ResultDto
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,8 +49,7 @@ class MovieCatalogViewModel @Inject constructor(
 
 
     private fun searchMovies(): Flow<PagingData<ResultDto>> {
-        startoffset += 20
-        return repository.getMovies(startoffset)
+        return repository.getMovies(ITEMS_PER_PAGE)
     }
 
 //    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {
@@ -72,6 +72,4 @@ class MovieCatalogViewModel @Inject constructor(
         //TODO(save last position i guess.)
         super.onCleared()
     }
-
-    var startoffset = 0
 }
