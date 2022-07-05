@@ -54,7 +54,7 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
-    fun getMovies(offset: Int): Flow<PagingData<ResultDto>> {
+    fun getMovies(): Flow<PagingData<ResultDto>> {
         return Pager(
             config = PagingConfig(
                 pageSize = offset,

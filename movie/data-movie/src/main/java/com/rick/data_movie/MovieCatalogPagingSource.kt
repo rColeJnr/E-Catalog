@@ -1,15 +1,16 @@
 package com.rick.data_movie
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
 import java.io.IOException
-import java.lang.Integer.max
 
 private const val STARTING_PAGE_INDEX = 1
 private const val LOAD_DELAY_MILLIS = 3_000L
-var ITEMS_PER_PAGE = 0
+private const val ITEMS_PER_PAGE = 20
+/*
+    network items count, refer to documentation at https://developer.nytimes.com/docs/movie-reviews-api/1/routes/reviews/search.json/get
+ */
 var offset = 20
 class MovieCatalogPagingSource(
     private val api: MovieCatalogApi,
@@ -18,19 +19,17 @@ class MovieCatalogPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResultDto> {
         // Start paging with the starting_key if this is the first load
-        val position = params.key ?: 1
-        val movies = mutableListOf<ResultDto>()
+        val position = params.key ?: STARTING_PAGE_INDEX
         return try {
             val response = api.fetchMovieCatalog(offset)
             offset+=20
-            val result = response.results
-            val nextKey = if (result.isEmpty()) null
+            val movies = response.results
+            val nextKey = if (movies.isEmpty()) null
             else {
-                position + params.loadSize / 20
+                position + offset / ITEMS_PER_PAGE
             }
-            Log.w("taggoo", "$position and ${params.loadSize} and $ITEMS_PER_PAGE")
             LoadResult.Page(
-                data = result.sortedBy { it.display_title },
+                data = movies,
                 prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
                 nextKey = nextKey
             )
