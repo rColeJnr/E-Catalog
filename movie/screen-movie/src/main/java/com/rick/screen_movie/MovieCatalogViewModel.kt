@@ -49,6 +49,7 @@ class MovieCatalogViewModel @Inject constructor(
 
 
     private fun searchMovies(): Flow<PagingData<ResultDto>> {
+        ITEMS_PER_PAGE += 20
         return repository.getMovies(ITEMS_PER_PAGE)
     }
 
