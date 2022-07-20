@@ -6,21 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_movie.Result
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieCatalogFragment : Fragment() {
@@ -50,102 +41,28 @@ class MovieCatalogFragment : Fragment() {
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
         binding.recyclerView.adapter = adapter
 
-//        viewModel.movieList.observe(viewLifecycleOwner) { list ->
-//            viewModel.movieMutableList.addAll(list)
-//            // ответ API иногда отправляет один и тот же фильм
-//            viewModel.movieMutableList.toSet()
-//            adapter.moviesDiffer.submitList(viewModel.movieMutableList.toList())
-//        }
-
-
-//        viewModel.isLoading.observe(viewLifecycleOwner) {
-//            if (it) binding.progressBar.visibility = View.VISIBLE
-//            else binding.progressBar.visibility = View.GONE
-//        }
-
-//        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//                if (!viewModel.isLoading.value!!) {
-//                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.moviesDiffer.currentList.size - 1) {
-//                        // проверьте, есть ли еще доступные данные из API
-//                        if (viewModel.hasMore.value == true) viewModel.loadMoreData()
-//                    }
-//                }
-//            }
-//        })
-
-//        viewModel.errorMessage.observe(viewLifecycleOwner) {
-//            if (it.isNotBlank())
-//                Toast.makeText(context, getString(R.string.error_toast_message, it), Toast.LENGTH_LONG)
-//                    .show()
-//        }
-
-//        viewModel.isRefreshing.observe(viewLifecycleOwner) {
-//            binding.root.isRefreshing = it
-//        }
-//
-//        viewModel.hasMore.observe(viewLifecycleOwner) {
-//            if (!it) Toast.makeText(context, getString(R.string.no_more_movies), Toast.LENGTH_SHORT)
-//                .show()
-//        }
-//
-//        binding.root.setOnRefreshListener {
-//            viewModel.refreshData()
-//        }
-
         binding.bindState(
-//            uiState = viewModel.state,
-            pagingData = viewModel.pagingDataFLow,
-//            uiAction = viewModel.accept
+            uiAction = viewModel.accept,
+            uiState = { viewModel.state }
         )
 
         return binding.root
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
-//        uiState: StateFlow<UiState>,
-        pagingData: Flow<PagingData<Result>>,
-//        uiAction: (UiAction) -> Unit
+        uiAction: (UiAction) -> Unit,
+        uiState: (UiState) -> Unit
     ) {
-        val movieCatalogAdapter = MovieCatalogAdapter(requireActivity(), {})
-        recyclerView.adapter = movieCatalogAdapter
-
-        bindList(
-            movieCatalogAdapter,
-//            uiState = uiState,
-            pagingData = pagingData,
-//            onScrollChanged = uiAction
-        )
-    }
-
-    private fun FragmentMovieCatalogBinding.bindList(
-        movieCatalogAdapter: MovieCatalogAdapter,
-//        uiState: StateFlow<UiState>,
-        pagingData: Flow<PagingData<Result>>,
-//        onScrollChanged: () -> Unit
-    ){
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy != 0) Unit
             }
         })
 
-        val notLoading = movieCatalogAdapter.loadStateFlow
-            .distinctUntilChangedBy { it.source.refresh }
-            .map { it.source.refresh is LoadState.NotLoading }
+    }
 
-//        val shouldScrollToTop = notLoading.distinctUntilChanged()
+    private fun FragmentMovieCatalogBinding.bindRefresh() {
 
-        lifecycleScope.launch {
-            pagingData.collectLatest ( movieCatalogAdapter::submitData )
-        }
-
-//        lifecycleScope.launch {
-//            shouldScrollToTop.collect {shouldscroll ->
-//                if (shouldscroll) recyclerView.scrollToPosition(0)
-//            }
-//        }
     }
 
     private fun onMovieClick(position: Int) {

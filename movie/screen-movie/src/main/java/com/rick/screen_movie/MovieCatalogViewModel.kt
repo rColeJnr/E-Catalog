@@ -7,10 +7,7 @@ import androidx.paging.cachedIn
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +20,10 @@ class MovieCatalogViewModel @Inject constructor(
      * Stream of immutable states representative of the UI.
      */
 
+    // we don't need this
     val pagingDataFLow: Flow<PagingData<Result>>
 
+    val state: StateFlow<UiState>
     val accept: (UiAction) -> Unit
 
     init {
