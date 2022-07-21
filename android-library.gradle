@@ -53,4 +53,8 @@ dependencies {
     implementation AndroidX.coreKtx
     implementation AndroidX.appCompat
     implementation AndroidX.material
+
+    testImplementation (AndroidTest.junit)
+    androidTestImplementation AndroidTest.extJunit
+    androidTestImplementation AndroidTest.espresso
 }
