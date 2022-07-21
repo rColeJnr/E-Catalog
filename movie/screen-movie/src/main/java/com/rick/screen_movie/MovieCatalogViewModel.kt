@@ -39,6 +39,18 @@ class MovieCatalogViewModel @Inject constructor(
 
         pagingDataFLow = searchMovies().cachedIn(viewModelScope)
 
+        // TODO
+        state = combine(refresh, navigate, ::Pair).map { (r, n) ->
+            UiState(
+                isRefreshing = r.refresh,
+            )
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = UiState()
+            )
+
         accept = {action ->
             viewModelScope.launch { actionStateFlow.emit(action) }
         }

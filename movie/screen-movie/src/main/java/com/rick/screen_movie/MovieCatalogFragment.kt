@@ -6,12 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.rick.data_movie.Result
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieCatalogFragment : Fragment() {
@@ -19,7 +25,6 @@ class MovieCatalogFragment : Fragment() {
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieCatalogViewModel by viewModels()
-    private lateinit var adapter: MovieCatalogAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,11 +32,7 @@ class MovieCatalogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
-        val mActivity = requireActivity()
-        adapter = MovieCatalogAdapter(mActivity, this::onMovieClick)
 
-        val layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 context,
@@ -39,11 +40,11 @@ class MovieCatalogFragment : Fragment() {
             )
         )
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
-        binding.recyclerView.adapter = adapter
 
         binding.bindState(
             uiAction = viewModel.accept,
-            uiState = { viewModel.state }
+            uiState = viewModel.state,
+            pagingData = viewModel.pagingDataFLow
         )
 
         return binding.root
@@ -51,23 +52,46 @@ class MovieCatalogFragment : Fragment() {
 
     private fun FragmentMovieCatalogBinding.bindState(
         uiAction: (UiAction) -> Unit,
-        uiState: (UiState) -> Unit
+        pagingData: Flow<PagingData<Result>>,
+        uiState: StateFlow<UiState>
     ) {
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy != 0) Unit
-            }
-        })
+        val adapter =
+            MovieCatalogAdapter(requireActivity(), this@MovieCatalogFragment::onMovieClick)
 
+        recyclerView.adapter = adapter
+
+        bindList(
+            adapter, pagingData
+        )
+        bindRefresh(
+
+        )
+
+    }
+
+    private fun FragmentMovieCatalogBinding.bindList(
+        adapter: MovieCatalogAdapter,
+        pagingData: Flow<PagingData<Result>>
+    ) {
+        // Why do i need an onScrollListener
+//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                if (dy != 0) Unit
+//            }
+//        })
+
+        lifecycleScope.launch {
+            pagingData.collectLatest(adapter::submitData)
+        }
     }
 
     private fun FragmentMovieCatalogBinding.bindRefresh() {
 
     }
 
-    private fun onMovieClick(position: Int) {
-//        val action = MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(adapter.moviesDiffer.currentList[position])
-//        findNavController().navigate(action)
+    private fun onMovieClick(result: com.rick.data_movie.Result) {
+        val action = MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(result)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {

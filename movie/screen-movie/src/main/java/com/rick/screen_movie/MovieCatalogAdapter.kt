@@ -13,14 +13,14 @@ import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogAdapter(
     private val activity: Activity,
-    private val onItemClicked: (Int) -> Unit
+    private val onItemClicked: (Result) -> Unit
 ) :
     PagingDataAdapter<Result, MovieCatalogAdapter.MovieCatalogViewHolder>(RESULT_COMPARATOR) {
 
 
     inner class MovieCatalogViewHolder(
         binding: MovieEntryBinding,
-        private val onItemClicked: (Int) -> Unit
+        private val onItemClicked: (Result) -> Unit
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         internal val title = binding.movieName
         internal val rating = binding.movieRating
@@ -33,7 +33,7 @@ class MovieCatalogAdapter(
 
         override fun onClick(v: View?) {
             // TODO deprecation
-            onItemClicked(adapterPosition)
+            onItemClicked(getItem(bindingAdapterPosition)!!)
         }
     }
 
