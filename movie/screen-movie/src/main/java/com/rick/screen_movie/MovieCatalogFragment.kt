@@ -73,24 +73,21 @@ class MovieCatalogFragment : Fragment() {
         adapter: MovieCatalogAdapter,
         pagingData: Flow<PagingData<Result>>
     ) {
-        // Why do i need an onScrollListener
-//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                if (dy != 0) Unit
-//            }
-//        })
-
         lifecycleScope.launch {
             pagingData.collectLatest(adapter::submitData)
         }
     }
 
     private fun FragmentMovieCatalogBinding.bindRefresh() {
+        swipeRefresh.setOnRefreshListener {
+        }
 
+        swipeRefresh.isRefreshing 
     }
 
-    private fun onMovieClick(result: com.rick.data_movie.Result) {
-        val action = MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(result)
+    private fun onMovieClick(result: Result) {
+        val action = MovieCatalogFragmentDirections
+            .actionMovieCatalogFragmentToMovieDetailsFragment(result)
         findNavController().navigate(action)
     }
 

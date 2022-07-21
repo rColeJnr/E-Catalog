@@ -65,7 +65,7 @@ class MovieCatalogViewModel @Inject constructor(
 //    }
 
     fun refreshData() {
-        //TODO (refresh data)
+        searchMovies().cachedIn(viewModelScope)
     }
 
 }
