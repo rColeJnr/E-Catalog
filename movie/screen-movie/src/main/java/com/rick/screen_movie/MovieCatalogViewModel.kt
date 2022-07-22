@@ -63,9 +63,4 @@ class MovieCatalogViewModel @Inject constructor(
 //    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {
 //        return GsonParser(Gson()).toJsonObject(result.data!!, object : TypeToken<MovieCatalog>() {}.type)
 //    }
-
-    fun refreshData() {
-        searchMovies().cachedIn(viewModelScope)
-    }
-
 }

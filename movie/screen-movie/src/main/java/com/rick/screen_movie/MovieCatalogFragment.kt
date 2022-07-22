@@ -59,15 +59,12 @@ class MovieCatalogFragment : Fragment() {
             MovieCatalogAdapter(requireActivity(), this@MovieCatalogFragment::onMovieClick)
 
         recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = MoviesLoadStateAdapter { adapter.retry()},
-            footer = MoviesLoadStateAdapter { adapter.retry()}
+            header = MoviesLoadStateAdapter { adapter.retry() },
+            footer = MoviesLoadStateAdapter { adapter.retry() }
         )
 
         bindList(
             adapter, pagingData
-        )
-        bindRefresh(
-
         )
 
     }
@@ -80,14 +77,6 @@ class MovieCatalogFragment : Fragment() {
             pagingData.collectLatest(adapter::submitData)
         }
     }
-
-    private fun FragmentMovieCatalogBinding.bindRefresh() {
-        swipeRefresh.setOnRefreshListener {
-        }
-
-        swipeRefresh.isRefreshing 
-    }
-
     private fun onMovieClick(result: Result) {
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(result)
