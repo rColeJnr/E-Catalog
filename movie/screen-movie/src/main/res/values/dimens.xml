@@ -4,4 +4,5 @@
     <dimen name="movie_title">300dp</dimen>
     <dimen name="image_height">280dp</dimen>
     <dimen name="sixteen_dimen">16dp</dimen>
+    <dimen name="error_text_size">12sp</dimen>
 </resources>

@@ -58,7 +58,10 @@ class MovieCatalogFragment : Fragment() {
         val adapter =
             MovieCatalogAdapter(requireActivity(), this@MovieCatalogFragment::onMovieClick)
 
-        recyclerView.adapter = adapter
+        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = MoviesLoadStateAdapter { adapter.retry()},
+            footer = MoviesLoadStateAdapter { adapter.retry()}
+        )
 
         bindList(
             adapter, pagingData
