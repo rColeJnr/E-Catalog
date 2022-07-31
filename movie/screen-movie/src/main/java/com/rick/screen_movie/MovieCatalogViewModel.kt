@@ -95,5 +95,7 @@ fun UiModel.MovieItem.getMonth(date: String?): LocalDateTime {
     date?.let {
         return LocalDateTime.parse(date, formatter)
     }
+    // TODO bug maybe it will show now month everytime it finds, i think if we add year to the formatter
+    // it will fix the bug
     return LocalDateTime.parse(LocalDateTime.now().format(formatter))
 }
