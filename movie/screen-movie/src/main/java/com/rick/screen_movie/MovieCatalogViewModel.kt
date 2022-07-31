@@ -64,3 +64,4 @@ class MovieCatalogViewModel @Inject constructor(
 //        return GsonParser(Gson()).toJsonObject(result.data!!, object : TypeToken<MovieCatalog>() {}.type)
 //    }
 }
+

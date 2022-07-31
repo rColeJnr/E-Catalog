@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -72,8 +74,23 @@ class MovieCatalogFragment : Fragment() {
         adapter: MovieCatalogAdapter,
         pagingData: Flow<PagingData<Result>>
     ) {
+        swipeRefresh.setOnRefreshListener { adapter.retry() }
+
         lifecycleScope.launch {
             pagingData.collectLatest(adapter::submitData)
+        }
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadState ->
+                val isListEmpty = adapter.itemCount == 0
+                // show empty list.
+                emptyList.isVisible = isListEmpty
+                // Only show the list if refresh succeeds.
+                recyclerView.isVisible = !isListEmpty
+                // show progress bar during initial load or refresh.
+                swipeRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
+
+            }
         }
     }
     private fun onMovieClick(result: Result) {

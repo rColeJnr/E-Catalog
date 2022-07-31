@@ -10,4 +10,5 @@
     <string name="no_rating">no rating</string>
     <string name="movie_summary">Movie summary, this movie is about a young boy who once dreamed to be a software developer for facebook, and it\'s on a daily pursuit of said dream</string>
     <string name="retry">Error, try again</string>
+    <string name="no_results">No results 😓\nSwipe to refresh</string>
 </resources>
