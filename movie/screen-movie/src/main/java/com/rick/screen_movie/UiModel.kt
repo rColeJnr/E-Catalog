@@ -6,3 +6,4 @@ sealed class UiModel {
     data class MovieItem(val movie: Result): UiModel()
     data class SeparatorItem(val description: String): UiModel()
 }
+
