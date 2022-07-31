@@ -1,72 +1,50 @@
 package com.rick.screen_movie
 
 import android.app.Activity
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.rick.data_movie.Result
-import com.rick.screen_movie.databinding.MovieEntryBinding
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 class MovieCatalogAdapter(
     private val activity: Activity,
-    private val onItemClicked: (Result) -> Unit
+    private val onItemClicked: (UiModel) -> Unit
 ) :
-    PagingDataAdapter<Result, MovieCatalogAdapter.MovieCatalogViewHolder>(RESULT_COMPARATOR) {
+    PagingDataAdapter<UiModel, ViewHolder>(RESULT_COMPARATOR) {
 
 
-    inner class MovieCatalogViewHolder(
-        binding: MovieEntryBinding,
-        private val onItemClicked: (Result) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-        internal val title = binding.movieName
-        internal val rating = binding.movieRating
-        internal val image = binding.movieImage
-
-        init {
-            binding.root.isClickable = true
-            binding.root.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            // TODO deprecation
-            onItemClicked(getItem(bindingAdapterPosition)!!)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return if (viewType == R.layout.movie_entry) MovieCatalogViewHolder.create(parent)
+        else SeparatorViewHolder.create(parent)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCatalogViewHolder {
-        val itemBinding =
-            MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieCatalogViewHolder(itemBinding, onItemClicked)
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is UiModel.MovieItem -> R.layout.movie_entry
+            is UiModel.SeparatorItem -> R.layout.recycler_view_separator_item
+            null -> throw java.lang.UnsupportedOperationException("Unknown view")
+        }
     }
-
-    override fun onBindViewHolder(holder: MovieCatalogViewHolder, position: Int) {
-        val movie = getItem(position)!!
-        with(holder) {
-            this.title.text = movie.title
-            if (movie.rating.isNotBlank()) {
-                this.rating.text =
-                    activity.getString(R.string.rated, movie.rating)
-                rating.visibility = View.VISIBLE
-            } else rating.visibility = View.INVISIBLE
-            if (movie.multimedia.src.isNotBlank()) {
-                Glide.with(activity)
-                    .load(movie.multimedia.src)
-                    .into(this.image)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val uiModel = getItem(position)
+        uiModel.let {
+            when(uiModel){
+                is UiModel.MovieItem -> (holder as MovieCatalogViewHolder).bind(uiModel.movie)
+                is UiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
             }
         }
     }
 
     companion object {
-        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<Result>() {
-            override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
-                return (oldItem.title == newItem.title || oldItem.summary == newItem.summary)
+        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {
+            override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
+                return (oldItem is UiModel.MovieItem && newItem is UiModel.MovieItem &&
+                        (oldItem.movie.title == newItem.movie.title || oldItem.movie.summary == newItem.movie.summary)) ||
+                        (oldItem is UiModel.SeparatorItem && newItem is UiModel.SeparatorItem &&
+                                oldItem.description == newItem.description)
             }
 
-            override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+            override fun areContentsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
                 return oldItem == newItem
             }
         }
