@@ -29,7 +29,7 @@ class MovieCatalogAdapter(
         val uiModel = getItem(position)
         uiModel.let {
             when(uiModel){
-                is UiModel.MovieItem -> (holder as MovieCatalogViewHolder).bind(uiModel.movie)
+                is UiModel.MovieItem -> (holder as MovieCatalogViewHolder).bind(uiModel.movie, activity)
                 is UiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
             }
         }

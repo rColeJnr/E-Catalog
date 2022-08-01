@@ -8,14 +8,14 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk Android.compileSdk
 
     defaultConfig {
-        applicationId "com.rick.moviecatalog"
-        minSdk 27
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        applicationId Android.appId
+        minSdk Android.minSdk
+        targetSdk Android.targetSdk
+        versionCode Android.versionCode
+        versionName Android.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
