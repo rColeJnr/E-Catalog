@@ -10,7 +10,7 @@ import com.rick.data_movie.MovieCatalogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -73,10 +73,11 @@ class MovieCatalogViewModel @Inject constructor(
                         return@insertSeparators UiModel.SeparatorItem("${after.getMonth(after.movie.openingDate)}")
 
                     }
-                    if (after.getMonth(after.movie.openingDate)
+                    if (
+                        after.getMonth(after.movie.openingDate)
                             .isAfter(before.getMonth(before.movie.openingDate))
                     ) {
-                        UiModel.SeparatorItem("${after.getMonth(after.movie.openingDate)}")
+                        UiModel.SeparatorItem("${after.getMonth(after.movie.openingDate).month}  ${after.getMonth(after.movie.openingDate).year}")
                     } else {
                         // no separator
                         null
@@ -90,12 +91,14 @@ class MovieCatalogViewModel @Inject constructor(
 //    }
 }
 
-fun UiModel.MovieItem.getMonth(date: String?): LocalDateTime {
-    val formatter = DateTimeFormatter.ofPattern("L")
+// TODO Add compatibility with API 24,
+// TODO add logic, stop returning date.now()
+fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     date?.let {
-        return LocalDateTime.parse(date, formatter)
+        return LocalDate.parse(date, formatter)
     }
     // TODO bug maybe it will show now month everytime it finds, i think if we add year to the formatter
     // it will fix the bug
-    return LocalDateTime.parse(LocalDateTime.now().format(formatter))
+    return LocalDate.now()
 }

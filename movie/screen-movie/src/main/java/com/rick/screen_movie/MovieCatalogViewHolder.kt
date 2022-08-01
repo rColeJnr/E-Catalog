@@ -4,14 +4,12 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_movie.Result
 import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogViewHolder(
     binding: MovieEntryBinding,
-    private val onItemClicked: (UiModel) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     internal val title = binding.movieName
     internal val rating = binding.movieRating
@@ -39,7 +37,7 @@ class MovieCatalogViewHolder(
 
     override fun onClick(v: View?) {
 
-        onItemClicked(bindingAdapterPosition)
+//        onItemClicked(bindingAdapterPosition)
     }
 
     companion object {
@@ -48,7 +46,6 @@ class MovieCatalogViewHolder(
                 MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return MovieCatalogViewHolder(
                 itemBinding,
-                onItemClicked
             )
         }
     }
