@@ -15,13 +15,13 @@ class MovieCatalogRepository @Inject constructor(
     private val db: MovieCatalogDatabase,
 ) {
 
-    private val dao = db.dao
+    private val dao = db.moviesDao
 
     suspend fun getMovieCatalog(offset: Int): Flow<Resource<MovieCatalog>> {
         return flow {
             emit(Resource.Loading(true))
 
-            val localMovieCatalog = dao.getMovieCatalog()
+            val localMovieCatalog = dao.getMovies()
 
             if (localMovieCatalog.isNotEmpty()) {
                 emit(
@@ -34,12 +34,12 @@ class MovieCatalogRepository @Inject constructor(
             try {
                 val remoteMovieCatalog = api.fetchMovieCatalog(offset, QUERY_ORDER)
 
-                dao.clearMovieCatalogEntities()
-                dao.insertMovieCatalog(remoteMovieCatalog.toMovieCatalogEntity())
+                dao.clearMovies()
+                dao.insertMovies(remoteMovieCatalog.toMovieCatalogEntity())
 
                 emit(
                     Resource.Success(
-                        data = dao.getMovieCatalog().map { it.toMovieCatalog() }.first()
+                        data = dao.getMovies().map { it.toMovieCatalog() }.first()
                     )
                 )
             } catch (e: IOException) {

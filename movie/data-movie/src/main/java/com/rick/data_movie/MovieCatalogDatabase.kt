@@ -5,13 +5,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [MovieCatalogEntity::class, RemoteKeys::class],
+    entities = [Result::class, RemoteKeys::class],
     version = 1,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class MovieCatalogDatabase: RoomDatabase() {
-    abstract val dao: MovieCatalogDao
+    abstract val moviesDao: MoviesDao
     abstract val remoteKeysDao: RemoteKeysDao
 
     companion object {

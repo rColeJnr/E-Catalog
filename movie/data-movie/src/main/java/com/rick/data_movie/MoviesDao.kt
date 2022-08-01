@@ -6,16 +6,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface MovieCatalogDao {
+interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovieCatalog(movieCatalogEntity: MovieCatalogEntity)
+    suspend fun insertMovies(movie: Result)
 
-    @Query("DELETE FROM moviecatalogentity")
-    suspend fun clearMovieCatalogEntities()
+    @Query("DELETE FROM movies_db")
+    suspend fun clearMovies()
 
-    @Query("SELECT * FROM moviecatalogentity ORDER BY id ASC")
-    suspend fun getMovieCatalog(): List<MovieCatalogEntity>
+    @Query("SELECT * FROM movies_db ORDER BY id ASC")
+    suspend fun getMovies(): List<Result>
 
 //    @Query("SELECT * FROM repos WHERE " +
 //            "name LIKE :queryString OR description LIKE :queryString " +
