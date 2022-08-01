@@ -9,7 +9,7 @@ import androidx.room.Query
 interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovies(movie: Result)
+    suspend fun insertMovies(movie: List<Result>)
 
     @Query("DELETE FROM movies_db")
     suspend fun clearMovies()
