@@ -25,9 +25,9 @@ class MovieCatalogPagingSource(
             offset+=20
             val movies = response.results
             val nextKey = if (movies.isEmpty()) null
-            else {
-                position + offset / ITEMS_PER_PAGE
-            }
+                else {
+                    position + offset / ITEMS_PER_PAGE
+                }
             LoadResult.Page(
                 data = movies,
                 prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
