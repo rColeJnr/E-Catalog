@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_movie.Result
+import com.rick.data_movie.Movie
 import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogViewHolder(
@@ -21,7 +21,7 @@ class MovieCatalogViewHolder(
         }
     }
 
-    fun bind(movie: Result, activity: Activity) {
+    fun bind(movie: Movie, activity: Activity) {
         this.title.text = movie.title
         if (movie.rating.isNotBlank()) {
             this.rating.text =

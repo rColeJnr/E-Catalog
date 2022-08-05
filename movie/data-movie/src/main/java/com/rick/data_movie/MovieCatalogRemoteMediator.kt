@@ -5,8 +5,8 @@ import androidx.room.withTransaction
 import retrofit2.HttpException
 import java.io.IOException
 
-private val STARTING_PAGE_INDEX = 1
-private val LOAD_DELAY_MILLIS = 3_000L
+private const val STARTING_PAGE_INDEX = 1
+
 /*
     network items count, refer to documentation at https://developer.nytimes.com/docs/movie-reviews-api/1/routes/reviews/search.json/get
  */
@@ -17,21 +17,21 @@ private var offset = 20
 class MovieCatalogRemoteMediator(
     private val api: MovieCatalogApi,
     private val db: MovieCatalogDatabase
-): RemoteMediator<Int, MovieCatalogEntity>() {
+): RemoteMediator<Int, Movie>() {
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, MovieCatalogEntity>
+        state: PagingState<Int, Movie>
     ): MediatorResult {
 
         val page = when(loadType) {
+            LoadType.APPEND -> {
+                val remoteKeys = getRemoteKeyForLastItem(state)
+            }
             LoadType.REFRESH -> {
 
             }
             LoadType.PREPEND -> {
-
-            }
-            LoadType.APPEND -> {
 
             }
         }
@@ -62,4 +62,15 @@ class MovieCatalogRemoteMediator(
             return MediatorResult.Error(e)
         }
     }
+
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Movie>): RemoteKeys? {
+        // Get the last page that was retrieved, that contained items.
+        // From that last page, get the last item
+        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+            ?.let { movie ->
+                // Get the remote keys of the last item retrieved
+                db.remoteKeysDao.remoteKeysMovieId(movie.id)
+            }
+    }
+
 }

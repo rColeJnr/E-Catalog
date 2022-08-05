@@ -13,7 +13,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.rick.data_movie.Result
+import com.rick.data_movie.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -93,7 +93,7 @@ class MovieCatalogFragment : Fragment() {
             }
         }
     }
-    private fun onMovieClick(result: Result) {
+    private fun onMovieClick(result: Movie) {
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(result)
         findNavController().navigate(action)
