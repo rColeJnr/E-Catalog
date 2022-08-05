@@ -14,11 +14,14 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.rick.data_movie.Movie
+import com.rick.data_movie.RemotePresentationState
+import com.rick.data_movie.asRemotePresentationState
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -60,19 +63,22 @@ class MovieCatalogFragment : Fragment() {
         val adapter =
             MovieCatalogAdapter(requireActivity())
 
-        recyclerView.adapter = adapter.withLoadStateFooter(
+        val header = MoviesLoadStateAdapter { adapter.retry() }
+        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header,
             footer = MoviesLoadStateAdapter { adapter.retry() }
         )
 
         bindList(
-            adapter, pagingData
+            adapter, pagingData, header
         )
 
     }
 
     private fun FragmentMovieCatalogBinding.bindList(
         adapter: MovieCatalogAdapter,
-        pagingData: Flow<PagingData<UiModel>>
+        pagingData: Flow<PagingData<UiModel>>,
+        header: MoviesLoadStateAdapter
     ) {
         swipeRefresh.setOnRefreshListener { adapter.retry() }
 
@@ -80,16 +86,31 @@ class MovieCatalogFragment : Fragment() {
             pagingData.collectLatest(adapter::submitData)
         }
 
+        val notLoading = adapter.loadStateFlow
+            .asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
+
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
-                val isListEmpty = adapter.itemCount == 0
+                val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 // show empty list.
                 emptyList.isVisible = isListEmpty
                 // Only show the list if refresh succeeds.
-                recyclerView.isVisible = !isListEmpty
+                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
                 // show progress bar during initial load or refresh.
-                swipeRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
+                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
 
+            }
+        }
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadState ->
+                // show a retry header if there was an error refreshing, and items were previously
+                // cached Or default to the defualt prepend state
+                header.loadState = loadState.mediator
+                    ?.refresh
+                    ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }
+                    ?: loadState.prepend
             }
         }
     }
