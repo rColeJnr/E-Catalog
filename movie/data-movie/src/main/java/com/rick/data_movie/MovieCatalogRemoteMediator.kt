@@ -66,7 +66,7 @@ class MovieCatalogRemoteMediator(
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = movies.map {
-                    RemoteKeys(movieId = it.id, prevKey, nextKey)
+                    RemoteKeys(movieId = it.id!!, prevKey, nextKey)
                 }
                 db.remoteKeysDao.insertAll(keys)
                 db.moviesDao.insertMovies(movies)
@@ -85,7 +85,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
-                db.remoteKeysDao.remoteKeysMovieId(movie.id)
+                db.remoteKeysDao.remoteKeysMovieId(movie.id!!)
             }
     }
 
@@ -95,7 +95,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { movie ->
                 // GEt the remote keys of the first items retrieved
-                db.remoteKeysDao.remoteKeysMovieId(movie.id)
+                db.remoteKeysDao.remoteKeysMovieId(movie.id!!)
             }
     }
 
