@@ -1,5 +1,6 @@
 package com.rick.data_movie
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,7 +16,7 @@ interface MoviesDao {
     suspend fun clearMovies()
 
     @Query("SELECT * FROM movies_db ORDER BY id ASC")
-    suspend fun getMovies(): List<Movie>
+    fun getMovies(): PagingSource<Int, Movie>
 
 //    @Query("SELECT * FROM repos WHERE " +
 //            "name LIKE :queryString OR description LIKE :queryString " +
