@@ -10,13 +10,13 @@ import androidx.room.Query
 interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovies(movie: List<Movie>)
+    suspend fun insertMovies(movie: List<MovieEntity>)
 
     @Query("DELETE FROM movies_db")
     suspend fun clearMovies()
 
     @Query("SELECT * FROM movies_db ORDER BY id ASC")
-    fun getMovies(): PagingSource<Int, Movie>
+    fun getMovies(): PagingSource<Int, MovieEntity>
 
 //    @Query("SELECT * FROM repos WHERE " +
 //            "name LIKE :queryString OR description LIKE :queryString " +

@@ -93,9 +93,9 @@ class MovieCatalogFragment : Fragment() {
             }
         }
     }
-    private fun onMovieClick(result: Movie) {
+    private fun onMovieClick(movie: Movie) {
         val action = MovieCatalogFragmentDirections
-            .actionMovieCatalogFragmentToMovieDetailsFragment(result)
+            .actionMovieCatalogFragmentToMovieDetailsFragment(movie)
         findNavController().navigate(action)
     }
 

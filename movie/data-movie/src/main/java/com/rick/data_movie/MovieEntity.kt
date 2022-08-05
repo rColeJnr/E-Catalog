@@ -1,10 +1,14 @@
 package com.rick.data_movie
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Movie(
+@Entity(tableName = "movies_db")
+data class MovieEntity(
+    @PrimaryKey var id: Long,
     val title: String,
     val summary: String,
     val rating: String,

@@ -12,18 +12,18 @@ class Converters    (
 
     // convert json back to List<Result>
     @TypeConverter
-    fun fromFeatureJson(json: String): List<Movie> =
-        jsonParser.fromJson<ArrayList<Movie>>(
+    fun fromFeatureJson(json: String): List<MovieEntity> =
+        jsonParser.fromJson<ArrayList<MovieEntity>>(
             json,
-            object : TypeToken<ArrayList<Movie>>(){}.type
+            object : TypeToken<ArrayList<MovieEntity>>(){}.type
         ) ?: emptyList()
 
     // convert List<Result> to json
     @TypeConverter
-    fun toFeatureJson(features: List<Movie>): String =
+    fun toFeatureJson(features: List<MovieEntity>): String =
         jsonParser.toJson(
             features,
-            object : TypeToken<ArrayList<Movie>>(){}.type
+            object : TypeToken<ArrayList<MovieEntity>>(){}.type
         ) ?: "[]"
 
     @TypeConverter

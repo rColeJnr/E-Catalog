@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [Movie::class, RemoteKeys::class],
+    entities = [MovieEntity::class, RemoteKeys::class],
     version = 1,
     exportSchema = false
 )
