@@ -1,16 +1,15 @@
 package com.rick.data_movie
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import retrofit2.HttpException
 import java.io.IOException
 
 private const val STARTING_PAGE_INDEX = 1
 
-/*
-    network items count, refer to documentation at https://developer.nytimes.com/docs/movie-reviews-api/1/routes/reviews/search.json/get
- */
-private val ITEMS_PER_PAGE = 20
 private var offset = 20
 
 @OptIn(ExperimentalPagingApi::class)
@@ -48,7 +47,8 @@ class MovieCatalogRemoteMediator(
                 prevKey
             }
             LoadType.REFRESH -> {
-
+                val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
         }
 
@@ -97,6 +97,16 @@ class MovieCatalogRemoteMediator(
                 // GEt the remote keys of the first items retrieved
                 db.remoteKeysDao.remoteKeysMovieId(movie.id)
             }
+    }
+
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): RemoteKeys? {
+        // The paging library is trying to load data after the anchor position
+        // Get the item closest to the anchor position
+        return state.anchorPosition?.let { position ->
+            state.closestItemToPosition(position)?.id?.let { movieId ->
+                db.remoteKeysDao.remoteKeysMovieId(movieId)
+            }
+        }
     }
 
 }
