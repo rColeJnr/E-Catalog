@@ -26,4 +26,19 @@ class Converters    (
             object : TypeToken<ArrayList<Movie>>(){}.type
         ) ?: "[]"
 
+    @TypeConverter
+    fun fromLinktoString(link: Link): String =
+        link.url
+
+    @TypeConverter
+    fun fromStringToLink(string: String): Link =
+        Link(string)
+    @TypeConverter
+    fun fromMultimediatoString(multimedia: Multimedia): String =
+        multimedia.src
+
+    @TypeConverter
+    fun fromStringToMultimedia(string: String): Multimedia =
+        Multimedia(string)
+
 }
