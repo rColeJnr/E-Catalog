@@ -39,7 +39,13 @@ class MovieCatalogRemoteMediator(
                 nextKey
             }
             LoadType.PREPEND -> {
-
+                val remoteKeys = getRemoteKeyForFirstItem(state)
+                // If remoteKeys is null,  taht means the refresh result is not in the db yet
+                val prevKey = remoteKeys?.prevKey
+                if (prevKey == null) {
+                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                }
+                prevKey
             }
             LoadType.REFRESH -> {
 
@@ -79,6 +85,16 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
+                db.remoteKeysDao.remoteKeysMovieId(movie.id)
+            }
+    }
+
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Movie>): RemoteKeys? {
+        // GEt the first page that was retrieved, that contained items.
+        // From that first page, get the first item
+        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
+            ?.let { movie ->
+                // GEt the remote keys of the first items retrieved
                 db.remoteKeysDao.remoteKeysMovieId(movie.id)
             }
     }
