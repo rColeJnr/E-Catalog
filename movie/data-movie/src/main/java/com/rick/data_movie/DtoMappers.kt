@@ -5,7 +5,7 @@ fun LinkDto.toLink(): Link =
         url = url
     )
 
-fun ResultDto.toResult(): Movie =
+fun ResultDto.toMovie(): Movie =
     Movie(
         title = display_title,
         summary = summary_short,
@@ -17,20 +17,8 @@ fun ResultDto.toResult(): Movie =
 
 fun MovieCatalogDto.toMovieCatalog(): MovieCatalog =
     MovieCatalog(
-        results = results.map { it.toResult() },
+        movieCatalog = results.map { it.toMovie() },
         hasMore = has_more
-    )
-
-fun MovieCatalogDto.toMovieCatalogEntity(): MovieCatalog =
-    MovieCatalog(
-        movieCatalog = results.map { it.toResult() },
-        hasMore = has_more
-    )
-
-fun MovieCatalog.toMovieCatalog(): MovieCatalog =
-    MovieCatalog(
-        results = movieCatalog,
-        hasMore = hasMore
     )
 
 fun MultimediaDto.toMultimedia(): Multimedia =

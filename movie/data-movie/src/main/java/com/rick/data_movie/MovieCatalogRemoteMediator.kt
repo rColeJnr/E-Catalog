@@ -27,11 +27,21 @@ class MovieCatalogRemoteMediator(
         val page = when(loadType) {
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
-            }
-            LoadType.REFRESH -> {
-
+                // If remoteKeys is null, that means the refresh result is not in the database yet.
+                // We can return Success with endOfPaginationReached = false because Paging
+                // will call this method again if RemoteKeys becomes non-null.
+                // If remoteKeys is NOT NULL but its nextKey is null, that means we've reached
+                // the end of pagination for append.
+                val nextKey = remoteKeys?.nextKey
+                if (nextKey == null) {
+                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                }
+                nextKey
             }
             LoadType.PREPEND -> {
+
+            }
+            LoadType.REFRESH -> {
 
             }
         }
@@ -39,7 +49,7 @@ class MovieCatalogRemoteMediator(
         try {
             val response = api.fetchMovieCatalog(offset).toMovieCatalog()
             offset+=20
-            val movies = response.results
+            val movies = response.movieCatalog
             val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
                 // claer all tables in the database
