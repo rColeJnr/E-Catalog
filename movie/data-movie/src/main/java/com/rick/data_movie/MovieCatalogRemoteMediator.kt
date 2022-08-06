@@ -1,6 +1,5 @@
 package com.rick.data_movie
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -19,7 +18,6 @@ class MovieCatalogRemoteMediator(
     private val db: MovieCatalogDatabase
 ): RemoteMediator<Int, Movie>() {
 
-    private var movieId: Long = 0
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, Movie>
@@ -58,10 +56,6 @@ class MovieCatalogRemoteMediator(
             val response = api.fetchMovieCatalog(offset).toMovieCatalog()
             offset+=20
             val movies = response.movieCatalog
-            movies.forEach {
-                it.id = movieId
-                movieId++
-            }
             val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
                 // claer all tables in the database
@@ -72,8 +66,7 @@ class MovieCatalogRemoteMediator(
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = movies.map {
-                    Log.d("TAG", "movie: ${it.id}")
-                    RemoteKeys(movieId = it.id, prevKey, nextKey)
+                    RemoteKeys(movieId = it.title, prevKey, nextKey)
                 }
                 db.remoteKeysDao.insertAll(keys)
                 db.moviesDao.insertMovies(movies)
@@ -92,7 +85,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
-                db.remoteKeysDao.remoteKeysMovieId(movie.id)
+                db.remoteKeysDao.remoteKeysMovieId(movie.title)
             }
     }
 
@@ -102,17 +95,15 @@ class MovieCatalogRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { movie ->
                 // GEt the remote keys of the first items retrieved
-                db.remoteKeysDao.remoteKeysMovieId(movie.id)
+                db.remoteKeysDao.remoteKeysMovieId(movie.title)
             }
     }
 
-    // TODO bug here, we need to get actual anchor position
-    // I think we can just use codelab code
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): RemoteKeys? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { movieId ->
+            state.closestItemToPosition(position)?.title?.let { movieId ->
                 db.remoteKeysDao.remoteKeysMovieId(movieId)
             }
         }
