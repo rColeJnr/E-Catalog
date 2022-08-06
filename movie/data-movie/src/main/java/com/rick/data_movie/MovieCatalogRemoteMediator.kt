@@ -17,12 +17,12 @@ private var offset = 20
 class MovieCatalogRemoteMediator(
     private val api: MovieCatalogApi,
     private val db: MovieCatalogDatabase
-): RemoteMediator<Int, MovieEntity>() {
+): RemoteMediator<Int, Movie>() {
 
     var movieId: Long = 0
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, MovieEntity>
+        state: PagingState<Int, Movie>
     ): MediatorResult {
 
         val page = when(loadType) {
@@ -68,7 +68,6 @@ class MovieCatalogRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     db.remoteKeysDao.clearRemoteKeys()
                     db.moviesDao.clearMovies()
-                    movieId = 0
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -87,7 +86,7 @@ class MovieCatalogRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, MovieEntity>): RemoteKeys? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Movie>): RemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
@@ -97,7 +96,7 @@ class MovieCatalogRemoteMediator(
             }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, MovieEntity>): RemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Movie>): RemoteKeys? {
         // GEt the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
@@ -107,7 +106,7 @@ class MovieCatalogRemoteMediator(
             }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, MovieEntity>): RemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): RemoteKeys? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->

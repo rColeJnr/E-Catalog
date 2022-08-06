@@ -51,7 +51,7 @@ class MovieCatalogRepository @Inject constructor(
 //        }
 //    }
 
-    fun getMovies(): Flow<PagingData<MovieEntity>> {
+    fun getMovies(): Flow<PagingData<Movie>> {
 
         val pagingSourceFactory = { db.moviesDao.getMovies() }
         @OptIn(ExperimentalPagingApi::class)
@@ -65,5 +65,3 @@ class MovieCatalogRepository @Inject constructor(
         ).flow
     }
 }
-
-private const val QUERY_ORDER = "by-publication-date"

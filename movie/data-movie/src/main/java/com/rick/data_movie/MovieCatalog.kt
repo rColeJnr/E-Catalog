@@ -1,6 +1,6 @@
 package com.rick.data_movie
 
 data class MovieCatalog(
-    val movieCatalog: List<MovieEntity>,
+    val movieCatalog: List<Movie>,
     val hasMore: Boolean
 )
