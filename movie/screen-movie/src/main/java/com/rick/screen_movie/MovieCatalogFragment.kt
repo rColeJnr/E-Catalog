@@ -96,7 +96,8 @@ class MovieCatalogFragment : Fragment() {
                 // show empty list.
                 emptyList.isVisible = isListEmpty
                 // Only show the list if refresh succeeds.
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
+                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                        || loadState.mediator?.refresh is LoadState.NotLoading
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
 
