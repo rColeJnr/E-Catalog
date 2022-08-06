@@ -9,7 +9,7 @@ import androidx.room.withTransaction
 import retrofit2.HttpException
 import java.io.IOException
 
-private const val STARTING_PAGE_INDEX = 1
+private const val STARTING_PAGE_INDEX = 0
 
 private var offset = 20
 
@@ -19,7 +19,7 @@ class MovieCatalogRemoteMediator(
     private val db: MovieCatalogDatabase
 ): RemoteMediator<Int, Movie>() {
 
-    var movieId: Long = 0
+    private var movieId: Long = 0
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, Movie>
@@ -106,6 +106,8 @@ class MovieCatalogRemoteMediator(
             }
     }
 
+    // TODO bug here, we need to get actual anchor position
+    // I think we can just use codelab code
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): RemoteKeys? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
