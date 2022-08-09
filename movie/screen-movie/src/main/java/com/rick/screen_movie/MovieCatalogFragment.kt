@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -92,6 +93,13 @@ class MovieCatalogFragment : Fragment() {
 
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
+
+                //TODO not working at all
+                header.loadState = loadState.mediator
+                    ?.refresh
+                    ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }
+                    ?: loadState.prepend
+
                 val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 // show empty list.
                 emptyList.isVisible = isListEmpty
@@ -101,19 +109,20 @@ class MovieCatalogFragment : Fragment() {
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
 
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+                errorState?.let {
+                    Toast.makeText(
+                        requireActivity(),
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
 
-        lifecycleScope.launch {
-            adapter.loadStateFlow.collect { loadState ->
-                // show a retry header if there was an error refreshing, and items were previously
-                // cached Or default to the defualt prepend state
-                header.loadState = loadState.mediator
-                    ?.refresh
-                    ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }
-                    ?: loadState.prepend
-            }
-        }
     }
     private fun onMovieClick(movie: Movie) {
         val action = MovieCatalogFragmentDirections

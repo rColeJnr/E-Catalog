@@ -87,7 +87,6 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
-                Log.e("TAG", "Key - ${db.remoteKeysDao.remoteKeysMovieId(movie.title)}, movie ${movie.title}")
                 db.remoteKeysDao.remoteKeysMovieId(movie.title)
             }
     }

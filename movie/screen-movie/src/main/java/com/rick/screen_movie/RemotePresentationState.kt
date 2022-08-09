@@ -1,4 +1,4 @@
-package com.rick.data_movie
+package com.rick.screen_movie
 
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
