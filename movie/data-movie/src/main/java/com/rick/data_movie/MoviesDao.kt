@@ -16,7 +16,10 @@ interface MoviesDao {
     suspend fun clearMovies()
 
     @Query("SELECT * FROM movies_db")
-    fun getMovies(): PagingSource<String, Movie>
+    fun getMovies(): PagingSource<Int, Movie>
+
+//    @Query("SELECT * FROM movies_db WHERE id = :id")
+//    fun getMovie(id: Long): Movie?
 
 //    @Query("SELECT * FROM repos WHERE " +
 //            "name LIKE :queryString OR description LIKE :queryString " +

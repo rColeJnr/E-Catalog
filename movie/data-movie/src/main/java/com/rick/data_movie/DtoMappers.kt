@@ -7,7 +7,6 @@ fun LinkDto.toLink(): Link =
 
 fun ResultDto.toMovie(): Movie =
     Movie(
-        id = id,
         title = display_title,
         summary = summary_short,
         openingDate = opening_date,

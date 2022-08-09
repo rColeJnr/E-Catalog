@@ -58,7 +58,7 @@ class MovieCatalogRemoteMediator(
             val movies = response.movieCatalog
             val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
-                // claer all tables in the database
+                // claer all tables in the databasek
                 if (loadType == LoadType.REFRESH) {
                     db.remoteKeysDao.clearRemoteKeys()
                     db.moviesDao.clearMovies()
