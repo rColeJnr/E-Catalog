@@ -1,7 +1,6 @@
 package com.rick.data_movie
 
 data class ResultDto(
-    val id: Long,
     val byline: String,
     val critics_pick: Int,
     val date_updated: String,

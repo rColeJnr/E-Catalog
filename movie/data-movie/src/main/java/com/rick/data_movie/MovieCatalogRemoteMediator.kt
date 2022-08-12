@@ -12,6 +12,7 @@ import java.io.IOException
 private const val STARTING_PAGE_INDEX = 0
 
 private var offset = 20
+private var movieId = 0
 
 @OptIn(ExperimentalPagingApi::class)
 class MovieCatalogRemoteMediator(
@@ -56,8 +57,11 @@ class MovieCatalogRemoteMediator(
         try {
             val response = api.fetchMovieCatalog(offset).toMovieCatalog()
             offset+=20
-            Log.e("TAGGOO", "offset: $offset")
             val movies = response.movieCatalog
+            movies.forEach { movie: Movie ->
+                movie.id = movieId
+                movieId++
+            }
             val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
                 // claer all tables in the databasek
@@ -87,6 +91,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
+                Log.e("TAG", "Key - ${db.remoteKeysDao.remoteKeysMovieId(movie.title)}, last item")
                 db.remoteKeysDao.remoteKeysMovieId(movie.title)
             }
     }
@@ -97,6 +102,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { movie ->
                 // GEt the remote keys of the first items retrieved
+                Log.e("TAG", "Key - ${db.remoteKeysDao.remoteKeysMovieId(movie.title)}, first item")
                 db.remoteKeysDao.remoteKeysMovieId(movie.title)
             }
     }
@@ -105,8 +111,9 @@ class MovieCatalogRemoteMediator(
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.title?.let { movieId ->
-                db.remoteKeysDao.remoteKeysMovieId(movieId)
+            state.closestItemToPosition(position)?.title?.let { movie ->
+                Log.e("TAG", "Key - ${db.remoteKeysDao.remoteKeysMovieId(movie)}, refresh")
+                db.remoteKeysDao.remoteKeysMovieId(movie)
             }
         }
     }

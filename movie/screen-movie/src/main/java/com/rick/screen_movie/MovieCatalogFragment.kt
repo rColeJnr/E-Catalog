@@ -15,8 +15,6 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.rick.data_movie.Movie
-import com.rick.data_movie.RemotePresentationState
-import com.rick.data_movie.asRemotePresentationState
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -81,7 +79,7 @@ class MovieCatalogFragment : Fragment() {
         pagingData: Flow<PagingData<UiModel>>,
         header: MoviesLoadStateAdapter
     ) {
-        swipeRefresh.setOnRefreshListener { adapter.retry() }
+        swipeRefresh.setOnRefreshListener { adapter.refresh() }
 
         lifecycleScope.launch {
             pagingData.collectLatest(adapter::submitData)
@@ -100,7 +98,7 @@ class MovieCatalogFragment : Fragment() {
                     ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }
                     ?: loadState.prepend
 
-                val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                val isListEmpty = loadState.refresh is LoadState.NotLoading
                 // show empty list.
                 emptyList.isVisible = isListEmpty
                 // Only show the list if refresh succeeds.
