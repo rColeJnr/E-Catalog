@@ -64,14 +64,9 @@ class MovieCatalogFragment : Fragment() {
         val header = MoviesLoadStateAdapter {
             adapter.retry()
         }
-        val footer = MoviesLoadStateAdapter {
-            adapter.retry()
-            recyclerView.scrollToPosition(recyclerView.adapter?.itemCount ?: adapter.itemCount)
-        }
 
-        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = header,
-            footer = footer
+        recyclerView.adapter = adapter.withLoadStateHeader(
+            header = header
         )
 
         bindList(
