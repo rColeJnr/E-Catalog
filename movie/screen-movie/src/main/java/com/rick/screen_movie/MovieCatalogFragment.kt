@@ -96,7 +96,7 @@ class MovieCatalogFragment : Fragment() {
 
                 // show empty list.
                 emptyList.isVisible =
-                    loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                    loadState.source.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 // Only show the list if refresh succeeds.
                 recyclerView.isVisible =
                     loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
