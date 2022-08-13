@@ -12,7 +12,6 @@ import java.io.IOException
 private const val STARTING_PAGE_INDEX = 0
 
 private var offset = 20
-private var movieId = 0
 
 @OptIn(ExperimentalPagingApi::class)
 class MovieCatalogRemoteMediator(
@@ -28,11 +27,6 @@ class MovieCatalogRemoteMediator(
         val page = when(loadType) {
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
-                // If remoteKeys is null, that means the refresh result is not in the database yet.
-                // We can return Success with endOfPaginationReached = false because Paging
-                // will call this method again if RemoteKeys becomes non-null.
-                // If remoteKeys is NOT NULL but its nextKey is null, that means we've reached
-                // the end of pagination for append.
                 val nextKey = remoteKeys?.nextKey
                 if (nextKey == null) {
                     return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
@@ -41,7 +35,6 @@ class MovieCatalogRemoteMediator(
             }
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeyForFirstItem(state)
-                // If remoteKeys is null,  taht means the refresh result is not in the db yet
                 val prevKey = remoteKeys?.prevKey
                 if (prevKey == null) {
                     return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
@@ -58,13 +51,8 @@ class MovieCatalogRemoteMediator(
             val response = api.fetchMovieCatalog(offset).toMovieCatalog()
             offset+=20
             val movies = response.movieCatalog
-            movies.forEach { movie: Movie ->
-                movie.id = movieId
-                movieId++
-            }
             val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
-                // claer all tables in the databasek
                 if (loadType == LoadType.REFRESH) {
                     db.remoteKeysDao.clearRemoteKeys()
                     db.moviesDao.clearMovies()
@@ -72,7 +60,7 @@ class MovieCatalogRemoteMediator(
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = movies.map {
-                    RemoteKeys(movieId = it.title, prevKey, nextKey)
+                    RemoteKeys(movie = it.title, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.remoteKeysDao.insertAll(keys)
                 db.moviesDao.insertMovies(movies)

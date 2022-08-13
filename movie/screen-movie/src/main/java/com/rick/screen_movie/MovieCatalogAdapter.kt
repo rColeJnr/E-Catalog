@@ -20,8 +20,7 @@ class MovieCatalogAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is UiModel.MovieItem -> R.layout.movie_entry
-            is UiModel.SeparatorItem -> R.layout.recycler_view_separator_item
-            null -> throw java.lang.UnsupportedOperationException("Unknown view")
+            else -> R.layout.recycler_view_separator_item
         }
     }
 
@@ -43,7 +42,8 @@ class MovieCatalogAdapter(
         private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {
             override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
                 return ((oldItem is UiModel.MovieItem) && (newItem is UiModel.MovieItem) &&
-                        ((oldItem.movie.title == newItem.movie.title) || (oldItem.movie.summary == newItem.movie.summary))) ||
+                        (oldItem.movie.title == newItem.movie.title)
+                        ) ||
                         ((oldItem is UiModel.SeparatorItem) && (newItem is UiModel.SeparatorItem) &&
                                 (oldItem.description == newItem.description))
             }

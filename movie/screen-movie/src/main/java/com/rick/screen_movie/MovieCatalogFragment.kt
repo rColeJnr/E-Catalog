@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,8 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class MovieCatalogFragment : Fragment() {
@@ -62,10 +61,17 @@ class MovieCatalogFragment : Fragment() {
         val adapter =
             MovieCatalogAdapter(requireActivity())
 
-        val header = MoviesLoadStateAdapter { adapter.retry() }
+        val header = MoviesLoadStateAdapter {
+            adapter.retry()
+        }
+        val footer = MoviesLoadStateAdapter {
+            adapter.retry()
+            recyclerView.scrollToPosition(recyclerView.adapter?.itemCount ?: adapter.itemCount)
+        }
+
         recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header,
-            footer = MoviesLoadStateAdapter { adapter.retry() }
+            header = header,
+            footer = footer
         )
 
         bindList(
@@ -85,43 +91,27 @@ class MovieCatalogFragment : Fragment() {
             pagingData.collectLatest(adapter::submitData)
         }
 
-        val notLoading = adapter.loadStateFlow
-            .asRemotePresentationState()
-            .map { it == RemotePresentationState.PRESENTED }
-
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
-                //TODO not working at all
                 header.loadState = loadState.mediator
                     ?.refresh
                     ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }
                     ?: loadState.prepend
 
-                val isListEmpty = loadState.refresh is LoadState.NotLoading
                 // show empty list.
-                emptyList.isVisible = isListEmpty
+                emptyList.isVisible =
+                    loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 // Only show the list if refresh succeeds.
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                        || loadState.mediator?.refresh is LoadState.NotLoading
+                recyclerView.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
 
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {
-                    Toast.makeText(
-                        requireActivity(),
-                        "\uD83D\uDE28 Wooops ${it.error}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
             }
         }
-
     }
+
     private fun onMovieClick(movie: Movie) {
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(movie)

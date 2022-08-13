@@ -15,15 +15,10 @@ interface MoviesDao {
     @Query("DELETE FROM movies_db")
     suspend fun clearMovies()
 
-    @Query("SELECT * FROM movies_db ORDER BY id ASC")
+    @Query("SELECT * FROM movies_db")
     fun getMovies(): PagingSource<Int, Movie>
 
-//    @Query("SELECT * FROM movies_db WHERE id = :id")
-//    fun getMovie(id: Long): Movie?
-
-//    @Query("SELECT * FROM repos WHERE " +
-//            "name LIKE :queryString OR description LIKE :queryString " +
-//            "ORDER BY stars DESC, name ASC")
-//    fun reposByName(queryString: String): PagingSource<Int, Repo>
+    @Query("SELECT * FROM movies_db WHERE id = :id")
+    fun getMovie(id: Int): Movie?
 
 }

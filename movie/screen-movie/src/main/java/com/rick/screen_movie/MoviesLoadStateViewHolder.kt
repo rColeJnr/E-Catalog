@@ -13,7 +13,9 @@ class MoviesLoadStateViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.retryButton.setOnClickListener { retry.invoke() }
+        binding.retryButton.setOnClickListener {
+            retry.invoke()
+        }
     }
 
     fun bind(loadState: LoadState) {
