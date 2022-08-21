@@ -65,8 +65,9 @@ class MovieCatalogFragment : Fragment() {
             adapter.retry()
         }
 
-        recyclerView.adapter = adapter.withLoadStateHeader(
-            header = header
+        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = header,
+            footer = MoviesLoadStateAdapter{ adapter.retry() }
         )
 
         bindList(
