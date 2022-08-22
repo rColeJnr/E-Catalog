@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        hideSystemBars()
-
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 

@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.rick.data_movie.Movie
 
 class MovieCatalogAdapter(
     private val activity: Activity,
+    private val onItemClicked: (Movie) -> Unit
 ) :
     PagingDataAdapter<UiModel, ViewHolder>(RESULT_COMPARATOR) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return if (viewType == R.layout.movie_entry) MovieCatalogViewHolder.create(parent)
+        return if (viewType == R.layout.movie_entry) MovieCatalogViewHolder.create(parent, onItemClicked)
         else SeparatorViewHolder.create(parent)
     }
 

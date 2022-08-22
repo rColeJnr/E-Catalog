@@ -10,18 +10,20 @@ import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogViewHolder(
     binding: MovieEntryBinding,
+    private val onItemClicked: (Movie) -> Unit
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-    internal val title = binding.movieName
-    internal val rating = binding.movieRating
-    internal val image = binding.movieImage
+    private val title = binding.movieName
+    private val rating = binding.movieRating
+    private val image = binding.movieImage
+
+    private lateinit var movie: Movie
 
     init {
-        binding.root.setOnClickListener{
-            // TODO (do navigation here?)
-        }
+        binding.root.setOnClickListener(this)
     }
 
     fun bind(movie: Movie, activity: Activity) {
+        this.movie = movie
         this.title.text = movie.title
         if (movie.rating.isNotBlank()) {
             this.rating.text =
@@ -36,16 +38,16 @@ class MovieCatalogViewHolder(
     }
 
     override fun onClick(v: View?) {
-
-//        onItemClicked(bindingAdapterPosition)
+        onItemClicked(movie)
     }
 
     companion object {
-        fun create(parent: ViewGroup): MovieCatalogViewHolder {
+        fun create(parent: ViewGroup, onItemClicked: (Movie) -> Unit): MovieCatalogViewHolder {
             val itemBinding =
                 MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return MovieCatalogViewHolder(
                 itemBinding,
+                onItemClicked
             )
         }
     }

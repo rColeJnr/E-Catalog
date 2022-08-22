@@ -26,6 +26,7 @@ class MovieCatalogFragment : Fragment() {
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieCatalogViewModel by viewModels()
+    private lateinit var adapter: MovieCatalogAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +35,8 @@ class MovieCatalogFragment : Fragment() {
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
-
+        adapter =
+            MovieCatalogAdapter(requireActivity(), this::onMovieClick)
 
         binding.bindState(
             uiAction = viewModel.accept,
@@ -50,8 +52,6 @@ class MovieCatalogFragment : Fragment() {
         pagingData: Flow<PagingData<UiModel>>,
         uiState: StateFlow<UiState>
     ) {
-        val adapter =
-            MovieCatalogAdapter(requireActivity())
 
         val header = MoviesLoadStateAdapter {
             adapter.retry()
