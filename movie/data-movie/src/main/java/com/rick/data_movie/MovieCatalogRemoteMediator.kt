@@ -1,6 +1,5 @@
 package com.rick.data_movie
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -79,7 +78,6 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
-                Log.e("TAG", "Key - ${db.remoteKeysDao.remoteKeysMovieId(movie.title)}, last item")
                 db.remoteKeysDao.remoteKeysMovieId(movie.title)
             }
     }
@@ -90,7 +88,6 @@ class MovieCatalogRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { movie ->
                 // GEt the remote keys of the first items retrieved
-                Log.e("TAG", "Key - ${db.remoteKeysDao.remoteKeysMovieId(movie.title)}, first item")
                 db.remoteKeysDao.remoteKeysMovieId(movie.title)
             }
     }
@@ -100,7 +97,6 @@ class MovieCatalogRemoteMediator(
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.title?.let { movie ->
-                Log.e("TAG", "Key - ${db.remoteKeysDao.remoteKeysMovieId(movie)}, refresh")
                 db.remoteKeysDao.remoteKeysMovieId(movie)
             }
         }
