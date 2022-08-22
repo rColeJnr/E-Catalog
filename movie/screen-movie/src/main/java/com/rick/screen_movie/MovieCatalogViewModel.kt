@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,28 +62,25 @@ class MovieCatalogViewModel @Inject constructor(
     private fun searchMovies(): Flow<PagingData<UiModel>> =
         repository.getMovies()
             .map { pagingData -> pagingData.map { UiModel.MovieItem(it) } }
-//            .map {
-//                it.insertSeparators { before, after ->
-//                    if (after == null) {
-//                        // we're at the end of the list
-//                        return@insertSeparators null
-//                    }
-//                    if (before == null) {
-//                        // we're at the beginning of the list
-//                        return@insertSeparators UiModel.SeparatorItem("${after.getMonth(after.movie.openingDate)}")
-//
-//                    }
-//                    if (
-//                        after.getMonth(after.movie.openingDate)
-//                            .isAfter(before.getMonth(before.movie.openingDate))
-//                    ) {
-//                        UiModel.SeparatorItem("${after.getMonth(after.movie.openingDate).month}  ${after.getMonth(after.movie.openingDate).year}")
-//                    } else {
-//                        // no separator
-//                        null
-//                    }
-//                }
-//            }
+            .map {
+                it.insertSeparators { before, after ->
+                    if (after == null) {
+                        // we're at the end of the list
+                        return@insertSeparators null
+                    }
+                    if (before == null) {
+                        // we're at the beginning of the list
+                        return@insertSeparators UiModel.SeparatorItem("${after.movie.id}")
+
+                    }
+                    if (after.movie.id!! > before.movie.id!!) {
+                        UiModel.SeparatorItem("${after.movie.id}")
+                    } else {
+                        // no separator
+                        null
+                    }
+                }
+            }
 
 
 //    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {

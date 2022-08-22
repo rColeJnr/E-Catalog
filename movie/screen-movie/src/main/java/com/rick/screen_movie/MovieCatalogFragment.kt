@@ -11,8 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.rick.data_movie.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,13 +34,7 @@ class MovieCatalogFragment : Fragment() {
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+
 
         binding.bindState(
             uiAction = viewModel.accept,
@@ -65,9 +57,8 @@ class MovieCatalogFragment : Fragment() {
             adapter.retry()
         }
 
-        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+        recyclerView.adapter = adapter.withLoadStateHeader(
             header = header,
-            footer = MoviesLoadStateAdapter{ adapter.retry() }
         )
 
         bindList(
@@ -82,6 +73,7 @@ class MovieCatalogFragment : Fragment() {
         header: MoviesLoadStateAdapter
     ) {
         swipeRefresh.setOnRefreshListener { adapter.refresh() }
+
 
         lifecycleScope.launch {
             pagingData.collectLatest(adapter::submitData)
