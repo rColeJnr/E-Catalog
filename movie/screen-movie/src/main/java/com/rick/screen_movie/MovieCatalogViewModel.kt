@@ -59,6 +59,9 @@ class MovieCatalogViewModel @Inject constructor(
         }
     }
 
+    private var previousDate: LocalDate? = null
+    private var lastDisplayedLocalDate: LocalDate? = null
+
     private fun searchMovies(): Flow<PagingData<UiModel>> =
         repository.getMovies()
             .map { pagingData -> pagingData.map { UiModel.MovieItem(it) } }
@@ -70,32 +73,44 @@ class MovieCatalogViewModel @Inject constructor(
                     }
                     if (before == null) {
                         // we're at the beginning of the list
-                        return@insertSeparators UiModel.SeparatorItem("${after.movie.id}")
+                        lastDisplayedLocalDate = after.getMonth(after.movie.openingDate)
+                        return@insertSeparators UiModel.SeparatorItem(
+                            "${after.getMonth(after.movie.openingDate).month}  " +
+                                    "${after.getMonth(after.movie.openingDate).year}"
+                        )
 
                     }
-                    if (after.movie.id!! > before.movie.id!!) {
-                        UiModel.SeparatorItem("${after.movie.id}")
-                    } else {
-                        // no separator
+                    if (
+                        after.getMonth(after.movie.openingDate)
+                            .month.equals(before.getMonth(before.movie.openingDate).month)
+                    ) {
                         null
+                    } else {.
+                        UiModel.SeparatorItem(
+                            "${after.getMonth(after.movie.openingDate).month}  " +
+                                    "${after.getMonth(after.movie.openingDate).year}"
+                        )
                     }
                 }
             }
 
 
-//    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {
+    //    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {
 //        return GsonParser(Gson()).toJsonObject(result.data!!, object : TypeToken<MovieCatalog>() {}.type)
 //    }
-}
-
 // TODO Add compatibility with API 24,
 // TODO add logic, stop returning date.now()
-fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    date?.let {
-        return LocalDate.parse(date, formatter)
+    private fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val localDate = if (date != null) {
+            previousDate = LocalDate.parse(date, formatter)
+            previousDate
+        } else if (previousDate == null) {
+            previousDate = LocalDate.now()
+            previousDate
+        } else {
+            previousDate
+        }
+        return localDate!!
     }
-    // TODO bug maybe it will show now month everytime it finds, i think if we add year to the formatter
-    // it will fix the bug
-    return LocalDate.now()
 }
