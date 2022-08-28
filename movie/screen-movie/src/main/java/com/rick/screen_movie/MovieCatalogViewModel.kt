@@ -1,5 +1,6 @@
 package com.rick.screen_movie
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -28,8 +29,12 @@ class MovieCatalogViewModel @Inject constructor(
 
     val state: StateFlow<UiState>
     val accept: (UiAction) -> Unit
+    val key: String
 
     init {
+
+        System.loadLibrary("app-keys")
+        key = getKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
         val refresh = actionStateFlow
@@ -40,7 +45,8 @@ class MovieCatalogViewModel @Inject constructor(
             .distinctUntilChanged()
 
 
-        pagingDataFLow = searchMovies().cachedIn(viewModelScope)
+        Log.d("TAGG", "key -> $key")
+        pagingDataFLow = searchMovies(key).cachedIn(viewModelScope)
 
         // TODO
         state = combine(refresh, navigate, ::Pair).map { (r, n) ->
@@ -61,8 +67,8 @@ class MovieCatalogViewModel @Inject constructor(
 
     private var lastDisplayedLocalDate: LocalDate? = null
 
-    private fun searchMovies(): Flow<PagingData<UiModel>> =
-        repository.getMovies()
+    private fun searchMovies(key: String): Flow<PagingData<UiModel>> =
+        repository.getMovies(key)
             .map { pagingData -> pagingData.map { UiModel.MovieItem(it) } }
             .map {
                 it.insertSeparators { before, after ->
@@ -77,7 +83,6 @@ class MovieCatalogViewModel @Inject constructor(
                             "${after.getMonth(after.movie.openingDate).month}  " +
                                     "${after.getMonth(after.movie.openingDate).year}"
                         )
-
                     }
                     if (
                         after.getMonth(after.movie.openingDate)
@@ -115,3 +120,5 @@ fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
     }
     return localDate!!
 }
+
+external fun getKey(): String

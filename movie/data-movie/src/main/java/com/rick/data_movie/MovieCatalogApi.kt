@@ -9,7 +9,7 @@ interface MovieCatalogApi {
     suspend fun fetchMovieCatalog(
         @Query("offset") offset: Int,
         @Query("order") order_by: String =  QUERY_ORDER,
-        @Query("api-key") apikey: String =  BuildConfig.NY_TIMES_KEY
+        @Query("api-key") apikey: String
     ): MovieCatalogDto
 
     companion object {

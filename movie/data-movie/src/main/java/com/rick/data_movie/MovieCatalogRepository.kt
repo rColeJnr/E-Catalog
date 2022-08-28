@@ -8,11 +8,12 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 private const val ITEMS_PER_PAGE = 20
+
 class MovieCatalogRepository @Inject constructor(
     private val api: MovieCatalogApi,
     private val db: MovieCatalogDatabase,
 ) {
-//
+    //
 //    private val dao = db.moviesDao
 //    suspend fun getMovieCatalog(offset: Int): Flow<Resource<MovieCatalog>> {
 //        return flow {
@@ -51,7 +52,7 @@ class MovieCatalogRepository @Inject constructor(
 //        }
 //    }
 
-    fun getMovies(): Flow<PagingData<Movie>> {
+    fun getMovies(key: String): Flow<PagingData<Movie>> {
 
         val pagingSourceFactory = { db.moviesDao.getMovies() }
         @OptIn(ExperimentalPagingApi::class)
@@ -60,7 +61,7 @@ class MovieCatalogRepository @Inject constructor(
                 pageSize = ITEMS_PER_PAGE,
                 enablePlaceholders = false
             ),
-            remoteMediator = MovieCatalogRemoteMediator(api, db),
+            remoteMediator = MovieCatalogRemoteMediator(api, db, key),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }

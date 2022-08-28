@@ -15,7 +15,8 @@ private var offset = 20
 @OptIn(ExperimentalPagingApi::class)
 class MovieCatalogRemoteMediator(
     private val api: MovieCatalogApi,
-    private val db: MovieCatalogDatabase
+    private val db: MovieCatalogDatabase,
+    private val key: String
 ): RemoteMediator<Int, Movie>() {
 
     override suspend fun load(
@@ -47,7 +48,7 @@ class MovieCatalogRemoteMediator(
         }
 
         try {
-            val response = api.fetchMovieCatalog(offset).toMovieCatalog()
+            val response = api.fetchMovieCatalog(offset = offset, apikey = key).toMovieCatalog()
             offset+=20
             val movies = response.movieCatalog
             val endOfPaginationReached = movies.isEmpty()
