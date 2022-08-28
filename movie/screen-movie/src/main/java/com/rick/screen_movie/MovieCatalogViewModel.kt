@@ -59,7 +59,6 @@ class MovieCatalogViewModel @Inject constructor(
         }
     }
 
-    private var previousDate: LocalDate? = null
     private var lastDisplayedLocalDate: LocalDate? = null
 
     private fun searchMovies(): Flow<PagingData<UiModel>> =
@@ -85,7 +84,7 @@ class MovieCatalogViewModel @Inject constructor(
                             .month.equals(before.getMonth(before.movie.openingDate).month)
                     ) {
                         null
-                    } else {.
+                    } else {
                         UiModel.SeparatorItem(
                             "${after.getMonth(after.movie.openingDate).month}  " +
                                     "${after.getMonth(after.movie.openingDate).year}"
@@ -100,17 +99,19 @@ class MovieCatalogViewModel @Inject constructor(
 //    }
 // TODO Add compatibility with API 24,
 // TODO add logic, stop returning date.now()
-    private fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val localDate = if (date != null) {
-            previousDate = LocalDate.parse(date, formatter)
-            previousDate
-        } else if (previousDate == null) {
-            previousDate = LocalDate.now()
-            previousDate
-        } else {
-            previousDate
-        }
-        return localDate!!
+}
+
+private var previousDate: LocalDate? = null
+fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val localDate = if (date != null) {
+        previousDate = LocalDate.parse(date, formatter)
+        previousDate
+    } else if (previousDate == null) {
+        previousDate = LocalDate.now()
+        previousDate
+    } else {
+        previousDate
     }
+    return localDate!!
 }
