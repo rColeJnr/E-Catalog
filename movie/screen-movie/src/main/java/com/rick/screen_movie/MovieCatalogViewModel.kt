@@ -33,8 +33,8 @@ class MovieCatalogViewModel @Inject constructor(
     init {
 
         // Load api_keys
-        System.loadLibrary("app-keys")
-        key = getKey()
+        System.loadLibrary("movie-keys")
+        key = getNYKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
         val refresh = actionStateFlow
@@ -119,4 +119,4 @@ fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
     return localDate!!
 }
 
-external fun getKey(): String
+external fun getNYKey(): String
