@@ -1,6 +1,5 @@
 package com.rick.screen_movie
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -33,6 +32,7 @@ class MovieCatalogViewModel @Inject constructor(
 
     init {
 
+        // Load api_keys
         System.loadLibrary("app-keys")
         key = getKey()
 
@@ -44,8 +44,6 @@ class MovieCatalogViewModel @Inject constructor(
             .filterIsInstance<UiAction.NavigateToDetails>()
             .distinctUntilChanged()
 
-
-        Log.d("TAGG", "key -> $key")
         pagingDataFLow = searchMovies(key).cachedIn(viewModelScope)
 
         // TODO
