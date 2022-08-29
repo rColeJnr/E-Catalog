@@ -1,2 +1,4 @@
 /build
-/src/main/jni
+/src/main/jni/app-keys.c
+obj/
+.externalNativeBuild
