@@ -13,4 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
-/movie/screen-movie/src/main/jni
+
+#NDK
+obj/
+.externalNativeBuild
