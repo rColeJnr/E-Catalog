@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map
+import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -29,12 +30,14 @@ class MovieCatalogViewModel @Inject constructor(
     val state: StateFlow<UiState>
     val accept: (UiAction) -> Unit
     private val nyKey: String
+    private val imdbKey: String
 
     init {
 
         // Load api_keys
         System.loadLibrary("movie-keys")
         nyKey = getNYKey()
+        imdbKey = getIMDBKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
 //        val refresh = actionStateFlow
@@ -57,9 +60,7 @@ class MovieCatalogViewModel @Inject constructor(
         accept = { action ->
             viewModelScope.launch { actionStateFlow.emit(action) }
         }
-
     }
-
 
     private fun fetchMovies(key: String): Flow<PagingData<UiModel>> =
         repository.getMovies(key)
@@ -91,21 +92,34 @@ class MovieCatalogViewModel @Inject constructor(
                 }
             }
 
-    private var previousDate: LocalDate? = null
-    private fun getMonth(date: String?): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val localDate = if (date != null) {
-            previousDate = LocalDate.parse(date, formatter)
-            previousDate
-        } else if (previousDate == null) {
-            previousDate = LocalDate.now()
-            previousDate
-        } else {
-            previousDate
+    fun searchMovie(title: String) {
+        viewModelScope.launch {
+            repository.searchMovie(key = imdbKey, title = title)
+                .collect { result ->
+                    when (result) {
+                        is Resource.Error -> TODO()
+                        is Resource.Loading -> TODO()
+                        is Resource.Success -> TODO()
+                    }
+                }
         }
-        return localDate!!
     }
 }
 
+private var previousDate: LocalDate? = null
+private fun getMonth(date: String?): LocalDate {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val localDate = if (date != null) {
+        previousDate = LocalDate.parse(date, formatter)
+        previousDate
+    } else if (previousDate == null) {
+        previousDate = LocalDate.now()
+        previousDate
+    } else {
+        previousDate
+    }
+    return localDate!!
+}
 
 external fun getNYKey(): String
+external fun getIMDBKey(): String
