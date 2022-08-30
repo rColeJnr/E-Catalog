@@ -31,6 +31,8 @@ android {
         viewBinding true
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -61,7 +63,9 @@ dependencies {
     implementation AndroidX.appCompat
     implementation AndroidX.material
 
-    testImplementation (AndroidTest.junit)
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    testImplementation(AndroidTest.junit)
     androidTestImplementation AndroidTest.extJunit
     androidTestImplementation AndroidTest.espresso
 }
