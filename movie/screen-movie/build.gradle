@@ -1,0 +1,19 @@
+apply {
+    from( "$rootDir/android-library.gradle")
+}
+
+android {
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
+    ndkVersion '25.1.8937393'
+}
+
+dependencies {
+
+    "implementation" (project(Modules.core))
+    "implementation"(project(Modules.movieData))
+
+}
