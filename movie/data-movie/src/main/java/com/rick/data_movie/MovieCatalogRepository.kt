@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
 import com.rick.data_movie.imdb.IMDBApi
-import com.rick.data_movie.imdb.search_model.SearchedMovie
+import com.rick.data_movie.imdb.search_model.SearchResult
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -39,7 +39,7 @@ class MovieCatalogRepository @Inject constructor(
         ).flow
     }
 
-    suspend fun searchMovie(key: String, title: String): Flow<Resource<List<SearchedMovie>>> {
+    suspend fun searchIMDB(key: String, title: String): Flow<Resource<List<SearchResult>>> {
 
         return flow {
             emit(Resource.Loading(true))
@@ -50,8 +50,8 @@ class MovieCatalogRepository @Inject constructor(
                     if (apiResponse.errorMessage.isEmpty()) {
                         db.searchedMoviesDao.insertAll(apiResponse.results)
                         emit(
-                            Resource.Success<List<SearchedMovie>>(
-                                data = db.searchedMoviesDao.moviesByTitle(queryString = title)
+                            Resource.Success<List<SearchResult>>(
+                                data = db.searchedMoviesDao.resultByTitle(queryString = title)
                             )
                         )
                     } else {

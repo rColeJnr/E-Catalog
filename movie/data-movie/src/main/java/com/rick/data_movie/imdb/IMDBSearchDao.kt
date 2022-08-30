@@ -4,19 +4,19 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.rick.data_movie.imdb.search_model.SearchedMovie
+import com.rick.data_movie.imdb.search_model.SearchResult
 
 @Dao
-interface SearchedMovieDao {
+interface IMDBSearchDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(movies: List<SearchedMovie>)
+    suspend fun insertAll(result: List<SearchResult>)
 
     @Query(
-        "SELECT * FROM searched_movie WHERE " +
+        "SELECT * FROM search_result WHERE " +
                 "title LIKE :queryString or description LIKE :queryString " +
                 "ORDER BY title ASC"
     )
-    fun moviesByTitle(queryString: String): List<SearchedMovie>
+    fun resultByTitle(queryString: String): List<SearchResult>
 
 }
