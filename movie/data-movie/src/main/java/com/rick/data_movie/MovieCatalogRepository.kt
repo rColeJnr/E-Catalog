@@ -4,9 +4,15 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.rick.data_movie.imdb.IMDBMovie
+import androidx.room.withTransaction
+import com.rick.core.Resource
+import com.rick.data_movie.imdb.IMDBApi
+import com.rick.data_movie.imdb.search_model.SearchedMovie
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 private const val ITEMS_PER_PAGE = 20
@@ -14,8 +20,59 @@ private const val ITEMS_PER_PAGE = 20
 class MovieCatalogRepository @Inject constructor(
     private val api: MovieCatalogApi,
     private val db: MovieCatalogDatabase,
+    private val imdbApi: IMDBApi,
 ) {
-    //
+
+    fun getMovies(key: String): Flow<PagingData<Movie>> {
+
+        val pagingSourceFactory = { db.moviesDao.getMovies() }
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = ITEMS_PER_PAGE,
+                enablePlaceholders = true,
+                prefetchDistance = 1,
+                initialLoadSize = ITEMS_PER_PAGE
+            ),
+            remoteMediator = MovieCatalogRemoteMediator(api, db, key),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+    }
+
+    suspend fun searchMovie(key: String, title: String): Flow<Resource<List<SearchedMovie>>> {
+
+        return flow {
+            emit(Resource.Loading(true))
+
+            try {
+                val apiResponse = imdbApi.searchMovie(apiKey = key, title = title)
+                db.withTransaction {
+                    if (apiResponse.errorMessage.isEmpty()) {
+                        db.searchedMoviesDao.insertAll(apiResponse.results)
+                        emit(
+                            Resource.Success<List<SearchedMovie>>(
+                                data = db.searchedMoviesDao.moviesByTitle(queryString = title)
+                            )
+                        )
+                    } else {
+                        emit(Resource.Error(message = apiResponse.errorMessage))
+                        emit(Resource.Loading(false))
+                    }
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            }
+        }
+    }
+
+}
+
+
+//
 //    private val dao = db.moviesDao
 //    suspend fun getMovieCatalog(offset: Int): Flow<Resource<MovieCatalog>> {
 //        return flow {
@@ -53,25 +110,3 @@ class MovieCatalogRepository @Inject constructor(
 //            }
 //        }
 //    }
-
-    fun getMovies(key: String): Flow<PagingData<Movie>> {
-
-        val pagingSourceFactory = { db.moviesDao.getMovies() }
-        @OptIn(ExperimentalPagingApi::class)
-        return Pager(
-            config = PagingConfig(
-                pageSize = ITEMS_PER_PAGE,
-                enablePlaceholders = true,
-                prefetchDistance = 1,
-                initialLoadSize = ITEMS_PER_PAGE
-            ),
-            remoteMediator = MovieCatalogRemoteMediator(api, db, key),
-            pagingSourceFactory = pagingSourceFactory
-        ).flow
-    }
-
-    fun searchMovie(title: String): Flow<PagingData<IMDBMovie>> {
-
-
-    }
-}
