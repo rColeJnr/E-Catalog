@@ -16,7 +16,6 @@ class MovieDetailsFragment: Fragment() {
 
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
-//    private val viewModel: MovieCatalogViewModel by activityViewModels()
     private lateinit var movie: Movie
 
     @SuppressLint("SetJavaScriptEnabled")

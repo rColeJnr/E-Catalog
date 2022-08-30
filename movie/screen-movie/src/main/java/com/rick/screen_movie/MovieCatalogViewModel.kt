@@ -6,7 +6,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map
-import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -30,19 +29,17 @@ class MovieCatalogViewModel @Inject constructor(
     val state: StateFlow<UiState>
     val accept: (UiAction) -> Unit
     private val nyKey: String
-    private val imdbKey: String
 
     init {
 
         // Load api_keys
         System.loadLibrary("movie-keys")
         nyKey = getNYKey()
-        imdbKey = getIMDBKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
-        val searchMovie = actionStateFlow
-            .filterIsInstance<UiAction.SearchMovie>()
-            .distinctUntilChanged()
+//        val refresh = actionStateFlow
+//            .filterIsInstance<UiAction.Refresh>()
+//            .distinctUntilChanged()
         val navigate = actionStateFlow
             .filterIsInstance<UiAction.NavigateToDetails>()
             .distinctUntilChanged()
@@ -50,20 +47,12 @@ class MovieCatalogViewModel @Inject constructor(
 
         pagingDataFLow = fetchMovies(nyKey).cachedIn(viewModelScope)
 
-        state = combine(
-            searchMovie,
-            navigate,
-            ::Pair
-        ).map { (searchMovie, navigate) ->
-            UiState(
-                navigatedAway = navigate.movie != null,
-                searchQuery = searchMovie.title)
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(1000),
-            initialValue = UiState()
-        )
-
+        state = navigate.map { UiState(navigatedAway = it.movie != null) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = UiState()
+            )
 
         accept = { action ->
             viewModelScope.launch { actionStateFlow.emit(action) }
@@ -100,18 +89,6 @@ class MovieCatalogViewModel @Inject constructor(
                 }
             }
 
-    fun searchMovie(title: String) {
-        viewModelScope.launch {
-            repository.searchMovie(key = imdbKey, title = title)
-                .collect { result ->
-                    when (result) {
-                        is Resource.Error -> TODO()
-                        is Resource.Loading -> TODO()
-                        is Resource.Success -> TODO()
-                    }
-                }
-        }
-    }
 }
 
 private var previousDate: LocalDate? = null
@@ -129,5 +106,4 @@ private fun getMonth(date: String?): LocalDate {
     return localDate!!
 }
 
-external fun getNYKey(): String
-external fun getIMDBKey(): String
+private external fun getNYKey(): String
