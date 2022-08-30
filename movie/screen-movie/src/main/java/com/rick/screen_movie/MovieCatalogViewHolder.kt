@@ -27,9 +27,9 @@ class MovieCatalogViewHolder(
         this.title.text = movie.title
         if (movie.rating.isNotBlank()) {
             this.rating.text =
-                activity.getString(com.rick.screen_movie.R.string.rated, movie.rating)
-            rating.visibility = android.view.View.VISIBLE
-        } else rating.visibility = android.view.View.INVISIBLE
+                activity.getString(R.string.rated, movie.rating)
+            rating.visibility = View.VISIBLE
+        } else rating.visibility = View.INVISIBLE
         if (movie.multimedia.src.isNotBlank()) {
             com.bumptech.glide.Glide.with(activity)
                 .load(movie.multimedia.src)

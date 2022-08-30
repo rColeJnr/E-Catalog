@@ -28,32 +28,26 @@ class MovieCatalogViewModel @Inject constructor(
 
     val state: StateFlow<UiState>
     val accept: (UiAction) -> Unit
-    val key: String
+    val nyKey: String
 
     init {
 
         // Load api_keys
         System.loadLibrary("movie-keys")
-        key = getNYKey()
+        nyKey = getNYKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
-        val refresh = actionStateFlow
-            .filterIsInstance<UiAction.Refresh>()
-            .distinctUntilChanged()
+//        val refresh = actionStateFlow
+//            .filterIsInstance<UiAction.Refresh>()
+//            .distinctUntilChanged()
         val navigate = actionStateFlow
             .filterIsInstance<UiAction.NavigateToDetails>()
             .distinctUntilChanged()
             .onStart { emit(UiAction.NavigateToDetails(movie = null)) }
 
-        pagingDataFLow = searchMovies(key).cachedIn(viewModelScope)
+        pagingDataFLow = searchMovies(nyKey).cachedIn(viewModelScope)
 
-        // TODO
-        state = combine(refresh, navigate, ::Pair).map { (r, n) ->
-            UiState(
-                isRefreshing = r.refresh,
-                navigatedAway = n.movie != null
-            )
-        }
+        state = navigate.map { UiState(navigatedAway = it.movie != null ) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(1000),
@@ -78,36 +72,32 @@ class MovieCatalogViewModel @Inject constructor(
                     }
                     if (before == null) {
                         // we're at the beginning of the list
-                        lastDisplayedLocalDate = after.getMonth(after.movie.openingDate)
+                        lastDisplayedLocalDate = getMonth(after.movie.openingDate)
                         return@insertSeparators UiModel.SeparatorItem(
-                            "${after.getMonth(after.movie.openingDate).month}  " +
-                                    "${after.getMonth(after.movie.openingDate).year}"
+                            "${getMonth(after.movie.openingDate).month}  " +
+                                    "${getMonth(after.movie.openingDate).year}"
                         )
                     }
                     if (
-                        after.getMonth(after.movie.openingDate)
-                            .month.equals(before.getMonth(before.movie.openingDate).month)
+                        getMonth(after.movie.openingDate)
+                            .month.equals(getMonth(before.movie.openingDate).month)
                     ) {
                         null
                     } else {
                         UiModel.SeparatorItem(
-                            "${after.getMonth(after.movie.openingDate).month}  " +
-                                    "${after.getMonth(after.movie.openingDate).year}"
+                            "${getMonth(after.movie.openingDate).month}  " +
+                                    "${getMonth(after.movie.openingDate).year}"
                         )
                     }
                 }
             }
 
 
-    //    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {
-//        return GsonParser(Gson()).toJsonObject(result.data!!, object : TypeToken<MovieCatalog>() {}.type)
-//    }
-// TODO Add compatibility with API 24,
-// TODO add logic, stop returning date.now()
 }
 
+// TODO Add compatibility with API 24,
 private var previousDate: LocalDate? = null
-fun UiModel.MovieItem.getMonth(date: String?): LocalDate {
+fun getMonth(date: String?): LocalDate {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val localDate = if (date != null) {
         previousDate = LocalDate.parse(date, formatter)

@@ -98,12 +98,6 @@ class MovieCatalogFragment : Fragment() {
             }
         }
 
-//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                if (dy != 0) onScrollChanged(UiAction.NavigateToDetails(movie))
-//            }
-//        })
-
         val hasNavigatedAway = uiState
             .map { it.navigatedAway }
             .distinctUntilChanged()
@@ -139,7 +133,6 @@ class MovieCatalogFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-//        UiAction.NavigateToDetails(movie = null)
         _binding = null
     }
 }
