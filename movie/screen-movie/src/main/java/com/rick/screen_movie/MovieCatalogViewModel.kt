@@ -40,9 +40,9 @@ class MovieCatalogViewModel @Inject constructor(
         imdbKey = getIMDBKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
-//        val refresh = actionStateFlow
-//            .filterIsInstance<UiAction.Refresh>()
-//            .distinctUntilChanged()
+        val searchMovie = actionStateFlow
+            .filterIsInstance<UiAction.SearchMovie>()
+            .distinctUntilChanged()
         val navigate = actionStateFlow
             .filterIsInstance<UiAction.NavigateToDetails>()
             .distinctUntilChanged()
@@ -50,12 +50,20 @@ class MovieCatalogViewModel @Inject constructor(
 
         pagingDataFLow = fetchMovies(nyKey).cachedIn(viewModelScope)
 
-        state = navigate.map { UiState(navigatedAway = it.movie != null) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(1000),
-                initialValue = UiState()
-            )
+        state = combine(
+            searchMovie,
+            navigate,
+            ::Pair
+        ).map { (searchMovie, navigate) ->
+            UiState(
+                navigatedAway = navigate.movie != null,
+                searchQuery = searchMovie.title)
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(1000),
+            initialValue = UiState()
+        )
+
 
         accept = { action ->
             viewModelScope.launch { actionStateFlow.emit(action) }
