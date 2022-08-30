@@ -11,8 +11,11 @@
         <action
             android:id="@+id/action_movieCatalogFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -20,7 +23,7 @@
         android:label="MovieDetailsFragment" >
         <argument
             android:name="movie"
-            app:argType="com.rick.data_movie.Result" />
+            app:argType="com.rick.data_movie.Movie" />
     </fragment>
 
 </navigation>

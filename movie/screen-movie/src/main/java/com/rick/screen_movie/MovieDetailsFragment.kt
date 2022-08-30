@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.rick.data_movie.Result
+import com.rick.data_movie.Movie
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,8 +16,8 @@ class MovieDetailsFragment: Fragment() {
 
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MovieCatalogViewModel by activityViewModels()
-    private lateinit var movie: Result
+//    private val viewModel: MovieCatalogViewModel by activityViewModels()
+    private lateinit var movie: Movie
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(

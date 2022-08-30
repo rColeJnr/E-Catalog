@@ -4,7 +4,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/movie_graph">
 
-    <include app:graph="@navigation/book_graph"/>
+    <include app:graph="@navigation/book_graph" />
     <include app:graph="@navigation/movie_graph"/>
 
 </navigation>
