@@ -61,7 +61,7 @@ class MovieCatalogRepository @Inject constructor(
                 pageSize = ITEMS_PER_PAGE,
                 enablePlaceholders = true,
                 prefetchDistance = 1,
-                initialLoadSize = 2* ITEMS_PER_PAGE
+                initialLoadSize = ITEMS_PER_PAGE
             ),
             remoteMediator = MovieCatalogRemoteMediator(api, db, key),
             pagingSourceFactory = pagingSourceFactory

@@ -34,7 +34,7 @@ class MovieCatalogAdapter(
                     activity
                 )
                 is UiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
-                else -> throw java.lang.UnsupportedOperationException("Unknown view")
+                else -> null
             }
         }
     }

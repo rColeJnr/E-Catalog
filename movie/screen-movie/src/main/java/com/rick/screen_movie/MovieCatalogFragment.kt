@@ -48,7 +48,7 @@ class MovieCatalogFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-
+1
         binding.bindState(
             uiAction = viewModel.accept,
             uiState = viewModel.state,
