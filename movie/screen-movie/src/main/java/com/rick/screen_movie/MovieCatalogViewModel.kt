@@ -1,6 +1,5 @@
 package com.rick.screen_movie
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -11,10 +10,8 @@ import com.rick.data_movie.MovieCatalogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +28,7 @@ class MovieCatalogViewModel @Inject constructor(
 
     val state: StateFlow<UiState>
     val accept: (UiAction) -> Unit
-    val nyKey: String
+    private val nyKey: String
 
     init {
 
@@ -50,7 +47,7 @@ class MovieCatalogViewModel @Inject constructor(
 
         pagingDataFLow = searchMovies(nyKey).cachedIn(viewModelScope)
 
-        state = navigate.map { UiState(navigatedAway = it.movie != null ) }
+        state = navigate.map { UiState(navigatedAway = it.movie != null) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(1000),
@@ -61,10 +58,8 @@ class MovieCatalogViewModel @Inject constructor(
             viewModelScope.launch { actionStateFlow.emit(action) }
         }
 
-        getMonth24("2022-08-19")
     }
 
-    private var lastDisplayedLocalDate: LocalDate? = null
 
     private fun searchMovies(key: String): Flow<PagingData<UiModel>> =
         repository.getMovies(key)
@@ -77,8 +72,6 @@ class MovieCatalogViewModel @Inject constructor(
                     }
                     if (before == null) {
                         // we're at the beginning of the list
-                        lastDisplayedLocalDate = getMonth(after.movie.openingDate)
-                        getMonth24(after.movie.openingDate)
                         return@insertSeparators UiModel.SeparatorItem(
                             "${getMonth(after.movie.openingDate).month}  " +
                                     "${getMonth(after.movie.openingDate).year}"
@@ -98,7 +91,6 @@ class MovieCatalogViewModel @Inject constructor(
                 }
             }
 
-    // TODO Add compatibility with API 24,
     private var previousDate: LocalDate? = null
     private fun getMonth(date: String?): LocalDate {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -113,14 +105,7 @@ class MovieCatalogViewModel @Inject constructor(
         }
         return localDate!!
     }
-
-    private fun getMonth24(date: String?): Unit {
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = simpleDateFormat.parse(date)?.let { simpleDateFormat.format(it) }
-        Log.d("Date", "date: $date")
-    }
 }
-
 
 
 external fun getNYKey(): String
