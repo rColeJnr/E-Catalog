@@ -45,7 +45,7 @@ class MovieCatalogViewModel @Inject constructor(
             .distinctUntilChanged()
             .onStart { emit(UiAction.NavigateToDetails(movie = null)) }
 
-        pagingDataFLow = searchMovies(nyKey).cachedIn(viewModelScope)
+        pagingDataFLow = fetchMovies(nyKey).cachedIn(viewModelScope)
 
         state = navigate.map { UiState(navigatedAway = it.movie != null) }
             .stateIn(
@@ -61,7 +61,7 @@ class MovieCatalogViewModel @Inject constructor(
     }
 
 
-    private fun searchMovies(key: String): Flow<PagingData<UiModel>> =
+    private fun fetchMovies(key: String): Flow<PagingData<UiModel>> =
         repository.getMovies(key)
             .map { pagingData -> pagingData.map { UiModel.MovieItem(it) } }
             .map {
