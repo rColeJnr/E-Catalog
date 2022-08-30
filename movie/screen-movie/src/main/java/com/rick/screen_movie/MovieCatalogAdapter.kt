@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.rick.data_movie.Movie
+import com.rick.data_movie.ny_times.Movie
 
 class MovieCatalogAdapter(
     private val activity: Activity,

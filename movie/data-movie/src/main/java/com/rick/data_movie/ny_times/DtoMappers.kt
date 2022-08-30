@@ -1,5 +1,7 @@
 package com.rick.data_movie
 
+import com.rick.data_movie.ny_times.*
+
 fun LinkDto.toLink(): Link =
     Link(
         url = url
