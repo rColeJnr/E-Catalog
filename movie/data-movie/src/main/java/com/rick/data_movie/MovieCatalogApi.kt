@@ -8,7 +8,8 @@ interface MovieCatalogApi {
     @GET("svc/movies/v2/reviews/all.json?")
     suspend fun fetchMovieCatalog(
         @Query("offset") offset: Int,
-        @Query("api-key") apikey: String = "r2hGllYW5TVGnqspbO8u3li1Un4AlQgQ"
+        @Query("order") order_by: String =  QUERY_ORDER,
+        @Query("api-key") apikey: String
     ): MovieCatalogDto
 
     companion object {
@@ -16,3 +17,5 @@ interface MovieCatalogApi {
     }
 
 }
+
+private const val QUERY_ORDER = "by-publication-date"
