@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.rick.data_movie.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +41,13 @@ class MovieCatalogFragment : Fragment() {
         )
 
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
+
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         binding.bindState(
             uiAction = viewModel.accept,
