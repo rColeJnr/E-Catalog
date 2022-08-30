@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
+import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.ResultDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,59 +22,90 @@ class MovieCatalogViewModel @Inject constructor(
     /**
      * Stream of immutable states representative of the UI.
      */
-//    val state: StateFlow<UiState>
 
-    val pagingDataFLow: Flow<PagingData<ResultDto>>
+    // we don't need this
+    val pagingDataFLow: Flow<PagingData<UiModel>>
 
-//    val accept: () -> Unit
+    val state: StateFlow<UiState>
+    val accept: (UiAction) -> Unit
+    private val nyKey: String
 
     init {
-//        val actionsStateFlow = MutableSharedFlow()
 
-        pagingDataFLow = searchMovies().cachedIn(viewModelScope)
+        // Load api_keys
+        System.loadLibrary("movie-keys")
+        nyKey = getNYKey()
 
-//        state = moviesScrolled.map { scroll ->
-//            UiState(
-//            )
-//        }
-//            .stateIn(
-//                scope = viewModelScope,
-//                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
-//                initialValue = UiState()
-//            )
-//
-//        accept = {
-//            viewModelScope.launch { actionsStateFlow.emit() }
-//        }
+        val actionStateFlow = MutableSharedFlow<UiAction>()
+//        val refresh = actionStateFlow
+//            .filterIsInstance<UiAction.Refresh>()
+//            .distinctUntilChanged()
+        val navigate = actionStateFlow
+            .filterIsInstance<UiAction.NavigateToDetails>()
+            .distinctUntilChanged()
+            .onStart { emit(UiAction.NavigateToDetails(movie = null)) }
+
+        pagingDataFLow = searchMovies(nyKey).cachedIn(viewModelScope)
+
+        state = navigate.map { UiState(navigatedAway = it.movie != null) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = UiState()
+            )
+
+        accept = { action ->
+            viewModelScope.launch { actionStateFlow.emit(action) }
+        }
+
     }
 
 
+    private fun searchMovies(key: String): Flow<PagingData<UiModel>> =
+        repository.getMovies(key)
+            .map { pagingData -> pagingData.map { UiModel.MovieItem(it) } }
+            .map {
+                it.insertSeparators { before, after ->
+                    if (after == null) {
+                        // we're at the end of the list
+                        return@insertSeparators null
+                    }
+                    if (before == null) {
+                        // we're at the beginning of the list
+                        return@insertSeparators UiModel.SeparatorItem(
+                            "${getMonth(after.movie.openingDate).month}  " +
+                                    "${getMonth(after.movie.openingDate).year}"
+                        )
+                    }
+                    if (
+                        getMonth(after.movie.openingDate)
+                            .month.equals(getMonth(before.movie.openingDate).month)
+                    ) {
+                        null
+                    } else {
+                        UiModel.SeparatorItem(
+                            "${getMonth(after.movie.openingDate).month}  " +
+                                    "${getMonth(after.movie.openingDate).year}"
+                        )
+                    }
+                }
+            }
 
-    private fun searchMovies(): Flow<PagingData<ResultDto>> {
-        startoffset += 20
-        return repository.getMovies(startoffset)
+    private var previousDate: LocalDate? = null
+    private fun getMonth(date: String?): LocalDate {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val localDate = if (date != null) {
+            previousDate = LocalDate.parse(date, formatter)
+            previousDate
+        } else if (previousDate == null) {
+            previousDate = LocalDate.now()
+            previousDate
+        } else {
+            previousDate
+        }
+        return localDate!!
     }
-
-//    private fun jsonToJsonObject(result: Resource<MovieCatalog>): JSONObject {
-//        return GsonParser(Gson()).toJsonObject(result.data!!, object : TypeToken<MovieCatalog>() {}.type)
-//    }
-
-//    fun loadMoreData(){
-//        _isLoading.postValue(true)
-//        paginationNumber += 10
-//        fetchMovieCatalog(paginationNumber)
-//    }
-//
-//    fun refreshData() {
-//        _isRefreshing.postValue(true)
-//        movieMutableList = mutableListOf()
-//        fetchMovieCatalog(15)
-//    }
-
-    override fun onCleared() {
-        //TODO(save last position i guess.)
-        super.onCleared()
-    }
-
-    var startoffset = 0
 }
+
+
+external fun getNYKey(): String
