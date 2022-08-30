@@ -11,13 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.data_movie.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 
 @AndroidEntryPoint
 class MovieCatalogFragment : Fragment() {
@@ -37,6 +35,12 @@ class MovieCatalogFragment : Fragment() {
         adapter =
             MovieCatalogAdapter(requireActivity(), this::onMovieClick)
 
+        binding.recyclerView.adapter = adapter.withLoadStateFooter(
+            footer = MoviesLoadStateAdapter { adapter.retry() }
+        )
+
+        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+
         binding.bindState(
             uiAction = viewModel.accept,
             uiState = viewModel.state,
@@ -52,16 +56,8 @@ class MovieCatalogFragment : Fragment() {
         uiState: StateFlow<UiState>
     ) {
 
-        val header = MoviesLoadStateAdapter {
-            adapter.retry()
-        }
-
-        recyclerView.adapter = adapter.withLoadStateHeader(
-            header = header,
-        )
-
         bindList(
-            adapter, pagingData, header
+            adapter, pagingData
         )
 
     }
@@ -69,22 +65,14 @@ class MovieCatalogFragment : Fragment() {
     private fun FragmentMovieCatalogBinding.bindList(
         adapter: MovieCatalogAdapter,
         pagingData: Flow<PagingData<UiModel>>,
-        header: MoviesLoadStateAdapter
     ) {
-        swipeRefresh.setOnRefreshListener { adapter.refresh() }
 
-
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             pagingData.collectLatest(adapter::submitData)
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collect { loadState ->
-
-                header.loadState = loadState.mediator
-                    ?.refresh
-                    ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }
-                    ?: loadState.prepend
 
                 // show empty list.
                 emptyList.isVisible =
@@ -97,6 +85,22 @@ class MovieCatalogFragment : Fragment() {
 
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow
+                .distinctUntilChanged { old, new ->
+                    old.mediator?.prepend?.endOfPaginationReached ==
+                            new.mediator?.prepend?.endOfPaginationReached }
+                .filter { it.refresh is LoadState.NotLoading && it.prepend.endOfPaginationReached && !it.append.endOfPaginationReached}
+                .collect {
+                    recyclerView.scrollToPosition(0)
+                }
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            adapter.refresh()
+        }
+
     }
 
     private fun onMovieClick(movie: Movie) {
