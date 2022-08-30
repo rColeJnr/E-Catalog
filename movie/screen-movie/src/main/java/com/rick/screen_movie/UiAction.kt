@@ -4,5 +4,5 @@ import com.rick.data_movie.Movie
 
 sealed class UiAction {
     data class Refresh(val refresh: Boolean): UiAction()
-    data class NavigateToDetails(val movie: Movie): UiAction()
+    data class NavigateToDetails(val movie: Movie? = null): UiAction()
 }

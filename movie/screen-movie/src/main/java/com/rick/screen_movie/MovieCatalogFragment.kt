@@ -17,6 +17,7 @@ import com.rick.data_movie.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieCatalogFragment : Fragment() {
@@ -48,7 +49,7 @@ class MovieCatalogFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-1
+
         binding.bindState(
             uiAction = viewModel.accept,
             uiState = viewModel.state,
@@ -65,7 +66,9 @@ class MovieCatalogFragment : Fragment() {
     ) {
 
         bindList(
-            adapter, pagingData
+            adapter = adapter,
+            pagingData = pagingData,
+            uiState = uiState,
         )
 
     }
@@ -73,6 +76,7 @@ class MovieCatalogFragment : Fragment() {
     private fun FragmentMovieCatalogBinding.bindList(
         adapter: MovieCatalogAdapter,
         pagingData: Flow<PagingData<UiModel>>,
+        uiState: StateFlow<UiState>,
     ) {
 
         lifecycleScope.launchWhenCreated {
@@ -94,15 +98,30 @@ class MovieCatalogFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenCreated {
-            adapter.loadStateFlow
-                .distinctUntilChanged { old, new ->
-                    old.mediator?.prepend?.endOfPaginationReached ==
-                            new.mediator?.prepend?.endOfPaginationReached }
-                .filter { it.refresh is LoadState.NotLoading && it.prepend.endOfPaginationReached && !it.append.endOfPaginationReached}
-                .collect {
-                    recyclerView.scrollToPosition(0)
-                }
+//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                if (dy != 0) onScrollChanged(UiAction.NavigateToDetails(movie))
+//            }
+//        })
+
+        val hasNavigatedAway = uiState
+            .map { it.navigatedAway }
+            .distinctUntilChanged()
+
+        val notLoading = adapter.loadStateFlow
+            .asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
+
+        val shouldScrollToTop = combine(
+            hasNavigatedAway,
+            notLoading,
+            Boolean::and
+        )
+
+        lifecycleScope.launch {
+            shouldScrollToTop.collectLatest { should ->
+                if (should) recyclerView.scrollToPosition(0)
+            }
         }
 
         swipeRefresh.setOnRefreshListener {
@@ -112,6 +131,7 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun onMovieClick(movie: Movie) {
+        UiAction.NavigateToDetails(movie = movie)
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(movie)
         findNavController().navigate(action)
@@ -119,6 +139,7 @@ class MovieCatalogFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+//        UiAction.NavigateToDetails(movie = null)
         _binding = null
     }
 }

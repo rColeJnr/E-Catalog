@@ -43,6 +43,7 @@ class MovieCatalogViewModel @Inject constructor(
         val navigate = actionStateFlow
             .filterIsInstance<UiAction.NavigateToDetails>()
             .distinctUntilChanged()
+            .onStart { emit(UiAction.NavigateToDetails(movie = null)) }
 
         pagingDataFLow = searchMovies(key).cachedIn(viewModelScope)
 
@@ -50,6 +51,7 @@ class MovieCatalogViewModel @Inject constructor(
         state = combine(refresh, navigate, ::Pair).map { (r, n) ->
             UiState(
                 isRefreshing = r.refresh,
+                navigatedAway = n.movie != null
             )
         }
             .stateIn(
