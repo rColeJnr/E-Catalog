@@ -4,6 +4,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.rick.data_movie.imdb.IMDBMovie
+import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -66,5 +68,10 @@ class MovieCatalogRepository @Inject constructor(
             remoteMediator = MovieCatalogRemoteMediator(api, db, key),
             pagingSourceFactory = pagingSourceFactory
         ).flow
+    }
+
+    fun searchMovie(title: String): Flow<PagingData<IMDBMovie>> {
+
+
     }
 }
