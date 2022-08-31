@@ -23,7 +23,6 @@ class MovieCatalogViewModel @Inject constructor(
      * Stream of immutable states representative of the UI.
      */
 
-    // we don't need this
     val pagingDataFLow: Flow<PagingData<UiModel>>
 
     val state: StateFlow<UiState>

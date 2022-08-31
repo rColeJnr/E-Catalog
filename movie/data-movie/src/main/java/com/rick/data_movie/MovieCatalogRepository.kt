@@ -18,8 +18,8 @@ import javax.inject.Inject
 private const val ITEMS_PER_PAGE = 20
 
 class MovieCatalogRepository @Inject constructor(
-    private val api: MovieCatalogApi,
     private val db: MovieCatalogDatabase,
+    private val nyApi: MovieCatalogApi,
     private val imdbApi: IMDBApi,
 ) {
 
@@ -34,7 +34,7 @@ class MovieCatalogRepository @Inject constructor(
                 prefetchDistance = 1,
                 initialLoadSize = ITEMS_PER_PAGE
             ),
-            remoteMediator = MovieCatalogRemoteMediator(api, db, key),
+            remoteMediator = MovieCatalogRemoteMediator(nyApi, db, key),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
