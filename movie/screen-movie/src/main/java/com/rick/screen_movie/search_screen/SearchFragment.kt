@@ -1,54 +1,131 @@
 package com.rick.screen_movie.search_screen
 
+import android.app.Activity
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.rick.screen_movie.R
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.*
+import com.bumptech.glide.Glide
+import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.databinding.FragmentSearchBinding
+import com.rick.screen_movie.databinding.SearchEntryBinding
+import kotlinx.coroutines.flow.StateFlow
 
 class SearchFragment: Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: SearchViewModel by viewModels()
+    private lateinit var adapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        setHasOptionsMenu(false)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-//        // Get input text
-//        val inputText = outlinedTextField.editText?.text.toString()
-//
-//        outlinedTextField.editText?.doOnTextChanged { inputText, _, _, _ ->
-//            // Respond to input text change
-//        }
+        adapter = SearchAdapter(requireActivity())
+
+        binding.list.itemAnimator = DefaultItemAnimator()
+
+        binding.list.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+
+        binding.bindState(
+            uiAction = viewModel.searchAction,
+            uiState = viewModel.searchState,
+        )
 
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.search_imdb -> {
-                // TODO search
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    private fun FragmentSearchBinding.bindState(
+        uiAction: (SearchUiAction) -> Unit,
+        uiState: StateFlow<SearchUiState>
+    ) {
+        lifecycleScope.launchWhenCreated {
+
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+}
+
+class SearchAdapter(private val activity: Activity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
+        override fun areItemsTheSame(
+            oldItem: IMDBSearchResult,
+            newItem: IMDBSearchResult
+        ): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(
+            oldItem: IMDBSearchResult,
+            newItem: IMDBSearchResult
+        ): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val searchDiffer = AsyncListDiffer(this, searchDiffUtil)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return SearchViewHolder.create(parent)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val searchResult = searchDiffer.currentList[position]
+        (holder as SearchViewHolder).bind(searchResult, activity = activity)
+    }
+
+    override fun getItemCount(): Int =
+        searchDiffer.currentList.size
+}
+
+class SearchViewHolder(
+    binding: SearchEntryBinding,
+): RecyclerView.ViewHolder(binding.root) {
+    private val image = binding.image
+    private val title = binding.title
+    private val description = binding.description
+
+    private lateinit var searchResult: IMDBSearchResult
+
+    fun bind(searchResult: IMDBSearchResult, activity: Activity){
+        this.searchResult = searchResult
+        this.title.text = searchResult.title
+        this.description.text = searchResult.description
+        // TODO(INITIAlize glide in activity or fragment)
+        Glide.with(activity)
+            .load(searchResult.image)
+            .into(this.image)
+    }
+
+    companion object {
+        fun create(parent: ViewGroup) : SearchViewHolder {
+            val itemBinding = SearchEntryBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            return SearchViewHolder(itemBinding)
+        }
     }
 }
