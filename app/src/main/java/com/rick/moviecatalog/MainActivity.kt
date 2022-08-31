@@ -9,7 +9,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.navOptions
 import androidx.navigation.ui.*
 import com.rick.moviecatalog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,15 +33,6 @@ class MainActivity : AppCompatActivity() {
             R.id.fragmentContainerView
         ) as NavHostFragment
         navController = navHostFragment.navController
-
-        val options = navOptions {
-            anim {
-                enter = R.anim.slide_in_right
-                exit = R.anim.slide_out_left
-                popEnter = R.anim.slide_in_left
-                popExit = R.anim.slide_out_left
-            }
-        }
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
