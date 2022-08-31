@@ -43,8 +43,8 @@ class MovieCatalogViewHolder(
 
     companion object {
         fun create(parent: ViewGroup, onItemClicked: (Movie) -> Unit): MovieCatalogViewHolder {
-            val itemBinding =
-                MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val itemBinding = MovieEntryBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
             return MovieCatalogViewHolder(
                 itemBinding,
                 onItemClicked
