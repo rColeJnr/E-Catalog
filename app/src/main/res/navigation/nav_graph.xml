@@ -6,5 +6,9 @@
 
     <include app:graph="@navigation/book_graph" />
     <include app:graph="@navigation/movie_graph"/>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.rick.screen_movie.search_screen.SearchFragment"
+        android:label="SearchFragment" />
 
 </navigation>
