@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
 import com.rick.data_movie.imdb.IMDBApi
-import com.rick.data_movie.imdb.search_model.SearchResult
+import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -39,19 +39,49 @@ class MovieCatalogRepository @Inject constructor(
         ).flow
     }
 
-    suspend fun searchIMDB(key: String, title: String): Flow<Resource<List<SearchResult>>> {
+    suspend fun searchMovies(apiKey: String, title: String): Flow<Resource<List<IMDBSearchResult>>> {
 
         return flow {
             emit(Resource.Loading(true))
 
             try {
-                val apiResponse = imdbApi.searchMovie(apiKey = key, title = title)
+                val apiResponse = imdbApi.searchMovies(apiKey = apiKey, title = title)
                 db.withTransaction {
                     if (apiResponse.errorMessage.isEmpty()) {
                         db.searchedMoviesDao.insertAll(apiResponse.results)
                         emit(
-                            Resource.Success<List<SearchResult>>(
-                                data = db.searchedMoviesDao.resultByTitle(queryString = title)
+                            Resource.Success<List<IMDBSearchResult>>(
+                                data = db.searchedMoviesDao.movieByTitle(queryString = title)
+                            )
+                        )
+                    } else {
+                        emit(Resource.Error(message = apiResponse.errorMessage))
+                        emit(Resource.Loading(false))
+                    }
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            }
+        }
+    }
+
+    suspend fun searchSeries(apiKey: String, title: String): Flow<Resource<List<IMDBSearchResult>>> {
+
+        return flow {
+            emit(Resource.Loading(true))
+
+            try {
+                val apiResponse = imdbApi.searchSeries(apiKey = apiKey, title = title)
+                db.withTransaction {
+                    if (apiResponse.errorMessage.isEmpty()) {
+                        db.searchedMoviesDao.insertAll(apiResponse.results)
+                        emit(
+                            Resource.Success<List<IMDBSearchResult>>(
+                                data = db.searchedMoviesDao.seriesByTitle(queryString = title)
                             )
                         )
                     } else {

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "35d59020f079cea9d3caca0b3f5064fd",
+    "identityHash": "6364461274264407c0f32c47e9857cd9",
     "entities": [
       {
         "tableName": "movies_db",
@@ -61,6 +61,56 @@
         "foreignKeys": []
       },
       {
+        "tableName": "imdb_search_result",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `searchType` TEXT NOT NULL, `description` TEXT NOT NULL, `image` TEXT NOT NULL, `resultType` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "searchType",
+            "columnName": "searchType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resultType",
+            "columnName": "resultType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
         "tableName": "remote_keys",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movie` TEXT NOT NULL, `prevKey` INTEGER, `nextKey` INTEGER, PRIMARY KEY(`movie`))",
         "fields": [
@@ -96,7 +146,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '35d59020f079cea9d3caca0b3f5064fd')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6364461274264407c0f32c47e9857cd9')"
     ]
   }
 }
