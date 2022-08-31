@@ -85,6 +85,7 @@ dependencies {
     implementation(Coroutines.coroutines)
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    implementation 'com.android.support:support-annotations:28.0.0'
 
     testImplementation (AndroidTest.junit)
     androidTestImplementation AndroidTest.extJunit
