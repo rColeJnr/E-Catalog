@@ -23,7 +23,7 @@
         android:label="MovieDetailsFragment" >
         <argument
             android:name="movie"
-            app:argType="com.rick.data_movie.Movie" />
+            app:argType="com.rick.data_movie.ny_times.Movie" />
     </fragment>
 
 </navigation>
