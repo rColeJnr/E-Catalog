@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,6 +14,8 @@ class SearchViewModel @Inject constructor(
 ): ViewModel() {
 
     private val imdbKey: String
+    val searchState: StateFlow<SearchUiState>
+    val searchAction: (SearchUiAction) -> Unit
 
     init {
 
@@ -21,8 +23,34 @@ class SearchViewModel @Inject constructor(
         System.loadLibrary("movie-keys")
         imdbKey = getIMDBKey()
 
-        val actionStateFlow = MutableSharedFlow<UiAction>()
+        val actionStateFlow = MutableSharedFlow<SearchUiAction>()
+        val searchMovie = actionStateFlow
+            .filterIsInstance<SearchUiAction.SearchMovie>()
+            .distinctUntilChanged()
+//            .onStart { emit(UiAction.SearchMovie(title = null)) }
+        val searchSeries = actionStateFlow
+            .filterIsInstance<SearchUiAction.SearchSeries>()
+            .distinctUntilChanged()
 
+        searchState = combine(
+            searchMovie,
+            searchSeries,
+            ::Pair
+        ).map { (movie, series) ->
+            SearchUiState(
+                movieQuery = movie.title,
+                seriesQuery = series.title
+            )
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
+                initialValue = SearchUiState()
+            )
+
+        searchAction = { action ->
+            viewModelScope.launch { actionStateFlow.emit(action) }
+        }
     }
 
     fun searchMovies(title: String) {
@@ -55,12 +83,13 @@ class SearchViewModel @Inject constructor(
 }
 
 
-sealed class UiState {
-    data class searchQuery(val query: String): UiState()
-}
+data class SearchUiState (
+    val movieQuery : String? = null,
+    val seriesQuery : String? = null,
+)
 
-sealed class UiAction {
-    data class SearchMovie(val title: String) : UiAction()
-    data class SearchSeries(val title: String) : UiAction()
-    data class NavigateToDetails(val movie: IMDBSearchResult): UiAction()
+sealed class SearchUiAction {
+    data class SearchMovie(val title: String) : SearchUiAction()
+    data class SearchSeries(val title: String) : SearchUiAction()
+    data class NavigateToDetails(val movie: IMDBSearchResult): SearchUiAction()
 }
