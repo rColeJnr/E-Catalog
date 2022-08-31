@@ -12,4 +12,5 @@
     <string name="retry">Error, try again</string>
     <string name="no_results">No results 😓\nSwipe to refresh</string>
     <string name="may_month">May</string>
+    <string name="search">search</string>
 </resources>
