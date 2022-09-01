@@ -18,6 +18,9 @@
             android:layout_width="282dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionSearch"
+            android:selectAllOnFocus="true"
             android:hint="@string/searchLabel" />
 
     </androidx.appcompat.widget.Toolbar>

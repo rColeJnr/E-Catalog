@@ -29,7 +29,6 @@ class SearchViewModel @Inject constructor(
         val searchMovie = actionStateFlow
             .filterIsInstance<SearchUiAction.SearchMovie>()
             .distinctUntilChanged()
-//            .onStart { emit(UiAction.SearchMovie(title = null)) }
         val searchSeries = actionStateFlow
             .filterIsInstance<SearchUiAction.SearchSeries>()
             .distinctUntilChanged()
