@@ -13,8 +13,10 @@ import com.bumptech.glide.Glide
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 
+@AndroidEntryPoint
 class SearchFragment: Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
