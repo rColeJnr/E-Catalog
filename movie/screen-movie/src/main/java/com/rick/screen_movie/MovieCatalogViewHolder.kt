@@ -15,6 +15,7 @@ class MovieCatalogViewHolder(
     private val title = binding.movieName
     private val rating = binding.movieRating
     private val image = binding.movieImage
+    private val summary = binding.movieSummary
 
     private lateinit var movie: Movie
 
@@ -25,6 +26,7 @@ class MovieCatalogViewHolder(
     fun bind(movie: Movie, activity: Activity) {
         this.movie = movie
         this.title.text = movie.title
+        this.summary.text = movie.summary
         if (movie.rating.isNotBlank()) {
             this.rating.text =
                 activity.getString(R.string.rated, movie.rating)

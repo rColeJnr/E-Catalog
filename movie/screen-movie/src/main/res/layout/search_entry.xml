@@ -21,7 +21,6 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="title"
         android:textSize="24sp"
         android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -30,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="secondary_text"
         android:textSize="24sp"
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="?android:attr/textColorSecondary" />
