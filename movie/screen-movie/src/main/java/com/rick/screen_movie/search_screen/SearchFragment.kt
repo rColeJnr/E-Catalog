@@ -18,10 +18,8 @@ import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment: Fragment() {
@@ -83,6 +81,15 @@ class SearchFragment: Fragment() {
         return binding.root
     }
 
+    private fun FragmentSearchBinding.bindState(
+        uiAction: (SearchUiAction) -> Unit,
+        uiState: StateFlow<SearchUiState>
+    ) {
+        lifecycleScope.launchWhenCreated {
+
+        }
+    }
+
     private fun FragmentSearchBinding.bindSearch(
         uiState: StateFlow<SearchUiState>,
         onQueryChanged: (SearchUiAction.SearchMovie) -> Unit
@@ -121,12 +128,12 @@ class SearchFragment: Fragment() {
         }
     }
 
-    private fun FragmentSearchBinding.bindState(
-        uiAction: (SearchUiAction) -> Unit,
-        uiState: StateFlow<SearchUiState>
+    private fun FragmentSearchBinding.bindList(
+        adapter: SearchAdapter,
+        listData: Flow<List<IMDBSearchResult>>
     ) {
-        lifecycleScope.launchWhenCreated {
-
+        lifecycleScope.launch {
+            listData.collectLatest(adapter.searchDiffer::submitList)
         }
     }
 
