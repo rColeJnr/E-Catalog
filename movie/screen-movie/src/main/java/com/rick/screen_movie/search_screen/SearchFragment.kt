@@ -1,12 +1,14 @@
 package com.rick.screen_movie.search_screen
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -82,7 +84,7 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindState(
         listData: LiveData<List<IMDBSearchResult>>,
-        uiAction: (SearchUiAction) -> Unit,
+        uiAction: (SearchUiAction) -> Unit
         uiState: StateFlow<SearchUiState>
     ) {
 
@@ -103,6 +105,9 @@ class SearchFragment : Fragment() {
         uiState: StateFlow<SearchUiState>,
         onQueryChanged: (SearchUiAction.SearchMovie) -> Unit
     ) {
+
+        showSoftKeyboard(searchInput)
+
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 updateListFromInput(onQueryChanged)
@@ -146,6 +151,13 @@ class SearchFragment : Fragment() {
             listData.observe(viewLifecycleOwner){
                 adapter.searchDiffer.submitList(it)
             }
+        }
+    }
+
+    fun showSoftKeyboard(view: View) {
+        if (view.requestFocus()) {
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         }
     }
 
