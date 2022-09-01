@@ -2,7 +2,6 @@ package com.rick.screen_movie.search_screen
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -22,7 +22,10 @@ import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -78,7 +81,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun FragmentSearchBinding.bindState(
-        listData: Flow<List<IMDBSearchResult>>,
+        listData: LiveData<List<IMDBSearchResult>>,
         uiAction: (SearchUiAction) -> Unit,
         uiState: StateFlow<SearchUiState>
     ) {
@@ -126,7 +129,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchMovie) -> Unit) {
-        viewModel.searchMovies(searchInput.text.toString())
         searchInput.text!!.trim().let {
             if (it.isNotEmpty()) {
                 list.scrollToPosition(0)
@@ -137,11 +139,13 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindList(
         adapter: SearchAdapter,
-        listData: Flow<List<IMDBSearchResult>>
+        listData: LiveData<List<IMDBSearchResult>>
     ) {
-        lifecycleScope.launch{
-            Log.d("TAG", "list -> $listData")
-            listData.collect(adapter.searchDiffer::submitList)
+        lifecycleScope.launch {
+            // TODO observe as livedata.
+            listData.observe(viewLifecycleOwner){
+                adapter.searchDiffer.submitList(it)
+            }
         }
     }
 

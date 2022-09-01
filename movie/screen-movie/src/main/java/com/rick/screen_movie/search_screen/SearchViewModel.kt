@@ -1,5 +1,8 @@
 package com.rick.screen_movie.search_screen
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
@@ -16,7 +19,10 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val imdbKey: String
-    var searchList: Flow<List<IMDBSearchResult>> = flowOf()
+    // TODO LIVEDATA
+    private val _searchList: MutableLiveData<List<IMDBSearchResult>> by
+        lazy { MutableLiveData<List<IMDBSearchResult>>() }
+    val searchList: LiveData<List<IMDBSearchResult>> get() = _searchList
     val searchState: StateFlow<SearchUiState>
     val searchAction: (SearchUiAction) -> Unit
 
@@ -27,26 +33,20 @@ class SearchViewModel @Inject constructor(
         imdbKey = getIMDBKey()
 
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()
-        val searchMovie = actionStateFlow
-            .filterIsInstance<SearchUiAction.SearchMovie>()
-            .distinctUntilChanged()
-        val searchSeries = actionStateFlow
-            .filterIsInstance<SearchUiAction.SearchSeries>()
-            .distinctUntilChanged()
+        val searchMovie =
+            actionStateFlow.filterIsInstance<SearchUiAction.SearchMovie>().distinctUntilChanged()
+        val searchSeries =
+            actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
-        searchMovies("strength")
+        viewModelScope.launch{ searchMovie.collectLatest { searchMovies(it.title) } }
 
         searchState = combine(
-            searchMovie,
-            searchSeries,
-            ::Pair
+            searchMovie, searchSeries, ::Pair
         ).map { (movie, series) ->
             SearchUiState(
-                movieQuery = movie.title,
-                seriesQuery = series.title
+                movieQuery = movie.title, seriesQuery = series.title
             )
-        }
-            .stateIn(
+        }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
                 initialValue = SearchUiState()
@@ -59,25 +59,25 @@ class SearchViewModel @Inject constructor(
 
     fun searchMovies(title: String) {
         viewModelScope.launch {
-            repository.searchMovies(apiKey = imdbKey, title = title)
-                .collect { result ->
-                    when (result) {
-                        is Resource.Error -> {}
-                        is Resource.Loading -> {
+            repository.searchMovies(apiKey = imdbKey, title = title).collect { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        Log.d("what", "this wongs")
+                    }
+                    is Resource.Loading -> {
 
-                        }
-                        is Resource.Success -> {
-                            searchList = flow { result.data!! }
-                        }
+                    }
+                    is Resource.Success -> {
+                        _searchList.postValue(result.data!!)
                     }
                 }
+            }
         }
     }
 
     fun searchSeries(title: String) {
         viewModelScope.launch {
-            repository.searchSeries(apiKey = imdbKey, title = title)
-                .collect { result ->
+            repository.searchSeries(apiKey = imdbKey, title = title).collect { result ->
                     when (result) {
                         is Resource.Error -> TODO()
                         is Resource.Loading -> TODO()
