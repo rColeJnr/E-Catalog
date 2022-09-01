@@ -18,11 +18,11 @@
             android:layout_width="282dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:inputType="textNoSuggestions"
-            android:imeOptions="actionSearch"
-            android:selectAllOnFocus="true"
+            android:autofillHints=""
             android:hint="@string/searchLabel"
-            android:autofillHints="" />
+            android:imeOptions="actionSearch"
+            android:inputType="textNoSuggestions"
+            android:selectAllOnFocus="true" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -30,6 +30,7 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/search_entry" />
 
 </LinearLayout>
