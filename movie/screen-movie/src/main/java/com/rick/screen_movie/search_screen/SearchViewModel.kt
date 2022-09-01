@@ -13,10 +13,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val imdbKey: String
-    var searchList: List<IMDBSearchResult> = listOf()
+    var searchList: Flow<List<IMDBSearchResult>> = flowOf()
     val searchState: StateFlow<SearchUiState>
     val searchAction: (SearchUiAction) -> Unit
 
@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(
             .filterIsInstance<SearchUiAction.SearchSeries>()
             .distinctUntilChanged()
 
-        searchMovies("anal")
+        searchMovies("strength")
 
         searchState = combine(
             searchMovie,
@@ -67,7 +67,7 @@ class SearchViewModel @Inject constructor(
 
                         }
                         is Resource.Success -> {
-                            searchList = result.data!!
+                            searchList = flow { result.data!! }
                         }
                     }
                 }
@@ -91,13 +91,13 @@ class SearchViewModel @Inject constructor(
 }
 
 
-data class SearchUiState (
-    val movieQuery : String? = null,
-    val seriesQuery : String? = null,
+data class SearchUiState(
+    val movieQuery: String? = null,
+    val seriesQuery: String? = null,
 )
 
 sealed class SearchUiAction {
     data class SearchMovie(val title: String) : SearchUiAction()
     data class SearchSeries(val title: String) : SearchUiAction()
-    data class NavigateToDetails(val movie: IMDBSearchResult): SearchUiAction()
+    data class NavigateToDetails(val movie: IMDBSearchResult) : SearchUiAction()
 }

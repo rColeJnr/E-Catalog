@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
@@ -22,10 +22,8 @@ import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -64,49 +62,26 @@ class SearchFragment : Fragment() {
         }
 
         searchAdapter = SearchAdapter(
-            requireActivity(), list = listOf(
-                IMDBSearchResult(
-                    id = "tt0122933", description = "(1999)",
-                    image = "https://m.media-amazon.com/images/M/MV5BNTIzNjQ5OTMtM2U2NS00YTNkLWIzMmYtOTcyOTA5MDU0YTdjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_Ratio0.7273_AL_.jpg",
-                    resultType = "CaseMap.Title", title = "Analyze This"
-                ),
-                IMDBSearchResult(
-                    id = "tt0122934", description = "(2000)",
-                    image = "https://m.media-amazon.com/images/M/MV5BNTIzNjQ5OTMtM2U2NS00YTNkLWIzMmYtOTcyOTA5MDU0YTdjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_Ratio0.7273_AL_.jpg",
-                    resultType = "CaseMap.Title", title = "Analyze This"
-                )
-            )
+            requireActivity()
         )
 
-        binding.list.layoutManager = LinearLayoutManager(requireContext())
-        binding.list.adapter = searchAdapter
+        val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        binding.list.addItemDecoration(decoration)
 
-//        binding.bindState(
-//            listData = listOf(
-//                IMDBSearchResult(
-//                    id = "tt0122933", description = "(1999)",
-//                    image = "https://m.media-amazon.com/images/M/MV5BNTIzNjQ5OTMtM2U2NS00YTNkLWIzMmYtOTcyOTA5MDU0YTdjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_Ratio0.7273_AL_.jpg",
-//                    resultType = "CaseMap.Title", title = "Analyze This"
-//                ),
-//                IMDBSearchResult(
-//                    id = "tt0122934", description = "(2000)",
-//                    image = "https://m.media-amazon.com/images/M/MV5BNTIzNjQ5OTMtM2U2NS00YTNkLWIzMmYtOTcyOTA5MDU0YTdjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_Ratio0.7273_AL_.jpg",
-//                    resultType = "CaseMap.Title", title = "Analyze This"
-//                )
-//            ),
-//            uiAction = viewModel.searchAction,
-//            uiState = viewModel.searchState,
-//        )
+        binding.bindState(
+            listData = viewModel.searchList,
+            uiAction = viewModel.searchAction,
+            uiState = viewModel.searchState,
+        )
 
         return binding.root
     }
 
     private fun FragmentSearchBinding.bindState(
-        listData: List<IMDBSearchResult>,
+        listData: Flow<List<IMDBSearchResult>>,
         uiAction: (SearchUiAction) -> Unit,
         uiState: StateFlow<SearchUiState>
     ) {
-
 
         list.adapter = searchAdapter
 
@@ -151,6 +126,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchMovie) -> Unit) {
+        viewModel.searchMovies(searchInput.text.toString())
         searchInput.text!!.trim().let {
             if (it.isNotEmpty()) {
                 list.scrollToPosition(0)
@@ -161,11 +137,12 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindList(
         adapter: SearchAdapter,
-        listData: List<IMDBSearchResult>
+        listData: Flow<List<IMDBSearchResult>>
     ) {
-//        adapter.searchDiffer.submitList(
-//            listData
-//        )
+        lifecycleScope.launch{
+            Log.d("TAG", "list -> $listData")
+            listData.collect(adapter.searchDiffer::submitList)
+        }
     }
 
     override fun onDestroy() {
@@ -174,7 +151,7 @@ class SearchFragment : Fragment() {
     }
 }
 
-class SearchAdapter(private val activity: Activity, private val list: List<IMDBSearchResult>) :
+class SearchAdapter(private val activity: Activity) :
     RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
@@ -196,19 +173,16 @@ class SearchAdapter(private val activity: Activity, private val list: List<IMDBS
     val searchDiffer = AsyncListDiffer(this, searchDiffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        Log.d("TAGG", "FADF")
-        val itemBinding = SearchEntryBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchViewHolder(itemBinding)
+        return SearchViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        val searchResult = list[position]
+        val searchResult = searchDiffer.currentList[position]
         (holder).bind(searchResult, activity = activity)
     }
 
     override fun getItemCount(): Int =
-        list.size
+        searchDiffer.currentList.size
 }
 
 class SearchViewHolder(
@@ -225,7 +199,6 @@ class SearchViewHolder(
         this.title.text = searchResult.title
         this.description.text = searchResult.description
         // TODO(INITIAlize glide in activity or fragment)
-        Log.d("DATA", "TAGG ${searchResult.title} and ${this.title.text}")
         Glide.with(activity)
             .load(searchResult.image)
             .into(this.image)
