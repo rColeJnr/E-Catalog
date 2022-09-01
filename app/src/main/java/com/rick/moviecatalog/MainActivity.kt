@@ -55,6 +55,10 @@ class MainActivity : AppCompatActivity() {
             } else {
                 toolbar.visibility = View.VISIBLE
             }
+            when (destination.id) {
+                com.rick.screen_movie.R.id.movieCatalogFragment -> binding.toolbarText.text = "Movies"
+                com.rick.screen_book.R.id.bookCatalogFragment -> binding.toolbarText.text = "Books"
+            }
         }
 
     }
