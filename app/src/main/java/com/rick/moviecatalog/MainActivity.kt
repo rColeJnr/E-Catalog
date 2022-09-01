@@ -2,6 +2,7 @@ package com.rick.moviecatalog
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -9,10 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.rick.moviecatalog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.fragmentContainerView
         ) as NavHostFragment
@@ -41,12 +42,20 @@ class MainActivity : AppCompatActivity() {
             ),
             binding.drawerLayout
         )
-
-//        toolbar.setupWithNavController(
-//            navController,
-//            appBarConfiguration
-//        )
+        toolbar.setupWithNavController(
+            navController,
+            appBarConfiguration
+        )
         binding.navView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.searchFragment) {
+                toolbar.visibility = View.GONE
+            } else {
+                toolbar.visibility = View.VISIBLE
+            }
+        }
 
     }
 

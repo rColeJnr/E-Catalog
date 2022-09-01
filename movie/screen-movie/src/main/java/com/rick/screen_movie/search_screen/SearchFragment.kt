@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.Glide
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
+import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +39,27 @@ class SearchFragment: Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         adapter = SearchAdapter(requireActivity())
+
+        binding.toolbar.apply {
+            inflateMenu(R.menu.search_menu)
+
+            menu.findItem(R.id.search_imdb).isVisible = false
+
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.search_options -> {
+                        // TODO SHOW OPTIONS
+                        true
+                    }
+                    else -> super.onOptionsItemSelected(item)
+                }
+            }
+
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
 
         binding.list.itemAnimator = DefaultItemAnimator()
 
