@@ -1,7 +1,9 @@
 package com.rick.screen_movie
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -37,6 +39,32 @@ class MovieCatalogFragment : Fragment() {
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
+        val activity = requireActivity()
+        val navController = findNavController()
+
+        binding.toolbar.apply {
+            menu.clear()
+            inflateMenu(R.menu.search_menu)
+
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.search_imdb -> {
+                        val action = MovieCatalogFragmentDirections
+                            .actionMovieCatalogFragmentToSearchFragment()
+                        navController.navigate(action)
+                        true
+                    }
+                    else -> super.onOptionsItemSelected(item)
+                }
+            }
+
+            setNavigationIcon(R.drawable.menu_icon)
+            setNavigationOnClickListener { btn ->
+
+            }
+        }
+
+
         adapter =
             MovieCatalogAdapter(requireActivity(), this::onMovieClick)
 
@@ -52,6 +80,16 @@ class MovieCatalogFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
+//
+//        navController.addOnDestinationChangedListener{_, destination, _ ->
+//            if (destination.id == R.id.searchFragment) {
+//                binding.searchInput.visibility = View.VISIBLE
+//                binding.toolbarText.visibility = View.GONE
+//            } else {
+//                binding.searchInput.visibility = View.GONE
+//                binding.toolbarText.visibility = View.VISIBLE
+//            }
+//        }
 
         binding.bindState(
             uiAction = viewModel.accept,
@@ -134,21 +172,10 @@ class MovieCatalogFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.search_menu, menu)
+//    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.search_imdb -> {
-                val action = MovieCatalogFragmentDirections
-                    .actionMovieCatalogFragmentToSearchFragment()
-                findNavController().navigate(action)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -9,7 +9,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.rick.moviecatalog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,9 +29,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.fragmentContainerView
         ) as NavHostFragment
@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity() {
             ),
             binding.drawerLayout
         )
-        toolbar.setupWithNavController(
-            navController,
-            appBarConfiguration
-        )
+
+//        toolbar.setupWithNavController(
+//            navController,
+//            appBarConfiguration
+//        )
         binding.navView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
 
     }
 
