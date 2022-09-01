@@ -2,9 +2,11 @@ package com.rick.screen_movie.search_screen
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +19,9 @@ import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class SearchFragment: Fragment() {
@@ -78,6 +83,43 @@ class SearchFragment: Fragment() {
         return binding.root
     }
 
+    private fun FragmentSearchBinding.bindSearch(
+        uiState: StateFlow<SearchUiState>,
+        onQueryChanged: (SearchUiAction.SearchMovie) -> Unit
+    ) {
+        searchInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO){
+                updateListFromInput(onQueryChanged)
+                true
+            } else {
+                false
+            }
+        }
+        searchInput.setOnKeyListener{_, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                updateListFromInput(onQueryChanged)
+                true
+            } else {
+                false
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            uiState
+                .map { it.movieQuery }
+                .distinctUntilChanged()
+                .collectLatest (searchInput::setText)
+        }
+    }
+
+    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchMovie) -> Unit) {
+        searchInput.text!!.trim().let {
+            if (it.isNotEmpty()) {
+                list.scrollToPosition(0)
+                onQueryChanged(SearchUiAction.SearchMovie(title = it.toString()))
+            }
+        }
+    }
 
     private fun FragmentSearchBinding.bindState(
         uiAction: (SearchUiAction) -> Unit,
