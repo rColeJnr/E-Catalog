@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
+        title = ""
 
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.fragmentContainerView
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity() {
                 com.rick.screen_book.R.id.bookCatalogFragment -> binding.toolbarText.text = "Books"
             }
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
