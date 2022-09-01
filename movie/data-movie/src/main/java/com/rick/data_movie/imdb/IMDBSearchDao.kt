@@ -14,19 +14,17 @@ interface IMDBSearchDao {
 
     @Query(
         "SELECT * FROM imdb_search_result WHERE " +
-                "searchType LIKE :searchType and title " +
-                "LIKE :queryString or description LIKE :queryString " +
-                "ORDER BY title ASC"
-    )
-    fun movieByTitle(queryString: String, searchType: String = MOVIE): List<IMDBSearchResult>
-
-    @Query(
-        "SELECT * FROM imdb_search_result WHERE " +
-                "searchType LIKE :searchType and " +
                 "title LIKE :queryString or description LIKE :queryString " +
                 "ORDER BY title ASC"
     )
-    fun seriesByTitle(queryString: String, searchType: String = SERIES): List<IMDBSearchResult>
+    suspend fun movieByTitle(queryString: String): List<IMDBSearchResult>
+
+    @Query(
+        "SELECT * FROM imdb_search_result WHERE " +
+                "title LIKE :queryString or description LIKE :queryString " +
+                "ORDER BY title ASC"
+    )
+    fun seriesByTitle(queryString: String): List<IMDBSearchResult>
 
 }
 

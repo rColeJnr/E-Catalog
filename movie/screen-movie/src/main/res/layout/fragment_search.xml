@@ -10,10 +10,10 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         app:layout_collapseMode="pin">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/search_input"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
@@ -21,21 +21,15 @@
             android:inputType="textNoSuggestions"
             android:imeOptions="actionSearch"
             android:selectAllOnFocus="true"
-            android:hint="@string/searchLabel" />
+            android:hint="@string/searchLabel"
+            android:autofillHints="" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/search_entry" />
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/search_entry" />
 
 </LinearLayout>

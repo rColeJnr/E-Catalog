@@ -46,18 +46,16 @@ class MovieCatalogRepository @Inject constructor(
 
             try {
                 val apiResponse = imdbApi.searchMovies(apiKey = apiKey, title = title)
-                db.withTransaction {
-                    if (apiResponse.errorMessage.isEmpty()) {
-                        db.searchedMoviesDao.insertAll(apiResponse.results)
-                        emit(
-                            Resource.Success<List<IMDBSearchResult>>(
-                                data = db.searchedMoviesDao.movieByTitle(queryString = title)
-                            )
+                if (apiResponse.errorMessage.isEmpty()) {
+                    db.imdbSearchDao.insertAll(apiResponse.results)
+                    emit(
+                        Resource.Success<List<IMDBSearchResult>>(
+                            data = apiResponse.results
                         )
-                    } else {
-                        emit(Resource.Error(message = apiResponse.errorMessage))
-                        emit(Resource.Loading(false))
-                    }
+                    )
+                } else {
+                    emit(Resource.Error(message = apiResponse.errorMessage))
+                    emit(Resource.Loading(false))
                 }
             } catch (e: IOException) {
                 emit(Resource.Error(e.message))
@@ -78,10 +76,10 @@ class MovieCatalogRepository @Inject constructor(
                 val apiResponse = imdbApi.searchSeries(apiKey = apiKey, title = title)
                 db.withTransaction {
                     if (apiResponse.errorMessage.isEmpty()) {
-                        db.searchedMoviesDao.insertAll(apiResponse.results)
+                        db.imdbSearchDao.insertAll(apiResponse.results)
                         emit(
                             Resource.Success<List<IMDBSearchResult>>(
-                                data = db.searchedMoviesDao.seriesByTitle(queryString = title)
+                                data = db.imdbSearchDao.seriesByTitle(queryString = title)
                             )
                         )
                     } else {

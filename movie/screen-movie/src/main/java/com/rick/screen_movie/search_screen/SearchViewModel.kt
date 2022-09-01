@@ -16,6 +16,7 @@ class SearchViewModel @Inject constructor(
 ): ViewModel() {
 
     private val imdbKey: String
+    var searchList: List<IMDBSearchResult> = listOf()
     val searchState: StateFlow<SearchUiState>
     val searchAction: (SearchUiAction) -> Unit
 
@@ -32,6 +33,8 @@ class SearchViewModel @Inject constructor(
         val searchSeries = actionStateFlow
             .filterIsInstance<SearchUiAction.SearchSeries>()
             .distinctUntilChanged()
+
+        searchMovies("anal")
 
         searchState = combine(
             searchMovie,
@@ -59,9 +62,13 @@ class SearchViewModel @Inject constructor(
             repository.searchMovies(apiKey = imdbKey, title = title)
                 .collect { result ->
                     when (result) {
-                        is Resource.Error -> TODO()
-                        is Resource.Loading -> TODO()
-                        is Resource.Success -> TODO()
+                        is Resource.Error -> {}
+                        is Resource.Loading -> {
+
+                        }
+                        is Resource.Success -> {
+                            searchList = result.data!!
+                        }
                     }
                 }
         }
