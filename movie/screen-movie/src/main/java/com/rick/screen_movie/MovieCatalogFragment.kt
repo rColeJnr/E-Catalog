@@ -141,8 +141,9 @@ class MovieCatalogFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_imdb -> {
-
-
+                val action = MovieCatalogFragmentDirections
+                    .actionMovieCatalogFragmentToSearchFragment()
+                findNavController().navigate(action)
                 true
             }
             else -> super.onOptionsItemSelected(item)
