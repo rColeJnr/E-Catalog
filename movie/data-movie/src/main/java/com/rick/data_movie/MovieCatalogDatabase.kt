@@ -14,7 +14,7 @@ import com.rick.data_movie.ny_times.Movie
 )
 @TypeConverters(Converters::class)
 abstract class MovieCatalogDatabase: RoomDatabase() {
-    abstract val searchedMoviesDao: IMDBSearchDao
+    abstract val imdbSearchDao: IMDBSearchDao
     abstract val moviesDao: MoviesDao
     abstract val remoteKeysDao: RemoteKeysDao
 

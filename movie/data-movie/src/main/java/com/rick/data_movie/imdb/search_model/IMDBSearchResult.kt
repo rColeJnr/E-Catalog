@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 data class IMDBSearchResult(
     @PrimaryKey (autoGenerate = false)
     val id: String,
-    val searchType: String,
     val description: String,
     val image: String,
     val resultType: String,

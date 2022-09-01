@@ -1,49 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="0dp"
-    app:cardElevation="0dp"
-    app:strokeColor="@android:color/darker_gray"
-    app:strokeWidth="1dp"
-    android:clickable="true"
-    android:focusable="true"
-    >
+    android:orientation="vertical">
 
-    <LinearLayout
+    <!-- Media -->
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="194dp"
+        android:contentDescription="content_description_media"
+        android:paddingBottom="16dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_image" />
+
+    <!-- Title, secondary and supporting text -->
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="title"
+        android:textSize="24sp"
+        android:textAppearance="?attr/textAppearanceHeadline6" />
 
-        <!-- Media -->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="194dp"
-            android:id="@+id/image"
-            android:contentDescription="content_description_media"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_image"
-            android:paddingBottom="16dp"/>
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="secondary_text"
+        android:textSize="24sp"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="?android:attr/textColorSecondary" />
 
-        <!-- Title, secondary and supporting text -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="title"
-            android:id="@+id/title"
-            android:textAppearance="?attr/textAppearanceHeadline6" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:id="@+id/description"
-            android:text="secondary_text"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary" />
-
-    </LinearLayout>
-
-
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
