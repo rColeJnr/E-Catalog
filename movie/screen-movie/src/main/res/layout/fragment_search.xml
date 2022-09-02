@@ -13,16 +13,29 @@
         android:layout_height="wrap_content"
         app:layout_collapseMode="pin">
 
-        <EditText
-            android:id="@+id/search_input"
-            android:layout_width="282dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:autofillHints=""
-            android:hint="@string/searchLabel"
-            android:imeOptions="actionSearch"
-            android:inputType="textNoSuggestions"
-            android:selectAllOnFocus="true" />
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:autofillHints=""
+                android:hint="@string/searchLabel"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions"
+                android:selectAllOnFocus="true" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_horizontal"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                app:trackColor="@android:color/darker_gray" />
+
+        </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -37,11 +50,11 @@
         android:id="@+id/emptyList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
         android:layout_marginHorizontal="@dimen/sixteen_dimen"
-        android:visibility="gone"
+        android:layout_marginTop="64dp"
         android:gravity="center"
         android:text="@string/nothing_found"
-        android:textSize="@dimen/large_text" />
+        android:textSize="@dimen/large_text"
+        android:visibility="gone" />
 
 </LinearLayout>
