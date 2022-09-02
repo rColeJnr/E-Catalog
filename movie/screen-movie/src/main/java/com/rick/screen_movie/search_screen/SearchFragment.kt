@@ -1,14 +1,11 @@
 package com.rick.screen_movie.search_screen
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -19,10 +16,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
+import com.rick.screen_movie.util.showSoftKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -66,12 +65,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        searchAdapter = SearchAdapter(
-            requireActivity()
-        )
-
-        val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        binding.list.addItemDecoration(decoration)
+        initAdapter()
 
         binding.bindState(
             listData = viewModel.searchList,
@@ -82,9 +76,19 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    private fun initAdapter() {
+        val glide = Glide.with(requireContext())
+        searchAdapter = SearchAdapter(
+            glide
+        )
+
+        val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        binding.list.addItemDecoration(decoration)
+    }
+
     private fun FragmentSearchBinding.bindState(
         listData: LiveData<List<IMDBSearchResult>>,
-        uiAction: (SearchUiAction) -> Unit
+        uiAction: (SearchUiAction) -> Unit,
         uiState: StateFlow<SearchUiState>
     ) {
 
@@ -106,7 +110,7 @@ class SearchFragment : Fragment() {
         onQueryChanged: (SearchUiAction.SearchMovie) -> Unit
     ) {
 
-        showSoftKeyboard(searchInput)
+        showSoftKeyboard(searchInput, requireContext())
 
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
@@ -142,22 +146,14 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun FragmentSearchBinding.bindList(
+    private fun bindList(
         adapter: SearchAdapter,
         listData: LiveData<List<IMDBSearchResult>>
     ) {
         lifecycleScope.launch {
-            // TODO observe as livedata.
-            listData.observe(viewLifecycleOwner){
+            listData.observe(viewLifecycleOwner) {
                 adapter.searchDiffer.submitList(it)
             }
-        }
-    }
-
-    fun showSoftKeyboard(view: View) {
-        if (view.requestFocus()) {
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         }
     }
 
@@ -167,7 +163,7 @@ class SearchFragment : Fragment() {
     }
 }
 
-class SearchAdapter(private val activity: Activity) :
+class SearchAdapter(private val glide: RequestManager) :
     RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
@@ -194,7 +190,7 @@ class SearchAdapter(private val activity: Activity) :
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val searchResult = searchDiffer.currentList[position]
-        (holder).bind(searchResult, activity = activity)
+        (holder).bind(searchResult, glide)
     }
 
     override fun getItemCount(): Int =
@@ -210,12 +206,11 @@ class SearchViewHolder(
 
     private lateinit var searchResult: IMDBSearchResult
 
-    fun bind(searchResult: IMDBSearchResult, activity: Activity) {
+    fun bind(searchResult: IMDBSearchResult, glide: RequestManager) {
         this.searchResult = searchResult
         this.title.text = searchResult.title
         this.description.text = searchResult.description
-        // TODO(INITIAlize glide in activity or fragment)
-        Glide.with(activity)
+        glide
             .load(searchResult.image)
             .into(this.image)
     }

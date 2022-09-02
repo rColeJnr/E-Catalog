@@ -14,6 +14,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.bumptech.glide.Glide
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,8 +47,10 @@ class MovieCatalogFragment : Fragment() {
         view?.findViewById<Toolbar>(R.id.toolbar)
             ?.setupWithNavController(navController, appBarConfiguration)
 
+        val glide = Glide.with(requireContext())
+
         adapter =
-            MovieCatalogAdapter(requireActivity(), this::onMovieClick)
+            MovieCatalogAdapter(glide, this::onMovieClick)
 
         binding.recyclerView.adapter = adapter.withLoadStateFooter(
             footer = MoviesLoadStateAdapter { adapter.retry() }

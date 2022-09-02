@@ -1,14 +1,14 @@
 package com.rick.screen_movie
 
-import android.app.Activity
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.RequestManager
 import com.rick.data_movie.ny_times.Movie
 
 class MovieCatalogAdapter(
-    private val activity: Activity,
+    private val glide: RequestManager,
     private val onItemClicked: (Movie) -> Unit
 ) :
     PagingDataAdapter<UiModel, ViewHolder>(RESULT_COMPARATOR) {
@@ -30,8 +30,8 @@ class MovieCatalogAdapter(
         uiModel.let {
             when (uiModel) {
                 is UiModel.MovieItem -> (holder as MovieCatalogViewHolder).bind(
-                    uiModel.movie,
-                    activity
+                    glide = glide,
+                    movie = uiModel.movie,
                 )
                 is UiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
                 else -> null
