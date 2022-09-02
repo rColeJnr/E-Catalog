@@ -15,4 +15,5 @@
     <string name="search">search</string>
     <string name="searchLabel">search</string>
     <string name="searchOptions">search options</string>
+    <string name="nothing_found">Nothing found, try again. 😉</string>
 </resources>

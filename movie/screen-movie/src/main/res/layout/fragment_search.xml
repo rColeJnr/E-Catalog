@@ -33,4 +33,15 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/search_entry" />
 
+    <TextView
+        android:id="@+id/emptyList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginHorizontal="@dimen/sixteen_dimen"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="@string/nothing_found"
+        android:textSize="@dimen/large_text" />
+
 </LinearLayout>
