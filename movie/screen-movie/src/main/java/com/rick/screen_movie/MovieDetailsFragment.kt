@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +15,7 @@ class MovieDetailsFragment: Fragment() {
 
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var movie: Movie
+    private lateinit var movie: IMDBMovie
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
@@ -31,12 +30,7 @@ class MovieDetailsFragment: Fragment() {
             movie = safeArgs.movie
         }
 
-        binding.movieName.text = movie.title
-        Glide.with(requireContext()).load(movie.multimedia.src).into(binding.movieImage)
-        binding.movieArticleLink.text = getString(R.string.read_article, movie.link.url)
-        binding.moviePublicationDate.text = getString(R.string.movie_published_on, movie.openingDate)
-        binding.movieSummary.text = movie.summary
-        binding.movieRating.text = movie.rating
+
 
         return binding.root
     }
