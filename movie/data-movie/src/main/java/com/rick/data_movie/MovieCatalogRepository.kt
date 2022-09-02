@@ -41,14 +41,16 @@ class MovieCatalogRepository @Inject constructor(
 
     suspend fun searchMovies(
         apiKey: String,
-        title: String
+        query: String
     ): Flow<Resource<List<IMDBSearchResult>>> {
         var data: List<IMDBSearchResult> = listOf()
+        // appending '%' so we can allow other characters to be before and after the query string
+        val dbQuery = "%${query.replace(' ', '%')}%"
         return flow {
 
             emit(Resource.Loading(true))
             db.withTransaction {
-                data = db.imdbSearchDao.movieByTitle(title)
+                data = db.imdbSearchDao.movieByTitle(dbQuery)
             }
             if (data.isNotEmpty()) {
                 emit(
@@ -59,11 +61,11 @@ class MovieCatalogRepository @Inject constructor(
                 emit(Resource.Loading(false))
             }
             try {
-                val apiResponse = imdbApi.searchMovies(apiKey = apiKey, title = title)
+                val apiResponse = imdbApi.searchMovies(apiKey = apiKey, title = query)
                 if (apiResponse.errorMessage.isEmpty()) {
                     db.withTransaction {
                         db.imdbSearchDao.insertAll(apiResponse.results)
-                        data = db.imdbSearchDao.movieByTitle(title)
+                        data = db.imdbSearchDao.movieByTitle(dbQuery)
                     }
                     emit(
                         Resource.Success<List<IMDBSearchResult>>(

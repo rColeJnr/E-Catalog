@@ -67,7 +67,7 @@ class SearchViewModel @Inject constructor(
 
     private fun searchMovies(title: String) {
         viewModelScope.launch {
-            repository.searchMovies(apiKey = imdbKey, title = title).collect { result ->
+            repository.searchMovies(apiKey = imdbKey, query = title).collect { result ->
                 when (result) {
                     is Resource.Error -> {
                         _searchError.postValue(result.message)
