@@ -16,4 +16,9 @@
     <string name="searchLabel">search</string>
     <string name="searchOptions">search options</string>
     <string name="nothing_found">Nothing found, try again. 😓</string>
+    <string name="runtime">runtime</string>
+    <string name="awards">rolling pictures awards</string>
+    <string name="genres">genres</string>
+    <string name="rating">rating</string>
+    <string name="title">similar title</string>
 </resources>
