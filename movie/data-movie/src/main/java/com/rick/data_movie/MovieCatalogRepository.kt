@@ -53,6 +53,7 @@ class MovieCatalogRepository @Inject constructor(
                             data = apiResponse.results
                         )
                     )
+                    emit(Resource.Loading(false))
                 } else {
                     emit(Resource.Error(message = apiResponse.errorMessage))
                     emit(Resource.Loading(false))
