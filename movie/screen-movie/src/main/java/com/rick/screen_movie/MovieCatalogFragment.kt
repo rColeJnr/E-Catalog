@@ -47,6 +47,18 @@ class MovieCatalogFragment : Fragment() {
         view?.findViewById<Toolbar>(R.id.toolbar)
             ?.setupWithNavController(navController, appBarConfiguration)
 
+        initAdapter()
+
+        binding.bindState(
+            uiAction = viewModel.accept,
+            uiState = viewModel.state,
+            pagingData = viewModel.pagingDataFLow
+        )
+
+        return binding.root
+    }
+
+    private fun initAdapter() {
         val glide = Glide.with(requireContext())
 
         adapter =
@@ -64,14 +76,6 @@ class MovieCatalogFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-
-        binding.bindState(
-            uiAction = viewModel.accept,
-            uiState = viewModel.state,
-            pagingData = viewModel.pagingDataFLow
-        )
-
-        return binding.root
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
