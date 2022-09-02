@@ -23,6 +23,7 @@ class SearchViewModel @Inject constructor(
     private val _searchList: MutableLiveData<List<IMDBSearchResult>> by
         lazy { MutableLiveData<List<IMDBSearchResult>>() }
     val searchList: LiveData<List<IMDBSearchResult>> get() = _searchList
+
     val searchState: StateFlow<SearchUiState>
     val searchAction: (SearchUiAction) -> Unit
 
