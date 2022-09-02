@@ -24,7 +24,7 @@ class SearchViewModel @Inject constructor(
     val searchList: LiveData<List<IMDBSearchResult>> get() = _searchList
 
     private val _searchLoading: MutableLiveData<Boolean> by
-        lazy { MutableLiveData<Boolean>() }
+        lazy { MutableLiveData<Boolean>(false) }
     val searchLoading: LiveData<Boolean> get() = _searchLoading
 
     private val _searchError: MutableLiveData<String> by

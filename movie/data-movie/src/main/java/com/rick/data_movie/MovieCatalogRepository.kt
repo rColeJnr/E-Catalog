@@ -39,21 +39,39 @@ class MovieCatalogRepository @Inject constructor(
         ).flow
     }
 
-    suspend fun searchMovies(apiKey: String, title: String): Flow<Resource<List<IMDBSearchResult>>> {
-
+    suspend fun searchMovies(
+        apiKey: String,
+        title: String
+    ): Flow<Resource<List<IMDBSearchResult>>> {
+        var data: List<IMDBSearchResult> = listOf()
         return flow {
-            emit(Resource.Loading(true))
 
+            emit(Resource.Loading(true))
+            db.withTransaction {
+                data = db.imdbSearchDao.movieByTitle(title)
+            }
+            if (data.isNotEmpty()) {
+                emit(
+                    Resource.Success<List<IMDBSearchResult>>(
+                        data = data
+                    )
+                )
+                emit(Resource.Loading(false))
+            }
             try {
                 val apiResponse = imdbApi.searchMovies(apiKey = apiKey, title = title)
                 if (apiResponse.errorMessage.isEmpty()) {
-                    db.imdbSearchDao.insertAll(apiResponse.results)
+                    db.withTransaction {
+                        db.imdbSearchDao.insertAll(apiResponse.results)
+                        data = db.imdbSearchDao.movieByTitle(title)
+                    }
                     emit(
                         Resource.Success<List<IMDBSearchResult>>(
-                            data = apiResponse.results
+                            data = data
                         )
                     )
                     emit(Resource.Loading(false))
+                    emit(Resource.Error(message = apiResponse.errorMessage))
                 } else {
                     emit(Resource.Error(message = apiResponse.errorMessage))
                     emit(Resource.Loading(false))
@@ -65,10 +83,14 @@ class MovieCatalogRepository @Inject constructor(
                 emit(Resource.Error(e.message))
                 emit(Resource.Loading(false))
             }
+
         }
     }
 
-    suspend fun searchSeries(apiKey: String, title: String): Flow<Resource<List<IMDBSearchResult>>> {
+    suspend fun searchSeries(
+        apiKey: String,
+        title: String
+    ): Flow<Resource<List<IMDBSearchResult>>> {
 
         return flow {
             emit(Resource.Loading(true))

@@ -29,11 +29,25 @@
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true" />
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/progress_horizontal"
+            <ProgressBar
+                android:id="@+id/search_progress_bar"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                app:trackColor="@android:color/darker_gray" />
+                android:indeterminate="true"
+                android:layout_gravity="center"
+                style="?android:progressBarStyleHorizontal"
+                />
+
+            <TextView
+                android:id="@+id/search_error_message"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/eight_dimen"
+                android:gravity="center"
+                android:text="@string/nothing_found"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="16sp"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -45,16 +59,5 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/search_entry" />
-
-    <TextView
-        android:id="@+id/emptyList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/sixteen_dimen"
-        android:layout_marginTop="64dp"
-        android:gravity="center"
-        android:text="@string/nothing_found"
-        android:textSize="@dimen/large_text"
-        android:visibility="gone" />
 
 </LinearLayout>

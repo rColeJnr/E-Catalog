@@ -68,7 +68,9 @@ class SearchFragment : Fragment() {
         initAdapter()
 
         binding.bindState(
-            listData = viewModel.searchList,
+            searchList = viewModel.searchList,
+            searchLoading = viewModel.searchLoading,
+            searchError = viewModel.searchError,
             uiAction = viewModel.searchAction,
             uiState = viewModel.searchState,
         )
@@ -87,7 +89,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun FragmentSearchBinding.bindState(
-        listData: LiveData<List<IMDBSearchResult>>,
+        searchList: LiveData<List<IMDBSearchResult>>,
+        searchLoading: LiveData<Boolean>,
+        searchError: LiveData<String>,
         uiAction: (SearchUiAction) -> Unit,
         uiState: StateFlow<SearchUiState>
     ) {
@@ -101,7 +105,9 @@ class SearchFragment : Fragment() {
 
         bindList(
             adapter = searchAdapter,
-            listData = listData
+            searchList = searchList,
+            searchLoading = searchLoading,
+            searchError = searchError,
         )
     }
 
@@ -146,14 +152,32 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun bindList(
+    private fun FragmentSearchBinding.bindList(
         adapter: SearchAdapter,
-        listData: LiveData<List<IMDBSearchResult>>
+        searchList: LiveData<List<IMDBSearchResult>>,
+        searchLoading: LiveData<Boolean>,
+        searchError: LiveData<String>
     ) {
         lifecycleScope.launch {
-            listData.observe(viewLifecycleOwner) {
+            searchList.observe(viewLifecycleOwner) {
                 adapter.searchDiffer.submitList(it)
             }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            searchLoading.observe(viewLifecycleOwner) {
+                if (it) searchProgressBar.visibility = View.VISIBLE
+                else searchProgressBar.visibility = View.GONE
+            }
+
+            searchError.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    searchErrorMessage.visibility = View.VISIBLE
+                } else {
+                    searchErrorMessage.visibility = View.GONE
+                }
+            }
+
         }
     }
 
