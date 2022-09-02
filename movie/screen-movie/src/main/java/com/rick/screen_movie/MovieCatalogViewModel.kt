@@ -23,7 +23,6 @@ class MovieCatalogViewModel @Inject constructor(
      * Stream of immutable states representative of the UI.
      */
 
-    // we don't need this
     val pagingDataFLow: Flow<PagingData<UiModel>>
 
     val state: StateFlow<UiState>
@@ -45,7 +44,7 @@ class MovieCatalogViewModel @Inject constructor(
             .distinctUntilChanged()
             .onStart { emit(UiAction.NavigateToDetails(movie = null)) }
 
-        pagingDataFLow = searchMovies(nyKey).cachedIn(viewModelScope)
+        pagingDataFLow = fetchMovies(nyKey).cachedIn(viewModelScope)
 
         state = navigate.map { UiState(navigatedAway = it.movie != null) }
             .stateIn(
@@ -57,11 +56,9 @@ class MovieCatalogViewModel @Inject constructor(
         accept = { action ->
             viewModelScope.launch { actionStateFlow.emit(action) }
         }
-
     }
 
-
-    private fun searchMovies(key: String): Flow<PagingData<UiModel>> =
+    private fun fetchMovies(key: String): Flow<PagingData<UiModel>> =
         repository.getMovies(key)
             .map { pagingData -> pagingData.map { UiModel.MovieItem(it) } }
             .map {
@@ -91,21 +88,21 @@ class MovieCatalogViewModel @Inject constructor(
                 }
             }
 
-    private var previousDate: LocalDate? = null
-    private fun getMonth(date: String?): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val localDate = if (date != null) {
-            previousDate = LocalDate.parse(date, formatter)
-            previousDate
-        } else if (previousDate == null) {
-            previousDate = LocalDate.now()
-            previousDate
-        } else {
-            previousDate
-        }
-        return localDate!!
-    }
 }
 
+private var previousDate: LocalDate? = null
+private fun getMonth(date: String?): LocalDate {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val localDate = if (date != null) {
+        previousDate = LocalDate.parse(date, formatter)
+        previousDate
+    } else if (previousDate == null) {
+        previousDate = LocalDate.now()
+        previousDate
+    } else {
+        previousDate
+    }
+    return localDate!!
+}
 
-external fun getNYKey(): String
+private external fun getNYKey(): String

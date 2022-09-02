@@ -1,19 +1,21 @@
 package com.rick.screen_movie
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.rick.data_movie.Movie
+import com.bumptech.glide.Glide
+import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
@@ -27,6 +29,11 @@ class MovieCatalogFragment : Fragment() {
     private val viewModel: MovieCatalogViewModel by viewModels()
     private lateinit var adapter: MovieCatalogAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,8 +41,28 @@ class MovieCatalogFragment : Fragment() {
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+
+        view?.findViewById<Toolbar>(R.id.toolbar)
+            ?.setupWithNavController(navController, appBarConfiguration)
+
+        initAdapter()
+
+        binding.bindState(
+            uiAction = viewModel.accept,
+            uiState = viewModel.state,
+            pagingData = viewModel.pagingDataFLow
+        )
+
+        return binding.root
+    }
+
+    private fun initAdapter() {
+        val glide = Glide.with(requireContext())
+
         adapter =
-            MovieCatalogAdapter(requireActivity(), this::onMovieClick)
+            MovieCatalogAdapter(glide, this::onMovieClick)
 
         binding.recyclerView.adapter = adapter.withLoadStateFooter(
             footer = MoviesLoadStateAdapter { adapter.retry() }
@@ -49,14 +76,6 @@ class MovieCatalogFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-
-        binding.bindState(
-            uiAction = viewModel.accept,
-            uiState = viewModel.state,
-            pagingData = viewModel.pagingDataFLow
-        )
-
-        return binding.root
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
@@ -129,6 +148,27 @@ class MovieCatalogFragment : Fragment() {
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(movie)
         findNavController().navigate(action)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.search_options).isVisible = false
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_imdb -> {
+                val action = MovieCatalogFragmentDirections
+                    .actionMovieCatalogFragmentToSearchFragment()
+                findNavController().navigate(action)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {

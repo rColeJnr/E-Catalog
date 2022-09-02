@@ -7,6 +7,7 @@ import com.rick.core.GsonParser
 import com.rick.data_movie.Converters
 import com.rick.data_movie.MovieCatalogApi
 import com.rick.data_movie.MovieCatalogDatabase
+import com.rick.data_movie.imdb.IMDBApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,23 @@ object AppModule {
     @Singleton
     fun providesMovieCatalogApi(): MovieCatalogApi {
         return Retrofit.Builder()
-            .baseUrl(MovieCatalogApi.BASE_URL)
+            .baseUrl(MovieCatalogApi.NY_TIMES_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BASIC
+                    }).build()
+            )
+            .build()
+            .create()
+    }
+
+    @Provides
+    @Singleton
+    fun providesIMDBApi(): IMDBApi {
+        return Retrofit.Builder()
+            .baseUrl(IMDBApi.IMDB_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
