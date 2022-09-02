@@ -70,21 +70,43 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
-    suspend fun getMovieAndSeries(
+    suspend fun getMovieOrSeries(
         apiKey: String,
-        query: String
+        id: String
     ): Flow<Resource<IMDBMovie>> {
 
-        val data: IMDBMovie
-
-        // appending '%' so we can allow other characters to be before and after the query string
-        val dbQuery = "%${query.replace(' ', '%')}%"
+        var data: IMDBMovie? = null
 
         return flow {
-//            emit(Resource.Loading(true))
-//            db.withTransaction {
-//                data = db
-//            }
+            emit(Resource.Loading(true))
+            db.withTransaction {
+                data = db.imdbMovieAndSeriesDao.movieById(id)
+            }
+
+            if (data != null) {
+                emit(Resource.Success<IMDBMovie>(data = data))
+                emit(Resource.Loading(false))
+            }
+            try {
+                val apiResponse = imdbApi.getMovieOrSeries(apiKey = apiKey, id = id)
+                if (apiResponse.errorMessage == null) {
+                    db.withTransaction {
+                        db.imdbMovieAndSeriesDao.insert(apiResponse)
+                        data = db.imdbMovieAndSeriesDao.movieById(id)
+                    }
+                    emit(Resource.Success<IMDBMovie>(data = data))
+                    emit(Resource.Loading(false))
+                } else {
+                    emit(Resource.Error(message = apiResponse.errorMessage))
+                    emit(Resource.Loading(false))
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            }
         }
     }
 
