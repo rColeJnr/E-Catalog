@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_graph"
     app:startDestination="@id/movieCatalogFragment">
 
     <fragment
         android:id="@+id/movieCatalogFragment"
-        android:name="com.rick.screen_movie.MovieCatalogFragment"
-        android:label="MovieCatalogFragment" >
+        android:name="com.rick.screen_movie.MovieCatalogFragment" >
         <action
             android:id="@+id/action_movieCatalogFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
@@ -16,14 +16,24 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
+        <action
+            android:id="@+id/action_movieCatalogFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.rick.screen_movie.MovieDetailsFragment"
-        android:label="MovieDetailsFragment" >
+        android:name="com.rick.screen_movie.MovieDetailsFragment">
         <argument
             android:name="movie"
-            app:argType="com.rick.data_movie.Movie" />
+            app:argType="com.rick.data_movie.ny_times.Movie" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.rick.screen_movie.search_screen.SearchFragment"
+        tools:layout="@layout/fragment_search" />
 
 </navigation>

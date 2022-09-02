@@ -1,5 +1,6 @@
 package com.rick.data_movie
 
+import com.rick.data_movie.ny_times.MovieCatalogDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,7 +14,7 @@ interface MovieCatalogApi {
     ): MovieCatalogDto
 
     companion object {
-        const val BASE_URL = "https://api.nytimes.com/"
+        const val NY_TIMES_BASE_URL = "https://api.nytimes.com/"
     }
 
 }

@@ -6,8 +6,7 @@
 
     <fragment
         android:id="@+id/bookCatalogFragment"
-        android:name="com.rick.screen_book.BookCatalogFragment"
-        android:label="BookCatalogFragment" >
+        android:name="com.rick.screen_book.BookCatalogFragment" >
         <action
             android:id="@+id/action_bookCatalogFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment"
@@ -19,6 +18,5 @@
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
-        android:name="com.rick.screen_book.BookDetailsFragment"
-        android:label="BookDetailsFragment" />
+        android:name="com.rick.screen_book.BookDetailsFragment"/>
 </navigation>

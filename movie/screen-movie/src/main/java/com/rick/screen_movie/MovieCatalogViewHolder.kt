@@ -1,11 +1,11 @@
 package com.rick.screen_movie
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_movie.Movie
+import com.bumptech.glide.RequestManager
+import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogViewHolder(
@@ -15,6 +15,7 @@ class MovieCatalogViewHolder(
     private val title = binding.movieName
     private val rating = binding.movieRating
     private val image = binding.movieImage
+    private val summary = binding.movieSummary
 
     private lateinit var movie: Movie
 
@@ -22,16 +23,18 @@ class MovieCatalogViewHolder(
         binding.root.setOnClickListener(this)
     }
 
-    fun bind(movie: Movie, activity: Activity) {
+    fun bind(glide: RequestManager, movie: Movie) {
         this.movie = movie
         this.title.text = movie.title
+        this.summary.text = movie.summary
+        val resources = itemView.resources
         if (movie.rating.isNotBlank()) {
             this.rating.text =
-                activity.getString(R.string.rated, movie.rating)
+                resources.getString(R.string.rated, movie.rating)
             rating.visibility = View.VISIBLE
         } else rating.visibility = View.INVISIBLE
         if (movie.multimedia.src.isNotBlank()) {
-            com.bumptech.glide.Glide.with(activity)
+            glide
                 .load(movie.multimedia.src)
                 .into(this.image)
         }
@@ -43,8 +46,8 @@ class MovieCatalogViewHolder(
 
     companion object {
         fun create(parent: ViewGroup, onItemClicked: (Movie) -> Unit): MovieCatalogViewHolder {
-            val itemBinding =
-                MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val itemBinding = MovieEntryBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
             return MovieCatalogViewHolder(
                 itemBinding,
                 onItemClicked

@@ -16,7 +16,15 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin" />
+            app:layout_collapseMode="pin">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/toolbar_text"
+                style="@style/MaterialAlertDialog.Material3.Body.Text"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content" />
+            
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
@@ -25,7 +33,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
+            app:navGraph="@navigation/nav_graph"
+            tools:layout="@layout/fragment_search" />
 
     </LinearLayout>
 

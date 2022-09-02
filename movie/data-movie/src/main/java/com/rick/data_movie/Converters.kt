@@ -4,6 +4,9 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
+import com.rick.data_movie.ny_times.Link
+import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times.Multimedia
 
 @ProvidedTypeConverter
 class Converters    (
