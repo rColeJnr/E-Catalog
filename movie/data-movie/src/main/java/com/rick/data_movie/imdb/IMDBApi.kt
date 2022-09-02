@@ -1,5 +1,6 @@
 package com.rick.data_movie.imdb
 
+import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -23,7 +24,7 @@ interface IMDBApi {
         @Query("id") id: String,
         @Query("options") options: String = OPTIONS
 
-    ): IMDBSearchResponse
+    ): IMDBMovie
 
     companion object {
         const val IMDB_BASE_URL = "https://imdb-api.com/"

@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 
 @Dao
-interface IMDBMovieDao {
+interface IMDBMovieAndSeriesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(movie: IMDBMovie)
@@ -16,12 +16,6 @@ interface IMDBMovieDao {
         "SELECT * FROM imdb_movie WHERE " +
                 "id LIKE :queryString"
     )
-    fun movieByTitle(queryString: String): IMDBMovie
-
-    @Query(
-        "SELECT * FROM imdb_movie WHERE " +
-                "title LIKE :queryString"
-    )
-    fun seriesByTitle(queryString: String): IMDBMovie
+    fun movieById(queryString: String): IMDBMovie
 
 }
