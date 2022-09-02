@@ -17,7 +17,7 @@ interface IMDBSearchDao {
                 "title LIKE :queryString or description LIKE :queryString " +
                 "ORDER BY title ASC"
     )
-    suspend fun movieByTitle(queryString: String): List<IMDBSearchResult>
+    fun movieByTitle(queryString: String): List<IMDBSearchResult>
 
     @Query(
         "SELECT * FROM imdb_search_result WHERE " +
