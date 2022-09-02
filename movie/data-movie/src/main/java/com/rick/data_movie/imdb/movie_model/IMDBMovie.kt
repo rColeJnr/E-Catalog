@@ -1,6 +1,11 @@
 package com.rick.data_movie.imdb.movie_model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "imdb_movie")
 data class IMDBMovie(
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val title: String,
     val type: String,

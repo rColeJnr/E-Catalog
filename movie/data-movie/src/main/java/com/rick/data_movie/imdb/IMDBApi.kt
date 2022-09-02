@@ -20,8 +20,9 @@ interface IMDBApi {
     @GET("en/API/Title")
     suspend fun getMovieOrSeries(
         @Query("apiKey") apiKey: String,
-        @Query("id") id : String,
-        @Query("options") options : String = OPTIONS
+        @Query("id") id: String,
+        @Query("options") options: String = OPTIONS
+
     ): IMDBSearchResponse
 
     companion object {

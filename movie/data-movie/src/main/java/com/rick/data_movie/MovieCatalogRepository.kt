@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
 import com.rick.data_movie.imdb.IMDBApi
+import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
@@ -38,6 +39,55 @@ class MovieCatalogRepository @Inject constructor(
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
+
+    suspend fun searchSeries(
+        apiKey: String,
+        query: String
+    ): Flow<Resource<List<IMDBSearchResult>>> = flow {
+        emit(Resource.Loading(true))
+
+        try {
+            val apiResponse = imdbApi.searchSeries(apiKey = apiKey, title = query)
+            db.withTransaction {
+                if (apiResponse.errorMessage.isEmpty()) {
+                    db.imdbSearchDao.insertAll(apiResponse.results)
+                    emit(
+                        Resource.Success<List<IMDBSearchResult>>(
+                            data = db.imdbSearchDao.seriesByTitle(queryString = query)
+                        )
+                    )
+                } else {
+                    emit(Resource.Error(message = apiResponse.errorMessage))
+                    emit(Resource.Loading(false))
+                }
+            }
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message))
+            emit(Resource.Loading(false))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message))
+            emit(Resource.Loading(false))
+        }
+    }
+
+    suspend fun getMovieAndSeries(
+        apiKey: String,
+        query: String
+    ): Flow<Resource<IMDBMovie>> {
+
+        val data: IMDBMovie
+
+        // appending '%' so we can allow other characters to be before and after the query string
+        val dbQuery = "%${query.replace(' ', '%')}%"
+
+        return flow {
+//            emit(Resource.Loading(true))
+//            db.withTransaction {
+//                data = db
+//            }
+        }
+    }
+
 
     suspend fun searchMovies(
         apiKey: String,
@@ -86,39 +136,6 @@ class MovieCatalogRepository @Inject constructor(
                 emit(Resource.Loading(false))
             }
 
-        }
-    }
-
-    suspend fun searchSeries(
-        apiKey: String,
-        title: String
-    ): Flow<Resource<List<IMDBSearchResult>>> {
-
-        return flow {
-            emit(Resource.Loading(true))
-
-            try {
-                val apiResponse = imdbApi.searchSeries(apiKey = apiKey, title = title)
-                db.withTransaction {
-                    if (apiResponse.errorMessage.isEmpty()) {
-                        db.imdbSearchDao.insertAll(apiResponse.results)
-                        emit(
-                            Resource.Success<List<IMDBSearchResult>>(
-                                data = db.imdbSearchDao.seriesByTitle(queryString = title)
-                            )
-                        )
-                    } else {
-                        emit(Resource.Error(message = apiResponse.errorMessage))
-                        emit(Resource.Loading(false))
-                    }
-                }
-            } catch (e: IOException) {
-                emit(Resource.Error(e.message))
-                emit(Resource.Loading(false))
-            } catch (e: HttpException) {
-                emit(Resource.Error(e.message))
-                emit(Resource.Loading(false))
-            }
         }
     }
 
