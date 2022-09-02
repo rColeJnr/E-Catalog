@@ -1,4 +1,4 @@
-package com.rick.screen_movie
+package com.rick.screen_movie.details_screen
 
 import android.annotation.SuppressLint
 import android.os.Bundle
