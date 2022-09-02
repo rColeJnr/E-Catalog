@@ -11,14 +11,21 @@ interface IMDBApi {
         @Query("expression") title : String
     ): IMDBSearchResponse
 
-
     @GET("en/API/SearchSeries")
     suspend fun searchSeries(
         @Query("apiKey") apiKey: String,
         @Query("expression") title : String
     ): IMDBSearchResponse
 
+    @GET("en/API/Title")
+    suspend fun getMovieOrSeries(
+        @Query("apiKey") apiKey: String,
+        @Query("id") id : String,
+        @Query("options") options : String = OPTIONS
+    ): IMDBSearchResponse
+
     companion object {
         const val IMDB_BASE_URL = "https://imdb-api.com/"
+        private const val OPTIONS = "Images,Ratings,"
     }
 }
