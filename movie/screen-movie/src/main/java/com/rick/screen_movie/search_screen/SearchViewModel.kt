@@ -1,6 +1,5 @@
 package com.rick.screen_movie.search_screen
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,10 +18,18 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val imdbKey: String
-    // TODO LIVEDATA
+
     private val _searchList: MutableLiveData<List<IMDBSearchResult>> by
         lazy { MutableLiveData<List<IMDBSearchResult>>() }
     val searchList: LiveData<List<IMDBSearchResult>> get() = _searchList
+
+    private val _searchLoading: MutableLiveData<Boolean> by
+        lazy { MutableLiveData<Boolean>() }
+    val searchLoading: LiveData<Boolean> get() = _searchLoading
+
+    private val _searchError: MutableLiveData<String> by
+        lazy { MutableLiveData<String>() }
+    val searchError: LiveData<String> get() = _searchError
 
     val searchState: StateFlow<SearchUiState>
     val searchAction: (SearchUiAction) -> Unit
@@ -63,7 +70,7 @@ class SearchViewModel @Inject constructor(
             repository.searchMovies(apiKey = imdbKey, title = title).collect { result ->
                 when (result) {
                     is Resource.Error -> {
-                        Log.d("what", "this wongs")
+                        _searchError.postValue(result.message)
                     }
                     is Resource.Loading -> {
 
