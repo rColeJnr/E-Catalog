@@ -65,7 +65,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun searchMovies(title: String) {
+    private fun searchMovies(title: String) {
         viewModelScope.launch {
             repository.searchMovies(apiKey = imdbKey, title = title).collect { result ->
                 when (result) {
@@ -73,7 +73,7 @@ class SearchViewModel @Inject constructor(
                         _searchError.postValue(result.message)
                     }
                     is Resource.Loading -> {
-
+                        _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
                         _searchList.postValue(result.data!!)
@@ -83,7 +83,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun searchSeries(title: String) {
+    private fun searchSeries(title: String) {
         viewModelScope.launch {
             repository.searchSeries(apiKey = imdbKey, title = title).collect { result ->
                     when (result) {
