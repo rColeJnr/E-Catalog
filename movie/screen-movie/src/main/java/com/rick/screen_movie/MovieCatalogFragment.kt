@@ -15,7 +15,6 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
-import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,7 +146,7 @@ class MovieCatalogFragment : Fragment() {
     private fun onMovieClick(movie: Movie) {
         UiAction.NavigateToDetails(movie = movie)
         val action = MovieCatalogFragmentDirections
-            .actionMovieCatalogFragmentToMovieDetailsFragment(movie)
+            .actionMovieCatalogFragmentToMovieDetailsFragment()
         findNavController().navigate(action)
     }
 

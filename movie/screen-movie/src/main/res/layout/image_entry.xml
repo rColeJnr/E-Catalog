@@ -11,13 +11,14 @@
 
         <TextView
             android:id="@+id/image_title"
+            android:hint="IMAGE TITTLE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/movie_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/image_height"
+            android:layout_height="180dp"
             android:src="@drawable/ic_image" />
     </LinearLayout>
 

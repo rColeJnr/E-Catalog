@@ -11,18 +11,20 @@
 
         <TextView
             android:id="@+id/actor_name"
+            android:text="ACTOR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/actor_character"
+            android:text="CHARACTER"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/actor_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/image_height"
+            android:layout_height="150dp"
             android:src="@drawable/ic_image" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/eight_dimen"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/eight_dimen">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,9 +15,6 @@
             android:id="@+id/list_images"
             android:layout_width="match_parent"
             android:layout_height="@dimen/image_height"
-            android:orientation="horizontal"
-            android:src="@drawable/ic_image"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/image_entry" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -92,7 +88,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_actors"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/image_height"
             tools:listitem="@layout/actors_entry" />
 
         <androidx.cardview.widget.CardView
