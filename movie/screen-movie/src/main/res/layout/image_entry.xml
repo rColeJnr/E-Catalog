@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/eight_dimen">
+    android:layout_margin="@dimen/eight_dimen">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/image_title"
-            android:hint="IMAGE TITTLE"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/movie_image"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:src="@drawable/ic_image" />
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:src="@drawable/ic_image"
+            android:contentDescription="asdfs" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
