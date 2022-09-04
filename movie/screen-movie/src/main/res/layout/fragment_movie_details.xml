@@ -33,6 +33,7 @@
             android:layout_marginVertical="2dp"
             android:hint="@string/genres" />
 
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/movie_awards"
             style="@style/TextAppearance.Material3.BodyMedium"
