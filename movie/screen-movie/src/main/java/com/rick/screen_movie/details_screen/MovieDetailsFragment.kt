@@ -36,7 +36,7 @@ class MovieDetailsFragment : Fragment() {
         ),
         Image(
             title = "image 2",
-            "https://image.tmdb.org/t/p/original/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg"
+            "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg"
         ),
         Image(
             title = "image 3",
