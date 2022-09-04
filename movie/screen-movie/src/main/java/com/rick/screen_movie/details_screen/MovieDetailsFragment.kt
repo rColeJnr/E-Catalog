@@ -6,18 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.rick.data_movie.imdb.movie_model.Actor
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.Image
 import com.rick.data_movie.imdb.movie_model.Similar
-import com.rick.screen_movie.databinding.ActorsEntryBinding
+import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
-import com.rick.screen_movie.databinding.ImageEntryBinding
-import com.rick.screen_movie.databinding.SimilarEntryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +23,9 @@ class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var movie: IMDBMovie
+    private lateinit var imagesAdapter: DetailsImagesAdapter
+    private lateinit var actorsAdapter: ActorDetailsAdapter
+    private lateinit var similarsAdapter: SimilarDetailsAdapter
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
@@ -40,178 +40,130 @@ class MovieDetailsFragment : Fragment() {
             movie = safeArgs.movie
         }
 
+        binding.apply {
+            movieSummary.text = getString(R.string.movie_summary)
+            movieGenres.text = "action, adventures, romance"
+            movieAwards.text = "grammy, emmy"
+            moviePublicationDate.text = "12.05.2000"
+            movieRuntime.text = "2.45"
+            imdbChip.text = "8.8"
+            rTomatoesChip.text = "tomatoes"
+            movieDbChip.text = "7"
+            movieBudget.text = "$1.232.454"
+            movieOpenWeekendGross.text = "845.456"
+            movieWorldWideGross.text = "2.345.343"
+        }
+
+        initAdapters()
+
         return binding.root
+    }
+
+    private fun initAdapters() {
+        val glide = Glide.with(requireContext())
+        imagesAdapter = DetailsImagesAdapter(glide)
+        actorsAdapter = ActorDetailsAdapter(glide)
+        similarsAdapter = SimilarDetailsAdapter(glide)
+    }
+
+    private fun FragmentMovieDetailsBinding.bindState(
+        images: LiveData<List<Image>>,
+        actors: LiveData<List<Actor>>,
+        similars: LiveData<List<Similar>>
+    ) {
+        listImages.adapter = imagesAdapter
+        listActors.adapter = actorsAdapter
+        listSimilars.adapter = similarsAdapter
+
+        bindList(
+            imagesAdapter,
+            actorsAdapter,
+            similarsAdapter,
+            images,
+            actors,
+            similars
+        )
+    }
+
+    private fun FragmentMovieDetailsBinding.bindList(
+        imagesAdapter: DetailsImagesAdapter,
+        actorDetailsAdapter: ActorDetailsAdapter,
+        similarDetailsAdapter: SimilarDetailsAdapter,
+        images: LiveData<List<Image>>,
+        actors: LiveData<List<Actor>>,
+        similars: LiveData<List<Similar>>
+    ) {
+
+        val dummyImages = listOf(
+            Image(
+                title = "image 1",
+                "https://image.tmdb.org/t/p/original/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg"
+            ),
+            Image(
+                title = "image 2",
+                "https://image.tmdb.org/t/p/original/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg"
+            ),
+            Image(
+                title = "image 3",
+                "https://image.tmdb.org/t/p/original/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
+            )
+        )
+        val dummyActors = listOf(
+            Actor(
+                "nm0000138",
+                "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg",
+                "Leonardo DiCaprio",
+                "Cobb"
+            ),
+            Actor(
+                "nm0330687",
+                "https://m.media-amazon.com/images/M/MV5BMTY3NTk0NDI3Ml5BMl5BanBnXkFtZTgwNDA3NjY0MjE@._V1_Ratio0.7273_AL_.jpg",
+                "Joseph Gordon-Levitt",
+                "Arthur"
+            ),
+            Actor(
+                "nm0680983",
+                "https://m.media-amazon.com/images/M/MV5BNmNhZmFjM2ItNTlkNi00ZTQ4LTk3NzYtYTgwNTJiMTg4OWQzXkEyXkFqcGdeQXVyMTM1MjAxMDc3._V1_Ratio0.7273_AL_.jpg",
+                "Elliot Page",
+                "Ariadne (as Ellen Page)"
+            )
+        )
+        val dummySimilars = listOf(
+            Similar(
+                "tt0816692",
+                "Interstellar",
+                "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_Ratio0.6763_AL_.jpg",
+                "8.6"
+            ),
+            Similar(
+                "tt0468569",
+                "The Dark Knight",
+                "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_Ratio0.6763_AL_.jpg",
+                "9.0"
+            ),
+            Similar(
+                "tt0137523",
+                "Fight Club",
+                "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_Ratio0.6763_AL_.jpg",
+                "8.8"
+            )
+        )
+
+        lifecycleScope.launchWhenCreated {
+            images.observe(viewLifecycleOwner) {
+                imagesAdapter.imagesDiffer.submitList(dummyImages)
+            }
+            actors.observe(viewLifecycleOwner) {
+                actorDetailsAdapter.actorsDiffer.submitList(dummyActors)
+            }
+            similars.observe(viewLifecycleOwner) {
+                similarDetailsAdapter.similarsDiffer.submitList(dummySimilars)
+            }
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-}
-
-// TODO MERGE ALL ADAPTERS
-class DetailsImagesAdapter(
-    private val glide: RequestManager
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private val diffUtil = object : DiffUtil.ItemCallback<Image>() {
-        override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem.title == newItem.title
-        }
-
-        override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    val imagesDiffer = AsyncListDiffer(this, diffUtil)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ImagesViewHolder.create(parent)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val image = imagesDiffer.currentList[position]
-        (holder as ImagesViewHolder).bind(glide, image)
-    }
-
-    override fun getItemCount(): Int = imagesDiffer.currentList.size
-}
-
-class ImagesViewHolder(binding: ImageEntryBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    private val imageView = binding.movieImage
-    private val imageTitle = binding.imageTitle
-
-    private lateinit var image: Image
-
-    fun bind(glide: RequestManager, image: Image) {
-        this.image = image
-        this.imageTitle.text = image.title
-        if (image.image.isNotEmpty()) {
-            glide
-                .load(image.image)
-                .into(this.imageView)
-        }
-    }
-
-    companion object {
-        fun create(parent: ViewGroup): ImagesViewHolder {
-            val itemBinding = ImageEntryBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            return ImagesViewHolder(itemBinding)
-        }
-    }
-}
-
-
-class ActorDetailsAdapter(
-    private val glide: RequestManager
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private val diffUtil = object : DiffUtil.ItemCallback<Actor>() {
-        override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Actor, newItem: Actor): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    val imagesDiffer = AsyncListDiffer(this, diffUtil)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ImagesViewHolder.create(parent)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val actor = imagesDiffer.currentList[position]
-        (holder as ActorsViewHolder).bind(glide, actor)
-    }
-
-    override fun getItemCount(): Int = imagesDiffer.currentList.size
-}
-
-class ActorsViewHolder(binding: ActorsEntryBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    private val image = binding.actorImage
-    private val name = binding.actorName
-    private val character = binding.actorCharacter
-
-    private lateinit var actor: Actor
-
-    fun bind(glide: RequestManager, actor: Actor) {
-        this.actor = actor
-        this.name.text = actor.name
-        this.character.text = actor.asCharacter
-        if (actor.image.isNotEmpty()) {
-            glide
-                .load(actor.image)
-                .into(this.image)
-        }
-    }
-
-    companion object {
-        fun create(parent: ViewGroup): ActorsViewHolder {
-            val itemBinding = ActorsEntryBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            return ActorsViewHolder(itemBinding)
-        }
-    }
-}
-
-
-class SimilarDetailsAdapter(
-    private val glide: RequestManager
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private val diffUtil = object : DiffUtil.ItemCallback<Similar>() {
-        override fun areItemsTheSame(oldItem: Similar, newItem: Similar): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Similar, newItem: Similar): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    val imagesDiffer = AsyncListDiffer(this, diffUtil)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return SimilarsViewHolder.create(parent)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val similar = imagesDiffer.currentList[position]
-        (holder as SimilarsViewHolder).bind(glide, similar)
-    }
-
-    override fun getItemCount(): Int = imagesDiffer.currentList.size
-}
-
-class SimilarsViewHolder(binding: SimilarEntryBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    private val image = binding.similarImage
-    private val title = binding.similarTitle
-
-    private lateinit var similar: Similar
-
-    fun bind(glide: RequestManager, similar: Similar) {
-        this.similar = similar
-        this.title.text = similar.title
-        if (similar.image.isNotEmpty()) {
-            glide
-                .load(similar.image)
-                .into(this.image)
-        }
-    }
-
-    companion object {
-        fun create(parent: ViewGroup): SimilarsViewHolder {
-            val itemBinding = SimilarEntryBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            return SimilarsViewHolder(itemBinding)
-        }
     }
 }
