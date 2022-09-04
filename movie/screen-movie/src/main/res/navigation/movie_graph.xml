@@ -27,9 +27,6 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment">
-        <argument
-            android:name="movie"
-            app:argType="com.rick.data_movie.imdb.movie_model.IMDBMovie" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

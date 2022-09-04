@@ -139,7 +139,7 @@ class ActorDetailsAdapter(
     val actorsDiffer = AsyncListDiffer(this, diffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ImagesViewHolder.create(parent)
+        return ActorsViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
