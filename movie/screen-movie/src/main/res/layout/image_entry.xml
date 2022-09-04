@@ -4,10 +4,21 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/eight_dimen">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/image_height"
-        android:src="@drawable/ic_image"
-        android:id="@+id/movie_image"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/image_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/movie_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height"
+            android:src="@drawable/ic_image" />
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
