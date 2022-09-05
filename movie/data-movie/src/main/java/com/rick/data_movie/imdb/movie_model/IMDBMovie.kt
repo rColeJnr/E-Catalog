@@ -26,7 +26,7 @@ data class IMDBMovie(
     val languages: String,
     val contentRating: String,
     val ratings: Ratings,
-    val images: Images,
+    val images:  Images,
     val boxOffice: BoxOffice,
     val similars: List<Similar>,
     val errorMessage: String?

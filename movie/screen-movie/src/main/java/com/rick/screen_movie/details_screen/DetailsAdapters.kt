@@ -10,64 +10,36 @@ import com.rick.data_movie.imdb.movie_model.Actor
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.Image
 import com.rick.data_movie.imdb.movie_model.Similar
-import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.ActorsEntryBinding
 import com.rick.screen_movie.databinding.ImageEntryBinding
 import com.rick.screen_movie.databinding.SimilarEntryBinding
-import com.rick.screen_movie.details_screen.ImagesViewHolder.Companion.IMAGES_VIEW_HOLDER
 
-
-abstract class BaseDetailsAdapter(
-    private val viewHolder: Int,
+class DetailsImagesAdapter(
+    private val glide: RequestManager
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    // One thing i could do is pass the diffUtil as a parameter
-    protected val detailsDiffer = AsyncListDiffer(this, DETAILSDIFFER)
+    private val diffUtil = object : DiffUtil.ItemCallback<Image>() {
+        override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
+            return oldItem.title == newItem.title
+        }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (viewHolder){
-            1 -> R.layout.image_entry
-            2 -> R.layout.actors_entry
-            else -> R.layout.similar_entry
+        override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
+            return oldItem == newItem
         }
     }
+
+    val imagesDiffer = AsyncListDiffer(this, diffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            R.layout.image_entry -> {
-                ImagesViewHolder.create(parent)
-            }
-            R.layout.actors_entry -> {
-                ActorsViewHolder.create(parent)
-            }
-            else -> {
-                SimilarsViewHolder.create(parent)
-            }
-        }
+        return ImagesViewHolder.create(parent)
     }
-
-    override fun getItemCount(): Int = detailsDiffer.currentList.size
-
-    companion object {
-        private val DETAILSDIFFER = object : DiffUtil.ItemCallback<IMDBMovie>() {
-            override fun areItemsTheSame(oldItem: IMDBMovie, newItem: IMDBMovie): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: IMDBMovie, newItem: IMDBMovie): Boolean =
-                oldItem == newItem
-        }
-    }
-}
-
-
-class DetailsImagesAdapter( private val glide: RequestManager )
-    : BaseDetailsAdapter(IMAGES_VIEW_HOLDER) {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val image = detailsDiffer.currentList[position]
-        (holder as ImagesViewHolder).bind(glide, image.images)
+        val image = imagesDiffer.currentList[position]
+        (holder as ImagesViewHolder).bind(glide, image)
     }
 
+    override fun getItemCount(): Int = imagesDiffer.currentList.size
 }
 
 class ImagesViewHolder(binding: ImageEntryBinding) :
@@ -93,7 +65,6 @@ class ImagesViewHolder(binding: ImageEntryBinding) :
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return ImagesViewHolder(itemBinding)
         }
-        const val IMAGES_VIEW_HOLDER = 1
     }
 }
 
