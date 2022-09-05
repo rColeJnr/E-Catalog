@@ -17,11 +17,20 @@ class DetailsViewModel(
     private val repository: MovieCatalogRepository
 ): ViewModel() {
 
+    private val imdbKey: String
+
     private val _listImages: MutableLiveData<Image> = MutableLiveData()
     private val listImages: LiveData<Image> get() = _listImages
 
     private val _movingPictures: MutableLiveData<IMDBMovie> = MutableLiveData()
     private val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
+
+    init {
+
+        // Load api_keys
+        System.loadLibrary("movie-keys")
+        imdbKey = getIMDBKey()
+    }
 
     private fun getMovieOrSeries(query: String) {
         viewModelScope.launch{
@@ -34,11 +43,11 @@ class DetailsViewModel(
 
                     }
                     is Resource.Success -> {
-                        _movingPictures.postValue(it.data)
                     }
                 }
             }
         }
     }
 
+    private external fun getIMDBKey(): String
 }
