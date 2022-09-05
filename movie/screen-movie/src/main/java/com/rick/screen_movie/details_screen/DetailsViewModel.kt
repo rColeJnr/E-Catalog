@@ -35,7 +35,6 @@ class DetailsViewModel(
                     }
                     is Resource.Success -> {
                         _movingPictures.postValue(it.data)
-                        it.data?.images
                     }
                 }
             }
