@@ -1,5 +1,9 @@
 package com.rick.data_movie.imdb.movie_model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Ratings(
     val errorMessage: String,
     val filmAffinity: String,
@@ -12,4 +16,4 @@ data class Ratings(
     val title: String,
     val type: String,
     val year: String
-)
+): Parcelable
