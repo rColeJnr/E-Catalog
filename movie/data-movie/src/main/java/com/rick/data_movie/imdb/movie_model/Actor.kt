@@ -1,9 +1,20 @@
 package com.rick.data_movie.imdb.movie_model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
+
+data class ActorDto(
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("image")
+    val image: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("asCharacter")
+    val asCharacter: String
+)
 
 @Parcelize
 data class Actor(

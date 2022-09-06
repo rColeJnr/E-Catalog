@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Posters(
+data class PostersDto(
     @SerializedName("imDbId")
     val imDbId: String,
     @SerializedName("title")
@@ -18,7 +18,7 @@ data class Posters(
     @SerializedName("year")
     val year: String,
     @SerializedName("posters")
-    val posters: List<Poster>,
+    val posters: List<PosterDto>,
     @SerializedName("backdrops")
     val backdrops: List<Backdrop>,
     @SerializedName("errorMessage")

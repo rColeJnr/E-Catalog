@@ -5,8 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-data class Image(
+data class ImageDto(
     @SerializedName("imDbId")
     val imDbId: String,
     @SerializedName("title")
@@ -17,6 +16,13 @@ data class Image(
     val type: String,
     @SerializedName("year")
     val year: String,
+    @SerializedName("items")
+    val items: List<ItemDto>,
+    @SerializedName("errorMessage")
+    val errorMessage: String
+)
+@Parcelize
+data class Image(
     @SerializedName("items")
     val items: List<Item>,
     @SerializedName("errorMessage")
