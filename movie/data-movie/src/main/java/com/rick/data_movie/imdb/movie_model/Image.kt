@@ -21,6 +21,7 @@ data class ImageDto(
     @SerializedName("errorMessage")
     val errorMessage: String
 )
+
 @Parcelize
 data class Image(
     @SerializedName("items")

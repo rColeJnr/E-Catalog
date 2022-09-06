@@ -15,7 +15,6 @@ data class SimilarDto(
     @SerializedName("imDbRating")
     val imDbRating: String
 )
-
 @Parcelize
 data class Similar(
     @SerializedName("id")
