@@ -6,6 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times.toMovieCatalog
 import retrofit2.HttpException
 import java.io.IOException
 

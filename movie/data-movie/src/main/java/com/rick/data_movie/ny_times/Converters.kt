@@ -1,4 +1,4 @@
-package com.rick.data_movie
+package com.rick.data_movie.ny_times
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.core.GsonParser
-import com.rick.data_movie.Converters
+import com.rick.data_movie.ny_times.Converters
 import com.rick.data_movie.MovieCatalogApi
 import com.rick.data_movie.MovieCatalogDatabase
 import com.rick.data_movie.imdb.IMDBApi

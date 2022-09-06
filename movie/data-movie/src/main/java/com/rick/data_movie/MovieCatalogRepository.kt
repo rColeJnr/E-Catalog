@@ -7,6 +7,8 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
 import com.rick.data_movie.imdb.IMDBApi
+import com.rick.data_movie.imdb.movie_model.IMDBMovie
+import com.rick.data_movie.imdb.movie_model.toImdbMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
@@ -87,7 +89,7 @@ class MovieCatalogRepository @Inject constructor(
                 emit(Resource.Loading(false))
             }
             try {
-                val apiResponse = imdbApi.getMovieOrSeries(apiKey = apiKey, id = id)
+                val apiResponse = imdbApi.getMovieOrSeries(apiKey = apiKey, id = id).toImdbMovie()
                 if (apiResponse.errorMessage == null) {
                     db.withTransaction {
                         db.imdbMovieAndSeriesDao.insert(apiResponse)
