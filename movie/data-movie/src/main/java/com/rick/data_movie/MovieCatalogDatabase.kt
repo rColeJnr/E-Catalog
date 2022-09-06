@@ -3,10 +3,12 @@ package com.rick.data_movie
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.rick.data_movie.imdb.IMDBConverters
 import com.rick.data_movie.imdb.IMDBMovieAndSeriesDao
 import com.rick.data_movie.imdb.IMDBSearchDao
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
+import com.rick.data_movie.ny_times.Converters
 import com.rick.data_movie.ny_times.Movie
 
 @Database(

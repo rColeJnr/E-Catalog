@@ -1,4 +1,4 @@
-package com.rick.data_movie
+package com.rick.data_movie.imdb
 
 import android.provider.MediaStore
 import androidx.room.ProvidedTypeConverter
