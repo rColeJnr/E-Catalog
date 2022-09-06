@@ -1,12 +1,12 @@
 package com.rick.data_movie.imdb.movie_model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
 @Parcelize
-data class Country(
+data class CountryDto(
     @SerializedName("key")
     val key: String,
     @SerializedName("value")

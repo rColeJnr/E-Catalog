@@ -5,10 +5,15 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-data class Item(
+data class ItemDto(
     @SerializedName("title")
     val title: String,
+    @SerializedName("image")
+    val image: String
+)
+
+@Parcelize
+data class Item(
     @SerializedName("image")
     val image: String
 ) : Parcelable

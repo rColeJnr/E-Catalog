@@ -1,12 +1,12 @@
 package com.rick.data_movie.imdb.movie_model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
 @Parcelize
-data class Ratings(
+data class RatingsDto(
     @SerializedName("imDbId")
     val imDbId: String,
     @SerializedName("title")
@@ -27,6 +27,20 @@ data class Ratings(
     val rottenTomatoes: String,
     @SerializedName("filmAffinity")
     val filmAffinity: String,
+    @SerializedName("errorMessage")
+    val errorMessage: String
+) : Parcelable
+
+@Parcelize
+data class Ratings(
+    @SerializedName("imDb")
+    val imDb: String,
+    @SerializedName("metacritic")
+    val metacritic: String,
+    @SerializedName("theMovieDb")
+    val theMovieDb: String,
+    @SerializedName("rottenTomatoes")
+    val rottenTomatoes: String,
     @SerializedName("errorMessage")
     val errorMessage: String
 ) : Parcelable

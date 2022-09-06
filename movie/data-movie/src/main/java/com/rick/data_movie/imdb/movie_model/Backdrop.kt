@@ -1,12 +1,11 @@
 package com.rick.data_movie.imdb.movie_model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
-@Parcelize
-data class Backdrop(
+data class BackdropDto(
     @SerializedName("id")
     val id: String,
     @SerializedName("link")
@@ -19,4 +18,14 @@ data class Backdrop(
     val width: Int,
     @SerializedName("height")
     val height: Int
+)
+
+@Parcelize
+data class Backdrop(
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("link")
+    val link: String,
+    @SerializedName("language")
+    val language: String,
 ) : Parcelable

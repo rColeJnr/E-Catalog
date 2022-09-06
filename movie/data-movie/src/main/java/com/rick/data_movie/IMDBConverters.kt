@@ -13,15 +13,16 @@ class IMDBConverters(
 ) {
 
     @TypeConverter
-    fun fromActorListToString(actorList: List<Actor>): String =
+    fun fromActorListToString(actorList: List<ActorDto>): String =
         jsonParser.toJson(
             actorList,
-            object : TypeToken<List<Actor>>() {}.type
+            object : TypeToken<List<ActorDto>>() {}.type
         ) ?: "[]"
 
-    fun fromStringToActorList(actorList: String): List<Actor> =
-        jsonParser.fromJson<ArrayList<Actor>>(actorList,
-            object : TypeToken<ArrayList<Actor>>() {}.type
+    @TypeConverter
+    fun fromStringToActorList(actorList: String): List<ActorDto> =
+        jsonParser.fromJson<ArrayList<ActorDto>>(actorList,
+            object : TypeToken<ArrayList<ActorDto>>() {}.type
         ) ?: emptyList()
 
     @TypeConverter
@@ -31,6 +32,7 @@ class IMDBConverters(
             object : TypeToken<ArrayList<Director>>() {}.type
         ) ?: "[]"
 
+    @TypeConverter
     fun fromStringToDirectorList(directorList: String): List<Director> =
         jsonParser.fromJson<ArrayList<Director>>(directorList,
             object : TypeToken<ArrayList<Director>>() {}.type
@@ -43,6 +45,7 @@ class IMDBConverters(
             object : TypeToken<Ratings>() {}.type
         ) ?: "[]"
 
+    @TypeConverter
     fun fromStringToRatings(ratings: String): Ratings =
         jsonParser.fromJson<Ratings>(ratings,
             object : TypeToken<Ratings>() {}.type
@@ -55,9 +58,10 @@ class IMDBConverters(
             object : TypeToken<MediaStore.Images>() {}.type
         ) ?: "[]"
 
+    @TypeConverter
     fun fromStringToImages(images: String): MediaStore.Images =
-        jsonParser.fromJson<Images>(images,
-            object : TypeToken<Images>() {}.type
+        jsonParser.fromJson<MediaStore.Images>(images,
+            object : TypeToken<MediaStore.Images>() {}.type
         )!!
 
     @TypeConverter
@@ -67,6 +71,7 @@ class IMDBConverters(
             object : TypeToken<BoxOffice>() {}.type
         ) ?: "[]"
 
+    @TypeConverter
     fun fromStringToOffice(boxOffice: String):BoxOffice =
         jsonParser.fromJson<BoxOffice>(boxOffice,
             object : TypeToken<BoxOffice>() {}.type
@@ -79,6 +84,7 @@ class IMDBConverters(
             object : TypeToken<ArrayList<Similar>>() {}.type
         ) ?: "[]"
 
+    @TypeConverter
     fun fromStringToSimilars(similars: String): List<Similar> =
         jsonParser.fromJson<ArrayList<Similar>>(similars,
             object : TypeToken<ArrayList<Similar>>() {}.type

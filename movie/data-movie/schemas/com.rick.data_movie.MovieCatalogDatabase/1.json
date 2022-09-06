@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "047a4fc14e2c6dcf06d208b5fe0244b1",
+    "identityHash": "03ea01cc64170240a767a8a49bf89bab",
     "entities": [
       {
         "tableName": "movies_db",
@@ -62,7 +62,7 @@
       },
       {
         "tableName": "imdb_movie",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `year` TEXT NOT NULL, `image` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `runtimeStr` TEXT NOT NULL, `plot` TEXT NOT NULL, `awards` TEXT NOT NULL, `actorList` TEXT NOT NULL, `genres` TEXT NOT NULL, `directorList` TEXT NOT NULL, `companies` TEXT NOT NULL, `countries` TEXT NOT NULL, `languages` TEXT NOT NULL, `contentRating` TEXT NOT NULL, `ratings` TEXT NOT NULL, `images` TEXT NOT NULL, `boxOffice` TEXT NOT NULL, `similars` TEXT NOT NULL, `errorMessage` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `originalTitle` TEXT NOT NULL, `fullTitle` TEXT NOT NULL, `type` TEXT NOT NULL, `year` TEXT NOT NULL, `image` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `runtimeMins` TEXT, `runtimeStr` TEXT, `plot` TEXT NOT NULL, `plotLocal` TEXT NOT NULL, `plotLocalIsRtl` INTEGER NOT NULL, `awards` TEXT NOT NULL, `directors` TEXT NOT NULL, `directorList` TEXT NOT NULL, `writers` TEXT NOT NULL, `writerList` TEXT NOT NULL, `stars` TEXT NOT NULL, `starList` TEXT NOT NULL, `actorList` TEXT NOT NULL, `genres` TEXT NOT NULL, `genreList` TEXT NOT NULL, `companies` TEXT NOT NULL, `companyList` TEXT NOT NULL, `countries` TEXT NOT NULL, `countryList` TEXT NOT NULL, `languages` TEXT NOT NULL, `languageList` TEXT NOT NULL, `contentRating` TEXT NOT NULL, `imDbRating` TEXT NOT NULL, `imDbRatingVotes` TEXT NOT NULL, `metacriticRating` TEXT NOT NULL, `ratings` TEXT NOT NULL, `posters` TEXT NOT NULL, `images` TEXT NOT NULL, `boxOffice` TEXT NOT NULL, `keywords` TEXT NOT NULL, `keywordList` TEXT NOT NULL, `similars` TEXT NOT NULL, `tvSeriesInfo` TEXT, `errorMessage` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -73,6 +73,18 @@
           {
             "fieldPath": "title",
             "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "originalTitle",
+            "columnName": "originalTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullTitle",
+            "columnName": "fullTitle",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -101,10 +113,16 @@
             "notNull": true
           },
           {
+            "fieldPath": "runtimeMins",
+            "columnName": "runtimeMins",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "runtimeStr",
             "columnName": "runtimeStr",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "plot",
@@ -113,8 +131,56 @@
             "notNull": true
           },
           {
+            "fieldPath": "plotLocal",
+            "columnName": "plotLocal",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plotLocalIsRtl",
+            "columnName": "plotLocalIsRtl",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "awards",
             "columnName": "awards",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "directors",
+            "columnName": "directors",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "directorList",
+            "columnName": "directorList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "writers",
+            "columnName": "writers",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "writerList",
+            "columnName": "writerList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stars",
+            "columnName": "stars",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "starList",
+            "columnName": "starList",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -131,8 +197,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "directorList",
-            "columnName": "directorList",
+            "fieldPath": "genreList",
+            "columnName": "genreList",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -143,8 +209,20 @@
             "notNull": true
           },
           {
+            "fieldPath": "companyList",
+            "columnName": "companyList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "countries",
             "columnName": "countries",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryList",
+            "columnName": "countryList",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -155,14 +233,44 @@
             "notNull": true
           },
           {
+            "fieldPath": "languageList",
+            "columnName": "languageList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "contentRating",
             "columnName": "contentRating",
             "affinity": "TEXT",
             "notNull": true
           },
           {
+            "fieldPath": "imDbRating",
+            "columnName": "imDbRating",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imDbRatingVotes",
+            "columnName": "imDbRatingVotes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metacriticRating",
+            "columnName": "metacriticRating",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "ratings",
             "columnName": "ratings",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posters",
+            "columnName": "posters",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -179,10 +287,28 @@
             "notNull": true
           },
           {
+            "fieldPath": "keywords",
+            "columnName": "keywords",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keywordList",
+            "columnName": "keywordList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "similars",
             "columnName": "similars",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "tvSeriesInfo",
+            "columnName": "tvSeriesInfo",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "errorMessage",
@@ -202,23 +328,11 @@
       },
       {
         "tableName": "imdb_search_result",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `description` TEXT NOT NULL, `image` TEXT NOT NULL, `resultType` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `resultType` TEXT NOT NULL, `image` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "image",
-            "columnName": "image",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -229,16 +343,26 @@
             "notNull": true
           },
           {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "title",
             "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": [],
           "autoGenerate": false
         },
         "indices": [],
@@ -280,7 +404,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '047a4fc14e2c6dcf06d208b5fe0244b1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '03ea01cc64170240a767a8a49bf89bab')"
     ]
   }
 }
