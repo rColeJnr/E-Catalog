@@ -16,7 +16,6 @@ data class BoxOfficeDto(
     @SerializedName("cumulativeWorldwideGross")
     val cumulativeWorldwideGross: String
 )
-
 @Parcelize
 data class BoxOffice(
     @SerializedName("budget")

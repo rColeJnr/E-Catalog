@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
+
 data class RatingsDto(
     @SerializedName("imDbId")
     val imDbId: String,
@@ -29,7 +29,7 @@ data class RatingsDto(
     val filmAffinity: String,
     @SerializedName("errorMessage")
     val errorMessage: String
-) : Parcelable
+)
 
 @Parcelize
 data class Ratings(

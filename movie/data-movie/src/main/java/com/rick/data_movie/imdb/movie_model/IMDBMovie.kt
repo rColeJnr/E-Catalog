@@ -97,34 +97,7 @@ data class IMDBMovieDto(
     val tvEpisodeInfo: Any?,
     @SerializedName("errorMessage")
     val errorMessage: String?
-) {
-    fun toImdbMovie(): IMDBMovie =
-        IMDBMovie(
-            id,
-            title,
-            type,
-            year,
-            image,
-            releaseDate,
-            runtimeStr,
-            plot,
-            awards,
-            directors,
-            writers,
-            actorList.toActorList(),
-            genres,
-            companies,
-            countries,
-            languages,
-            ratings.toRatings(),
-            images.toImages(),
-            boxOffice.toBoxOffice(),
-            similars.toSimilars(),
-            tvSeriesInfo.toTvSeriesInfo(),
-            errorMessage
-        )
-}
-
+)
 
 @Parcelize
 @Entity(tableName = "imdb_movie")
