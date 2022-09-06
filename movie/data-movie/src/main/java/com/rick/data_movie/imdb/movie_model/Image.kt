@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Posters(
+data class Image(
     @SerializedName("imDbId")
     val imDbId: String,
     @SerializedName("title")
@@ -17,10 +17,8 @@ data class Posters(
     val type: String,
     @SerializedName("year")
     val year: String,
-    @SerializedName("posters")
-    val posters: List<Poster>,
-    @SerializedName("backdrops")
-    val backdrops: List<Backdrop>,
+    @SerializedName("items")
+    val items: List<Item>,
     @SerializedName("errorMessage")
     val errorMessage: String
 ) : Parcelable

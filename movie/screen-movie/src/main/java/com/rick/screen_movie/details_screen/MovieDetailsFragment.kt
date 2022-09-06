@@ -1,6 +1,5 @@
 package com.rick.screen_movie.details_screen
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rick.data_movie.imdb.movie_model.Actor
-import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.Image
-import com.rick.data_movie.imdb.movie_model.Similar
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,8 +26,61 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var imagesAdapter: DetailsImagesAdapter
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
+    val dummyImages = listOf(
+        Image(
+            title = "image 1",
+            "https://image.tmdb.org/t/p/original/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg"
+        ),
+        Image(
+            title = "image 2",
+            "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg"
+        ),
+        Image(
+            title = "image 3",
+            "https://image.tmdb.org/t/p/original/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
+        )
+    )
+    val dummyActors = listOf(
+        Actor(
+            "nm0000138",
+            "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg",
+            "Leonardo DiCaprio",
+            "Cobb"
+        ),
+        Actor(
+            "nm0330687",
+            "https://m.media-amazon.com/images/M/MV5BMTY3NTk0NDI3Ml5BMl5BanBnXkFtZTgwNDA3NjY0MjE@._V1_Ratio0.7273_AL_.jpg",
+            "Joseph Gordon-Levitt",
+            "Arthur"
+        ),
+        Actor(
+            "nm0680983",
+            "https://m.media-amazon.com/images/M/MV5BNmNhZmFjM2ItNTlkNi00ZTQ4LTk3NzYtYTgwNTJiMTg4OWQzXkEyXkFqcGdeQXVyMTM1MjAxMDc3._V1_Ratio0.7273_AL_.jpg",
+            "Elliot Page",
+            "Ariadne (as Ellen Page)"
+        )
+    )
+    val dummySimilars = listOf(
+        Similar(
+            "tt0816692",
+            "Interstellar",
+            "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_Ratio0.6763_AL_.jpg",
+            "8.6"
+        ),
+        Similar(
+            "tt0468569",
+            "The Dark Knight",
+            "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_Ratio0.6763_AL_.jpg",
+            "9.0"
+        ),
+        Similar(
+            "tt0137523",
+            "Fight Club",
+            "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_Ratio0.6763_AL_.jpg",
+            "8.8"
+        )
+    )
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,7 +110,9 @@ class MovieDetailsFragment : Fragment() {
         initAdapters()
 
         binding.bindState(
-
+            liveData{ dummyImages },
+            liveData { dummyActors},
+            liveData{ dummySimilars }
         )
 
         return binding.root
@@ -79,9 +130,12 @@ class MovieDetailsFragment : Fragment() {
         actors: LiveData<List<Actor>>,
         similars: LiveData<List<Similar>>
     ) {
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val layoutManager2 = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val layoutManager3 = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager2 =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager3 =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         listImages.layoutManager = layoutManager
         listActors.layoutManager = layoutManager2
         listSimilars.layoutManager = layoutManager3

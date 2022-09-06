@@ -1,6 +1,5 @@
 package com.rick.data_movie.imdb
 
-import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import retrofit2.http.GET
 import retrofit2.http.Query
 

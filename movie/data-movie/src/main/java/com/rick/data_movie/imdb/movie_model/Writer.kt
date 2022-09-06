@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 
 @Parcelize
-data class Star(
+data class Writer(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")

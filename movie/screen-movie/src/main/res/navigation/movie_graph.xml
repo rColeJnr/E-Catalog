@@ -27,6 +27,10 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment">
+
+        <argument
+            android:name="movieId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
