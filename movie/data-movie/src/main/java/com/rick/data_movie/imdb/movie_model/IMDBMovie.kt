@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class IMDBMoVIE(
+data class IMDBMovie(
     @SerializedName("id")
     val id: String,
     @SerializedName("title")
