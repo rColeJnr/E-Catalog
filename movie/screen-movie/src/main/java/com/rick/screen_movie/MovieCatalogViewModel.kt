@@ -28,12 +28,14 @@ class MovieCatalogViewModel @Inject constructor(
     val state: StateFlow<UiState>
     val accept: (UiAction) -> Unit
     private val nyKey: String
+    private val imdbKey: String
 
     init {
 
         // Load api_keys
         System.loadLibrary("movie-keys")
         nyKey = getNYKey()
+        imdbKey = getIMDBKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
 //        val refresh = actionStateFlow
@@ -88,6 +90,11 @@ class MovieCatalogViewModel @Inject constructor(
                 }
             }
 
+    private fun getMovieId(query: String): String {
+        viewModelScope.launch{
+        }
+        return ""
+    }
 }
 
 private var previousDate: LocalDate? = null
@@ -106,3 +113,4 @@ private fun getMonth(date: String?): LocalDate {
 }
 
 private external fun getNYKey(): String
+private external fun getIMDBKey(): String

@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
-import com.rick.data_movie.imdb.movie_model.Actor
-import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.Image
-import com.rick.data_movie.imdb.movie_model.Similar
 import com.rick.screen_movie.databinding.ActorsEntryBinding
 import com.rick.screen_movie.databinding.ImageEntryBinding
 import com.rick.screen_movie.databinding.SimilarEntryBinding

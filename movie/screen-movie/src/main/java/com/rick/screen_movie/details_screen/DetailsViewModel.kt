@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.Image
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -20,10 +19,10 @@ class DetailsViewModel(
     private val imdbKey: String
 
     private val _listImages: MutableLiveData<Image> = MutableLiveData()
-    private val listImages: LiveData<Image> get() = _listImages
+    val listImages: LiveData<Image> get() = _listImages
 
     private val _movingPictures: MutableLiveData<IMDBMovie> = MutableLiveData()
-    private val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
+    val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
 
     init {
 
@@ -32,7 +31,7 @@ class DetailsViewModel(
         imdbKey = getIMDBKey()
     }
 
-    private fun getMovieOrSeries(query: String) {
+    fun getMovieOrSeries(query: String) {
         viewModelScope.launch{
             repository.getMovieOrSeries("", query).collectLatest {
                 when (it) {

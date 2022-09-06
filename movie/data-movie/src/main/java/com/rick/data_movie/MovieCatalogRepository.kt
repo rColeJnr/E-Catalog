@@ -7,7 +7,6 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
 import com.rick.data_movie.imdb.IMDBApi
-import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
