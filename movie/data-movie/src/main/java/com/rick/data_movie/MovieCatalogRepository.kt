@@ -25,6 +25,8 @@ class MovieCatalogRepository @Inject constructor(
     private val imdbApi: IMDBApi,
 ) {
 
+    // TODO This could be separated into use cases in the next clean up branch
+
     fun getMovies(key: String): Flow<PagingData<Movie>> {
 
         val pagingSourceFactory = { db.moviesDao.getMovies() }
@@ -205,7 +207,6 @@ class MovieCatalogRepository @Inject constructor(
                 emit(Resource.Error(e.message))
                 emit(Resource.Loading(false))
             }
-
         }
     }
 
