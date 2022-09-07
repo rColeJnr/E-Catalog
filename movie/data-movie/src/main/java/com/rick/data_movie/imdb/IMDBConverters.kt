@@ -1,6 +1,5 @@
 package com.rick.data_movie.imdb
 
-import android.provider.MediaStore
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
@@ -13,30 +12,30 @@ class IMDBConverters(
 ) {
 
     @TypeConverter
-    fun fromActorListToString(actorList: List<ActorDto>): String =
+    fun fromActorListToString(actorList: List<Actor>): String =
         jsonParser.toJson(
             actorList,
-            object : TypeToken<List<ActorDto>>() {}.type
+            object : TypeToken<List<Actor>>() {}.type
         ) ?: "[]"
 
     @TypeConverter
-    fun fromStringToActorList(actorList: String): List<ActorDto> =
-        jsonParser.fromJson<ArrayList<ActorDto>>(actorList,
-            object : TypeToken<ArrayList<ActorDto>>() {}.type
+    fun fromStringToActorList(actorList: String): List<Actor> =
+        jsonParser.fromJson<ArrayList<Actor>>(actorList,
+            object : TypeToken<ArrayList<Actor>>() {}.type
         ) ?: emptyList()
 
     @TypeConverter
-    fun fromDirectorListToString(directorList: List<Director>): String =
+    fun fromTvSeriesInfoToString(info: TvSeriesInfo): String =
         jsonParser.toJson(
-            directorList,
-            object : TypeToken<ArrayList<Director>>() {}.type
+            info,
+            object : TypeToken<TvSeriesInfo>() {}.type
         ) ?: "[]"
 
     @TypeConverter
-    fun fromStringToDirectorList(directorList: String): List<Director> =
-        jsonParser.fromJson<ArrayList<Director>>(directorList,
-            object : TypeToken<ArrayList<Director>>() {}.type
-        ) ?: emptyList()
+    fun fromStringToTvSeriesInfo(info: String): TvSeriesInfo? =
+        jsonParser.fromJson<TvSeriesInfo>(info,
+            object : TypeToken<TvSeriesInfo>() {}.type
+        )
 
     @TypeConverter
     fun fromRatingsToString(ratings: Ratings): String =
@@ -52,16 +51,16 @@ class IMDBConverters(
         )!!
 
     @TypeConverter
-    fun fromImagesToString(images: MediaStore.Images): String =
+    fun fromImagesToString(images: Image): String =
         jsonParser.toJson(
             images,
-            object : TypeToken<MediaStore.Images>() {}.type
+            object : TypeToken<Image>() {}.type
         ) ?: "[]"
 
     @TypeConverter
-    fun fromStringToImages(images: String): MediaStore.Images =
-        jsonParser.fromJson<MediaStore.Images>(images,
-            object : TypeToken<MediaStore.Images>() {}.type
+    fun fromStringToImages(images: String): Image =
+        jsonParser.fromJson<Image>(images,
+            object : TypeToken<Image>() {}.type
         )!!
 
     @TypeConverter
