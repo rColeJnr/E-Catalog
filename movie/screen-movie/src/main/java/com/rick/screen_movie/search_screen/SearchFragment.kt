@@ -81,7 +81,8 @@ class SearchFragment : Fragment() {
     private fun initAdapter() {
         val glide = Glide.with(requireContext())
         searchAdapter = SearchAdapter(
-            glide
+            glide,
+            this::onMovieClick
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -177,8 +178,12 @@ class SearchFragment : Fragment() {
                     searchErrorMessage.visibility = View.GONE
                 }
             }
-
         }
+    }
+
+    private fun onMovieClick(movie: IMDBSearchResult) {
+        val action = SearchFragmentDirections.actionSearchFragmentToMovieDetailsFragment(movie.id)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {
@@ -187,7 +192,7 @@ class SearchFragment : Fragment() {
     }
 }
 
-class SearchAdapter(private val glide: RequestManager) :
+class SearchAdapter(private val glide: RequestManager, private val onItemClicked: (IMDBSearchResult) -> Unit) :
     RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
@@ -209,7 +214,7 @@ class SearchAdapter(private val glide: RequestManager) :
     val searchDiffer = AsyncListDiffer(this, searchDiffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        return SearchViewHolder.create(parent)
+        return SearchViewHolder.create(parent, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
@@ -223,10 +228,15 @@ class SearchAdapter(private val glide: RequestManager) :
 
 class SearchViewHolder(
     binding: SearchEntryBinding,
-) : RecyclerView.ViewHolder(binding.root) {
+    private val onItemClicked: (IMDBSearchResult) -> Unit
+) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     private val image = binding.image
     private val title = binding.title
     private val description = binding.description
+
+    init {
+        binding.root.setOnClickListener(this)
+    }
 
     private lateinit var searchResult: IMDBSearchResult
 
@@ -239,11 +249,15 @@ class SearchViewHolder(
             .into(this.image)
     }
 
+    override fun onClick(v: View?) {
+        onItemClicked(searchResult)
+    }
+
     companion object {
-        fun create(parent: ViewGroup): SearchViewHolder {
+        fun create(parent: ViewGroup, onItemClicked: (IMDBSearchResult) -> Unit): SearchViewHolder {
             val itemBinding = SearchEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
-            return SearchViewHolder(itemBinding)
+            return SearchViewHolder(itemBinding, onItemClicked)
         }
     }
 }
