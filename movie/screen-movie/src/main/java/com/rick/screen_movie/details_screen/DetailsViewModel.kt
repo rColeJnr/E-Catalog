@@ -19,6 +19,9 @@ class DetailsViewModel @Inject constructor(
 
     private val imdbKey: String
 
+    private val _movingPicturesId : MutableLiveData<String> = MutableLiveData()
+    val movingPicturesId : LiveData<String> get() = _movingPicturesId
+
     private val _movingPictures: MutableLiveData<IMDBMovie> = MutableLiveData()
     val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
 
@@ -27,6 +30,7 @@ class DetailsViewModel @Inject constructor(
         // Load api_keys
         System.loadLibrary("movie-keys")
         imdbKey = getIMDBKey()
+
 
     }
 
@@ -41,7 +45,7 @@ class DetailsViewModel @Inject constructor(
 
                     }
                     is Resource.Success -> {
-                        _movingPictures.postValue(it.data!!)
+                        _movingPictures.value = it.data!!
                     }
                 }
             }

@@ -38,11 +38,11 @@ class MovieDetailsFragment : Fragment() {
             viewModel.getMovieOrSeries(safeArgs.movieId)
         }
 
+        initAdapters()
+
         binding.bindState(
             viewModel.movingPictures
         )
-
-        initAdapters()
 
         return binding.root
     }
