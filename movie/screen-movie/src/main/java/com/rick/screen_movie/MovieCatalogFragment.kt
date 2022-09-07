@@ -151,9 +151,8 @@ class MovieCatalogFragment : Fragment() {
         searchViewModel.movieOrSeries.observe(viewLifecycleOwner){
             findNavController()
                 .navigate(MovieCatalogFragmentDirections
-                    .actionMovieCatalogFragmentToMovieDetailsFragment(it.title))
+                    .actionMovieCatalogFragmentToMovieDetailsFragment(it.id))
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
