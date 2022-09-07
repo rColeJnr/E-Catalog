@@ -2,6 +2,7 @@ package com.rick.data_movie.imdb.search_model
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -9,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class IMDBSearchResult(
     @field:SerializedName("id")
-    val id: String,
+    @PrimaryKey (autoGenerate = false) val id: String,
     @field:SerializedName("resultType")
     val resultType: String,
     @field:SerializedName("image")

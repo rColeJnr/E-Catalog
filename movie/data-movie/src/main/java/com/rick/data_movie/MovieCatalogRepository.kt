@@ -111,7 +111,6 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
-
     suspend fun searchMovies(
         apiKey: String,
         query: String
