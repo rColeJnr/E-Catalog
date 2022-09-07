@@ -25,10 +25,10 @@ class IMDBConverters(
         ) ?: emptyList()
 
     @TypeConverter
-    fun fromTvSeriesInfoToString(info: TvSeriesInfo): String =
+    fun fromTvSeriesInfoToString(info: TvSeriesInfo?): String =
         jsonParser.toJson(
             info,
-            object : TypeToken<TvSeriesInfo>() {}.type
+            object : TypeToken<TvSeriesInfo?>() {}.type
         ) ?: "[]"
 
     @TypeConverter

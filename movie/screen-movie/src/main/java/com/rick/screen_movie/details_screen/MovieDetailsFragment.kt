@@ -1,22 +1,17 @@
 package com.rick.screen_movie.details_screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.rick.data_movie.imdb.movie_model.Actor
-import com.rick.data_movie.imdb.movie_model.Image
 import com.rick.data_movie.imdb.movie_model.Item
 import com.rick.data_movie.imdb.movie_model.Similar
-import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,63 +20,10 @@ class MovieDetailsFragment : Fragment() {
 
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var movieId: String
     private val viewModel: DetailsViewModel by viewModels()
     private lateinit var imagesAdapter: DetailsImagesAdapter
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
-
-    val dummyImages = listOf(
-        Item(
-            "https://image.tmdb.org/t/p/original/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg"
-        ),
-        Item(
-            "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg"
-        ),
-        Item(
-            "https://image.tmdb.org/t/p/original/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
-        )
-    )
-    val dummyActors = listOf(
-        Actor(
-            "nm0000138",
-            "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg",
-            "Leonardo DiCaprio",
-            "Cobb"
-        ),
-        Actor(
-            "nm0330687",
-            "https://m.media-amazon.com/images/M/MV5BMTY3NTk0NDI3Ml5BMl5BanBnXkFtZTgwNDA3NjY0MjE@._V1_Ratio0.7273_AL_.jpg",
-            "Joseph Gordon-Levitt",
-            "Arthur"
-        ),
-        Actor(
-            "nm0680983",
-            "https://m.media-amazon.com/images/M/MV5BNmNhZmFjM2ItNTlkNi00ZTQ4LTk3NzYtYTgwNTJiMTg4OWQzXkEyXkFqcGdeQXVyMTM1MjAxMDc3._V1_Ratio0.7273_AL_.jpg",
-            "Elliot Page",
-            "Ariadne (as Ellen Page)"
-        )
-    )
-    val dummySimilars = listOf(
-        Similar(
-            "tt0816692",
-            "Interstellar",
-            "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_Ratio0.6763_AL_.jpg",
-            "8.6"
-        ),
-        Similar(
-            "tt0468569",
-            "The Dark Knight",
-            "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_Ratio0.6763_AL_.jpg",
-            "9.0"
-        ),
-        Similar(
-            "tt0137523",
-            "Fight Club",
-            "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_Ratio0.6763_AL_.jpg",
-            "8.8"
-        )
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,30 +34,33 @@ class MovieDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
-            movieId = safeArgs.movieId
+            viewModel.setMovieOrSeriesId(safeArgs.movieId)
         }
 
-        binding.apply {
-            movieSummary.text = getString(R.string.movie_summary)
-            movieGenres.text = "action, adventures, romance"
-            movieAwards.text = "grammy, emmy"
-            moviePublicationDate.text = "12.05.2000"
-            movieRuntime.text = "2.45"
-            imdbChip.text = "8.8"
-            rTomatoesChip.text = "tomatoes"
-            movieDbChip.text = "7"
-            movieBudget.text = "$1.232.454"
-            movieOpenWeekendGross.text = "845.456"
-            movieWorldWideGross.text = "2.345.343"
+        viewModel.movingPictures.observe(viewLifecycleOwner) {
+            binding.apply {
+                movieSummary.text = it.plot
+                movieGenres.text = it.genres
+                movieAwards.text = it.awards
+                moviePublicationDate.text = it.releaseDate
+                movieRuntime.text = it.runtimeStr
+                imdbChip.text = it.ratings.imDb
+                rTomatoesChip.text = it.ratings.rottenTomatoes
+                movieDbChip.text = it.ratings.theMovieDb
+                movieBudget.text = it.boxOffice.budget
+                movieOpenWeekendGross.text = it.boxOffice.openingWeekendUSA
+                movieWorldWideGross.text = it.boxOffice.cumulativeWorldwideGross
+
+                bindState(
+                    it.images.items,
+                    it.actorList,
+                    it.similars
+                )
+            }
         }
+
 
         initAdapters()
-
-        binding.bindState(
-            liveData{ dummyImages },
-            liveData { dummyActors},
-            liveData{ dummySimilars }
-        )
 
         return binding.root
     }
@@ -128,9 +73,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun FragmentMovieDetailsBinding.bindState(
-        images: LiveData<List<Image>>,
-        actors: LiveData<List<Actor>>,
-        similars: LiveData<List<Similar>>
+        images: List<Item>,
+        actors: List<Actor>,
+        similars: List<Similar>
     ) {
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -159,21 +104,17 @@ class MovieDetailsFragment : Fragment() {
         imagesAdapter: DetailsImagesAdapter,
         actorDetailsAdapter: ActorDetailsAdapter,
         similarDetailsAdapter: SimilarDetailsAdapter,
-        images: LiveData<List<Image>>,
-        actors: LiveData<List<Actor>>,
-        similars: LiveData<List<Similar>>
+        images: List<Item>,
+        actors: List<Actor>,
+        similars: List<Similar>
     ) {
 
         lifecycleScope.launchWhenCreated {
-            images.observe(viewLifecycleOwner) {
-            }
-            imagesAdapter.imagesDiffer.submitList(dummyImages)
-            actorDetailsAdapter.actorsDiffer.submitList(dummyActors)
-            actors.observe(viewLifecycleOwner) {
-            }
-            similarDetailsAdapter.similarsDiffer.submitList(dummySimilars)
-            similars.observe(viewLifecycleOwner) {
-            }
+
+            imagesAdapter.imagesDiffer.submitList(images)
+            actorDetailsAdapter.actorsDiffer.submitList(actors)
+            similarDetailsAdapter.similarsDiffer.submitList(similars)
+
         }
     }
 
@@ -182,3 +123,56 @@ class MovieDetailsFragment : Fragment() {
         _binding = null
     }
 }
+
+
+//    val dummyImages = listOf(
+//        Item(
+//            "https://image.tmdb.org/t/p/original/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg"
+//        ),
+//        Item(
+//            "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg"
+//        ),
+//        Item(
+//            "https://image.tmdb.org/t/p/original/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
+//        )
+//    )
+//    val dummyActors = listOf(
+//        Actor(
+//            "nm0000138",
+//            "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg",
+//            "Leonardo DiCaprio",
+//            "Cobb"
+//        ),
+//        Actor(
+//            "nm0330687",
+//            "https://m.media-amazon.com/images/M/MV5BMTY3NTk0NDI3Ml5BMl5BanBnXkFtZTgwNDA3NjY0MjE@._V1_Ratio0.7273_AL_.jpg",
+//            "Joseph Gordon-Levitt",
+//            "Arthur"
+//        ),
+//        Actor(
+//            "nm0680983",
+//            "https://m.media-amazon.com/images/M/MV5BNmNhZmFjM2ItNTlkNi00ZTQ4LTk3NzYtYTgwNTJiMTg4OWQzXkEyXkFqcGdeQXVyMTM1MjAxMDc3._V1_Ratio0.7273_AL_.jpg",
+//            "Elliot Page",
+//            "Ariadne (as Ellen Page)"
+//        )
+//    )
+//    val dummySimilars = listOf(
+//        Similar(
+//            "tt0816692",
+//            "Interstellar",
+//            "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_Ratio0.6763_AL_.jpg",
+//            "8.6"
+//        ),
+//        Similar(
+//            "tt0468569",
+//            "The Dark Knight",
+//            "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_Ratio0.6763_AL_.jpg",
+//            "9.0"
+//        ),
+//        Similar(
+//            "tt0137523",
+//            "Fight Club",
+//            "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_Ratio0.6763_AL_.jpg",
+//            "8.8"
+//        )
+//    )
