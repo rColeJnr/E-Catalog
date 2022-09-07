@@ -1,6 +1,7 @@
 package com.rick.screen_movie.details_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rick.data_movie.imdb.movie_model.*
+import com.rick.data_movie.imdb.movie_model.Actor
+import com.rick.data_movie.imdb.movie_model.Image
+import com.rick.data_movie.imdb.movie_model.Item
+import com.rick.data_movie.imdb.movie_model.Similar
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,7 +1,6 @@
 package com.rick.screen_movie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
@@ -148,12 +147,12 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun onMovieClick(movie: Movie) {
-        var searchResult = ""
-        searchViewModel.searchAction.invoke(SearchUiAction.SearchMovie(movie.title))
-        searchViewModel.searchList.observe(viewLifecycleOwner){
-            searchResult = it.first().title
+        searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
+        searchViewModel.movieOrSeries.observe(viewLifecycleOwner){
+            findNavController()
+                .navigate(MovieCatalogFragmentDirections
+                    .actionMovieCatalogFragmentToMovieDetailsFragment(it.title))
         }
-        Log.d("TAGG", "TITLE $searchResult")
 
     }
 

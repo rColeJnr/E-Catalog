@@ -161,6 +161,54 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
+    suspend fun searchExactMatch(
+        apiKey: String,
+        query: String
+    ): Flow<Resource<List<IMDBSearchResult>>> {
+        var data: List<IMDBSearchResult> = listOf()
+        return flow {
+
+            emit(Resource.Loading(true))
+            db.withTransaction {
+                data = db.imdbSearchDao.movieByTitle(query)
+            }
+            if (data.isNotEmpty()) {
+                emit(
+                    Resource.Success<List<IMDBSearchResult>>(
+                        data = data
+                    )
+                )
+                emit(Resource.Loading(false))
+            }
+            try {
+                val apiResponse = imdbApi.searchMovies(apiKey = apiKey, title = query)
+                if (apiResponse.errorMessage.isEmpty()) {
+                    db.withTransaction {
+                        db.imdbSearchDao.insertAll(apiResponse.results)
+                        data = db.imdbSearchDao.movieByTitle(query)
+                    }
+                    emit(
+                        Resource.Success<List<IMDBSearchResult>>(
+                            data = data
+                        )
+                    )
+                    emit(Resource.Loading(false))
+                    emit(Resource.Error(message = apiResponse.errorMessage))
+                } else {
+                    emit(Resource.Error(message = apiResponse.errorMessage))
+                    emit(Resource.Loading(false))
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            }
+
+        }
+    }
+
 }
 
 
