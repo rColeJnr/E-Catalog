@@ -1,6 +1,9 @@
 package com.rick.screen_movie.details_screen
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
@@ -16,8 +19,6 @@ class DetailsViewModel @Inject constructor(
 
     private val imdbKey: String
 
-    private var movieOrSeriesId: MutableLiveData<String> = MutableLiveData()
-
     private val _movingPictures: MutableLiveData<IMDBMovie> = MutableLiveData()
     val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
 
@@ -27,23 +28,11 @@ class DetailsViewModel @Inject constructor(
         System.loadLibrary("movie-keys")
         imdbKey = getIMDBKey()
 
-        // Simplify, you over thought this
-        // if i were this code i wouldn't even run
-        viewModelScope.launch{
-            movieOrSeriesId.asFlow().collectLatest {
-                getMovieOrSeries()
-            }
-        }
-
     }
 
-    fun setMovieOrSeriesId(id: String) {
-        movieOrSeriesId.value = id
-    }
-
-    private fun getMovieOrSeries() {
+    fun getMovieOrSeries(id: String) {
         viewModelScope.launch{
-            repository.getMovieOrSeries(imdbKey, movieOrSeriesId.value.toString()).collectLatest {
+            repository.getMovieOrSeries(imdbKey, id).collectLatest {
                 when (it) {
                     is Resource.Error -> {
 
