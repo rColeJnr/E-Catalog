@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rick.data_movie.imdb.movie_model.Image
+import com.rick.data_movie.imdb.movie_model.*
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,22 +21,20 @@ class MovieDetailsFragment : Fragment() {
 
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var movie: IMDBMovie
+    private lateinit var movieId: String
     private val viewModel: DetailsViewModel by viewModels()
     private lateinit var imagesAdapter: DetailsImagesAdapter
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
+
     val dummyImages = listOf(
-        Image(
-            title = "image 1",
+        Item(
             "https://image.tmdb.org/t/p/original/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg"
         ),
-        Image(
-            title = "image 2",
+        Item(
             "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg"
         ),
-        Image(
-            title = "image 3",
+        Item(
             "https://image.tmdb.org/t/p/original/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
         )
     )
@@ -88,10 +86,10 @@ class MovieDetailsFragment : Fragment() {
     ): View {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
 
-//        arguments?.let {
-//            val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
-//            movie = safeArgs.movie
-//        }
+        arguments?.let {
+            val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
+            movieId = safeArgs.movieId
+        }
 
         binding.apply {
             movieSummary.text = getString(R.string.movie_summary)

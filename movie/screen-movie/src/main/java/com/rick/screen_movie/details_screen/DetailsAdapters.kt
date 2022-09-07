@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
-import com.rick.data_movie.imdb.movie_model.Image
+import com.rick.data_movie.imdb.movie_model.Actor
+import com.rick.data_movie.imdb.movie_model.Item
+import com.rick.data_movie.imdb.movie_model.Similar
 import com.rick.screen_movie.databinding.ActorsEntryBinding
 import com.rick.screen_movie.databinding.ImageEntryBinding
 import com.rick.screen_movie.databinding.SimilarEntryBinding
@@ -15,12 +17,12 @@ class DetailsImagesAdapter(
     private val glide: RequestManager
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Image>() {
-        override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem.title == newItem.title
+    private val diffUtil = object : DiffUtil.ItemCallback<Item>() {
+        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem.image == newItem.image
         }
 
-        override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
             return oldItem == newItem
         }
     }
@@ -44,11 +46,11 @@ class ImagesViewHolder(binding: ImageEntryBinding) :
     private val imageView = binding.movieImage
     private val imageTitle = binding.imageTitle
 
-    private lateinit var image: Image
+    private lateinit var image: Item
 
-    fun bind(glide: RequestManager, image: Image) {
+    fun bind(glide: RequestManager, image: Item) {
         this.image = image
-        this.imageTitle.text = image.title
+        this.imageTitle.text = "No info for you"
         if (image.image.isNotEmpty()) {
             glide
                 .load(image.image)

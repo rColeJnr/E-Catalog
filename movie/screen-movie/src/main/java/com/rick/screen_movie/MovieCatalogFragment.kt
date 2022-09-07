@@ -148,9 +148,13 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun onMovieClick(movie: Movie) {
-        searchViewModel.searchAction.invoke(SearchUiAction.SearchMovie("Shark"))
-        val test = searchViewModel.searchList.value?.firstOrNull()
-        Log.d("TAGGG", "movie -> ${test?.title}")
+        var searchResult = ""
+        searchViewModel.searchAction.invoke(SearchUiAction.SearchMovie(movie.title))
+        searchViewModel.searchList.observe(viewLifecycleOwner){
+            searchResult = it.first().title
+        }
+        Log.d("TAGG", "TITLE $searchResult")
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

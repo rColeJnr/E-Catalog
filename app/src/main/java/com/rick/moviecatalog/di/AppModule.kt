@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.core.GsonParser
-import com.rick.data_movie.ny_times.Converters
 import com.rick.data_movie.MovieCatalogApi
 import com.rick.data_movie.MovieCatalogDatabase
 import com.rick.data_movie.imdb.IMDBApi
+import com.rick.data_movie.imdb.IMDBConverters
+import com.rick.data_movie.ny_times.Converters
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -64,6 +65,7 @@ object AppModule {
             MovieCatalogDatabase::class.java,
             MovieCatalogDatabase.DATABASE_NAME
         ).addTypeConverter(Converters(GsonParser(Gson())))
+            .addTypeConverter(IMDBConverters(GsonParser(Gson())))
             .fallbackToDestructiveMigration()
             .build()
 
