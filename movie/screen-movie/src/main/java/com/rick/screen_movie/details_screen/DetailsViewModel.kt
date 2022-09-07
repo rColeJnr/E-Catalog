@@ -11,9 +11,10 @@ import com.rick.data_movie.imdb.movie_model.Image
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewModel(
+class DetailsViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ): ViewModel() {
 
