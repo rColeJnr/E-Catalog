@@ -92,7 +92,7 @@ class SearchViewModel @Inject constructor(
 
     private fun getMovieOrSeries(title: String) {
         viewModelScope.launch {
-            repository.searchExactMatch(apiKey = imdbKey, query = title).collect { result ->
+            repository.searchExactMatch(apiKey = imdbKey, query = title).collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
                         _searchError.postValue(result.message)
