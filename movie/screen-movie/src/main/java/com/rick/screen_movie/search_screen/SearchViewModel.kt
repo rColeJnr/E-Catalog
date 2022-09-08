@@ -19,7 +19,7 @@ class SearchViewModel @Inject constructor(
 
     private val imdbKey: String
 
-    private val _movieOrSeries: MutableLiveData<IMDBSearchResult> by
+    val _movieOrSeries: MutableLiveData<IMDBSearchResult> by
         lazy { MutableLiveData<IMDBSearchResult>() }
     val movieOrSeries: LiveData<IMDBSearchResult> get() = _movieOrSeries
 
@@ -52,8 +52,8 @@ class SearchViewModel @Inject constructor(
         val searchSeries =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
-        viewModelScope.launch{ searchMovie.collectLatest { searchMovies(it.title) } }
         viewModelScope.launch{ searchExactMovieOrSeries.collectLatest { getMovieOrSeries(it.title) } }
+        viewModelScope.launch{ searchMovie.collectLatest { searchMovies(it.title) } }
 
         searchState = combine(
             searchMovie, searchSeries, ::Pair
