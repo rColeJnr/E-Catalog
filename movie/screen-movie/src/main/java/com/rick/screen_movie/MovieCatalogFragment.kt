@@ -152,7 +152,9 @@ class MovieCatalogFragment : Fragment() {
             findNavController()
                 .navigate(MovieCatalogFragmentDirections
                     .actionMovieCatalogFragmentToMovieDetailsFragment(it.id))
+
         }
+        searchViewModel._movieOrSeries.postValue(null)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
