@@ -44,13 +44,11 @@ class DetailsImagesAdapter(
 class ImagesViewHolder(binding: ImageEntryBinding) :
     RecyclerView.ViewHolder(binding.root) {
     private val imageView = binding.movieImage
-    private val imageTitle = binding.imageTitle
 
     private lateinit var image: Item
 
     fun bind(glide: RequestManager, image: Item) {
         this.image = image
-        this.imageTitle.text = "No info for you"
         if (image.image.isNotEmpty()) {
             glide
                 .load(image.image)
