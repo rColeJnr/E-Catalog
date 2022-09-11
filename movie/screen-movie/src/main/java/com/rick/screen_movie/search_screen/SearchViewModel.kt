@@ -19,7 +19,7 @@ class SearchViewModel @Inject constructor(
 
     private val imdbKey: String
 
-    val _movieOrSeries: MutableLiveData<IMDBSearchResult> by
+    private val _movieOrSeries: MutableLiveData<IMDBSearchResult> by
         lazy { MutableLiveData<IMDBSearchResult>() }
     val movieOrSeries: LiveData<IMDBSearchResult> get() = _movieOrSeries
 
