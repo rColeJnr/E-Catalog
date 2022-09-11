@@ -22,4 +22,5 @@
     <string name="rating">rating</string>
     <string name="title">similar title</string>
     <string name="no_title">No Title</string>
+    <string name="movie_title">Movie Title</string>
 </resources>
