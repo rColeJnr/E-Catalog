@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/eight_dimen"
         android:maxLines="2"
+        android:hint="@string/no_title"
         android:text="@string/error_message"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
