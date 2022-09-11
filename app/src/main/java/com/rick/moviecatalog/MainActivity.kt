@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == com.rick.screen_movie.R.id.searchFragment) {
+            if (destination.id == com.rick.screen_movie.R.id.searchFragment
+                || destination.id == com.rick.screen_movie.R.id.movieDetailsFragment) {
                 toolbar.visibility = View.GONE
             } else {
                 toolbar.visibility = View.VISIBLE

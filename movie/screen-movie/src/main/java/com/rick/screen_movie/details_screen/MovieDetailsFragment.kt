@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.rick.data_movie.imdb.movie_model.Actor
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.Item
 import com.rick.data_movie.imdb.movie_model.Similar
+import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,11 +27,6 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var imagesAdapter: DetailsImagesAdapter
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +41,13 @@ class MovieDetailsFragment : Fragment() {
         }
 
         initAdapters()
+
+        binding.toolbar.apply {
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
 
         binding.bindState(
             viewModel.movingPictures
@@ -102,7 +106,7 @@ class MovieDetailsFragment : Fragment() {
             movieBudget.text = imdb.boxOffice.budget
             movieOpenWeekendGross.text = imdb.boxOffice.openingWeekendUSA
             movieWorldWideGross.text = imdb.boxOffice.cumulativeWorldwideGross
-
+            movieTitle.text = imdb.title
             imagesAdapter.imagesDiffer.submitList(imdb.images.items)
             actorDetailsAdapter.actorsDiffer.submitList(imdb.actorList)
             similarDetailsAdapter.similarsDiffer.submitList(imdb.similars)
