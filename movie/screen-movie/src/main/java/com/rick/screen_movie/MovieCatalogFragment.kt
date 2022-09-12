@@ -20,8 +20,6 @@ import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import com.rick.screen_movie.search_screen.SearchUiAction
 import com.rick.screen_movie.search_screen.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -149,17 +147,15 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun onMovieClick(movie: Movie) {
-        CoroutineScope(Dispatchers.Main).launch{
-            searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
-            searchViewModel.movieOrSeries.observe(viewLifecycleOwner) {
-                if(searchViewModel.navigate.value!!) {
-                    findNavController()
-                        .navigate(
-                            MovieCatalogFragmentDirections
-                                .actionMovieCatalogFragmentToMovieDetailsFragment(it.id)
-                        )
-                    searchViewModel.navigated()
-                }
+        searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
+        searchViewModel.movieOrSeries.observe(viewLifecycleOwner) {
+            if (searchViewModel.navigate.value!!) {
+                findNavController()
+                    .navigate(
+                        MovieCatalogFragmentDirections
+                            .actionMovieCatalogFragmentToMovieDetailsFragment(it.id)
+                    )
+                searchViewModel.navigated()
             }
         }
     }
