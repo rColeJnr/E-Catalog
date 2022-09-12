@@ -16,11 +16,11 @@
     <string name="searchLabel">search</string>
     <string name="searchOptions">search options</string>
     <string name="nothing_found">Nothing found, try again. 😓</string>
-    <string name="runtime">runtime</string>
-    <string name="awards">rolling pictures awards</string>
-    <string name="genres">genres</string>
-    <string name="rating">rating</string>
-    <string name="title">similar title</string>
+    <string name="runtime">Runtime: %1$s</string>
+    <string name="awards">Awards: %1$s</string>
+    <string name="genres">Genre: %1$s</string>
+    <string name="rating">Rating</string>
+    <string name="title">Similar titles</string>
     <string name="no_title">No Title</string>
     <string name="movie_title">Movie Title</string>
 </resources>
