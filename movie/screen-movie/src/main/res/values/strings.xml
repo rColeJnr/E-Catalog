@@ -31,4 +31,7 @@
     <string name="actor_name">Actor name</string>
     <string name="actor_image">actor image</string>
     <string name="ratings">Ratings:</string>
+    <string name="actors">Actors</string>
+    <string name="box_office">Box office</string>
+    <string name="similar_titles">Similar titles</string>
 </resources>
