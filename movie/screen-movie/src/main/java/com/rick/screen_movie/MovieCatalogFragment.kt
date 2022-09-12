@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -150,21 +149,18 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun onMovieClick(movie: Movie) {
-        searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
-        var imdbId = ""
-        var navigate = false
         CoroutineScope(Dispatchers.Main).launch{
-            searchViewModel.movieOrSeries.asFlow().collectLatest {
-                imdbId = it.id
-                navigate = true
+            searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
+            searchViewModel.movieOrSeries.observe(viewLifecycleOwner) {
+                if(searchViewModel.navigate.value!!) {
+                    findNavController()
+                        .navigate(
+                            MovieCatalogFragmentDirections
+                                .actionMovieCatalogFragmentToMovieDetailsFragment(it.id)
+                        )
+                    searchViewModel.navigated()
+                }
             }
-        }
-        if (navigate){
-            findNavController()
-                .navigate(
-                    MovieCatalogFragmentDirections
-                        .actionMovieCatalogFragmentToMovieDetailsFragment(imdbId)
-                )
         }
     }
 
