@@ -20,19 +20,22 @@ class SearchViewModel @Inject constructor(
     private val imdbKey: String
 
     private val _movieOrSeries: MutableLiveData<IMDBSearchResult> by
-        lazy { MutableLiveData<IMDBSearchResult>() }
+    lazy { MutableLiveData<IMDBSearchResult>() }
     val movieOrSeries: LiveData<IMDBSearchResult> get() = _movieOrSeries
 
+    private val _navigate: MutableLiveData<Boolean> = MutableLiveData(false)
+    val navigate: LiveData<Boolean> get() = _navigate
+
     private val _searchList: MutableLiveData<List<IMDBSearchResult>> by
-        lazy { MutableLiveData<List<IMDBSearchResult>>() }
+    lazy { MutableLiveData<List<IMDBSearchResult>>() }
     val searchList: LiveData<List<IMDBSearchResult>> get() = _searchList
 
     private val _searchLoading: MutableLiveData<Boolean> by
-        lazy { MutableLiveData<Boolean>(false) }
+    lazy { MutableLiveData<Boolean>(false) }
     val searchLoading: LiveData<Boolean> get() = _searchLoading
 
     private val _searchError: MutableLiveData<String> by
-        lazy { MutableLiveData<String>() }
+    lazy { MutableLiveData<String>() }
     val searchError: LiveData<String> get() = _searchError
 
     val searchState: StateFlow<SearchUiState>
@@ -48,12 +51,17 @@ class SearchViewModel @Inject constructor(
         val searchMovie =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchMovie>().distinctUntilChanged()
         val searchExactMovieOrSeries =
-            actionStateFlow.filterIsInstance<SearchUiAction.SearchExactMovieOrSeries>().distinctUntilChanged()
+            actionStateFlow.filterIsInstance<SearchUiAction.SearchExactMovieOrSeries>()
+                .distinctUntilChanged()
         val searchSeries =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
-        viewModelScope.launch{ searchExactMovieOrSeries.collectLatest { getMovieOrSeries(it.title) } }
-        viewModelScope.launch{ searchMovie.collectLatest { searchMovies(it.title) } }
+        viewModelScope.launch {
+            searchExactMovieOrSeries.collectLatest {
+                getMovieOrSeries(it.title)
+            }
+        }
+        viewModelScope.launch { searchMovie.collectLatest { searchMovies(it.title) } }
 
         searchState = combine(
             searchMovie, searchSeries, ::Pair
@@ -62,10 +70,10 @@ class SearchViewModel @Inject constructor(
                 movieQuery = movie.title, seriesQuery = series.title
             )
         }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
-                initialValue = SearchUiState()
-            )
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
+            initialValue = SearchUiState()
+        )
 
         searchAction = { action ->
             viewModelScope.launch { actionStateFlow.emit(action) }
@@ -101,6 +109,7 @@ class SearchViewModel @Inject constructor(
                         _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
+                        _navigate.value = true
                         _movieOrSeries.postValue(result.data!!.first())
                     }
                 }
@@ -108,15 +117,19 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun navigated(){
+        _navigate.value = false
+    }
+
     private fun searchSeries(title: String) {
         viewModelScope.launch {
             repository.searchSeries(apiKey = imdbKey, query = title).collect { result ->
-                    when (result) {
-                        is Resource.Error -> TODO()
-                        is Resource.Loading -> TODO()
-                        is Resource.Success -> TODO()
-                    }
+                when (result) {
+                    is Resource.Error -> TODO()
+                    is Resource.Loading -> TODO()
+                    is Resource.Success -> TODO()
                 }
+            }
         }
     }
 
