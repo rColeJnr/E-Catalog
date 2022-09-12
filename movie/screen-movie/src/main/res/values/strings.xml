@@ -27,7 +27,7 @@
     <string name="budget">Budget: %1$s</string>
     <string name="open_week_gross">Open week gross: %1$s</string>
     <string name="world_wide_gross">World wide gross: %1$s</string>
-    <string name="as_character">as: %1$s</string>
+    <string name="as_character">Playing: %1$s</string>
     <string name="actor_name">Actor name</string>
     <string name="actor_image">actor image</string>
     <string name="ratings">Ratings:</string>
