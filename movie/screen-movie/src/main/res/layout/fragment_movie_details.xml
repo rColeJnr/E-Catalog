@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:showDividers="none"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
@@ -23,7 +24,7 @@
 
                 <TextView
                     android:id="@+id/movie_title"
-                    style="?attr/textAppearanceBodyMedium"
+                    style="@style/TextAppearance.Material3.TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -42,17 +43,15 @@
                 style="?attr/textAppearanceBodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
+                android:layout_marginVertical="@dimen/two_dimen"
                 android:hint="@string/movie_summary"
                 android:textSize="18sp" />
-
-            <View style="@style/Divider.Horizontal" />
             
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_genres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
+                android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/genres" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -60,7 +59,7 @@
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
+                android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/release_date" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -68,7 +67,7 @@
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
+                android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/runtime" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -76,22 +75,23 @@
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
+                android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/awards" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp"
+                android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/ratings" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/six_dimen"
                 android:layout_gravity="center_horizontal"
                 android:layoutDirection="locale"
-                app:chipSpacing="@dimen/eight_dimen"
+                app:chipSpacingHorizontal="@dimen/eight_dimen"
                 app:singleLine="true">
 
                 <com.google.android.material.chip.Chip
@@ -114,13 +114,28 @@
 
             </com.google.android.material.chip.ChipGroup>
 
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/actors" />
+
             <View style="@style/Divider.Horizontal" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_actors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/six_dimen"
                 tools:listitem="@layout/actors_entry" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/box_office" />
 
             <View style="@style/Divider.Horizontal" />
 
@@ -140,7 +155,15 @@
                 android:id="@+id/movie_world_wide_gross"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/six_dimen"
                 android:text="@string/world_wide_gross" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/similar_titles" />
 
             <View style="@style/Divider.Horizontal" />
 
