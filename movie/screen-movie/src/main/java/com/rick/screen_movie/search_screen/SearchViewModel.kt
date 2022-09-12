@@ -52,7 +52,7 @@ class SearchViewModel @Inject constructor(
             actionStateFlow.filterIsInstance<SearchUiAction.SearchMovie>().distinctUntilChanged()
         val searchExactMovieOrSeries =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchExactMovieOrSeries>()
-//                .distinctUntilChanged()
+                .distinctUntilChanged()
         val searchSeries =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
@@ -109,8 +109,8 @@ class SearchViewModel @Inject constructor(
                         _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
-                        _navigate.value = true
                         _movieOrSeries.postValue(result.data!!.first())
+                        _navigate.value = true
                     }
                 }
             }
