@@ -46,6 +46,8 @@
                 android:hint="@string/movie_summary"
                 android:textSize="18sp" />
 
+            <View style="@style/Divider.Horizontal" />
+            
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_genres"
                 android:layout_width="match_parent"
@@ -112,11 +114,15 @@
 
             </com.google.android.material.chip.ChipGroup>
 
+            <View style="@style/Divider.Horizontal" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_actors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/actors_entry" />
+
+            <View style="@style/Divider.Horizontal" />
 
             <TextView
                 android:id="@+id/movie_budget"
@@ -135,6 +141,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/world_wide_gross" />
+
+            <View style="@style/Divider.Horizontal" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_similars"
