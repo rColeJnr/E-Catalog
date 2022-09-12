@@ -9,6 +9,7 @@ import com.bumptech.glide.RequestManager
 import com.rick.data_movie.imdb.movie_model.Actor
 import com.rick.data_movie.imdb.movie_model.Item
 import com.rick.data_movie.imdb.movie_model.Similar
+import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.ActorsEntryBinding
 import com.rick.screen_movie.databinding.ImageEntryBinding
 import com.rick.screen_movie.databinding.SimilarEntryBinding
@@ -155,11 +156,10 @@ class ActorsViewHolder(binding: ActorsEntryBinding) :
 
     private lateinit var actor: Actor
 
-    // TODO() FIND a way to get strings or pass activity again
     fun bind(glide: RequestManager, actor: Actor) {
         this.actor = actor
         this.name.text = actor.name
-        this.character.text = "playing: ${actor.asCharacter}"
+        this.character.text = this.itemView.context.getString(R.string.as_character, actor.asCharacter)
         if (actor.image.isNotEmpty()) {
             glide
                 .load(actor.image)
