@@ -2,12 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/eight_dimen">
+    android:layout_marginEnd="@dimen/two_dimen">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/movie_image"
-            android:layout_width="wrap_content"
-            android:layout_height="250dp"
-            android:src="@drawable/ic_image" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/movie_image"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:src="@drawable/ic_image" />
 
 </androidx.cardview.widget.CardView>

@@ -6,140 +6,144 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/eight_dimen">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            app:layout_collapseMode="none">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="none">
+
+                <TextView
+                    android:id="@+id/movie_title"
+                    style="?attr/textAppearanceBodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:hint="@string/movie_title" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/image_entry" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movie_summary"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:hint="@string/movie_summary"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movie_genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:text="@string/genres" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movie_publication_date"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:text="@string/release_date" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movie_runtime"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:text="@string/runtime" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movie_awards"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:text="@string/awards" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:text="@string/ratings" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layoutDirection="locale"
+                app:chipSpacing="@dimen/eight_dimen"
+                app:singleLine="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/imdb_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/imdb_rating" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/r_tomatoes_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tomato_rating" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/movie_db_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/db_rating" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_actors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/actors_entry" />
 
             <TextView
+                android:id="@+id/movie_budget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/movie_title"
-                android:id="@+id/movie_title"
-                android:layout_gravity="center"/>
+                android:text="@string/budget" />
 
-        </androidx.appcompat.widget.Toolbar>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/image_entry" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movie_summary"
-            style="?attr/textAppearanceBodyMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="2dp"
-            android:hint="@string/movie_summary"
-            android:textSize="18sp" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movie_genres"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="2dp"
-            android:hint="@string/genres" />
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movie_awards"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="2dp"
-            android:hint="@string/awards" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movie_publication_date"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="2dp"
-            android:hint="@string/movie_published_on" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movie_runtime"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="2dp"
-            android:hint="@string/runtime" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_rating_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="locale"
-            app:chipSpacing="@dimen/sixteen_dimen"
-            app:singleLine="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/imdb_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rating" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/r_tomatoes_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rating" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/movie_db_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rating" />
-
-        </com.google.android.material.chip.ChipGroup>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_actors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/actors_entry" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/movie_open_weekend_gross"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="@string/open_week_gross" />
 
-                <TextView
-                    android:id="@+id/movie_budget"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/movie_world_wide_gross"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/world_wide_gross" />
 
-                <TextView
-                    android:id="@+id/movie_open_weekend_gross"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_similars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/similar_entry" />
 
-                <TextView
-                    android:id="@+id/movie_world_wide_gross"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+        </LinearLayout>
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_similars"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/similar_entry" />
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.core.widget.NestedScrollView>

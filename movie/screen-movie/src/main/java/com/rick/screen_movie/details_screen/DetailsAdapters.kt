@@ -155,10 +155,11 @@ class ActorsViewHolder(binding: ActorsEntryBinding) :
 
     private lateinit var actor: Actor
 
+    // TODO() FIND a way to get strings or pass activity again
     fun bind(glide: RequestManager, actor: Actor) {
         this.actor = actor
         this.name.text = actor.name
-        this.character.text = actor.asCharacter
+        this.character.text = "playing: ${actor.asCharacter}"
         if (actor.image.isNotEmpty()) {
             glide
                 .load(actor.image)

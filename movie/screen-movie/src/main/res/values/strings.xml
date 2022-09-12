@@ -3,9 +3,8 @@
     <string name="error_message">Не удалось загрузить данные</string>
     <string name="error_toast_message">"Проведите по экрану, чтобы обновить, произошла ошибка: %1$s"</string>
     <string name="no_more_movies">No more movies</string>
-    <string name="release_date">Release date:</string>
+    <string name="release_date">Release date: %1$s</string>
     <string name="rated">Rated: %1$s</string>
-    <string name="movie_published_on">Movie published on: %1$s</string>
     <string name="read_article">Read the complete movie article: \n%1$s</string>
     <string name="no_rating">no rating</string>
     <string name="movie_summary">Movie summary, this movie is about a young boy who once dreamed to be a software developer for facebook, and it\'s on a daily pursuit of said dream</string>
@@ -19,8 +18,17 @@
     <string name="runtime">Runtime: %1$s</string>
     <string name="awards">Awards: %1$s</string>
     <string name="genres">Genre: %1$s</string>
-    <string name="rating">Rating</string>
+    <string name="imdb_rating">imdb: %1$s</string>
+    <string name="tomato_rating">r_tomatoes: %1$s</string>
+    <string name="db_rating">movie db: %1$s</string>
     <string name="title">Similar titles</string>
     <string name="no_title">No Title</string>
     <string name="movie_title">Movie Title</string>
+    <string name="budget">Budget: %1$s</string>
+    <string name="open_week_gross">Open week gross: %1$s</string>
+    <string name="world_wide_gross">World wide gross: %1$s</string>
+    <string name="as_character">as: %1$s</string>
+    <string name="actor_name">Actor name</string>
+    <string name="actor_image">actor image</string>
+    <string name="ratings">Ratings:</string>
 </resources>

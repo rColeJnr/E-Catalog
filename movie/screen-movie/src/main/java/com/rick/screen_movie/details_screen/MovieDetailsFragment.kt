@@ -96,16 +96,16 @@ class MovieDetailsFragment : Fragment() {
 
         movie.observe(viewLifecycleOwner) { imdb: IMDBMovie ->
             movieSummary.text = imdb.plot
-            movieGenres.text = imdb.genres
-            movieAwards.text = imdb.awards
-            moviePublicationDate.text = imdb.releaseDate
-            movieRuntime.text = imdb.runtimeStr
-            imdbChip.text = imdb.ratings.imDb
-            rTomatoesChip.text = imdb.ratings.rottenTomatoes
-            movieDbChip.text = imdb.ratings.theMovieDb
-            movieBudget.text = imdb.boxOffice.budget
-            movieOpenWeekendGross.text = imdb.boxOffice.openingWeekendUSA
-            movieWorldWideGross.text = imdb.boxOffice.cumulativeWorldwideGross
+            movieGenres.text = resources.getString(R.string.genres, imdb.genres)
+            movieAwards.text = resources.getString(R.string.awards, imdb.awards)
+            moviePublicationDate.text = resources.getString(R.string.release_date, imdb.releaseDate)
+            movieRuntime.text = resources.getString(R.string.runtime, imdb.runtimeStr)
+            imdbChip.text = resources.getString(R.string.imdb_rating, imdb.ratings.imDb)
+            rTomatoesChip.text = resources.getString(R.string.tomato_rating, imdb.ratings.rottenTomatoes)
+            movieDbChip.text = resources.getString(R.string.db_rating, imdb.ratings.theMovieDb)
+            movieBudget.text = resources.getString(R.string.budget, imdb.boxOffice.budget)
+            movieOpenWeekendGross.text = resources.getString(R.string.open_week_gross, imdb.boxOffice.openingWeekendUSA)
+            movieWorldWideGross.text = resources.getString(R.string.world_wide_gross, imdb.boxOffice.cumulativeWorldwideGross)
             movieTitle.text = imdb.title
             imagesAdapter.imagesDiffer.submitList(imdb.images.items)
             actorDetailsAdapter.actorsDiffer.submitList(imdb.actorList)
