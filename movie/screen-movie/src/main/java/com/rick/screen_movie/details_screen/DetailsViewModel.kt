@@ -27,9 +27,6 @@ class DetailsViewModel @Inject constructor(
     lazy { MutableLiveData<String>() }
     val searchError: LiveData<String> get() = _searchError
 
-    private val _movingPicturesId : MutableLiveData<String> = MutableLiveData()
-    val movingPicturesId : LiveData<String> get() = _movingPicturesId
-
     private val _movingPictures: MutableLiveData<IMDBMovie> = MutableLiveData()
     val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
 
