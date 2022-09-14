@@ -19,13 +19,6 @@ class SearchViewModel @Inject constructor(
 
     private val imdbKey: String
 
-    private val _movieOrSeries: MutableLiveData<String> by
-    lazy { MutableLiveData<String>() }
-    val movieOrSeries: LiveData<String> get() = _movieOrSeries
-
-    private val _navigate: MutableLiveData<Boolean> = MutableLiveData(false)
-    val navigate: LiveData<Boolean> get() = _navigate
-
     private val _searchList: MutableLiveData<List<IMDBSearchResult>> by
     lazy { MutableLiveData<List<IMDBSearchResult>>() }
     val searchList: LiveData<List<IMDBSearchResult>> get() = _searchList
@@ -50,16 +43,9 @@ class SearchViewModel @Inject constructor(
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()
         val searchMovie =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchMovie>().distinctUntilChanged()
-        val searchExactMovieOrSeries =
-            actionStateFlow.filterIsInstance<SearchUiAction.SearchExactMovieOrSeries>()
         val searchSeries =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
-        viewModelScope.launch {
-            searchExactMovieOrSeries.collectLatest {
-                getMovieOrSeries(it.title)
-            }
-        }
         viewModelScope.launch { searchMovie.collectLatest { searchMovies(it.title) } }
 
         searchState = combine(
@@ -97,25 +83,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun getMovieOrSeries(title: String) {
-        viewModelScope.launch {
-            repository.searchExactMatch(apiKey = imdbKey, query = title).collectLatest { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _searchError.postValue(result.message)
-                    }
-                    is Resource.Loading -> {
-                        _searchLoading.postValue(result.isLoading)
-                    }
-                    is Resource.Success -> {
-                        _movieOrSeries.postValue(result.data!!.first().id)
-                        _navigate.value = true
-                    }
-                }
-            }
-        }
-    }
-
     private fun searchSeries(title: String) {
         viewModelScope.launch {
             repository.searchSeries(apiKey = imdbKey, query = title).collect { result ->
@@ -139,6 +106,5 @@ data class SearchUiState(
 
 sealed class SearchUiAction {
     data class SearchMovie(val title: String) : SearchUiAction()
-    data class SearchExactMovieOrSeries(val title: String) : SearchUiAction()
     data class SearchSeries(val title: String) : SearchUiAction()
 }
