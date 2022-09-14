@@ -116,10 +116,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun navigated(){
-        _navigate.value = false
-    }
-
     private fun searchSeries(title: String) {
         viewModelScope.launch {
             repository.searchSeries(apiKey = imdbKey, query = title).collect { result ->

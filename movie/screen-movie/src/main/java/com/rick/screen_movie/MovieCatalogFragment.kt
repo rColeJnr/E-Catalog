@@ -38,9 +38,7 @@ class MovieCatalogFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
@@ -64,19 +62,16 @@ class MovieCatalogFragment : Fragment() {
     private fun initAdapter() {
         val glide = Glide.with(requireContext())
 
-        adapter =
-            MovieCatalogAdapter(glide, this::onMovieClick)
+        adapter = MovieCatalogAdapter(glide, this::onMovieClick)
 
-        binding.recyclerView.adapter = adapter.withLoadStateFooter(
-            footer = MoviesLoadStateAdapter { adapter.retry() }
-        )
+        binding.recyclerView.adapter =
+            adapter.withLoadStateFooter(footer = MoviesLoadStateAdapter { adapter.retry() })
 
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
 
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
+                context, DividerItemDecoration.VERTICAL
             )
         )
     }
@@ -120,18 +115,13 @@ class MovieCatalogFragment : Fragment() {
             }
         }
 
-        val hasNavigatedAway = uiState
-            .map { it.navigatedAway }
-            .distinctUntilChanged()
+        val hasNavigatedAway = uiState.map { it.navigatedAway }.distinctUntilChanged()
 
-        val notLoading = adapter.loadStateFlow
-            .asRemotePresentationState()
+        val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
         val shouldScrollToTop = combine(
-            hasNavigatedAway,
-            notLoading,
-            Boolean::and
+            hasNavigatedAway, notLoading, Boolean::and
         )
 
         lifecycleScope.launch {
@@ -146,18 +136,15 @@ class MovieCatalogFragment : Fragment() {
 
     }
 
+    var previousStr = ""
+
     private fun onMovieClick(movie: Movie) {
         searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
-        searchViewModel.movieOrSeries.observe(viewLifecycleOwner) { imdb ->
-            if (searchViewModel.navigate.value == true) {
-                findNavController()
-                    .navigate(
-                        MovieCatalogFragmentDirections
-                            .actionMovieCatalogFragmentToMovieDetailsFragment(imdb)
-                    )
-                searchViewModel.navigated()
-            }
-        }
+        findNavController().navigate(
+            MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(
+                searchViewModel.str
+            )
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -172,8 +159,8 @@ class MovieCatalogFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_imdb -> {
-                val action = MovieCatalogFragmentDirections
-                    .actionMovieCatalogFragmentToSearchFragment()
+                val action =
+                    MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
                 findNavController().navigate(action)
                 true
             }
