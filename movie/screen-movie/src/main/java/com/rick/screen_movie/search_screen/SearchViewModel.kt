@@ -145,5 +145,4 @@ sealed class SearchUiAction {
     data class SearchMovie(val title: String) : SearchUiAction()
     data class SearchExactMovieOrSeries(val title: String) : SearchUiAction()
     data class SearchSeries(val title: String) : SearchUiAction()
-    data class NavigateToDetails(val movie: IMDBSearchResult) : SearchUiAction()
 }

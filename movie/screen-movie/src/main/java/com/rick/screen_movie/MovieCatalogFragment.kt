@@ -149,7 +149,7 @@ class MovieCatalogFragment : Fragment() {
     private fun onMovieClick(movie: Movie) {
         searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
         searchViewModel.movieOrSeries.observe(viewLifecycleOwner) { imdb ->
-            if (searchViewModel.navigate.value!!) {
+            if (searchViewModel.navigate.value == true) {
                 findNavController()
                     .navigate(
                         MovieCatalogFragmentDirections
