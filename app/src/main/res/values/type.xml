@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.MdcTypographyStyles.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:textSize">105sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:textSize">66sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:textSize">52sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:textSize">37sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:fontFamily">@font/nunito_sans_regular</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/nunito_sans_light</item>
+        <item name="android:fontFamily">@font/nunito_sans_light</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/nunito_sans_light</item>
+        <item name="android:fontFamily">@font/nunito_sans_light</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/nunito_sans_light</item>
+        <item name="android:fontFamily">@font/nunito_sans_light</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+</resources>
