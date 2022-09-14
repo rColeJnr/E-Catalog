@@ -13,7 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
@@ -65,11 +64,6 @@ class MovieCatalogFragment : Fragment() {
 
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
 
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                context, DividerItemDecoration.VERTICAL
-            )
-        )
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
