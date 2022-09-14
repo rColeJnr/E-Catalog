@@ -13,8 +13,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:showDividers="none"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:showDividers="none">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -46,7 +46,7 @@
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:hint="@string/movie_summary"
                 android:textSize="18sp" />
-            
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_genres"
                 android:layout_width="match_parent"
@@ -88,8 +88,8 @@
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/six_dimen"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/six_dimen"
                 android:layoutDirection="locale"
                 app:chipSpacingHorizontal="@dimen/eight_dimen"
                 app:singleLine="true">
@@ -98,19 +98,22 @@
                     android:id="@+id/imdb_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/imdb_rating" />
+                    android:text="@string/imdb_rating"
+                    app:chipBackgroundColor="@android:color/white" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/r_tomatoes_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tomato_rating" />
+                    android:text="@string/tomato_rating"
+                    app:chipBackgroundColor="@android:color/white" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/movie_db_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/db_rating" />
+                    android:text="@string/db_rating"
+                    app:chipBackgroundColor="@android:color/white" />
 
             </com.google.android.material.chip.ChipGroup>
 
