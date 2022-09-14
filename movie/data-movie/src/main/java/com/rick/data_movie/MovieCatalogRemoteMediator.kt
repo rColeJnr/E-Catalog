@@ -58,6 +58,7 @@ class MovieCatalogRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     db.remoteKeysDao.clearRemoteKeys()
                     db.moviesDao.clearMovies()
+                    offset = 20
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
