@@ -7,14 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rick.data_movie.imdb.movie_model.Actor
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
-import com.rick.data_movie.imdb.movie_model.Item
-import com.rick.data_movie.imdb.movie_model.Similar
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +24,8 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var imagesAdapter: DetailsImagesAdapter
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
-
+private var title: String? = null
+private var id: String? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,8 +35,13 @@ class MovieDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
-            viewModel.getMovieOrSeries(safeArgs.movieId)
+            title = safeArgs.movieTitle
+            id = safeArgs.movieId
         }
+
+        if (title != null) { viewModel.getMovieOrSeriesId(title!!) }
+        else { viewModel.getMovieOrSeries(id!!) }
+
 
         initAdapters()
 
@@ -120,54 +122,54 @@ class MovieDetailsFragment : Fragment() {
     }
 }
 
-val dummyImages = listOf(
-    Item(
-        "https://image.tmdb.org/t/p/original/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg"
-    ),
-    Item(
-        "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg"
-    ),
-    Item(
-        "https://image.tmdb.org/t/p/original/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
-    )
-)
-val dummyActors = listOf(
-    Actor(
-        "nm0000138",
-        "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg",
-        "Leonardo DiCaprio",
-        "Cobb"
-    ),
-    Actor(
-        "nm0330687",
-        "https://m.media-amazon.com/images/M/MV5BMTY3NTk0NDI3Ml5BMl5BanBnXkFtZTgwNDA3NjY0MjE@._V1_Ratio0.7273_AL_.jpg",
-        "Joseph Gordon-Levitt",
-        "Arthur"
-    ),
-    Actor(
-        "nm0680983",
-        "https://m.media-amazon.com/images/M/MV5BNmNhZmFjM2ItNTlkNi00ZTQ4LTk3NzYtYTgwNTJiMTg4OWQzXkEyXkFqcGdeQXVyMTM1MjAxMDc3._V1_Ratio0.7273_AL_.jpg",
-        "Elliot Page",
-        "Ariadne (as Ellen Page)"
-    )
-)
-val dummySimilars = listOf(
-    Similar(
-        "tt0816692",
-        "Interstellar",
-        "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_Ratio0.6763_AL_.jpg",
-        "8.6"
-    ),
-    Similar(
-        "tt0468569",
-        "The Dark Knight",
-        "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_Ratio0.6763_AL_.jpg",
-        "9.0"
-    ),
-    Similar(
-        "tt0137523",
-        "Fight Club",
-        "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_Ratio0.6763_AL_.jpg",
-        "8.8"
-    )
-)
+//val dummyImages = listOf(
+//    Item(
+//        "https://image.tmdb.org/t/p/original/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg"
+//    ),
+//    Item(
+//        "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg"
+//    ),
+//    Item(
+//        "https://image.tmdb.org/t/p/original/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
+//    )
+//)
+//val dummyActors = listOf(
+//    Actor(
+//        "nm0000138",
+//        "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_Ratio0.7273_AL_.jpg",
+//        "Leonardo DiCaprio",
+//        "Cobb"
+//    ),
+//    Actor(
+//        "nm0330687",
+//        "https://m.media-amazon.com/images/M/MV5BMTY3NTk0NDI3Ml5BMl5BanBnXkFtZTgwNDA3NjY0MjE@._V1_Ratio0.7273_AL_.jpg",
+//        "Joseph Gordon-Levitt",
+//        "Arthur"
+//    ),
+//    Actor(
+//        "nm0680983",
+//        "https://m.media-amazon.com/images/M/MV5BNmNhZmFjM2ItNTlkNi00ZTQ4LTk3NzYtYTgwNTJiMTg4OWQzXkEyXkFqcGdeQXVyMTM1MjAxMDc3._V1_Ratio0.7273_AL_.jpg",
+//        "Elliot Page",
+//        "Ariadne (as Ellen Page)"
+//    )
+//)
+//val dummySimilars = listOf(
+//    Similar(
+//        "tt0816692",
+//        "Interstellar",
+//        "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_Ratio0.6763_AL_.jpg",
+//        "8.6"
+//    ),
+//    Similar(
+//        "tt0468569",
+//        "The Dark Knight",
+//        "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_Ratio0.6763_AL_.jpg",
+//        "9.0"
+//    ),
+//    Similar(
+//        "tt0137523",
+//        "Fight Club",
+//        "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_Ratio0.6763_AL_.jpg",
+//        "8.8"
+//    )
+//)
