@@ -25,7 +25,6 @@ class MovieCatalogViewModel @Inject constructor(
 
     val pagingDataFLow: Flow<PagingData<UiModel>>
 
-
     val state: StateFlow<UiState>
     private val accept: (UiAction) -> Unit
     private val nyKey: String

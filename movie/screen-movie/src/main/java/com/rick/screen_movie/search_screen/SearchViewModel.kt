@@ -98,7 +98,6 @@ class SearchViewModel @Inject constructor(
     private external fun getIMDBKey(): String
 }
 
-
 data class SearchUiState(
     val movieQuery: String? = null,
     val seriesQuery: String? = null,
