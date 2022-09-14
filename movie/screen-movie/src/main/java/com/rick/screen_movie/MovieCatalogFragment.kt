@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
-import com.rick.screen_movie.search_screen.SearchUiAction
-import com.rick.screen_movie.search_screen.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -29,7 +27,6 @@ class MovieCatalogFragment : Fragment() {
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieCatalogViewModel by viewModels()
-    private val searchViewModel: SearchViewModel by viewModels()
     private lateinit var adapter: MovieCatalogAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +48,6 @@ class MovieCatalogFragment : Fragment() {
         initAdapter()
 
         binding.bindState(
-            uiAction = viewModel.accept,
             uiState = viewModel.state,
             pagingData = viewModel.pagingDataFLow
         )
@@ -77,7 +73,6 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
-        uiAction: (UiAction) -> Unit,
         pagingData: Flow<PagingData<UiModel>>,
         uiState: StateFlow<UiState>
     ) {
@@ -136,13 +131,10 @@ class MovieCatalogFragment : Fragment() {
 
     }
 
-    var previousStr = ""
-
     private fun onMovieClick(movie: Movie) {
-        searchViewModel.searchAction.invoke(SearchUiAction.SearchExactMovieOrSeries(movie.title))
         findNavController().navigate(
             MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(
-                searchViewModel.str
+                movie.title
             )
         )
     }
