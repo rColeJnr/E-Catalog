@@ -9,7 +9,7 @@ fun ResultDto.toMovie(): Movie =
     Movie(
         title = display_title,
         summary = summary_short,
-        openingDate = opening_date,
+        openingDate = publication_date,
         rating = mpaa_rating,
         link = link.toLink(),
         multimedia = multimedia.toMultimedia()
