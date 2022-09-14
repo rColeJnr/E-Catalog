@@ -19,6 +19,14 @@ class DetailsViewModel @Inject constructor(
 
     private val imdbKey: String
 
+    private val _searchLoading: MutableLiveData<Boolean> by
+    lazy { MutableLiveData<Boolean>(false) }
+    val searchLoading: LiveData<Boolean> get() = _searchLoading
+
+    private val _searchError: MutableLiveData<String> by
+    lazy { MutableLiveData<String>() }
+    val searchError: LiveData<String> get() = _searchError
+
     private val _movingPicturesId : MutableLiveData<String> = MutableLiveData()
     val movingPicturesId : LiveData<String> get() = _movingPicturesId
 
@@ -31,21 +39,38 @@ class DetailsViewModel @Inject constructor(
         System.loadLibrary("movie-keys")
         imdbKey = getIMDBKey()
 
+    }
 
+    fun getMovieOrSeriesId(title: String) {
+        viewModelScope.launch {
+            repository.searchExactMatch(apiKey = imdbKey, query = title).collectLatest { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _searchError.postValue(result.message)
+                    }
+                    is Resource.Loading -> {
+                        _searchLoading.postValue(result.isLoading)
+                    }
+                    is Resource.Success -> {
+                        getMovieOrSeries(result.data!!.first().id)
+                    }
+                }
+            }
+        }
     }
 
     fun getMovieOrSeries(id: String) {
         viewModelScope.launch{
-            repository.getMovieOrSeries(imdbKey, id).collectLatest {
-                when (it) {
+            repository.getMovieOrSeries(imdbKey, id).collectLatest { result ->
+                when (result) {
                     is Resource.Error -> {
-
+                        _searchError.postValue(result.message)
                     }
                     is Resource.Loading -> {
-
+                        _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
-                        _movingPictures.value = it.data!!
+                        _movingPictures.value = result.data!!
                     }
                 }
             }
