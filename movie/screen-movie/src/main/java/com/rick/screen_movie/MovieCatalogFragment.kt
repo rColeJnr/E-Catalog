@@ -132,11 +132,10 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun onMovieClick(movie: Movie) {
-        findNavController().navigate(
-            MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(
-                movie.title
-            )
-        )
+        val action = MovieCatalogFragmentDirections
+            .actionMovieCatalogFragmentToMovieDetailsFragment(
+                movieId = null, movieTitle = movie.title)
+        findNavController().navigate(action)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -182,7 +182,8 @@ class SearchFragment : Fragment() {
     }
 
     private fun onMovieClick(movie: IMDBSearchResult) {
-        val action = SearchFragmentDirections.actionSearchFragmentToMovieDetailsFragment(movie.id)
+        val action = SearchFragmentDirections
+            .actionSearchFragmentToMovieDetailsFragment(movieId = movie.id, movieTitle = null)
         findNavController().navigate(action)
     }
 
