@@ -27,7 +27,7 @@ class MovieCatalogViewModel @Inject constructor(
 
 
     val state: StateFlow<UiState>
-    val accept: (UiAction) -> Unit
+    private val accept: (UiAction) -> Unit
     private val nyKey: String
 
     init {
