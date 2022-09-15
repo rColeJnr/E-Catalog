@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/actor_name" />
+            android:hint="@string/actor_name"
+            android:textAppearance="?attr/textAppearanceBody2" />
 
         <ImageView
             android:id="@+id/actor_image"
@@ -28,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/as_character" />
+            android:text="@string/as_character"
+            android:textAppearance="?attr/textAppearanceBody2" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

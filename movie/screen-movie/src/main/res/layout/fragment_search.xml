@@ -27,16 +27,16 @@
                 android:hint="@string/searchLabel"
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
-                android:selectAllOnFocus="true" />
+                android:selectAllOnFocus="true"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"
+                style="?android:progressBarStyleHorizontal"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                android:indeterminate="true"
                 android:layout_gravity="center"
-                style="?android:progressBarStyleHorizontal"
-                />
+                android:indeterminate="true" />
 
             <TextView
                 android:id="@+id/search_error_message"
@@ -45,9 +45,10 @@
                 android:layout_margin="@dimen/eight_dimen"
                 android:gravity="center"
                 android:text="@string/nothing_found"
+                android:textAppearance="?attr/textAppearanceOverline"
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="16sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 
