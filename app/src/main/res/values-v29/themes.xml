@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.ECatalogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="android:forceDarkAllowed">true</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/primaryDarkColor</item>
+        <!-- Customize your theme here. -->
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.ECatalog.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.ECatalog.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.ECatalog.LargeComponent
+        </item>
+
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MdcTypographyStyles.Headline6
+        </item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MdcTypographyStyles.Headline5
+        </item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MdcTypographyStyles.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MdcTypographyStyles.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MdcTypographyStyles.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MdcTypographyStyles.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MdcTypographyStyles.Overline
+        </item>
+
+    </style>
+</resources>
