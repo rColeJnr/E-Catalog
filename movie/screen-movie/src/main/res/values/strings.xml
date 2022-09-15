@@ -34,4 +34,5 @@
     <string name="actors">Actors</string>
     <string name="box_office">Box office</string>
     <string name="similar_titles">Similar titles</string>
+    <string name="content_description_media">content_description_media</string>
 </resources>

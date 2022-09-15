@@ -24,11 +24,11 @@
 
                 <TextView
                     android:id="@+id/movie_title"
-                    style="@style/TextAppearance.Material3.TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:hint="@string/movie_title" />
+                    android:hint="@string/movie_title"
+                    android:textAppearance="?attr/textAppearanceHeadline5" />
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -40,11 +40,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_summary"
-                style="?attr/textAppearanceBodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:hint="@string/movie_summary"
+                android:textAppearance="?attr/textAppearanceBody2"
                 android:textSize="18sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -52,38 +52,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/genres" />
+                android:text="@string/genres"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_publication_date"
-                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/release_date" />
+                android:text="@string/release_date"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_runtime"
-                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/runtime" />
+                android:text="@string/runtime"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_awards"
-                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/awards" />
+                android:text="@string/awards"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/ratings" />
+                android:text="@string/ratings"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="match_parent"
@@ -99,30 +100,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/imdb_rating"
-                    app:chipBackgroundColor="@android:color/white" />
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/r_tomatoes_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tomato_rating"
-                    app:chipBackgroundColor="@android:color/white" />
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/movie_db_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/db_rating"
-                    app:chipBackgroundColor="@android:color/white" />
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black" />
 
             </com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/actors" />
+                android:text="@string/actors"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <View style="@style/Divider.Horizontal" />
 
@@ -134,11 +141,11 @@
                 tools:listitem="@layout/actors_entry" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/box_office" />
+                android:text="@string/box_office"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <View style="@style/Divider.Horizontal" />
 
@@ -146,27 +153,30 @@
                 android:id="@+id/movie_budget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/budget" />
+                android:text="@string/budget"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <TextView
                 android:id="@+id/movie_open_weekend_gross"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/open_week_gross" />
+                android:text="@string/open_week_gross"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <TextView
                 android:id="@+id/movie_world_wide_gross"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/six_dimen"
-                android:text="@string/world_wide_gross" />
+                android:text="@string/world_wide_gross"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/similar_titles" />
+                android:text="@string/similar_titles"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <View style="@style/Divider.Horizontal" />
 
