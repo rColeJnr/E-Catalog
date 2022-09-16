@@ -1,16 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.ECatalogs" parent="Theme.Material3.Dark.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryDarkColor</item>
-        <item name="colorPrimaryVariant">@color/secondaryDarkColor</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondaryLightColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@android:color/black</item>
-        <!-- Customize your theme here. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.ECatalogs" parent="Base.Theme.ECatalogs">
+
+        <item name="colorPrimary">@color/grey_900</item>
+        <item name="colorPrimaryVariant">@color/grey_900</item>
+        <item name="colorSecondary">@color/blue_grey_100</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+
+        <item name="android:colorBackground">@color/grey_900</item>
+        <item name="colorSurface">@color/blue_grey_900</item>
+
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="android:statusBarColor">@color/grey_900</item>
+
     </style>
+
 </resources>
