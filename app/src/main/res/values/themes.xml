@@ -1,38 +1,48 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.ECatalogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-        <item name="android:forceDarkAllowed">true</item>
+    <style name="Theme.ECatalogs" parent="Base.Theme.ECatalogs">
 
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
-        <item name="colorOnPrimary">@color/primaryTextColor</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
-        <item name="colorOnSecondary">@color/secondaryTextColor</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/primaryDarkColor</item>
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/blue_grey_600</item>
+        <item name="colorPrimaryVariant">@color/blue_grey_100</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.ECatalog.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.ECatalog.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.ECatalog.LargeComponent</item>
+        <item name="colorSecondary">@color/blue_grey_700</item>
+        <item name="colorSecondaryVariant">@color/blue_grey_600</item>
+        <item name="colorOnSecondary">@color/black</item>
 
-        <item name="textAppearanceHeadline6">@style/TextAppearance.MdcTypographyStyles.Headline6</item>
-        <item name="textAppearanceHeadline5">@style/TextAppearance.MdcTypographyStyles.Headline5</item>
+        <item name="android:statusBarColor">@color/white</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+
+
+    </style>
+
+    <style name="Base.Theme.ECatalogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.ECatalog.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.ECatalog.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.ECatalog.LargeComponent
+        </item>
+
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MdcTypographyStyles.Headline6
+        </item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MdcTypographyStyles.Headline5
+        </item>
         <item name="textAppearanceBody1">@style/TextAppearance.MdcTypographyStyles.Body1</item>
         <item name="textAppearanceBody2">@style/TextAppearance.MdcTypographyStyles.Body2</item>
         <item name="textAppearanceButton">@style/TextAppearance.MdcTypographyStyles.Button</item>
         <item name="textAppearanceCaption">@style/TextAppearance.MdcTypographyStyles.Caption</item>
-        <item name="textAppearanceOverline">@style/TextAppearance.MdcTypographyStyles.Overline</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MdcTypographyStyles.Overline
+        </item>
 
     </style>
 
     <style name="splashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="windowSplashScreenIconBackgroundColor">@color/black</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_movie_launcher</item>
         <item name="windowSplashScreenAnimationDuration">300</item>
         <item name="postSplashScreenTheme">@style/Theme.ECatalogs</item>
