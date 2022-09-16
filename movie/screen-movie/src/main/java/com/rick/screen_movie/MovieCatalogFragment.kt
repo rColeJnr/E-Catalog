@@ -114,9 +114,12 @@ class MovieCatalogFragment : Fragment() {
         )
 
         lifecycleScope.launch {
-            shouldScrollToTop.collectLatest { should ->
-                if (should) recyclerView.scrollToPosition(0)
+            notLoading.collectLatest {
+                if (it) recyclerView.scrollToPosition(0)
             }
+//            shouldScrollToTop.collectLatest { should ->
+//                if (should) recyclerView.scrollToPosition(0)
+//            }
         }
 
         swipeRefresh.setOnRefreshListener {
