@@ -104,7 +104,7 @@ class MovieCatalogFragment : Fragment() {
             }
         }
 
-        val hasNavigatedAway = uiState.map { it.navigatedAway }.distinctUntilChanged()
+        val hasNavigatedAway = uiState.map { it.navigatedAway }
 
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
