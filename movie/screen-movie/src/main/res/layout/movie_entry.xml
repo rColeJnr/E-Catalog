@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:strokeColor="@null">
+    android:id="@+id/movie_entry_card_view"
+    android:transitionName="@string/movie_catalog_transition_name">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/movieName"
-        android:layout_width="@dimen/movie_title"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/eight_dimen"
-        android:hint="@string/no_title"
-        android:maxLines="2"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/movieRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
-        android:textAppearance="?attr/textAppearanceBody2"
-        app:layout_constraintBottom_toBottomOf="@id/movieName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/movieName" />
-
-    <View
-        style="@style/Divider.Horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movieName" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/movieImage"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/image_height"
-        android:src="@drawable/ic_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movieName"
-        app:strokeColor="@null" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/movieSummary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/two_dimen"
-        android:textAppearance="?attr/textAppearanceBody1"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movieImage" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/movieName"
+            android:layout_width="@dimen/movie_title"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/eight_dimen"
+            android:hint="@string/no_title"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/movieRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintBottom_toBottomOf="@id/movieName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/movieName" />
+
+        <View
+            style="@style/Divider.Horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieName" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/movieImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height"
+            android:src="@drawable/ic_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieName"
+            app:strokeColor="@null" />
+
+        <TextView
+            android:id="@+id/movieSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/two_dimen"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

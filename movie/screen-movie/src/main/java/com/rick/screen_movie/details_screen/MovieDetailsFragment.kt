@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
@@ -21,17 +22,27 @@ class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetailsViewModel by viewModels()
+
     private lateinit var imagesAdapter: DetailsImagesAdapter
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
-private var title: String? = null
-private var id: String? = null
+
+    private var title: String? = null
+    private var id: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+//
+//        sharedElementEnterTransition = MaterialContainerTransform().apply {
+//            drawingViewId = R.id.swipeRefresh
+//            duration = 500L
+//            scrimColor = Color.TRANSPARENT
+//            setAllContainerColors(MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurface))
+//        }
 
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
@@ -39,8 +50,11 @@ private var id: String? = null
             id = safeArgs.movieId
         }
 
-        if (title != null) { viewModel.getMovieOrSeriesId(title!!) }
-        else { viewModel.getMovieOrSeries(id!!) }
+        if (title != null) {
+            viewModel.getMovieOrSeriesId(title!!)
+        } else {
+            viewModel.getMovieOrSeries(id!!)
+        }
 
 
         initAdapters()
@@ -57,6 +71,19 @@ private var id: String? = null
         )
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        enterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            addTarget(R.id.details_cardView)
+        }
+
+        returnTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            addTarget(androidx.navigation.fragment.R.id.nav_host_fragment_container)
+        }
     }
 
     private fun initAdapters() {
@@ -104,11 +131,16 @@ private var id: String? = null
             moviePublicationDate.text = resources.getString(R.string.release_date, imdb.releaseDate)
             movieRuntime.text = resources.getString(R.string.runtime, imdb.runtimeStr)
             imdbChip.text = resources.getString(R.string.imdb_rating, imdb.ratings.imDb)
-            rTomatoesChip.text = resources.getString(R.string.tomato_rating, imdb.ratings.rottenTomatoes)
+            rTomatoesChip.text =
+                resources.getString(R.string.tomato_rating, imdb.ratings.rottenTomatoes)
             movieDbChip.text = resources.getString(R.string.db_rating, imdb.ratings.theMovieDb)
             movieBudget.text = resources.getString(R.string.budget, imdb.boxOffice.budget)
-            movieOpenWeekendGross.text = resources.getString(R.string.open_week_gross, imdb.boxOffice.openingWeekendUSA)
-            movieWorldWideGross.text = resources.getString(R.string.world_wide_gross, imdb.boxOffice.cumulativeWorldwideGross)
+            movieOpenWeekendGross.text =
+                resources.getString(R.string.open_week_gross, imdb.boxOffice.openingWeekendUSA)
+            movieWorldWideGross.text = resources.getString(
+                R.string.world_wide_gross,
+                imdb.boxOffice.cumulativeWorldwideGross
+            )
             movieTitle.text = imdb.title
             imagesAdapter.imagesDiffer.submitList(imdb.images.items)
             actorDetailsAdapter.actorsDiffer.submitList(imdb.actorList)
