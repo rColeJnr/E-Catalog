@@ -35,4 +35,6 @@
     <string name="box_office">Box office</string>
     <string name="similar_titles">Similar titles</string>
     <string name="content_description_media">content_description_media</string>
+    <string name="movie_catalog_detail_transition_name">movie_detail</string>
+    <string name="movie_catalog_transition_name">movie_detail_%1$s</string>
 </resources>

@@ -3,6 +3,7 @@ package com.rick.screen_movie
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.bumptech.glide.Glide
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,11 +34,14 @@ class MovieCatalogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
         val navController = findNavController()
@@ -52,6 +58,14 @@ class MovieCatalogFragment : Fragment() {
         )
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+
     }
 
     private fun initAdapter() {
@@ -128,10 +142,15 @@ class MovieCatalogFragment : Fragment() {
 
     }
 
-    private fun onMovieClick(movie: Movie) {
+
+    private fun onMovieClick(view: View, movie: Movie) {
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(
-                movieId = null, movieTitle = movie.title)
+                movieId = null, movieTitle = movie.title
+            )
         findNavController().navigate(action)
     }
 
