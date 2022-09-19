@@ -10,7 +10,7 @@ import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogViewHolder(
     binding: MovieEntryBinding,
-    private val onItemClicked: (view: View, movie: Movie) -> Unit
+    private val onItemClicked: (movie: Movie) -> Unit
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     private val title = binding.movieName
     private val rating = binding.movieRating
@@ -40,12 +40,12 @@ class MovieCatalogViewHolder(
         }
     }
 
-    override fun onClick(v: View) {
-        onItemClicked(v, movie)
+    override fun onClick(v: View?) {
+        onItemClicked(movie)
     }
 
     companion object {
-        fun create(parent: ViewGroup, onItemClicked: (view: View, movie: Movie) -> Unit): MovieCatalogViewHolder {
+        fun create(parent: ViewGroup, onItemClicked: (movie: Movie) -> Unit): MovieCatalogViewHolder {
             val itemBinding = MovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return MovieCatalogViewHolder(
