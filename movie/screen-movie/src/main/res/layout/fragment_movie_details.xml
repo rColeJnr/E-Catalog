@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/details_cardView"
-    android:transitionName="@string/movie_catalog_detail_transition_name"
+    android:transitionName="@string/search_detail_transition_name"
     android:layout_margin="@dimen/eight_dimen">
 
     <com.google.android.material.card.MaterialCardView

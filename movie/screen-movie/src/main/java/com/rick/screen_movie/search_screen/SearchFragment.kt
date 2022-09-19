@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -181,10 +182,12 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun onMovieClick(movie: IMDBSearchResult) {
+    private fun onMovieClick(view: View, movie: IMDBSearchResult) {
+        val searchToDetails = resources.getString(R.string.search_transition_name, movie.id)
+        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action = SearchFragmentDirections
             .actionSearchFragmentToMovieDetailsFragment(movieId = movie.id, movieTitle = null)
-        findNavController().navigate(action)
+        findNavController().navigate(action, extras)
     }
 
     override fun onDestroy() {
@@ -193,7 +196,7 @@ class SearchFragment : Fragment() {
     }
 }
 
-class SearchAdapter(private val glide: RequestManager, private val onItemClicked: (IMDBSearchResult) -> Unit) :
+class SearchAdapter(private val glide: RequestManager, private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit) :
     RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
@@ -229,7 +232,7 @@ class SearchAdapter(private val glide: RequestManager, private val onItemClicked
 
 class SearchViewHolder(
     binding: SearchEntryBinding,
-    private val onItemClicked: (IMDBSearchResult) -> Unit
+    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     private val image = binding.image
     private val title = binding.title
@@ -250,12 +253,12 @@ class SearchViewHolder(
             .into(this.image)
     }
 
-    override fun onClick(v: View?) {
-        onItemClicked(searchResult)
+    override fun onClick(v: View) {
+        onItemClicked(v, searchResult)
     }
 
     companion object {
-        fun create(parent: ViewGroup, onItemClicked: (IMDBSearchResult) -> Unit): SearchViewHolder {
+        fun create(parent: ViewGroup, onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit): SearchViewHolder {
             val itemBinding = SearchEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return SearchViewHolder(itemBinding, onItemClicked)

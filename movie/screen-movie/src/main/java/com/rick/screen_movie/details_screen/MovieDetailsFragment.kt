@@ -1,5 +1,6 @@
 package com.rick.screen_movie.details_screen
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.screen_movie.R
@@ -37,12 +39,12 @@ class MovieDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
 //
-//        sharedElementEnterTransition = MaterialContainerTransform().apply {
-//            drawingViewId = R.id.swipeRefresh
-//            duration = 500L
-//            scrimColor = Color.TRANSPARENT
-//            setAllContainerColors(MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurface))
-//        }
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.search_llayout
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurface))
+        }
 
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
@@ -55,7 +57,6 @@ class MovieDetailsFragment : Fragment() {
         } else {
             viewModel.getMovieOrSeries(id!!)
         }
-
 
         initAdapters()
 

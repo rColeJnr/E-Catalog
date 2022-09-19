@@ -131,9 +131,6 @@ class MovieCatalogFragment : Fragment() {
             notLoading.collectLatest {
                 if (it) recyclerView.scrollToPosition(0)
             }
-//            shouldScrollToTop.collectLatest { should ->
-//                if (should) recyclerView.scrollToPosition(0)
-//            }
         }
 
         swipeRefresh.setOnRefreshListener {
@@ -143,7 +140,7 @@ class MovieCatalogFragment : Fragment() {
     }
 
 
-    private fun onMovieClick(view: View, movie: Movie) {
+    private fun onMovieClick(movie: Movie) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
