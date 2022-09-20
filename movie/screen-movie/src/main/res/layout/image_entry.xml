@@ -9,7 +9,7 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/movie_image"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="@dimen/image_height"
         android:src="@drawable/ic_image" />
 
 </androidx.cardview.widget.CardView>

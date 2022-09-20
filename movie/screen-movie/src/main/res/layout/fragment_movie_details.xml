@@ -26,15 +26,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/movie_title"
-                    android:textAppearance="?attr/textAppearanceHeadline5"
-                    android:textSize="26sp" />
+                    android:textAppearance="?attr/textAppearanceHeadline5" />
 
             </androidx.appcompat.widget.Toolbar>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_images"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="@dimen/image_height" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_summary"
@@ -142,7 +141,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_actors"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/image_height"
                 android:layout_marginBottom="@dimen/six_dimen" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -188,7 +187,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_similars"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="@dimen/image_height" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
