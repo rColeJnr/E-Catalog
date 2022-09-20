@@ -1,5 +1,6 @@
 package com.rick.screen_movie
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +10,7 @@ import com.rick.data_movie.ny_times.Movie
 
 class MovieCatalogAdapter(
     private val glide: RequestManager,
-    private val onItemClicked: ( movie: Movie) -> Unit
+    private val onItemClicked: (view: View, movie: Movie) -> Unit
 ) :
     PagingDataAdapter<UiModel, ViewHolder>(RESULT_COMPARATOR) {
 
