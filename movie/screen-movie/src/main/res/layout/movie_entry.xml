@@ -37,7 +37,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/movieImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/image_height"
             android:adjustViewBounds="true"
             android:maxWidth="@dimen/max_image_width"
             android:minWidth="@dimen/min_image_width"

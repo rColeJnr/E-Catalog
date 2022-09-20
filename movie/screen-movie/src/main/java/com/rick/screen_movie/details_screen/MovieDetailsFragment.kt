@@ -77,8 +77,13 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        if (title != null) {
+            binding.detailsCardView.transitionName = title
+        } else {
+            binding.detailsCardView.transitionName = id
+        }
 
-        binding.detailsCardView.transitionName = title
 
     }
 
