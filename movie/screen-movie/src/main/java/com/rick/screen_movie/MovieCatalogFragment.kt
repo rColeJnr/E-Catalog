@@ -143,9 +143,6 @@ class MovieCatalogFragment : Fragment() {
 
 
     private fun onMovieClick(v: View, movie: Movie) {
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-        }
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }

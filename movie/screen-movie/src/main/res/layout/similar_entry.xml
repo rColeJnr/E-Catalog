@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:elevation="0dp"
+    android:layout_marginEnd="@dimen/two_dimen"
     android:background="@android:color/white"
-    android:layout_marginEnd="@dimen/two_dimen">
+    android:elevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,11 @@
             android:id="@+id/similar_image"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/image_height"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/runtime"
+            android:maxWidth="@dimen/max_image_width"
+            android:minWidth="@dimen/min_image_width"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_image" />
 
     </LinearLayout>
