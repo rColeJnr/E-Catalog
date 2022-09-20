@@ -19,6 +19,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
@@ -37,9 +38,9 @@ class MovieCatalogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-//        enterTransition = MaterialFadeThrough().apply {
-//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-//        }
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
     }
 
     override fun onCreateView(
@@ -152,7 +153,8 @@ class MovieCatalogFragment : Fragment() {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
-        val extras = FragmentNavigatorExtras(v to movie.title)
+        val movieToDetails = getString(R.string.movie_transition_name, movie.title)
+        val extras = FragmentNavigatorExtras(v to movieToDetails)
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(
                 movieId = null, movieTitle = movie.title

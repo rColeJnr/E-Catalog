@@ -17,7 +17,6 @@ class MovieCatalogViewHolder(
     private val rating = binding.movieRating
     private val image = binding.movieImage
     private val summary = binding.movieSummary
-    private val cardView = binding.movieEntryCardView
 
     private lateinit var movie: Movie
 
@@ -26,7 +25,6 @@ class MovieCatalogViewHolder(
     }
 
     fun bind(glide: RequestManager, options: RequestOptions, movie: Movie) {
-        this.cardView.transitionName = movie.title
         this.movie = movie
         this.title.text = movie.title
         this.summary.text = movie.summary

@@ -210,13 +210,14 @@ class SearchFragment : Fragment() {
     }
 
     private fun onMovieClick(view: View, movie: IMDBSearchResult) {
-//        exitTransition = MaterialElevationScale(false).apply {
-//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-//        }
-//        reenterTransition = MaterialElevationScale(true).apply {
-//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-//        }
-        val extras = FragmentNavigatorExtras(view to "search ${movie.id}")
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        val searchToDetails = getString(R.string.search_transition_name, movie.id)
+        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action = SearchFragmentDirections
             .actionSearchFragmentToMovieDetailsFragment(movieId = movie.id, movieTitle = null)
         findNavController().navigate(directions = action, navigatorExtras = extras)
