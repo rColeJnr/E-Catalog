@@ -1,5 +1,6 @@
 package com.rick.screen_movie.details_screen
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ class MovieDetailsFragment : Fragment() {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            scrimColor = Color.TRANSPARENT
         }
     }
 
@@ -77,14 +79,9 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        if (title != null) {
-            binding.detailsCardView.transitionName = title
-        } else {
-            binding.detailsCardView.transitionName = id
-        }
 
-
+        binding.detailsCardView.transitionName = title
+        binding.root.transitionName = "search $id"
     }
 
     private fun initAdapters() {

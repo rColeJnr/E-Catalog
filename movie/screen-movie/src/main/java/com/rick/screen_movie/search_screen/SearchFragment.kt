@@ -21,7 +21,6 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.R
@@ -211,13 +210,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun onMovieClick(view: View, movie: IMDBSearchResult) {
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-        }
-        val extras = FragmentNavigatorExtras(view to movie.id)
+//        exitTransition = MaterialElevationScale(false).apply {
+//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+//        }
+//        reenterTransition = MaterialElevationScale(true).apply {
+//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+//        }
+        val extras = FragmentNavigatorExtras(view to "search ${movie.id}")
         val action = SearchFragmentDirections
             .actionSearchFragmentToMovieDetailsFragment(movieId = movie.id, movieTitle = null)
         findNavController().navigate(directions = action, navigatorExtras = extras)
@@ -274,6 +273,7 @@ class SearchViewHolder(
     private val image = binding.image
     private val title = binding.title
     private val description = binding.description
+    private val searchLLayout = binding.searchLlayout
 
     init {
         binding.root.setOnClickListener(this)
@@ -282,6 +282,7 @@ class SearchViewHolder(
     private lateinit var searchResult: IMDBSearchResult
 
     fun bind(glide: RequestManager, options: RequestOptions, searchResult: IMDBSearchResult) {
+        this.searchLLayout.transitionName = "search ${searchResult.id}"
         this.searchResult = searchResult
         this.title.text = searchResult.title
         this.description.text = searchResult.description
