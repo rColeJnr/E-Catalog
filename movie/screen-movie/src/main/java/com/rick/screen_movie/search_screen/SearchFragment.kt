@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
@@ -39,11 +39,14 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
     }
 
     override fun onCreateView(
@@ -85,6 +88,12 @@ class SearchFragment : Fragment() {
         )
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     private fun initAdapter() {
@@ -191,11 +200,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun onMovieClick(view: View, movie: IMDBSearchResult) {
-        val searchToDetails = resources.getString(R.string.search_transition_name, movie.id)
-        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action = SearchFragmentDirections
             .actionSearchFragmentToMovieDetailsFragment(movieId = movie.id, movieTitle = null)
-        findNavController().navigate(action, extras)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {
@@ -204,7 +211,10 @@ class SearchFragment : Fragment() {
     }
 }
 
-class SearchAdapter(private val glide: RequestManager, private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit) :
+class SearchAdapter(
+    private val glide: RequestManager,
+    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
+) :
     RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {

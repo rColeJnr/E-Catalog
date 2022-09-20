@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.bumptech.glide.Glide
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -163,6 +164,12 @@ class MovieCatalogFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_imdb -> {
+                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                }
+                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                }
                 val action =
                     MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
                 findNavController().navigate(action)
