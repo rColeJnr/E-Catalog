@@ -80,7 +80,7 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.detailsCardView.transitionName = getString(R.string.search_detail_transition_name)
+        binding.detailsCardView.transitionName = getString(R.string.movie_detail_transition_name)
         binding.root.transitionName = getString(R.string.search_transition_name, id)
     }
 
