@@ -15,7 +15,9 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.ny_times.Movie
@@ -71,8 +73,13 @@ class MovieCatalogFragment : Fragment() {
 
     private fun initAdapter() {
         val glide = Glide.with(requireContext())
-
-        adapter = MovieCatalogAdapter(glide, this::onMovieClick)
+        val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
+            strokeWidth = 5f
+            centerRadius = 30f
+            start()
+        }
+        val options = RequestOptions().placeholder(circularProgressDrawable)
+        adapter = MovieCatalogAdapter(glide, options, this::onMovieClick)
 
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(footer = MoviesLoadStateAdapter { adapter.retry() })

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.RequestOptions
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.MovieEntryBinding
 
@@ -24,7 +25,7 @@ class MovieCatalogViewHolder(
         binding.root.setOnClickListener(this)
     }
 
-    fun bind(glide: RequestManager, movie: Movie) {
+    fun bind(glide: RequestManager, options: RequestOptions, movie: Movie) {
         this.cardView.transitionName = movie.title
         this.movie = movie
         this.title.text = movie.title
@@ -38,6 +39,7 @@ class MovieCatalogViewHolder(
         if (movie.multimedia.src.isNotBlank()) {
             glide
                 .load(movie.multimedia.src)
+                .apply(options)
                 .into(this.image)
         }
     }

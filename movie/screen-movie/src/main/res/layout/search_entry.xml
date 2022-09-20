@@ -17,7 +17,7 @@
         android:maxWidth="@dimen/max_image_width"
         android:minWidth="@dimen/min_image_width"
         android:paddingBottom="16dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         app:srcCompat="@drawable/ic_image" />
 
     <!-- Title, secondary and supporting text -->

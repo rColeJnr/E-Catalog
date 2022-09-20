@@ -6,10 +6,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.RequestOptions
 import com.rick.data_movie.ny_times.Movie
 
 class MovieCatalogAdapter(
     private val glide: RequestManager,
+    private val options: RequestOptions,
     private val onItemClicked: (view: View, movie: Movie) -> Unit
 ) :
     PagingDataAdapter<UiModel, ViewHolder>(RESULT_COMPARATOR) {
@@ -32,6 +34,7 @@ class MovieCatalogAdapter(
             when (uiModel) {
                 is UiModel.MovieItem -> (holder as MovieCatalogViewHolder).bind(
                     glide = glide,
+                    options = options,
                     movie = uiModel.movie,
                 )
                 is UiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
