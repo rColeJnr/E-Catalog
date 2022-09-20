@@ -40,7 +40,7 @@ class MovieDetailsFragment : Fragment() {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
 //
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.search_llayout
+            drawingViewId = R.id.details_cardView
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurface))
@@ -57,6 +57,7 @@ class MovieDetailsFragment : Fragment() {
         } else {
             viewModel.getMovieOrSeries(id!!)
         }
+
 
         initAdapters()
 
