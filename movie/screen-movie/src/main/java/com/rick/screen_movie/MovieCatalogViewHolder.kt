@@ -10,12 +10,13 @@ import com.rick.screen_movie.databinding.MovieEntryBinding
 
 class MovieCatalogViewHolder(
     binding: MovieEntryBinding,
-    private val onItemClicked: (movie: Movie) -> Unit
+    private val onItemClicked: (view: View, movie: Movie) -> Unit
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     private val title = binding.movieName
     private val rating = binding.movieRating
     private val image = binding.movieImage
     private val summary = binding.movieSummary
+    private val cardView = binding.movieEntryCardView
 
     private lateinit var movie: Movie
 
@@ -24,6 +25,7 @@ class MovieCatalogViewHolder(
     }
 
     fun bind(glide: RequestManager, movie: Movie) {
+        this.cardView.transitionName = movie.title
         this.movie = movie
         this.title.text = movie.title
         this.summary.text = movie.summary
@@ -40,12 +42,12 @@ class MovieCatalogViewHolder(
         }
     }
 
-    override fun onClick(v: View?) {
-        onItemClicked(movie)
+    override fun onClick(v: View) {
+        onItemClicked(v, movie)
     }
 
     companion object {
-        fun create(parent: ViewGroup, onItemClicked: (movie: Movie) -> Unit): MovieCatalogViewHolder {
+        fun create(parent: ViewGroup, onItemClicked: (view: View, movie: Movie) -> Unit): MovieCatalogViewHolder {
             val itemBinding = MovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return MovieCatalogViewHolder(

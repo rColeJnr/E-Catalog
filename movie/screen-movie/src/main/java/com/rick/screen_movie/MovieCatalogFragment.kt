@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -141,15 +142,19 @@ class MovieCatalogFragment : Fragment() {
     }
 
 
-    private fun onMovieClick(movie: Movie) {
+    private fun onMovieClick(v: View, movie: Movie) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
+        val extras = FragmentNavigatorExtras(v to movie.title)
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(
                 movieId = null, movieTitle = movie.title
             )
-        findNavController().navigate(action)
+        findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

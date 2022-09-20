@@ -30,6 +30,14 @@ class MovieDetailsFragment : Fragment() {
     private var title: String? = null
     private var id: String? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,15 +76,9 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        enterTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-            addTarget(R.id.details_cardView)
-        }
 
-        returnTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-            addTarget(androidx.navigation.fragment.R.id.nav_host_fragment_container)
-        }
+        binding.detailsCardView.transitionName = title
+
     }
 
     private fun initAdapters() {
