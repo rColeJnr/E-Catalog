@@ -12,9 +12,12 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_height"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_media"
+        android:maxWidth="@dimen/max_image_width"
+        android:minWidth="@dimen/min_image_width"
         android:paddingBottom="16dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_image" />
 
     <!-- Title, secondary and supporting text -->

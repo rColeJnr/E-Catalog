@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.screen_movie.R
@@ -81,10 +83,16 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun initAdapters() {
+        val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
+            strokeWidth = 5f
+            centerRadius = 30f
+            start()
+        }
+        val options = RequestOptions().placeholder(circularProgressDrawable)
         val glide = Glide.with(requireContext())
-        imagesAdapter = DetailsImagesAdapter(glide)
-        actorsAdapter = ActorDetailsAdapter(glide)
-        similarsAdapter = SimilarDetailsAdapter(glide)
+        imagesAdapter = DetailsImagesAdapter(glide, options)
+        actorsAdapter = ActorDetailsAdapter(glide, options)
+        similarsAdapter = SimilarDetailsAdapter(glide, options)
     }
 
     private fun FragmentMovieDetailsBinding.bindState(
