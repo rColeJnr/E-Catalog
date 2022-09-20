@@ -111,7 +111,6 @@ class SimilarsViewHolder(binding: SimilarEntryBinding) :
         if (similar.image.isNotEmpty()) {
             glide
                 .load(similar.image)
-                .centerCrop()
                 .apply(options)
                 .into(this.image)
         }

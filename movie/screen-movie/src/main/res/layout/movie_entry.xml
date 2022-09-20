@@ -38,6 +38,10 @@
             android:id="@+id/movieImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="@dimen/max_image_width"
+            android:minWidth="@dimen/min_image_width"
+            android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieName"
             app:strokeColor="@null" />

@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.R
@@ -97,9 +99,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun initAdapter() {
+        val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
+            strokeWidth = 5f
+            centerRadius = 30f
+            start()
+        }
+        val options = RequestOptions().placeholder(circularProgressDrawable)
         val glide = Glide.with(requireContext())
         searchAdapter = SearchAdapter(
             glide,
+            options,
             this::onMovieClick
         )
 
@@ -213,6 +222,7 @@ class SearchFragment : Fragment() {
 
 class SearchAdapter(
     private val glide: RequestManager,
+    private val options: RequestOptions,
     private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
 ) :
     RecyclerView.Adapter<SearchViewHolder>() {
@@ -241,7 +251,7 @@ class SearchAdapter(
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val searchResult = searchDiffer.currentList[position]
-        (holder).bind(searchResult, glide)
+        (holder).bind(glide, options, searchResult)
     }
 
     override fun getItemCount(): Int =
@@ -262,12 +272,13 @@ class SearchViewHolder(
 
     private lateinit var searchResult: IMDBSearchResult
 
-    fun bind(searchResult: IMDBSearchResult, glide: RequestManager) {
+    fun bind(glide: RequestManager, options: RequestOptions, searchResult: IMDBSearchResult) {
         this.searchResult = searchResult
         this.title.text = searchResult.title
         this.description.text = searchResult.description
         glide
             .load(searchResult.image)
+            .apply(options)
             .into(this.image)
     }
 
@@ -276,7 +287,10 @@ class SearchViewHolder(
     }
 
     companion object {
-        fun create(parent: ViewGroup, onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit): SearchViewHolder {
+        fun create(
+            parent: ViewGroup,
+            onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
+        ): SearchViewHolder {
             val itemBinding = SearchEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return SearchViewHolder(itemBinding, onItemClicked)
