@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_entry_card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="0dp"
-    app:cardBackgroundColor="@android:color/white"
-    android:id="@+id/movie_entry_card_view">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,8 +37,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/movieImage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/image_height"
-            android:src="@drawable/ic_image"
+            android:layout_height="280dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieName"
             app:strokeColor="@null" />
@@ -57,4 +54,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

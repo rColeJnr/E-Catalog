@@ -57,7 +57,6 @@ class MovieDetailsFragment : Fragment() {
             viewModel.getMovieOrSeries(id!!)
         }
 
-
         initAdapters()
 
         binding.toolbar.apply {
