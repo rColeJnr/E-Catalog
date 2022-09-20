@@ -36,5 +36,7 @@
     <string name="similar_titles">Similar titles</string>
     <string name="content_description_media">content_description_media</string>
     <string name="search_detail_transition_name">search_item</string>
-    <string name="search_transition_name">search_item_%1$s</string>
+    <string name="movie_detail_transition_name">movie_item</string>
+    <string name="movie_transition_name">movie_item_%1$s</string>
+    <string name="search_transition_name">search %1$s</string>
 </resources>
