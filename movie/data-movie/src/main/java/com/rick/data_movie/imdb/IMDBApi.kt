@@ -2,6 +2,7 @@ package com.rick.data_movie.imdb
 
 import com.rick.data_movie.imdb.movie_model.IMDBMovieDto
 import com.rick.data_movie.imdb.search_model.IMDBSearchResponse
+import com.rick.data_movie.imdb.series_model.TvSeriesResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,13 +11,13 @@ interface IMDBApi {
     @GET("en/API/SearchMovie")
     suspend fun searchMovies(
         @Query("apiKey") apiKey: String,
-        @Query("expression") title : String
+        @Query("expression") title: String
     ): IMDBSearchResponse
 
     @GET("en/API/SearchSeries")
     suspend fun searchSeries(
         @Query("apiKey") apiKey: String,
-        @Query("expression") title : String
+        @Query("expression") title: String
     ): IMDBSearchResponse
 
     @GET("en/API/Title")
@@ -24,8 +25,12 @@ interface IMDBApi {
         @Query("apiKey") apiKey: String,
         @Query("id") id: String,
         @Query("options") options: String = OPTIONS
-
     ): IMDBMovieDto
+
+    @GET("en/API/MostPopularTVs")
+    suspend fun getPopularTvSeries(
+        @Query("apikey") apiKey: String
+    ) : TvSeriesResponse
 
     companion object {
         const val IMDB_BASE_URL = "https://imdb-api.com/"
