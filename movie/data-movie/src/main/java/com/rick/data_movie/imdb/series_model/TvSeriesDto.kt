@@ -2,6 +2,8 @@ package com.rick.data_movie.imdb.series_model
 
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -39,7 +41,9 @@ data class TvSeriesDto(
 
 
 @Parcelize
+@Entity(tableName = "tv_series")
 data class TvSeries(
+    @PrimaryKey(autoGenerate = false)
     @field:SerializedName("id")
     val id: String,
     @field:SerializedName("title")
