@@ -1,0 +1,47 @@
+package com.rick.data_movie.imdb.series_model
+
+
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+data class TvSeriesDto(
+    @field:SerializedName("id")
+    val id: String,
+    @field:SerializedName("rank")
+    val rank: String,
+    @field:SerializedName("rankUpDown")
+    val rankUpDown: String,
+    @field:SerializedName("title")
+    val title: String,
+    @field:SerializedName("fullTitle")
+    val fullTitle: String,
+    @field:SerializedName("year")
+    val year: String,
+    @field:SerializedName("image")
+    val image: String,
+    @field:SerializedName("crew")
+    val crew: String,
+    @field:SerializedName("imDbRating")
+    val imDbRating: String,
+    @field:SerializedName("imDbRatingCount")
+    val imDbRatingCount: String
+) {
+    fun toTvSeries() : TvSeries =
+        TvSeries(
+            id,
+            title,
+            image
+        )
+}
+
+
+@Parcelize
+data class TvSeries(
+    @field:SerializedName("id")
+    val id: String,
+    @field:SerializedName("title")
+    val title: String,
+    @field:SerializedName("image")
+    val image: String,
+) : Parcelable
