@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 
+
 class TvSeriesFragment: Fragment() {
 
     private var _binding: FragmentMovieCatalogBinding? = null
