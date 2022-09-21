@@ -10,7 +10,7 @@ import com.rick.data_movie.imdb.series_model.TvSeries
 interface TvSeriesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTvSeries(series: TvSeries)
+    fun insertTvSeries(series: List<TvSeries>)
 
     @Query("SELECT * FROM tv_series")
     suspend fun getTvSeries() : List<TvSeries>

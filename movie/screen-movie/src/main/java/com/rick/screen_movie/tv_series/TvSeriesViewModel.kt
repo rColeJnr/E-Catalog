@@ -48,7 +48,7 @@ class TvSeriesViewModel @Inject constructor(
                     is Resource.Error -> {}
                     is Resource.Loading -> {}
                     is Resource.Success -> {
-                        _tvSeriesList.postValue(result.data!!.tvSeries)
+                        _tvSeriesList.postValue(result.data)
                     }
                 }
             }
