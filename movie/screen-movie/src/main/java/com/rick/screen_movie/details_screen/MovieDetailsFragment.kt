@@ -71,7 +71,9 @@ class MovieDetailsFragment : Fragment() {
         }
 
         binding.bindState(
-            viewModel.movingPictures
+            viewModel.movingPictures,
+            viewModel.searchLoading,
+            viewModel.searchError
         )
 
         return binding.root
@@ -98,7 +100,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun FragmentMovieDetailsBinding.bindState(
-        movie: LiveData<IMDBMovie>
+        movie: LiveData<IMDBMovie>,
+        loading: LiveData<Boolean>,
+        error: LiveData<String>
     ) {
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -117,7 +121,9 @@ class MovieDetailsFragment : Fragment() {
             imagesAdapter,
             actorsAdapter,
             similarsAdapter,
-            movie
+            movie,
+            loading,
+            error
         )
     }
 
@@ -125,8 +131,21 @@ class MovieDetailsFragment : Fragment() {
         imagesAdapter: DetailsImagesAdapter,
         actorDetailsAdapter: ActorDetailsAdapter,
         similarDetailsAdapter: SimilarDetailsAdapter,
-        movie: LiveData<IMDBMovie>
+        movie: LiveData<IMDBMovie>,
+        loading: LiveData<Boolean>,
+        error: LiveData<String>
     ) {
+
+        loading.observe(viewLifecycleOwner) { progressing ->
+            if (progressing) {
+                detailsProgressBar.visibility = View.VISIBLE
+            } else detailsProgressBar.visibility = View.GONE
+        }
+
+        error.observe(viewLifecycleOwner) { msg ->
+            if (msg.isNullOrBlank()) detailsErrorMessage.visibility = View.GONE
+            else detailsErrorMessage.visibility = View.VISIBLE
+        }
 
         movie.observe(viewLifecycleOwner) { imdb: IMDBMovie ->
             movieSummary.text = imdb.plot
