@@ -31,7 +31,9 @@ data class TvSeriesDto(
         TvSeries(
             id,
             title,
-            image
+            image,
+            imDbRating,
+            crew
         )
 }
 
@@ -44,4 +46,8 @@ data class TvSeries(
     val title: String,
     @field:SerializedName("image")
     val image: String,
+    @field:SerializedName("imDbRating")
+    val imDbRating: String,
+    @field:SerializedName("crew")
+    val crew: String,
 ) : Parcelable
