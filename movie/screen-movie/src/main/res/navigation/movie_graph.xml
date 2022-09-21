@@ -38,6 +38,13 @@
     <fragment
         android:id="@+id/tvSeriesFragment"
         android:name="com.rick.screen_movie.tv_series.TvSeriesFragment"
-        android:label="TvSeriesFragment" />
+        android:label="TvSeriesFragment" >
+        <action
+            android:id="@+id/action_tvSeriesFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_tvSeriesFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 
 </navigation>
