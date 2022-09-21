@@ -64,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:hint="@string/movie_summary"
-                android:maxLines="6"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textSize="18sp" />
 
