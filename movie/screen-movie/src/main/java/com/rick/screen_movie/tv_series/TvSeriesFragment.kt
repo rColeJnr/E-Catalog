@@ -23,7 +23,6 @@ class TvSeriesFragment: Fragment() {
     private val viewModel: TvSeriesViewModel by viewModels()
     private lateinit var adapter: TvSeriesAdapter
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
