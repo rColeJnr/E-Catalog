@@ -13,8 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class TvSeriesFragment: Fragment() {
 
     private var _binding: FragmentMovieCatalogBinding? = null
