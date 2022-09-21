@@ -7,7 +7,7 @@
     <string name="rated">Rated: %1$s</string>
     <string name="read_article">Read the complete movie article: \n%1$s</string>
     <string name="no_rating">no rating</string>
-    <string name="movie_summary">This movie is about a boy whilst young once dreamed to be a software developer for facebook, \nbut facebook sucks, so he now wants to work at google\nand now he\'s on a daily pursuit of said dream</string>
+    <string name="movie_summary">This movie is about a boy who whilst young once dreamed to be a software developer for facebook, \nbut facebook sucks, so he now wants to work at google\nand now he\'s on a daily pursuit of said dream</string>
     <string name="retry">Error, try again</string>
     <string name="no_results">No results 😓\nSwipe to refresh</string>
     <string name="may_month">May</string>
@@ -40,4 +40,5 @@
     <string name="movie_transition_name">movie_item_%1$s</string>
     <string name="search_transition_name">search %1$s</string>
     <string name="failed_to_retrieve_data">Failed to retrieve data 😓</string>
+    <string name="no_data">n/a</string>
 </resources>

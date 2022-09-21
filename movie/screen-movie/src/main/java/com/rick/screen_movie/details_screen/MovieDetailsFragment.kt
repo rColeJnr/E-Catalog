@@ -43,9 +43,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
 
@@ -71,9 +69,7 @@ class MovieDetailsFragment : Fragment() {
         }
 
         binding.bindState(
-            viewModel.movingPictures,
-            viewModel.searchLoading,
-            viewModel.searchError
+            viewModel.movingPictures, viewModel.searchLoading, viewModel.searchError
         )
 
         return binding.root
@@ -100,9 +96,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun FragmentMovieDetailsBinding.bindState(
-        movie: LiveData<IMDBMovie>,
-        loading: LiveData<Boolean>,
-        error: LiveData<String>
+        movie: LiveData<IMDBMovie>, loading: LiveData<Boolean>, error: LiveData<String>
     ) {
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -118,12 +112,7 @@ class MovieDetailsFragment : Fragment() {
         listSimilars.adapter = similarsAdapter
 
         bindList(
-            imagesAdapter,
-            actorsAdapter,
-            similarsAdapter,
-            movie,
-            loading,
-            error
+            imagesAdapter, actorsAdapter, similarsAdapter, movie, loading, error
         )
     }
 
@@ -136,6 +125,8 @@ class MovieDetailsFragment : Fragment() {
         error: LiveData<String>
     ) {
 
+        val noData = getString(R.string.no_data)
+
         loading.observe(viewLifecycleOwner) { progressing ->
             if (progressing) {
                 detailsProgressBar.visibility = View.VISIBLE
@@ -145,26 +136,102 @@ class MovieDetailsFragment : Fragment() {
         error.observe(viewLifecycleOwner) { msg ->
             if (msg.isNullOrBlank()) detailsErrorMessage.visibility = View.GONE
             else detailsErrorMessage.visibility = View.VISIBLE
+            movieGenres.text = resources.getString(R.string.genres, noData)
+
+            movieAwards.text = resources.getString(R.string.awards, noData)
+            moviePublicationDate.text = resources.getString(
+                R.string.release_date, noData
+            )
+            movieRuntime.text = resources.getString(
+                R.string.runtime, noData
+            )
+            imdbChip.text = resources.getString(
+                R.string.imdb_rating, noData
+            )
+            rTomatoesChip.text =
+                resources.getString(R.string.tomato_rating, getString(R.string.no_data))
+            movieDbChip.text = resources.getString(
+                R.string.db_rating, noData
+            )
+            movieBudget.text = resources.getString(
+                R.string.budget, noData
+            )
+            movieOpenWeekendGross.text = resources.getString(R.string.open_week_gross, noData)
+
+            movieWorldWideGross.text = resources.getString(
+                R.string.world_wide_gross, noData
+            )
         }
 
         movie.observe(viewLifecycleOwner) { imdb: IMDBMovie ->
             movieSummary.text = imdb.plot
-            movieGenres.text = resources.getString(R.string.genres, imdb.genres)
-            movieAwards.text = resources.getString(R.string.awards, imdb.awards)
-            moviePublicationDate.text = resources.getString(R.string.release_date, imdb.releaseDate)
-            movieRuntime.text = resources.getString(R.string.runtime, imdb.runtimeStr)
-            imdbChip.text = resources.getString(R.string.imdb_rating, imdb.ratings.imDb)
-            rTomatoesChip.text =
-                resources.getString(R.string.tomato_rating, imdb.ratings.rottenTomatoes)
-            movieDbChip.text = resources.getString(R.string.db_rating, imdb.ratings.theMovieDb)
-            movieBudget.text = resources.getString(R.string.budget, imdb.boxOffice.budget)
-            movieOpenWeekendGross.text =
-                resources.getString(R.string.open_week_gross, imdb.boxOffice.openingWeekendUSA)
-            movieWorldWideGross.text = resources.getString(
-                R.string.world_wide_gross,
-                imdb.boxOffice.cumulativeWorldwideGross
-            )
             movieTitle.text = imdb.title
+            movieGenres.text =
+                if (imdb.genres.isNotEmpty()) resources.getString(R.string.genres, imdb.genres)
+                else resources.getString(
+                    R.string.genres, noData
+                )
+
+            movieAwards.text =
+                if (imdb.awards.isNotBlank()) resources.getString(R.string.awards, imdb.awards)
+                else resources.getString(
+                    R.string.awards, noData
+                )
+            moviePublicationDate.text =
+                if (imdb.releaseDate.isNotEmpty()) resources.getString(
+                    R.string.release_date, imdb.releaseDate
+                )
+                else resources.getString(
+                    R.string.release_date, noData
+                )
+            movieRuntime.text =
+                if (!imdb.runtimeStr.isNullOrEmpty()) resources.getString(
+                    R.string.runtime, imdb.runtimeStr
+                )
+                else resources.getString(
+                    R.string.runtime, noData
+                )
+            imdbChip.text =
+                if (imdb.ratings.imDb.isNotEmpty()) resources.getString(
+                    R.string.imdb_rating, imdb.ratings.imDb
+                )
+                else resources.getString(
+                    R.string.imdb_rating, noData
+                )
+            rTomatoesChip.text =
+                if (imdb.ratings.rottenTomatoes.isNotEmpty()) resources.getString(
+                    R.string.tomato_rating, imdb.ratings.rottenTomatoes
+                )
+                else resources.getString(
+                    R.string.tomato_rating, noData
+                )
+            movieDbChip.text =
+                if (imdb.ratings.theMovieDb.isNotEmpty()) resources.getString(
+                    R.string.db_rating, imdb.ratings.theMovieDb
+                ) else resources.getString(
+                    R.string.db_rating, noData
+                )
+            movieBudget.text =
+                if (imdb.boxOffice.budget.isNotEmpty()) resources.getString(
+                    R.string.budget, imdb.boxOffice.budget
+                )
+                else resources.getString(
+                    R.string.budget, noData
+                )
+            movieOpenWeekendGross.text =
+                if (imdb.boxOffice.openingWeekendUSA.isNotEmpty()) resources.getString(
+                    R.string.open_week_gross, imdb.boxOffice.openingWeekendUSA
+                )
+                else resources.getString(
+                    R.string.open_week_gross, noData
+                )
+            movieWorldWideGross.text =
+                if (imdb.boxOffice.cumulativeWorldwideGross.isNotEmpty()) resources.getString(
+                    R.string.world_wide_gross, imdb.boxOffice.cumulativeWorldwideGross
+                )
+                else resources.getString(
+                    R.string.world_wide_gross, noData
+                )
             imagesAdapter.imagesDiffer.submitList(imdb.images.items)
             actorDetailsAdapter.actorsDiffer.submitList(imdb.actorList)
             similarDetailsAdapter.similarsDiffer.submitList(imdb.similars)
