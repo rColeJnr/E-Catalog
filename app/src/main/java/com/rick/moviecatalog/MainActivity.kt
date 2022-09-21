@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 com.rick.screen_movie.R.id.movieCatalogFragment,
-                com.rick.screen_book.R.id.bookCatalogFragment
+                com.rick.screen_book.R.id.bookCatalogFragment,
+                com.rick.screen_movie.R.id.tvSeriesFragment,
             ),
             binding.drawerLayout
         )
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 com.rick.screen_movie.R.id.movieCatalogFragment -> binding.toolbarText.text = "Movies"
                 com.rick.screen_book.R.id.bookCatalogFragment -> binding.toolbarText.text = "Books"
+                com.rick.screen_movie.R.id.tvSeriesFragment -> binding.toolbarText.text = "Series"
             }
         }
     }

@@ -7,6 +7,11 @@
         android:title="@string/movie"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/tvSeriesFragment"
+        android:icon="@drawable/ic_moviefolder"
+        android:title="@string/series"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/book_graph"
         android:icon="@drawable/ic_book"
         android:title="@string/book"
