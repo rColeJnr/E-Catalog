@@ -10,7 +10,7 @@ import com.rick.data_movie.imdb.IMDBApi
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.toImdbMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
-import com.rick.data_movie.imdb.series_model.TvSeriesResponse
+import com.rick.data_movie.imdb.series_model.TvSeries
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -211,12 +211,26 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
-    suspend fun getTvSeries(apiKey: String): Flow<Resource<TvSeriesResponse>> {
+    suspend fun getTvSeries(apiKey: String): Flow<Resource<List<TvSeries>>> {
         return flow {
             emit(Resource.Loading(true))
+
+            var tvSeries: List<TvSeries>? = null
+            db.withTransaction {
+                tvSeries = db.seriesDao.getTvSeries()
+            }
+            if (!tvSeries.isNullOrEmpty()) {
+                emit(Resource.Success<List<TvSeries>>(data = tvSeries))
+                emit(Resource.Loading(false))
+            }
             try {
                 val apiResponse = imdbApi.getPopularTvSeries(apiKey = apiKey).toTvSeriesResponse()
-                emit(Resource.Success<TvSeriesResponse>(data = apiResponse))
+                db.withTransaction {
+                    db.seriesDao.insertTvSeries(apiResponse.tvSeries)
+                    tvSeries = db.seriesDao.getTvSeries()
+                }
+
+                emit(Resource.Success<List<TvSeries>>(data = tvSeries))
                 emit(Resource.Loading(false))
             } catch (e: IOException) {
                 emit(Resource.Error(e.message))
