@@ -164,8 +164,8 @@ class MovieDetailsFragment : Fragment() {
         }
 
         movie.observe(viewLifecycleOwner) { imdb: IMDBMovie ->
-            movieSummary.text = imdb.plot
             movieTitle.text = imdb.title
+            movieSummary.text = imdb.plot
             movieGenres.text =
                 if (imdb.genres.isNotEmpty()) resources.getString(R.string.genres, imdb.genres)
                 else resources.getString(

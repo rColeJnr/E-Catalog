@@ -46,8 +46,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/failed_to_retrieve_data"
                         android:textAppearance="?attr/textAppearanceCaption"
-                        android:visibility="gone"
-                        android:textColor="@android:color/holo_blue_light" />
+                        android:textColor="@android:color/holo_blue_light"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -64,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:hint="@string/movie_summary"
+                android:maxLines="6"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textSize="18sp" />
 
@@ -71,7 +72,7 @@
                 android:id="@+id/movie_genres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginBottom="@dimen/two_dimen"
                 android:text="@string/genres"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
