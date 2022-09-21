@@ -10,7 +10,7 @@ import com.rick.data_movie.imdb.IMDBApi
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.toImdbMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
-import com.rick.data_movie.imdb.series_model.TvSeriesResponse
+import com.rick.data_movie.imdb.series_model.TvSeries
 import com.rick.data_movie.ny_times.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -211,12 +211,12 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
-    suspend fun getTvSeries(apiKey: String): Flow<Resource<TvSeriesResponse>> {
+    suspend fun getTvSeries(apiKey: String): Flow<Resource<TvSeries>> {
         return flow {
             emit(Resource.Loading(true))
             try {
                 val apiResponse = imdbApi.getPopularTvSeries(apiKey = apiKey)
-                emit(Resource.Success<TvSeriesResponse>(data = apiResponse))
+                emit(Resource.Success<TvSeries>(data = apiResponse))
                 emit(Resource.Loading(false))
             } catch (e: IOException) {
                 emit(Resource.Error(e.message))
