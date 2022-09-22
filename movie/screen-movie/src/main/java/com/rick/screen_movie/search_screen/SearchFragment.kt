@@ -234,8 +234,7 @@ class SearchAdapter(
     private val glide: RequestManager,
     private val options: RequestOptions,
     private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
-) :
-    RecyclerView.Adapter<SearchViewHolder>() {
+) : RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
         override fun areItemsTheSame(
