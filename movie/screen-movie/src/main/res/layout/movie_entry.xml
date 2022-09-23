@@ -2,10 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/movie_entry_card_view"
-    android:transitionName="@string/movie_transition_name"
-    android:backgroundTint="@android:color/black"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:backgroundTint="@android:color/white"
+    android:transitionName="@string/movie_transition_name">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
