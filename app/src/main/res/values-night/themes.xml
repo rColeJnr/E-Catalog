@@ -18,7 +18,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorOnSurface">@color/white</item>
-        <item name="android:statusBarColor">@color/grey_900</item>
+        <item name="android:statusBarColor">@color/blue_grey_900</item>
 
     </style>
 
