@@ -2,10 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/series_graph"
-    app:startDestination="@id/tvSeriesFragment2">
+    app:startDestination="@id/tvSeriesFragment">
 
     <fragment
-        android:id="@+id/tvSeriesFragment2"
-        android:name="com.rick.screen_movie.tv_series.TvSeriesFragment"
-        android:label="TvSeriesFragment" />
+        android:id="@+id/tvSeriesFragment"
+        android:name="com.rick.screen_movie.tv_series.TvSeriesFragment"/>
 </navigation>
