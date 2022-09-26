@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/series_graph"
+    app:startDestination="@id/tvSeriesFragment2">
+
+    <fragment
+        android:id="@+id/tvSeriesFragment2"
+        android:name="com.rick.screen_movie.tv_series.TvSeriesFragment"
+        android:label="TvSeriesFragment" />
+</navigation>
