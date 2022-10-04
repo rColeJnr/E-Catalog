@@ -143,7 +143,7 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindSearch(
         uiState: StateFlow<SearchUiState>,
-        onQueryChanged: (SearchUiAction.SearchMovie) -> Unit
+        onQueryChanged: (SearchUiAction.SearchMovie) -> Unit,
     ) {
 
         showSoftKeyboard(searchInput, requireContext())

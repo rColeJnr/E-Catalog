@@ -47,6 +47,7 @@ class SearchViewModel @Inject constructor(
             actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
         viewModelScope.launch { searchMovie.collectLatest { searchMovies(it.title) } }
+        viewModelScope.launch { searchSeries.collectLatest { searchMovies(it.title) } }
 
         searchState = combine(
             searchMovie, searchSeries, ::Pair
@@ -87,9 +88,15 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             repository.searchSeries(apiKey = imdbKey, query = title).collect { result ->
                 when (result) {
-                    is Resource.Error -> TODO()
-                    is Resource.Loading -> TODO()
-                    is Resource.Success -> TODO()
+                    is Resource.Error -> {
+                        _searchError.postValue(result.message)
+                    }
+                    is Resource.Loading -> {
+                        _searchLoading.postValue(result.isLoading)
+                    }
+                    is Resource.Success -> {
+                        _searchList.postValue(result.data!!)
+                    }
                 }
             }
         }
