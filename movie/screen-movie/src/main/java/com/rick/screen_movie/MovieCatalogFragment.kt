@@ -156,7 +156,7 @@ class MovieCatalogFragment : Fragment() {
         val extras = FragmentNavigatorExtras(v to movieToDetails)
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(
-                movieId = null, movieTitle = movie.title
+                movieTitle = movie.title, movieId = null, series = null,
             )
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }

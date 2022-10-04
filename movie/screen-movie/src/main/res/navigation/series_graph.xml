@@ -16,6 +16,14 @@
         android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment" >
         <argument android:name="series"
             app:argType="string"
-            app:nullable="false"/>
+            app:nullable="true"/>
+        <argument
+            android:name="movieId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="movieTitle"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

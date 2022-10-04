@@ -30,6 +30,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
 
+    private var series: String? = null
     private var title: String? = null
     private var id: String? = null
 
@@ -49,15 +50,14 @@ class MovieDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
+            series = safeArgs.series
             title = safeArgs.movieTitle
             id = safeArgs.movieId
         }
 
-        if (title != null) {
-            viewModel.getMovieOrSeriesId(title!!)
-        } else {
-            viewModel.getMovieOrSeries(id!!)
-        }
+        title?.let { viewModel.getMovieOrSeriesId(it) }
+        id?.let { viewModel.getMovieOrSeries(it) }
+        series?.let { viewModel.getMovieOrSeries(it) }
 
         initAdapters()
 
@@ -86,6 +86,7 @@ class MovieDetailsFragment : Fragment() {
         val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
             strokeWidth = 5f
             centerRadius = 30f
+            this.backgroundColor = Color.BLUE
             start()
         }
         val options = RequestOptions().placeholder(circularProgressDrawable)
