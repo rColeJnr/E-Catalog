@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/two_dimen"
+    android:backgroundTint="?attr/colorSurface"
     android:elevation="0dp">
 
     <LinearLayout
@@ -22,8 +23,8 @@
             android:id="@+id/actor_image"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/image_height"
-            android:contentDescription="@string/actor_image"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/actor_image"
             android:maxWidth="@dimen/max_image_width"
             android:minWidth="@dimen/min_image_width"
             android:scaleType="fitCenter"

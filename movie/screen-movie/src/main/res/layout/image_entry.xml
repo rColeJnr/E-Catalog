@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/two_dimen"
+    android:backgroundTint="?attr/colorSurface"
     android:elevation="0dp">
 
     <com.google.android.material.imageview.ShapeableImageView
