@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.rick.data_movie.imdb.series_model.TvSeries
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,12 +45,19 @@ class TvSeriesFragment: Fragment() {
 
         viewModel.tvSeriesList.observe(viewLifecycleOwner){
             adapter.differ.submitList(it)
+            // TODO show new items thing on top
         }
 
     }
 
+    private fun onSeriesClick(view: View, series: TvSeries) {
+        val action = TvSeriesFragmentDirections
+            .actionTvSeriesFragmentToSeriesDetailsFragment(series.id)
+        findNavController().navigate(directions = action)
+    }
+
     private fun initAdapter() {
-        adapter = TvSeriesAdapter(requireContext())
+        adapter = TvSeriesAdapter(requireContext(), this::onSeriesClick)
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
