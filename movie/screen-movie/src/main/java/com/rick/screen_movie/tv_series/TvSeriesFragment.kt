@@ -52,7 +52,11 @@ class TvSeriesFragment: Fragment() {
 
     private fun onSeriesClick(view: View, series: TvSeries) {
         val action = TvSeriesFragmentDirections
-            .actionTvSeriesFragmentToSeriesDetailsFragment(series.id)
+            .actionTvSeriesFragmentToSeriesDetailsFragment(
+                series = series.id,
+                movieId = null,
+                movieTitle = null
+            )
         findNavController().navigate(directions = action)
     }
 

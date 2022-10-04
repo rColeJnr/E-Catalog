@@ -220,7 +220,11 @@ class SearchFragment : Fragment() {
         val searchToDetails = getString(R.string.search_transition_name, movie.id)
         val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action = SearchFragmentDirections
-            .actionSearchFragmentToMovieDetailsFragment(movieId = movie.id, movieTitle = null)
+            .actionSearchFragmentToMovieDetailsFragment(
+                movieId = movie.id,
+                movieTitle = null,
+                series = null
+            )
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
