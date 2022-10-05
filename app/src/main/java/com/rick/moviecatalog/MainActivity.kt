@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-        title = ""
+        title = getString(R.string.empty)
 
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.fragmentContainerView
@@ -60,10 +60,11 @@ class MainActivity : AppCompatActivity() {
             } else {
                 toolbar.visibility = View.VISIBLE
             }
-            when (destination.id) {
-                com.rick.screen_movie.R.id.movieCatalogFragment -> binding.toolbarText.text = "Movies"
-                com.rick.screen_book.R.id.bookCatalogFragment -> binding.toolbarText.text = "Books"
-                com.rick.screen_movie.R.id.tvSeriesFragment -> binding.toolbarText.text = "Series"
+            binding.toolbarText.text = when (destination.id) {
+                com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.movie)
+                com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.book)
+                com.rick.screen_movie.R.id.tvSeriesFragment -> getString(R.string.series)
+                else -> getString(R.string.empty)
             }
         }
     }
