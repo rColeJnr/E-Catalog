@@ -42,7 +42,7 @@ class SearchViewModel @Inject constructor(
 
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()
         val search =
-            actionStateFlow.filterIsInstance<SearchUiAction.SearchMovie>().distinctUntilChanged()
+            actionStateFlow.filterIsInstance<SearchUiAction.Search>().distinctUntilChanged()
 
         viewModelScope.launch {
             search.collectLatest {
@@ -107,6 +107,5 @@ data class SearchUiState(
 )
 
 sealed class SearchUiAction {
-    data class SearchMovie(val query: String) : SearchUiAction()
-    data class SearchSeries(val query: String) : SearchUiAction()
+    data class Search(val query: String) : SearchUiAction()
 }
