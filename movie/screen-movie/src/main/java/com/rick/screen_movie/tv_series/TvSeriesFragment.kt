@@ -94,7 +94,7 @@ class TvSeriesFragment: Fragment() {
                 val action =
                     TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment(
                         series = getString( R.string.tvseries_fragment ),
-                        movie = jnull
+                        movie = null
                     )
                 findNavController().navigate(action)
                 true

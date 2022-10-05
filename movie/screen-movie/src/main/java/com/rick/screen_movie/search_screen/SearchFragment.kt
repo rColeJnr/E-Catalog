@@ -43,6 +43,9 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
 
+    private var seriesFlag: String? = null
+    private var movieFlag: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
@@ -59,6 +62,12 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        arguments?.let {
+            val safeArgs = SearchFragmentArgs.fromBundle(it)
+            seriesFlag = safeArgs.series
+            movieFlag = safeArgs.movie
+        }
 
         binding.toolbar.apply {
             inflateMenu(R.menu.search_menu)
@@ -143,7 +152,7 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindSearch(
         uiState: StateFlow<SearchUiState>,
-        onQueryChanged: (SearchUiAction.SearchMovie) -> Unit,
+        onQueryChanged: (SearchUiAction) -> Unit,
     ) {
 
         showSoftKeyboard(searchInput, requireContext())
@@ -173,11 +182,16 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchMovie) -> Unit) {
-        searchInput.text!!.trim().let {
-            if (it.isNotEmpty()) {
+    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction) -> Unit) {
+        searchInput.text!!.trim().let { query ->
+            if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
-                onQueryChanged(SearchUiAction.SearchMovie(title = it.toString()))
+                seriesFlag?.let {
+                    onQueryChanged(SearchUiAction.SearchSeries(title = query.toString()))
+                }
+                movieFlag?.let {
+                    onQueryChanged(SearchUiAction.SearchMovie(title = query.toString()))
+                }
             }
         }
     }
