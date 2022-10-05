@@ -41,29 +41,22 @@ class SearchViewModel @Inject constructor(
         imdbKey = getIMDBKey()
 
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()
-        val searchMovie =
+        val search =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchMovie>().distinctUntilChanged()
-        val searchSeries =
-            actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
         viewModelScope.launch {
-            searchMovie.collectLatest {
-                searchMovies(it.title)
-                searchSeries(it.title)
+            search.collectLatest {
+                searchMovies(it.query)
+                searchSeries(it.query)
             }
         }
 
-        searchState = combine(
-            searchMovie, searchSeries, ::Pair
-        ).map { (movie, series) ->
-            SearchUiState(
-                movieQuery = movie.title, seriesQuery = series.title
+        searchState = search.map { SearchUiState(searchQuery = it.query) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
+                initialValue = SearchUiState()
             )
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
-            initialValue = SearchUiState()
-        )
 
         searchAction = { action ->
             viewModelScope.launch { actionStateFlow.emit(action) }
@@ -110,11 +103,10 @@ class SearchViewModel @Inject constructor(
 }
 
 data class SearchUiState(
-    val movieQuery: String? = null,
-    val seriesQuery: String? = null,
+    val searchQuery: String? = null,
 )
 
 sealed class SearchUiAction {
-    data class SearchMovie(val title: String) : SearchUiAction()
-    data class SearchSeries(val title: String) : SearchUiAction()
+    data class SearchMovie(val query: String) : SearchUiAction()
+    data class SearchSeries(val query: String) : SearchUiAction()
 }
