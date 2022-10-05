@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="movie_fragment">Movie fragment</string>
+    <string name="tvseries_fragment">TvSeries fragment</string>
     <string name="error_message">Не удалось загрузить данные</string>
     <string name="error_toast_message">"Проведите по экрану, чтобы обновить, произошла ошибка: %1$s"</string>
     <string name="no_more_movies">No more movies</string>
