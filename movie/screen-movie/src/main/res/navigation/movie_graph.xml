@@ -35,7 +35,7 @@
         android:name="com.rick.screen_movie.search_screen.SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_movieDetailsFragment"
+            android:id="@+id/action_searchFragment_to_detailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <argument
             android:name="movie"
