@@ -63,12 +63,12 @@ class SearchFragment : Fragment() {
         binding.toolbar.apply {
             inflateMenu(R.menu.search_menu)
 
-            menu.findItem(R.id.search_imdb).isVisible = false
+            menu.findItem(R.id.search_options).isVisible = false
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.search_options -> {
-                        // TODO SHOW OPTIONS
+                    R.id.search_imdb -> {
+                        binding.updateListFromInput(viewModel.searchAction)
                         true
                     }
                     else -> super.onOptionsItemSelected(item)
