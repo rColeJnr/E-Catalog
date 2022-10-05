@@ -43,9 +43,6 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
 
-    private var series: String? = null
-    private var movie: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
@@ -101,13 +98,6 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-
-        arguments?.let {
-            val safeArgs = SearchFragmentArgs.fromBundle(it)
-            series = safeArgs.series
-            movie = safeArgs.movie
-        }
-
     }
 
     private fun initAdapter() {
