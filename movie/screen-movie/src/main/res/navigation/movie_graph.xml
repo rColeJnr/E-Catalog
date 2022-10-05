@@ -38,11 +38,11 @@
             android:id="@+id/action_searchFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <argument
-            android:name="@string/tvseries_fragment"
+            android:name="movie"
             app:argType="string"
             app:nullable="true"/>
         <argument
-            android:name="@string/movie_fragment"
+            android:name="series"
             app:argType="string"
             app:nullable="true"/>
     </fragment>

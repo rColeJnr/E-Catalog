@@ -12,14 +12,15 @@
             app:destination="@id/seriesDetailsFragment" />
         <action
             android:id="@+id/action_tvSeriesFragment_to_seriesSearchFragment"
-            app:destination="@+id/seriesSearchFragment"/>
+            app:destination="@+id/seriesSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/seriesDetailsFragment"
-        android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment" >
-        <argument android:name="series"
+        android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment">
+        <argument
+            android:name="series"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
         <argument
             android:name="movieId"
             app:argType="string"
@@ -34,14 +35,14 @@
         android:name="com.rick.screen_movie.search_screen.SearchFragment">
         <action
             android:id="@+id/action_seriesSearchFragment_to_seriesDetailsFragment"
-            app:destination="@id/seriesDetailsFragment"/>
+            app:destination="@id/seriesDetailsFragment" />
         <argument
-            android:name="@string/tvseries_fragment"
+            android:name="series"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
         <argument
-            android:name="@string/movie_fragment"
+            android:name="movie"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
     </fragment>
 </navigation>
