@@ -52,14 +52,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == com.rick.screen_movie.R.id.searchFragment
+            toolbar.visibility = if (destination.id == com.rick.screen_movie.R.id.searchFragment
                 || destination.id == com.rick.screen_movie.R.id.movieDetailsFragment
                 || destination.id == com.rick.screen_movie.R.id.seriesDetailsFragment
-            ) {
-                toolbar.visibility = View.GONE
-            } else {
-                toolbar.visibility = View.VISIBLE
-            }
+            )
+                View.GONE
+            else
+                View.VISIBLE
+
             binding.toolbarText.text = when (destination.id) {
                 com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.movie)
                 com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.book)
