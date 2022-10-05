@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.imdb.series_model.TvSeries
-import com.rick.screen_movie.MovieCatalogFragmentDirections
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,10 +91,7 @@ class TvSeriesFragment: Fragment() {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
                 val action =
-                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment(
-                        series = getString( R.string.tvseries_fragment ),
-                        movie = null
-                    )
+                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment()
                 findNavController().navigate(action)
                 true
             }
