@@ -3,12 +3,16 @@ package com.rick.screen_movie.tv_series
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.imdb.series_model.TvSeries
 import com.rick.screen_movie.R
@@ -26,6 +30,9 @@ class TvSeriesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
     }
 
     override fun onCreateView(
@@ -46,6 +53,8 @@ class TvSeriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         viewModel.tvSeriesList.observe(viewLifecycleOwner) {
             adapter.differ.submitList(it)
@@ -55,13 +64,18 @@ class TvSeriesFragment : Fragment() {
     }
 
     private fun onSeriesClick(view: View, series: TvSeries) {
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        val seriesToDetails = getString(R.string.movie_transition_name, series.title)
+        val extras = FragmentNavigatorExtras(view to seriesToDetails)
         val action = TvSeriesFragmentDirections
             .actionTvSeriesFragmentToSeriesDetailsFragment(
                 series = series.id,
                 movieId = null,
                 movieTitle = null
             )
-        findNavController().navigate(directions = action)
+        findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
     private fun initAdapter() {
