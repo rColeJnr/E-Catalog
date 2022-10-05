@@ -180,7 +180,9 @@ class MovieCatalogFragment : Fragment() {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
                 val action =
-                    MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
+                    MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment(
+                        movi
+                    )
                 findNavController().navigate(action)
                 true
             }
