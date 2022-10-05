@@ -181,8 +181,8 @@ class MovieCatalogFragment : Fragment() {
                 }
                 val action =
                     MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment(
-                        movies = getString( R.string.movie_fragment ),
-                        null
+                        movie = getString( R.string.movie_fragment ),
+                        series = null
                     )
                 findNavController().navigate(action)
                 true
