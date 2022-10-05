@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_tvSeriesFragment_to_seriesDetailsFragment"
             app:destination="@id/seriesDetailsFragment" />
+        <action
+            android:id="@+id/action_tvSeriesFragment_to_seriesSearchFragment"
+            app:destination="@+id/seriesSearchFragment"/>
     </fragment>
     <fragment
         android:id="@+id/seriesDetailsFragment"
@@ -25,5 +28,17 @@
             android:name="movieTitle"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/seriesSearchFragment"
+        android:name="com.rick.screen_movie.search_screen.SearchFragment">
+        <argument
+            android:name="series"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="movie"
+            app:argType="string"
+            app:nullable="true"/>
     </fragment>
 </navigation>
