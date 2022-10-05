@@ -46,8 +46,12 @@ class SearchViewModel @Inject constructor(
         val searchSeries =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchSeries>().distinctUntilChanged()
 
-        viewModelScope.launch { searchMovie.collectLatest { searchMovies(it.title) } }
-        viewModelScope.launch { searchSeries.collectLatest { searchSeries(it.title) } }
+        viewModelScope.launch {
+            searchMovie.collectLatest {
+                searchMovies(it.title)
+                searchSeries(it.title)
+            }
+        }
 
         searchState = combine(
             searchMovie, searchSeries, ::Pair

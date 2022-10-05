@@ -37,14 +37,6 @@
         <action
             android:id="@+id/action_searchFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
-        <argument
-            android:name="series"
-            app:argType="string"
-            app:nullable="true"/>
-        <argument
-            android:name="movie"
-            app:argType="string"
-            app:nullable="true"/>
     </fragment>
 
 </navigation>
