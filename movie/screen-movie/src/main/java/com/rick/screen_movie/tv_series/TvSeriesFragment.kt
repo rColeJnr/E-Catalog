@@ -91,7 +91,10 @@ class TvSeriesFragment: Fragment() {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
                 val action =
-                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment()
+                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment(
+                        series = getString(R.string.tvseries_fragment),
+                        movie = null
+                    )
                 findNavController().navigate(action)
                 true
             }
