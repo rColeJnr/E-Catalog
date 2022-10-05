@@ -3,6 +3,8 @@ package com.rick.screen_movie
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -37,7 +39,6 @@ class MovieCatalogFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         enterTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
@@ -66,6 +67,35 @@ class MovieCatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val menuHost = requireActivity() as MenuHost
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onPrepareMenu(menu: Menu) {
+                menu.findItem(R.id.search_options).isVisible = false
+            }
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.search_imdb -> {
+                        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                        }
+                        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                        }
+                        val action =
+                            MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
+                        findNavController().navigate(action)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        })
+
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -158,33 +188,6 @@ class MovieCatalogFragment : Fragment() {
                 movieTitle = movie.title, movieId = null, series = null,
             )
         findNavController().navigate(directions = action, navigatorExtras = extras)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.search_options).isVisible = false
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.search_imdb -> {
-                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                val action =
-                    MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
-                findNavController().navigate(action)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onDestroy() {

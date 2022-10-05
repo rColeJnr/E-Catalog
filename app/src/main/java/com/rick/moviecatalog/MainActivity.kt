@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+//TODO MIGRATE
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         title = getString(R.string.empty)

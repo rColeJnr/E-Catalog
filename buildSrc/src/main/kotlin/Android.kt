@@ -1,6 +1,6 @@
 object Android {
     const val appId = "com.rick.moviecatalog"
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val minSdk = 24
     const val targetSdk = 32
     const val versionCode = 1

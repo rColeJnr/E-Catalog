@@ -5,6 +5,9 @@ object AndroidX {
     private const val appCompatVersion = "1.4.1"
     const val appCompat = "androidx.appcompat:appcompat:$appCompatVersion"
 
+    private const val activityKtxVersion = "1.7.0-alpha01"
+    const val activityKtx = "androidx.activity:activity-ktx:$activityKtxVersion"
+
     private const val lifecycleVmKtxVersion = "2.4.1"
     const val lifecycleVmKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVmKtxVersion"
 
