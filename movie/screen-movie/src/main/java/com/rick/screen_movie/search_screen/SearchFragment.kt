@@ -168,7 +168,7 @@ class SearchFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             uiState
-                .map { it.movieQuery }
+                .map { it.searchQuery }
                 .distinctUntilChanged()
                 .collectLatest(searchInput::setText)
         }
