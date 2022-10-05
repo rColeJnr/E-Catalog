@@ -32,5 +32,16 @@
     <fragment
         android:id="@+id/seriesSearchFragment"
         android:name="com.rick.screen_movie.search_screen.SearchFragment">
+        <action
+            android:id="@+id/action_seriesSearchFragment_to_seriesDetailsFragment"
+            app:destination="@id/seriesDetailsFragment"/>
+        <argument
+            android:name="@string/tvseries_fragment"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="@string/movie_fragment"
+            app:argType="string"
+            app:nullable="true"/>
     </fragment>
 </navigation>
