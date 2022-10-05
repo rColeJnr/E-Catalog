@@ -16,7 +16,7 @@ import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TvSeriesFragment: Fragment() {
+class TvSeriesFragment : Fragment() {
 
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
@@ -47,7 +47,7 @@ class TvSeriesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.tvSeriesList.observe(viewLifecycleOwner){
+        viewModel.tvSeriesList.observe(viewLifecycleOwner) {
             adapter.differ.submitList(it)
             // TODO show new items thing on top
         }
@@ -91,10 +91,7 @@ class TvSeriesFragment: Fragment() {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
                 val action =
-                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment(
-                        series = getString(R.string.tvseries_fragment),
-                        movie = null
-                    )
+                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment()
                 findNavController().navigate(action)
                 true
             }
