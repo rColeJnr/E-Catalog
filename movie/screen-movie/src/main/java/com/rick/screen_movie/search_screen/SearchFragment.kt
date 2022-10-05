@@ -43,6 +43,9 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
 
+    private var series: String? = null
+    private var movie: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
@@ -98,6 +101,13 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
+
+        arguments?.let {
+            val safeArgs = SearchFragmentArgs.fromBundle(it)
+            series = safeArgs.series
+            movie = safeArgs.movie
+        }
+
     }
 
     private fun initAdapter() {
@@ -220,12 +230,14 @@ class SearchFragment : Fragment() {
         }
         val searchToDetails = getString(R.string.search_transition_name, movie.id)
         val extras = FragmentNavigatorExtras(view to searchToDetails)
-        val action = SearchFragmentDirections
-            .actionSeriesSearchFragmentToSeriesDetailsFragment(
-                movieId = movie.id,
-                movieTitle = null,
-                series = null
-            )
+        val action =
+            SearchFragmentDirections
+                .actionSearchFragmentToDetailsFragment(
+                    movieId = movie.id,
+                    movieTitle = null,
+                    series = null
+                )
+
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 

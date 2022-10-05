@@ -34,7 +34,7 @@
         android:id="@+id/seriesSearchFragment"
         android:name="com.rick.screen_movie.search_screen.SearchFragment">
         <action
-            android:id="@+id/action_seriesSearchFragment_to_seriesDetailsFragment"
+            android:id="@+id/action_searchFragment_to_detailsFragment"
             app:destination="@id/seriesDetailsFragment" />
         <argument
             android:name="series"
