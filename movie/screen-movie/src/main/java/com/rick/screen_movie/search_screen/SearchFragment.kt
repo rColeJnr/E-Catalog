@@ -43,7 +43,6 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
@@ -174,16 +173,12 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction) -> Unit) {
+    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.Search) -> Unit) {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
-                seriesFlag?.let {
-                    onQueryChanged(SearchUiAction.SearchSeries(title = query.toString()))
-                }
-                movieFlag?.let {
-                    onQueryChanged(SearchUiAction.SearchMovie(title = query.toString()))
-                }
+                onQueryChanged(SearchUiAction.Search(query = query.toString()))
+
             }
         }
     }
