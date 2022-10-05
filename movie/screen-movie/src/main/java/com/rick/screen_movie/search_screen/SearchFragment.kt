@@ -43,8 +43,6 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
 
-    private var seriesFlag: String? = null
-    private var movieFlag: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +60,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-        arguments?.let {
-            val safeArgs = SearchFragmentArgs.fromBundle(it)
-            seriesFlag = safeArgs.series
-            movieFlag = safeArgs.movie
-        }
 
         binding.toolbar.apply {
             inflateMenu(R.menu.search_menu)
