@@ -9,6 +9,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -73,6 +74,7 @@ class MovieCatalogFragment : Fragment() {
             override fun onPrepareMenu(menu: Menu) {
                 menu.findItem(R.id.search_options).isVisible = false
             }
+
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.search_menu, menu)
             }
@@ -81,10 +83,12 @@ class MovieCatalogFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.search_imdb -> {
                         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                            duration = resources.getInteger(R.integer.catalog_motion_duration_long)
+                                .toLong()
                         }
                         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                            duration = resources.getInteger(R.integer.catalog_motion_duration_long)
+                                .toLong()
                         }
                         val action =
                             MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
@@ -94,7 +98,7 @@ class MovieCatalogFragment : Fragment() {
                     else -> false
                 }
             }
-        })
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
