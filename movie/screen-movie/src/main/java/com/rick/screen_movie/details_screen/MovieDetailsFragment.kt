@@ -88,12 +88,21 @@ class MovieDetailsFragment : Fragment() {
     private fun FragmentMovieDetailsBinding.bindState(
         movie: LiveData<IMDBMovie>, loading: LiveData<Boolean>, error: LiveData<String>
     ) {
-        val layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val layoutManager2 =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val layoutManager3 =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        val layoutManager2 = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        val layoutManager3 = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
         listImages.layoutManager = layoutManager
         listActors.layoutManager = layoutManager2
         listSimilars.layoutManager = layoutManager3
