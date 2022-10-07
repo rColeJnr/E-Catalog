@@ -1,6 +1,5 @@
 package com.rick.screen_movie.tv_series
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,8 @@ import com.rick.screen_movie.databinding.MovieEntryBinding
 
 
 class TvSeriesAdapter(
-    private val context: Context,
     private val onItemClicked: (view: View, series: TvSeries) -> Unit
-    ): RecyclerView.Adapter<TvSeriesViewHolder>() {
+) : RecyclerView.Adapter<TvSeriesViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<TvSeries>() {
         override fun areItemsTheSame(oldItem: TvSeries, newItem: TvSeries): Boolean {
@@ -30,7 +28,7 @@ class TvSeriesAdapter(
     val differ = AsyncListDiffer(this, diffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvSeriesViewHolder {
-        return TvSeriesViewHolder.create(context, parent, onItemClicked)
+        return TvSeriesViewHolder.create(parent, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: TvSeriesViewHolder, position: Int) {
@@ -42,10 +40,9 @@ class TvSeriesAdapter(
 }
 
 class TvSeriesViewHolder(
-    private val context: Context,
     itemBinding: MovieEntryBinding,
     private val onItemClicked: (view: View, series: TvSeries) -> Unit,
-): RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
+) : RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
     private val title = itemBinding.movieName
     private val image = itemBinding.movieImage
     private val cast = itemBinding.movieSummary
@@ -59,8 +56,10 @@ class TvSeriesViewHolder(
 
     fun bind(series: TvSeries) {
         this.tvSeries = series
-        if (series.image.isNotEmpty()){
-            Glide.with(context).load(series.image).into(this.image)
+        if (series.image.isNotEmpty()) {
+            Glide.with(this.image)
+                .load(series.image)
+                .into(this.image)
         }
         this.title.text = series.title
         this.cast.text = series.crew
@@ -73,9 +72,13 @@ class TvSeriesViewHolder(
     }
 
     companion object {
-        fun create(context: Context, parent: ViewGroup, onItemClick: (view: View, series: TvSeries) -> Unit): TvSeriesViewHolder {
-            val itemBinding = MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return TvSeriesViewHolder(context, itemBinding, onItemClick)
+        fun create(
+            parent: ViewGroup,
+            onItemClick: (view: View, series: TvSeries) -> Unit
+        ): TvSeriesViewHolder {
+            val itemBinding =
+                MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return TvSeriesViewHolder(itemBinding, onItemClick)
         }
     }
 }
