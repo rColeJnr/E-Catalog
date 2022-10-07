@@ -37,7 +37,7 @@ class TvSeriesFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
         val navController = findNavController()
