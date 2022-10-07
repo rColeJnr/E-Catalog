@@ -79,7 +79,7 @@ class TvSeriesFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = TvSeriesAdapter(requireContext(), this::onSeriesClick)
+        adapter = TvSeriesAdapter(this::onSeriesClick)
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
