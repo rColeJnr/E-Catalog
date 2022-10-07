@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
+import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ class SearchViewModel @Inject constructor(
     init {
 
         // Load api_keys
-        System.loadLibrary("movie-keys")
+        System.loadLibrary(LIB_NAME)
         imdbKey = getIMDBKey()
 
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
+import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,7 +34,7 @@ class DetailsViewModel @Inject constructor(
     init {
 
         // Load api_keys
-        System.loadLibrary("movie-keys")
+        System.loadLibrary(LIB_NAME)
         imdbKey = getIMDBKey()
 
     }

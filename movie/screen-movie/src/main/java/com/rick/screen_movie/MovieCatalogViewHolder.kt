@@ -28,11 +28,9 @@ class MovieCatalogViewHolder(
         this.title.text = movie.title
         this.summary.text = movie.summary
         val resources = itemView.resources
-        if (movie.rating.isNotBlank()) {
-            this.rating.text =
-                resources.getString(R.string.rated, movie.rating)
-            rating.visibility = View.VISIBLE
-        } else rating.visibility = View.INVISIBLE
+        this.rating.text =
+            if (movie.rating.isNotBlank()) resources.getString(R.string.rated, movie.rating)
+            else resources.getString(R.string.no_data)
         val src = movie.multimedia.src
         if (src.isNotBlank()) provideGlide(this.image, src)
     }
