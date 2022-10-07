@@ -83,17 +83,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun initAdapters() {
-        val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
-            strokeWidth = 5f
-            centerRadius = 30f
-            this.backgroundColor = Color.BLUE
-            start()
-        }
-        val options = RequestOptions().placeholder(circularProgressDrawable)
-        val glide = Glide.with(requireContext())
-        imagesAdapter = DetailsImagesAdapter(glide, options)
-        actorsAdapter = ActorDetailsAdapter(glide, options)
-        similarsAdapter = SimilarDetailsAdapter(glide, options)
+        imagesAdapter = DetailsImagesAdapter()
+        actorsAdapter = ActorDetailsAdapter()
+        similarsAdapter = SimilarDetailsAdapter()
     }
 
     private fun FragmentMovieDetailsBinding.bindState(

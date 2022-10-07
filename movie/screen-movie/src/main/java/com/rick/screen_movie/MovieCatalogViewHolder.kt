@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.request.RequestOptions
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.MovieEntryBinding
+import com.rick.screen_movie.util.provideGlide
 
 class MovieCatalogViewHolder(
     binding: MovieEntryBinding,
@@ -24,7 +23,7 @@ class MovieCatalogViewHolder(
         binding.root.setOnClickListener(this)
     }
 
-    fun bind(glide: RequestManager, options: RequestOptions, movie: Movie) {
+    fun bind(movie: Movie) {
         this.movie = movie
         this.title.text = movie.title
         this.summary.text = movie.summary
@@ -34,12 +33,8 @@ class MovieCatalogViewHolder(
                 resources.getString(R.string.rated, movie.rating)
             rating.visibility = View.VISIBLE
         } else rating.visibility = View.INVISIBLE
-        if (movie.multimedia.src.isNotBlank()) {
-            glide
-                .load(movie.multimedia.src)
-                .apply(options)
-                .into(this.image)
-        }
+        val src = movie.multimedia.src
+        if (src.isNotBlank()) provideGlide(this.image, src)
     }
 
     override fun onClick(v: View) {
@@ -47,7 +42,10 @@ class MovieCatalogViewHolder(
     }
 
     companion object {
-        fun create(parent: ViewGroup, onItemClicked: (view: View, movie: Movie) -> Unit): MovieCatalogViewHolder {
+        fun create(
+            parent: ViewGroup,
+            onItemClicked: (view: View, movie: Movie) -> Unit
+        ): MovieCatalogViewHolder {
             val itemBinding = MovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return MovieCatalogViewHolder(

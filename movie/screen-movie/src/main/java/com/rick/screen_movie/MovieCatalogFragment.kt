@@ -73,14 +73,8 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val glide = Glide.with(requireContext())
-        val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
-            strokeWidth = 5f
-            centerRadius = 30f
-            start()
-        }
-        val options = RequestOptions().placeholder(circularProgressDrawable)
-        adapter = MovieCatalogAdapter(glide, options, this::onMovieClick)
+
+        adapter = MovieCatalogAdapter(this::onMovieClick)
 
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(footer = MoviesLoadStateAdapter { adapter.retry() })

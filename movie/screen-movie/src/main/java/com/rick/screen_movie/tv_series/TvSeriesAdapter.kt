@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.rick.data_movie.imdb.series_model.TvSeries
 import com.rick.screen_movie.databinding.MovieEntryBinding
+import com.rick.screen_movie.util.provideGlide
 
 
 class TvSeriesAdapter(
@@ -56,11 +56,9 @@ class TvSeriesViewHolder(
 
     fun bind(series: TvSeries) {
         this.tvSeries = series
-        if (series.image.isNotEmpty()) {
-            Glide.with(this.image)
-                .load(series.image)
-                .into(this.image)
-        }
+
+        val src = series.image
+        if (src.isNotBlank()) provideGlide(this.image, src)
         this.title.text = series.title
         this.cast.text = series.crew
         this.rating.text = series.imDbRating
