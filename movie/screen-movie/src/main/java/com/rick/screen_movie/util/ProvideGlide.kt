@@ -6,15 +6,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 fun provideGlide(view: ImageView, src: String) {
-    val glide = Glide.with(view)
     val circularProgressDrawable = CircularProgressDrawable(view.context).apply {
         strokeWidth = 5f
         centerRadius = 30f
         start()
     }
-    val options = RequestOptions().placeholder(circularProgressDrawable)
-    glide
+    Glide.with(view)
         .load(src)
-        .apply(options)
+        .apply(
+            RequestOptions().placeholder(circularProgressDrawable)
+        )
         .into(view)
 }
