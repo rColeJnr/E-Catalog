@@ -7,6 +7,8 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
+import com.rick.screen_movie.util.LIB_NAME
+import com.rick.screen_movie.util.TIME_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -32,7 +34,7 @@ class MovieCatalogViewModel @Inject constructor(
     init {
 
         // Load api_keys
-        System.loadLibrary("movie-keys")
+        System.loadLibrary(LIB_NAME)
         nyKey = getNYKey()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
@@ -88,7 +90,7 @@ class MovieCatalogViewModel @Inject constructor(
 
 private var previousDate: LocalDate? = null
 private fun getMonth(date: String?): LocalDate {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formatter = DateTimeFormatter.ofPattern(TIME_FORMAT)
     val localDate = if (date != null) {
         previousDate = LocalDate.parse(date, formatter)
         previousDate

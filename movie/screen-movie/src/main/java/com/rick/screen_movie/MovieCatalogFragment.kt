@@ -15,16 +15,16 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -45,7 +45,7 @@ class MovieCatalogFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
         val navController = findNavController()
@@ -148,14 +148,14 @@ class MovieCatalogFragment : Fragment() {
             }
         }
 
-        val hasNavigatedAway = uiState.map { it.navigatedAway }
+//        val hasNavigatedAway = uiState.map { it.navigatedAway }
 
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-        val shouldScrollToTop = combine(
-            hasNavigatedAway, notLoading, Boolean::and
-        )
+//        val shouldScrollToTop = combine(
+//            hasNavigatedAway, notLoading, Boolean::and
+//        )
 
         lifecycleScope.launch {
             notLoading.collectLatest {

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.imdb.series_model.TvSeries
+import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class TvSeriesViewModel @Inject constructor(
     init {
 
         // Load api_key
-        System.loadLibrary("movie-keys")
+        System.loadLibrary(LIB_NAME)
         imdbKey = getIMDBKey()
 
         getTvSeries()
