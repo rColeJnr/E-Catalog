@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.request.RequestOptions
 import com.rick.data_movie.imdb.movie_model.Actor
 import com.rick.data_movie.imdb.movie_model.Item
 import com.rick.data_movie.imdb.movie_model.Similar
@@ -14,11 +12,9 @@ import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.ActorsEntryBinding
 import com.rick.screen_movie.databinding.ImageEntryBinding
 import com.rick.screen_movie.databinding.SimilarEntryBinding
+import com.rick.screen_movie.util.provideGlide
 
-class DetailsImagesAdapter(
-    private val glide: RequestManager,
-    private val options: RequestOptions
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DetailsImagesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Item>() {
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
@@ -38,7 +34,7 @@ class DetailsImagesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val image = imagesDiffer.currentList[position]
-        (holder as ImagesViewHolder).bind(glide, options, image)
+        (holder as ImagesViewHolder).bind(image)
     }
 
     override fun getItemCount(): Int = imagesDiffer.currentList.size
@@ -50,14 +46,11 @@ class ImagesViewHolder(binding: ImageEntryBinding) :
 
     private lateinit var image: Item
 
-    fun bind(glide: RequestManager, options: RequestOptions, image: Item) {
+    fun bind(image: Item) {
         this.image = image
-        if (image.image.isNotEmpty()) {
-            glide
-                .load(image.image)
-                .apply(options)
-                .into(this.imageView)
-        }
+
+        val src = image.image
+        if (src.isNotBlank()) provideGlide(this.imageView, src)
     }
 
     companion object {
@@ -69,10 +62,7 @@ class ImagesViewHolder(binding: ImageEntryBinding) :
     }
 }
 
-class SimilarDetailsAdapter(
-    private val glide: RequestManager,
-    private val options: RequestOptions
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SimilarDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Similar>() {
         override fun areItemsTheSame(oldItem: Similar, newItem: Similar): Boolean {
@@ -92,7 +82,7 @@ class SimilarDetailsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val similar = similarsDiffer.currentList[position]
-        (holder as SimilarsViewHolder).bind(glide, options, similar)
+        (holder as SimilarsViewHolder).bind(similar)
     }
 
     override fun getItemCount(): Int = similarsDiffer.currentList.size
@@ -105,15 +95,12 @@ class SimilarsViewHolder(binding: SimilarEntryBinding) :
 
     private lateinit var similar: Similar
 
-    fun bind(glide: RequestManager, options: RequestOptions, similar: Similar) {
+    fun bind(similar: Similar) {
         this.similar = similar
         this.title.text = similar.title
-        if (similar.image.isNotEmpty()) {
-            glide
-                .load(similar.image)
-                .apply(options)
-                .into(this.image)
-        }
+
+        val src = similar.image
+        if (src.isNotBlank()) provideGlide(this.image, src)
     }
 
     companion object {
@@ -125,10 +112,7 @@ class SimilarsViewHolder(binding: SimilarEntryBinding) :
     }
 }
 
-class ActorDetailsAdapter(
-    private val glide: RequestManager,
-    private val options: RequestOptions
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ActorDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Actor>() {
         override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean {
@@ -148,7 +132,7 @@ class ActorDetailsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val actor = actorsDiffer.currentList[position]
-        (holder as ActorsViewHolder).bind(glide, options, actor)
+        (holder as ActorsViewHolder).bind(actor)
     }
 
     override fun getItemCount(): Int = actorsDiffer.currentList.size
@@ -162,16 +146,14 @@ class ActorsViewHolder(binding: ActorsEntryBinding) :
 
     private lateinit var actor: Actor
 
-    fun bind(glide: RequestManager, options: RequestOptions, actor: Actor) {
+    fun bind(actor: Actor) {
         this.actor = actor
         this.name.text = actor.name
-        this.character.text = this.itemView.context.getString(R.string.as_character, actor.asCharacter)
-        if (actor.image.isNotEmpty()) {
-            glide
-                .load(actor.image)
-                .apply(options)
-                .into(this.image)
-        }
+        this.character.text =
+            this.itemView.context.getString(R.string.as_character, actor.asCharacter)
+
+        val src = actor.image
+        if (src.isNotBlank()) provideGlide(this.image, src)
     }
 
     companion object {
