@@ -3,12 +3,9 @@ package com.rick.screen_movie.tv_series
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -57,35 +54,35 @@ class TvSeriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val menuHost = requireActivity() as MenuHost
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onPrepareMenu(menu: Menu) {
-                menu.findItem(R.id.search_options).isVisible = false
-            }
-
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.search_imdb -> {
-                        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                            duration = resources.getInteger(R.integer.catalog_motion_duration_long)
-                                .toLong()
-                        }
-                        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                            duration = resources.getInteger(R.integer.catalog_motion_duration_long)
-                                .toLong()
-                        }
-                        val action =
-                            TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment()
-                        findNavController().navigate(action)
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+//        val menuHost = requireActivity() as MenuHost
+//        menuHost.addMenuProvider(object : MenuProvider {
+//            override fun onPrepareMenu(menu: Menu) {
+//                menu.findItem(R.id.search_options).isVisible = false
+//            }
+//
+//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+//            }
+//
+//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+//                return when (menuItem.itemId) {
+//                    R.id.search_imdb -> {
+//                        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+//                            duration = resources.getInteger(R.integer.catalog_motion_duration_long)
+//                                .toLong()
+//                        }
+//                        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+//                            duration = resources.getInteger(R.integer.catalog_motion_duration_long)
+//                                .toLong()
+//                        }
+//                        val action =
+//                            TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment()
+//                        findNavController().navigate(action)
+//                        true
+//                    }
+//                    else -> false
+//                }
+//            }
+//        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
