@@ -58,7 +58,6 @@ dependencies {
     implementation AndroidX.coreKtx
     implementation AndroidX.appCompat
     implementation AndroidX.material
-    implementation AndroidX.activityKtx
     implementation AndroidX.constraintlayout
     implementation AndroidX.lifecycleVmKtx
 
