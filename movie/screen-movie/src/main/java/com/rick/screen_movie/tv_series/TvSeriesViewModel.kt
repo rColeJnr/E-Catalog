@@ -30,26 +30,30 @@ class TvSeriesViewModel @Inject constructor(
 
     }
 
-    private val _tvSeriesList: MutableLiveData<List<TvSeries>> by
-    lazy { MutableLiveData<List<TvSeries>>() }
-    val tvSeriesList: LiveData<List<TvSeries>> get() = _tvSeriesList
+    private val _tvSeriesList: MutableLiveData<TvSeriesUiState.Series> by
+    lazy { MutableLiveData<TvSeriesUiState.Series>() }
+    val tvSeriesList: LiveData<TvSeriesUiState.Series> get() = _tvSeriesList
 
-    private val _tvSeriesLoading: MutableLiveData<Boolean> by
-    lazy { MutableLiveData<Boolean>(false) }
-    val tvSeriesLoading: LiveData<Boolean> get() = _tvSeriesLoading
+    private val _tvSeriesLoading: MutableLiveData<TvSeriesUiState.Loading> by
+    lazy { MutableLiveData<TvSeriesUiState.Loading>()}
+    val tvSeriesLoading: LiveData<TvSeriesUiState.Loading> get() = _tvSeriesLoading
 
-    private val _tvSeriesError: MutableLiveData<String> by
-    lazy { MutableLiveData<String>() }
-    val tvSeriesError: LiveData<String> get() = _tvSeriesError
+    private val _tvSeriesError: MutableLiveData<TvSeriesUiState.Error> by
+    lazy { MutableLiveData<TvSeriesUiState.Error>() }
+    val tvSeriesError: LiveData<TvSeriesUiState.Error> get() = _tvSeriesError
 
     private fun getTvSeries() {
         viewModelScope.launch {
             repository.getTvSeries(imdbKey).collectLatest { result ->
                 when (result) {
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                    is Resource.Error -> {
+                        _tvSeriesError.postValue(TvSeriesUiState.Error(result.message))
+                    }
+                    is Resource.Loading -> {
+                        _tvSeriesLoading.postValue(TvSeriesUiState.Loading(result.isLoading))
+                    }
                     is Resource.Success -> {
-                        _tvSeriesList.postValue(result.data)
+                        _tvSeriesList.postValue(TvSeriesUiState.Series(result.data!!))
                     }
                 }
             }
@@ -57,4 +61,10 @@ class TvSeriesViewModel @Inject constructor(
     }
 
     private external fun getIMDBKey(): String
+}
+
+sealed class TvSeriesUiState {
+    data class Series(val series: List<TvSeries>) : TvSeriesUiState()
+    data class Loading(val loading: Boolean) : TvSeriesUiState()
+    data class Error(val msg: String?) : TvSeriesUiState()
 }

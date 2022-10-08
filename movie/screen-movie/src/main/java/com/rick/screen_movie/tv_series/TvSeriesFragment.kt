@@ -57,7 +57,7 @@ class TvSeriesFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         viewModel.tvSeriesList.observe(viewLifecycleOwner) {
-            adapter.differ.submitList(it)
+            adapter.differ.submitList(it.series)
             // TODO show new items thing on top
         }
 
