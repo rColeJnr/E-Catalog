@@ -10,8 +10,8 @@ import com.rick.data_movie.MovieCatalogRepository
 import com.rick.screen_movie.util.LIB_NAME
 import com.rick.screen_movie.util.TIME_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -28,8 +28,6 @@ MovieCatalogViewModel @Inject constructor(
 
     val pagingDataFLow: Flow<PagingData<UiModel>>
 
-    val state: StateFlow<UiState>
-    private val accept: (UiAction) -> Unit
     private val nyKey: String
 
     init {
@@ -38,24 +36,8 @@ MovieCatalogViewModel @Inject constructor(
         System.loadLibrary(LIB_NAME)
         nyKey = getNYKey()
 
-        val actionStateFlow = MutableSharedFlow<UiAction>()
-        val navigate = actionStateFlow
-            .filterIsInstance<UiAction.NavigateToDetails>()
-            .distinctUntilChanged()
-            .onStart { emit(UiAction.NavigateToDetails(movie = null)) }
-
         pagingDataFLow = fetchMovies(nyKey).cachedIn(viewModelScope)
 
-        state = navigate.map { UiState(navigatedAway = it.movie != null) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(1000),
-                initialValue = UiState()
-            )
-
-        accept = { action ->
-            viewModelScope.launch { actionStateFlow.emit(action) }
-        }
     }
 
     private fun fetchMovies(key: String): Flow<PagingData<UiModel>> =
