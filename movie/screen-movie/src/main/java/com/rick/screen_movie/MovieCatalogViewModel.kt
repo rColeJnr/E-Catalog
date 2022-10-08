@@ -17,7 +17,8 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieCatalogViewModel @Inject constructor(
+class
+MovieCatalogViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
