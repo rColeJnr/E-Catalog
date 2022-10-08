@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.imdb.series_model.TvSeries
+import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,16 +21,6 @@ class TvSeriesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val imdbKey: String
-
-    init {
-
-        // Load api_key
-        System.loadLibrary(LIB_NAME)
-        imdbKey = getIMDBKey()
-
-        getTvSeries()
-
-    }
 
     private val _tvSeriesList: MutableLiveData<TvSeriesUiState.Series> by
     lazy { MutableLiveData<TvSeriesUiState.Series>() }
@@ -41,6 +33,20 @@ class TvSeriesViewModel @Inject constructor(
     private val _tvSeriesError: MutableLiveData<TvSeriesUiState.Error> by
     lazy { MutableLiveData<TvSeriesUiState.Error>() }
     val tvSeriesError: LiveData<TvSeriesUiState.Error> get() = _tvSeriesError
+
+    val state: StateFlow<TvSeriesUiState>
+    private val action: (UiAction) -> Unit
+
+
+    init {
+
+        // Load api_key
+        System.loadLibrary(LIB_NAME)
+        imdbKey = getIMDBKey()
+
+        getTvSeries()
+
+    }
 
     private fun getTvSeries() {
         viewModelScope.launch {
