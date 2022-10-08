@@ -22,7 +22,6 @@ import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -57,7 +56,6 @@ class MovieCatalogFragment : Fragment() {
         initAdapter()
 
         binding.bindState(
-            uiState = viewModel.state,
             pagingData = viewModel.pagingDataFLow
         )
 
@@ -111,22 +109,19 @@ class MovieCatalogFragment : Fragment() {
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
-        pagingData: Flow<PagingData<UiModel>>,
-        uiState: StateFlow<UiState>
+        pagingData: Flow<PagingData<UiModel>>
     ) {
 
         bindList(
             adapter = adapter,
-            pagingData = pagingData,
-            uiState = uiState,
+            pagingData = pagingData
         )
 
     }
 
     private fun FragmentMovieCatalogBinding.bindList(
         adapter: MovieCatalogAdapter,
-        pagingData: Flow<PagingData<UiModel>>,
-        uiState: StateFlow<UiState>,
+        pagingData: Flow<PagingData<UiModel>>
     ) {
 
         lifecycleScope.launchWhenCreated {
@@ -148,14 +143,8 @@ class MovieCatalogFragment : Fragment() {
             }
         }
 
-//        val hasNavigatedAway = uiState.map { it.navigatedAway }
-
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
-
-//        val shouldScrollToTop = combine(
-//            hasNavigatedAway, notLoading, Boolean::and
-//        )
 
         lifecycleScope.launch {
             notLoading.collectLatest {
