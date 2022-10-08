@@ -58,7 +58,10 @@ class TvSeriesFragment : Fragment() {
 
         viewModel.tvSeriesList.observe(viewLifecycleOwner) {
             adapter.differ.submitList(it.series)
-            // TODO show new items thing on top
+        }
+
+        viewModel.tvSeriesLoading.observe(viewLifecycleOwner) {
+            binding.swipeRefresh.isRefreshing = it.loading
         }
 
     }
