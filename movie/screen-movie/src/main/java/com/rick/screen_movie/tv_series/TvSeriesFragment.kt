@@ -56,14 +56,23 @@ class TvSeriesFragment : Fragment() {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
+        binding.bindList(
+
+        )
+    }
+
+    private fun FragmentMovieCatalogBinding.bindList() {
         viewModel.tvSeriesList.observe(viewLifecycleOwner) {
             adapter.differ.submitList(it.series)
         }
 
         viewModel.tvSeriesLoading.observe(viewLifecycleOwner) {
-            binding.swipeRefresh.isRefreshing = it.loading
+            swipeRefresh.isRefreshing = it.loading
         }
 
+        swipeRefresh.setOnRefreshListener {
+            viewModel.getTvSeries()
+        }
     }
 
     private fun onSeriesClick(view: View, series: TvSeries) {
