@@ -71,7 +71,8 @@ class TvSeriesFragment : Fragment() {
         }
 
         swipeRefresh.setOnRefreshListener {
-            viewModel.getTvSeries()
+            getTvSeries()
+
         }
     }
 
