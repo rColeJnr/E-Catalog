@@ -2,10 +2,13 @@ package com.rick.screen_movie.tv_series
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -57,23 +60,35 @@ class TvSeriesFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         binding.bindList(
-
+            viewModel.tvSeriesList,
+            viewModel.tvSeriesLoading,
+            viewModel.tvSeriesError
         )
     }
 
-    private fun FragmentMovieCatalogBinding.bindList() {
-        viewModel.tvSeriesList.observe(viewLifecycleOwner) {
+    private fun FragmentMovieCatalogBinding.bindList(
+        tvSeriesList: LiveData<TvSeriesUiState.Series>,
+        tvSeriesLoading: LiveData<TvSeriesUiState.Loading>,
+        tvSeriesError: LiveData<TvSeriesUiState.Error>
+    ) {
+        tvSeriesList.observe(viewLifecycleOwner) {
             adapter.differ.submitList(it.series)
         }
 
-        viewModel.tvSeriesLoading.observe(viewLifecycleOwner) {
+        tvSeriesLoading.observe(viewLifecycleOwner) {
             swipeRefresh.isRefreshing = it.loading
         }
 
-        swipeRefresh.setOnRefreshListener {
-            getTvSeries()
-
+        tvSeriesError.observe(viewLifecycleOwner) {
+            emptyList.isVisible = adapter.itemCount == 0
         }
+
+        swipeRefresh.setOnRefreshListener {
+            Toast.makeText(context, getString(R.string.list_updated), Toast.LENGTH_SHORT).show()
+            swipeRefresh.isRefreshing = false
+        }
+
+
     }
 
     private fun onSeriesClick(view: View, series: TvSeries) {
