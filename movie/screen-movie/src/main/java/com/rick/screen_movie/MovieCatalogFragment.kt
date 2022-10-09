@@ -135,20 +135,17 @@ class MovieCatalogFragment : Fragment() {
                 // show empty list.
                 emptyList.isVisible =
                     loadState.source.refresh is LoadState.NotLoading && adapter.itemCount == 0
-                // Only show the list if refresh succeeds.
-                recyclerView.isVisible =
-                    loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
+
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-                // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {msg ->
+
+                if (
+                    loadState.source.refresh is LoadState.NotLoading
+
+                ) {
                     Toast.makeText(
                         context,
-                        "\uD83D\uDE28 Wooops ${msg.error}",
+                        "\uD83D\uDE28 Wooops ",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
