@@ -134,18 +134,20 @@ class MovieCatalogFragment : Fragment() {
 
                 // show empty list.
                 emptyList.isVisible =
-                    loadState.source.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                    loadState.source.refresh is LoadState.NotLoading
+                        && loadState.mediator?.refresh is LoadState.NotLoading
+                        && adapter.itemCount == 0
 
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
 
-                if (
-                    loadState.source.refresh is LoadState.NotLoading
+                val errorState = loadState.source.refresh as? LoadState.Error
+                    ?: loadState.mediator?.refresh as? LoadState.Error
 
-                ) {
+                errorState?.let {
                     Toast.makeText(
                         context,
-                        "\uD83D\uDE28 Wooops ",
+                        "\uD83D\uDE28 Wooops $it",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
