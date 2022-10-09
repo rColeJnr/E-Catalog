@@ -82,7 +82,11 @@ class TvSeriesFragment : Fragment() {
         tvSeriesError.observe(viewLifecycleOwner) {
             emptyList.isVisible = adapter.itemCount == 0
             it.msg?.let { msg ->
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "\uD83D\uDE28 Wooops $msg",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
