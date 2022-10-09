@@ -42,7 +42,7 @@ class TvSeriesViewModel @Inject constructor(
 
     }
 
-    fun getTvSeries() {
+    private fun getTvSeries() {
         viewModelScope.launch {
             repository.getTvSeries(imdbKey).collectLatest { result ->
                 when (result) {
