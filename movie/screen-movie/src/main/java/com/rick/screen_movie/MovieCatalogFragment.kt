@@ -2,6 +2,7 @@ package com.rick.screen_movie
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -139,7 +140,18 @@ class MovieCatalogFragment : Fragment() {
                     loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-
+                // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+                errorState?.let {msg ->
+                    Toast.makeText(
+                        context,
+                        "\uD83D\uDE28 Wooops ${msg.error}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
