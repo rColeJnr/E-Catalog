@@ -132,14 +132,11 @@ class MovieCatalogFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collect { loadState ->
 
-                // show empty list.
-                emptyList.isVisible =
-                    loadState.source.refresh is LoadState.NotLoading
-                        && loadState.mediator?.refresh is LoadState.NotLoading
-                        && adapter.itemCount == 0
-
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                // show empty list.
+                emptyList.isVisible =
+                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
