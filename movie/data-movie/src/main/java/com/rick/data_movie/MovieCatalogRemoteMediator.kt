@@ -51,9 +51,11 @@ class MovieCatalogRemoteMediator(
 
         try {
             val response = api.fetchMovieCatalog(offset = offset, apikey = key).toMovieCatalog()
-            offset+=20
             val movies = response.movieCatalog
             val endOfPaginationReached = movies.isEmpty()
+            if (loadType == LoadType.APPEND) {
+                offset += 20
+            }
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     db.remoteKeysDao.clearRemoteKeys()
