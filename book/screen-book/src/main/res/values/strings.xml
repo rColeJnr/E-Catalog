@@ -14,4 +14,5 @@
     <string name="searchLabel">Search</string>
     <string name="book_transition_name">book transition %1$s</string>
     <string name="search_transition_name">search transition %1$s</string>
+    <string name="book_detail_transition_name">book details transition name</string>
 </resources>
