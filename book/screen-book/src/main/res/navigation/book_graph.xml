@@ -10,13 +10,12 @@
         <action
             android:id="@+id/action_bookCatalogFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
             />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
         android:name="com.rick.screen_book.details.BookDetailsFragment"/>
+    <argument android:name="book"
+        app:argType="string"
+        app:nullable="true"/>
 </navigation>

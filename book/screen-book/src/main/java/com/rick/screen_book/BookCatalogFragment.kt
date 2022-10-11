@@ -99,6 +99,12 @@ class BookCatalogFragment: Fragment() {
         }
     }
 
+    private fun onBookClick(view: View, bookLink: String) {
+
+        val action = BookCatalogFragmentDirections
+            .actionBookCatalogFragmentToBookDetailsFragment()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
