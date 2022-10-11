@@ -7,4 +7,5 @@
     <string name="bookshelf">Bookshelves: %1$s</string>
     <string name="languages">Languages: %1$s</string>
     <string name="downloaded">Downloaded %1$s times</string>
+    <string name="no_results">No results 😓\nSwipe to refresh</string>
 </resources>
