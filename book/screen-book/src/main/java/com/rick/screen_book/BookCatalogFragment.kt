@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +25,18 @@ class BookCatalogFragment: Fragment() {
     ): View {
         _binding = FragmentBookCatalogBinding.inflate(inflater, container, false)
 
+        initAdapter()
+
         return binding.root
+    }
+
+    private fun initAdapter(){
+        adapter = BookCatalogAdapter()
+
+        binding.recyclerView.adapter =
+            adapter.withLoadStateFooter(footer = BookLoadStateAdapter { adapter.retry() })
+
+        binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
 
     override fun onDestroyView() {
