@@ -1,12 +1,12 @@
 package com.rick.data_book
 
-import GutenbergApi.Companion.GUTENBERG_BASE_URL
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.google.gson.Gson
 import com.rick.core.GsonParser
 import com.rick.data_book.BookDatabase.Companion.DATABASE_NAME
+import com.rick.data_book.GutenbergApi.Companion.GUTENBERG_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,4 +44,8 @@ object BookDIModule {
             DATABASE_NAME,
         ).addTypeConverter(BookTypeConverters(GsonParser(Gson())))
             .build()
+
+    @Provides
+    fun provideBookRepository(db: BookDatabase, api: GutenbergApi) : BookRepository =
+        BookRepository(db, api)
 }
