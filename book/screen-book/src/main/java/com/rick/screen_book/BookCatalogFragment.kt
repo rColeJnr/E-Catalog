@@ -88,11 +88,11 @@ class BookCatalogFragment: Fragment() {
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-//        lifecycleScope.launch {
-//            notLoading.collectLatest {
-//                if (it) recyclerView.scrollToPosition(0)
-//            }
-//        }
+        lifecycleScope.launch {
+            notLoading.collectLatest {
+                if (it) recyclerView.scrollToPosition(0)
+            }
+        }
 
         swipeRefresh.setOnRefreshListener {
             adapter.refresh()
