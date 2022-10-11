@@ -1,9 +1,16 @@
 package com.rick.data_book
 
 import GutenbergApi.Companion.GUTENBERG_BASE_URL
+import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.google.gson.Gson
+import com.rick.core.GsonParser
+import com.rick.data_book.BookDatabase.Companion.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,4 +36,12 @@ object BookDIModule {
         .build()
         .create()
 
+    @Provides
+    fun providesBookDatabase(@ApplicationContext context: Context): RoomDatabase =
+        Room.databaseBuilder(
+            context,
+            BookDatabase::class.java,
+            DATABASE_NAME,
+        ).addTypeConverter(BookTypeConverters(GsonParser(Gson())))
+            .build()
 }
