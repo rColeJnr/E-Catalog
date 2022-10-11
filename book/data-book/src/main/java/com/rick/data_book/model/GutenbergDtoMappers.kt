@@ -1,4 +1,4 @@
-package com.rick.data_book
+package com.rick.data_book.model
 
 fun GutenbergResponseDto.toGutenBergResponse(): GutenbergResponse = GutenbergResponse(
     count = count,

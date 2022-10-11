@@ -4,6 +4,7 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
+import com.rick.data_book.model.Author
 
 @ProvidedTypeConverter
 class BookTypeConverters(
