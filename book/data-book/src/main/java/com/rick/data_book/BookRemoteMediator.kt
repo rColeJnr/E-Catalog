@@ -5,7 +5,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.room.withTransaction
 import com.rick.data_book.model.Book
+import com.rick.data_book.model.toGutenBergResponse
 
 private const val STARTING_PAGE_INDEX = 1
 
@@ -42,7 +44,10 @@ class BookRemoteMediator(
         }
 
         try {
-            val response = api.fetchBooks()
+            val response = api.fetchBooks().toGutenBergResponse()
+            val endOfPaginationReached = response.count == 0
+
+            db.withTransaction {  }
         }
     }
 
