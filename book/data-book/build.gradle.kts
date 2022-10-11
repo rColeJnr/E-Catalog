@@ -7,7 +7,7 @@ apply {
 
 dependencies {
 
-    "implementation"(project(":core"))
+    "implementation"(project(Modules.core))
 
     "implementation"(Retrofit.retrofit)
     "implementation"(Retrofit.converter)
@@ -18,6 +18,12 @@ dependencies {
     "kapt"(Hilt.compiler)
 
     "implementation"(Room.roomRuntime)
+    "implementation"(Room.room)
+    "implementation"(Room.paging)
+    "kapt"(Room.compiler)
+
+    "implementation"(Paging.paging)
+    "implementation"(Paging.runtime)
 
     "implementation"(Coroutines.core)
 }
