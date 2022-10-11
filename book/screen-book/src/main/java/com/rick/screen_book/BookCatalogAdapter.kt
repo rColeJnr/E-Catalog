@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.rick.data_book.model.Book
+import com.rick.data_book.model.Formats
 
 class BookCatalogAdapter(
-    private val onItemClick: (view: View, book: String) -> Unit
+    private val onItemClick: (view: View, formats: Formats) -> Unit
 ) : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: BookCatalogViewHolder, position: Int) {
