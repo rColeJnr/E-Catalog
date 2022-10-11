@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
@@ -198,13 +199,15 @@ class BookSearchFragment : Fragment() {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
+        val searchToDetails = getString(R.string.search_transition_name, formats.image)
+        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action =
             BookSearchFragmentDirections
                 .actionSearchFragmentToBookDetailsFragment(
                     formats = formats
                 )
 
-        findNavController().navigate(directions = action)
+        findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
     override fun onDestroy() {
