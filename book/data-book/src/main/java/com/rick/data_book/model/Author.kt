@@ -12,4 +12,8 @@ data class Author(
     val deathYear: Int,
     @SerializedName("name")
     val name: String
-): Parcelable
+): Parcelable {
+    override fun toString(): String {
+        return name
+    }
+}
