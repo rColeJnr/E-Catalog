@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/book_graph"
     app:startDestination="@id/bookCatalogFragment">
 
@@ -11,6 +12,9 @@
             android:id="@+id/action_bookCatalogFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment"
             />
+        <action
+            android:id="@+id/action_bookCatalogFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
@@ -18,5 +22,14 @@
 
         <argument android:name="formats"
             app:argType="com.rick.data_book.model.Formats" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.rick.screen_book.search_screen.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
     </fragment>
 </navigation>
