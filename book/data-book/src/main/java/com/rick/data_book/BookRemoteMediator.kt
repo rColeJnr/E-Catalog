@@ -44,14 +44,18 @@ class BookRemoteMediator(
         }
 
         try {
-            val response = api.fetchBooks().toGutenBergResponse()
+            val response = api.fetchBooks(page).toGutenBergResponse()
+            val books = response.books
             val endOfPaginationReached = response.count == 0
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     db.remoteKeysDao.clearRemoteKeys()
-                    db.bookDao.
+                    db.bookDao.clearBooks()
                 }
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = books
             }
         }
     }
