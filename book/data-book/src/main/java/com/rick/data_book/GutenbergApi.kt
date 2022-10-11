@@ -17,7 +17,7 @@ interface GutenbergApi {
 
     @GET("/books/")
     suspend fun searchBook(
-        @Query("?search") query: String
+        @Query("search") query: String
     ): GutenbergResponseDto
 
     companion object {

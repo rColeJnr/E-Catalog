@@ -18,7 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.R
-import com.rick.screen_book.databinding.FragmentSearchBinding
+import com.rick.screen_book.databinding.FragmentBookSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -27,11 +27,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class BookSearchFragment : Fragment() {
 
-    private var _binding: FragmentSearchBinding? = null
+    private var _binding: FragmentBookSearchBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SearchViewModel by viewModels()
+    private val viewModel: BookSearchViewModel by viewModels()
     private lateinit var adapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +49,10 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentBookSearchBinding.inflate(inflater, container, false)
 
         binding.toolbar.apply {
-            inflateMenu(R.menu.search_menu)
+            inflateMenu(R.menu.book_search_menu)
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -99,7 +99,7 @@ class SearchFragment : Fragment() {
         binding.list.addItemDecoration(decoration)
     }
 
-    private fun FragmentSearchBinding.bindState(
+    private fun FragmentBookSearchBinding.bindState(
         adapter: SearchAdapter,
         searchList: LiveData<List<Book>>,
         searchLoading: LiveData<Boolean>,
@@ -123,7 +123,7 @@ class SearchFragment : Fragment() {
         )
     }
 
-    private fun FragmentSearchBinding.bindSearch(
+    private fun FragmentBookSearchBinding.bindSearch(
         uiState: StateFlow<SearchUiState>,
         onQueryChanged: (SearchUiAction) -> Unit,
     ) {
@@ -153,7 +153,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchBooks) -> Unit) {
+    private fun FragmentBookSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchBooks) -> Unit) {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
@@ -163,7 +163,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun FragmentSearchBinding.bindList(
+    private fun FragmentBookSearchBinding.bindList(
         adapter: SearchAdapter,
         searchList: LiveData<List<Book>>,
         searchLoading: LiveData<Boolean>,
@@ -199,7 +199,7 @@ class SearchFragment : Fragment() {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
         val action =
-            SearchFragmentDirections
+            BookSearchFragmentDirections
                 .actionSearchFragmentToBookDetailsFragment(
                     formats = formats
                 )

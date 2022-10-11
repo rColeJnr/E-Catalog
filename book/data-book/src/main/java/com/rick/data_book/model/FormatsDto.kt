@@ -34,7 +34,7 @@ data class FormatsDto(
 @Parcelize
 data class Formats(
     @SerializedName("image/jpeg")
-    val image: String,
+    val image: String?,
     @SerializedName("text/html")
     val textHtml: String?,
     @SerializedName("text/plain")
