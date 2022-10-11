@@ -14,6 +14,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.data_book.model.Book
+import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BookCatalogFragment: Fragment() {
+class BookCatalogFragment : Fragment() {
 
     private var _binding: FragmentBookCatalogBinding? = null
     private val binding get() = _binding!!
@@ -46,8 +47,8 @@ class BookCatalogFragment: Fragment() {
         return binding.root
     }
 
-    private fun initAdapter(){
-        adapter = BookCatalogAdapter()
+    private fun initAdapter() {
+        adapter = BookCatalogAdapter(this::onBookClick)
 
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(footer = BookLoadStateAdapter { adapter.retry() })
@@ -100,9 +101,9 @@ class BookCatalogFragment: Fragment() {
         }
     }
 
-    private fun onBookClick(view: View, bookLink: String) {
+    private fun onBookClick(view: View, formats: Formats) {
         val action = BookCatalogFragmentDirections
-            .actionBookCatalogFragmentToBookDetailsFragment(book = bookLink)
+            .actionBookCatalogFragmentToBookDetailsFragment(formats = formats)
         findNavController().navigate(action)
     }
 
