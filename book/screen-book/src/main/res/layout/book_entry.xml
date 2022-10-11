@@ -4,34 +4,45 @@
     android:id="@+id/book_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
     android:backgroundTint="?attr/colorSurface">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/book_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/two_dimen"
+            android:text="@string/title"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider_horizontal"
+            style="@style/Divider.Horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/book_title" />
+
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
             android:id="@+id/image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_horizontal" />
 
         <LinearLayout
+            android:id="@+id/llayout"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:id="@+id/llayout"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <TextView
-                android:id="@+id/book_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title"
-                android:textAppearance="?attr/textAppearanceHeadline5" />
+            app:layout_constraintTop_toTopOf="@id/divider_horizontal">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/authors"
@@ -39,16 +50,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/authors"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <View style="@style/Divider.Horizontal" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/translators"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/translators"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
             <View style="@style/Divider.Horizontal" />

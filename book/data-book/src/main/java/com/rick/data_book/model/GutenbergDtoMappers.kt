@@ -17,8 +17,7 @@ fun BookDto.toBook(): Book = Book(
     formats = formats.toFormats(),
     languages = languages,
     mediaType = mediaType,
-    subjects = subjects,
-    translators = translators.map { it.toTranslators() }
+    subjects = subjects
 )
 
 fun FormatsDto.toFormats(): Formats = Formats(

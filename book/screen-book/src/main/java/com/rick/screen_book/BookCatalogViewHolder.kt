@@ -17,7 +17,6 @@ class BookCatalogViewHolder(
     private val title = binding.bookTitle
     private val image = binding.image
     private val authors = binding.authors
-    private val translators = binding.translators
     private val topics = binding.topics
     private val bookshelves = binding.bookshelf
     private val languages = binding.languages
@@ -31,7 +30,6 @@ class BookCatalogViewHolder(
         book.formats.image.let { provideGlide(this.image, it) }
         this.title.text = book.title
         this.authors.text = resources.getString(R.string.authors, getListAsString(book.authors))
-        this.translators.text = resources.getString(R.string.translators, getListAsString(book.translators))
         this.topics.text = resources.getString(R.string.topics, getListAsString(book.subjects))
         this.bookshelves.text = resources.getString(R.string.bookshelf, getListAsString(book.bookshelves))
         this.languages.text = resources.getString(R.string.languages, getListAsString(book.languages))
@@ -41,7 +39,7 @@ class BookCatalogViewHolder(
     private fun getListAsString(list: List<Any>): String {
         val sb = StringBuilder()
 
-        list.forEach { sb.append("$it\n") }
+        list.forEach { sb.append("$it ") }
         return sb.toString()
     }
 
