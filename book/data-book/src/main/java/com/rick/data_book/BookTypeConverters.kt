@@ -5,6 +5,8 @@ import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
 import com.rick.data_book.model.Author
+import com.rick.data_book.model.Formats
+import com.rick.data_book.model.Translator
 
 @ProvidedTypeConverter
 class BookTypeConverters(
@@ -51,4 +53,19 @@ class BookTypeConverters(
             translators,
             object : TypeToken<List<Translator>>() {}.type
         ) ?: emptyList()
+
+    @TypeConverter
+    fun fromListToString(list: List<String>): String =
+        jsonParser.toJson(
+            list,
+            object : TypeToken<List<String>>() {}.type
+        ) ?: "[]"
+
+    @TypeConverter
+    fun fromStringToString(string: String): List<String> =
+        jsonParser.fromJson<List<String>>(
+            string,
+            object : TypeToken<List<String>>() {}.type
+        ) ?: emptyList()
+
 }
