@@ -1,4 +1,4 @@
-package com.rick.screen_book.details
+package com.rick.screen_book.details_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater

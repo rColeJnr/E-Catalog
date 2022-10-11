@@ -8,6 +8,8 @@
     <string name="languages">Languages: %1$s</string>
     <string name="downloaded">Downloaded %1$s times</string>
     <string name="no_results">No results 😓\nSwipe to refresh</string>
+    <string name="nothing_found">Nothing found, try again. 😓</string>
     <string name="retry">retry</string>
     <string name="failed_to_load">Failed to load webpage 😓</string>
+    <string name="searchLabel">Search</string>
 </resources>

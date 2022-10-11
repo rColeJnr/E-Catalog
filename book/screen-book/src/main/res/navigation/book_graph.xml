@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
-        android:name="com.rick.screen_book.details.BookDetailsFragment">
+        android:name="com.rick.screen_book.details_screen.BookDetailsFragment">
 
         <argument android:name="formats"
             app:argType="com.rick.data_book.model.Formats" />
