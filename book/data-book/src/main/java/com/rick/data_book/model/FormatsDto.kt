@@ -21,12 +21,14 @@ data class FormatsDto(
     val texthtmlCharsetiso88591: String?,
     @SerializedName("text/html; charset=utf-8")
     val texthtmlCharsetutf8: String?,
+    @SerializedName("text/html; charset=us-ascii")
+    val texthtmlAscii: String?,
     @SerializedName("text/plain")
     val textplain: String?,
     @SerializedName("text/plain; charset=us-ascii")
     val textplainCharsetusAscii: String?,
     @SerializedName("text/plain; charset=utf-8")
-    val textplainCharsetutf8: String?
+    val textplainCharsetutf8: String?,
 )
 
 @Parcelize
@@ -34,5 +36,17 @@ data class Formats(
     @SerializedName("image/jpeg")
     val image: String,
     @SerializedName("text/html")
-    val bookLink: String?,
+    val textHtml: String?,
+    @SerializedName("text/plain")
+    val textPlain: String?,
+    @SerializedName("text/html; charset=iso-8859-1")
+    val textHtmlCharsetIso88591: String?,
+    @SerializedName("text/html; charset=utf-8")
+    val textHtmCharsetUtf8: String?,
+    @SerializedName("text/html; charset=us-ascii")
+    val textHtmlCharsetUsAscii: String?,
+    @SerializedName("text/plain; charset=us-ascii")
+    val textPlainCharsetUsAscii: String?,
+    @SerializedName("text/plain; charset=utf-8")
+    val textPlainCharsetUtf8: String?,
 ): Parcelable

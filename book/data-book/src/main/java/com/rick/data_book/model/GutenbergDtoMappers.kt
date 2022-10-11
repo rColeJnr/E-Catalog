@@ -22,7 +22,14 @@ fun BookDto.toBook(): Book = Book(
 
 fun FormatsDto.toFormats(): Formats = Formats(
     image = imagejpeg,
-    bookLink = texthtml
+    textHtml = texthtml,
+    textPlain = textplain,
+    textHtmCharsetUtf8 = texthtmlCharsetutf8,
+    textHtmlCharsetIso88591 = texthtmlCharsetiso88591,
+    textHtmlCharsetUsAscii = texthtmlAscii,
+    textPlainCharsetUsAscii = textplainCharsetusAscii,
+    textPlainCharsetUtf8 = textplainCharsetutf8
+
 )
 
 fun TranslatorDto.toTranslators(): Translator = Translator(

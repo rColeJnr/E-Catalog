@@ -1,6 +1,7 @@
 package com.rick.screen_book
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +12,9 @@ import com.rick.data_book.model.Book
 import com.rick.screen_book.databinding.BookEntryBinding
 
 class BookCatalogViewHolder(
-    binding: BookEntryBinding
-) : RecyclerView.ViewHolder(binding.root) {
+    binding: BookEntryBinding,
+    onItemClick: (view: View, book: String) -> Unit
+) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     private val title = binding.bookTitle
     private val image = binding.image
@@ -24,6 +26,10 @@ class BookCatalogViewHolder(
 
     private lateinit var book: Book
 
+    init {
+        onClick(this)
+    }
+
     fun bind(book: Book) {
         this.book = book
         val resources = itemView.resources
@@ -31,8 +37,10 @@ class BookCatalogViewHolder(
         this.title.text = book.title
         this.authors.text = resources.getString(R.string.authors, getListAsString(book.authors))
         this.topics.text = resources.getString(R.string.topics, getListAsString(book.subjects))
-        this.bookshelves.text = resources.getString(R.string.bookshelf, getListAsString(book.bookshelves))
-        this.languages.text = resources.getString(R.string.languages, getListAsString(book.languages))
+        this.bookshelves.text =
+            resources.getString(R.string.bookshelf, getListAsString(book.bookshelves))
+        this.languages.text =
+            resources.getString(R.string.languages, getListAsString(book.languages))
         this.downloaded.text = resources.getString(R.string.downloaded, book.downloads.toString())
     }
 
@@ -43,11 +51,18 @@ class BookCatalogViewHolder(
         return sb.toString()
     }
 
+    override fun onClick(view: View) {
+        onClick(view, book.formats.textHtml)
+    }
+
     companion object {
-        fun create(parent: ViewGroup): BookCatalogViewHolder {
+        fun create(
+            parent: ViewGroup,
+            onItemClick: (view: View, book: String) -> Unit):
+            BookCatalogViewHolder {
             val itemBinding = BookEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
-            return BookCatalogViewHolder(itemBinding)
+            return BookCatalogViewHolder(itemBinding, onItemClick)
         }
     }
 

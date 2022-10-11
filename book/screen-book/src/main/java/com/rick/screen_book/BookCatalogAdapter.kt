@@ -1,11 +1,14 @@
 package com.rick.screen_book
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.rick.data_book.model.Book
 
-class BookCatalogAdapter : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_UTIL) {
+class BookCatalogAdapter(
+    private val onItemClick: (view: View, book: String) -> Unit
+) : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: BookCatalogViewHolder, position: Int) {
         val book = getItem(position)
@@ -15,7 +18,7 @@ class BookCatalogAdapter : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_U
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookCatalogViewHolder {
-        return BookCatalogViewHolder.create(parent)
+        return BookCatalogViewHolder.create(parent, onItemClick)
     }
 
     companion object {
