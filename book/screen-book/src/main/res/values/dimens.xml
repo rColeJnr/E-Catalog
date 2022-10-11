@@ -2,4 +2,5 @@
 <resources>
     <dimen name="two_dimen">2dp</dimen>
     <dimen name="six_dimen">6dp</dimen>
+    <dimen name="eight_dimen">8dp</dimen>
 </resources>
