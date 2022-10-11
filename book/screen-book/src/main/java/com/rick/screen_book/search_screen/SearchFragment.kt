@@ -10,12 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_book.model.Book
@@ -197,8 +193,8 @@ class SearchFragment: Fragment() {
         }
         val action =
             SearchFragmentDirections
-                .action(
-                    formats = Formats
+                .actionSearchFragmentToBookDetailsFragment(
+                    formats = formats
                 )
 
         findNavController().navigate(directions = action)
