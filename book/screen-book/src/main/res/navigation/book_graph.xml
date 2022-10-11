@@ -18,5 +18,5 @@
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
-        android:name="com.rick.screen_book.BookDetailsFragment"/>
+        android:name="com.rick.screen_book.details.BookDetailsFragment"/>
 </navigation>
