@@ -25,9 +25,9 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.rick.screen_book.search_screen.SearchFragment"
+        android:name="com.rick.screen_book.search_screen.BookSearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_book_search" >
         <action
             android:id="@+id/action_searchFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />

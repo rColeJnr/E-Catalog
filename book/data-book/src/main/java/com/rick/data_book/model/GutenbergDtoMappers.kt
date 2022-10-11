@@ -2,7 +2,7 @@ package com.rick.data_book.model
 
 fun GutenbergResponseDto.toGutenBergResponse(): GutenbergResponse = GutenbergResponse(
     count = count,
-    next = next,
+    next = next ?: "",
     previous = previous,
     books = results.map { it.toBook() }
 )
