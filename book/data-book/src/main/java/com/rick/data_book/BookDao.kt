@@ -4,12 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.rick.data_book.model.Book
 
 @Dao
 interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBook(book: Book)
+
+    @Query("DELETE FROM book_db")
+    suspend fun clearBooks()
 
     @Query("SELECT * FROM book_db")
     suspend fun getBooks(): List<Book>
