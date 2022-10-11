@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.rick.data_book.model.Book
 
 @Database(
-    entities = [Book::class],
+    entities = [Book::class, BookRemoteKeys::class],
     version = 1,
     exportSchema = true
 )
