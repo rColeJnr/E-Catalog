@@ -29,7 +29,7 @@ class BookCatalogViewHolder(
         this.book = book
         val resources = itemView.resources
         book.formats.image.let { provideGlide(this.image, it) }
-        this.title.text = book.authors.toString()
+        this.title.text = book.title
         this.authors.text = resources.getString(R.string.authors, getListAsString(book.authors))
         this.translators.text = resources.getString(R.string.translators, getListAsString(book.translators))
         this.topics.text = resources.getString(R.string.topics, getListAsString(book.subjects))
