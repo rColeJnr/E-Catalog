@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="authors">Authors: Name Ricardo, Name Junior</string>
-    <string name="translators">Name Ricardo, Name Miambo</string>
-    <string name="title" />
-    <string name="topics">Classical literature</string>
-    <string name="bookshelf">Philosophy</string>
-    <string name="languages">en</string>
-    <string name="downloaded">45852</string>
+    <string name="authors">Authors: %1$s</string>
+    <string name="translators">Translator: %1$s</string>
+    <string name="title">%1$s</string>
+    <string name="topics">Topics: %1$s</string>
+    <string name="bookshelf">Bookshelves: %1$s</string>
+    <string name="languages">Languages: %1$s</string>
+    <string name="downloaded">Downloaded %1$s times</string>
 </resources>
