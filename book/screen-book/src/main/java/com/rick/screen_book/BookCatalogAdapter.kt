@@ -8,8 +8,10 @@ import com.rick.data_book.model.Book
 class BookCatalogAdapter : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: BookCatalogViewHolder, position: Int) {
-        val book = getItem(position)!!
-        holder.bind(book = book)
+        val book = getItem(position)
+        if (book != null) {
+            holder.bind(book = book)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookCatalogViewHolder {
