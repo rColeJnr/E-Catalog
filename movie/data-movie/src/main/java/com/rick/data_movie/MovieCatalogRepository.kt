@@ -26,7 +26,7 @@ class MovieCatalogRepository @Inject constructor(
     private val imdbApi: IMDBApi,
 ) {
 
-    // TODO This could be separated into use cases in the next clean up branch
+    // TODO This could and should be separated into use cases in the next clean up branch
 
     fun getMovies(key: String): Flow<PagingData<Movie>> {
 
