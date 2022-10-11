@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8c9bee938cd7fa0169afea7cd7baa17e",
+    "identityHash": "9e5fb5d87d3c246c59d936db16389030",
     "entities": [
       {
         "tableName": "book_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `authors` TEXT NOT NULL, `bookshelves` TEXT NOT NULL, `copyright` INTEGER NOT NULL, `downloads` INTEGER NOT NULL, `formats` TEXT NOT NULL, `languages` TEXT NOT NULL, `mediaType` TEXT NOT NULL, `subjects` TEXT NOT NULL, `translators` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `authors` TEXT NOT NULL, `bookshelves` TEXT NOT NULL, `copyright` INTEGER NOT NULL, `downloads` INTEGER NOT NULL, `formats` TEXT NOT NULL, `languages` TEXT NOT NULL, `mediaType` TEXT NOT NULL, `subjects` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -67,12 +67,6 @@
             "columnName": "subjects",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "translators",
-            "columnName": "translators",
-            "affinity": "TEXT",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -120,7 +114,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8c9bee938cd7fa0169afea7cd7baa17e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9e5fb5d87d3c246c59d936db16389030')"
     ]
   }
 }
