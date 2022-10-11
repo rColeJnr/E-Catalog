@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.transition.MaterialFadeThrough
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
@@ -29,6 +30,14 @@ class BookCatalogFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: BookCatalogViewModel by viewModels()
     private lateinit var adapter: BookCatalogAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
