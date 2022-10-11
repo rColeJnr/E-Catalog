@@ -1,4 +1,4 @@
-package com.rick.data_book
+package com.rick.data_book.model
 
 import android.os.Parcelable
 import androidx.room.Entity
