@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -100,9 +101,9 @@ class BookCatalogFragment: Fragment() {
     }
 
     private fun onBookClick(view: View, bookLink: String) {
-
         val action = BookCatalogFragmentDirections
-            .actionBookCatalogFragmentToBookDetailsFragment()
+            .actionBookCatalogFragmentToBookDetailsFragment(book = bookLink)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

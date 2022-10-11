@@ -14,8 +14,10 @@
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
-        android:name="com.rick.screen_book.details.BookDetailsFragment"/>
-    <argument android:name="book"
-        app:argType="string"
-        app:nullable="true"/>
+        android:name="com.rick.screen_book.details.BookDetailsFragment">
+
+        <argument android:name="book"
+            app:argType="string"
+            app:nullable="true"/>
+    </fragment>
 </navigation>
