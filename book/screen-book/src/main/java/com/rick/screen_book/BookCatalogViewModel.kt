@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookCatalogViewModel @Inject constructor(
-    val repository: BookRepository
+    private val repository: BookRepository
 ): ViewModel() {
 
     val pagingDataFlow: Flow<PagingData<Book>>
