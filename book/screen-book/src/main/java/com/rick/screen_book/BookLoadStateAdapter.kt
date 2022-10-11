@@ -6,7 +6,7 @@ import androidx.paging.LoadStateAdapter
 
 class MoviesLoadStateAdapter(private val retry: () -> Unit )
     : LoadStateAdapter<BookLoadStateViewHolder>() {
-    override fun onBindViewHolder(holder: bookLoadStateViewHolder, loadState: LoadState) {
+    override fun onBindViewHolder(holder: BookLoadStateViewHolder, loadState: LoadState) {
         holder.bind(loadState)
     }
 
@@ -14,6 +14,6 @@ class MoviesLoadStateAdapter(private val retry: () -> Unit )
         parent: ViewGroup,
         loadState: LoadState
     ): BookLoadStateViewHolder {
-        return bookLoadStateViewHolder.create(parent, retry)
+        return BookLoadStateViewHolder.create(parent, retry)
     }
 }
