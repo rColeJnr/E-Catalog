@@ -54,7 +54,5 @@ data class Book(
     @SerializedName("media_type")
     val mediaType: String,
     @SerializedName("subjects")
-    val subjects: List<String>,
-    @SerializedName("translators")
-    val translators: List<Translator>
+    val subjects: List<String>
 ): Parcelable
