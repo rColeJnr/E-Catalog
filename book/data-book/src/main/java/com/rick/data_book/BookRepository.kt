@@ -8,7 +8,7 @@ import com.rick.data_book.model.Book
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-private const val BOOKS_PER_PAGE = 32
+private const val BOOKS_PER_PAGE = 1
 
 class BookRepository @Inject constructor(
     private val db: BookDatabase,
