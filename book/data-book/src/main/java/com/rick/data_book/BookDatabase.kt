@@ -14,7 +14,7 @@ import com.rick.data_book.model.Book
 abstract class BookDatabase: RoomDatabase() {
 
     abstract val bookDao: BookDao
-    abstract val remoteKeys: BookRemoteKeys
+    abstract val remoteKeysDao: BookRemoteKeysDao
 
     companion object {
         const val DATABASE_NAME = "BOOK_DB"

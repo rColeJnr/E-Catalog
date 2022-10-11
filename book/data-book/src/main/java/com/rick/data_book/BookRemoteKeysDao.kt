@@ -12,7 +12,7 @@ interface BookRemoteKeysDao {
     suspend fun insertAll(remoteKey: List<BookRemoteKeys>)
 
     @Query("SELECT * FROM book_remote_keys WHERE book = :book")
-    suspend fun remoteKeysMovieId(book: Int): BookRemoteKeys?
+    suspend fun remoteKeysId(book: Int): BookRemoteKeys?
 
     @Query("DELETE FROM book_remote_keys")
     suspend fun clearRemoteKeys()
