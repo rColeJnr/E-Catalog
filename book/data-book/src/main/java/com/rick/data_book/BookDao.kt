@@ -1,5 +1,6 @@
 package com.rick.data_book
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,7 +17,7 @@ interface BookDao {
     suspend fun clearBooks()
 
     @Query("SELECT * FROM book_db")
-    suspend fun getBooks(): List<Book>
+    fun getBooks(): PagingSource<Int, Book>
 
     @Query("SELECT * FROM book_db WHERE id = :id")
     suspend fun getBook(id: Int) : Book
