@@ -12,4 +12,5 @@
     <string name="retry">retry</string>
     <string name="failed_to_load">Failed to load webpage 😓</string>
     <string name="searchLabel">Search</string>
+    <string name="book_transition_name">book transition %1$s</string>
 </resources>
