@@ -27,10 +27,10 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/book_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/title"
+                android:text="@string/title"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
             <com.google.android.material.textview.MaterialTextView

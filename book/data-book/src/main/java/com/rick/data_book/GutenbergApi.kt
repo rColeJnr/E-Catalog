@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface GutenbergApi {
     @GET("/books")
     suspend fun fetchBooks(
-        @Query("?page") page: Int
+        @Query("page") page: Int
     ): GutenbergResponseDto
 
     @GET("/books/")

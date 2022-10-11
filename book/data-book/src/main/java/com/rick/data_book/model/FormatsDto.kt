@@ -16,7 +16,7 @@ data class FormatsDto(
     @SerializedName("image/jpeg")
     val imagejpeg: String,
     @SerializedName("text/html")
-    val texthtml: String,
+    val texthtml: String?,
     @SerializedName("text/html; charset=iso-8859-1")
     val texthtmlCharsetiso88591: String?,
     @SerializedName("text/html; charset=utf-8")
@@ -34,5 +34,5 @@ data class Formats(
     @SerializedName("image/jpeg")
     val image: String,
     @SerializedName("text/html")
-    val bookLink: String,
+    val bookLink: String?,
 ): Parcelable
