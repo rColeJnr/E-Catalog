@@ -15,7 +15,7 @@ class BookRepository @Inject constructor(
     private val api: GutenbergApi
 ) {
 
-    fun getMovies(): Flow<PagingData<Book>> {
+    fun getBooks(): Flow<PagingData<Book>> {
         val pagingSourceFactory = { db.bookDao.getBooks() }
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
