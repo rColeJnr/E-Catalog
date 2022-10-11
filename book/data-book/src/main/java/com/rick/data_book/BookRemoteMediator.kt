@@ -1,6 +1,5 @@
 package com.rick.data_book
 
-import GutenbergApi
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -8,6 +7,8 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.toGutenBergResponse
+import okio.IOException
+import retrofit2.HttpException
 
 private const val STARTING_PAGE_INDEX = 1
 
@@ -55,8 +56,17 @@ class BookRemoteMediator(
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = books
+                val keys = books.map {
+                    BookRemoteKeys(book = it.id, prevKey = prevKey, nextKey = nextKey)
+                }
+                db.remoteKeysDao.insertAll(keys)
+                db.bookDao.insertBooks(books)
             }
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch (exception: IOException) {
+            return MediatorResult.Error(exception)
+        } catch (exception: HttpException) {
+            return MediatorResult.Error(exception)
         }
     }
 

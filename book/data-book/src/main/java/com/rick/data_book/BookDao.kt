@@ -10,7 +10,7 @@ import com.rick.data_book.model.Book
 interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBook(book: Book)
+    fun insertBooks(book: List<Book>)
 
     @Query("DELETE FROM book_db")
     suspend fun clearBooks()
