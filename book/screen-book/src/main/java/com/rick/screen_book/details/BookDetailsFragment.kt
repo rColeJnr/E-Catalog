@@ -16,6 +16,11 @@ class BookDetailsFragment : Fragment() {
 
     private lateinit var formats: Formats
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
