@@ -13,6 +13,6 @@ interface TvSeriesDao {
     fun insertTvSeries(series: List<TvSeries>)
 
     @Query("SELECT * FROM tv_series")
-    suspend fun getTvSeries() : List<TvSeries>
+    suspe nd fun getTvSeries() : List<TvSeries>
 
 }
