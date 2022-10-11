@@ -11,8 +11,8 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -23,13 +23,14 @@
             android:id="@+id/llayout"
             android:orientation="vertical"
             app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Title"
+                android:hint="@string/title"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -43,31 +44,52 @@
             <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/authors"
+                android:id="@+id/translators"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/authors"
+                android:text="@string/translators"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/authors"
+                android:id="@+id/topics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/authors"
+                android:text="@string/topics"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/authors"
+                android:id="@+id/bookshelf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/authors"
+                android:text="@string/bookshelf"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
+            <View style="@style/Divider.Horizontal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/languages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/languages"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <View style="@style/Divider.Horizontal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/downloaded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/downloaded"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
         </LinearLayout>
 
