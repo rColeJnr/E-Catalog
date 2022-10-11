@@ -9,11 +9,12 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rick.data_book.model.Book
+import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.BookEntryBinding
 
 class BookCatalogViewHolder(
     binding: BookEntryBinding,
-    onItemClick: (view: View, book: String) -> Unit
+    private val onItemClick: (view: View, formats: Formats) -> Unit
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     private val title = binding.bookTitle
@@ -27,7 +28,7 @@ class BookCatalogViewHolder(
     private lateinit var book: Book
 
     init {
-        onClick(this)
+        binding.root.setOnClickListener(this)
     }
 
     fun bind(book: Book) {
@@ -52,13 +53,13 @@ class BookCatalogViewHolder(
     }
 
     override fun onClick(view: View) {
-        onClick(view, book.formats.textHtml)
+        onItemClick(view, book.formats)
     }
 
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (view: View, book: String) -> Unit):
+            onItemClick: (view: View, formats: Formats) -> Unit):
             BookCatalogViewHolder {
             val itemBinding = BookEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
