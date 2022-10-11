@@ -10,7 +10,7 @@ data class GutenbergResponseDto(
     @SerializedName("next")
     val next: String,
     @SerializedName("previous")
-    val previous: Any?,
+    val previous: String?,
     @SerializedName("results")
     val results: List<BookDto>
 )
@@ -24,5 +24,5 @@ data class GutenbergResponse(
     @SerializedName("previous")
     val previous: String?,
     @SerializedName("results")
-    val results: List<Book>
+    val books: List<Book>
 ): Parcelable
