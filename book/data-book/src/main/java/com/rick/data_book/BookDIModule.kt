@@ -13,10 +13,10 @@ import retrofit2.create
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DIModule {
+object BookDIModule {
 
     @Provides
-    fun provideGunterbergApi(): Retrofit = Retrofit
+    fun provideGutenbergApi(): Retrofit = Retrofit
         .Builder()
         .baseUrl(GUTENBERG_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
