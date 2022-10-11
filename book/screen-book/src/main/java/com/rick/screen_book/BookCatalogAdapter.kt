@@ -13,7 +13,7 @@ class BookCatalogAdapter : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_U
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookCatalogViewHolder {
-        TODO("Not yet implemented")
+        return BookCatalogViewHolder.create(parent)
     }
 
     companion object {
