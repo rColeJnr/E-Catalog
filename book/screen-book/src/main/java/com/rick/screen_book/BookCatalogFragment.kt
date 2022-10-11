@@ -1,19 +1,21 @@
 package com.rick.screen_book
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
@@ -45,6 +47,14 @@ class BookCatalogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBookCatalogBinding.inflate(inflater, container, false)
+
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+
+        view?.findViewById<Toolbar>(R.id.toolbar)
+            ?.setupWithNavController(navController, appBarConfiguration)
+
+        initAdapter()
 
         initAdapter()
 
@@ -114,6 +124,28 @@ class BookCatalogFragment : Fragment() {
         val action = BookCatalogFragmentDirections
             .actionBookCatalogFragmentToBookDetailsFragment(formats = formats)
         findNavController().navigate(action)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_books -> {
+                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                }
+                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+                }
+                val action =
+                    BookCatalogFragmentDirections.actionBookCatalogFragmentToSearchFragment()
+                findNavController().navigate(action)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroyView() {
