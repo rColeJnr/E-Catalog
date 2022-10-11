@@ -23,7 +23,7 @@ class BookCatalogAdapter(
     }
 
     companion object {
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Book>() {
+        val DIFF_UTIL = object : DiffUtil.ItemCallback<Book>() {
             override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean =
                 oldItem.id == newItem.id
 
