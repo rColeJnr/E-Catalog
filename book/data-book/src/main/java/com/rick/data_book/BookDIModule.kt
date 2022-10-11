@@ -2,7 +2,6 @@ package com.rick.data_book
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.google.gson.Gson
 import com.rick.core.GsonParser
 import com.rick.data_book.BookDatabase.Companion.DATABASE_NAME
@@ -17,13 +16,15 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 object BookDIModule {
 
     @Provides
-    fun provideGutenbergApi(): Retrofit = Retrofit
+    @Singleton
+    fun provideGutenbergApi(): GutenbergApi = Retrofit
         .Builder()
         .baseUrl(GUTENBERG_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -37,7 +38,8 @@ object BookDIModule {
         .create()
 
     @Provides
-    fun providesBookDatabase(@ApplicationContext context: Context): RoomDatabase =
+    @Singleton
+    fun providesBookDatabase(@ApplicationContext context: Context): BookDatabase =
         Room.databaseBuilder(
             context,
             BookDatabase::class.java,
@@ -46,6 +48,7 @@ object BookDIModule {
             .build()
 
     @Provides
+    @Singleton
     fun provideBookRepository(db: BookDatabase, api: GutenbergApi) : BookRepository =
         BookRepository(db, api)
 }
