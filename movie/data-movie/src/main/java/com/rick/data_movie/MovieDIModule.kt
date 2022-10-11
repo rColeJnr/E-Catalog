@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DIModule {
+object MovieDIModule {
     @Provides
     @Singleton
     fun providesMovieCatalogApi(): MovieCatalogApi {
