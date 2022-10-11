@@ -3,16 +3,16 @@ package com.rick.screen_book
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rick.data_book.model.Book
 
-class BookCatalogAdapter : PagingDataAdapter<Book, ViewHolder>(DIFF_UTIL) {
+class BookCatalogAdapter : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_UTIL) {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: BookCatalogViewHolder, position: Int) {
+        val book = getItem(position)!!
+        holder.bind(book = book)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookCatalogViewHolder {
         TODO("Not yet implemented")
     }
 
