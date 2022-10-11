@@ -19,7 +19,7 @@ interface BookDao {
     @Query("SELECT * FROM book_db ORDER BY downloads DESC")
     fun getBooks(): PagingSource<Int, Book>
 
-    @Query("SELECT * FROM book_db WHERE id = :id")
-    suspend fun getBook(id: Int) : Book
+    @Query("SELECT * FROM book_db WHERE title = :title")
+    suspend fun getBook(title: String) : List<Book>
 
 }

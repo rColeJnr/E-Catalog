@@ -27,6 +27,3 @@ interface IMDBSearchDao {
     fun seriesByTitle(queryString: String): List<IMDBSearchResult>
 
 }
-
-private const val MOVIE = "Movie"
-private const val SERIES = "Series"
