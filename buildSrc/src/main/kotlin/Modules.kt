@@ -9,4 +9,7 @@ object Modules {
 
     const val bookData = ":book:data-book"
     const val bookScreen = ":book:screen-book"
+
+    const val animeData = ":anime:data-anime"
+    const val animeScreen = ":anime:screen-anime"
 }
