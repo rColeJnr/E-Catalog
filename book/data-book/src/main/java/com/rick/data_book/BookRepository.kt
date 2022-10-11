@@ -8,7 +8,7 @@ import com.rick.data_book.model.Book
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-private const val BOOKS_PER_PAGE = 1
+private const val BOOKS_PER_PAGE = 2
 
 class BookRepository @Inject constructor(
     private val db: BookDatabase,
@@ -21,9 +21,6 @@ class BookRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = BOOKS_PER_PAGE,
-                enablePlaceholders = true,
-                prefetchDistance = 1,
-                initialLoadSize = 1
             ),
             remoteMediator = BookRemoteMediator(api = api, db = db),
             pagingSourceFactory = pagingSourceFactory
