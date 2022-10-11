@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search_imdb"
+        android:id="@+id/search_books"
         android:icon="@drawable/ic_search"
         android:title="@string/searchLabel"
         app:showAsAction="always"

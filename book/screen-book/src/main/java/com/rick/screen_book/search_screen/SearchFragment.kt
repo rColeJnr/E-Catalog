@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.search_imdb -> {
+                    R.id.search_books -> {
                         binding.updateListFromInput(viewModel.searchUiAction)
                         true
                     }
