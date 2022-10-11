@@ -16,7 +16,7 @@ interface BookDao {
     @Query("DELETE FROM book_db")
     suspend fun clearBooks()
 
-    @Query("SELECT * FROM book_db")
+    @Query("SELECT * FROM book_db ORDER BY downloads DESC")
     fun getBooks(): PagingSource<Int, Book>
 
     @Query("SELECT * FROM book_db WHERE id = :id")
