@@ -1,5 +1,7 @@
 package com.rick.screen_book
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -40,6 +42,14 @@ class BookCatalogViewHolder(
 
         list.forEach { sb.append("$it\n") }
         return sb.toString()
+    }
+
+    companion object {
+        fun create(parent: ViewGroup): BookCatalogViewHolder {
+            val itemBinding = BookEntryBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            return BookCatalogViewHolder(itemBinding)
+        }
     }
 
 }
