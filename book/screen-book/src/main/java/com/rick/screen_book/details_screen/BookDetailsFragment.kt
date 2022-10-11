@@ -51,6 +51,9 @@ class BookDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.webView.transitionName = getString(R.string.book_transition_name, formats.image)
+        binding.root.transitionName = getString(R.string.search_transition_name, formats.image)
+
         binding.webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
