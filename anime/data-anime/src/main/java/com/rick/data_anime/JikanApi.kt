@@ -17,8 +17,23 @@ interface JikanApi {
         @Query("page") page: Int
     ): MangaResponseDto
 
+    @GET("/anime")
+    fun searchAnime(
+        @Query("q") query: String,
+        @Query("sfw") sfw: Boolean = false,
+        @Query("max_score") max_score: Int = RESULT_SIZE
+    ): AnimeResponseDto
+
+    @GET("/manga")
+    fun searchManga(
+        @Query("q") query: String,
+        @Query("sfw") sfw: Boolean = false,
+        @Query("max_score") max_score: Int = RESULT_SIZE
+    ): MangaResponseDto
+
 
     companion object {
         const val JIKAN_BASE_URL = "https://api.jikan.moe/v4/"
+        private const val RESULT_SIZE = 10
     }
 }
