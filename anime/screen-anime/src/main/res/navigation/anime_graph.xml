@@ -20,11 +20,11 @@
         android:name="com.rick.screen_anime.manga_screen.MangaCatalogFragment"
         android:label="MangaCatalogFragment" >
         <action
-            android:id="@+id/action_mangaCatalogFragment_to_searchAnimeFragment"
-            app:destination="@id/searchAnimeFragment" />
-        <action
             android:id="@+id/action_mangaCatalogFragment_to_detailsAnimeFragment"
             app:destination="@id/detailsAnimeFragment" />
+        <action
+            android:id="@+id/action_mangaCatalogFragment_to_searchMangaFragment"
+            app:destination="@id/searchMangaFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsAnimeFragment"
@@ -47,13 +47,13 @@
         <action
             android:id="@+id/action_searchAnimeFragment_to_detailsAnimeFragment"
             app:destination="@id/detailsAnimeFragment" />
-        <argument
-            android:name="anime"
-            app:argType="string"
-            app:nullable="true"/>
-        <argument
-            android:name="manga"
-            app:argType="string"
-            app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/searchMangaFragment"
+        android:name="com.rick.screen_anime.search_screen.SearchMangaFragment"
+        android:label="SearchMangaFragment" >
+        <action
+            android:id="@+id/action_searchMangaFragment_to_detailsAnimeFragment"
+            app:destination="@id/detailsAnimeFragment" />
     </fragment>
 </navigation>
