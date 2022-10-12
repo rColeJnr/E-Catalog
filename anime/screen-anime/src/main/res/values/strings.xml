@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="no_results">No results 😓\nSwipe to refresh</string>
+    <string name="no_title">No title</string>
+    <string name="pg_rating"><![CDATA[R - 17+ (Violence & Profanity)]]></string>
 </resources>
