@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_manga.Manga
 import com.rick.screen_anime.R
@@ -32,6 +33,9 @@ class MangaCatalogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
     }
 
     override fun onCreateView(
