@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_anime.Anime
 import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
-import com.rick.screen_anime.manga_screen.MangaCatalogAdapter
 import com.rick.screen_anime.manga_screen.MangaCatalogFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -120,6 +119,13 @@ class AnimeCatalogFragment : Fragment() {
 
     }
 
+    private fun onAnimeClick(view:View, anime: Anime){
+        val action = AnimeCatalogFragmentDirections
+            .actionAnimeCatalogFragmentToDetailsAnimeFragment(
+                anime = anime, manga = null
+            )
+        navController.navigate(action)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
