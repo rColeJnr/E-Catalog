@@ -1,9 +1,7 @@
 package com.rick.screen_anime.manga_screen
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.data_anime.model_manga.Manga
+import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentMangaCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +21,11 @@ class MangaCatalogFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MangaCatalogViewModel by viewModels()
     private lateinit var adapter: MangaCatalogAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,8 +65,13 @@ class MangaCatalogFragment: Fragment() {
             anime = null, manga = manga
         )
         findNavController().navigate(action)
-
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.jikan_menu, menu)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
