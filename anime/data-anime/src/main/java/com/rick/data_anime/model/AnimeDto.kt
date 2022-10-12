@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 
-data class DataDto(
+data class AnimeDto(
     @SerializedName("mal_id")
     val malId: Int,
     @SerializedName("url")
@@ -82,7 +82,7 @@ data class DataDto(
 )
 
 @Parcelize
-data class Data(
+data class Anime(
     @SerializedName("mal_id")
     val malId: Int,
     @SerializedName("url")
