@@ -3,4 +3,6 @@
     <string name="no_results">No results 😓\nSwipe to refresh</string>
     <string name="no_title">No title</string>
     <string name="pg_rating"><![CDATA[R - 17+ (Violence & Profanity)]]></string>
+    <string name="searchLabel">Search</string>
+    <string name="nothing_found">Nothing found, try again. 😓</string>
 </resources>
