@@ -1,9 +1,9 @@
 package com.rick.data_anime.model_anime
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
 @Parcelize
 data class Links(
@@ -12,7 +12,7 @@ data class Links(
     @SerializedName("last")
     val last: String,
     @SerializedName("prev")
-    val prev: Any?,
+    val prev: String?,
     @SerializedName("next")
     val next: String
 ) : Parcelable
