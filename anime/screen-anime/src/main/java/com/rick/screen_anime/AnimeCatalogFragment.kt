@@ -15,6 +15,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_anime.Anime
 import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
@@ -37,6 +39,9 @@ class AnimeCatalogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
     }
 
     override fun onCreateView(
@@ -120,6 +125,9 @@ class AnimeCatalogFragment : Fragment() {
     }
 
     private fun onAnimeClick(view:View, anime: Anime){
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
         val action = AnimeCatalogFragmentDirections
             .actionAnimeCatalogFragmentToDetailsAnimeFragment(
                 anime = anime, manga = null
