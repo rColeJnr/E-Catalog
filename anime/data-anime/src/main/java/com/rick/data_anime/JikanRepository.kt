@@ -9,6 +9,7 @@ import com.rick.core.Resource
 import com.rick.data_anime.model_anime.Anime
 import com.rick.data_anime.model_anime.toAnimeResponse
 import com.rick.data_anime.model_manga.Manga
+import com.rick.data_anime.model_manga.toMangaResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -113,10 +114,10 @@ class JikanRepository @Inject constructor(
             }
 
             try {
-                val response = api.searchAnime(query).toAnimeResponse()
-                if (response.anime.isNotEmpty()) {
+                val response = api.searchManga(query).toMangaResponse()
+                if (response.manga.isNotEmpty()) {
                     db.withTransaction {
-                        db.animeDao.insertAnimes(response.anime)
+                        db.mangaDao.insertMangas(response.manga)
                         mangas = db.mangaDao.searchManga(dbQuery)
                     }
                     emit(Resource.Success<List<Manga>>(data = mangas))
