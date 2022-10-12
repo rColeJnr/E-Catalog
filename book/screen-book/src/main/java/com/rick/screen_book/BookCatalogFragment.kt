@@ -58,8 +58,6 @@ class BookCatalogFragment : Fragment() {
 
         initAdapter()
 
-        initAdapter()
-
         binding.bindList(
             adapter = adapter,
             viewModel.pagingDataFlow
