@@ -7,24 +7,24 @@ import retrofit2.http.Query
 
 interface JikanApi {
 
-    @GET("/top/anime")
+    @GET("/v4/top/anime")
     suspend fun fetchTopAnime(
         @Query("page") page: Int
     ): AnimeResponseDto
 
-    @GET("/top/manga")
+    @GET("/v4/top/manga")
     suspend fun fetchTopManga(
         @Query("page") page: Int
     ): MangaResponseDto
 
-    @GET("/anime")
+    @GET("/v4/anime")
     suspend fun searchAnime(
         @Query("q") query: String,
         @Query("sfw") sfw: Boolean = false,
         @Query("max_score") max_score: Int = RESULT_SIZE
     ): AnimeResponseDto
 
-    @GET("/manga")
+    @GET("/v4/manga")
     suspend fun searchManga(
         @Query("q") query: String,
         @Query("sfw") sfw: Boolean = false,
@@ -33,7 +33,7 @@ interface JikanApi {
 
 
     companion object {
-        const val JIKAN_BASE_URL = "https://api.jikan.moe/v4/"
+        const val JIKAN_BASE_URL = "https://api.jikan.moe/"
         private const val RESULT_SIZE = 25
     }
 }
