@@ -14,9 +14,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_anime.Anime
 import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
+import com.rick.screen_anime.manga_screen.MangaCatalogAdapter
 import com.rick.screen_anime.manga_screen.MangaCatalogFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -51,12 +53,25 @@ class AnimeCatalogFragment : Fragment() {
         view?.findViewById<Toolbar>(R.id.toolbar)
             ?.setupWithNavController(navController, appBarConfiguration)
 
+        initAdapter()
+
         binding.bindList(
             adapter = adapter,
             pagingDataFlow = viewModel.pagingDataFlow
         )
 
         return binding.root
+    }
+
+    private fun initAdapter() {
+        adapter = AnimeCatalogAdapter(
+            this::onAnimeClick
+        )
+
+        binding.recyclerView.adapter =
+            adapter.withLoadStateFooter(footer = JikanLoadStateAdapter { adapter.retry() })
+
+        binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
 
     private fun FragmentAnimeCatalogBinding.bindList(
