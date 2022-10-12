@@ -34,6 +34,6 @@ interface JikanApi {
 
     companion object {
         const val JIKAN_BASE_URL = "https://api.jikan.moe/v4/"
-        private const val RESULT_SIZE = 10
+        private const val RESULT_SIZE = 25
     }
 }
