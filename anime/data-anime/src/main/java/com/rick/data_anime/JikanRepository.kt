@@ -95,4 +95,45 @@ class JikanRepository @Inject constructor(
 
     }
 
+    fun searchManga(query: String): Flow<Resource<List<Manga>>> {
+        var mangas: List<Manga> = listOf()
+        // appending '%' so we can allow other characters to be before and after the query string
+        val dbQuery = "%${query.replace(' ', '%')}%"
+        return flow {
+
+            emit(Resource.Loading(true))
+
+            db.withTransaction {
+                mangas = db.mangaDao.searchManga(dbQuery)
+            }
+
+            if (mangas.isNotEmpty()) {
+                emit(Resource.Success<List<Manga>>(data = mangas))
+                emit(Resource.Loading(false))
+            }
+
+            try {
+                val response = api.searchAnime(query).toAnimeResponse()
+                if (response.anime.isNotEmpty()) {
+                    db.withTransaction {
+                        db.animeDao.insertAnimes(response.anime)
+                        mangas = db.mangaDao.searchManga(dbQuery)
+                    }
+                    emit(Resource.Success<List<Manga>>(data = mangas))
+                    emit(Resource.Loading(false))
+                } else {
+                    emit(Resource.Error(message = null))
+                    emit(Resource.Loading(false))
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            }
+        }
+
+    }
+
 }
