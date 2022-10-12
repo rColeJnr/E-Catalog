@@ -1,6 +1,8 @@
 package com.rick.screen_anime.manga_screen
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -36,13 +38,26 @@ class MangaViewHolder(
         onItemClick(view, manga)
     }
 
+    companion object {
+        fun create(
+            parent: ViewGroup,
+            onItemClick: (view: View, manga: Manga) -> Unit
+        ): MangaViewHolder {
+            val itemBinding =
+                AnimeEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return MangaViewHolder(itemBinding, onItemClick)
+        }
+    }
+
 }
+
 fun getListAsString(list: List<Any>): String {
     val sb = StringBuilder()
 
     list.forEach { sb.append("$it ") }
     return sb.toString()
 }
+
 fun provideGlide(view: ImageView, src: String) {
     val circularProgressDrawable = CircularProgressDrawable(view.context).apply {
         strokeWidth = 5f

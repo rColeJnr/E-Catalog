@@ -11,11 +11,14 @@ class MangaCatalogAdapter(
 ): PagingDataAdapter<Manga, MangaViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: MangaViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val manga = getItem(position)
+        if (manga != null) {
+            holder.bind(manga)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
-        TODO("Not yet implemented")
+
     }
 
     companion object {
