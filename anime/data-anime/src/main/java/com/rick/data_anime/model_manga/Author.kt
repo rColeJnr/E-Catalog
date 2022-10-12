@@ -1,9 +1,9 @@
 package com.rick.data_anime.model_manga
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
 @Parcelize
 data class Author(
@@ -15,4 +15,8 @@ data class Author(
     val name: String,
     @SerializedName("url")
     val url: String
-) : Parcelable
+) : Parcelable {
+    override fun toString(): String {
+        return name
+    }
+}
