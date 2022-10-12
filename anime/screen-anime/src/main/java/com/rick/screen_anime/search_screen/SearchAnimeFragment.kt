@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_anime.Anime
 import com.rick.screen_anime.R
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchAnimeFragment : Fragment() {
@@ -146,7 +148,7 @@ class SearchAnimeFragment : Fragment() {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
-                onQueryChanged(SearchUiAction.SearchBooks(query = query.toString()))
+                onQueryChanged(SearchUiAction.SearchAnime(query = query.toString()))
 
             }
         }
@@ -158,7 +160,44 @@ class SearchAnimeFragment : Fragment() {
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>
     ) {
+        lifecycleScope.launch {
+            searchList.observe(viewLifecycleOwner) {
+                adapter.differ.submitList(it)
+            }
+        }
 
+        lifecycleScope.launchWhenCreated {
+            searchLoading.observe(viewLifecycleOwner) {
+                if (it) searchProgressBar.visibility = View.VISIBLE
+                else searchProgressBar.visibility = View.GONE
+            }
+
+            searchError.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    searchErrorMessage.visibility = View.VISIBLE
+                } else {
+                    searchErrorMessage.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    private fun onAnimeClick(view: View, anime: Anime) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+//        val searchToDetails = getString(R.string.search_transition_name, formats.image)
+//        val extras = FragmentNavigatorExtras(view to searchToDetails)
+        val action =
+            SearchAnimeFragmentDirections
+                .actionSearchAnimeFragmentToDetailsAnimeFragment(
+                    anime = anime, manga = null
+                )
+
+        findNavController().navigate(directions = action,)
     }
 
     override fun onDestroy() {
