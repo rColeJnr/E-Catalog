@@ -162,7 +162,9 @@ class MangaCatalogFragment : Fragment() {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
                 val action = MangaCatalogFragmentDirections
-                    .actionMangaCatalogFragmentToSearchAnimeFragment()
+                    .actionMangaCatalogFragmentToSearchAnimeFragment(
+                        anime = null, manga = getString(R.string.manga)
+                    )
                 navController.navigate(action)
                 true
             }
