@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == com.rick.screen_movie.R.id.movieDetailsFragment
                 || destination.id == com.rick.screen_movie.R.id.seriesDetailsFragment
                 || destination.id == com.rick.screen_book.R.id.bookDetailsFragment
+                || destination.id == com.rick.screen_anime.R.id.searchAnimeFragment
+                || destination.id == com.rick.screen_anime.R.id.detailsAnimeFragment
             )
                 View.GONE
             else
@@ -68,7 +70,6 @@ class MainActivity : AppCompatActivity() {
                 com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.movie)
                 com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.book)
                 com.rick.screen_movie.R.id.tvSeriesFragment -> getString(R.string.series)
-                com.rick.screen_book.R.id.bookDetailsFragment -> getString(R.string.the_gutenberg_project)
                 else -> getString(R.string.empty)
             }
         }
