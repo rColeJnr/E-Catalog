@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 
 @AndroidEntryPoint
-class MangaCatalogFragment: Fragment() {
+class MangaCatalogFragment : Fragment() {
 
     private var _binding: FragmentMangaCatalogBinding? = null
     private val binding get() = _binding!!
@@ -61,15 +61,28 @@ class MangaCatalogFragment: Fragment() {
 
     private fun onMangaClick(view: View, manga: Manga) {
 
-        val action = MangaCatalogFragmentDirections.actionMangaCatalogFragmentToDetailsAnimeFragment(
-            anime = null, manga = manga
-        )
+        val action =
+            MangaCatalogFragmentDirections.actionMangaCatalogFragmentToDetailsAnimeFragment(
+                anime = null, manga = manga
+            )
         findNavController().navigate(action)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.jikan_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_jikan -> {
+                val action = MangaCatalogFragmentDirections
+                    .actionMangaCatalogFragmentToSearchAnimeFragment()
+                findNavController().navigate(action)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {
