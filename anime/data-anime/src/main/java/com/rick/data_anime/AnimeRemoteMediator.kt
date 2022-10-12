@@ -4,7 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.room.withTransaction
 import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_anime.toAnimeResponse
+import okio.IOException
+import retrofit2.HttpException
 
 private const val STARTING_PAGE_INDEX = 1
 
@@ -48,9 +52,29 @@ class AnimeRemoteMediator(
         }
 
         try {
+            val response = api.fetchTopAnime().toAnimeResponse()
+            val animes = response.anime
+            val endOfPaginationReached = response.anime.isEmpty()
 
+            db.withTransaction {
+                if (loadType == LoadType.REFRESH) {
+                    db.animeRemoteKeysDao.clearRemoteKeys()
+                    db.animeDao.clearAnimes()
+                }
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = animes.map {
+                    AnimeRemoteKeys(anime = it.malId, prevKey = prevKey, nextKey = nextKey)
+                }
+                db.animeRemoteKeysDao.insertAll(keys)
+                db.animeDao.insertAnimes(animes)
+            }
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch (exception: IOException) {
+            return MediatorResult.Error(exception)
+        } catch (exception: HttpException) {
+            return MediatorResult.Error(exception)
         }
-
 
     }
 
