@@ -2,17 +2,27 @@ package com.rick.screen_anime
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_anime.model_anime.Anime
 import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
 import com.rick.screen_anime.manga_screen.MangaCatalogFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AnimeCatalogFragment : Fragment() {
@@ -41,8 +51,60 @@ class AnimeCatalogFragment : Fragment() {
         view?.findViewById<Toolbar>(R.id.toolbar)
             ?.setupWithNavController(navController, appBarConfiguration)
 
+        binding.bindList(
+            adapter = adapter,
+            pagingDataFlow = viewModel.pagingDataFlow
+        )
+
         return binding.root
     }
+
+    private fun FragmentAnimeCatalogBinding.bindList(
+        pagingDataFlow: Flow<PagingData<Anime>>,
+        adapter: AnimeCatalogAdapter
+    ) {
+
+        lifecycleScope.launchWhenCreated {
+            pagingDataFlow.collect(adapter::submitData)
+        }
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadState ->
+
+                // show progress bar during initial load or refresh.
+                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                // show empty list.
+                emptyList.isVisible =
+                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+
+                val errorState = loadState.source.refresh as? LoadState.Error
+                    ?: loadState.mediator?.refresh as? LoadState.Error
+
+                errorState?.let {
+                    Toast.makeText(
+                        context,
+                        "\uD83D\uDE28 Wooops $it",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        val notLoading = adapter.loadStateFlow.asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
+
+        lifecycleScope.launch {
+            notLoading.collectLatest {
+                if (it) recyclerView.scrollToPosition(0)
+            }
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            adapter.refresh()
+        }
+
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
