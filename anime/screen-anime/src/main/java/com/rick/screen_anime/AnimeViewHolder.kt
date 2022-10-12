@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_anime.model_anime.Anime
-import com.rick.screen_anime.databinding.AnimeEntryBinding
+import com.rick.screen_anime.databinding.JikanEntryBinding
 import com.rick.screen_anime.manga_screen.provideGlide
 
 class AnimeViewHolder(
-    binding: AnimeEntryBinding,
+    binding: JikanEntryBinding,
     private val onItemClick: (view: View, anime: Anime) -> Unit
 ) : RecyclerView.ViewHolder(binding.root),
     View.OnClickListener {
@@ -40,7 +40,7 @@ class AnimeViewHolder(
             onItemClick: (view: View, anime: Anime) -> Unit
         ): AnimeViewHolder {
             val itemBinding =
-                AnimeEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return AnimeViewHolder(itemBinding, onItemClick)
         }
     }

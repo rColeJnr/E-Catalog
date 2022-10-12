@@ -10,10 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rick.data_anime.model_manga.Manga
 import com.rick.screen_anime.R
-import com.rick.screen_anime.databinding.AnimeEntryBinding
+import com.rick.screen_anime.databinding.JikanEntryBinding
 
 class MangaViewHolder(
-    binding: AnimeEntryBinding,
+    binding: JikanEntryBinding,
     private val onItemClick: (view: View, manga: Manga) -> Unit
 ) : RecyclerView.ViewHolder(binding.root),
     View.OnClickListener {
@@ -44,7 +44,7 @@ class MangaViewHolder(
             onItemClick: (view: View, manga: Manga) -> Unit
         ): MangaViewHolder {
             val itemBinding =
-                AnimeEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return MangaViewHolder(itemBinding, onItemClick)
         }
     }
