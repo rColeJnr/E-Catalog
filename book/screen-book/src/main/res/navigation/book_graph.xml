@@ -14,7 +14,7 @@
             />
         <action
             android:id="@+id/action_bookCatalogFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/bookSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
@@ -24,7 +24,7 @@
             app:argType="com.rick.data_book.model.Formats" />
     </fragment>
     <fragment
-        android:id="@+id/searchFragment"
+        android:id="@+id/bookSearchFragment"
         android:name="com.rick.screen_book.search_screen.BookSearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_book_search" >

@@ -18,6 +18,10 @@ class AnimeViewHolder(
     private val synopsis = binding.synopsis
     private val pgRating = binding.pgRating
 
+    init {
+        binding.root.setOnClickListener(this)
+    }
+
     private lateinit var anime: Anime
 
     fun bind(anime: Anime) {
@@ -28,8 +32,7 @@ class AnimeViewHolder(
         this.synopsis.text = anime.synopsis
         this.pgRating.text = resources.getString(R.string.pg_rating, anime.rating)
     }
-
-
+    
     override fun onClick(view: View) {
         onItemClick(view, anime)
     }

@@ -24,7 +24,7 @@ import com.rick.screen_anime.JikanLoadStateAdapter
 import com.rick.screen_anime.R
 import com.rick.screen_anime.RemotePresentationState
 import com.rick.screen_anime.asRemotePresentationState
-import com.rick.screen_anime.databinding.FragmentMangaCatalogBinding
+import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MangaCatalogFragment : Fragment() {
 
-    private var _binding: FragmentMangaCatalogBinding? = null
+    private var _binding: FragmentAnimeCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaCatalogViewModel by viewModels()
     private lateinit var adapter: MangaCatalogAdapter
@@ -53,7 +53,7 @@ class MangaCatalogFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMangaCatalogBinding.inflate(inflater, container, false)
+        _binding = FragmentAnimeCatalogBinding.inflate(inflater, container, false)
 
         navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -90,7 +90,7 @@ class MangaCatalogFragment : Fragment() {
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
 
-    private fun FragmentMangaCatalogBinding.bindList(
+    private fun FragmentAnimeCatalogBinding.bindList(
         pagingDataFlow: Flow<PagingData<Manga>>,
         adapter: MangaCatalogAdapter
     ) {
@@ -141,8 +141,8 @@ class MangaCatalogFragment : Fragment() {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
         val action =
-            MangaCatalogFragmentDirections.actionMangaCatalogFragmentToDetailsMangaFragment(
-                manga = manga
+            MangaCatalogFragmentDirections.actionMangaCatalogFragmentToDetailsAnimeFragment(
+                manga = manga, anime = null
             )
         navController.navigate(action)
     }

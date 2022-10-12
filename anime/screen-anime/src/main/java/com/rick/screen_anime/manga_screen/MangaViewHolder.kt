@@ -22,6 +22,10 @@ class MangaViewHolder(
     private val synopsis = binding.synopsis
     private val pgRating = binding.pgRating
 
+    init {
+        binding.root.setOnClickListener(this)
+    }
+
     private lateinit var manga: Manga
 
     fun bind(manga: Manga) {

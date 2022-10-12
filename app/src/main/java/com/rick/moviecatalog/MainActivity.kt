@@ -54,13 +54,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            toolbar.visibility = if (destination.id == com.rick.screen_movie.R.id.searchFragment
-                || destination.id == com.rick.screen_movie.R.id.seriesSearchFragment
+            toolbar.visibility = if (
+                destination.id == com.rick.screen_movie.R.id.seriesSearchFragment
                 || destination.id == com.rick.screen_movie.R.id.movieDetailsFragment
                 || destination.id == com.rick.screen_movie.R.id.seriesDetailsFragment
                 || destination.id == com.rick.screen_book.R.id.bookDetailsFragment
+                || destination.id == com.rick.screen_book.R.id.bookSearchFragment
                 || destination.id == com.rick.screen_anime.R.id.searchAnimeFragment
-                || destination.id == com.rick.screen_anime.R.id.detailsAnimeFragment
+                || destination.id == com.rick.screen_anime.R.id.detailsMangaFragment
             )
                 View.GONE
             else
