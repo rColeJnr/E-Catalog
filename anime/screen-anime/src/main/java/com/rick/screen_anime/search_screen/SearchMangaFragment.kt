@@ -10,7 +10,7 @@ import com.rick.screen_anime.databinding.FragmentSearchAnimeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchAnimeFragment : Fragment() {
+class SearchMangaFragment : Fragment() {
 
     private var _binding: FragmentSearchAnimeBinding? = null
     private val binding get() = _binding!!
