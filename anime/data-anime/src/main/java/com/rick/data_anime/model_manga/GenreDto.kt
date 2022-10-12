@@ -1,12 +1,11 @@
 package com.rick.data_anime.model_manga
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
-@Parcelize
-data class Genre(
+data class GenreDto(
     @SerializedName("mal_id")
     val malId: Int,
     @SerializedName("type")
@@ -15,4 +14,10 @@ data class Genre(
     val name: String,
     @SerializedName("url")
     val url: String
+)
+
+@Parcelize
+data class Genre(
+    @SerializedName("name")
+    val name: String
 ) : Parcelable
