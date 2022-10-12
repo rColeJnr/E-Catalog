@@ -2,7 +2,7 @@
 <resources>
     <string name="no_results">No results 😓\nSwipe to refresh</string>
     <string name="no_title">No title</string>
-    <string name="pg_rating">PG rating: %1$s></string>
+    <string name="pg_rating">PG rating: %1$s</string>
     <string name="searchLabel">Search</string>
     <string name="nothing_found">Nothing found, try again. 😓</string>
     <string name="failed_to_retrieve_data">Failed to retrieve data 😓</string>
