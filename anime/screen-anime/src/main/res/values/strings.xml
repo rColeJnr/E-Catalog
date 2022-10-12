@@ -2,24 +2,23 @@
 <resources>
     <string name="no_results">No results 😓\nSwipe to refresh</string>
     <string name="no_title">No title</string>
-    <string name="pg_rating">R - 17+ (Violence and Profanity)></string>
+    <string name="pg_rating">PG rating: %1$s></string>
     <string name="searchLabel">Search</string>
     <string name="nothing_found">Nothing found, try again. 😓</string>
     <string name="failed_to_retrieve_data">Failed to retrieve data 😓</string>
     <string name="synopsis">Scene synopsis</string>
     <string name="genres">Genres</string>
-    <string name="airing_data">airing date</string>
     <string name="runtime">Runtime: %1$s</string>
     <string name="ratings">ratings</string>
+    <string name="airing_status">Airing: %1$s</string>
     <string name="aired">Aired from: %1$s</string>
     <string name="score">Score: %1$s</string>
     <string name="scored_by">Scored by %1$s users</string>
     <string name="rank">Rank %1$s</string>
-    <string name="polularity">Popularity rank %1$s</string>
+    <string name="popularity">Popularity rank %1$s</string>
     <string name="members">Members: %1$s</string>
     <string name="favorites">Favorites: %1$s</string>
     <string name="title_japanese">"Title in Japanese: %1$1"</string>
-    <string name="airing_status">Airing: %1$s</string>
     <string name="episodes">Episodes: %1$s</string>
     <string name="chapters">Chapters: %1$s</string>
     <string name="volumes">Volumes: %1$s</string>

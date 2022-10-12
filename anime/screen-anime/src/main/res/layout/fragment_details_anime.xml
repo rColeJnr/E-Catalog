@@ -239,7 +239,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/polularity"
+                    android:text="@string/popularity"
                     android:textAppearance="?attr/textAppearanceBody2"
                     app:chipBackgroundColor="@android:color/white"
                     app:chipStrokeColor="@android:color/black"
