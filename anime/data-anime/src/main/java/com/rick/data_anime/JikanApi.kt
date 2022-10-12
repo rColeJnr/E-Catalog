@@ -8,24 +8,24 @@ import retrofit2.http.Query
 interface JikanApi {
 
     @GET("/top/anime")
-    fun fetchTopAnime(
+    suspend fun fetchTopAnime(
         @Query("page") page: Int
     ): AnimeResponseDto
 
     @GET("/top/manga")
-    fun fetchTopManga(
+    suspend fun fetchTopManga(
         @Query("page") page: Int
     ): MangaResponseDto
 
     @GET("/anime")
-    fun searchAnime(
+    suspend fun searchAnime(
         @Query("q") query: String,
         @Query("sfw") sfw: Boolean = false,
         @Query("max_score") max_score: Int = RESULT_SIZE
     ): AnimeResponseDto
 
     @GET("/manga")
-    fun searchManga(
+    suspend fun searchManga(
         @Query("q") query: String,
         @Query("sfw") sfw: Boolean = false,
         @Query("max_score") max_score: Int = RESULT_SIZE
