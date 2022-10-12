@@ -1,4 +1,4 @@
-package com.rick.data_anime.model
+package com.rick.data_anime.model_anime
 
 
 import com.google.gson.annotations.SerializedName
@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 
 @Parcelize
-data class Demographic(
+data class Producer(
     @SerializedName("mal_id")
     val malId: Int,
     @SerializedName("type")

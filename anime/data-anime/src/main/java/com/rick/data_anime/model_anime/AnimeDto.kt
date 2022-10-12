@@ -1,4 +1,4 @@
-package com.rick.data_anime.model
+package com.rick.data_anime.model_anime
 
 
 import android.os.Parcelable
@@ -95,8 +95,8 @@ data class Anime(
     val images: Images,
     @SerializedName("trailer")
     val trailer: Trailer,
-    @SerializedName("title_english")
-    val titleEnglish: String?,
+    @SerializedName("title")
+    val title: String?,
     @SerializedName("title_japanese")
     val titleJapanese: String,
     @SerializedName("type")

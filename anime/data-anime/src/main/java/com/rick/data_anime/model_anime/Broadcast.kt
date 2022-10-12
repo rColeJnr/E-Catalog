@@ -1,4 +1,4 @@
-package com.rick.data_anime.model
+package com.rick.data_anime.model_anime
 
 
 import android.os.Parcelable
