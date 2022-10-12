@@ -68,7 +68,6 @@ class DetailsAnimeFragment : Fragment() {
         anime.observe(viewLifecycleOwner) { anme ->
             title.text = anme.title
             anme.images.jpg.imageUrl?.let { provideGlide(image, it) }
-            titleJapanese.text = getString(R.string.title_japanese, anme.titleJapanese)
             synopsis.text = getString(R.string.synopsis)
             airingStatus.text = getString(R.string.airing_status, anme.airingStatus)
             aired.text = getString(R.string.aired, anme.aired.string)
@@ -78,6 +77,7 @@ class DetailsAnimeFragment : Fragment() {
             runtime.text = getString(R.string.runtime, anme.duration)
             chapters.visibility = View.GONE
             volumes.visibility = View.GONE
+            genres.text = "Genre"
             genreOne.text = anme.genres.firstOrNull()?.name ?: ""
             genreTwo.text = anme.genres.getOrNull(1)?.name ?: ""
             genreThree.text = anme.genres.getOrNull(2)?.name ?: ""
@@ -91,6 +91,7 @@ class DetailsAnimeFragment : Fragment() {
             favorites.text = getString(R.string.favorites, anme.favorites)
             trailer.visibility = View.VISIBLE
             trailer.text = getString(R.string.link_trailer, anme.trailer.url)
+            binding.url.text = getString(R.string.link_web_page, anme.url)
             authors.visibility = View.GONE
             serializationLink.visibility = View.GONE
             serializationName.visibility = View.GONE
@@ -100,7 +101,6 @@ class DetailsAnimeFragment : Fragment() {
         manga.observe(viewLifecycleOwner) { mnga ->
             title.text = mnga.title
             mnga.imagesDto.jpg.imageUrl?.let { provideGlide(image, it) }
-            titleJapanese.text = getString(R.string.title_japanese, mnga.titleJapanese)
             synopsis.text = getString(R.string.synopsis)
             airingStatus.text = getString(R.string.airing_status, mnga.status)
             aired.text = getString(R.string.aired, mnga.published.string)

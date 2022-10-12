@@ -65,14 +65,6 @@
                 app:strokeColor="@null" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/title_japanese"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:hint="@string/title_japanese"
-                android:textAppearance="?attr/textAppearanceBody1" />
-
-            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/genres"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+                android:textAppearance="?attr/textAppearanceHeadline5" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
@@ -188,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/pg_rating"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
