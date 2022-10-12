@@ -2,6 +2,8 @@ package com.rick.data_anime.model_manga
 
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -64,8 +66,10 @@ data class MangaDto(
     val demographics: List<Demographic>
 )
 
+@Entity(tableName = "manga_db")
 @Parcelize
 data class Manga(
+    @PrimaryKey (autoGenerate = false)
     @SerializedName("mal_id")
     val malId: Int,
     @SerializedName("url")

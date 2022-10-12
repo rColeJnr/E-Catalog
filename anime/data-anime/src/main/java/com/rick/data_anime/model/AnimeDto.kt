@@ -84,7 +84,7 @@ data class AnimeDto(
 )
 
 @Parcelize
-@Entity(tableName = "anime")
+@Entity(tableName = "anime_db")
 data class Anime(
     @PrimaryKey (autoGenerate = false)
     @SerializedName("mal_id")
