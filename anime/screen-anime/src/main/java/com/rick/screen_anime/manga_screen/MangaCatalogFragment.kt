@@ -61,7 +61,7 @@ class MangaCatalogFragment : Fragment() {
 
         binding.bindList(
             adapter = adapter,
-            viewModel.pagingDataFlow
+            pagingDataFlow = viewModel.pagingDataFlow
         )
 
         return binding.root
@@ -71,6 +71,9 @@ class MangaCatalogFragment : Fragment() {
         adapter = MangaCatalogAdapter(
             this::onMangaClick
         )
+
+        binding.recyclerView.adapter =
+            adapter.withLoadStateFooter(footer = JikanLoadStateAdapter { adapter.retry() })
 
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
