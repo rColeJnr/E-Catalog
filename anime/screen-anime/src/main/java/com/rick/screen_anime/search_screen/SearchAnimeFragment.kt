@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.rick.screen_anime.databinding.FragmentSearchAnimeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchAnimeFragment: Fragment() {
+class SearchAnimeFragment : Fragment() {
 
     private var _binding: FragmentSearchAnimeBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: SearchAnimeViewModel by viewModels()
+    private lateinit var adapter: SearchJikanAdapter
 
     private var anime: String? = null
     private var manga: String? = null
