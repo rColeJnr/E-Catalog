@@ -28,4 +28,6 @@
     <string name="serializations">Serialization</string>
     <string name="serialization_name">Name: %1$s</string>
     <string name="serialization_link">Link to web page: %1$s</string>
+    <string name="manga">Manga</string>
+    <string name="anime">Anime</string>
 </resources>
