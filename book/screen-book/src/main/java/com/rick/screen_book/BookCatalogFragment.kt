@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -34,6 +35,7 @@ class BookCatalogFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: BookCatalogViewModel by viewModels()
     private lateinit var adapter: BookCatalogAdapter
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +52,7 @@ class BookCatalogFragment : Fragment() {
     ): View {
         _binding = FragmentBookCatalogBinding.inflate(inflater, container, false)
 
-        val navController = findNavController()
+        navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         view?.findViewById<Toolbar>(R.id.toolbar)
@@ -128,7 +130,7 @@ class BookCatalogFragment : Fragment() {
         val extras = FragmentNavigatorExtras(view to bookToDetails)
         val action = BookCatalogFragmentDirections
             .actionBookCatalogFragmentToBookDetailsFragment(formats = formats)
-        findNavController().navigate(directions = action, navigatorExtras = extras)
+        navController.navigate(directions = action, navigatorExtras = extras)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -146,7 +148,7 @@ class BookCatalogFragment : Fragment() {
                 }
                 val action =
                     BookCatalogFragmentDirections.actionBookCatalogFragmentToSearchFragment()
-                findNavController().navigate(action)
+                navController.navigate(action)
                 true
             }
             else -> super.onOptionsItemSelected(item)
