@@ -21,7 +21,6 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_anime.Anime
 import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
-import com.rick.screen_anime.manga_screen.MangaCatalogFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -158,10 +157,8 @@ class AnimeCatalogFragment : Fragment() {
                 reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
-                val action = MangaCatalogFragmentDirections
-                    .actionMangaCatalogFragmentToSearchAnimeFragment(
-                        anime = getString(R.string.anime), manga = null
-                    )
+                val action = AnimeCatalogFragmentDirections
+                    .actionAnimeCatalogFragmentToSearchAnimeFragment()
                 navController.navigate(action)
                 true
             }
