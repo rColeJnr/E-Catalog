@@ -102,9 +102,7 @@ data class Data(
     @SerializedName("episodes")
     val episodes: Int?,
     @SerializedName("status")
-    val status: String,
-    @SerializedName("airing")
-    val airing: Boolean,
+    val airingStatus: String,
     @SerializedName("aired")
     val aired: Aired,
     @SerializedName("duration")
@@ -127,10 +125,6 @@ data class Data(
     val synopsis: String,
     @SerializedName("background")
     val background: String?,
-    @SerializedName("season")
-    val season: String?,
-    @SerializedName("year")
-    val year: Int?,
     @SerializedName("genres")
     val genres: List<Genre>,
 ) : Parcelable
