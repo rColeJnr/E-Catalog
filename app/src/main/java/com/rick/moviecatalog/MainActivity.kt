@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
                 com.rick.screen_movie.R.id.movieCatalogFragment,
                 com.rick.screen_book.R.id.bookCatalogFragment,
                 com.rick.screen_movie.R.id.tvSeriesFragment,
+                com.rick.screen_anime.R.id.animeCatalogFragment,
+                com.rick.screen_anime.R.id.mangaCatalogFragment
             ),
             binding.drawerLayout
         )
