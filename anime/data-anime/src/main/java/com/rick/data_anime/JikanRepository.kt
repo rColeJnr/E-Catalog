@@ -9,6 +9,8 @@ import com.rick.data_anime.model_manga.Manga
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+private const val PAGE_SIZE = 2
+
 class JikanRepository @Inject constructor(
     private val api: JikanApi,
     private val db: JikanDatabase
@@ -20,7 +22,7 @@ class JikanRepository @Inject constructor(
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
-                pageSize = 1,
+                pageSize = PAGE_SIZE,
                 enablePlaceholders = true,
                 prefetchDistance = 1,
                 initialLoadSize = 1
