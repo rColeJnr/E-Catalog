@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_anime.model_anime.Anime
-import com.rick.screen_anime.AnimeViewHolder
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.JikanEntryBinding
 import com.rick.screen_anime.manga_screen.provideGlide
@@ -38,10 +37,10 @@ class SearchAnimeViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (view: View, anime: Anime) -> Unit
-        ): AnimeViewHolder {
+        ): SearchAnimeViewHolder {
             val itemBinding =
                 JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return AnimeViewHolder(itemBinding, onItemClick)
+            return SearchAnimeViewHolder(itemBinding, onItemClick)
         }
     }
 
