@@ -13,12 +13,12 @@
     <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/nunito_sans_regular</item>
         <item name="android:fontFamily">@font/nunito_sans_regular</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">24sp</item>
     </style>
     <style name="TextAppearance.MdcTypographyStyles.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">@font/nunito_sans_regular</item>
         <item name="android:fontFamily">@font/nunito_sans_regular</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">17sp</item>
     </style>
     <style name="TextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="fontFamily">@font/nunito_sans_light</item>
