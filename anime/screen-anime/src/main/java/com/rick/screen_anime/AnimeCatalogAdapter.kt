@@ -10,7 +10,7 @@ import com.rick.screen_anime.manga_screen.MangaViewHolder
 
 class AnimeCatalogAdapter(
     private val onItemClick: (view: View, anime: Anime) -> Unit
-) : PagingDataAdapter<Anime, MangaViewHolder>(DIFF_UTIL) {
+) : PagingDataAdapter<Anime, AnimeViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: MangaViewHolder, position: Int) {
         val anime = getItem(position)
