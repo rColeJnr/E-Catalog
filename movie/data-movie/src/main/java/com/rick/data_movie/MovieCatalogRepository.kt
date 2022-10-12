@@ -18,7 +18,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-private const val ITEMS_PER_PAGE = 20
+private const val PAGE_SIZE = 2
 
 class MovieCatalogRepository @Inject constructor(
     private val db: MovieCatalogDatabase,
@@ -34,7 +34,7 @@ class MovieCatalogRepository @Inject constructor(
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
-                pageSize = ITEMS_PER_PAGE,
+                pageSize = PAGE_SIZE,
                 enablePlaceholders = true,
                 prefetchDistance = 1,
                 initialLoadSize = 1
