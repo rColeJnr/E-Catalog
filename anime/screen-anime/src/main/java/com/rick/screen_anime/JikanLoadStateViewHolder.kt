@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.screen_book.databinding.LoadStateFooterBinding
+import com.rick.screen_anime.databinding.LoadStateFooterBinding
 
 class JikanLoadStateViewHolder(
     private val binding: LoadStateFooterBinding,
