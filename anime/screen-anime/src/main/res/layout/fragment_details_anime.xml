@@ -1,6 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/two_dimen"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/details_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="?attr/colorSurface">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/no_title"
+                        android:textAppearance="?attr/textAppearanceHeadline5" />
+
+                    <ProgressBar
+                        android:id="@+id/details_progress_bar"
+                        style="?android:progressBarStyleHorizontal"
+                        android:layout_width="282dp"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+
+                    <TextView
+                        android:id="@+id/details_error_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/failed_to_retrieve_data"
+                        android:textAppearance="?attr/textAppearanceCaption"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:minWidth="@dimen/min_image_width"
+                android:minHeight="@dimen/image_height"
+                android:scaleType="fitCenter"
+                app:strokeColor="@null" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:hint="@string/synopsis"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/two_dimen"
+                android:text="@string/genres"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/airing_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/airing_status"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/aired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/aired"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/runtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/runtime"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:id="@+id/rating"
+                android:text="@string/ratings"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/six_dimen"
+                android:clickable="false"
+                android:foregroundGravity="center_horizontal"
+                android:layoutDirection="locale"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:singleLine="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/score"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/scored_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/scored_by"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/rank"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/popularity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/polularity"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/members"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/favorites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/favorites"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipStrokeColor="@android:color/black"
+                    app:chipStrokeWidth="1dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/actors"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <View style="@style/Divider.Horizontal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_actors"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_height"
+                android:layout_marginBottom="@dimen/six_dimen" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/box_office"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <View style="@style/Divider.Horizontal" />
+
+            <TextView
+                android:id="@+id/movie_budget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/budget"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <TextView
+                android:id="@+id/movie_open_weekend_gross"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/open_week_gross"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <TextView
+                android:id="@+id/movie_world_wide_gross"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/six_dimen"
+                android:text="@string/world_wide_gross"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/similar_titles"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <View style="@style/Divider.Horizontal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_similars"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_height" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.core.widget.NestedScrollView>

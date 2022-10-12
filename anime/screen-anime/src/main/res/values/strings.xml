@@ -5,4 +5,17 @@
     <string name="pg_rating"><![CDATA[R - 17+ (Violence & Profanity)]]></string>
     <string name="searchLabel">Search</string>
     <string name="nothing_found">Nothing found, try again. 😓</string>
+    <string name="failed_to_retrieve_data">Failed to retrieve data 😓</string>
+    <string name="synopsis">Scene synopsis</string>
+    <string name="genres">genres</string>
+    <string name="airing_data">airing date</string>
+    <string name="runtime">runtime</string>
+    <string name="ratings">ratings</string>
+    <string name="aired">aired info</string>
+    <string name="score">Score: %1$s</string>
+    <string name="scored_by">Scored by %1$s users</string>
+    <string name="rank">Rank %1$s</string>
+    <string name="polularity">Popularity rank %1$s</string>
+    <string name="members">Members: %1$s</string>
+    <string name="favorites">Favorites: %1$s</string>
 </resources>
