@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentSearchAnimeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +19,17 @@ class SearchAnimeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SearchAnimeViewModel by viewModels()
     private lateinit var adapter: SearchAnimeAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
