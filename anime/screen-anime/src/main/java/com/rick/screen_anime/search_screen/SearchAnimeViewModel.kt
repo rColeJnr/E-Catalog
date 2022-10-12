@@ -9,8 +9,7 @@ import com.rick.data_anime.JikanRepository
 import com.rick.data_anime.model_anime.Anime
 import com.rick.data_anime.model_manga.Manga
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,12 +34,45 @@ class SearchAnimeViewModel @Inject constructor(
     lazy { MutableLiveData<String>() }
     val searchError: LiveData<String> get() = _searchError
 
-
     val searchUiAction: (SearchUiAction) -> Unit
     val searchUiState: StateFlow<SearchUiState>
 
     init {
 
+        val actionStateFlow = MutableSharedFlow<SearchUiAction>()
+        val searchAnime =
+            actionStateFlow.filterIsInstance<SearchUiAction.SearchAnime>().distinctUntilChanged()
+        val searchManga =
+            actionStateFlow.filterIsInstance<SearchUiAction.SearchManga>().distinctUntilChanged()
+
+        viewModelScope.launch {
+            searchAnime.collectLatest {
+                searchAnime(it.query)
+            }
+            searchManga.collectLatest {
+                searchManga(it.query)
+            }
+        }
+
+        searchUiState = combine(
+            searchAnime,
+            searchManga,
+            ::Pair
+        ).map { (anime, manga) ->
+            SearchUiState(
+                animeQuery = anime.query,
+                mangaQuery = manga.query
+            )
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000L),
+                initialValue = SearchUiState()
+            )
+
+        searchUiAction = { action ->
+            viewModelScope.launch { actionStateFlow.emit(action) }
+        }
     }
 
     private fun searchAnime(title: String) {
@@ -82,9 +114,11 @@ class SearchAnimeViewModel @Inject constructor(
 }
 
 sealed class SearchUiAction {
-    data class SearchJikan(val query: String) : SearchUiAction()
+    data class SearchAnime(val query: String) : SearchUiAction()
+    data class SearchManga(val query: String) : SearchUiAction()
 }
 
 data class SearchUiState(
-    val searchQuery: String? = null
+    val animeQuery: String? = null,
+    val mangaQuery: String? = null
 )
