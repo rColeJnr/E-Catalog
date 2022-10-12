@@ -21,5 +21,5 @@ data class AnimeResponse(
     @SerializedName("pagination")
     val pagination: Pagination,
     @SerializedName("data")
-    val data: List<DataDto>,
+    val data: List<Data>,
 ) : Parcelable
