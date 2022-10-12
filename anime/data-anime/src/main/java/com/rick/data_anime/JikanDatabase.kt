@@ -9,16 +9,20 @@ import com.rick.data_anime.model_manga.Manga
 @Database(
     entities = [
         Manga::class,
-    Anime::class
+        Anime::class,
+        MangaRemoteKeys::class,
+        AnimeRemoteKeys::class
     ],
     version = 1,
     exportSchema = true
 )
 @TypeConverters(MangaConverters::class, AnimeConverters::class)
-abstract class JikanDatabase: RoomDatabase() {
+abstract class JikanDatabase : RoomDatabase() {
 
     abstract val mangaDao: MangaDao
+    abstract val mangaRemoteKeys: MangaRemoteKeys
     abstract val animeDao: AnimeDao
+    abstract val animeRemoteKeys: AnimeRemoteKeys
 
     companion object {
         const val JIKAN_DATABASE_NAME = "JIKAN_DB"
