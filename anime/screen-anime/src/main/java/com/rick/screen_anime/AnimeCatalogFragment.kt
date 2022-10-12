@@ -138,7 +138,7 @@ class AnimeCatalogFragment : Fragment() {
         }
         val action = AnimeCatalogFragmentDirections
             .actionAnimeCatalogFragmentToDetailsAnimeFragment(
-                anime = anime, manga = null
+                anime = anime
             )
         navController.navigate(action)
     }
