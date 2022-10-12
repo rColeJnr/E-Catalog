@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/anime_graph"
     app:startDestination="@id/animeCatalogFragment">
 
     <fragment
+        android:id="@+id/detailsAnimeFragment"
+        android:name="com.rick.screen_anime.details_screen.DetailsAnimeFragment"
+        android:label="DetailsAnimeFragment">
+        <argument
+            android:name="anime"
+            app:argType="com.rick.data_anime.model_anime.Anime"
+            app:nullable="true" />
+        <argument
+            android:name="manga"
+            app:argType="com.rick.data_anime.model_manga.Manga"
+            app:nullable="true"/>
+    </fragment>
+    <fragment
         android:id="@+id/animeCatalogFragment"
         android:name="com.rick.screen_anime.AnimeCatalogFragment"
-        android:label="AnimeCatalogFragment" >
+        android:label="fragment_anime_catalog"
+        tools:layout="@layout/fragment_anime_catalog" >
         <action
             android:id="@+id/action_animeCatalogFragment_to_searchAnimeFragment"
             app:destination="@id/searchAnimeFragment" />
@@ -16,21 +31,27 @@
             app:destination="@id/detailsAnimeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailsAnimeFragment"
-        android:name="com.rick.screen_anime.details_screen.DetailsAnimeFragment"
-        android:label="DetailsAnimeFragment">
-        <argument
-            android:name="anime"
-            app:argType="com.rick.data_anime.model_anime.Anime"
-            app:nullable="false" />
-
-    </fragment>
-    <fragment
         android:id="@+id/searchAnimeFragment"
         android:name="com.rick.screen_anime.search_screen.SearchAnimeFragment"
-        android:label="SearchAnimeFragment" >
+        android:label="fragment_search_anime"
+        tools:layout="@layout/fragment_search_anime" >
         <action
             android:id="@+id/action_searchAnimeFragment_to_detailsAnimeFragment"
             app:destination="@id/detailsAnimeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mangaCatalogFragment"
+        android:name="com.rick.screen_anime.manga_screen.MangaCatalogFragment"
+        android:label="MangaCatalogFragment" >
+        <action
+            android:id="@+id/action_mangaCatalogFragment_to_searchMangaFragment"
+            app:destination="@id/searchMangaFragment" />
+        <action
+            android:id="@+id/action_mangaCatalogFragment_to_detailsAnimeFragment"
+            app:destination="@id/detailsAnimeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchMangaFragment"
+        android:name="com.rick.screen_anime.search_screen.SearchMangaFragment"
+        android:label="SearchMangaFragment" />
 </navigation>

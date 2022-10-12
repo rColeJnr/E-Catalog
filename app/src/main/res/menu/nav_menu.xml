@@ -20,11 +20,13 @@
 
     <item android:id="@+id/anime_graph"
         android:title="@string/anime"
-        android:icon="@drawable/ic_anime"/>
+        android:icon="@drawable/ic_anime"
+        app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/manga_graph"
         android:title="@string/manga"
-        android:icon="@drawable/ic_anime"/>
+        android:icon="@drawable/ic_anime"
+        app:showAsAction="ifRoom"/>
 
 <!--    <item android:id="@+id/music_graph"-->
 <!--        android:title="@string/music"-->
