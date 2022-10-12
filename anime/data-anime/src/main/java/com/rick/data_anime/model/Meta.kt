@@ -2,7 +2,10 @@ package com.rick.data_anime.model
 
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
 
+@Parcelize
 data class Meta(
     @SerializedName("current_page")
     val currentPage: Int,
@@ -20,4 +23,4 @@ data class Meta(
     val to: Int,
     @SerializedName("total")
     val total: Int
-)
+) : Parcelable

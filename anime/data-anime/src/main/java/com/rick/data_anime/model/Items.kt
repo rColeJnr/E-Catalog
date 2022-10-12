@@ -2,12 +2,15 @@ package com.rick.data_anime.model
 
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
 
+@Parcelize
 data class Items(
     @SerializedName("count")
     val count: Int,
-    @SerializedName("per_page")
-    val perPage: Int,
     @SerializedName("total")
-    val total: Int
-)
+    val total: Int,
+    @SerializedName("per_page")
+    val perPage: Int
+) : Parcelable
