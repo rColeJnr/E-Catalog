@@ -22,9 +22,9 @@
         android:title="@string/anime"
         android:icon="@drawable/ic_anime"/>
 
-<!--    <item android:id="@+id/manga_graph"-->
-<!--        android:title="@string/anime"-->
-<!--        android:icon="@drawable/ic_anime"/>-->
+    <item android:id="@+id/manga_graph"
+        android:title="@string/manga"
+        android:icon="@drawable/ic_anime"/>
 
 <!--    <item android:id="@+id/music_graph"-->
 <!--        android:title="@string/music"-->
