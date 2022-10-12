@@ -11,11 +11,6 @@ interface GutenbergApi {
     ): GutenbergResponseDto
 
     @GET("/books/")
-    suspend fun getBook(
-        @Query("id") id: Int
-    ): GutenbergResponseDto
-
-    @GET("/books/")
     suspend fun searchBook(
         @Query("search") query: String
     ): GutenbergResponseDto
