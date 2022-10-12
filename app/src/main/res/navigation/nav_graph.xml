@@ -8,6 +8,6 @@
     <include app:graph="@navigation/movie_graph"/>
     <include app:graph="@navigation/series_graph"/>
     <include app:graph="@navigation/anime_graph" />
-    <include app:graph="@navigation/manga_graph" />
+<!--    <include app:graph="@navigation/manga_graph" />-->
 
 </navigation>
