@@ -2,7 +2,9 @@ package com.rick.screen_anime.manga_screen
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
@@ -20,6 +23,9 @@ import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentMangaCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MangaCatalogFragment : Fragment() {
@@ -54,6 +60,7 @@ class MangaCatalogFragment : Fragment() {
         initAdapter()
 
         binding.bindList(
+            adapter = adapter,
             viewModel.pagingDataFlow
         )
 
@@ -68,10 +75,48 @@ class MangaCatalogFragment : Fragment() {
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
 
-    private fun FragmentMangaCatalogBinding.bindList(pagingDataFlow: Flow<PagingData<Manga>>) {
+    private fun FragmentMangaCatalogBinding.bindList(
+        pagingDataFlow: Flow<PagingData<Manga>>,
+        adapter: MangaCatalogAdapter
+    ) {
 
         lifecycleScope.launchWhenCreated {
             pagingDataFlow.collect(adapter::submitData)
+        }
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadState ->
+
+                // show progress bar during initial load or refresh.
+                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                // show empty list.
+                emptyList.isVisible =
+                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+
+                val errorState = loadState.source.refresh as? LoadState.Error
+                    ?: loadState.mediator?.refresh as? LoadState.Error
+
+                errorState?.let {
+                    Toast.makeText(
+                        context,
+                        "\uD83D\uDE28 Wooops $it",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        val notLoading = adapter.loadStateFlow.asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
+
+        lifecycleScope.launch {
+            notLoading.collectLatest {
+                if (it) recyclerView.scrollToPosition(0)
+            }
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            adapter.refresh()
         }
 
     }
