@@ -9,7 +9,7 @@ data class AnimeResponseDto(
     @SerializedName("pagination")
     val pagination: Pagination,
     @SerializedName("data")
-    val data: List<DataDto>,
+    val animes: List<AnimeDto>,
     @SerializedName("links")
     val links: Links,
     @SerializedName("meta")
@@ -21,5 +21,5 @@ data class AnimeResponse(
     @SerializedName("pagination")
     val pagination: Pagination,
     @SerializedName("data")
-    val data: List<Data>,
+    val anime: List<Anime>,
 ) : Parcelable

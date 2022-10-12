@@ -3,10 +3,10 @@ package com.rick.data_anime.model
 fun AnimeResponseDto.toAnimeResponse(): AnimeResponse =
     AnimeResponse(
         pagination,
-        data.map { it.toData() }
+        animes.map { it.toAnime() }
     )
 
-fun DataDto.toData(): Data = Data(
+fun AnimeDto.toAnime(): Anime= Anime(
     malId,
     url,
     images.toImages(),
