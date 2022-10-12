@@ -2,12 +2,15 @@ package com.rick.data_anime.model
 
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
 
+@Parcelize
 data class Link(
-    @SerializedName("active")
-    val active: Boolean,
+    @SerializedName("url")
+    val url: String?,
     @SerializedName("label")
     val label: String,
-    @SerializedName("url")
-    val url: String?
-)
+    @SerializedName("active")
+    val active: Boolean
+) : Parcelable

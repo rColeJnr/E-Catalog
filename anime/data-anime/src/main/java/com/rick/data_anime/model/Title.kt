@@ -2,10 +2,13 @@ package com.rick.data_anime.model
 
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
 
+@Parcelize
 data class Title(
-    @SerializedName("title")
-    val title: String,
     @SerializedName("type")
-    val type: String
-)
+    val type: String,
+    @SerializedName("title")
+    val title: String
+) : Parcelable
