@@ -19,7 +19,10 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_manga.Manga
+import com.rick.screen_anime.JikanLoadStateAdapter
 import com.rick.screen_anime.R
+import com.rick.screen_anime.RemotePresentationState
+import com.rick.screen_anime.asRemotePresentationState
 import com.rick.screen_anime.databinding.FragmentMangaCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
