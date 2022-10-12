@@ -1,6 +1,6 @@
 package com.rick.data_anime
 
-import com.rick.data_anime.model.AnimeResponseDto
+import com.rick.data_anime.model_anime.AnimeResponseDto
 import retrofit2.http.GET
 
 interface JikanApi {

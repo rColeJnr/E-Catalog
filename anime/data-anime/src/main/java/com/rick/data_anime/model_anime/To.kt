@@ -1,4 +1,4 @@
-package com.rick.data_anime.model
+package com.rick.data_anime.model_anime
 
 
 import android.os.Parcelable
@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class From(
+data class To(
     @SerializedName("day")
-    val day: Int,
+    val day: Int?,
     @SerializedName("month")
-    val month: Int,
+    val month: Int?,
     @SerializedName("year")
-    val year: Int
+    val year: Int?
 ) : Parcelable

@@ -1,4 +1,4 @@
-package com.rick.data_anime.model
+package com.rick.data_anime.model_anime
 
 fun AnimeResponseDto.toAnimeResponse(): AnimeResponse =
     AnimeResponse(
@@ -11,7 +11,7 @@ fun AnimeDto.toAnime(): Anime= Anime(
     url,
     images.toImages(),
     trailer.toTrailers(),
-    titleEnglish,
+    title = title,
     titleJapanese,
     type,
     source,
