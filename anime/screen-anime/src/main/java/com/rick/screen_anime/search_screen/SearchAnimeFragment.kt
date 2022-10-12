@@ -14,12 +14,21 @@ class SearchAnimeFragment: Fragment() {
     private var _binding: FragmentSearchAnimeBinding? = null
     private val binding get() = _binding!!
 
+    private var anime: String? = null
+    private var manga: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchAnimeBinding.inflate(inflater, container, false)
+
+        arguments?.let {
+            val safeArgs = SearchAnimeFragmentArgs.fromBundle(it)
+            anime = safeArgs.anime
+            manga = safeArgs.manga
+        }
 
         return binding.root
     }
