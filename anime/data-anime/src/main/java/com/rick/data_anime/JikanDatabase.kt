@@ -20,9 +20,9 @@ import com.rick.data_anime.model_manga.Manga
 abstract class JikanDatabase : RoomDatabase() {
 
     abstract val mangaDao: MangaDao
-    abstract val mangaRemoteKeys: MangaRemoteKeys
+    abstract val mangaRemoteKeysDao: MangaRemoteKeysDao
     abstract val animeDao: AnimeDao
-    abstract val animeRemoteKeys: AnimeRemoteKeys
+    abstract val animeRemoteKeysDao: AnimeRemoteKeysDao
 
     companion object {
         const val JIKAN_DATABASE_NAME = "JIKAN_DB"

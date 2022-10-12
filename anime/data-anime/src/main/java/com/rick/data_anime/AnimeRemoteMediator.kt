@@ -55,7 +55,7 @@ class AnimeRemoteMediator(
             return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
                 ?.let { anime ->
                     // Get the remote keys of the last item retrieved
-                    db.remoteKeysDao.remoteKeysId(anime.malId)
+                    db.dao(anime.malId)
                 }
         }
 
