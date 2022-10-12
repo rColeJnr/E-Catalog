@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity() {
                 com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.movie)
                 com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.book)
                 com.rick.screen_movie.R.id.tvSeriesFragment -> getString(R.string.series)
+                com.rick.screen_anime.R.id.animeCatalogFragment -> getString(R.string.anime)
+                com.rick.screen_anime.R.id.mangaCatalogFragment -> getString(R.string.manga)
                 else -> getString(R.string.empty)
             }
         }
