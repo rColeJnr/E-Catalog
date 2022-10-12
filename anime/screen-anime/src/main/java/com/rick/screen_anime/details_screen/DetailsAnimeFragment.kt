@@ -68,7 +68,7 @@ class DetailsAnimeFragment : Fragment() {
         anime.observe(viewLifecycleOwner) { anme ->
             title.text = anme.title
             anme.images.jpg.imageUrl?.let { provideGlide(image, it) }
-            synopsis.text = getString(R.string.synopsis)
+            synopsis.text = getString(R.string.synopsis, anme.synopsis)
             airingStatus.text = getString(R.string.airing_status, anme.airingStatus)
             aired.text = getString(R.string.aired, anme.aired.string)
             episodes.visibility = View.VISIBLE
@@ -101,7 +101,7 @@ class DetailsAnimeFragment : Fragment() {
         manga.observe(viewLifecycleOwner) { mnga ->
             title.text = mnga.title
             mnga.imagesDto.jpg.imageUrl?.let { provideGlide(image, it) }
-            synopsis.text = getString(R.string.synopsis)
+            synopsis.text = getString(R.string.synopsis, mnga.synopsis)
             airingStatus.text = getString(R.string.airing_status, mnga.status)
             aired.text = getString(R.string.aired, mnga.published.string)
             episodes.visibility = View.GONE

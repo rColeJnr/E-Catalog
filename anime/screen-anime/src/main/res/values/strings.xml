@@ -6,7 +6,7 @@
     <string name="searchLabel">Search</string>
     <string name="nothing_found">Nothing found, try again. 😓</string>
     <string name="failed_to_retrieve_data">Failed to retrieve data 😓</string>
-    <string name="synopsis">Scene synopsis</string>
+    <string name="synopsis">%1$s</string>
     <string name="genres">Genres</string>
     <string name="runtime">Runtime: %1$s</string>
     <string name="ratings">ratings</string>
