@@ -15,7 +15,7 @@ class SearchAnimeFragment : Fragment() {
     private var _binding: FragmentSearchAnimeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchAnimeViewModel by viewModels()
-    private lateinit var adapter: SearchJikanAdapter
+    private lateinit var adapter: SearchAnimeAdapter
 
     private var anime: String? = null
     private var manga: String? = null
