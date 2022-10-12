@@ -52,7 +52,7 @@ class AnimeRemoteMediator(
         }
 
         try {
-            val response = api.fetchTopAnime().toAnimeResponse()
+            val response = api.fetchTopAnime(page).toAnimeResponse()
             val animes = response.anime
             val endOfPaginationReached = response.anime.isEmpty()
 
