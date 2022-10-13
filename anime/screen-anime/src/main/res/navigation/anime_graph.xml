@@ -39,19 +39,4 @@
             android:id="@+id/action_searchAnimeFragment_to_detailsAnimeFragment"
             app:destination="@id/detailsAnimeFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/mangaCatalogFragment"
-        android:name="com.rick.screen_anime.manga_screen.MangaCatalogFragment"
-        android:label="MangaCatalogFragment" >
-        <action
-            android:id="@+id/action_mangaCatalogFragment_to_searchMangaFragment"
-            app:destination="@id/searchMangaFragment" />
-        <action
-            android:id="@+id/action_mangaCatalogFragment_to_detailsAnimeFragment"
-            app:destination="@id/detailsAnimeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchMangaFragment"
-        android:name="com.rick.screen_anime.search_screen.SearchMangaFragment"
-        android:label="SearchMangaFragment" />
 </navigation>

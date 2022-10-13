@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e8da5c5f43201455b4c6a41058395aee",
+    "identityHash": "ea862c606da19da3226528f9aa7d6819",
     "entities": [
       {
         "tableName": "manga_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `imagesDto` TEXT NOT NULL, `approved` INTEGER NOT NULL, `title` TEXT NOT NULL, `titleJapanese` TEXT NOT NULL, `type` TEXT NOT NULL, `chapters` INTEGER NOT NULL, `volumes` INTEGER NOT NULL, `status` TEXT NOT NULL, `published` TEXT NOT NULL, `score` INTEGER NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT NOT NULL, `background` TEXT NOT NULL, `authors` TEXT NOT NULL, `serializations` TEXT NOT NULL, `genres` TEXT NOT NULL, `themes` TEXT NOT NULL, PRIMARY KEY(`malId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `imagesDto` TEXT NOT NULL, `approved` INTEGER NOT NULL, `title` TEXT NOT NULL, `titleJapanese` TEXT NOT NULL, `type` TEXT NOT NULL, `chapters` INTEGER NOT NULL, `volumes` INTEGER NOT NULL, `status` TEXT NOT NULL, `published` TEXT NOT NULL, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT NOT NULL, `background` TEXT NOT NULL, `authors` TEXT NOT NULL, `serializations` TEXT NOT NULL, `genres` TEXT NOT NULL, `themes` TEXT NOT NULL, PRIMARY KEY(`malId`))",
         "fields": [
           {
             "fieldPath": "malId",
@@ -77,7 +77,7 @@
           {
             "fieldPath": "score",
             "columnName": "score",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": true
           },
           {
@@ -370,7 +370,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e8da5c5f43201455b4c6a41058395aee')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea862c606da19da3226528f9aa7d6819')"
     ]
   }
 }

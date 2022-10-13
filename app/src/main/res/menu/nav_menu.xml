@@ -23,7 +23,7 @@
         android:icon="@drawable/ic_anime"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/mangaCatalogFragment"
+    <item android:id="@+id/manga_graph"
         android:title="@string/manga"
         android:icon="@drawable/ic_anime"
         app:showAsAction="ifRoom"/>
