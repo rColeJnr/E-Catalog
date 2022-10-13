@@ -37,7 +37,7 @@ data class MangaDto(
     @SerializedName("published")
     val publishedDto: PublishedDto,
     @SerializedName("score")
-    val score: Int,
+    val score: Float,
     @SerializedName("scored_by")
     val scoredBy: Int,
     @SerializedName("rank")
@@ -93,7 +93,7 @@ data class Manga(
     @SerializedName("published")
     val published: Published,
     @SerializedName("score")
-    val score: Int,
+    val score: Float,
     @SerializedName("scored_by")
     val scoredBy: Int,
     @SerializedName("rank")
