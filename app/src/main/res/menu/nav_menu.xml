@@ -2,35 +2,40 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/movie_graph"
-        android:icon="@drawable/ic_moviefolder"
-        android:title="@string/movie"
-        app:showAsAction="always"/>
-
-    <item android:id="@+id/series_graph"
-        android:icon="@drawable/ic_moviefolder"
-        android:title="@string/series"
-        app:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/book_graph"
+    <item
+        android:id="@+id/book_graph"
         android:icon="@drawable/ic_book"
         android:title="@string/book"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/anime_graph"
+    <item
+        android:id="@+id/movie_graph"
+        android:icon="@drawable/ic_moviefolder"
+        android:title="@string/movie"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/series_graph"
+        android:icon="@drawable/ic_moviefolder"
+        android:title="@string/series"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/anime_graph"
+        android:icon="@drawable/ic_anime"
         android:title="@string/anime"
-        android:icon="@drawable/ic_anime"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/manga_graph"
+    <item
+        android:id="@+id/manga_graph"
+        android:icon="@drawable/ic_anime"
         android:title="@string/manga"
-        android:icon="@drawable/ic_anime"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
-<!--    <item android:id="@+id/music_graph"-->
-<!--        android:title="@string/music"-->
-<!--        android:icon="@drawable/ic_music"-->
-<!--        />-->
+    <!--    <item android:id="@+id/music_graph"-->
+    <!--        android:title="@string/music"-->
+    <!--        android:icon="@drawable/ic_music"-->
+    <!--        />-->
 
 </menu>
