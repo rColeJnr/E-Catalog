@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b3dbb7251347a4ca37f630d80e072c20",
+    "identityHash": "ef13cd789cf12f215e7a5701bc0818d1",
     "entities": [
       {
         "tableName": "manga_db",
@@ -158,7 +158,7 @@
       },
       {
         "tableName": "anime_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT NOT NULL, `title` TEXT, `titleJapanese` TEXT NOT NULL, `type` TEXT NOT NULL, `source` TEXT NOT NULL, `episodes` INTEGER, `airingStatus` TEXT NOT NULL, `aired` TEXT NOT NULL, `duration` TEXT NOT NULL, `rating` TEXT NOT NULL, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT NOT NULL, `background` TEXT, `genres` TEXT NOT NULL, PRIMARY KEY(`malId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT NOT NULL, `title` TEXT, `titleJapanese` TEXT, `type` TEXT NOT NULL, `source` TEXT NOT NULL, `episodes` INTEGER, `airingStatus` TEXT NOT NULL, `aired` TEXT NOT NULL, `duration` TEXT, `rating` TEXT NOT NULL, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `genres` TEXT NOT NULL, PRIMARY KEY(`malId`))",
         "fields": [
           {
             "fieldPath": "malId",
@@ -194,7 +194,7 @@
             "fieldPath": "titleJapanese",
             "columnName": "titleJapanese",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "type",
@@ -230,7 +230,7 @@
             "fieldPath": "duration",
             "columnName": "duration",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "rating",
@@ -278,7 +278,7 @@
             "fieldPath": "synopsis",
             "columnName": "synopsis",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "background",
@@ -370,7 +370,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b3dbb7251347a4ca37f630d80e072c20')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ef13cd789cf12f215e7a5701bc0818d1')"
     ]
   }
 }
