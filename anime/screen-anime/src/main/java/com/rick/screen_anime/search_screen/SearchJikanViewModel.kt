@@ -101,7 +101,7 @@ class SearchAnimeViewModel @Inject constructor(
             repo.searchManga(query = title).collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
-                        _searchError.postValue(result.message)
+                        _searchError.postValue(result.message ?: "Error")
                     }
                     is Resource.Loading -> {
                         _searchLoading.postValue(result.isLoading)
