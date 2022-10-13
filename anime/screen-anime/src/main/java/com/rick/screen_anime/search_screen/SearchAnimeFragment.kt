@@ -173,7 +173,7 @@ class SearchAnimeFragment : Fragment() {
             }
 
             searchError.observe(viewLifecycleOwner) {
-                if (it.isNotEmpty()) {
+                if (!it.isNullOrBlank()) {
                     searchErrorMessage.visibility = View.VISIBLE
                 } else {
                     searchErrorMessage.visibility = View.GONE
