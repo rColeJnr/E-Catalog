@@ -49,6 +49,9 @@ class SearchAnimeViewModel @Inject constructor(
             searchAnime.collectLatest {
                 searchAnime(it.query)
             }
+        }
+
+        viewModelScope.launch {
             searchManga.collectLatest {
                 searchManga(it.query)
             }

@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == com.rick.screen_book.R.id.bookSearchFragment
                 || destination.id == com.rick.screen_anime.R.id.searchAnimeFragment
                 || destination.id == com.rick.screen_anime.R.id.detailsAnimeFragment
+                || destination.id == com.rick.screen_anime.R.id.searchMangaFragment
+                || destination.id == com.rick.screen_anime.R.id.detailsAnimeFragment2
             )
                 View.GONE
             else

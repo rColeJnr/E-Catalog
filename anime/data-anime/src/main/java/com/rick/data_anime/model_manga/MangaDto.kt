@@ -23,13 +23,13 @@ data class MangaDto(
     @SerializedName("title_english")
     val titleEnglish: String,
     @SerializedName("title_japanese")
-    val titleJapanese: String,
+    val titleJapanese: String?,
     @SerializedName("type")
     val type: String,
     @SerializedName("chapters")
-    val chapters: Int,
+    val chapters: Int?,
     @SerializedName("volumes")
-    val volumes: Int,
+    val volumes: Int?,
     @SerializedName("status")
     val status: String,
     @SerializedName("publishing")
@@ -49,9 +49,9 @@ data class MangaDto(
     @SerializedName("favorites")
     val favorites: Int,
     @SerializedName("synopsis")
-    val synopsis: String,
+    val synopsis: String?,
     @SerializedName("background")
-    val background: String,
+    val background: String?,
     @SerializedName("authors")
     val authors: List<Author>,
     @SerializedName("serializations")
@@ -81,13 +81,13 @@ data class Manga(
     @SerializedName("title")
     val title: String,
     @SerializedName("title_japanese")
-    val titleJapanese: String,
+    val titleJapanese: String?,
     @SerializedName("type")
     val type: String,
     @SerializedName("chapters")
-    val chapters: Int,
+    val chapters: Int?,
     @SerializedName("volumes")
-    val volumes: Int,
+    val volumes: Int?,
     @SerializedName("status")
     val status: String,
     @SerializedName("published")
@@ -105,9 +105,9 @@ data class Manga(
     @SerializedName("favorites")
     val favorites: Int,
     @SerializedName("synopsis")
-    val synopsis: String,
+    val synopsis: String?,
     @SerializedName("background")
-    val background: String,
+    val background: String?,
     @SerializedName("authors")
     val authors: List<Author>,
     @SerializedName("serializations")
