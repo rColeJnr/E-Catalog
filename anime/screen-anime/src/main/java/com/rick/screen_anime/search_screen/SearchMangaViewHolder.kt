@@ -5,9 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_anime.model_manga.Manga
-import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.JikanEntryBinding
-import com.rick.screen_anime.manga_screen.getListAsString
 import com.rick.screen_anime.manga_screen.provideGlide
 
 class SearchMangaViewHolder(
@@ -32,7 +30,7 @@ class SearchMangaViewHolder(
         this.title.text = manga.title
         manga.imagesDto.jpg.imageUrl.let { provideGlide(this.image, it) }
         this.synopsis.text = manga.synopsis
-        this.pgRating.text = resources.getString(R.string.authors, getListAsString(manga.authors))
+        this.pgRating.text = "jaldkf    "
     }
 
 

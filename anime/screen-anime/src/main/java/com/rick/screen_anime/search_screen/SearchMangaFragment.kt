@@ -139,7 +139,7 @@ class SearchMangaFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             uiState
-                .map { it.animeQuery }
+                .map { it.mangaQuery }
                 .distinctUntilChanged()
                 .collectLatest(searchInput::setText)
         }
