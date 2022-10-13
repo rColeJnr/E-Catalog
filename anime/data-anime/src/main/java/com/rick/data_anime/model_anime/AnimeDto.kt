@@ -22,11 +22,11 @@ data class AnimeDto(
     @SerializedName("titles")
     val titles: List<Title>,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("title_english")
     val titleEnglish: String?,
     @SerializedName("title_japanese")
-    val titleJapanese: String,
+    val titleJapanese: String?,
     @SerializedName("title_synonyms")
     val titleSynonyms: List<String>,
     @SerializedName("type")
@@ -42,7 +42,7 @@ data class AnimeDto(
     @SerializedName("aired")
     val aired: AiredDto,
     @SerializedName("duration")
-    val duration: String,
+    val duration: String?,
     @SerializedName("rating")
     val rating: String,
     @SerializedName("score")
@@ -58,7 +58,7 @@ data class AnimeDto(
     @SerializedName("favorites")
     val favorites: Int,
     @SerializedName("synopsis")
-    val synopsis: String,
+    val synopsis: String?,
     @SerializedName("background")
     val background: String?,
     @SerializedName("season")
@@ -98,7 +98,7 @@ data class Anime(
     @SerializedName("title")
     val title: String?,
     @SerializedName("title_japanese")
-    val titleJapanese: String,
+    val titleJapanese: String?,
     @SerializedName("type")
     val type: String,
     @SerializedName("source")
@@ -110,7 +110,7 @@ data class Anime(
     @SerializedName("aired")
     val aired: Aired,
     @SerializedName("duration")
-    val duration: String,
+    val duration: String?,
     @SerializedName("rating")
     val rating: String,
     @SerializedName("score")
@@ -126,7 +126,7 @@ data class Anime(
     @SerializedName("favorites")
     val favorites: Int,
     @SerializedName("synopsis")
-    val synopsis: String,
+    val synopsis: String?,
     @SerializedName("background")
     val background: String?,
     @SerializedName("genres")

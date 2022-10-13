@@ -10,5 +10,5 @@ data class Prop(
     @SerializedName("from")
     val from: From,
     @SerializedName("to")
-    val to: To
+    val to: To?
 ) : Parcelable
