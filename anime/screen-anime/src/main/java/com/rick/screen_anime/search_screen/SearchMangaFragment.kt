@@ -192,8 +192,8 @@ class SearchMangaFragment : Fragment() {
 //        val searchToDetails = getString(R.string.search_transition_name, formats.image)
 //        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action =
-            SearchAnimeFragmentDirections
-                .actionSearchAnimeFragmentToDetailsAnimeFragment(
+            SearchMangaFragmentDirections
+                .actionSearchMangaFragmentToDetailsAnimeFragment2(
                     anime = null, manga = manga
                 )
 
