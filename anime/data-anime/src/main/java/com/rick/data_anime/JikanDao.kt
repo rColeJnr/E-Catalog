@@ -30,11 +30,11 @@ interface JikanDao {
 
     @Query("SELECT * FROM jikan_db WHERE title LIKE :query " +
             "AND type LIKE :type ORDER BY popularity ASC ")
-    suspend fun searchAnimeOrManga(query: String, type: String = ""): List<Jikan>
+    suspend fun searchAnimeOrManga(query: String, type: String): List<Jikan>
 
     @Query("SELECT * FROM jikan_db WHERE title LIKE :query " +
             " ORDER BY rank ASC ")
-    suspend fun searchAnimeAndManga(query: String, type: String = ""): List<Jikan>
+    suspend fun searchAnimeAndManga(query: String): List<Jikan>
 
 
 }
