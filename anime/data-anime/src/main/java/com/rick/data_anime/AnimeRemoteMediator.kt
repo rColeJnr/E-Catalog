@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.rick.data_anime.model_jikan.Jikan
-import com.rick.data_anime.model_jikan.toAnimeResponse
+import com.rick.data_anime.model_jikan.toJikanResponse
 import okio.IOException
 import retrofit2.HttpException
 
@@ -52,14 +52,14 @@ class AnimeRemoteMediator(
         }
 
         try {
-            val response = api.fetchTopAnime(page).toAnimeResponse()
+            val response = api.fetchTopAnime(page).toJikanResponse()
             val animes = response.data
             val endOfPaginationReached = response.data.isEmpty()
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     db.animeRemoteKeysDao.clearRemoteKeys()
-                    db.animeDao.clearAnimes()
+                    db.jikanDao.clearAnime()
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -67,7 +67,7 @@ class AnimeRemoteMediator(
                     AnimeRemoteKeys(anime = it.malId, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.animeRemoteKeysDao.insertAll(keys)
-                db.animeDao.insertJikan(animes)
+                db.jikanDao.insertJikan(animes)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {

@@ -1,6 +1,6 @@
 package com.rick.data_anime.model_jikan
 
-fun JikanResponseDto.toAnimeResponse(): JikanResponse =
+fun JikanResponseDto.toJikanResponse(): JikanResponse =
     JikanResponse(
         pagination,
         data.map { it.toAnime() }

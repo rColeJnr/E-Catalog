@@ -4,8 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.rick.data_anime.model_jikan.Jikan
-import com.rick.data_anime.model_manga.Manga
-
 @Database(
     entities = [
         Jikan::class,
@@ -19,7 +17,7 @@ import com.rick.data_anime.model_manga.Manga
 abstract class JikanDatabase : RoomDatabase() {
 
     abstract val mangaRemoteKeysDao: MangaRemoteKeysDao
-    abstract val animeDao: JikanDao
+    abstract val jikanDao: JikanDao
     abstract val animeRemoteKeysDao: AnimeRemoteKeysDao
 
     companion object {
