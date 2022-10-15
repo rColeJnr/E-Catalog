@@ -1,7 +1,7 @@
 package com.rick.data_anime.model_jikan
 
-fun AnimeResponseDto.toAnimeResponse(): AnimeResponse =
-    AnimeResponse(
+fun JikanResponseDto.toAnimeResponse(): JikanResponse =
+    JikanResponse(
         pagination,
         data.map { it.toAnime() }
     )

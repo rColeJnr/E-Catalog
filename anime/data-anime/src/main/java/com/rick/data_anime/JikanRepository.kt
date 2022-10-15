@@ -24,7 +24,7 @@ class JikanRepository @Inject constructor(
 ) {
 
     fun fetchAnimes(): Flow<PagingData<Jikan>> {
-        val pagingSourceFactory = { db.animeDao.getAnimes() }
+        val pagingSourceFactory = { db.animeDao.getJikan() }
 
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
@@ -76,7 +76,7 @@ class JikanRepository @Inject constructor(
                 val response = api.searchAnime(query).toAnimeResponse()
                 if (response.data.isNotEmpty()) {
                     db.withTransaction {
-                        db.animeDao.insertAnimes(response.data)
+                        db.animeDao.insertJikan(response.data)
                         animes = db.animeDao.searchAnime(dbQuery)
                     }
                     emit(Resource.Success<List<Jikan>>(data = animes))
