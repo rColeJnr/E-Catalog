@@ -8,7 +8,6 @@ import com.rick.data_anime.model_manga.Manga
 
 @Database(
     entities = [
-        Manga::class,
         Jikan::class,
         MangaRemoteKeys::class,
         AnimeRemoteKeys::class
@@ -16,10 +15,9 @@ import com.rick.data_anime.model_manga.Manga
     version = 1,
     exportSchema = true
 )
-@TypeConverters(MangaConverters::class, JikanConverters::class)
+@TypeConverters(JikanConverters::class)
 abstract class JikanDatabase : RoomDatabase() {
 
-    abstract val mangaDao: MangaDao
     abstract val mangaRemoteKeysDao: MangaRemoteKeysDao
     abstract val animeDao: JikanDao
     abstract val animeRemoteKeysDao: AnimeRemoteKeysDao
