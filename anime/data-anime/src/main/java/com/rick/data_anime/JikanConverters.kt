@@ -4,29 +4,27 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
-import com.rick.data_anime.model_jikan.Author
-import com.rick.data_anime.model_jikan.Serialization
-import com.rick.data_anime.model_manga.*
+import com.rick.data_anime.model_jikan.*
+import com.rick.data_anime.model_manga.Published
 
 @ProvidedTypeConverter
-class MangaConverters(
+class JikanConverters(
     private val jsonParser: JsonParser
 ) {
-
     @TypeConverter
-    fun fromImages(obj: Images): String {
+    fun fromSerialization(obj: List<Serialization>): String {
         return jsonParser.toJson(
             obj,
-            object : TypeToken<Images>() {}.type
+            object : TypeToken<List<Serialization>>() {}.type
         ) ?: "[]"
     }
 
     @TypeConverter
-    fun toImages(obj: String): Images {
-        return jsonParser.fromJson<Images>(
+    fun toSerialization(obj: String): List<Serialization> {
+        return jsonParser.fromJson<List<Serialization>>(
             obj,
-            object : TypeToken<Images>() {}.type
-        )!!
+            object : TypeToken<List<Serialization>>() {}.type
+        ) ?: emptyList()
     }
 
     @TypeConverter
@@ -62,23 +60,55 @@ class MangaConverters(
     }
 
     @TypeConverter
-    fun fromSerialization(obj: List<Serialization>): String {
+    fun fromImages(images: Images): String {
         return jsonParser.toJson(
-            obj,
-            object : TypeToken<List<Serialization>>() {}.type
+            images,
+            object : TypeToken<Images>() {}.type
         ) ?: "[]"
     }
 
     @TypeConverter
-    fun toSerialization(obj: String): List<Serialization> {
-        return jsonParser.fromJson<List<Serialization>>(
-            obj,
-            object : TypeToken<List<Serialization>>() {}.type
-        ) ?: emptyList()
+    fun toImages(images: String): Images {
+        return jsonParser.fromJson<Images>(
+            images,
+            object : TypeToken<Images>() {}.type
+        )!!
     }
 
     @TypeConverter
-    fun fromGenres(obj: List<Genre>): String {
+    fun fromTrailer(obj: Trailer): String {
+        return jsonParser.toJson(
+            obj,
+            object : TypeToken<Trailer>() {}.type
+        ) ?: "[]"
+    }
+
+    @TypeConverter
+    fun toTrailer(obj: String): Trailer {
+        return jsonParser.fromJson<Trailer>(
+            obj,
+            object : TypeToken<Trailer>() {}.type
+        )!!
+    }
+
+    @TypeConverter
+    fun fromAired(obj: Aired): String {
+        return jsonParser.toJson(
+            obj,
+            object : TypeToken<Aired>() {}.type
+        ) ?: "[]"
+    }
+
+    @TypeConverter
+    fun toAired(obj: String): Aired {
+        return jsonParser.fromJson<Aired>(
+            obj,
+            object : TypeToken<Aired>() {}.type
+        )!!
+    }
+
+    @TypeConverter
+    fun fromGenre(obj: List<Genre>): String {
         return jsonParser.toJson(
             obj,
             object : TypeToken<List<Genre>>() {}.type
@@ -86,7 +116,7 @@ class MangaConverters(
     }
 
     @TypeConverter
-    fun toGenres(obj: String): List<Genre> {
+    fun toGenre(obj: String): List<Genre> {
         return jsonParser.fromJson<List<Genre>>(
             obj,
             object : TypeToken<List<Genre>>() {}.type

@@ -16,7 +16,7 @@ import com.rick.data_anime.model_manga.Manga
     version = 1,
     exportSchema = true
 )
-@TypeConverters(MangaConverters::class, AnimeConverters::class)
+@TypeConverters(MangaConverters::class, JikanConverters::class)
 abstract class JikanDatabase : RoomDatabase() {
 
     abstract val mangaDao: MangaDao
