@@ -4,6 +4,8 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
+import com.rick.data_anime.model_jikan.Author
+import com.rick.data_anime.model_jikan.Serialization
 import com.rick.data_anime.model_manga.*
 
 @ProvidedTypeConverter

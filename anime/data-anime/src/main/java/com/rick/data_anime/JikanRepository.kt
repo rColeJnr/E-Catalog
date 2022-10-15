@@ -6,8 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
-import com.rick.data_anime.model_anime.Anime
-import com.rick.data_anime.model_anime.toAnimeResponse
+import com.rick.data_anime.model_jikan.Jikan
+import com.rick.data_anime.model_jikan.toAnimeResponse
 import com.rick.data_anime.model_manga.Manga
 import com.rick.data_anime.model_manga.toMangaResponse
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +23,7 @@ class JikanRepository @Inject constructor(
     private val db: JikanDatabase
 ) {
 
-    fun fetchAnimes(): Flow<PagingData<Anime>> {
+    fun fetchAnimes(): Flow<PagingData<Jikan>> {
         val pagingSourceFactory = { db.animeDao.getAnimes() }
 
         @OptIn(ExperimentalPagingApi::class)
@@ -55,8 +55,8 @@ class JikanRepository @Inject constructor(
         ).flow
     }
 
-    fun searchAnime(query: String): Flow<Resource<List<Anime>>> {
-        var animes: List<Anime> = listOf()
+    fun searchAnime(query: String): Flow<Resource<List<Jikan>>> {
+        var animes: List<Jikan> = listOf()
         // appending '%' so we can allow other characters to be before and after the query string
         val dbQuery = "%${query.replace(' ', '%')}%"
         return flow {
@@ -68,18 +68,18 @@ class JikanRepository @Inject constructor(
             }
 
             if (animes.isNotEmpty()) {
-                emit(Resource.Success<List<Anime>>(data = animes))
+                emit(Resource.Success<List<Jikan>>(data = animes))
                 emit(Resource.Loading(false))
             }
 
             try {
                 val response = api.searchAnime(query).toAnimeResponse()
-                if (response.anime.isNotEmpty()) {
+                if (response.data.isNotEmpty()) {
                     db.withTransaction {
-                        db.animeDao.insertAnimes(response.anime)
+                        db.animeDao.insertAnimes(response.data)
                         animes = db.animeDao.searchAnime(dbQuery)
                     }
-                    emit(Resource.Success<List<Anime>>(data = animes))
+                    emit(Resource.Success<List<Jikan>>(data = animes))
                     emit(Resource.Loading(false))
                 } else {
                     emit(Resource.Error(message = null))

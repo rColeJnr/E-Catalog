@@ -9,7 +9,7 @@ interface MovieCatalogApi {
     @GET("svc/movies/v2/reviews/all.json?")
     suspend fun fetchMovieCatalog(
         @Query("offset") offset: Int,
-        @Query("order") order_by: String =  QUERY_ORDER,
+        @Query("order") order_by: String = QUERY_ORDER,
         @Query("api-key") apikey: String
     ): MovieCatalogDto
 

@@ -3,13 +3,13 @@ package com.rick.data_anime
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_jikan.Jikan
 import com.rick.data_anime.model_manga.Manga
 
 @Database(
     entities = [
         Manga::class,
-        Anime::class,
+        Jikan::class,
         MangaRemoteKeys::class,
         AnimeRemoteKeys::class
     ],
