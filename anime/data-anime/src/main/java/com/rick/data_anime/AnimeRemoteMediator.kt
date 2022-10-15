@@ -67,7 +67,7 @@ class AnimeRemoteMediator(
                     AnimeRemoteKeys(anime = it.malId, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.animeRemoteKeysDao.insertAll(keys)
-                db.animeDao.insertAnimes(animes)
+                db.animeDao.insertJikan(animes)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
