@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_anime.JikanRepository
-import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_jikan.Jikan
 import com.rick.data_anime.model_manga.Manga
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -22,9 +22,9 @@ class SearchAnimeViewModel @Inject constructor(
     lazy { MutableLiveData<List<Manga>>() }
     val searchMangaList: LiveData<List<Manga>> get() = _searchMangaList
 
-    private val _searchAnimeList: MutableLiveData<List<Anime>> by
-    lazy { MutableLiveData<List<Anime>>() }
-    val searchAnimeList: LiveData<List<Anime>> get() = _searchAnimeList
+    private val _searchAnimeList: MutableLiveData<List<Jikan>> by
+    lazy { MutableLiveData<List<Jikan>>() }
+    val searchAnimeList: LiveData<List<Jikan>> get() = _searchAnimeList
 
     private val _searchLoading: MutableLiveData<Boolean> by
     lazy { MutableLiveData<Boolean>(false) }

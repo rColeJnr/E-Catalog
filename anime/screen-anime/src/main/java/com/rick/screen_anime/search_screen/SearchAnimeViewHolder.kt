@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.JikanEntryBinding
 import com.rick.screen_anime.manga_screen.provideGlide
 
 class SearchAnimeViewHolder(
     binding: JikanEntryBinding,
-    private val onItemClick: (view: View, anime: Anime) -> Unit
+    private val onItemClick: (view: View, anime: Jikan) -> Unit
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     private val title = binding.title
     private val image = binding.image
@@ -22,9 +22,9 @@ class SearchAnimeViewHolder(
         binding.root.setOnClickListener(this)
     }
 
-    private var anime: Anime? = null
+    private var anime: Jikan? = null
 
-    fun bind(anime: Anime) {
+    fun bind(anime: Jikan) {
         this.anime = anime
         val resources = itemView.resources
         this.title.text = anime.title
@@ -40,7 +40,7 @@ class SearchAnimeViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (view: View, anime: Anime) -> Unit
+            onItemClick: (view: View, anime: Jikan) -> Unit
         ): SearchAnimeViewHolder {
             val itemBinding =
                 JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)

@@ -4,10 +4,10 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
-import com.rick.data_anime.model_anime.Aired
-import com.rick.data_anime.model_anime.Genre
-import com.rick.data_anime.model_anime.Images
-import com.rick.data_anime.model_anime.Trailer
+import com.rick.data_anime.model_jikan.Aired
+import com.rick.data_anime.model_jikan.Genre
+import com.rick.data_anime.model_jikan.Images
+import com.rick.data_anime.model_jikan.Trailer
 
 @ProvidedTypeConverter
 class AnimeConverters(

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentSearchAnimeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -95,7 +95,7 @@ class SearchAnimeFragment : Fragment() {
 
     private fun FragmentSearchAnimeBinding.bindState(
         adapter: SearchAnimeAdapter,
-        searchList: LiveData<List<Anime>>,
+        searchList: LiveData<List<Jikan>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>,
         uiAction: (SearchUiAction) -> Unit,
@@ -156,7 +156,7 @@ class SearchAnimeFragment : Fragment() {
 
     private fun FragmentSearchAnimeBinding.bindList(
         adapter: SearchAnimeAdapter,
-        searchList: LiveData<List<Anime>>,
+        searchList: LiveData<List<Jikan>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>
     ) {
@@ -182,7 +182,7 @@ class SearchAnimeFragment : Fragment() {
         }
     }
 
-    private fun onAnimeClick(view: View, anime: Anime) {
+    private fun onAnimeClick(view: View, anime: Jikan) {
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
-import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_jikan.Jikan
 import com.rick.data_anime.model_manga.Manga
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentDetailsAnimeBinding
@@ -23,7 +23,7 @@ class DetailsAnimeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: DetailsAnimeViewModel by viewModels()
 
-    private var anime: Anime? = null
+    private var anime: Jikan? = null
     private var manga: Manga? = null
 
     override fun onCreateView(
@@ -61,7 +61,7 @@ class DetailsAnimeFragment : Fragment() {
     }
 
     private fun FragmentDetailsAnimeBinding.bindState(
-        anime: LiveData<Anime>,
+        anime: LiveData<Jikan>,
         manga: LiveData<Manga>
     ) {
 

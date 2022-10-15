@@ -1,6 +1,6 @@
 package com.rick.data_anime
 
-import com.rick.data_anime.model_anime.AnimeResponseDto
+import com.rick.data_anime.model_jikan.AnimeResponseDto
 import com.rick.data_anime.model_manga.MangaResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query

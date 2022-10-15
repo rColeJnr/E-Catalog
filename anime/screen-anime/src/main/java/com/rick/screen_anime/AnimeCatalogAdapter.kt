@@ -4,11 +4,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_jikan.Jikan
 
 class AnimeCatalogAdapter(
-    private val onItemClick: (view: View, anime: Anime) -> Unit
-) : PagingDataAdapter<Anime, AnimeViewHolder>(DIFF_UTIL) {
+    private val onItemClick: (view: View, anime: Jikan) -> Unit
+) : PagingDataAdapter<Jikan, AnimeViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val anime = getItem(position)
@@ -22,12 +22,12 @@ class AnimeCatalogAdapter(
     }
 
     companion object {
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Anime>() {
-            override fun areItemsTheSame(oldItem: Anime, newItem: Anime): Boolean {
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Jikan>() {
+            override fun areItemsTheSame(oldItem: Jikan, newItem: Jikan): Boolean {
                 return oldItem.malId == newItem.malId
             }
 
-            override fun areContentsTheSame(oldItem: Anime, newItem: Anime): Boolean {
+            override fun areContentsTheSame(oldItem: Jikan, newItem: Jikan): Boolean {
                 return oldItem == newItem
             }
         }

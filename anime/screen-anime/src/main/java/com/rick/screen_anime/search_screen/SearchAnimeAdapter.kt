@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_anime.model_anime.Anime
+import com.rick.data_anime.model_jikan.Jikan
 
 class SearchAnimeAdapter(
-    private val onItemClick: (view: View, anime: Anime) -> Unit
+    private val onItemClick: (view: View, anime: Jikan) -> Unit
 ): RecyclerView.Adapter<SearchAnimeViewHolder>() {
 
     val differ = AsyncListDiffer(this, DIFF_UTIL)
@@ -27,12 +27,12 @@ class SearchAnimeAdapter(
     }
 
     companion object {
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Anime>() {
-            override fun areItemsTheSame(oldItem: Anime, newItem: Anime): Boolean {
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Jikan>() {
+            override fun areItemsTheSame(oldItem: Jikan, newItem: Jikan): Boolean {
                 return oldItem.malId == newItem.malId
             }
 
-            override fun areContentsTheSame(oldItem: Anime, newItem: Anime): Boolean {
+            override fun areContentsTheSame(oldItem: Jikan, newItem: Jikan): Boolean {
                 return oldItem == newItem
             }
         }
