@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchAnimeFragment"
-        android:name="com.rick.screen_anime.search_screen.SearchAnimeFragment"
+        android:name="com.rick.screen_anime.search_screen.SearchJikanFragment"
         android:label="fragment_search_anime"
         tools:layout="@layout/fragment_search_anime" >
         <action
