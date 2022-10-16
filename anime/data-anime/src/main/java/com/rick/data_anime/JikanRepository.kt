@@ -62,7 +62,7 @@ class JikanRepository @Inject constructor(
             emit(Resource.Loading(true))
 
             db.withTransaction {
-                animes = db.jikanDao.searchAnimeOrManga(dbQuery, "dfd")
+                animes = db.jikanDao.searchAnimeAndManga(dbQuery)
             }
 
             if (animes.isNotEmpty()) {
@@ -75,7 +75,7 @@ class JikanRepository @Inject constructor(
                 if (response.data.isNotEmpty()) {
                     db.withTransaction {
                         db.jikanDao.insertJikan(response.data)
-                        animes = db.jikanDao.searchAnimeOrManga(dbQuery, "fd")
+                        animes = db.jikanDao.searchAnimeAndManga(dbQuery)
                     }
                     emit(Resource.Success<List<Jikan>>(data = animes))
                     emit(Resource.Loading(false))
@@ -103,7 +103,7 @@ class JikanRepository @Inject constructor(
             emit(Resource.Loading(true))
 
             db.withTransaction {
-                mangas = db.jikanDao.searchAnimeOrManga(dbQuery, "constant file")
+                mangas = db.jikanDao.searchAnimeAndManga(dbQuery)
             }
 
             if (mangas.isNotEmpty()) {
@@ -116,7 +116,7 @@ class JikanRepository @Inject constructor(
                 if (response.data.isNotEmpty()) {
                     db.withTransaction {
                         db.jikanDao.insertJikan(response.data)
-                        mangas = db.jikanDao.searchAnimeOrManga(dbQuery, "ceate the file")
+                        mangas = db.jikanDao.searchAnimeAndManga(dbQuery)
                     }
                     emit(Resource.Success<List<Jikan>>(data = mangas))
                     emit(Resource.Loading(false))

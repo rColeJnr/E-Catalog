@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_anime.JikanRepository
 import com.rick.data_anime.model_jikan.Jikan
-import com.rick.data_anime.model_manga.Manga
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,13 +17,9 @@ class SearchAnimeViewModel @Inject constructor(
     private val repo: JikanRepository
 ) : ViewModel() {
 
-    private val _searchMangaList: MutableLiveData<List<Manga>> by
-    lazy { MutableLiveData<List<Manga>>() }
-    val searchMangaList: LiveData<List<Manga>> get() = _searchMangaList
-
-    private val _searchAnimeList: MutableLiveData<List<Jikan>> by
+    private val _searchList: MutableLiveData<List<Jikan>> by
     lazy { MutableLiveData<List<Jikan>>() }
-    val searchAnimeList: LiveData<List<Jikan>> get() = _searchAnimeList
+    val searchList: LiveData<List<Jikan>> get() = _searchList
 
     private val _searchLoading: MutableLiveData<Boolean> by
     lazy { MutableLiveData<Boolean>(false) }
@@ -89,7 +84,7 @@ class SearchAnimeViewModel @Inject constructor(
                         _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
-                        _searchAnimeList.postValue(result.data!!)
+                        _searchList.postValue(result.data!!)
                     }
                 }
             }
@@ -107,7 +102,7 @@ class SearchAnimeViewModel @Inject constructor(
                         _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
-                        _searchMangaList.postValue(result.data!!)
+                        _searchList.postValue(result.data!!)
                     }
                 }
             }
