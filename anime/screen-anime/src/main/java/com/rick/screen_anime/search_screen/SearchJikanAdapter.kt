@@ -6,20 +6,21 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_anime.model_jikan.Jikan
+import com.rick.screen_anime.JikanViewHolder
 
-class SearchAnimeAdapter(
-    private val onItemClick: (view: View, anime: Jikan) -> Unit
-): RecyclerView.Adapter<SearchAnimeViewHolder>() {
+class SearchJikanAdapter(
+    private val onItemClick: (view: View, jikan: Jikan) -> Unit
+): RecyclerView.Adapter<JikanViewHolder>() {
 
     val differ = AsyncListDiffer(this, DIFF_UTIL)
 
-    override fun onBindViewHolder(holder: SearchAnimeViewHolder, position: Int) {
-        val anime = differ.currentList[position]
-        holder.bind(anime)
+    override fun onBindViewHolder(holder: JikanViewHolder, position: Int) {
+        val jikan = differ.currentList[position]
+        holder.bind(jikan)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAnimeViewHolder {
-        return SearchAnimeViewHolder.create(parent, onItemClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JikanViewHolder {
+        return JikanViewHolder.create(parent, onItemClick)
     }
 
     override fun getItemCount(): Int {

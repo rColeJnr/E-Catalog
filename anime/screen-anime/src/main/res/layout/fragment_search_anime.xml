@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:transitionGroup="true"
-    tools:context=".search_screen.SearchAnimeFragment">
+    tools:context=".search_screen.SearchJikanFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

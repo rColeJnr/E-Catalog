@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_anime.model_manga.Manga
+import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentSearchAnimeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,12 +26,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchMangaFragment : Fragment() {
+class SearchJikanFragment : Fragment() {
 
     private var _binding: FragmentSearchAnimeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchAnimeViewModel by viewModels()
-    private lateinit var adapter: SearchMangaAdapter
+    private lateinit var adapter: SearchJikanAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +73,7 @@ class SearchMangaFragment : Fragment() {
 
         binding.bindState(
             adapter = adapter,
-            searchList = viewModel.searchMangaList,
+            searchList = viewModel.searchAnimeList,
             searchLoading = viewModel.searchLoading,
             searchError = viewModel.searchError,
             uiAction = viewModel.searchUiAction,
@@ -84,8 +84,8 @@ class SearchMangaFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = SearchMangaAdapter(
-            this::onMangaClick
+        adapter = SearchJikanAdapter(
+            this::onAnimeClick
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -94,8 +94,8 @@ class SearchMangaFragment : Fragment() {
     }
 
     private fun FragmentSearchAnimeBinding.bindState(
-        adapter: SearchMangaAdapter,
-        searchList: LiveData<List<Manga>>,
+        adapter: SearchJikanAdapter,
+        searchList: LiveData<List<Jikan>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>,
         uiAction: (SearchUiAction) -> Unit,
@@ -139,24 +139,24 @@ class SearchMangaFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             uiState
-                .map { it.mangaQuery }
+                .map { it.animeQuery }
                 .distinctUntilChanged()
                 .collectLatest(searchInput::setText)
         }
     }
-    private fun FragmentSearchAnimeBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchManga) -> Unit) {
+    private fun FragmentSearchAnimeBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchAnime) -> Unit) {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
-                onQueryChanged(SearchUiAction.SearchManga(query = query.toString()))
+                onQueryChanged(SearchUiAction.SearchAnime(query = query.toString()))
 
             }
         }
     }
 
     private fun FragmentSearchAnimeBinding.bindList(
-        adapter: SearchMangaAdapter,
-        searchList: LiveData<List<Manga>>,
+        adapter: SearchJikanAdapter,
+        searchList: LiveData<List<Jikan>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>
     ) {
@@ -173,7 +173,7 @@ class SearchMangaFragment : Fragment() {
             }
 
             searchError.observe(viewLifecycleOwner) {
-                if (it.isNotEmpty()) {
+                if (!it.isNullOrBlank()) {
                     searchErrorMessage.visibility = View.VISIBLE
                 } else {
                     searchErrorMessage.visibility = View.GONE
@@ -182,7 +182,7 @@ class SearchMangaFragment : Fragment() {
         }
     }
 
-    private fun onMangaClick(view: View, manga: Manga) {
+    private fun onAnimeClick(view: View, jikan: Jikan) {
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
@@ -192,13 +192,14 @@ class SearchMangaFragment : Fragment() {
 //        val searchToDetails = getString(R.string.search_transition_name, formats.image)
 //        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action =
-            SearchMangaFragmentDirections
-                .actionSearchMangaFragmentToDetailsAnimeFragment2(
-                    anime = null, manga = manga
+            SearchJikanFragmentDirections
+                .actionSearchAnimeFragmentToDetailsAnimeFragment(
+                    jikan = jikan
                 )
 
         findNavController().navigate(directions = action,)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
