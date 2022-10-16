@@ -13,7 +13,7 @@ import com.rick.screen_anime.databinding.JikanEntryBinding
 
 class JikanViewHolder(
     binding: JikanEntryBinding,
-    private val onItemClick: (view: View, anime: Jikan) -> Unit
+    private val onItemClick: (view: View, jikan: Jikan) -> Unit
 ) : RecyclerView.ViewHolder(binding.root),
     View.OnClickListener {
     private val title = binding.title
@@ -27,14 +27,14 @@ class JikanViewHolder(
 
     private lateinit var jikan: Jikan
 
-    fun bind(anime: Jikan) {
-        this.jikan = anime
+    fun bind(jikan: Jikan) {
+        this.jikan = jikan
         val resources = itemView.resources
-        this.title.text = anime.title
-        anime.images.jpg.imageUrl.let { provideGlide(this.image, it) }
-        this.synopsis.text = anime.synopsis
-        this.pgRating.text = if (jikan.type == "Anime") resources.getString(R.string.pg_rating, anime.rating)
-        else resources.getString(R.string.authors, getListAsString(jikan.authors))
+        this.title.text = jikan.title
+        jikan.images.jpg.imageUrl.let { provideGlide(this.image, it) }
+        this.synopsis.text = jikan.synopsis
+        this.pgRating.text = if (this.jikan.type == "Anime") resources.getString(R.string.pg_rating, jikan.rating)
+        else resources.getString(R.string.authors, getListAsString(this.jikan.authors))
     }
     
     override fun onClick(view: View) {
@@ -44,7 +44,7 @@ class JikanViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (view: View, anime: Jikan) -> Unit
+            onItemClick: (view: View, jikan: Jikan) -> Unit
         ): JikanViewHolder {
             val itemBinding =
                 JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
