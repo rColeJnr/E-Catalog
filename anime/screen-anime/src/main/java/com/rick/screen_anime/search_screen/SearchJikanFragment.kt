@@ -139,16 +139,16 @@ class SearchJikanFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             uiState
-                .map { it.animeQuery }
+                .map { it.jikanQuery }
                 .distinctUntilChanged()
                 .collectLatest(searchInput::setText)
         }
     }
-    private fun FragmentJikanSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchAnime) -> Unit) {
+    private fun FragmentJikanSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchJikan) -> Unit) {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
-                onQueryChanged(SearchUiAction.SearchAnime(query = query.toString()))
+                onQueryChanged(SearchUiAction.SearchJikan(query = query.toString()))
 
             }
         }

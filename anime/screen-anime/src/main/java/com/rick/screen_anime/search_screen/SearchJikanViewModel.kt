@@ -35,29 +35,34 @@ class SearchAnimeViewModel @Inject constructor(
     init {
 
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()
+        val searchJikan =
+            actionStateFlow.filterIsInstance<SearchUiAction.SearchJikan>().distinctUntilChanged()
         val searchAnime =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchAnime>().distinctUntilChanged()
         val searchManga =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchManga>().distinctUntilChanged()
 
         viewModelScope.launch {
-            searchAnime.collectLatest {
+            searchJikan.collectLatest {
                 searchAnime(it.query)
+                searchManga(it.query)
             }
         }
 
         viewModelScope.launch {
             searchManga.collectLatest {
-                searchManga(it.query)
+                //TODO later feature
             }
         }
 
         searchUiState = combine(
+            searchJikan,
             searchAnime,
             searchManga,
-            ::Pair
-        ).map { (anime, manga) ->
+            ::Triple
+        ).map { (jikan, anime, manga) ->
             SearchUiState(
+                jikanQuery = jikan.query,
                 animeQuery = anime.query,
                 mangaQuery = manga.query
             )
@@ -114,9 +119,11 @@ class SearchAnimeViewModel @Inject constructor(
 sealed class SearchUiAction {
     data class SearchAnime(val query: String) : SearchUiAction()
     data class SearchManga(val query: String) : SearchUiAction()
+    data class SearchJikan(val query: String) : SearchUiAction()
 }
 
 data class SearchUiState(
+    val jikanQuery: String? = null,
     val animeQuery: String? = null,
     val mangaQuery: String? = null
 )
