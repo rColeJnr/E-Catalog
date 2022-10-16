@@ -20,11 +20,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_jikan.Jikan
-import com.rick.data_anime.model_manga.Manga
-import com.rick.screen_anime.JikanLoadStateAdapter
-import com.rick.screen_anime.R
-import com.rick.screen_anime.RemotePresentationState
-import com.rick.screen_anime.asRemotePresentationState
+import com.rick.screen_anime.*
 import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -38,7 +34,7 @@ class MangaCatalogFragment : Fragment() {
     private var _binding: FragmentAnimeCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaCatalogViewModel by viewModels()
-    private lateinit var adapter: MangaCatalogAdapter
+    private lateinit var adapter: JikanCatalogAdapter
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +77,7 @@ class MangaCatalogFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = MangaCatalogAdapter(
+        adapter = JikanCatalogAdapter(
             this::onMangaClick
         )
 
@@ -93,7 +89,7 @@ class MangaCatalogFragment : Fragment() {
 
     private fun FragmentAnimeCatalogBinding.bindList(
         pagingDataFlow: Flow<PagingData<Jikan>>,
-        adapter: MangaCatalogAdapter
+        adapter: JikanCatalogAdapter
     ) {
 
         lifecycleScope.launchWhenCreated {
