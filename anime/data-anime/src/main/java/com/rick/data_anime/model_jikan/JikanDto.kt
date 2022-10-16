@@ -5,8 +5,6 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import com.rick.data_anime.model_manga.Published
-import com.rick.data_anime.model_manga.PublishedDto
 import kotlinx.parcelize.Parcelize
 
 
