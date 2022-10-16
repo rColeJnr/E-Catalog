@@ -1,4 +1,4 @@
-package com.rick.screen_anime
+package com.rick.screen_anime.anime_screen
 
 import android.os.Bundle
 import android.view.*
@@ -20,6 +20,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_jikan.Jikan
+import com.rick.screen_anime.*
 import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
