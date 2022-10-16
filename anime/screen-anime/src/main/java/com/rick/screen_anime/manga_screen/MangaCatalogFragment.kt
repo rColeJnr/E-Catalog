@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_anime.model_jikan.Jikan
 import com.rick.data_anime.model_manga.Manga
 import com.rick.screen_anime.JikanLoadStateAdapter
 import com.rick.screen_anime.R
@@ -91,7 +92,7 @@ class MangaCatalogFragment : Fragment() {
     }
 
     private fun FragmentAnimeCatalogBinding.bindList(
-        pagingDataFlow: Flow<PagingData<Manga>>,
+        pagingDataFlow: Flow<PagingData<Jikan>>,
         adapter: MangaCatalogAdapter
     ) {
 
@@ -136,7 +137,7 @@ class MangaCatalogFragment : Fragment() {
 
     }
 
-    private fun onMangaClick(view: View, manga: Manga) {
+    private fun onMangaClick(view: View, manga: Jikan) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
