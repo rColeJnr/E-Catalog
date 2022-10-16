@@ -16,7 +16,7 @@ data class JikanDto(
     @SerializedName("images")
     val images: ImagesDto,
     @SerializedName("trailer")
-    val trailer: TrailerDto,
+    val trailer: TrailerDto?,
     @SerializedName("approved")
     val approved: Boolean,
     @SerializedName("titles")
@@ -36,23 +36,23 @@ data class JikanDto(
     @SerializedName("volumes")
     val volumes: Int?,
     @SerializedName("source")
-    val source: String,
+    val source: String?,
     @SerializedName("episodes")
     val episodes: Int?,
     @SerializedName("status")
-    val status: String,
+    val status: String?,
     @SerializedName("airing")
-    val airing: Boolean,
+    val airing: Boolean?,
     @SerializedName("publishing")
-    val publishing: Boolean,
+    val publishing: Boolean?,
     @SerializedName("published")
-    val publishedDto: PublishedDto,
+    val publishedDto: PublishedDto?,
     @SerializedName("aired")
-    val aired: AiredDto,
+    val aired: AiredDto?,
     @SerializedName("duration")
     val duration: String?,
     @SerializedName("rating")
-    val rating: String,
+    val rating: String?,
     @SerializedName("score")
     val score: Double,
     @SerializedName("scored_by")
@@ -72,27 +72,27 @@ data class JikanDto(
     @SerializedName("season")
     val season: String?,
     @SerializedName("authors")
-    val authors: List<Author>,
+    val authors: List<Author?>?,
     @SerializedName("serializations")
-    val serializations: List<Serialization>,
+    val serializations: List<Serialization>?,
     @SerializedName("year")
     val year: Int?,
     @SerializedName("broadcast")
-    val broadcast: Broadcast,
+    val broadcast: Broadcast?,
     @SerializedName("producers")
-    val producers: List<Producer>,
+    val producers: List<Producer>?,
     @SerializedName("licensors")
-    val licensors: List<Licensor>,
+    val licensors: List<Licensor>?,
     @SerializedName("studios")
-    val studios: List<Studio>,
+    val studios: List<Studio>?,
     @SerializedName("genres")
-    val genres: List<GenreDto>,
+    val genres: List<GenreDto>?,
     @SerializedName("explicit_genres")
-    val explicitGenres: List<ExplicitGenre>,
+    val explicitGenres: List<ExplicitGenre>?,
     @SerializedName("themes")
-    val themes: List<Theme>,
+    val themes: List<Theme>?,
     @SerializedName("demographics")
-    val demographics: List<Demographic>
+    val demographics: List<Demographic>?
 )
 
 @Parcelize
@@ -106,13 +106,13 @@ data class Jikan(
     @SerializedName("images")
     val images: Images,
     @SerializedName("trailer")
-    val trailer: Trailer,
+    val trailer: Trailer?,
     @SerializedName("title")
     val title: String?,
     @SerializedName("type")
     val type: String,
     @SerializedName("source")
-    val source: String,
+    val source: String?,
     @SerializedName("episodes")
     val episodes: Int?,
     @SerializedName("chapters")
@@ -120,15 +120,17 @@ data class Jikan(
     @SerializedName("volumes")
     val volumes: Int?,
     @SerializedName("status")
-    val status: String,
+    val status: String?,
+    @SerializedName("airing")
+    val airing: Boolean?,
     @SerializedName("aired")
-    val aired: Aired,
+    val aired: Aired?,
     @SerializedName("published")
-    val published: Published,
+    val published: Published?,
     @SerializedName("duration")
     val duration: String?,
     @SerializedName("rating")
-    val rating: String,
+    val rating: String?,
     @SerializedName("score")
     val score: Double,
     @SerializedName("scored_by")
@@ -146,11 +148,11 @@ data class Jikan(
     @SerializedName("background")
     val background: String?,
     @SerializedName("genres")
-    val genres: List<Genre>,
+    val genres: List<Genre>?,
     @SerializedName("authors")
-    val authors: List<Author>,
+    val authors: List<Author?>?,
     @SerializedName("serializations")
-    val serializations: List<Serialization>,
+    val serializations: List<Serialization>?,
     @SerializedName("themes")
-    val themes: List<Theme>
+    val themes: List<Theme>?
 ) : Parcelable

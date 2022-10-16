@@ -5,17 +5,16 @@ import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
 import com.rick.data_anime.model_jikan.*
-import com.rick.data_anime.model_jikan.Published
 
 @ProvidedTypeConverter
 class JikanConverters(
     private val jsonParser: JsonParser
 ) {
     @TypeConverter
-    fun fromSerialization(obj: List<Serialization>): String {
+    fun fromSerialization(obj: List<Serialization>?): String {
         return jsonParser.toJson(
             obj,
-            object : TypeToken<List<Serialization>>() {}.type
+            object : TypeToken<List<Serialization>?>() {}.type
         ) ?: "[]"
     }
 
@@ -28,10 +27,10 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun fromPublished(obj: Published): String {
+    fun fromPublished(obj: Published?): String {
         return jsonParser.toJson(
             obj,
-            object : TypeToken<Published>() {}.type
+            object : TypeToken<Published?>() {}.type
         ) ?: "[]"
     }
 
@@ -44,10 +43,10 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun fromAuthor(obj: List<Author>): String {
+    fun fromAuthor(obj: List<Author>?): String {
         return jsonParser.toJson(
             obj,
-            object : TypeToken<List<Author>>() {}.type
+            object : TypeToken<List<Author>?>() {}.type
         ) ?: "[]"
     }
 
@@ -76,10 +75,10 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun fromTrailer(obj: Trailer): String {
+    fun fromTrailer(obj: Trailer?): String {
         return jsonParser.toJson(
             obj,
-            object : TypeToken<Trailer>() {}.type
+            object : TypeToken<Trailer?>() {}.type
         ) ?: "[]"
     }
 
@@ -92,10 +91,10 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun fromAired(obj: Aired): String {
+    fun fromAired(obj: Aired?): String {
         return jsonParser.toJson(
             obj,
-            object : TypeToken<Aired>() {}.type
+            object : TypeToken<Aired?>() {}.type
         ) ?: "[]"
     }
 
@@ -124,10 +123,10 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun fromThemes(obj: List<Theme>): String {
+    fun fromThemes(obj: List<Theme>?): String {
         return jsonParser.toJson(
             obj,
-            object : TypeToken<List<Theme>>() {}.type
+            object : TypeToken<List<Theme>?>() {}.type
         ) ?: "[]"
     }
 

@@ -34,7 +34,7 @@ class JikanViewHolder(
         jikan.images.jpg.imageUrl.let { provideGlide(this.image, it) }
         this.synopsis.text = jikan.synopsis
         this.pgRating.text = if (this.jikan.type == "Anime") resources.getString(R.string.pg_rating, jikan.rating)
-        else resources.getString(R.string.authors, getListAsString(this.jikan.authors))
+        else resources.getString(R.string.authors,"Antonio")
     }
     
     override fun onClick(view: View) {
