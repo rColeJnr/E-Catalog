@@ -6,18 +6,20 @@ fun JikanResponseDto.toJikanResponse(): JikanResponse =
         data.map { it.toAnime() }
     )
 
-fun JikanDto.toAnime(): Jikan= Jikan(
+fun JikanDto.toAnime(): Jikan = Jikan(
     malId,
     url,
     images.toImages(),
     trailer.toTrailers(),
     title = title,
-    titleJapanese,
     type,
     source,
     episodes,
+    chapters,
+    volumes,
     status,
     aired.toAired(),
+    publishedDto.toPublished(),
     duration,
     rating,
     score,
@@ -28,7 +30,10 @@ fun JikanDto.toAnime(): Jikan= Jikan(
     favorites,
     synopsis,
     background,
-    genres.map { it.toGenre() }
+    genres.map { it.toGenre() },
+    authors,
+    serializations,
+    themes
 )
 
 fun ImagesDto.toImages() = Images(
@@ -40,6 +45,10 @@ fun TrailerDto.toTrailers() = Trailer(
 )
 
 fun AiredDto.toAired() = Aired(
+    prop, string
+)
+
+fun PublishedDto.toPublished() = Published(
     prop, string
 )
 
