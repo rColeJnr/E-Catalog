@@ -35,11 +35,11 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun toPublished(obj: String): Published {
+    fun toPublished(obj: String): Published? {
         return jsonParser.fromJson<Published>(
             obj,
             object : TypeToken<Published>() {}.type
-        )!!
+        )
     }
 
     @TypeConverter
@@ -83,11 +83,11 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun toTrailer(obj: String): Trailer {
-        return jsonParser.fromJson<Trailer>(
+    fun toTrailer(obj: String): Trailer? {
+        return jsonParser.fromJson<Trailer?>(
             obj,
-            object : TypeToken<Trailer>() {}.type
-        )!!
+            object : TypeToken<Trailer?>() {}.type
+        )
     }
 
     @TypeConverter
@@ -99,11 +99,11 @@ class JikanConverters(
     }
 
     @TypeConverter
-    fun toAired(obj: String): Aired {
+    fun toAired(obj: String): Aired? {
         return jsonParser.fromJson<Aired>(
             obj,
             object : TypeToken<Aired>() {}.type
-        )!!
+        )
     }
 
     @TypeConverter
