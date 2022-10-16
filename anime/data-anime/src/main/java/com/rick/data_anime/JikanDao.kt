@@ -16,20 +16,20 @@ interface JikanDao {
 
     @Query("SELECT * FROM jikan_db WHERE type LIKE :type " +
             " ORDER BY rank ASC")
-    fun getAnime(type: String = "Anime"): PagingSource<Int, Jikan>
+    fun getAnime(type: String = "TV"): PagingSource<Int, Jikan>
 
     @Query("SELECT * FROM jikan_db WHERE type LIKE :type" +
             " ORDER BY rank ASC")
     fun getManga(type: String = "Manga"): PagingSource<Int, Jikan>
 
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
-    suspend fun clearAnime(type: String = "Anime")
+    suspend fun clearAnime(type: String = "TV")
 
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
     suspend fun clearManga(type: String = "Manga")
 
     @Query("SELECT * FROM jikan_db WHERE title LIKE :query " +
-            "AND type LIKE :type ORDER BY popularity ASC ")
+            "AND type LIKE :type ORDER BY rank ASC ")
     suspend fun searchAnimeOrManga(query: String, type: String): List<Jikan>
 
     //TODO a feature
