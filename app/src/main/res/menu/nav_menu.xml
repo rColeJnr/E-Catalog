@@ -10,13 +10,13 @@
 
     <item
         android:id="@+id/movie_graph"
-        android:icon="@drawable/ic_moviefolder"
+        android:icon="@drawable/ic_movie"
         android:title="@string/movie"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/series_graph"
-        android:icon="@drawable/ic_moviefolder"
+        android:icon="@drawable/ic_tvseries"
         android:title="@string/series"
         app:showAsAction="ifRoom" />
 
@@ -29,7 +29,7 @@
 
     <item
         android:id="@+id/manga_graph"
-        android:icon="@drawable/ic_anime"
+        android:icon="@drawable/ic_manga"
         android:title="@string/manga"
         app:showAsAction="ifRoom" />
 
