@@ -16,7 +16,7 @@ import com.rick.screen_anime.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailsAnimeFragment : Fragment() {
+class DetailsJikanFragment : Fragment() {
 
     private var _binding: FragmentJikanDetailsBinding? = null
     private val binding get() = _binding!!
@@ -30,7 +30,7 @@ class DetailsAnimeFragment : Fragment() {
         _binding = FragmentJikanDetailsBinding.inflate(inflater, container, false)
 
         arguments?.let {
-            val safeArgs = DetailsAnimeFragmentArgs.fromBundle(it)
+            val safeArgs = DetailsJikanFragmentArgs.fromBundle(it)
             viewModel.setJikan(safeArgs.jikan)
         }
 
