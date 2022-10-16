@@ -72,7 +72,7 @@ data class JikanDto(
     @SerializedName("season")
     val season: String?,
     @SerializedName("authors")
-    val authors: List<Author?>?,
+    val authors: List<Author? >?,
     @SerializedName("serializations")
     val serializations: List<Serialization>?,
     @SerializedName("year")
