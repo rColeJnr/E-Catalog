@@ -21,7 +21,7 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.*
-import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
+import com.rick.screen_anime.databinding.FragmentJikanCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class AnimeCatalogFragment : Fragment() {
 
-    private var _binding: FragmentAnimeCatalogBinding? = null
+    private var _binding: FragmentJikanCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeCatalogViewModel by viewModels()
     private lateinit var adapter: JikanCatalogAdapter
@@ -50,7 +50,7 @@ class AnimeCatalogFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAnimeCatalogBinding.inflate(inflater, container, false)
+        _binding = FragmentJikanCatalogBinding.inflate(inflater, container, false)
 
         navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -87,7 +87,7 @@ class AnimeCatalogFragment : Fragment() {
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
 
-    private fun FragmentAnimeCatalogBinding.bindList(
+    private fun FragmentJikanCatalogBinding.bindList(
         pagingDataFlow: Flow<PagingData<Jikan>>,
         adapter: JikanCatalogAdapter
     ) {
@@ -133,13 +133,13 @@ class AnimeCatalogFragment : Fragment() {
 
     }
 
-    private fun onAnimeClick(view: View, anime: Jikan) {
+    private fun onAnimeClick(view: View, jikan: Jikan) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
         val action = AnimeCatalogFragmentDirections
             .actionAnimeCatalogFragmentToDetailsAnimeFragment(
-                anime = anime, manga = null
+                jikan = jikan
             )
         navController.navigate(action)
     }
