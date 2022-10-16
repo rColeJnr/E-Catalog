@@ -8,17 +8,17 @@ import com.rick.data_anime.model_jikan.Jikan
 
 class JikanCatalogAdapter(
     private val onItemClick: (view: View, jikan: Jikan) -> Unit
-) : PagingDataAdapter<Jikan, AnimeViewHolder>(DIFF_UTIL) {
+) : PagingDataAdapter<Jikan, JikanViewHolder>(DIFF_UTIL) {
 
-    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: JikanViewHolder, position: Int) {
         val anime = getItem(position)
         if (anime != null) {
             holder.bind(anime)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        return AnimeViewHolder.create(parent, onItemClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JikanViewHolder {
+        return JikanViewHolder.create(parent, onItemClick)
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.rick.screen_anime
+package com.rick.screen_anime.anime_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

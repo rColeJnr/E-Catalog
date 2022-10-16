@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/animeCatalogFragment"
-        android:name="com.rick.screen_anime.AnimeCatalogFragment"
+        android:name="com.rick.screen_anime.anime_screen.AnimeCatalogFragment"
         android:label="fragment_anime_catalog"
         tools:layout="@layout/fragment_anime_catalog" >
         <action

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="@dimen/two_dimen"
-    tools:context=".AnimeCatalogFragment">
+    tools:context=".anime_screen.AnimeCatalogFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
