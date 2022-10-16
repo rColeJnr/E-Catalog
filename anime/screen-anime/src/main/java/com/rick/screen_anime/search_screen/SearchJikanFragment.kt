@@ -17,7 +17,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.R
-import com.rick.screen_anime.databinding.FragmentSearchAnimeBinding
+import com.rick.screen_anime.databinding.FragmentJikanSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchJikanFragment : Fragment() {
 
-    private var _binding: FragmentSearchAnimeBinding? = null
+    private var _binding: FragmentJikanSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchAnimeViewModel by viewModels()
     private lateinit var adapter: SearchJikanAdapter
@@ -48,7 +48,7 @@ class SearchJikanFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSearchAnimeBinding.inflate(inflater, container, false)
+        _binding = FragmentJikanSearchBinding.inflate(inflater, container, false)
 
         binding.toolbar.apply {
             inflateMenu(R.menu.jikan_menu)
@@ -93,7 +93,7 @@ class SearchJikanFragment : Fragment() {
         binding.list.itemAnimator = DefaultItemAnimator()
     }
 
-    private fun FragmentSearchAnimeBinding.bindState(
+    private fun FragmentJikanSearchBinding.bindState(
         adapter: SearchJikanAdapter,
         searchList: LiveData<List<Jikan>>,
         searchLoading: LiveData<Boolean>,
@@ -116,7 +116,7 @@ class SearchJikanFragment : Fragment() {
         )
     }
 
-    private fun FragmentSearchAnimeBinding.bindSearch(
+    private fun FragmentJikanSearchBinding.bindSearch(
         uiState: StateFlow<SearchUiState>,
         onQueryChanged: (SearchUiAction) -> Unit
     ) {
@@ -144,7 +144,7 @@ class SearchJikanFragment : Fragment() {
                 .collectLatest(searchInput::setText)
         }
     }
-    private fun FragmentSearchAnimeBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchAnime) -> Unit) {
+    private fun FragmentJikanSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchAnime) -> Unit) {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
@@ -154,7 +154,7 @@ class SearchJikanFragment : Fragment() {
         }
     }
 
-    private fun FragmentSearchAnimeBinding.bindList(
+    private fun FragmentJikanSearchBinding.bindList(
         adapter: SearchJikanAdapter,
         searchList: LiveData<List<Jikan>>,
         searchLoading: LiveData<Boolean>,

@@ -10,15 +10,15 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.R
-import com.rick.screen_anime.databinding.FragmentDetailsAnimeBinding
-import com.rick.screen_anime.manga_screen.getListAsString
-import com.rick.screen_anime.manga_screen.provideGlide
+import com.rick.screen_anime.databinding.FragmentJikanDetailsBinding
+import com.rick.screen_anime.getListAsString
+import com.rick.screen_anime.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailsAnimeFragment : Fragment() {
 
-    private var _binding: FragmentDetailsAnimeBinding? = null
+    private var _binding: FragmentJikanDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetailsAnimeViewModel by viewModels()
 
@@ -27,7 +27,7 @@ class DetailsAnimeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDetailsAnimeBinding.inflate(inflater, container, false)
+        _binding = FragmentJikanDetailsBinding.inflate(inflater, container, false)
 
         arguments?.let {
             val safeArgs = DetailsAnimeFragmentArgs.fromBundle(it)
@@ -48,7 +48,7 @@ class DetailsAnimeFragment : Fragment() {
         return binding.root
     }
 
-    private fun FragmentDetailsAnimeBinding.bindState(
+    private fun FragmentJikanDetailsBinding.bindState(
         jikan: LiveData<Jikan>,
     ) {
 
@@ -98,10 +98,16 @@ class DetailsAnimeFragment : Fragment() {
                 authors.text = getString(R.string.authors, getListAsString(anmeOrMnga.authors))
                 serializationLink.visibility = View.VISIBLE
                 serializationLink.text =
-                    getString(R.string.serialization_link, anmeOrMnga.serializations.firstOrNull()?.url)
+                    getString(
+                        R.string.serialization_link,
+                        anmeOrMnga.serializations.firstOrNull()?.url
+                    )
                 serializationName.visibility = View.VISIBLE
                 serializationName.text =
-                    getString(R.string.serialization_link, anmeOrMnga.serializations.firstOrNull()?.name)
+                    getString(
+                        R.string.serialization_link,
+                        anmeOrMnga.serializations.firstOrNull()?.name
+                    )
                 serializations.visibility = View.VISIBLE
             }
         }

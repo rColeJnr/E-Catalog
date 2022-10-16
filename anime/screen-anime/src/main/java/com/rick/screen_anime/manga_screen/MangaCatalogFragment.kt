@@ -21,7 +21,7 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.*
-import com.rick.screen_anime.databinding.FragmentAnimeCatalogBinding
+import com.rick.screen_anime.databinding.FragmentJikanCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MangaCatalogFragment : Fragment() {
 
-    private var _binding: FragmentAnimeCatalogBinding? = null
+    private var _binding: FragmentJikanCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaCatalogViewModel by viewModels()
     private lateinit var adapter: JikanCatalogAdapter
@@ -50,7 +50,7 @@ class MangaCatalogFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAnimeCatalogBinding.inflate(inflater, container, false)
+        _binding = FragmentJikanCatalogBinding.inflate(inflater, container, false)
 
         navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -87,7 +87,7 @@ class MangaCatalogFragment : Fragment() {
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
 
-    private fun FragmentAnimeCatalogBinding.bindList(
+    private fun FragmentJikanCatalogBinding.bindList(
         pagingDataFlow: Flow<PagingData<Jikan>>,
         adapter: JikanCatalogAdapter
     ) {
