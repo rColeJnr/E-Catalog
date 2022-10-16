@@ -73,7 +73,7 @@ class SearchJikanFragment : Fragment() {
 
         binding.bindState(
             adapter = adapter,
-            searchList = viewModel.searchAnimeList,
+            searchList = viewModel.searchList,
             searchLoading = viewModel.searchLoading,
             searchError = viewModel.searchError,
             uiAction = viewModel.searchUiAction,
