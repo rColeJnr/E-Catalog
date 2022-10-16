@@ -30,7 +30,7 @@
         android:name="com.rick.screen_anime.search_screen.SearchJikanFragment"
         tools:layout="@layout/fragment_jikan_search" >
         <action
-            android:id="@+id/action_animeSearchJikanFragment_to_animeDetailsJikanFragment"
+            android:id="@+id/action_searchJikanFragment_detailsJikanFragment"
             app:destination="@id/animeDetailsJikanFragment" />
     </fragment>
 </navigation>

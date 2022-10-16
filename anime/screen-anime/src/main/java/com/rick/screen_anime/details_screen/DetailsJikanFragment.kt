@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentJikanDetailsBinding
-import com.rick.screen_anime.getListAsString
 import com.rick.screen_anime.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,9 +56,9 @@ class DetailsJikanFragment : Fragment() {
             anmeOrMnga.images.jpg.imageUrl?.let { provideGlide(image, it) }
             synopsis.text = getString(R.string.synopsis, anmeOrMnga.synopsis)
             airingStatus.text = getString(R.string.airing_status, anmeOrMnga.status)
-            genreOne.text = anmeOrMnga.genres.firstOrNull()?.name ?: ""
-            genreTwo.text = anmeOrMnga.genres.getOrNull(1)?.name ?: ""
-            genreThree.text = anmeOrMnga.genres.getOrNull(2)?.name ?: ""
+            genreOne.text = anmeOrMnga.genres!!.firstOrNull()?.name ?: ""
+            genreTwo.text = anmeOrMnga.genres!!.getOrNull(1)?.name ?: ""
+            genreThree.text = anmeOrMnga.genres!!.getOrNull(2)?.name ?: ""
             score.text = getString(R.string.score, anmeOrMnga.score)
             scoredBy.text = getString(R.string.scored_by, anmeOrMnga.scoredBy)
             rank.text = getString(R.string.rank, anmeOrMnga.rank)
@@ -68,7 +67,7 @@ class DetailsJikanFragment : Fragment() {
             favorites.text = getString(R.string.favorites, anmeOrMnga.favorites)
 
             if (anmeOrMnga.type == getString(R.string.anime)) {
-                aired.text = getString(R.string.aired, anmeOrMnga.aired.string)
+                aired.text = getString(R.string.aired, anmeOrMnga.aired!!.string)
                 episodes.visibility = View.VISIBLE
                 episodes.text = getString(R.string.episodes, anmeOrMnga.episodes)
                 runtime.visibility = View.VISIBLE
@@ -78,14 +77,14 @@ class DetailsJikanFragment : Fragment() {
                 pgRating.visibility = View.VISIBLE
                 pgRating.text = getString(R.string.pg_rating, anmeOrMnga.rating)
                 trailer.visibility = View.VISIBLE
-                trailer.text = getString(R.string.link_trailer, anmeOrMnga.trailer.url)
+                trailer.text = getString(R.string.link_trailer, anmeOrMnga.trailer!!.url)
                 binding.url.text = getString(R.string.link_web_page, anmeOrMnga.url)
                 authors.visibility = View.GONE
                 serializationLink.visibility = View.GONE
                 serializationName.visibility = View.GONE
                 serializations.visibility = View.GONE
             } else {
-                aired.text = getString(R.string.aired, anmeOrMnga.published.string)
+                aired.text = getString(R.string.aired, anmeOrMnga.published!!.string)
                 episodes.visibility = View.GONE
                 runtime.visibility = View.GONE
                 chapters.visibility = View.VISIBLE
@@ -95,18 +94,18 @@ class DetailsJikanFragment : Fragment() {
                 pgRating.visibility = View.GONE
                 trailer.visibility = View.GONE
                 authors.visibility = View.VISIBLE
-                authors.text = getString(R.string.authors, getListAsString(anmeOrMnga.authors))
+                authors.text = getString(R.string.authors, "Antonieta")
                 serializationLink.visibility = View.VISIBLE
                 serializationLink.text =
                     getString(
                         R.string.serialization_link,
-                        anmeOrMnga.serializations.firstOrNull()?.url
+                        anmeOrMnga.serializations!!.firstOrNull()?.url
                     )
                 serializationName.visibility = View.VISIBLE
                 serializationName.text =
                     getString(
                         R.string.serialization_link,
-                        anmeOrMnga.serializations.firstOrNull()?.name
+                        anmeOrMnga.serializations!!.firstOrNull()?.name
                     )
                 serializations.visibility = View.VISIBLE
             }

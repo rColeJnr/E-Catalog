@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "428f292bb70ec16a1916dc5eb91bf353",
+    "identityHash": "555434a9cc765de4665bf4ac80e4cd1d",
     "entities": [
       {
         "tableName": "jikan_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT NOT NULL, `title` TEXT, `type` TEXT NOT NULL, `source` TEXT NOT NULL, `episodes` INTEGER, `chapters` INTEGER, `volumes` INTEGER, `status` TEXT NOT NULL, `aired` TEXT NOT NULL, `published` TEXT NOT NULL, `duration` TEXT, `rating` TEXT NOT NULL, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `genres` TEXT NOT NULL, `authors` TEXT NOT NULL, `serializations` TEXT NOT NULL, `themes` TEXT NOT NULL, PRIMARY KEY(`malId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT, `title` TEXT, `type` TEXT NOT NULL, `source` TEXT, `episodes` INTEGER, `chapters` INTEGER, `volumes` INTEGER, `status` TEXT, `airing` INTEGER, `aired` TEXT, `published` TEXT, `duration` TEXT, `rating` TEXT, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `genres` TEXT, `authors` TEXT, `serializations` TEXT, `themes` TEXT, PRIMARY KEY(`malId`))",
         "fields": [
           {
             "fieldPath": "malId",
@@ -30,7 +30,7 @@
             "fieldPath": "trailer",
             "columnName": "trailer",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "title",
@@ -48,7 +48,7 @@
             "fieldPath": "source",
             "columnName": "source",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "episodes",
@@ -72,19 +72,25 @@
             "fieldPath": "status",
             "columnName": "status",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "airing",
+            "columnName": "airing",
+            "affinity": "INTEGER",
+            "notNull": false
           },
           {
             "fieldPath": "aired",
             "columnName": "aired",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "published",
             "columnName": "published",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "duration",
@@ -96,7 +102,7 @@
             "fieldPath": "rating",
             "columnName": "rating",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "score",
@@ -150,25 +156,25 @@
             "fieldPath": "genres",
             "columnName": "genres",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "authors",
             "columnName": "authors",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "serializations",
             "columnName": "serializations",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "themes",
             "columnName": "themes",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -248,7 +254,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '428f292bb70ec16a1916dc5eb91bf353')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '555434a9cc765de4665bf4ac80e4cd1d')"
     ]
   }
 }

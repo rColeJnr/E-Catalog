@@ -138,7 +138,7 @@ class MangaCatalogFragment : Fragment() {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
         val action =
-            MangaCatalogFragmentDirections.actionMangaCatalogFragmentToDetailsJikanFragment2(
+            MangaCatalogFragmentDirections.actionMangaCatalogFragmentToMangaDetailsJikanFragment(
                 jikan = jikan
             )
         navController.navigate(action)
@@ -159,7 +159,7 @@ class MangaCatalogFragment : Fragment() {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
                 val action = MangaCatalogFragmentDirections
-                    .actionMangaCatalogFragmentToSearchJikanFragment()
+                    .actionMangaCatalogFragmentToMangaSearchJikanFragment()
                 navController.navigate(action)
                 true
             }

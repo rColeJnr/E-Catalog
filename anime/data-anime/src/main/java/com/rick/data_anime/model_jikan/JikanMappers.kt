@@ -3,38 +3,40 @@ package com.rick.data_anime.model_jikan
 fun JikanResponseDto.toJikanResponse(): JikanResponse =
     JikanResponse(
         pagination,
-        data.map { it.toAnime() }
+        data.map { it.toJikan() }
     )
 
-fun JikanDto.toAnime(): Jikan = Jikan(
-    malId,
-    url,
-    images.toImages(),
-    trailer.toTrailers(),
-    title = title,
-    type,
-    source,
-    episodes,
-    chapters,
-    volumes,
-    status,
-    aired.toAired(),
-    publishedDto.toPublished(),
-    duration,
-    rating,
-    score,
-    scoredBy,
-    rank,
-    popularity,
-    members,
-    favorites,
-    synopsis,
-    background,
-    genres.map { it.toGenre() },
-    authors,
-    serializations,
-    themes
-)
+fun JikanDto.toJikan(): Jikan =
+    Jikan(
+        malId = malId,
+        url = url,
+        images = images.toImages(),
+        trailer = trailer?.toTrailers(),
+        title = title,
+        type = type,
+        source = source,
+        episodes = episodes,
+        chapters = chapters,
+        volumes = volumes,
+        status = status,
+        airing = airing,
+        aired = aired?.toAired(),
+        published = publishedDto?.toPublished(),
+        duration = duration,
+        rating = rating,
+        score = score,
+        scoredBy = scoredBy,
+        rank = rank,
+        popularity = popularity,
+        members = members,
+        favorites = favorites,
+        synopsis = synopsis,
+        background = background,
+        genres = genres?.map { it.toGenre() },
+        authors = authors,
+        serializations = serializations,
+        themes = themes
+    )
 
 fun ImagesDto.toImages() = Images(
     jpg
