@@ -18,7 +18,7 @@
         android:id="@+id/animeCatalogFragment"
         android:name="com.rick.screen_anime.anime_screen.AnimeCatalogFragment"
         android:label="fragment_anime_catalog"
-        tools:layout="@layout/fragment_anime_catalog" >
+        tools:layout="@layout/fragment_jikan_catalog" >
         <action
             android:id="@+id/action_animeCatalogFragment_to_searchAnimeFragment"
             app:destination="@id/searchAnimeFragment" />
@@ -30,7 +30,7 @@
         android:id="@+id/searchAnimeFragment"
         android:name="com.rick.screen_anime.search_screen.SearchJikanFragment"
         android:label="fragment_search_anime"
-        tools:layout="@layout/fragment_search_anime" >
+        tools:layout="@layout/fragment_jikan_search" >
         <action
             android:id="@+id/action_searchAnimeFragment_to_detailsAnimeFragment"
             app:destination="@id/detailsAnimeFragment" />
