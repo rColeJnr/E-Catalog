@@ -19,9 +19,9 @@ class AnimeCatalogViewModel @Inject constructor(
 
     init {
 
-        pagingDataFlow = fetchBooks().cachedIn(viewModelScope)
+        pagingDataFlow = fetchAnimes().cachedIn(viewModelScope)
     }
 
-    private fun fetchBooks(): Flow<PagingData<Jikan>> =
+    private fun fetchAnimes(): Flow<PagingData<Jikan>> =
         repo.fetchAnimes()
 }
