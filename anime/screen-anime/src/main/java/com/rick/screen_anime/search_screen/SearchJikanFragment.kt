@@ -193,7 +193,7 @@ class SearchJikanFragment : Fragment() {
 //        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action =
             SearchJikanFragmentDirections
-                .actionSearchAnimeFragmentToDetailsAnimeFragment(
+                .actionSearchJikanFragmentToDetailsJikanFragment(
                     jikan = jikan
                 )
 

@@ -133,13 +133,13 @@ class MangaCatalogFragment : Fragment() {
 
     }
 
-    private fun onMangaClick(view: View, manga: Jikan) {
+    private fun onMangaClick(view: View, jikan: Jikan) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
         val action =
-            MangaCatalogFragmentDirections.actionMangaCatalogFragmentToDetailsAnimeFragment2(
-                manga = manga, anime = null
+            MangaCatalogFragmentDirections.actionMangaCatalogFragmentToDetailsJikanFragment2(
+                jikan = jikan
             )
         navController.navigate(action)
     }
@@ -159,7 +159,7 @@ class MangaCatalogFragment : Fragment() {
                     duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
                 }
                 val action = MangaCatalogFragmentDirections
-                    .actionMangaCatalogFragmentToSearchMangaFragment()
+                    .actionMangaCatalogFragmentToSearchJikanFragment()
                 navController.navigate(action)
                 true
             }

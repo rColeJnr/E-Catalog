@@ -6,9 +6,8 @@
     app:startDestination="@id/animeCatalogFragment">
 
     <fragment
-        android:id="@+id/detailsAnimeFragment"
-        android:name="com.rick.screen_anime.details_screen.DetailsAnimeFragment"
-        android:label="DetailsAnimeFragment">
+        android:id="@+id/animeDetailsJikanFragment"
+        android:name="com.rick.screen_anime.details_screen.DetailsJikanFragment">
         <argument
             android:name="jikan"
             app:argType="com.rick.data_anime.model_jikan.Jikan"
@@ -21,18 +20,17 @@
         tools:layout="@layout/fragment_jikan_catalog" >
         <action
             android:id="@+id/action_animeCatalogFragment_to_searchAnimeFragment"
-            app:destination="@id/searchAnimeFragment" />
+            app:destination="@id/animeSearchJikanFragment" />
         <action
             android:id="@+id/action_animeCatalogFragment_to_detailsAnimeFragment"
-            app:destination="@id/detailsAnimeFragment" />
+            app:destination="@id/animeDetailsJikanFragment" />
     </fragment>
     <fragment
-        android:id="@+id/searchAnimeFragment"
+        android:id="@+id/animeSearchJikanFragment"
         android:name="com.rick.screen_anime.search_screen.SearchJikanFragment"
-        android:label="fragment_search_anime"
         tools:layout="@layout/fragment_jikan_search" >
         <action
-            android:id="@+id/action_searchAnimeFragment_to_detailsAnimeFragment"
-            app:destination="@id/detailsAnimeFragment" />
+            android:id="@+id/action_animeSearchJikanFragment_to_animeDetailsJikanFragment"
+            app:destination="@id/animeDetailsJikanFragment" />
     </fragment>
 </navigation>
