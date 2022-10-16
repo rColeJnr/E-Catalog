@@ -55,6 +55,7 @@ class DetailsJikanFragment : Fragment() {
             title.text = anmeOrMnga.title
             anmeOrMnga.images.jpg.imageUrl?.let { provideGlide(image, it) }
             synopsis.text = getString(R.string.synopsis, anmeOrMnga.synopsis)
+            background.text = anmeOrMnga.background
             airingStatus.text = getString(R.string.airing_status, anmeOrMnga.status)
             genreOne.text = anmeOrMnga.genres!!.firstOrNull()?.name ?: ""
             genreTwo.text = anmeOrMnga.genres!!.getOrNull(1)?.name ?: ""
@@ -66,7 +67,7 @@ class DetailsJikanFragment : Fragment() {
             members.text = getString(R.string.members, anmeOrMnga.members)
             favorites.text = getString(R.string.favorites, anmeOrMnga.favorites)
 
-            if (anmeOrMnga.type == getString(R.string.anime)) {
+            if (anmeOrMnga.type == "TV") {
                 aired.text = getString(R.string.aired, anmeOrMnga.aired!!.string)
                 episodes.visibility = View.VISIBLE
                 episodes.text = getString(R.string.episodes, anmeOrMnga.episodes)
@@ -74,27 +75,23 @@ class DetailsJikanFragment : Fragment() {
                 runtime.text = getString(R.string.runtime, anmeOrMnga.duration)
                 chapters.visibility = View.GONE
                 volumes.visibility = View.GONE
-                pgRating.visibility = View.VISIBLE
                 pgRating.text = getString(R.string.pg_rating, anmeOrMnga.rating)
                 trailer.visibility = View.VISIBLE
                 trailer.text = getString(R.string.link_trailer, anmeOrMnga.trailer!!.url)
                 binding.url.text = getString(R.string.link_web_page, anmeOrMnga.url)
-                authors.visibility = View.GONE
                 serializationLink.visibility = View.GONE
                 serializationName.visibility = View.GONE
                 serializations.visibility = View.GONE
             } else {
-                aired.text = getString(R.string.aired, anmeOrMnga.published!!.string)
+                aired.text = getString(R.string.aired, anmeOrMnga.published?.string)
                 episodes.visibility = View.GONE
                 runtime.visibility = View.GONE
                 chapters.visibility = View.VISIBLE
                 chapters.text = getString(R.string.chapters, anmeOrMnga.chapters)
                 volumes.visibility = View.VISIBLE
                 volumes.text = getString(R.string.volumes, anmeOrMnga.volumes)
-                pgRating.visibility = View.GONE
                 trailer.visibility = View.GONE
-                authors.visibility = View.VISIBLE
-                authors.text = getString(R.string.authors, "Antonieta")
+                pgRating.text = getString(R.string.authors, "Antonieta")
                 serializationLink.visibility = View.VISIBLE
                 serializationLink.text =
                     getString(

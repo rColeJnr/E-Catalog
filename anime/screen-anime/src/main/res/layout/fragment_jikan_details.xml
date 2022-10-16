@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/two_dimen"
@@ -32,23 +33,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/no_title"
-                        android:textAppearance="?attr/textAppearanceHeadline5" />
-
-                    <ProgressBar
-                        android:id="@+id/details_progress_bar"
-                        style="?android:progressBarStyleHorizontal"
-                        android:layout_width="282dp"
-                        android:layout_height="wrap_content"
-                        android:indeterminate="true" />
-
-                    <TextView
-                        android:id="@+id/details_error_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/failed_to_retrieve_data"
-                        android:textAppearance="?attr/textAppearanceCaption"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:visibility="gone" />
+                        android:textAppearance="?attr/textAppearanceHeadline5"/>
 
                 </LinearLayout>
 
@@ -70,6 +55,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:hint="@string/synopsis"
+                android:textAppearance="?attr/textAppearanceBody1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/pg_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/pg_rating"
+                android:textAppearance="?attr/textAppearanceBody1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/background_headline"
+                android:textAppearance="?attr/textAppearanceHeadline5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -121,11 +128,10 @@
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/genres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="Genre"
+                android:text="Genres"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
             <com.google.android.material.chip.ChipGroup
@@ -175,12 +181,11 @@
             </com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/pg_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/pg_rating"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:text="Ratings"
+                android:textAppearance="?attr/textAppearanceHeadline5" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
@@ -279,14 +284,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:text="@string/link_trailer"
-                android:textAppearance="?attr/textAppearanceBody1" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/authors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/authors"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <com.google.android.material.textview.MaterialTextView

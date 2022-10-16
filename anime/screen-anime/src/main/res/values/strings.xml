@@ -30,4 +30,5 @@
     <string name="serialization_link">Link to web page: %1$s</string>
     <string name="manga">Manga</string>
     <string name="anime">Anime</string>
+    <string name="background_headline">Background</string>
 </resources>
