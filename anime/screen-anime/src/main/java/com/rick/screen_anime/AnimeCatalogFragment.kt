@@ -33,7 +33,7 @@ class AnimeCatalogFragment : Fragment() {
     private var _binding: FragmentAnimeCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeCatalogViewModel by viewModels()
-    private lateinit var adapter: AnimeCatalogAdapter
+    private lateinit var adapter: JikanCatalogAdapter
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class AnimeCatalogFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = AnimeCatalogAdapter(
+        adapter = JikanCatalogAdapter(
             this::onAnimeClick
         )
 
@@ -88,7 +88,7 @@ class AnimeCatalogFragment : Fragment() {
 
     private fun FragmentAnimeCatalogBinding.bindList(
         pagingDataFlow: Flow<PagingData<Jikan>>,
-        adapter: AnimeCatalogAdapter
+        adapter: JikanCatalogAdapter
     ) {
 
         lifecycleScope.launchWhenCreated {
