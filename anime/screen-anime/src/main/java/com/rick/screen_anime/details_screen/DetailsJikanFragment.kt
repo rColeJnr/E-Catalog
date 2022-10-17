@@ -75,7 +75,7 @@ class DetailsJikanFragment : Fragment() {
                 airingStatus.text = getString(R.string.airing_status, anmeOrMnga.status)
                 aired.text = getString(R.string.aired, anmeOrMnga.aired!!.string)
                 episodes.visibility = View.VISIBLE
-                episodes.text = getString(R.string.episodes, anmeOrMnga.episodes)
+                episodes.text = getString(R.string.episodes, anmeOrMnga.episodes ?: getString(R.string.no_data))
                 runtime.visibility = View.VISIBLE
                 runtime.text = getString(R.string.runtime, anmeOrMnga.duration)
                 chapters.visibility = View.GONE
@@ -92,9 +92,9 @@ class DetailsJikanFragment : Fragment() {
                 episodes.visibility = View.GONE
                 runtime.visibility = View.GONE
                 chapters.visibility = View.VISIBLE
-                chapters.text = getString(R.string.chapters, anmeOrMnga.chapters)
+                chapters.text = getString(R.string.chapters, anmeOrMnga.chapters ?: getString(R.string.no_data))
                 volumes.visibility = View.VISIBLE
-                volumes.text = getString(R.string.volumes, anmeOrMnga.volumes)
+                volumes.text = getString(R.string.volumes, anmeOrMnga.volumes ?: getString(R.string.no_data))
                 trailer.visibility = View.GONE
                 pgRating.text =
                     getString(R.string.authors, getListAsString(anmeOrMnga.authors!!.map { it!! }))
