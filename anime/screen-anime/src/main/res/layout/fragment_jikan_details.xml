@@ -71,6 +71,8 @@
                 android:layout_marginVertical="@dimen/two_dimen"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
+            <View style="@style/Divider.Horizontal" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/pg_rating"
                 android:layout_width="wrap_content"
@@ -184,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
-                android:text="Ratings"
+                android:text="@string/ratings"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
             <com.google.android.material.chip.ChipGroup
