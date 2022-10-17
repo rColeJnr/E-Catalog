@@ -7,9 +7,9 @@
     android:backgroundTint="?attr/colorSurface">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
@@ -39,15 +39,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/two_dimen"
+            android:ems="25"
             android:textAppearance="?attr/textAppearanceBody1"
-            android:textSize="@dimen/large_text"/>
+            android:textSize="@dimen/large_text" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/pg_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/pg_rating"
             android:layout_marginHorizontal="4dp"
+            android:hint="@string/pg_rating"
             android:textAppearance="?attr/textAppearanceBody2" />
     </LinearLayout>
 

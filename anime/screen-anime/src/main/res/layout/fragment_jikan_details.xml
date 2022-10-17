@@ -58,14 +58,6 @@
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/pg_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/pg_rating"
-                android:textAppearance="?attr/textAppearanceBody1" />
-
-            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
@@ -77,6 +69,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dimen"
+                android:textAppearance="?attr/textAppearanceBody1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/pg_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dimen"
+                android:text="@string/pg_rating"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <com.google.android.material.textview.MaterialTextView

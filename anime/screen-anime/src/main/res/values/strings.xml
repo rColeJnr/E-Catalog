@@ -10,7 +10,9 @@
     <string name="genres">Genres</string>
     <string name="runtime">Runtime: %1$s</string>
     <string name="ratings">ratings</string>
-    <string name="airing_status">Airing: %1$s</string>
+    <string name="airing_status">Airing status: %1$s</string>
+    <string name="publishing">Publishing status: %1$s</string>
+    <string name="published">Published from: %1$s</string>
     <string name="aired">Aired from: %1$s</string>
     <string name="score">Score: %1$s</string>
     <string name="scored_by">Scored by %1$s users</string>
@@ -25,10 +27,11 @@
     <string name="link_web_page">Link to web page: %1$s</string>
     <string name="authors">Authors: %1$s</string>
     <string name="link_trailer">Link to trailer: %1$s</string>
-    <string name="serializations">Serialization</string>
+    <string name="serializations">Serializations</string>
     <string name="serialization_name">Name: %1$s</string>
     <string name="serialization_link">Link to web page: %1$s</string>
     <string name="manga">Manga</string>
     <string name="anime">Anime</string>
     <string name="background_headline">Background</string>
+    <string name="no_data">n/a</string>
 </resources>
