@@ -4,6 +4,7 @@ A catalog of entertainment topics, raging from television to books, to anime
 
 The project presents catalogs of recent movies, top 150 imdb series,
 most downloaded book in the gutenberg project, anime and manga form my anime list
+with a search screeen to search for any of the above mentioned topics.
 
 to run the project you need to get your own api key from https://developer.nytimes.com/apis for movies - load api in movieCatalogViewModel.kt
 https://imdb-api.com/ load api in MovieCatalogViewModel.kt, TvSeriesCatalogViewModel.kt and DetailsViewModel.kt
