@@ -8,12 +8,14 @@ interface JikanApi {
 
     @GET("/v4/top/anime")
     suspend fun fetchTopAnime(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("filter") filter: String = POPULARITY_FILTER
     ): JikanResponseDto
 
     @GET("/v4/top/manga")
     suspend fun fetchTopManga(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("filter") filter: String = POPULARITY_FILTER
     ): JikanResponseDto
 
     @GET("/v4/anime")
@@ -34,5 +36,6 @@ interface JikanApi {
     companion object {
         const val JIKAN_BASE_URL = "https://api.jikan.moe/"
         private const val RESULT_SIZE = 25
+        private const val POPULARITY_FILTER = "bypopularity"
     }
 }
