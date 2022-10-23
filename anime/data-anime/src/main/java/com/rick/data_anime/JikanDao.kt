@@ -15,11 +15,11 @@ interface JikanDao {
     suspend fun insertJikan(data: List<Jikan>)
 
     @Query("SELECT * FROM jikan_db WHERE type LIKE :type " +
-            " ORDER BY rank ASC")
+            " ORDER BY popularity ASC")
     fun getAnime(type: String = "TV"): PagingSource<Int, Jikan>
 
     @Query("SELECT * FROM jikan_db WHERE type LIKE :type" +
-            " ORDER BY rank ASC")
+            " ORDER BY popularity ASC")
     fun getManga(type: String = "Manga"): PagingSource<Int, Jikan>
 
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
