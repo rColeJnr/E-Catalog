@@ -18,7 +18,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-private const val PAGE_SIZE = 2
+private const val PAGE_SIZE = 15
 
 class MovieCatalogRepository @Inject constructor(
     private val db: MovieCatalogDatabase,
@@ -36,7 +36,7 @@ class MovieCatalogRepository @Inject constructor(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = true,
-                prefetchDistance = 1,
+                prefetchDistance = 3,
                 initialLoadSize = 1
             ),
             remoteMediator = MovieCatalogRemoteMediator(nyApi, db, key),
