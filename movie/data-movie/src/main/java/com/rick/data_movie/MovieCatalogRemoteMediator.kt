@@ -55,8 +55,9 @@ class MovieCatalogRemoteMediator(
 
         try {
             val response = api.fetchMovieCatalog(offset = offset, apikey = key).toMovieCatalog()
-            val endOfPaginationReached = response.movieCatalog.isEmpty()
+            val movies = response.movieCatalog
             offset += 20
+            val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     db.remoteKeysDao.clearRemoteKeys()
@@ -66,11 +67,11 @@ class MovieCatalogRemoteMediator(
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = response.movieCatalog.map {
+                val keys = movies.map {
                     RemoteKeys(movie = it.title, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.remoteKeysDao.insertAll(keys)
-                db.moviesDao.insertMovies(response.movieCatalog)
+                db.moviesDao.insertMovies(movies)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         }  catch (e: IOException) {

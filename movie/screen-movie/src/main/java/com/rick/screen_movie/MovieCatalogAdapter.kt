@@ -42,10 +42,11 @@ class MovieCatalogAdapter(
         private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {
             override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
                 return ((oldItem is UiModel.MovieItem) && (newItem is UiModel.MovieItem) &&
-                        (oldItem.movie.id == newItem.movie.id)
+                        (oldItem.movie.title == newItem.movie.title)
                         ) ||
                         ((oldItem is UiModel.SeparatorItem) && (newItem is UiModel.SeparatorItem) &&
                                 (oldItem.description == newItem.description))
+
             }
 
             override fun areContentsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {

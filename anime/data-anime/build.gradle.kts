@@ -4,6 +4,7 @@ apply {
     plugin("kotlin-parcelize")
     plugin("dagger.hilt.android.plugin")
 }
+apply(plugin = "org.jetbrains.kotlin.android")
 
 dependencies {
 

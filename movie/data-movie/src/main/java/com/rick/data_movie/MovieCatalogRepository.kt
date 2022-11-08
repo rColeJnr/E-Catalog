@@ -18,7 +18,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-private const val PAGE_SIZE = 15
+private const val PAGE_SIZE = 20
 
 class MovieCatalogRepository @Inject constructor(
     private val db: MovieCatalogDatabase,

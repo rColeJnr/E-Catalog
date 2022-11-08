@@ -15,8 +15,7 @@ interface MovieCatalogApi {
 
     companion object {
         const val NY_TIMES_BASE_URL = "https://api.nytimes.com/"
+        private const val QUERY_ORDER = "by-publication-date"
     }
 
 }
-
-private const val QUERY_ORDER = "by-publication-date"
