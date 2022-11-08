@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "movies_db")
 data class Movie(
-    @PrimaryKey (autoGenerate = true) val id: Long? = null,
+    @PrimaryKey (autoGenerate = false)
     val title: String,
     val summary: String,
     val rating: String,

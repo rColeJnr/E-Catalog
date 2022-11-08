@@ -1,6 +1,7 @@
 apply {
     from( "$rootDir/android-library.gradle")
 }
+apply(plugin = "org.jetbrains.kotlin.android")
 
 dependencies {
 
