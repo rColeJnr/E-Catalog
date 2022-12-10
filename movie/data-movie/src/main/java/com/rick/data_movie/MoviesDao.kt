@@ -16,7 +16,7 @@ interface MoviesDao {
     @Query("DELETE FROM movies_db")
     suspend fun clearMovies()
 
-    @Query("SELECT * FROM movies_db")
+    @Query("SELECT * FROM movies_db ORDER BY id ASC")
     fun getMovies(): PagingSource<Int, Movie>
 //
 //    @Query("SELECT * FROM movies_db WHERE id = :id")
