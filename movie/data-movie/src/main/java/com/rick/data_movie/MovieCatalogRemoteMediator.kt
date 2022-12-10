@@ -11,7 +11,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 private const val STARTING_PAGE_INDEX = 0
-
+private var count = 0L
 private var offset = 20
 
 @OptIn(ExperimentalPagingApi::class)
@@ -56,6 +56,9 @@ class MovieCatalogRemoteMediator(
         try {
             val response = api.fetchMovieCatalog(offset = offset, apikey = key).toMovieCatalog()
             val movies = response.movieCatalog
+            movies.forEach {
+                it.id = count++
+            }
             offset += 20
             val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
