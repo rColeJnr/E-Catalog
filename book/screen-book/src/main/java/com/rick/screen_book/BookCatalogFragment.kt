@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -108,7 +114,7 @@ class BookCatalogFragment : Fragment() {
                 // show empty list.
                 composeView.setContent {
                     MaterialTheme {
-                        ErrorMessage()
+                        ErrorMessage(getString(R.string.no_results))
                     }
                 }
                 composeView.isVisible =
@@ -178,9 +184,24 @@ class BookCatalogFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
 
-    @Composable
-    fun ErrorMessage() {
-        Text(text = stringResource(id = R.string.no_results), textAlign = TextAlign.Center)
+@Composable
+private fun ErrorMessage(message: String) {
+    Text(text = message,
+        style = MaterialTheme.typography.h5,
+        color = Color.Cyan,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+            .wrapContentWidth(Alignment.CenterHorizontally)
+    )
+}
+
+@Preview
+@Composable
+private fun ErrorMessagePreview() {
+    MaterialTheme {
+        ErrorMessage("Error")
     }
 }
