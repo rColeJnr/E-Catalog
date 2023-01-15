@@ -46,6 +46,7 @@ class MovieCatalogAdapter(
                         ) ||
                         ((oldItem is UiModel.SeparatorItem) && (newItem is UiModel.SeparatorItem) &&
                                 (oldItem.description == newItem.description))
+
             }
 
             override fun areContentsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {

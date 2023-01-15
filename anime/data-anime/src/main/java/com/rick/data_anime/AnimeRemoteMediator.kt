@@ -5,8 +5,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.rick.data_anime.model_anime.Anime
-import com.rick.data_anime.model_anime.toAnimeResponse
+import com.rick.data_anime.model_jikan.Jikan
+import com.rick.data_anime.model_jikan.toJikanResponse
 import okio.IOException
 import retrofit2.HttpException
 
@@ -16,7 +16,7 @@ private const val STARTING_PAGE_INDEX = 1
 class AnimeRemoteMediator(
     private val api: JikanApi,
     private val db: JikanDatabase
-) : RemoteMediator<Int, Anime>() {
+) : RemoteMediator<Int, Jikan>() {
 
     override suspend fun initialize(): InitializeAction {
         // Launch remote refresh as soon as paging starts and do not trigger remote prepend or
@@ -26,7 +26,7 @@ class AnimeRemoteMediator(
         return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, Anime>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, Jikan>): MediatorResult {
 
         val page = when (loadType) {
             LoadType.APPEND -> {
@@ -52,14 +52,14 @@ class AnimeRemoteMediator(
         }
 
         try {
-            val response = api.fetchTopAnime(page).toAnimeResponse()
-            val animes = response.anime
-            val endOfPaginationReached = response.anime.isEmpty()
+            val response = api.fetchTopAnime(page).toJikanResponse()
+            val animes = response.data
+            val endOfPaginationReached = response.data.isEmpty()
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     db.animeRemoteKeysDao.clearRemoteKeys()
-                    db.animeDao.clearAnimes()
+                    db.jikanDao.clearAnime()
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -67,7 +67,7 @@ class AnimeRemoteMediator(
                     AnimeRemoteKeys(anime = it.malId, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.animeRemoteKeysDao.insertAll(keys)
-                db.animeDao.insertAnimes(animes)
+                db.jikanDao.insertJikan(animes)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
@@ -78,7 +78,7 @@ class AnimeRemoteMediator(
 
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Anime>): AnimeRemoteKeys? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Jikan>): AnimeRemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
@@ -88,7 +88,7 @@ class AnimeRemoteMediator(
             }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Anime>): AnimeRemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Jikan>): AnimeRemoteKeys? {
         // GEt the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
@@ -98,7 +98,7 @@ class AnimeRemoteMediator(
             }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Anime>): AnimeRemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Jikan>): AnimeRemoteKeys? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->

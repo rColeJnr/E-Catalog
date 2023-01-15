@@ -2,163 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ef13cd789cf12f215e7a5701bc0818d1",
+    "identityHash": "555434a9cc765de4665bf4ac80e4cd1d",
     "entities": [
       {
-        "tableName": "manga_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `imagesDto` TEXT NOT NULL, `approved` INTEGER NOT NULL, `title` TEXT NOT NULL, `titleJapanese` TEXT, `type` TEXT NOT NULL, `chapters` INTEGER, `volumes` INTEGER, `status` TEXT NOT NULL, `published` TEXT NOT NULL, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `authors` TEXT NOT NULL, `serializations` TEXT NOT NULL, `genres` TEXT NOT NULL, `themes` TEXT NOT NULL, PRIMARY KEY(`malId`))",
-        "fields": [
-          {
-            "fieldPath": "malId",
-            "columnName": "malId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "url",
-            "columnName": "url",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "imagesDto",
-            "columnName": "imagesDto",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "approved",
-            "columnName": "approved",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "titleJapanese",
-            "columnName": "titleJapanese",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "chapters",
-            "columnName": "chapters",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "volumes",
-            "columnName": "volumes",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "status",
-            "columnName": "status",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "published",
-            "columnName": "published",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "score",
-            "columnName": "score",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scoredBy",
-            "columnName": "scoredBy",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rank",
-            "columnName": "rank",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "popularity",
-            "columnName": "popularity",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "members",
-            "columnName": "members",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "favorites",
-            "columnName": "favorites",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "synopsis",
-            "columnName": "synopsis",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "background",
-            "columnName": "background",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "authors",
-            "columnName": "authors",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "serializations",
-            "columnName": "serializations",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "genres",
-            "columnName": "genres",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "themes",
-            "columnName": "themes",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "malId"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "anime_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT NOT NULL, `title` TEXT, `titleJapanese` TEXT, `type` TEXT NOT NULL, `source` TEXT NOT NULL, `episodes` INTEGER, `airingStatus` TEXT NOT NULL, `aired` TEXT NOT NULL, `duration` TEXT, `rating` TEXT NOT NULL, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `genres` TEXT NOT NULL, PRIMARY KEY(`malId`))",
+        "tableName": "jikan_db",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT, `title` TEXT, `type` TEXT NOT NULL, `source` TEXT, `episodes` INTEGER, `chapters` INTEGER, `volumes` INTEGER, `status` TEXT, `airing` INTEGER, `aired` TEXT, `published` TEXT, `duration` TEXT, `rating` TEXT, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `genres` TEXT, `authors` TEXT, `serializations` TEXT, `themes` TEXT, PRIMARY KEY(`malId`))",
         "fields": [
           {
             "fieldPath": "malId",
@@ -182,17 +30,11 @@
             "fieldPath": "trailer",
             "columnName": "trailer",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "title",
             "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "titleJapanese",
-            "columnName": "titleJapanese",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -206,7 +48,7 @@
             "fieldPath": "source",
             "columnName": "source",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "episodes",
@@ -215,16 +57,40 @@
             "notNull": false
           },
           {
-            "fieldPath": "airingStatus",
-            "columnName": "airingStatus",
+            "fieldPath": "chapters",
+            "columnName": "chapters",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "volumes",
+            "columnName": "volumes",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "airing",
+            "columnName": "airing",
+            "affinity": "INTEGER",
+            "notNull": false
           },
           {
             "fieldPath": "aired",
             "columnName": "aired",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "published",
+            "columnName": "published",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "duration",
@@ -236,7 +102,7 @@
             "fieldPath": "rating",
             "columnName": "rating",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "score",
@@ -290,7 +156,25 @@
             "fieldPath": "genres",
             "columnName": "genres",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "authors",
+            "columnName": "authors",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "serializations",
+            "columnName": "serializations",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "themes",
+            "columnName": "themes",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -370,7 +254,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ef13cd789cf12f215e7a5701bc0818d1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '555434a9cc765de4665bf4ac80e4cd1d')"
     ]
   }
 }

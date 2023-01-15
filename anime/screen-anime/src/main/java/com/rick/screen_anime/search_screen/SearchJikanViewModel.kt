@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_anime.JikanRepository
-import com.rick.data_anime.model_anime.Anime
-import com.rick.data_anime.model_manga.Manga
+import com.rick.data_anime.model_jikan.Jikan
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,13 +17,9 @@ class SearchAnimeViewModel @Inject constructor(
     private val repo: JikanRepository
 ) : ViewModel() {
 
-    private val _searchMangaList: MutableLiveData<List<Manga>> by
-    lazy { MutableLiveData<List<Manga>>() }
-    val searchMangaList: LiveData<List<Manga>> get() = _searchMangaList
-
-    private val _searchAnimeList: MutableLiveData<List<Anime>> by
-    lazy { MutableLiveData<List<Anime>>() }
-    val searchAnimeList: LiveData<List<Anime>> get() = _searchAnimeList
+    private val _searchList: MutableLiveData<List<Jikan>> by
+    lazy { MutableLiveData<List<Jikan>>() }
+    val searchList: LiveData<List<Jikan>> get() = _searchList
 
     private val _searchLoading: MutableLiveData<Boolean> by
     lazy { MutableLiveData<Boolean>(false) }
@@ -40,29 +35,34 @@ class SearchAnimeViewModel @Inject constructor(
     init {
 
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()
+        val searchJikan =
+            actionStateFlow.filterIsInstance<SearchUiAction.SearchJikan>().distinctUntilChanged()
         val searchAnime =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchAnime>().distinctUntilChanged()
         val searchManga =
             actionStateFlow.filterIsInstance<SearchUiAction.SearchManga>().distinctUntilChanged()
 
         viewModelScope.launch {
-            searchAnime.collectLatest {
+            searchJikan.collectLatest {
                 searchAnime(it.query)
+                searchManga(it.query)
             }
         }
 
         viewModelScope.launch {
             searchManga.collectLatest {
-                searchManga(it.query)
+                //TODO later feature
             }
         }
 
         searchUiState = combine(
+            searchJikan,
             searchAnime,
             searchManga,
-            ::Pair
-        ).map { (anime, manga) ->
+            ::Triple
+        ).map { (jikan, anime, manga) ->
             SearchUiState(
+                jikanQuery = jikan.query,
                 animeQuery = anime.query,
                 mangaQuery = manga.query
             )
@@ -89,7 +89,7 @@ class SearchAnimeViewModel @Inject constructor(
                         _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
-                        _searchAnimeList.postValue(result.data!!)
+                        _searchList.postValue(result.data!!)
                     }
                 }
             }
@@ -107,7 +107,7 @@ class SearchAnimeViewModel @Inject constructor(
                         _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
-                        _searchMangaList.postValue(result.data!!)
+                        _searchList.postValue(result.data!!)
                     }
                 }
             }
@@ -119,9 +119,11 @@ class SearchAnimeViewModel @Inject constructor(
 sealed class SearchUiAction {
     data class SearchAnime(val query: String) : SearchUiAction()
     data class SearchManga(val query: String) : SearchUiAction()
+    data class SearchJikan(val query: String) : SearchUiAction()
 }
 
 data class SearchUiState(
+    val jikanQuery: String? = null,
     val animeQuery: String? = null,
     val mangaQuery: String? = null
 )

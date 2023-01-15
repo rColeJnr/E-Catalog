@@ -39,8 +39,7 @@ object JikanDIModule {
             context,
             JikanDatabase::class.java,
             JIKAN_DATABASE_NAME
-        ).addTypeConverter(MangaConverters(GsonParser(Gson())))
-            .addTypeConverter(AnimeConverters(GsonParser(Gson())))
+        ).addTypeConverter(JikanConverters(GsonParser(Gson())))
             .build()
 
     @Provides
