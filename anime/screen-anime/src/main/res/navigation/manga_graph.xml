@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/manga_graph"
     app:startDestination="@id/mangaCatalogFragment">
 
     <fragment
         android:id="@+id/mangaCatalogFragment"
-        android:name="com.rick.screen_anime.manga_screen.MangaCatalogFragment"
-        android:label="MangaCatalogFragment" >
+        android:name="com.rick.screen_anime.manga_screen.MangaCatalogFragment" >
         <action
-            android:id="@+id/action_mangaCatalogFragment_to_searchMangaFragment"
-            app:destination="@id/searchMangaFragment" />
+            android:id="@+id/action_mangaCatalogFragment_to_mangaSearchJikanFragment"
+            app:destination="@id/mangaSearchJikanFragment" />
         <action
-            android:id="@+id/action_mangaCatalogFragment_to_detailsAnimeFragment2"
-            app:destination="@id/detailsAnimeFragment2" />
+            android:id="@+id/action_mangaCatalogFragment_to_mangaDetailsJikanFragment"
+            app:destination="@id/mangaDetailsJikanFragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailsAnimeFragment2"
-        android:name="com.rick.screen_anime.details_screen.DetailsAnimeFragment"
-        android:label="DetailsAnimeFragment" >
+        android:id="@+id/mangaDetailsJikanFragment"
+        android:name="com.rick.screen_anime.details_screen.DetailsJikanFragment" >
         <argument
-            android:name="anime"
-            app:argType="com.rick.data_anime.model_anime.Anime"
-            app:nullable="true" />
-        <argument
-            android:name="manga"
-            app:argType="com.rick.data_anime.model_manga.Manga"
-            app:nullable="true"/>
+            android:name="jikan"
+            app:argType="com.rick.data_anime.model_jikan.Jikan"
+            app:nullable="false" />
     </fragment>
     <fragment
-        android:id="@+id/searchMangaFragment"
-        android:name="com.rick.screen_anime.search_screen.SearchMangaFragment"
-        android:label="SearchMangaFragment" >
+        android:id="@+id/mangaSearchJikanFragment"
+        android:name="com.rick.screen_anime.search_screen.SearchJikanFragment"
+        tools:layout="@layout/fragment_jikan_search" >
         <action
-            android:id="@+id/action_searchMangaFragment_to_detailsAnimeFragment2"
-            app:destination="@id/detailsAnimeFragment2" />
+            android:id="@+id/action_searchJikanFragment_detailsJikanFragment"
+            app:destination="@id/mangaDetailsJikanFragment" />
     </fragment>
 </navigation>

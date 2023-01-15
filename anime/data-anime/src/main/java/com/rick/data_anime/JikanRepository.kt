@@ -6,10 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
-import com.rick.data_anime.model_anime.Anime
-import com.rick.data_anime.model_anime.toAnimeResponse
-import com.rick.data_anime.model_manga.Manga
-import com.rick.data_anime.model_manga.toMangaResponse
+import com.rick.data_anime.model_jikan.Jikan
+import com.rick.data_anime.model_jikan.toJikanResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -23,8 +21,8 @@ class JikanRepository @Inject constructor(
     private val db: JikanDatabase
 ) {
 
-    fun fetchAnimes(): Flow<PagingData<Anime>> {
-        val pagingSourceFactory = { db.animeDao.getAnimes() }
+    fun fetchAnimes(): Flow<PagingData<Jikan>> {
+        val pagingSourceFactory = { db.jikanDao.getAnime() }
 
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
@@ -39,8 +37,8 @@ class JikanRepository @Inject constructor(
         ).flow
     }
 
-    fun fetchManga(): Flow<PagingData<Manga>> {
-        val pagingSourceFactory = { db.mangaDao.getMangas() }
+    fun fetchManga(): Flow<PagingData<Jikan>> {
+        val pagingSourceFactory = { db.jikanDao.getManga() }
 
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
@@ -55,8 +53,8 @@ class JikanRepository @Inject constructor(
         ).flow
     }
 
-    fun searchAnime(query: String): Flow<Resource<List<Anime>>> {
-        var animes: List<Anime> = listOf()
+    fun searchAnime(query: String): Flow<Resource<List<Jikan>>> {
+        var animes: List<Jikan> = listOf()
         // appending '%' so we can allow other characters to be before and after the query string
         val dbQuery = "%${query.replace(' ', '%')}%"
         return flow {
@@ -64,22 +62,22 @@ class JikanRepository @Inject constructor(
             emit(Resource.Loading(true))
 
             db.withTransaction {
-                animes = db.animeDao.searchAnime(dbQuery)
+                animes = db.jikanDao.searchAnimeAndManga(dbQuery)
             }
 
             if (animes.isNotEmpty()) {
-                emit(Resource.Success<List<Anime>>(data = animes))
+                emit(Resource.Success<List<Jikan>>(data = animes))
                 emit(Resource.Loading(false))
             }
 
             try {
-                val response = api.searchAnime(query).toAnimeResponse()
-                if (response.anime.isNotEmpty()) {
+                val response = api.searchAnime(query).toJikanResponse()
+                if (response.data.isNotEmpty()) {
                     db.withTransaction {
-                        db.animeDao.insertAnimes(response.anime)
-                        animes = db.animeDao.searchAnime(dbQuery)
+                        db.jikanDao.insertJikan(response.data)
+                        animes = db.jikanDao.searchAnimeAndManga(dbQuery)
                     }
-                    emit(Resource.Success<List<Anime>>(data = animes))
+                    emit(Resource.Success<List<Jikan>>(data = animes))
                     emit(Resource.Loading(false))
                 } else {
                     emit(Resource.Error(message = null))
@@ -96,8 +94,8 @@ class JikanRepository @Inject constructor(
 
     }
 
-    fun searchManga(query: String): Flow<Resource<List<Manga>>> {
-        var mangas: List<Manga> = listOf()
+    fun searchManga(query: String): Flow<Resource<List<Jikan>>> {
+        var mangas: List<Jikan> = listOf()
         // appending '%' so we can allow other characters to be before and after the query string
         val dbQuery = "%${query.replace(' ', '%')}%"
         return flow {
@@ -105,22 +103,22 @@ class JikanRepository @Inject constructor(
             emit(Resource.Loading(true))
 
             db.withTransaction {
-                mangas = db.mangaDao.searchManga(dbQuery)
+                mangas = db.jikanDao.searchAnimeAndManga(dbQuery)
             }
 
             if (mangas.isNotEmpty()) {
-                emit(Resource.Success<List<Manga>>(data = mangas))
+                emit(Resource.Success<List<Jikan>>(data = mangas))
                 emit(Resource.Loading(false))
             }
 
             try {
-                val response = api.searchManga(query).toMangaResponse()
-                if (response.manga.isNotEmpty()) {
+                val response = api.searchManga(query).toJikanResponse()
+                if (response.data.isNotEmpty()) {
                     db.withTransaction {
-                        db.mangaDao.insertMangas(response.manga)
-                        mangas = db.mangaDao.searchManga(dbQuery)
+                        db.jikanDao.insertJikan(response.data)
+                        mangas = db.jikanDao.searchAnimeAndManga(dbQuery)
                     }
-                    emit(Resource.Success<List<Manga>>(data = mangas))
+                    emit(Resource.Success<List<Jikan>>(data = mangas))
                     emit(Resource.Loading(false))
                 } else {
                     emit(Resource.Error(message = null))

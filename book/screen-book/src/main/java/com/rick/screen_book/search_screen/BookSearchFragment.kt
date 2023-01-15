@@ -183,7 +183,7 @@ class BookSearchFragment : Fragment() {
             }
 
             searchError.observe(viewLifecycleOwner) {
-                if (it.isNotEmpty()) {
+                if (it != null && it.isNotEmpty()) {
                     searchErrorMessage.visibility = View.VISIBLE
                 } else {
                     searchErrorMessage.visibility = View.GONE
