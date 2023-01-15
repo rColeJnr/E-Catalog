@@ -4,6 +4,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -101,7 +106,12 @@ class BookCatalogFragment : Fragment() {
                 // show progress bar during initial load or refresh.
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.
-                emptyList.isVisible =
+                composeView.setContent {
+                    MaterialTheme {
+                        ErrorMessage()
+                    }
+                }
+                composeView.isVisible =
                     !swipeRefresh.isRefreshing && adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
@@ -169,4 +179,8 @@ class BookCatalogFragment : Fragment() {
         _binding = null
     }
 
+    @Composable
+    fun ErrorMessage() {
+        Text(text = stringResource(id = R.string.no_results), textAlign = TextAlign.Center)
+    }
 }

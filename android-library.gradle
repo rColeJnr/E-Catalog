@@ -29,6 +29,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -62,6 +63,13 @@ dependencies {
     implementation AndroidX.coreKtx
     implementation AndroidX.appCompat
     implementation AndroidX.material
+
+    implementation Compose.runtime
+    implementation Compose.ui
+    implementation Compose.foundation
+    implementation Compose.foundationLayout
+    implementation Compose.material
+    implementation Compose.tooling
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation 'com.android.support:support-annotations:28.0.0'
