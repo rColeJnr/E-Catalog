@@ -2,7 +2,6 @@ package com.rick.screen_movie.details_screen
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -129,10 +128,7 @@ class MovieDetailsFragment : Fragment() {
 
         val noData = getString(R.string.no_data)
 
-        Log.d("MovieDb", "mo -> ${movie.value }")
-
         movie.observe(viewLifecycleOwner) { imdb ->
-            Log.i("MovieDb, ", "the movie title -> " + imdb.title)
             movieTitle.text = imdb.title
             movieSummary.text = imdb.plot
             movieGenres.text =
