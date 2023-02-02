@@ -113,7 +113,7 @@ class MovieCatalogRepository @Inject constructor(
             }
             try {
                 val apiResponse = imdbApi.getMovieOrSeries(apiKey = apiKey, id = id).toImdbMovie()
-                if (apiResponse.errorMessage == null) {
+                if (apiResponse.errorMessage.isNullOrEmpty()) {
                     db.withTransaction {
                         db.imdbMovieAndSeriesDao.insert(apiResponse)
                         data = db.imdbMovieAndSeriesDao.movieById(id)

@@ -2,6 +2,7 @@ package com.rick.screen_movie.details_screen
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +67,9 @@ class MovieDetailsFragment : Fragment() {
         }
 
         binding.bindState(
-            viewModel.movingPictures, viewModel.searchLoading, viewModel.searchError
+            movie = viewModel.movingPictures,
+            loading = viewModel.searchLoading,
+            error = viewModel.searchError
         )
 
         return binding.root
@@ -126,43 +129,10 @@ class MovieDetailsFragment : Fragment() {
 
         val noData = getString(R.string.no_data)
 
-        loading.observe(viewLifecycleOwner) { progressing ->
-            if (progressing) {
-                detailsProgressBar.visibility = View.VISIBLE
-            } else detailsProgressBar.visibility = View.GONE
-        }
+        Log.d("MovieDb", "mo -> ${movie.value }")
 
-        error.observe(viewLifecycleOwner) { msg ->
-            if (msg.isNullOrBlank()) detailsErrorMessage.visibility = View.GONE
-            else detailsErrorMessage.visibility = View.VISIBLE
-            movieGenres.text = resources.getString(R.string.genres, noData)
-
-            movieAwards.text = resources.getString(R.string.awards, noData)
-            moviePublicationDate.text = resources.getString(
-                R.string.release_date, noData
-            )
-            movieRuntime.text = resources.getString(
-                R.string.runtime, noData
-            )
-            imdbChip.text = resources.getString(
-                R.string.imdb_rating, noData
-            )
-            rTomatoesChip.text =
-                resources.getString(R.string.tomato_rating, getString(R.string.no_data))
-            movieDbChip.text = resources.getString(
-                R.string.db_rating, noData
-            )
-            movieBudget.text = resources.getString(
-                R.string.budget, noData
-            )
-            movieOpenWeekendGross.text = resources.getString(R.string.open_week_gross, noData)
-
-            movieWorldWideGross.text = resources.getString(
-                R.string.world_wide_gross, noData
-            )
-        }
-
-        movie.observe(viewLifecycleOwner) { imdb: IMDBMovie ->
+        movie.observe(viewLifecycleOwner) { imdb ->
+            Log.i("MovieDb, ", "the movie title -> " + imdb.title)
             movieTitle.text = imdb.title
             movieSummary.text = imdb.plot
             movieGenres.text =
@@ -234,6 +204,42 @@ class MovieDetailsFragment : Fragment() {
             imagesAdapter.imagesDiffer.submitList(imdb.images.items)
             actorDetailsAdapter.actorsDiffer.submitList(imdb.actorList)
             similarDetailsAdapter.similarsDiffer.submitList(imdb.similars)
+        }
+
+        loading.observe(viewLifecycleOwner) { progressing ->
+            if (progressing) {
+                detailsProgressBar.visibility = View.VISIBLE
+            } else detailsProgressBar.visibility = View.GONE
+        }
+
+        error.observe(viewLifecycleOwner) { msg ->
+            if (msg.isNullOrBlank()) detailsErrorMessage.visibility = View.GONE
+            else detailsErrorMessage.visibility = View.VISIBLE
+            movieGenres.text = resources.getString(R.string.genres, noData)
+
+            movieAwards.text = resources.getString(R.string.awards, noData)
+            moviePublicationDate.text = resources.getString(
+                R.string.release_date, noData
+            )
+            movieRuntime.text = resources.getString(
+                R.string.runtime, noData
+            )
+            imdbChip.text = resources.getString(
+                R.string.imdb_rating, noData
+            )
+            rTomatoesChip.text =
+                resources.getString(R.string.tomato_rating, getString(R.string.no_data))
+            movieDbChip.text = resources.getString(
+                R.string.db_rating, noData
+            )
+            movieBudget.text = resources.getString(
+                R.string.budget, noData
+            )
+            movieOpenWeekendGross.text = resources.getString(R.string.open_week_gross, noData)
+
+            movieWorldWideGross.text = resources.getString(
+                R.string.world_wide_gross, noData
+            )
         }
     }
 

@@ -1,5 +1,6 @@
 package com.rick.screen_movie.details_screen
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val imdbKey: String
 
@@ -28,7 +29,8 @@ class DetailsViewModel @Inject constructor(
     lazy { MutableLiveData<String>() }
     val searchError: LiveData<String> get() = _searchError
 
-    private val _movingPictures: MutableLiveData<IMDBMovie> = MutableLiveData()
+    private val _movingPictures: MutableLiveData<IMDBMovie> by
+    lazy { MutableLiveData<IMDBMovie>() }
     val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
 
     init {
@@ -59,7 +61,7 @@ class DetailsViewModel @Inject constructor(
     }
 
     fun getMovieOrSeries(id: String) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             repository.getMovieOrSeries(imdbKey, id).collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
@@ -70,6 +72,7 @@ class DetailsViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         _movingPictures.postValue(result.data!!)
+                        Log.d("MovideDb", "mohhj -> ${result.data!!.title}")
                     }
                     else -> {}
                 }
