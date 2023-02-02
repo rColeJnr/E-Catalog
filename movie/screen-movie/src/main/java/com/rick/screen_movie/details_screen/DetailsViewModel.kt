@@ -52,6 +52,7 @@ class DetailsViewModel @Inject constructor(
                     is Resource.Success -> {
                         getMovieOrSeries(result.data!!.first().id)
                     }
+                    else -> {}
                 }
             }
         }
@@ -68,8 +69,9 @@ class DetailsViewModel @Inject constructor(
                         _searchLoading.postValue(result.isLoading)
                     }
                     is Resource.Success -> {
-                        _movingPictures.value = result.data!!
+                        _movingPictures.postValue(result.data!!)
                     }
+                    else -> {}
                 }
             }
         }
