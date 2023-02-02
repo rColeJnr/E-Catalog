@@ -1,6 +1,5 @@
 package com.rick.screen_movie.details_screen
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -72,7 +71,6 @@ class DetailsViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         _movingPictures.postValue(result.data!!)
-                        Log.d("MovideDb", "mohhj -> ${result.data!!.title}")
                     }
                     else -> {}
                 }
