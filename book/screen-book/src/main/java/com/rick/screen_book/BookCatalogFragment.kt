@@ -1,5 +1,6 @@
 package com.rick.screen_book
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -27,6 +28,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.accompanist.themeadapter.material.MdcTheme
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
@@ -101,7 +103,7 @@ class BookCatalogFragment : Fragment() {
         pagingDataFlow: Flow<PagingData<Book>>
     ) {
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             pagingDataFlow.collectLatest(adapter::submitData)
         }
 
@@ -112,7 +114,7 @@ class BookCatalogFragment : Fragment() {
                 swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.
                 composeView.setContent {
-                    MaterialTheme {
+                    MdcTheme {
                         ErrorMessage(getString(R.string.no_results))
                     }
                 }
@@ -196,10 +198,10 @@ private fun ErrorMessage(message: String) {
     )
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 private fun ErrorMessagePreview() {
     MaterialTheme {
-        ErrorMessage("Error")
+        ErrorMessage("No results \uD83D\uDE13\\nSwipe to refresh")
     }
 }

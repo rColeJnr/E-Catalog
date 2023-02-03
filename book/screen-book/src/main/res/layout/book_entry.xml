@@ -21,6 +21,14 @@
             android:textAppearance="?attr/textAppearanceHeadline5"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/fav_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            marb
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/divider_horizontal"
             style="@style/Divider.Horizontal"
@@ -40,8 +48,8 @@
             android:id="@+id/llayout"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="@dimen/two_dimen"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="@id/divider_horizontal">
