@@ -4,7 +4,10 @@ apply {
     plugin("kotlin-parcelize")
     plugin("dagger.hilt.android.plugin")
 }
-apply(plugin = "org.jetbrains.kotlin.android")
+
+android {
+    namespace = "com.rick.data_anime"
+}
 
 dependencies {
 

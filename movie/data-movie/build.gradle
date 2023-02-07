@@ -2,7 +2,6 @@ apply from: ("$rootDir/kotlin-library.gradle")
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'org.jetbrains.kotlin.android'
 
 dependencies {
 
@@ -25,4 +24,8 @@ dependencies {
     implementation Paging.runtime
 
     implementation(Coroutines.core)
+}
+
+android {
+    namespace 'com.rick.data_movie'
 }

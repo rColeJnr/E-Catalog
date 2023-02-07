@@ -1,7 +1,10 @@
 apply from: ("$rootDir/kotlin-library.gradle")
-apply plugin: 'org.jetbrains.kotlin.android'
 
 dependencies {
     implementation(Room.roomRuntime)
     implementation(Retrofit.converter)
+}
+
+android {
+    namespace 'com.rick.core'
 }

@@ -4,7 +4,6 @@ apply {
     plugin("kotlin-parcelize")
     plugin("dagger.hilt.android.plugin")
 }
-apply(plugin = "org.jetbrains.kotlin.android")
 
 dependencies {
 
@@ -27,4 +26,7 @@ dependencies {
     "implementation"(Paging.runtime)
 
     "implementation"(Coroutines.core)
+}
+android {
+    namespace = "com.rick.data_book"
 }
