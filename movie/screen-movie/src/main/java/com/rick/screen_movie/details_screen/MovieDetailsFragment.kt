@@ -50,7 +50,9 @@ class MovieDetailsFragment : Fragment() {
             series = safeArgs.series
             title = safeArgs.movieTitle
             id = safeArgs.movieId
+            Log.e("TAggg", "series $series, ti $title, id $id")
         }
+
 
         title?.let { viewModel.getMovieOrSeriesId(it) }
         id?.let { viewModel.getMovieOrSeries(it) }
