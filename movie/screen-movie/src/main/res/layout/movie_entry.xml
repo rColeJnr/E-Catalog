@@ -28,6 +28,16 @@
             android:layout_marginHorizontal="4dp"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="@id/movieName"
+            app:layout_constraintEnd_toStartOf="@id/fav_button"
+            app:layout_constraintTop_toTopOf="@id/movieName" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fav_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="@dimen/two_dimen"
+            android:src="@drawable/star_24"
+            app:layout_constraintBottom_toBottomOf="@id/movieName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/movieName" />
 
