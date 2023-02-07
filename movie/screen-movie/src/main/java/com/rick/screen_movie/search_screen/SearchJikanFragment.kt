@@ -165,7 +165,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             uiState
                 .map { it.searchQuery }
                 .distinctUntilChanged()
@@ -195,7 +195,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             searchLoading.observe(viewLifecycleOwner) {
                 if (it) searchProgressBar.visibility = View.VISIBLE
                 else searchProgressBar.visibility = View.GONE

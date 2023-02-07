@@ -125,11 +125,11 @@ class MovieCatalogFragment : Fragment() {
         pagingData: Flow<PagingData<UiModel>>
     ) {
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             pagingData.collectLatest(adapter::submitData)
         }
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
