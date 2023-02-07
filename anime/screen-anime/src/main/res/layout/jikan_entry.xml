@@ -6,20 +6,36 @@
     android:layout_height="wrap_content"
     android:backgroundTint="?attr/colorSurface">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/eight_dimen"
+            android:layout_weight="0.999"
+            android:gravity="center_vertical|start"
             android:hint="@string/no_title"
-            android:textAppearance="?attr/textAppearanceHeadline5" />
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fav_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="@dimen/two_dimen"
+            android:layout_weight="0.001"
+            android:gravity="center_vertical|end"
+            android:src="@drawable/baseline_star_border_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title"
+            app:layout_constraintBottom_toBottomOf="@id/title"/>
 
         <View
+            android:id="@+id/view"
             style="@style/Divider.Horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
@@ -32,6 +48,8 @@
             android:minWidth="@dimen/min_image_width"
             android:minHeight="@dimen/image_height"
             android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
             app:strokeColor="@null" />
 
         <TextView
@@ -42,7 +60,9 @@
             android:ems="5"
             android:maxLines="5"
             android:textAppearance="?attr/textAppearanceBody1"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/large_text"
+            app:layout_constraintTop_toBottomOf="@id/image"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/pg_rating"
@@ -50,7 +70,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="4dp"
             android:hint="@string/pg_rating"
-            android:textAppearance="?attr/textAppearanceBody2" />
-    </LinearLayout>
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/synopsis"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

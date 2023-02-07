@@ -14,20 +14,23 @@
 
         <TextView
             android:id="@+id/book_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/two_dimen"
             android:text="@string/title"
             android:textAppearance="?attr/textAppearanceHeadline5"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <androidx.compose.ui.platform.ComposeView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/fav_button"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginBottom="@dimen/two_dimen"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="@dimen/two_dimen"
+            android:src="@drawable/star_24"
+            app:layout_constraintBottom_toBottomOf="@id/book_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/book_title" />
 
         <View
             android:id="@+id/divider_horizontal"
