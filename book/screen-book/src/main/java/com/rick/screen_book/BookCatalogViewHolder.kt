@@ -45,13 +45,6 @@ class BookCatalogViewHolder(
         this.downloaded.text = resources.getString(R.string.downloaded, book.downloads.toString())
     }
 
-    private fun getListAsString(list: List<Any>): String {
-        val sb = StringBuilder()
-
-        list.forEach { sb.append("$it ") }
-        return sb.toString()
-    }
-
     override fun onClick(view: View) {
         onItemClick(view, book.formats)
     }
@@ -67,6 +60,14 @@ class BookCatalogViewHolder(
         }
     }
 
+}
+
+// TODO Clean this up
+fun getListAsString(list: List<Any>): String {
+    val sb = StringBuilder()
+
+    list.forEach { sb.append("$it ") }
+    return sb.toString()
 }
 
 fun provideGlide(view: ImageView, src: String) {
