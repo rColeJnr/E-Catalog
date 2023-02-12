@@ -20,6 +20,7 @@ import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_book.model.Author
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
+import com.rick.screen_book.databinding.FragmentBookFavoriteBinding
 import com.rick.screen_book.getListAsString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BookFavoritesFragment : Fragment() {
 
     val _binding: FragmentBookFavoriteBinding? = null
-    val binding: get() = _binding!!
+    val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
