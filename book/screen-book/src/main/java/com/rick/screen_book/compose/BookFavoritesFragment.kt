@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class BookFavoritesFragment : Fragment() {
 
-    val _binding: FragmentBookFavoriteBinding? = null
+    var _binding: FragmentBookFavoriteBinding? = null
     val binding get() = _binding!!
 
     override fun onCreateView(
