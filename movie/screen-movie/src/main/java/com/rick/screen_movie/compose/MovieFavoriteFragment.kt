@@ -7,12 +7,9 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +47,7 @@ class MovieFavoriteFragment : Fragment() {
 
         binding.compoeView.setContent {
             MdcTheme {
-
+                FavScreen(movies = dummyMovies)
             }
         }
 
@@ -82,18 +79,20 @@ fun MovieItem(movie: Movie) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 val (title, rating, image) = createRefs()
-                Text(text = movie.title, modifier = Modifier.constrainAs(title) {
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                })
-                Icon(
-                    imageVector = Icons.Outlined.Favorite,
-                    contentDescription = "Favorite",
+                Text(
+                    text = movie.title,
                     modifier = Modifier.constrainAs(title) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                    })
+                Icon(
+                    imageVector = Icons.Outlined.Star,
+                    contentDescription = "Favorite",
+                    modifier = Modifier.size(25.dp).constrainAs(image) {
                         end.linkTo(parent.end)
                         top.linkTo(parent.top)
                     })
-                Text(text = movie.title, modifier = Modifier.constrainAs(rating) {
+                Text(text = movie.rating, modifier = Modifier.constrainAs(rating) {
                     end.linkTo(image.start)
                     top.linkTo(parent.top)
                 })
@@ -107,7 +106,7 @@ fun MovieItem(movie: Movie) {
                 contentDescription = stringResource(R.string.movie_fragment),
                 placeholder = painterResource(R.drawable.ic_100tb),
                 modifier = Modifier.height(dimensionResource(id = R.dimen.image_height)),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillHeight,
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(text = movie.summary)
@@ -118,8 +117,8 @@ fun MovieItem(movie: Movie) {
 @Preview
 @Composable
 fun MovieFavPreview() {
-    MdcTheme {
-        FavScreen(movies = dummyMovies)
+    MaterialTheme {
+        MovieItem(movie = dummyMovies[0])
     }
 }
 
@@ -130,7 +129,7 @@ val dummyMovies = listOf(
         "This is the summarty of movie 1",
         "pg-13",
         "12,45",
-        Link("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg"),
+        Link("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.w3schools.com%2Fcss%2Fcss3_images.asp&psig=AOvVaw1lkeqv-sytj09qXi4MkBLb&ust=1676321828086000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCPiJtcrvkP0CFQAAAAAdAAAAABAK"),
         Multimedia("")
     ),
     Movie(
