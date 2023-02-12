@@ -35,8 +35,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MovieFavoriteFragment : Fragment() {
 
-    var _binding: FragmentMovieFavoriteBinding? = null
-    val binding get() = _binding!!
+    private var _binding: FragmentMovieFavoriteBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,

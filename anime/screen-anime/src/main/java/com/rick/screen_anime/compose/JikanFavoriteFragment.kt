@@ -12,8 +12,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class JikanFavoriteFragment: Fragment() {
 
-    var _binding: FragmentJikanFavoriteBinding? = null
-    val binding get() = _binding!!
+    private var _binding: FragmentJikanFavoriteBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
