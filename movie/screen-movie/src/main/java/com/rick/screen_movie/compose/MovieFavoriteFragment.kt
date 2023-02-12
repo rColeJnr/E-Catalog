@@ -21,12 +21,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.Fragment
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
+import com.rick.data_movie.ny_times.Link
 import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times.Multimedia
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,14 +78,25 @@ fun MovieItem(movie: Movie) {
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            ConstraintLayout(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = movie.title)
-                Text(text = movie.title)
-                Icon(imageVector = Icons.Outlined.Favorite, contentDescription = "Favorite")
+                val (title, rating, image) = createRefs()
+                Text(text = movie.title, modifier = Modifier.constrainAs(title) {
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                })
+                Icon(
+                    imageVector = Icons.Outlined.Favorite,
+                    contentDescription = "Favorite",
+                    modifier = Modifier.constrainAs(title) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                    })
+                Text(text = movie.title, modifier = Modifier.constrainAs(rating) {
+                    end.linkTo(image.start)
+                    top.linkTo(parent.top)
+                })
             }
             Spacer(modifier = Modifier.height(2.dp))
             AsyncImage(
@@ -100,3 +115,40 @@ fun MovieItem(movie: Movie) {
     }
 }
 
+@Preview
+@Composable
+fun MovieFavPreview() {
+    MdcTheme {
+        FavScreen(movies = dummyMovies)
+    }
+}
+
+val dummyMovies = listOf(
+    Movie(
+        0,
+        "Movie 1",
+        "This is the summarty of movie 1",
+        "pg-13",
+        "12,45",
+        Link("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg"),
+        Multimedia("")
+    ),
+    Movie(
+        0,
+        "Movie 1",
+        "This is the summarty of movie 1",
+        "pg-13",
+        "12,45",
+        Link("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg"),
+        Multimedia("")
+    ),
+    Movie(
+        0,
+        "Movie 1",
+        "This is the summarty of movie 1",
+        "pg-13",
+        "12,45",
+        Link("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg"),
+        Multimedia("")
+    ),
+)
