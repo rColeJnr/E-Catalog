@@ -20,7 +20,7 @@ class JikanFavoriteFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentJikanFavoriteBinding.inflate(inflater, container, null)
+        _binding = FragmentJikanFavoriteBinding.inflate(inflater, container, false)
 
         binding.composeView.setContent {
             MdcTheme {
