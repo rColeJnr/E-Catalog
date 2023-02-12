@@ -1,0 +1,116 @@
+Index: movie/screen-movie/src/main/java/com/rick/screen_movie/MovieCatalogFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.rick.screen_movie\n\nimport android.os.Bundle\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport androidx.core.view.isVisible\nimport androidx.fragment.app.Fragment\nimport androidx.fragment.app.viewModels\nimport androidx.lifecycle.lifecycleScope\nimport androidx.navigation.fragment.findNavController\nimport androidx.paging.LoadState\nimport androidx.paging.PagingData\nimport com.rick.data_movie.Movie\nimport com.rick.screen_movie.databinding.FragmentMovieCatalogBinding\nimport dagger.hilt.android.AndroidEntryPoint\nimport kotlinx.coroutines.flow.Flow\nimport kotlinx.coroutines.flow.StateFlow\nimport kotlinx.coroutines.flow.collectLatest\nimport kotlinx.coroutines.launch\n\n@AndroidEntryPoint\nclass MovieCatalogFragment : Fragment() {\n\n    private var _binding: FragmentMovieCatalogBinding? = null\n    private val binding get() = _binding!!\n    private val viewModel: MovieCatalogViewModel by viewModels()\n    private lateinit var adapter: MovieCatalogAdapter\n\n    override fun onCreateView(\n        inflater: LayoutInflater,\n        container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View {\n        _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)\n\n        adapter =\n            MovieCatalogAdapter(requireActivity(), this::onMovieClick)\n\n        binding.bindState(\n            uiAction = viewModel.accept,\n            uiState = viewModel.state,\n            pagingData = viewModel.pagingDataFLow\n        )\n\n        return binding.root\n    }\n\n    private fun FragmentMovieCatalogBinding.bindState(\n        uiAction: (UiAction) -> Unit,\n        pagingData: Flow<PagingData<UiModel>>,\n        uiState: StateFlow<UiState>\n    ) {\n\n        val header = MoviesLoadStateAdapter {\n            adapter.retry()\n        }\n\n        recyclerView.adapter = adapter.withLoadStateHeader(\n            header = header,\n        )\n\n        bindList(\n            adapter, pagingData, header\n        )\n\n    }\n\n    private fun FragmentMovieCatalogBinding.bindList(\n        adapter: MovieCatalogAdapter,\n        pagingData: Flow<PagingData<UiModel>>,\n        header: MoviesLoadStateAdapter\n    ) {\n        swipeRefresh.setOnRefreshListener { adapter.refresh() }\n\n\n        lifecycleScope.launch {\n            pagingData.collectLatest(adapter::submitData)\n        }\n\n        lifecycleScope.launch {\n            adapter.loadStateFlow.collect { loadState ->\n\n                header.loadState = loadState.mediator\n                    ?.refresh\n                    ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }\n                    ?: loadState.prepend\n\n                // show empty list.\n                emptyList.isVisible =\n                    loadState.source.refresh is LoadState.NotLoading && adapter.itemCount == 0\n                // Only show the list if refresh succeeds.\n                recyclerView.isVisible =\n                    loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading\n                // show progress bar during initial load or refresh.\n                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading\n\n            }\n        }\n    }\n\n    private fun onMovieClick(movie: Movie) {\n        val action = MovieCatalogFragmentDirections\n            .actionMovieCatalogFragmentToMovieDetailsFragment(movie)\n        findNavController().navigate(action)\n    }\n\n    override fun onDestroy() {\n        super.onDestroy()\n        _binding = null\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/movie/screen-movie/src/main/java/com/rick/screen_movie/MovieCatalogFragment.kt b/movie/screen-movie/src/main/java/com/rick/screen_movie/MovieCatalogFragment.kt
+--- a/movie/screen-movie/src/main/java/com/rick/screen_movie/MovieCatalogFragment.kt	
++++ b/movie/screen-movie/src/main/java/com/rick/screen_movie/MovieCatalogFragment.kt	
+@@ -11,6 +11,8 @@
+ import androidx.navigation.fragment.findNavController
+ import androidx.paging.LoadState
+ import androidx.paging.PagingData
++import androidx.recyclerview.widget.DefaultItemAnimator
++import androidx.recyclerview.widget.DividerItemDecoration
+ import com.rick.data_movie.Movie
+ import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
+ import dagger.hilt.android.AndroidEntryPoint
+@@ -56,9 +58,15 @@
+             adapter.retry()
+         }
+ 
+-        recyclerView.adapter = adapter.withLoadStateHeader(
+-            header = header,
++        recyclerView.adapter = adapter.withLoadStateFooter(MoviesLoadStateAdapter{ adapter.retry()} )
++
++        recyclerView.addItemDecoration(
++            DividerItemDecoration(
++                context,
++                DividerItemDecoration.VERTICAL
++            )
+         )
++        recyclerView.itemAnimator = DefaultItemAnimator()
+ 
+         bindList(
+             adapter, pagingData, header
+Index: movie/data-movie/src/main/java/com/rick/data_movie/MovieCatalogPagingSource.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/movie/data-movie/src/main/java/com/rick/data_movie/MovieCatalogPagingSource.kt b/movie/data-movie/src/main/java/com/rick/data_movie/MovieCatalogPagingSource.kt
+new file mode 100644
+--- /dev/null	
++++ b/movie/data-movie/src/main/java/com/rick/data_movie/MovieCatalogPagingSource.kt	
+@@ -0,0 +1,68 @@
++package com.rick.data_movie
++
++import android.util.Log
++import androidx.paging.LoadType
++import androidx.paging.PagingSource
++import androidx.paging.PagingState
++import androidx.room.withTransaction
++import retrofit2.HttpException
++import java.io.IOException
++
++private const val STARTING_PAGE_INDEX = 0
++private var offset = 20
++
++class MovieCatalogPagingSource(
++    private val api: MovieCatalogApi,
++    private val key: String,
++    private val db: MovieCatalogDatabase,
++) : PagingSource<Int, ResultDto>() {
++
++    var off = 0
++    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResultDto> {
++        // Start paging with the starting_key if this is the first load
++        val position = params.key ?: STARTING_PAGE_INDEX
++        val movies = mutableListOf<ResultDto>()
++        return try {
++            val response = api.fetchMovieCatalog(offset = offset, apikey = key).toMovieCatalog()
++            offset+=20
++            val movies = response.movieCatalog
++            val endOfPaginationReached = movies.isEmpty()
++            db.withTransaction {
++                if (loadType == LoadType.REFRESH) {
++                    db.remoteKeysDao.clearRemoteKeys()
++                    db.moviesDao.clearMovies()
++                }
++            val nextKey = if (movies.isEmpty()) null
++            else {
++                // initial load size = 3 * NETWORK_PAGE_SIZE
++                // ensure we're not requesting duplicating items, at the 2nd request
++                position + (off /params.loadSize)
++            }
++            Log.w("taggoo", "$position and ${params.loadSize} and $off")
++            LoadResult.Page(
++                data = movies.toList(),
++                prevKey = if (position == STARTING_PAGE) null else position - 1,
++                nextKey = nextKey
++            )
++        }
++        catch (e: IOException) {
++            return LoadResult.Error(e)
++        }
++        catch (e: HttpException) {
++            return LoadResult.Error(e)
++        }
++    }
++
++    override fun getRefreshKey(state: PagingState<Int, ResultDto>): Int? {
++        // Anchor position is the most recently accessed index
++        return state.anchorPosition?.let { anchorPosition ->
++            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
++                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
++        }
++    }
++
++    /**
++     * Makes sure the paging key is never less than [STARTING_KEY]
++     */
++//    private fun ensureValidKey(key: Int) = max(STARTING_KEY, key)
++}
+\ No newline at end of file

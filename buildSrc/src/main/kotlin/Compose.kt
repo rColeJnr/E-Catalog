@@ -11,4 +11,8 @@ object Compose {
     const val tooling = "androidx.compose.ui:ui-tooling:$composeVersion"
     const val themeAdapter = "com.google.accompanist:accompanist-themeadapter-material:0.29.1-alpha"
 
+    const val coil = "io.coil-kt:coil-compose:2.0.0"
+
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
 }

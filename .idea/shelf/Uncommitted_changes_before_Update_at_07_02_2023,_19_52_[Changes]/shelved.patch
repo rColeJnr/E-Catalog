@@ -1,0 +1,29 @@
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"deploymentTargetDropDown\">\n    <runningDeviceTargetSelectedWithDropDown>\n      <Target>\n        <type value=\"RUNNING_DEVICE_TARGET\" />\n        <deviceKey>\n          <Key>\n            <type value=\"SERIAL_NUMBER\" />\n            <value value=\"R58M67DK09T\" />\n          </Key>\n        </deviceKey>\n      </Target>\n    </runningDeviceTargetSelectedWithDropDown>\n    <timeTargetWasSelectedWithDropDown value=\"2023-02-02T20:04:41.816257Z\" />\n    <targetsSelectedWithDialog>\n      <Target>\n        <type value=\"QUICK_BOOT_TARGET\" />\n        <deviceKey>\n          <Key>\n            <type value=\"VIRTUAL_DEVICE_PATH\" />\n            <value value=\"$USER_HOME$/.android/avd/Pixel_3a_API_30.avd\" />\n          </Key>\n        </deviceKey>\n      </Target>\n    </targetsSelectedWithDialog>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+--- a/.idea/deploymentTargetDropDown.xml	(revision 1ec2c8b7cfe9a2db9780cc0df9fbc77f6588ccda)
++++ b/.idea/deploymentTargetDropDown.xml	(date 1675788744151)
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="deploymentTargetDropDown">
+-    <runningDeviceTargetSelectedWithDropDown>
+-      <Target>
+-        <type value="RUNNING_DEVICE_TARGET" />
+-        <deviceKey>
+-          <Key>
+-            <type value="SERIAL_NUMBER" />
+-            <value value="R58M67DK09T" />
+-          </Key>
+-        </deviceKey>
+-      </Target>
+-    </runningDeviceTargetSelectedWithDropDown>
+-    <timeTargetWasSelectedWithDropDown value="2023-02-02T20:04:41.816257Z" />
+     <targetsSelectedWithDialog>
+       <Target>
+         <type value="QUICK_BOOT_TARGET" />
