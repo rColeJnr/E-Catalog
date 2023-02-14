@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_bookCatalogFragment_to_searchFragment"
             app:destination="@id/bookSearchFragment" />
+        <action
+            android:id="@+id/action_bookCatalogFragment_to_bookFavoritesFragment"
+            app:destination="@id/bookFavoritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
@@ -32,4 +35,8 @@
             android:id="@+id/action_searchFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bookFavoritesFragment"
+        android:name="com.rick.screen_book.compose.BookFavoritesFragment"
+        android:label="BookFavoritesFragment" />
 </navigation>
