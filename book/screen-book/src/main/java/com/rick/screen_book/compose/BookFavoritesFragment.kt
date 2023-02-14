@@ -56,7 +56,7 @@ fun FavScreen(books: List<Book>) {
         LazyColumn(Modifier.padding(it)) {
             items(books) { book ->
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Book(book)
+                    BookItem(book)
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(imageVector = Icons.Outlined.Star, contentDescription = "favorite")
                     }
@@ -68,7 +68,7 @@ fun FavScreen(books: List<Book>) {
 }
 
 @Composable
-fun Book(book: Book) {
+fun BookItem(book: Book) {
     Column (modifier = Modifier.padding(8.dp)) {
         Text(text = book.title)
         Spacer(modifier = Modifier.height(2.dp))
