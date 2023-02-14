@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -32,7 +34,7 @@ class JikanFavoriteFragment : Fragment() {
 
         binding.composeView.setContent {
             MdcTheme {
-
+                FavScreen(jikans = listOf())
             }
         }
 
@@ -42,9 +44,13 @@ class JikanFavoriteFragment : Fragment() {
 }
 
 @Composable
-fun FavScreen() {
+fun FavScreen(jikans: List<Jikan>) {
     Scaffold() {
-
+        LazyColumn(modifier = Modifier.padding(it)) {
+            items(jikans) { jikan ->
+                JikanItem(jikan = jikan)
+            }
+        }
     }
 }
 
