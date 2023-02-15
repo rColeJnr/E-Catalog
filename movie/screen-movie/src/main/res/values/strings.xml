@@ -44,4 +44,5 @@
     <string name="failed_to_retrieve_data">Failed to retrieve data 😓</string>
     <string name="no_data">n/a</string>
     <string name="list_updated">The list is always updated when the screen is open</string>
+    <string name="movie_fav"><![CDATA[Favorite movies & series]]></string>
 </resources>
