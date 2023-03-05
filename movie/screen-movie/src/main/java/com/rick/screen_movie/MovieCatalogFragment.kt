@@ -56,8 +56,6 @@ class MovieCatalogFragment : Fragment() {
 
         initAdapter()
 
-        binding.fani.text = "Ricardo Junior, aniversario 12 de maio"
-
         binding.bindState(
             pagingData = viewModel.pagingDataFLow
         )
@@ -70,6 +68,7 @@ class MovieCatalogFragment : Fragment() {
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
+
 
     }
 
