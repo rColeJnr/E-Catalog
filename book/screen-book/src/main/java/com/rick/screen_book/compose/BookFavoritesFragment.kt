@@ -37,7 +37,7 @@ class BookFavoritesFragment : Fragment() {
     ): View? {
         _binding = FragmentBookFavoriteBinding.inflate(inflater, container, false)
 
-        binding.composeView.setContent{
+        binding.composeView.setContent {
             MdcTheme {
                 FavScreen(books = dummyBooks)
             }
@@ -55,7 +55,11 @@ fun FavScreen(books: List<Book>) {
     Scaffold(modifier = Modifier.fillMaxSize()) {
         LazyColumn(Modifier.padding(it)) {
             items(books) { book ->
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     BookItem(book)
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(imageVector = Icons.Outlined.Star, contentDescription = "favorite")
@@ -69,7 +73,7 @@ fun FavScreen(books: List<Book>) {
 
 @Composable
 fun BookItem(book: Book) {
-    Column (modifier = Modifier.padding(8.dp)) {
+    Column(modifier = Modifier.padding(8.dp)) {
         Text(text = book.title)
         Spacer(modifier = Modifier.height(2.dp))
         Text(text = getListAsString(book.authors))
