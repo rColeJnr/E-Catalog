@@ -11,14 +11,22 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_anime.model_jikan.Images
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.data_anime.model_jikan.Jpg
+import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentJikanFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +45,7 @@ class JikanFavoriteFragment : Fragment() {
 
         binding.composeView.setContent {
             MdcTheme {
-                FavScreen(jikans = listOf())
+                FavScreen(jikans = dummyData)
             }
         }
 
@@ -61,12 +69,22 @@ fun FavScreen(jikans: List<Jikan>) {
 fun JikanItem(jikan: Jikan) {
     Surface(
         modifier = Modifier
+            .wrapContentHeight(align = Alignment.CenterVertically)
             .fillMaxWidth()
-            .wrapContentHeight()
+            .padding(8.dp)
     ) {
         Column(Modifier.fillMaxWidth()) {
             Text(text = jikan.title ?: "no title found")
             Spacer(modifier = Modifier.height(2.dp))
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(jikan.images.jpg.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.fav_jikan),
+                modifier = Modifier.height(dimensionResource(id = R.dimen.image_height)),
+                contentScale = ContentScale.FillHeight,
+            )
             Text(text = jikan.synopsis ?: "no synopsis found")
             Spacer(modifier = Modifier.height(2.dp))
             Text(text = jikan.rating ?: "unrated")
@@ -84,7 +102,7 @@ private val dummyData = listOf(
     Jikan(
         0,
         "",
-        Images(Jpg("", "", "")),
+        Images(Jpg("https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg", "", "")),
         null,
         "This dude title",
         "anime",
@@ -114,7 +132,7 @@ private val dummyData = listOf(
     Jikan(
         0,
         "",
-        Images(Jpg("", "", "")),
+        Images(Jpg("https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x282:812x506)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e4001161e0cdffb0b36e1f_760x400.0.png", "", "")),
         null,
         "This another title",
         "anime",
@@ -144,7 +162,7 @@ private val dummyData = listOf(
     Jikan(
         0,
         "",
-        Images(Jpg("", "", "")),
+        Images(Jpg("https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x282:812x506)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e4001161e0cdffb0b36e1f_760x400.0.png", "", "")),
         null,
         "This another title",
         "anime",

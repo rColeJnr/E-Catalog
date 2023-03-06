@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -34,6 +35,10 @@ class MovieCatalogFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MovieCatalogViewModel by viewModels()
     private lateinit var adapter: MovieCatalogAdapter
+    private lateinit var navController: NavController
+
+    private lateinit var eTransition: MaterialSharedAxis
+    private lateinit var reTransition: MaterialSharedAxis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +53,7 @@ class MovieCatalogFragment : Fragment() {
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
-        val navController = findNavController()
+        navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         view?.findViewById<Toolbar>(R.id.toolbar)
@@ -66,6 +71,12 @@ class MovieCatalogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -92,27 +103,28 @@ class MovieCatalogFragment : Fragment() {
 //        menu.findItem(R.id.search_options).isVisible = false
 //    }
 
-    private val eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-        duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-    }
-    private val reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-        duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_imdb -> {
+
                 exitTransition = eTransition
                 reenterTransition = reTransition
-                val action =
+
+                navController.navigate(
                     MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
-                findNavController().navigate(action)
+                )
+
                 true
             }
             R.id.fav_imdb -> {
+
                 exitTransition = eTransition
                 reenterTransition = reTransition
-                val action = TODO()
+
+                navController.navigate(
+                    MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieFavoriteFragment()
+                )
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
