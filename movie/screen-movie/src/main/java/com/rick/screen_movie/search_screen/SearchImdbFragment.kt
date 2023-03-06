@@ -63,7 +63,7 @@ class SearchFragment : Fragment() {
         binding.toolbar.apply {
             inflateMenu(R.menu.search_menu)
 
-//            menu.findItem(R.id.search_options).isVisible = false
+            menu.findItem(R.id.fav_imdb).isVisible = false
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {

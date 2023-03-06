@@ -29,7 +29,6 @@
     <fragment
         android:id="@+id/bookSearchFragment"
         android:name="com.rick.screen_book.search_screen.BookSearchFragment"
-        android:label="fragment_search"
         tools:layout="@layout/fragment_book_search" >
         <action
             android:id="@+id/action_searchFragment_to_bookDetailsFragment"

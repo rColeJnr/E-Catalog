@@ -2,7 +2,6 @@ package com.rick.screen_anime.compose
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
@@ -51,11 +50,6 @@ class JikanFavoriteFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.search_jikan).isVisible = false
     }
 
 }
