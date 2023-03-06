@@ -87,23 +87,32 @@ class MovieCatalogFragment : Fragment() {
         inflater.inflate(R.menu.search_menu, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.search_options).isVisible = false
+//    override fun onPrepareOptionsMenu(menu: Menu) {
+//        super.onPrepareOptionsMenu(menu)
+//        menu.findItem(R.id.search_options).isVisible = false
+//    }
+
+    private val eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+        duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+    }
+    private val reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+        duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_imdb -> {
-                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
+                exitTransition = eTransition
+                reenterTransition = reTransition
                 val action =
                     MovieCatalogFragmentDirections.actionMovieCatalogFragmentToSearchFragment()
                 findNavController().navigate(action)
+                true
+            }
+            R.id.fav_imdb -> {
+                exitTransition = eTransition
+                reenterTransition = reTransition
+                val action = TODO()
                 true
             }
             else -> super.onOptionsItemSelected(item)

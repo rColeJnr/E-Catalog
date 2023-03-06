@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_tvSeriesFragment_to_seriesSearchFragment"
             app:destination="@+id/seriesSearchFragment" />
+        <action
+            android:id="@+id/action_tvSeriesFragment_to_movieFavoriteFragment"
+            app:destination="@id/movieFavoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/seriesDetailsFragment"
@@ -35,6 +38,14 @@
         android:name="com.rick.screen_movie.search_screen.SearchFragment">
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/seriesDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieFavoriteFragment"
+        android:name="com.rick.screen_movie.compose.MovieFavoriteFragment"
+        android:label="MovieFavoriteFragment" >
+        <action
+            android:id="@+id/action_movieFavoriteFragment_to_seriesDetailsFragment"
             app:destination="@id/seriesDetailsFragment" />
     </fragment>
 </navigation>
