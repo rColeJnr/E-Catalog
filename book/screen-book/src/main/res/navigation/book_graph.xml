@@ -37,8 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookFavoritesFragment"
-        android:name="com.rick.screen_book.compose.BookFavoritesFragment"
-        android:label="BookFavoritesFragment" >
+        android:name="com.rick.screen_book.compose.BookFavoritesFragment">
         <action
             android:id="@+id/action_bookFavoritesFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />

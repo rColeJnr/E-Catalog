@@ -42,8 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/seriesFavoriteFragment"
-        android:name="com.rick.screen_movie.compose.MovieFavoriteFragment"
-        android:label="SeriesFavoriteFragment" >
+        android:name="com.rick.screen_movie.compose.MovieFavoriteFragment">
         <action
             android:id="@+id/action_seriesFavoriteFragment_to_seriesDetailsFragment"
             app:destination="@id/seriesDetailsFragment" />
