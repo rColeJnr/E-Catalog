@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val toolbar = binding.toolbar
+        toolbar.title = getString(R.string.empty)
         setSupportActionBar(toolbar)
-        title = getString(R.string.empty)
 
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.fragmentContainerView

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/searchLabel"
-        android:icon="@drawable/ic_search"
         android:id="@+id/search_jikan"
-        app:showAsAction="always"/>
+        android:icon="@drawable/ic_search"
+        android:title="@string/searchLabel"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/fav_jikan"
