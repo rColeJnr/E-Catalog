@@ -73,9 +73,11 @@ class MainActivity : AppCompatActivity() {
                 com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.movie)
                 com.rick.screen_movie.R.id.tvSeriesFragment -> getString(R.string.series)
                 com.rick.screen_movie.R.id.movieFavoriteFragment -> getString(R.string.favs)
+                com.rick.screen_movie.R.id.seriesFavoriteFragment -> getString(R.string.favs)
                 com.rick.screen_anime.R.id.animeCatalogFragment -> getString(R.string.anime)
                 com.rick.screen_anime.R.id.mangaCatalogFragment -> getString(R.string.manga)
-                com.rick.screen_anime.R.id.jikanFavoriteFragment -> getString(R.string.favs)
+                com.rick.screen_anime.R.id.animeFavoriteFragment -> getString(R.string.favs)
+                com.rick.screen_anime.R.id.mangaFavoriteFragment -> getString(R.string.favs)
                 else -> getString(R.string.empty)
             }
         }
