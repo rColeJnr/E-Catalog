@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
@@ -49,6 +49,9 @@ class BookCatalogFragment : Fragment() {
     private val viewModel: BookCatalogViewModel by viewModels()
     private lateinit var adapter: BookCatalogAdapter
     private lateinit var navController: NavController
+
+    private lateinit var eTransition: MaterialSharedAxis
+    private lateinit var reTransition: MaterialSharedAxis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,13 @@ class BookCatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
@@ -166,15 +176,23 @@ class BookCatalogFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_books -> {
-                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                val action =
+
+                exitTransition = eTransition
+                reenterTransition = reTransition
+
+                navController.navigate(
                     BookCatalogFragmentDirections.actionBookCatalogFragmentToSearchFragment()
-                navController.navigate(action)
+                )
+                true
+            }
+            R.id.fav_book -> {
+
+                exitTransition = eTransition
+                reenterTransition = reTransition
+
+                navController.navigate(
+                    BookCatalogFragmentDirections.actionBookCatalogFragmentToBookFavoritesFragment()
+                )
                 true
             }
             else -> super.onOptionsItemSelected(item)

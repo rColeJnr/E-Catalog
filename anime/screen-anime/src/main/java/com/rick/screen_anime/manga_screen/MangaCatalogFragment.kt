@@ -37,6 +37,9 @@ class MangaCatalogFragment : Fragment() {
     private lateinit var adapter: JikanCatalogAdapter
     private lateinit var navController: NavController
 
+    private lateinit var eTransition: MaterialSharedAxis
+    private lateinit var reTransition: MaterialSharedAxis
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -70,6 +73,13 @@ class MangaCatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
@@ -152,15 +162,25 @@ class MangaCatalogFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_jikan -> {
-                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                val action = MangaCatalogFragmentDirections
-                    .actionMangaCatalogFragmentToMangaSearchJikanFragment()
-                navController.navigate(action)
+
+                exitTransition = eTransition
+                reenterTransition = reTransition
+
+                navController.navigate(
+                    MangaCatalogFragmentDirections.actionMangaCatalogFragmentToMangaSearchJikanFragment()
+                )
+
+                true
+            }
+            R.id.fav_jikan -> {
+
+                exitTransition = eTransition
+                reenterTransition = reTransition
+
+                navController.navigate(
+                    MangaCatalogFragmentDirections.actionMangaCatalogFragmentToMangaFavoriteFragment()
+                )
+
                 true
             }
             else -> super.onOptionsItemSelected(item)

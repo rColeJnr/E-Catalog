@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/book_fav"
+                android:text="@string/fav_book"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
         </LinearLayout>

@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -29,6 +30,10 @@ class TvSeriesFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: TvSeriesViewModel by viewModels()
     private lateinit var adapter: TvSeriesAdapter
+    private lateinit var navController: NavController
+
+    private lateinit var eTransition: MaterialSharedAxis
+    private lateinit var reTransition: MaterialSharedAxis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +48,7 @@ class TvSeriesFragment : Fragment() {
     ): View {
         _binding = FragmentMovieCatalogBinding.inflate(inflater, container, false)
 
-        val navController = findNavController()
+        navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         view?.findViewById<Toolbar>(R.id.toolbar)
@@ -58,6 +63,13 @@ class TvSeriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
+
+        eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
+        reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+        }
 
         binding.bindList(
             viewModel.tvSeriesList,
@@ -125,23 +137,30 @@ class TvSeriesFragment : Fragment() {
         inflater.inflate(R.menu.search_menu, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.search_options).isVisible = false
-    }
+    //    override fun onPrepareOptionsMenu(menu: Menu) {
+//        super.onPrepareOptionsMenu(menu)
+//        menu.findItem(R.id.search_options).isVisible = false
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_imdb -> {
-                exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                    duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-                }
-                val action =
+                exitTransition = eTransition
+                reenterTransition = reTransition
+
+                navController.navigate(
                     TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesSearchFragment()
-                findNavController().navigate(action)
+                )
+                true
+            }
+            R.id.fav_imdb -> {
+                exitTransition = eTransition
+                reenterTransition = reTransition
+
+                navController.navigate(
+                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesFavoriteFragment()
+                )
+
                 true
             }
             else -> super.onOptionsItemSelected(item)

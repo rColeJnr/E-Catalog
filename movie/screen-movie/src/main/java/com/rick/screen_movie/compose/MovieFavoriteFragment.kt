@@ -129,7 +129,7 @@ val dummyMovies = listOf(
         "This is the summarty of movie 1",
         "pg-13",
         "12,45",
-        Link("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.w3schools.com%2Fcss%2Fcss3_images.asp&psig=AOvVaw1lkeqv-sytj09qXi4MkBLb&ust=1676321828086000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCPiJtcrvkP0CFQAAAAAdAAAAABAK"),
+        Link("https://media.istockphoto.com/id/1368264124/photo/extreme-close-up-of-thrashing-emerald-ocean-waves.jpg?b=1&s=170667a&w=0&k=20&c=qha_PaU54cu9QCu1UTlORP4-sW0MqLGERkdFKmC06lI="),
         Multimedia("")
     ),
     Movie(
