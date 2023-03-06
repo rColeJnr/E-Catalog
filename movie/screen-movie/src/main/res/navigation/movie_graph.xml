@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_movieCatalogFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_movieCatalogFragment_to_movieFavoriteFragment2"
+            app:destination="@id/movieFavoriteFragment2" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -37,6 +40,14 @@
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieFavoriteFragment2"
+        android:name="com.rick.screen_movie.compose.MovieFavoriteFragment"
+        android:label="MovieFavoriteFragment" >
+        <action
+            android:id="@+id/action_movieFavoriteFragment2_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
     </fragment>
 

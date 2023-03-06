@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_animeCatalogFragment_to_detailsAnimeFragment"
             app:destination="@id/animeDetailsJikanFragment" />
+        <action
+            android:id="@+id/action_animeCatalogFragment_to_jikanFavoriteFragment"
+            app:destination="@id/jikanFavoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/animeSearchJikanFragment"
@@ -31,6 +34,14 @@
         tools:layout="@layout/fragment_jikan_search" >
         <action
             android:id="@+id/action_searchJikanFragment_detailsJikanFragment"
+            app:destination="@id/animeDetailsJikanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jikanFavoriteFragment"
+        android:name="com.rick.screen_anime.compose.JikanFavoriteFragment"
+        android:label="JikanFavoriteFragment" >
+        <action
+            android:id="@+id/action_jikanFavoriteFragment_to_animeDetailsJikanFragment"
             app:destination="@id/animeDetailsJikanFragment" />
     </fragment>
 </navigation>
