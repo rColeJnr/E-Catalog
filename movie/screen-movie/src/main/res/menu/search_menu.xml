@@ -7,13 +7,12 @@
         android:id="@+id/search_imdb"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/search_options"
-        android:icon="@drawable/menu_icon"
-        android:title="@string/searchOptions"
-        app:showAsAction="always" />
+        android:id="@+id/fav_imdb"
+        android:icon="@drawable/star_24"
+        android:title="@string/fav_imdb"
+        app:showAsAction="ifRoom" />
 
 </menu>

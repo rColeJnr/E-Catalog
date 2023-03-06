@@ -45,4 +45,5 @@
     <string name="no_data">n/a</string>
     <string name="list_updated">The list is always updated when the screen is open</string>
     <string name="movie_fav"><![CDATA[Favorite movies & series]]></string>
+    <string name="fav_imdb">Favorites IMDB</string>
 </resources>

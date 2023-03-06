@@ -7,7 +7,11 @@
         android:id="@+id/search_books"
         android:icon="@drawable/ic_search"
         android:title="@string/searchLabel"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
+        app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/fav_book"
+        android:icon="@drawable/star_24"
+        android:title="@string/fav_book"
+        app:showAsAction="ifRoom" />
 </menu>
