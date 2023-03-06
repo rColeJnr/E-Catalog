@@ -16,7 +16,6 @@
     <fragment
         android:id="@+id/animeCatalogFragment"
         android:name="com.rick.screen_anime.anime_screen.AnimeCatalogFragment"
-        android:label="fragment_anime_catalog"
         tools:layout="@layout/fragment_jikan_catalog" >
         <action
             android:id="@+id/action_animeCatalogFragment_to_searchAnimeFragment"
