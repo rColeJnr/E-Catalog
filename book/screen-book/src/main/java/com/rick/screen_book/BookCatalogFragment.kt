@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
@@ -93,7 +93,6 @@ class BookCatalogFragment : Fragment() {
         reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
-
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
