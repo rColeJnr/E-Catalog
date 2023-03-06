@@ -55,6 +55,8 @@ class BookSearchFragment : Fragment() {
         binding.toolbar.apply {
             inflateMenu(R.menu.book_search_menu)
 
+            menu.findItem(R.id.fav_book).isVisible = false
+
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.search_books -> {
