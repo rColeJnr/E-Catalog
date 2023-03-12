@@ -36,4 +36,5 @@
     <string name="no_data">n/a</string>
     <string name="jikan_fav"><![CDATA[Favorite anime & manga]]></string>
     <string name="fav_jikan">Favorite jikan</string>
+    <string name="favorite">Favorite</string>
 </resources>

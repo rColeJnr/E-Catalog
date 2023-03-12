@@ -16,4 +16,5 @@
     <string name="search_transition_name">search transition %1$s</string>
     <string name="book_detail_transition_name">book details transition name</string>
     <string name="fav_book">Favorite books</string>
+    <string name="favorite">Favorite</string>
 </resources>
