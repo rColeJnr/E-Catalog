@@ -53,6 +53,11 @@ class MovieFavoriteFragment : Fragment() {
 
         return binding.root
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
 
 @Composable
@@ -61,6 +66,10 @@ fun FavScreen(movies: List<Movie>) {
         LazyColumn(modifier = Modifier.padding(it)) {
             items(movies) { movie ->
                 MovieItem(movie)
+                Divider(
+                    Modifier.height(1.dp),
+                    color = MaterialTheme.colors.secondary
+                )
             }
         }
     }
@@ -68,12 +77,15 @@ fun FavScreen(movies: List<Movie>) {
 
 @Composable
 fun MovieItem(movie: Movie) {
-    Surface {
+    Surface(
+        color = MaterialTheme.colors.surface,
+        modifier = Modifier
+            .wrapContentHeight(align = Alignment.CenterVertically)
+            .padding(horizontal = 8.dp)
+            .fillMaxWidth()
+    ) {
         Column(
-            modifier = Modifier
-                .wrapContentHeight(align = Alignment.CenterVertically)
-                .fillMaxWidth()
-                .padding(8.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             ConstraintLayout(
                 modifier = Modifier.fillMaxWidth()
@@ -81,21 +93,35 @@ fun MovieItem(movie: Movie) {
                 val (title, rating, image) = createRefs()
                 Text(
                     text = movie.title,
+                    style = MaterialTheme.typography.h5,
                     modifier = Modifier.constrainAs(title) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
                     })
-                Icon(
-                    imageVector = Icons.Outlined.Star,
-                    contentDescription = "Favorite",
-                    modifier = Modifier.size(25.dp).constrainAs(image) {
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.constrainAs(image) {
                         end.linkTo(parent.end)
-                        top.linkTo(parent.top)
+                        top.linkTo(title.top)
+                        bottom.linkTo(title.bottom)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Star,
+                        contentDescription = stringResource(
+                            R.string.favorite
+                        )
+                    )
+                }
+                Text(
+                    text = movie.rating,
+                    style = MaterialTheme.typography.body1,
+                    modifier = Modifier.constrainAs(rating) {
+                        end.linkTo(image.start)
+                        top.linkTo(title.top)
+                        bottom.linkTo(title.bottom)
                     })
-                Text(text = movie.rating, modifier = Modifier.constrainAs(rating) {
-                    end.linkTo(image.start)
-                    top.linkTo(parent.top)
-                })
             }
             Spacer(modifier = Modifier.height(2.dp))
             AsyncImage(
@@ -109,7 +135,8 @@ fun MovieItem(movie: Movie) {
                 contentScale = ContentScale.FillHeight,
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = movie.summary)
+            Text(text = movie.summary, style = MaterialTheme.typography.body1)
+            Spacer(modifier = Modifier.height(2.dp))
         }
     }
 }
@@ -147,7 +174,7 @@ val dummyMovies = listOf(
         "This is the summarty of movie 1",
         "pg-13",
         "12,45",
-        Link("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg"),
+        Link("https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"),
         Multimedia("")
     ),
 )

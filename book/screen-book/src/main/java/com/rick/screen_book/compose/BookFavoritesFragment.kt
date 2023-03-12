@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_book.model.Author
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
+import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookFavoriteBinding
 import com.rick.screen_book.getListAsString
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,13 +48,20 @@ class BookFavoritesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
 
 @Composable
 fun FavScreen(books: List<Book>) {
 
     // Maybe some day i'll actually start building this :(
-    Scaffold(modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        backgroundColor = MaterialTheme.colors.background
+    ) {
         LazyColumn(Modifier.padding(it)) {
             items(books) { book ->
                 Row(
@@ -62,10 +71,18 @@ fun FavScreen(books: List<Book>) {
                 ) {
                     BookItem(book)
                     IconButton(onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Outlined.Star, contentDescription = "favorite")
+                        Icon(
+                            imageVector = Icons.Outlined.Star,
+                            contentDescription = stringResource(
+                                R.string.favorite
+                            )
+                        )
                     }
                 }
-                Divider()
+                Divider(
+                    Modifier.height(1.dp),
+                    color = MaterialTheme.colors.secondary
+                )
             }
         }
     }
@@ -74,9 +91,9 @@ fun FavScreen(books: List<Book>) {
 @Composable
 fun BookItem(book: Book) {
     Column(modifier = Modifier.padding(8.dp)) {
-        Text(text = book.title)
+        Text(text = book.title, style = MaterialTheme.typography.h6)
         Spacer(modifier = Modifier.height(2.dp))
-        Text(text = getListAsString(book.authors))
+        Text(text = getListAsString(book.authors), style = MaterialTheme.typography.body2)
         Spacer(modifier = Modifier.height(1.dp))
     }
 }

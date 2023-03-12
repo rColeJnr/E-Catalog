@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +19,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.Fragment
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -52,6 +53,10 @@ class JikanFavoriteFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
 
 @Composable
@@ -60,6 +65,10 @@ fun FavScreen(jikans: List<Jikan>) {
         LazyColumn(modifier = Modifier.padding(it)) {
             items(jikans) { jikan ->
                 JikanItem(jikan = jikan)
+                Divider(
+                    Modifier.height(1.dp),
+                    color = MaterialTheme.colors.secondary
+                )
             }
         }
     }
@@ -68,13 +77,42 @@ fun FavScreen(jikans: List<Jikan>) {
 @Composable
 fun JikanItem(jikan: Jikan) {
     Surface(
+        color = MaterialTheme.colors.surface,
         modifier = Modifier
             .wrapContentHeight(align = Alignment.CenterVertically)
+            .padding(horizontal = 8.dp)
             .fillMaxWidth()
-            .padding(8.dp)
     ) {
         Column(Modifier.fillMaxWidth()) {
-            Text(text = jikan.title ?: "no title found")
+            ConstraintLayout(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val (title, image) = createRefs()
+                Text(
+                    text = jikan.title ?: "no title found",
+                    style = MaterialTheme.typography.h5,
+                    modifier = Modifier.constrainAs(title) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                )
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.constrainAs(image) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Star,
+                        contentDescription = stringResource(
+                            R.string.favorite
+                        )
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(2.dp))
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -85,9 +123,14 @@ fun JikanItem(jikan: Jikan) {
                 modifier = Modifier.height(dimensionResource(id = R.dimen.image_height)),
                 contentScale = ContentScale.FillHeight,
             )
-            Text(text = jikan.synopsis ?: "no synopsis found")
+            Text(
+                text = jikan.synopsis
+                    ?: ("no synopsis found, maybe i should give u a bit more text, " +
+                            "also, i should wrap you and give u eclipses dots"),
+                style = MaterialTheme.typography.body1
+            )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = jikan.rating ?: "unrated")
+            Text(text = jikan.rating ?: "unrated rating", style = MaterialTheme.typography.body2)
         }
     }
 }
@@ -102,7 +145,13 @@ private val dummyData = listOf(
     Jikan(
         0,
         "",
-        Images(Jpg("https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg", "", "")),
+        Images(
+            Jpg(
+                "https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg",
+                "",
+                ""
+            )
+        ),
         null,
         "This dude title",
         "anime",
@@ -132,7 +181,13 @@ private val dummyData = listOf(
     Jikan(
         0,
         "",
-        Images(Jpg("https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x282:812x506)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e4001161e0cdffb0b36e1f_760x400.0.png", "", "")),
+        Images(
+            Jpg(
+                "https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x282:812x506)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e4001161e0cdffb0b36e1f_760x400.0.png",
+                "",
+                ""
+            )
+        ),
         null,
         "This another title",
         "anime",
@@ -162,7 +217,13 @@ private val dummyData = listOf(
     Jikan(
         0,
         "",
-        Images(Jpg("https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x282:812x506)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e4001161e0cdffb0b36e1f_760x400.0.png", "", "")),
+        Images(
+            Jpg(
+                "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png",
+                "",
+                ""
+            )
+        ),
         null,
         "This another title",
         "anime",
