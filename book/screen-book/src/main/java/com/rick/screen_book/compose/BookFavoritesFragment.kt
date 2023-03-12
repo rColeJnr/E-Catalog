@@ -77,7 +77,7 @@ fun BookItem(book: Book) {
         Text(text = book.title)
         Spacer(modifier = Modifier.height(2.dp))
         Text(text = getListAsString(book.authors))
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(1.dp))
     }
 }
 
