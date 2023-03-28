@@ -177,6 +177,7 @@ private val dummyData = listOf(
         null,
         null,
         null,
+        true
     ),
     Jikan(
         0,
@@ -213,6 +214,7 @@ private val dummyData = listOf(
         null,
         null,
         null,
+        false
     ),
     Jikan(
         0,
@@ -249,5 +251,6 @@ private val dummyData = listOf(
         null,
         null,
         null,
+        true
     ),
 )

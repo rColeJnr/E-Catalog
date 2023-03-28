@@ -27,7 +27,7 @@ data class TvSeriesDto(
     @field:SerializedName("imDbRating")
     val imDbRating: String,
     @field:SerializedName("imDbRatingCount")
-    val imDbRatingCount: String
+    val imDbRatingCount: String,
 ) {
     fun toTvSeries() : TvSeries =
         TvSeries(
@@ -35,7 +35,8 @@ data class TvSeriesDto(
             title,
             image,
             imDbRating,
-            crew
+            crew,
+            favorite = false
         )
 }
 
@@ -54,4 +55,6 @@ data class TvSeries(
     val imDbRating: String,
     @field:SerializedName("crew")
     val crew: String,
+    @SerializedName("favorite")
+    val favorite: Boolean,
 ) : Parcelable

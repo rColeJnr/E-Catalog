@@ -18,5 +18,7 @@ data class IMDBSearchResult(
     @field:SerializedName("title")
     val title: String,
     @field:SerializedName("description")
-    val description: String
+    val description: String,
+    @SerializedName("favorite")
+    val favorite: Boolean,
 ) : Parcelable

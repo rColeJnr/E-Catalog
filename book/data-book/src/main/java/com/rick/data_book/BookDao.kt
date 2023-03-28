@@ -19,6 +19,9 @@ interface BookDao {
     @Query("SELECT * FROM book_db ORDER BY downloads DESC")
     fun getBooks(): PagingSource<Int, Book>
 
+    @Query("SELECT * FROM book_db WHERE favorite LIKE :bool ORDER BY downloads DESC")
+    fun getFavoriteBooks(bool: Boolean = false): PagingSource<Int, Book>
+
     @Query(
         "SELECT * FROM book_db WHERE " +
                 "title LIKE :title " +

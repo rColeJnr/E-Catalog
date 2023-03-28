@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "555434a9cc765de4665bf4ac80e4cd1d",
+    "identityHash": "45f91239cc387f69f9310f3d6bd750ab",
     "entities": [
       {
         "tableName": "jikan_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT, `title` TEXT, `type` TEXT NOT NULL, `source` TEXT, `episodes` INTEGER, `chapters` INTEGER, `volumes` INTEGER, `status` TEXT, `airing` INTEGER, `aired` TEXT, `published` TEXT, `duration` TEXT, `rating` TEXT, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `genres` TEXT, `authors` TEXT, `serializations` TEXT, `themes` TEXT, PRIMARY KEY(`malId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`malId` INTEGER NOT NULL, `url` TEXT NOT NULL, `images` TEXT NOT NULL, `trailer` TEXT, `title` TEXT, `type` TEXT NOT NULL, `source` TEXT, `episodes` INTEGER, `chapters` INTEGER, `volumes` INTEGER, `status` TEXT, `airing` INTEGER, `aired` TEXT, `published` TEXT, `duration` TEXT, `rating` TEXT, `score` REAL NOT NULL, `scoredBy` INTEGER NOT NULL, `rank` INTEGER NOT NULL, `popularity` INTEGER NOT NULL, `members` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `synopsis` TEXT, `background` TEXT, `genres` TEXT, `authors` TEXT, `serializations` TEXT, `themes` TEXT, `favorite` INTEGER NOT NULL, PRIMARY KEY(`malId`))",
         "fields": [
           {
             "fieldPath": "malId",
@@ -175,6 +175,12 @@
             "columnName": "themes",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "favorite",
+            "columnName": "favorite",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -254,7 +260,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '555434a9cc765de4665bf4ac80e4cd1d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '45f91239cc387f69f9310f3d6bd750ab')"
     ]
   }
 }

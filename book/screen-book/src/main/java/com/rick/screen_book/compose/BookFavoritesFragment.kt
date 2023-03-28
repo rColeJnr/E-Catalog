@@ -70,7 +70,9 @@ fun FavScreen(books: List<Book>) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     BookItem(book)
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+
+                    }) {
                         Icon(
                             imageVector = Icons.Outlined.Star,
                             contentDescription = stringResource(
@@ -119,7 +121,8 @@ val dummyBooks = listOf(
         Formats(null, null, null, null, null, null, null, null),
         listOf(),
         "",
-        listOf()
+        listOf(),
+        true
     ),
     Book(
         1,
@@ -131,7 +134,8 @@ val dummyBooks = listOf(
         Formats(null, null, null, null, null, null, null, null),
         listOf(),
         "",
-        listOf()
+        listOf(),
+        true
     ),
     Book(
         2,
@@ -143,7 +147,8 @@ val dummyBooks = listOf(
         Formats(null, null, null, null, null, null, null, null),
         listOf(),
         "",
-        listOf()
+        listOf(),
+        false
     ),
     Book(
         3,
@@ -155,6 +160,7 @@ val dummyBooks = listOf(
         Formats(null, null, null, null, null, null, null, null),
         listOf(),
         "",
-        listOf()
+        listOf(),
+        true
     ),
 )

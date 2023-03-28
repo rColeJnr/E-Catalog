@@ -65,5 +65,6 @@ fun IMDBMovieDto.toImdbMovie(): IMDBMovie = IMDBMovie(
     boxOffice.toBoxOffice(),
     similars.map { it.toSimilars() },
     tvSeriesInfo?.toTvSeriesInfo(),
-    errorMessage
+    errorMessage,
+    favorite = false
 )
