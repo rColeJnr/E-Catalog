@@ -35,7 +35,8 @@ fun JikanDto.toJikan(): Jikan =
         genres = genres?.map { it.toGenre() },
         authors = authors,
         serializations = serializations,
-        themes = themes
+        themes = themes,
+        favorite = false
     )
 
 fun ImagesDto.toImages() = Images(

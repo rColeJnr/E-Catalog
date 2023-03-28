@@ -12,7 +12,8 @@ fun ResultDto.toMovie(): Movie =
         openingDate = opening_date,
         rating = mpaa_rating,
         link = link.toLink(),
-        multimedia = multimedia.toMultimedia()
+        multimedia = multimedia.toMultimedia(),
+        favorite = false
     )
 
 

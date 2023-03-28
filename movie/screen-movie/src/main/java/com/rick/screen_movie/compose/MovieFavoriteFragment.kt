@@ -157,7 +157,8 @@ val dummyMovies = listOf(
         "pg-13",
         "12,45",
         Link("https://media.istockphoto.com/id/1368264124/photo/extreme-close-up-of-thrashing-emerald-ocean-waves.jpg?b=1&s=170667a&w=0&k=20&c=qha_PaU54cu9QCu1UTlORP4-sW0MqLGERkdFKmC06lI="),
-        Multimedia("")
+        Multimedia(""),
+        false
     ),
     Movie(
         0,
@@ -166,7 +167,8 @@ val dummyMovies = listOf(
         "pg-13",
         "12,45",
         Link("https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg"),
-        Multimedia("")
+        Multimedia(""),
+        true
     ),
     Movie(
         0,
@@ -175,6 +177,7 @@ val dummyMovies = listOf(
         "pg-13",
         "12,45",
         Link("https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"),
-        Multimedia("")
+        Multimedia(""),
+        true
     ),
 )

@@ -96,7 +96,7 @@ data class IMDBMovieDto(
     @SerializedName("tvEpisodeInfo")
     val tvEpisodeInfo: Any?,
     @SerializedName("errorMessage")
-    val errorMessage: String?
+    val errorMessage: String?,
 )
 
 @Parcelize
@@ -145,5 +145,7 @@ data class IMDBMovie(
     @SerializedName("tvSeriesInfo")
     val tvSeriesInfo: TvSeriesInfo?,
     @SerializedName("errorMessage")
-    val errorMessage: String?
+    val errorMessage: String?,
+    @SerializedName("favorite")
+    val favorite: Boolean,
 ) : Parcelable

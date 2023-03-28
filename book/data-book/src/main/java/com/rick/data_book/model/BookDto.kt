@@ -54,5 +54,7 @@ data class Book(
     @SerializedName("media_type")
     val mediaType: String,
     @SerializedName("subjects")
-    val subjects: List<String>
+    val subjects: List<String>,
+    @SerializedName("favorite")
+    val favorite: Boolean,
 ): Parcelable

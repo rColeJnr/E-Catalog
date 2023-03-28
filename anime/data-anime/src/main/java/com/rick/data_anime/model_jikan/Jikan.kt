@@ -154,5 +154,7 @@ data class Jikan(
     @SerializedName("serializations")
     val serializations: List<Serialization>?,
     @SerializedName("themes")
-    val themes: List<Theme>?
+    val themes: List<Theme>?,
+    @SerializedName("favorite")
+    val favorite: Boolean,
 ) : Parcelable
