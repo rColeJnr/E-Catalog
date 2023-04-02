@@ -25,8 +25,8 @@ interface JikanDao {
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
     suspend fun clearAnime(type: String = "TV")
 
-    @Query("SELECT * FROM jikan_db WHERE favorite LIKE :bool ORDER BY favorites DESC")
-    fun getFavoriteBooks(bool: Boolean = false): PagingSource<Int, Jikan>
+//    @Query("SELECT * FROM jikan_db WHERE favorite LIKE :bool ORDER BY favorites DESC")
+//    fun getFavoriteBooks(bool: Boolean = false): PagingSource<Int, Jikan>
 
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
     suspend fun clearManga(type: String = "Manga")
