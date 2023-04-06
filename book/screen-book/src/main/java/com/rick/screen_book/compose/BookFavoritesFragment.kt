@@ -11,12 +11,14 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_book.model.Author
 import com.rick.data_book.model.Book
@@ -31,6 +33,7 @@ class BookFavoritesFragment : Fragment() {
 
     private var _binding: FragmentBookFavoriteBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: BookFavoriteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,11 +43,13 @@ class BookFavoritesFragment : Fragment() {
         _binding = FragmentBookFavoriteBinding.inflate(inflater, container, false)
 
         binding.composeView.setContent {
+            val books = viewModel.books.observeAsState()
             MdcTheme {
-                FavScreen(books = dummyBooks)
+                books.value?.let {
+                    FavScreen(books = it)
+                }
             }
         }
-
         return binding.root
     }
 

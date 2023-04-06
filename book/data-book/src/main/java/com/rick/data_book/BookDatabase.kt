@@ -5,17 +5,20 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.rick.data_book.favorite.FavDao
+import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Book
 
 @Database(
-    entities = [Book::class, BookRemoteKeys::class],
-    version = 1,
+    entities = [Book::class, Favorite::class, BookRemoteKeys::class],
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(BookTypeConverters::class)
 abstract class BookDatabase: RoomDatabase() {
 
     abstract val bookDao: BookDao
+    abstract val favDao: FavDao
     abstract val remoteKeysDao: BookRemoteKeysDao
 
     companion object {
@@ -27,5 +30,4 @@ abstract class BookDatabase: RoomDatabase() {
             }
         }
     }
-
 }

@@ -57,4 +57,19 @@ class JikanFavoriteViewModel @Inject constructor(private val repo: JikanReposito
             }
         }
     }
+
+    fun onEvent(event: JikanEvents) {
+        when (event) {
+            is JikanEvents.ChangeFavorite -> changeFavorite(event.fav)
+        }
+    }
+
+    private fun changeFavorite(fav: Boolean) {
+        
+    }
+
+}
+
+sealed class JikanEvents {
+    data class ChangeFavorite(val fav: Boolean): JikanEvents()
 }

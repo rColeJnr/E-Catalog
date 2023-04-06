@@ -11,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
@@ -36,6 +38,7 @@ class JikanFavoriteFragment : Fragment() {
 
     private var _binding: FragmentJikanFavoriteBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: JikanFavoriteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +48,13 @@ class JikanFavoriteFragment : Fragment() {
         _binding = FragmentJikanFavoriteBinding.inflate(inflater, container, false)
 
         binding.composeView.setContent {
+
+            // Should i have to separate screen??? that would make sense right???
+            // I'll probably just mix these two
+            val anime = viewModel.anime.observeAsState().value!!
+            val manga = viewModel.manga.observeAsState().value!!
             MdcTheme {
-                FavScreen(jikans = dummyData)
+                FavScreen(anime = anime, manga = manga, onFavClick = { OnFavClick() })
             }
         }
 
@@ -60,22 +68,40 @@ class JikanFavoriteFragment : Fragment() {
 }
 
 @Composable
-fun FavScreen(jikans: List<Jikan>) {
-    Scaffold() {
-        LazyColumn(modifier = Modifier.padding(it)) {
-            items(jikans) { jikan ->
-                JikanItem(jikan = jikan)
-                Divider(
-                    Modifier.height(1.dp),
-                    color = MaterialTheme.colors.secondary
-                )
+fun FavScreen(anime: List<Jikan>, manga: List<Jikan>, onFavClick: (Jikan) -> Unit) {
+    Column {
+        Scaffold {
+            Text(
+                "Anime"
+            )
+            LazyColumn(modifier = Modifier.padding(it)) {
+                items(anime) { jikan ->
+                    AnimeItem(jikan = jikan)
+                    Divider(
+                        Modifier.height(1.dp),
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                "Manga"
+            )
+            LazyColumn(modifier = Modifier.padding(it)) {
+                items(manga) { jikan ->
+                    MangaItem(jikan = jikan, onFavClick = onFavClick)
+                    Divider(
+                        Modifier.height(1.dp),
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun JikanItem(jikan: Jikan) {
+fun AnimeItem(jikan: Jikan) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -98,7 +124,7 @@ fun JikanItem(jikan: Jikan) {
                     }
                 )
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { OnFavClick() },
                     modifier = Modifier.constrainAs(image) {
                         end.linkTo(parent.end)
                         top.linkTo(parent.top)
@@ -135,10 +161,75 @@ fun JikanItem(jikan: Jikan) {
     }
 }
 
+@Composable
+fun MangaItem(jikan: Jikan, onFavClick: (Jikan) -> Unit) {
+    Surface(
+        color = MaterialTheme.colors.surface,
+        modifier = Modifier
+            .wrapContentHeight(align = Alignment.CenterVertically)
+            .padding(horizontal = 8.dp)
+            .fillMaxWidth()
+    ) {
+        Column(Modifier.fillMaxWidth()) {
+            ConstraintLayout(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val (title, image) = createRefs()
+                Text(
+                    text = jikan.title ?: "no title found",
+                    style = MaterialTheme.typography.h5,
+                    modifier = Modifier.constrainAs(title) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                )
+                IconButton(
+                    onClick = { onFavClick(jikan) },
+                    modifier = Modifier.constrainAs(image) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Star,
+                        contentDescription = stringResource(
+                            R.string.favorite
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(2.dp))
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(jikan.images.jpg.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.fav_jikan),
+                modifier = Modifier.height(dimensionResource(id = R.dimen.image_height)),
+                contentScale = ContentScale.FillHeight,
+            )
+            Text(
+                text = jikan.synopsis
+                    ?: ("no synopsis found, maybe i should give u a bit more text, " +
+                            "also, i should wrap you and give u eclipses dots"),
+                style = MaterialTheme.typography.body1
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(text = jikan.rating ?: "unrated rating", style = MaterialTheme.typography.body2)
+        }
+    }
+}
+
+private fun OnFavClick() {
+
+}
+
 @Preview
 @Composable
 fun JikanItemPrev() {
-    FavScreen(jikans = dummyData)
+    FavScreen(anime = dummyData, manga = dummyData, {})
 }
 
 private val dummyData = listOf(

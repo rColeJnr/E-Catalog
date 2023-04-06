@@ -5,12 +5,15 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.rick.data_anime.favorite.FavDao
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Jikan
 @Database(
     entities = [
         Jikan::class,
+        JikanFavorite::class,
         MangaRemoteKeys::class,
-        AnimeRemoteKeys::class
+        AnimeRemoteKeys::class,
     ],
     version = 2,
     exportSchema = true
@@ -20,6 +23,7 @@ abstract class JikanDatabase : RoomDatabase() {
 
     abstract val mangaRemoteKeysDao: MangaRemoteKeysDao
     abstract val jikanDao: JikanDao
+    abstract val favDao: FavDao
     abstract val animeRemoteKeysDao: AnimeRemoteKeysDao
 
     companion object {
