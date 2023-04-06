@@ -23,5 +23,5 @@ class AnimeCatalogViewModel @Inject constructor(
     }
 
     private fun fetchAnimes(): Flow<PagingData<Jikan>> =
-        repo.fetchAnimes()
+        repo.fetchAnime()
 }

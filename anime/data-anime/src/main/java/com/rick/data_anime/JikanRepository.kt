@@ -21,7 +21,7 @@ class JikanRepository @Inject constructor(
     private val db: JikanDatabase
 ) {
 
-    fun fetchAnimes(): Flow<PagingData<Jikan>> {
+    fun fetchAnime(): Flow<PagingData<Jikan>> {
         val pagingSourceFactory = { db.jikanDao.getAnime() }
 
         @OptIn(ExperimentalPagingApi::class)
@@ -133,6 +133,32 @@ class JikanRepository @Inject constructor(
             }
         }
 
+    }
+
+    suspend fun getFavoriteAnime(): Flow<Resource<List<Jikan>>> {
+        return flow {
+
+            emit(Resource.Loading(true))
+
+            val favorites: List<Jikan> = db.jikanDao.getFavoriteAnime()
+
+            emit(Resource.Loading(false))
+            emit(Resource.Success(favorites))
+
+        }
+    }
+
+    suspend fun getFavoriteManga(): Flow<Resource<List<Jikan>>> {
+        return flow {
+
+            emit(Resource.Loading(true))
+
+            val favorites: List<Jikan> = db.jikanDao.getFavoriteManga()
+
+            emit(Resource.Loading(false))
+            emit(Resource.Success(favorites))
+
+        }
     }
 
 }

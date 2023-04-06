@@ -16,6 +16,9 @@ interface MoviesDao {
     @Query("DELETE FROM movies_db")
     suspend fun clearMovies()
 
+    @Query("SELECT * FROM movies_db WHERE favorite LIKE :bool ORDER BY title ASC")
+    fun getFavoriteMovies(bool: Boolean = false): List<Movie>
+
     @Query("SELECT * FROM movies_db ORDER BY id ASC")
     fun getMovies(): PagingSource<Int, Movie>
 //

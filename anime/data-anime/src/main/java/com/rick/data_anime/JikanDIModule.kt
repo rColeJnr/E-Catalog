@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.rick.core.GsonParser
 import com.rick.data_anime.JikanApi.Companion.JIKAN_BASE_URL
 import com.rick.data_anime.JikanDatabase.Companion.JIKAN_DATABASE_NAME
+import com.rick.data_anime.JikanDatabase.Companion.MIGRATION_1_2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,6 +41,7 @@ object JikanDIModule {
             JikanDatabase::class.java,
             JIKAN_DATABASE_NAME
         ).addTypeConverter(JikanConverters(GsonParser(Gson())))
+            .addMigrations(MIGRATION_1_2)
             .build()
 
     @Provides

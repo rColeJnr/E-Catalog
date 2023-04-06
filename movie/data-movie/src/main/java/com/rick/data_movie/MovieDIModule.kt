@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.core.GsonParser
+import com.rick.data_movie.MovieCatalogDatabase.Companion.MIGRATION_1_2
 import com.rick.data_movie.imdb.IMDBApi
 import com.rick.data_movie.imdb.IMDBConverters
 import com.rick.data_movie.ny_times.Converters
@@ -65,6 +66,7 @@ object MovieDIModule {
         ).addTypeConverter(Converters(GsonParser(Gson())))
             .addTypeConverter(IMDBConverters(GsonParser(Gson())))
             .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_1_2)
             .build()
 
     @Provides

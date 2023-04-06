@@ -40,7 +40,6 @@ data class TvSeriesDto(
         )
 }
 
-
 @Parcelize
 @Entity(tableName = "tv_series")
 data class TvSeries(

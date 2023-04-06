@@ -3,6 +3,8 @@ package com.rick.data_anime
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.rick.data_anime.model_jikan.Jikan
 @Database(
     entities = [
@@ -10,7 +12,7 @@ import com.rick.data_anime.model_jikan.Jikan
         MangaRemoteKeys::class,
         AnimeRemoteKeys::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(JikanConverters::class)
@@ -22,6 +24,12 @@ abstract class JikanDatabase : RoomDatabase() {
 
     companion object {
         const val JIKAN_DATABASE_NAME = "JIKAN_DB"
+
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE jikan_db ADD COLUMN favorite BOOLEAN")
+            }
+        }
     }
 
 }

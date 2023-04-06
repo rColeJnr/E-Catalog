@@ -262,6 +262,32 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
+    suspend fun getFavoriteMovies(): Flow<Resource<List<Movie>>> {
+        return flow {
+
+            emit(Resource.Loading(true))
+
+            val favMovies: List<Movie> = db.moviesDao.getFavoriteMovies()
+
+            emit(Resource.Success(favMovies))
+            emit(Resource.Loading(false))
+
+        }
+    }
+
+    suspend fun getFavoriteSeries(): Flow<Resource<List<TvSeries>>> {
+        return flow {
+
+            emit(Resource.Loading(true))
+
+            val favSeries: List<TvSeries> = db.seriesDao.getFavoriteSeries()
+
+            emit(Resource.Loading(false))
+            emit(Resource.Success(favSeries))
+
+        }
+    }
+
 }
 
 
