@@ -140,7 +140,7 @@ class JikanRepository @Inject constructor(
 
             emit(Resource.Loading(true))
 
-            val favorites: List<Jikan> = db.jikanDao.getFavoriteAnime()
+            val favorites: List<Jikan> = db.favDao.getFavoriteAnime()
 
             emit(Resource.Loading(false))
             emit(Resource.Success(favorites))
@@ -153,7 +153,7 @@ class JikanRepository @Inject constructor(
 
             emit(Resource.Loading(true))
 
-            val favorites: List<Jikan> = db.jikanDao.getFavoriteManga()
+            val favorites: List<Jikan> = db.favDao.getFavoriteManga()
 
             emit(Resource.Loading(false))
             emit(Resource.Success(favorites))

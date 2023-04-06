@@ -25,12 +25,6 @@ interface JikanDao {
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
     suspend fun clearAnime(type: String = "TV")
 
-    @Query("SELECT * FROM jikan_db WHERE favorite LIKE :bool AND type LIKE \"Manga\" ORDER BY favorites DESC")
-    fun getFavoriteManga(bool: Boolean = false): List<Jikan>
-
-    @Query("SELECT * FROM jikan_db WHERE favorite LIKE :bool AND type LIKE \"Anime\" ORDER BY favorites DESC")
-    fun getFavoriteAnime(bool: Boolean = false): List<Jikan>
-
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
     suspend fun clearManga(type: String = "Manga")
 
@@ -43,6 +37,5 @@ interface JikanDao {
     @Query("SELECT * FROM jikan_db WHERE title LIKE :query " +
             " ORDER BY rank ASC ")
     suspend fun searchAnimeAndManga(query: String): List<Jikan>
-
 
 }

@@ -79,7 +79,7 @@ class BookRepository @Inject constructor(
 
             emit(Resource.Loading(true))
 
-            val favorites: List<Book> = db.bookDao.getFavoriteBooks()
+            val favorites: List<Book> = db.favDao.getFavorites()
 
             emit(Resource.Loading(false))
             emit(Resource.Success(favorites))
