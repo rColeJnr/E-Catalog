@@ -21,6 +21,7 @@ class MovieCatalogViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
+
     /**
      * Stream of immutable states representative of the UI.
      */

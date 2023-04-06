@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.core.GsonParser
 import com.rick.data_book.BookDatabase.Companion.DATABASE_NAME
+import com.rick.data_book.BookDatabase.Companion.MIGRATION_1_2
 import com.rick.data_book.GutenbergApi.Companion.GUTENBERG_BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -45,6 +46,7 @@ object BookDIModule {
             BookDatabase::class.java,
             DATABASE_NAME,
         ).addTypeConverter(BookTypeConverters(GsonParser(Gson())))
+            .addMigrations(MIGRATION_1_2)
             .build()
 
     @Provides

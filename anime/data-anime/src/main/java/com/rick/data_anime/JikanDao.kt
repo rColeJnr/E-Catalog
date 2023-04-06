@@ -18,19 +18,24 @@ interface JikanDao {
             " ORDER BY popularity ASC")
     fun getAnime(type: String = "TV"): PagingSource<Int, Jikan>
 
-    @Query("SELECT * FROM jikan_db WHERE type LIKE :type" +
+    @Query("SELECT * FROM jikan_db WHERE type LIKE \"Manga\"" +
             " ORDER BY popularity ASC")
-    fun getManga(type: String = "Manga"): PagingSource<Int, Jikan>
+    fun getManga(): PagingSource<Int, Jikan>
 
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
     suspend fun clearAnime(type: String = "TV")
 
-//    @Query("SELECT * FROM jikan_db WHERE favorite LIKE :bool ORDER BY favorites DESC")
-//    fun getFavoriteBooks(bool: Boolean = false): PagingSource<Int, Jikan>
+    @Query("SELECT * FROM jikan_db WHERE favorite LIKE :bool AND type LIKE \"Manga\" ORDER BY favorites DESC")
+    fun getFavoriteManga(bool: Boolean = false): List<Jikan>
+
+    @Query("SELECT * FROM jikan_db WHERE favorite LIKE :bool AND type LIKE \"Anime\" ORDER BY favorites DESC")
+    fun getFavoriteAnime(bool: Boolean = false): List<Jikan>
 
     @Query("DELETE FROM jikan_db WHERE type LIKE :type")
     suspend fun clearManga(type: String = "Manga")
 
+    // This is supposed to get u either anime or manga, from the same search screen
+    // To be used if I ever do a general search screen
     @Query("SELECT * FROM jikan_db WHERE title LIKE :query " +
             "AND type LIKE :type ORDER BY rank ASC ")
     suspend fun searchAnimeOrManga(query: String, type: String): List<Jikan>

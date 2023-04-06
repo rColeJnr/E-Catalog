@@ -74,4 +74,17 @@ class BookRepository @Inject constructor(
 
     }
 
+    suspend fun getFavoriteBook(): Flow<Resource<List<Book>>> {
+        return flow {
+
+            emit(Resource.Loading(true))
+
+            val favorites: List<Book> = db.bookDao.getFavoriteBooks()
+
+            emit(Resource.Loading(false))
+            emit(Resource.Success(favorites))
+
+        }
+    }
+
 }
