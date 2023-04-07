@@ -1,4 +1,4 @@
-package com.rick.screen_movie.compose
+package com.rick.screen_movie.favorite_screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.imdb.series_model.TvSeries
-import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.favorite.Favorite
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,14 +15,14 @@ import javax.inject.Inject
 class MovieFavoriteViewModel @Inject constructor(private val repo: MovieCatalogRepository) :
     ViewModel() {
 
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movie: LiveData<List<Movie>> get() = _movies
+    private val _movies = MutableLiveData<List<Favorite>>()
+    val movie: LiveData<List<Favorite>> get() = _movies
 
     private val _loadingMovies = MutableLiveData<Boolean>()
     val loadingMovies: LiveData<Boolean> get() = _loadingMovies
 
-    private val _series = MutableLiveData<List<TvSeries>>()
-    val series: LiveData<List<TvSeries>> get() = _series
+    private val _series = MutableLiveData<List<Favorite>>()
+    val series: LiveData<List<Favorite>> get() = _series
 
     private val _loadingSeries = MutableLiveData<Boolean>()
     val loadingSeries: LiveData<Boolean> get() = _loadingSeries

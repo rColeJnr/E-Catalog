@@ -1,4 +1,4 @@
-package com.rick.screen_book.compose
+package com.rick.screen_book.favorite_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater

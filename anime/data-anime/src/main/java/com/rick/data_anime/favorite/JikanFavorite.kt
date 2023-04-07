@@ -16,6 +16,5 @@ data class JikanFavorite(
     val image: String,
     val synopsis: String,
     val rating: String,
-    val favorite: Boolean,
     val type: String,
 ): Parcelable
