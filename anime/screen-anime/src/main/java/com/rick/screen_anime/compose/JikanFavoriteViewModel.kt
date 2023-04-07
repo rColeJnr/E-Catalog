@@ -8,6 +8,7 @@ import com.rick.core.Resource
 import com.rick.data_anime.JikanRepository
 import com.rick.data_anime.favorite.JikanFavorite
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -60,16 +61,26 @@ class JikanFavoriteViewModel @Inject constructor(private val repo: JikanReposito
 
     fun onEvent(event: JikanEvents) {
         when (event) {
-            is JikanEvents.ChangeFavorite -> changeFavorite(event.fav)
+            is JikanEvents.InsertFavorite -> insertFavorite(event.fav)
+            is JikanEvents.DeleteFavorite -> deleteFavorite(event.fav)
         }
     }
 
-    private fun changeFavorite(fav: Boolean) {
-        
+    private fun insertFavorite(fav: JikanFavorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.insertFavorite(fav)
+        }
+    }
+
+    private fun deleteFavorite(fav: JikanFavorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteFavorite(fav)
+        }
     }
 
 }
 
 sealed class JikanEvents {
-    data class ChangeFavorite(val fav: Boolean): JikanEvents()
+    data class InsertFavorite(val fav: JikanFavorite): JikanEvents()
+    data class DeleteFavorite(val fav: JikanFavorite): JikanEvents()
 }

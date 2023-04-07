@@ -8,10 +8,10 @@ import androidx.room.Query
 interface FavDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(movie: Favorite)
+    suspend fun insert(favorite: Favorite)
 
     @Delete
-    suspend fun delete(movie: Favorite)
+    suspend fun delete(favorite: Favorite)
 
     @Query("SELECT * FROM favorite WHERE type LIKE 'series' ORDER BY title ASC")
     suspend fun getFavoriteSeries(): List<Favorite>
