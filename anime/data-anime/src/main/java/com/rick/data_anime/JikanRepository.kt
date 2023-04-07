@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.data_anime.model_jikan.toJikanResponse
 import kotlinx.coroutines.flow.Flow
@@ -135,12 +136,12 @@ class JikanRepository @Inject constructor(
 
     }
 
-    suspend fun getFavoriteAnime(): Flow<Resource<List<Jikan>>> {
+    suspend fun getFavoriteAnime(): Flow<Resource<List<JikanFavorite>>> {
         return flow {
 
             emit(Resource.Loading(true))
 
-            val favorites: List<Jikan> = db.favDao.getFavoriteAnime()
+            val favorites: List<JikanFavorite> = db.favDao.getFavoriteAnime()
 
             emit(Resource.Loading(false))
             emit(Resource.Success(favorites))
@@ -148,12 +149,12 @@ class JikanRepository @Inject constructor(
         }
     }
 
-    suspend fun getFavoriteManga(): Flow<Resource<List<Jikan>>> {
+    suspend fun getFavoriteManga(): Flow<Resource<List<JikanFavorite>>> {
         return flow {
 
             emit(Resource.Loading(true))
 
-            val favorites: List<Jikan> = db.favDao.getFavoriteManga()
+            val favorites: List<JikanFavorite> = db.favDao.getFavoriteManga()
 
             emit(Resource.Loading(false))
             emit(Resource.Success(favorites))

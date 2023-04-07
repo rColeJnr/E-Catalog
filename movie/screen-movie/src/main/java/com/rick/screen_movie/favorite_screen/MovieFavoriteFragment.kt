@@ -1,4 +1,4 @@
-package com.rick.screen_movie.compose
+package com.rick.screen_movie.favorite_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater

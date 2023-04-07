@@ -1,18 +1,17 @@
 package com.rick.data_book.favorite
 
 import androidx.room.*
-import com.rick.data_book.model.Book
 
 @Dao
 interface FavDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(book: Book)
+    suspend fun insert(book: Favorite)
 
     @Delete
-    suspend fun delete(book: Book)
+    suspend fun delete(book: Favorite)
 
     @Query("SELECT * FROM favorite ORDER BY title ASC")
-    fun getFavorites(): List<Book>
+    fun getFavorites(): List<Favorite>
 
 }

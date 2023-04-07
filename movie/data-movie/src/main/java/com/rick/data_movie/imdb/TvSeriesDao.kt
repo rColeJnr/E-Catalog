@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.rick.data_movie.imdb.series_model.TvSeries
-import com.rick.data_movie.ny_times.Movie
 
 @Dao
 interface TvSeriesDao {
@@ -15,8 +14,5 @@ interface TvSeriesDao {
 
     @Query("SELECT * FROM tv_series")
     suspend fun getTvSeries() : List<TvSeries>
-
-    @Query("SELECT * FROM tv_series WHERE favorite LIKE :bool ORDER BY title ASC")
-    fun getFavoriteSeries(bool: Boolean = false): List<TvSeries>
 
 }

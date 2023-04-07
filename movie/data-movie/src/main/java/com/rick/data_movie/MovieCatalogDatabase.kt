@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.rick.data_movie.favorite.FavDao
+import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.imdb.IMDBConverters
 import com.rick.data_movie.imdb.IMDBMovieAndSeriesDao
 import com.rick.data_movie.imdb.IMDBSearchDao
@@ -20,6 +22,7 @@ import com.rick.data_movie.ny_times.Movie
         Movie::class,
         IMDBMovie::class,
         IMDBSearchResult::class,
+        Favorite::class,
         RemoteKeys::class,
         TvSeries::class,
     ],
@@ -32,6 +35,7 @@ abstract class MovieCatalogDatabase: RoomDatabase() {
     abstract val imdbMovieAndSeriesDao: IMDBMovieAndSeriesDao
     abstract val imdbSearchDao: IMDBSearchDao
     abstract val moviesDao: MoviesDao
+    abstract val favDao: FavDao
     abstract val remoteKeysDao: RemoteKeysDao
 
     companion object {

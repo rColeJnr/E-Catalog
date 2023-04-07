@@ -1,21 +1,20 @@
 package com.rick.data_anime.favorite
 
 import androidx.room.*
-import com.rick.data_anime.model_jikan.Jikan
 
 @Dao
 interface FavDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(jikan: Jikan)
+    suspend fun insert(jikan: JikanFavorite)
 
     @Delete
-    suspend fun delete(jikan: Jikan)
+    suspend fun delete(jikan: JikanFavorite)
 
     @Query("SELECT * FROM favorite WHERE type LIKE \"Manga\" ORDER BY title ASC")
-    fun getFavoriteManga(): List<Jikan>
+    fun getFavoriteManga(): List<JikanFavorite>
 
     @Query("SELECT * FROM favorite WHERE type LIKE \"Anime\" ORDER BY title ASC")
-    fun getFavoriteAnime(): List<Jikan>
+    fun getFavoriteAnime(): List<JikanFavorite>
 
 }
