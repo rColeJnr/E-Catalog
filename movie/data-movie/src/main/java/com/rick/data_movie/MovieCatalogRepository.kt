@@ -289,6 +289,14 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
+    suspend fun insert(favorite: Favorite) {
+        db.favDao.insert(favorite)
+    }
+
+    suspend fun delete(favorite: Favorite) {
+        db.favDao.delete(favorite)
+    }
+
 }
 
 

@@ -8,6 +8,7 @@ import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -59,4 +60,28 @@ class MovieFavoriteViewModel @Inject constructor(private val repo: MovieCatalogR
         }
     }
 
+    fun onEvent(event: FavoriteEvents) {
+        when (event) {
+            is FavoriteEvents.InsertFavorite -> insertFavorite(event.fav)
+            is FavoriteEvents.DeleteFavorite -> deleteFavorite(event.fav)
+        }
+    }
+
+    private fun insertFavorite(fav: Favorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.insert(fav)
+        }
+    }
+
+    private fun deleteFavorite(fav: Favorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.delete(fav)
+        }
+    }
+
+}
+
+sealed class FavoriteEvents {
+    data class InsertFavorite(val fav: Favorite): FavoriteEvents()
+    data class DeleteFavorite(val fav: Favorite): FavoriteEvents()
 }

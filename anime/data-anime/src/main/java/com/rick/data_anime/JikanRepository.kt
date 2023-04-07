@@ -162,4 +162,12 @@ class JikanRepository @Inject constructor(
         }
     }
 
+    suspend fun insertFavorite(favorite: JikanFavorite) {
+        db.favDao.insert(jikan = favorite)
+    }
+
+    suspend fun deleteFavorite(favorite: JikanFavorite) {
+        db.favDao.delete(favorite)
+    }
+
 }
