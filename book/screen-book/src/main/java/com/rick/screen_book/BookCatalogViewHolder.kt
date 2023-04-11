@@ -14,7 +14,8 @@ import com.rick.screen_book.databinding.BookEntryBinding
 
 class BookCatalogViewHolder(
     binding: BookEntryBinding,
-    private val onItemClick: (view: View, formats: Formats) -> Unit
+    private val onItemClick: (view: View, formats: Formats) -> Unit,
+    private val onFavClick: (view: View) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     private val title = binding.bookTitle

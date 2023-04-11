@@ -12,6 +12,6 @@ data class Favorite(
     @PrimaryKey(autoGenerate = true) @SerializedName("id") val id: Long,
     @SerializedName("title")
     val title: String,
-    @SerializedName("author")
-    val author: String
+    @SerializedName("authors")
+    val authors: String
 ): Parcelable

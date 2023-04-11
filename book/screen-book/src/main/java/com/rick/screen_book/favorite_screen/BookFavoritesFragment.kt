@@ -20,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.accompanist.themeadapter.material.MdcTheme
+import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Author
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookFavoriteBinding
-import com.rick.screen_book.getListAsString
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,7 +60,7 @@ class BookFavoritesFragment : Fragment() {
 }
 
 @Composable
-fun FavScreen(books: List<Book>) {
+fun FavScreen(books: List<Favorite>) {
 
     // Maybe some day i'll actually start building this :(
     Scaffold(
@@ -96,11 +96,11 @@ fun FavScreen(books: List<Book>) {
 }
 
 @Composable
-fun BookItem(book: Book) {
+fun BookItem(book: Favorite) {
     Column(modifier = Modifier.padding(8.dp)) {
         Text(text = book.title, style = MaterialTheme.typography.h6)
         Spacer(modifier = Modifier.height(2.dp))
-        Text(text = getListAsString(book.authors), style = MaterialTheme.typography.body2)
+        Text(text = book.authors, style = MaterialTheme.typography.body2)
         Spacer(modifier = Modifier.height(1.dp))
     }
 }
@@ -110,7 +110,7 @@ fun BookItem(book: Book) {
 fun FavScreenPrev() {
     MaterialTheme {
         FavScreen(
-            books = dummyBooks
+            books = listOf()
         )
     }
 }
