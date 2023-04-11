@@ -1,13 +1,13 @@
 # E-Catalog
-A catalog of entertainment topics, raging from television to books, to anime
+A catalog of entertainment topics. From television to books, to anime.
 
 
 The project presents catalogs of recent movies, top 150 imdb series,
-most downloaded book in the gutenberg project, anime and manga form my anime list
-with a search screeen to search for any of the above mentioned topics.
+most downloaded books in the gutenberg project, anime and manga form my anime list (jikan api)
+with a search screeen to search for any of the above mentioned topics, and a favorite screen to keep your favorite movies, books and animation in one place.
 
-to run the project you need to get your own api key from https://developer.nytimes.com/apis for movies - load api in movieCatalogViewModel.kt
-https://imdb-api.com/ load api in MovieCatalogViewModel.kt, TvSeriesCatalogViewModel.kt and DetailsViewModel.kt
+to run the project you need to get your own api key (free) from https://developer.nytimes.com/apis for movies - load api in movieCatalogViewModel.kt
+and an IMDB API https://imdb-api.com/ load api in MovieCatalogViewModel.kt, TvSeriesCatalogViewModel.kt and DetailsViewModel.kt
 
 alternatively you could follow this tutorial https://medium.com/programming-lite/securing-api-keys-in-android-app-using-ndk-native-development-kit-7aaa6c0176be
 and add a jni folder with the api-keys in movie/screen-movie/src/main
