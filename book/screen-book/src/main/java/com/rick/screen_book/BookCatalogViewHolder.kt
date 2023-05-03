@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.BookEntryBinding
@@ -15,7 +16,7 @@ import com.rick.screen_book.databinding.BookEntryBinding
 class BookCatalogViewHolder(
     binding: BookEntryBinding,
     private val onItemClick: (view: View, formats: Formats) -> Unit,
-    private val onFavClick: (view: View) -> Unit,
+    private val onFavClick: (view: View, favorite: Favorite) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     private val title = binding.bookTitle
@@ -29,7 +30,15 @@ class BookCatalogViewHolder(
     private lateinit var book: Book
 
     init {
-        binding.root.setOnClickListener(this)
+        // ain't no way this gon work.
+        // this may  work now
+        binding.llayout.setOnClickListener(this)
+        binding.favButton.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View) {
+        onItemClick(view, book.formats)
+        onFavClick(view, Favorite(0,"titie", "ricardo e simara"))
     }
 
     fun bind(book: Book) {
@@ -46,18 +55,16 @@ class BookCatalogViewHolder(
         this.downloaded.text = resources.getString(R.string.downloaded, book.downloads.toString())
     }
 
-    override fun onClick(view: View) {
-        onItemClick(view, book.formats)
-    }
-
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (view: View, formats: Formats) -> Unit):
-            BookCatalogViewHolder {
+            onItemClick: (view: View, formats: Formats) -> Unit,
+            onFavClick: (view: View, favorite: Favorite) -> Unit
+        ):
+                BookCatalogViewHolder {
             val itemBinding = BookEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
-            return BookCatalogViewHolder(itemBinding, onItemClick)
+            return BookCatalogViewHolder(itemBinding, onItemClick, onFavClick)
         }
     }
 

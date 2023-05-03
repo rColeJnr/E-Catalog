@@ -4,12 +4,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
+import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.BookCatalogAdapter
 import com.rick.screen_book.BookCatalogViewHolder
 
 class SearchAdapter(
-    private val onItemClick: (view: View, formats: Formats) -> Unit
+    private val onItemClick: (view: View, formats: Formats) -> Unit ,
+    private val onFavClick : (view: View, favorite: Favorite) -> Unit
 ): RecyclerView.Adapter<BookCatalogViewHolder>() {
 
     private val diffUtil = BookCatalogAdapter.DIFF_UTIL
@@ -17,7 +19,7 @@ class SearchAdapter(
     val differ = AsyncListDiffer(this, diffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookCatalogViewHolder {
-        return BookCatalogViewHolder.create(parent, onItemClick)
+        return BookCatalogViewHolder.create(parent, onItemClick, onFavClick)
     }
 
     override fun onBindViewHolder(holder: BookCatalogViewHolder, position: Int) {

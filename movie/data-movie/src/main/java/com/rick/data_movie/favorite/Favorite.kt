@@ -13,5 +13,6 @@ data class Favorite(
     val rating: String,
     val summary: String,
     val image: String,
+    val authors: String,
     val type: String,
 )

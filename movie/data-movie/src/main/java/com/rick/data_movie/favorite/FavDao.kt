@@ -1,10 +1,12 @@
 package com.rick.data_movie.favorite
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
+@Dao
 interface FavDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
