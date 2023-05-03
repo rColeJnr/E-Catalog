@@ -1,6 +1,5 @@
 package com.rick.screen_book
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +36,7 @@ class BookCatalogViewHolder(
             onItemClick(it, book.formats)
         }
         binding.favButton.setOnClickListener{
-            Log.i("tag", "here code to favorite")
+            onFavClick(it, book.toFavorite())
         }
     }
 

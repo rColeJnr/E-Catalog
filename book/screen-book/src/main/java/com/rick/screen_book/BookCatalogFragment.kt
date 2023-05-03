@@ -2,7 +2,12 @@ package com.rick.screen_book
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +41,7 @@ import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
+import com.rick.screen_book.favorite_screen.FavoriteEvents
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -172,6 +178,12 @@ class BookCatalogFragment : Fragment() {
     // TODO(add book to favorite)
     // man this is a lot of work.
     private fun onFavClick(view: View, favorite: Favorite) {
+        //how do i even begin to do this?? lol
+        // we need to call view model and add the favorite to  db
+        // at some point we'LL need to call the db for favorites
+        // and present them in the same ui as the remote data.  this sounds like
+        // loads of fun.
+        viewModel.onEvent(FavoriteEvents.InsertFavorite(favorite))
 
     }
 

@@ -12,6 +12,6 @@ interface FavDao {
     suspend fun delete(book: Favorite)
 
     @Query("SELECT * FROM favorite ORDER BY title ASC")
-    fun getFavorites(): List<Favorite>
+    suspend fun getFavorites(): List<Favorite>
 
 }

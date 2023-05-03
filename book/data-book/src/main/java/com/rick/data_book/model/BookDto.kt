@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.rick.data_book.favorite.Favorite
 import kotlinx.parcelize.Parcelize
 
 data class BookDto(
@@ -57,4 +58,11 @@ data class Book(
     val subjects: List<String>,
     @SerializedName("favorite")
     val favorite: Boolean,
-): Parcelable
+): Parcelable {
+    fun toFavorite(): Favorite =
+        Favorite(
+            id.toLong(),
+            title,
+            authors.toString(),
+        )
+}
