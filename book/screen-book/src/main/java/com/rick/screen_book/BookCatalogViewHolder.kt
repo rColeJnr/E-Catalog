@@ -1,5 +1,6 @@
 package com.rick.screen_book
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ class BookCatalogViewHolder(
     binding: BookEntryBinding,
     private val onItemClick: (view: View, formats: Formats) -> Unit,
     private val onFavClick: (view: View, favorite: Favorite) -> Unit,
-) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+) : RecyclerView.ViewHolder(binding.root) {
 
     private val title = binding.bookTitle
     private val image = binding.image
@@ -32,14 +33,18 @@ class BookCatalogViewHolder(
     init {
         // ain't no way this gon work.
         // this may  work now
-        binding.llayout.setOnClickListener(this)
-        binding.favButton.setOnClickListener(this)
+        binding.root.setOnClickListener {
+            onItemClick(it, book.formats)
+        }
+        binding.favButton.setOnClickListener{
+            Log.i("tag", "here code to favorite")
+        }
     }
 
-    override fun onClick(view: View) {
-        onItemClick(view, book.formats)
-        onFavClick(view, Favorite(0,"titie", "ricardo e simara"))
-    }
+//    override fun onClick(view: View) {
+//        onItemClick(view, book.formats)
+//        onFavClick(view, Favorite(0,"titie", "ricardo e simara"))
+//    }
 
     fun bind(book: Book) {
         this.book = book
