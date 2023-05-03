@@ -4,10 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
@@ -27,7 +38,7 @@ import androidx.fragment.app.viewModels
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
-import com.rick.data_movie.imdb.series_model.TvSeries
+import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.ny_times.Link
 import com.rick.data_movie.ny_times.Movie
 import com.rick.data_movie.ny_times.Multimedia
@@ -67,7 +78,7 @@ class MovieFavoriteFragment : Fragment() {
 }
 
 @Composable
-fun FavScreen(movies: List<Movie>, series: List<TvSeries>) {
+fun FavScreen(movies: List<Favorite>, series: List<Favorite>) {
     Scaffold {
         Column {
             Text(text = "Movies")
@@ -95,7 +106,7 @@ fun FavScreen(movies: List<Movie>, series: List<TvSeries>) {
 }
 
 @Composable
-fun MovieItem(movie: Movie) {
+fun MovieItem(movie: Favorite) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -145,7 +156,7 @@ fun MovieItem(movie: Movie) {
             Spacer(modifier = Modifier.height(2.dp))
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(movie.link.url)
+                    .data(movie.image)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.movie_fragment),
@@ -161,7 +172,7 @@ fun MovieItem(movie: Movie) {
 }
 
 @Composable
-fun SeriesItem(series: TvSeries) {
+fun SeriesItem(series: Favorite) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -200,7 +211,7 @@ fun SeriesItem(series: TvSeries) {
                     )
                 }
                 Text(
-                    text = series.imDbRating,
+                    text = series.rating,
                     style = MaterialTheme.typography.body1,
                     modifier = Modifier.constrainAs(rating) {
                         end.linkTo(image.start)
@@ -220,7 +231,7 @@ fun SeriesItem(series: TvSeries) {
                 contentScale = ContentScale.FillHeight,
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = series.crew, style = MaterialTheme.typography.body1)
+            Text(text = series.authors, style = MaterialTheme.typography.body1)
             Spacer(modifier = Modifier.height(2.dp))
         }
     }
@@ -230,20 +241,19 @@ fun SeriesItem(series: TvSeries) {
 @Composable
 fun MovieFavPreview() {
     MaterialTheme {
-        MovieItem(movie = dummyMovies[0])
+        MovieItem(movie = dummyMovies[0] as Favorite)
     }
 }
 
 val dummyMovies = listOf(
-    Movie(
+    Favorite(
         0,
         "Movie 1",
         "This is the summarty of movie 1",
         "pg-13",
-        "12,45",
-        Link("https://media.istockphoto.com/id/1368264124/photo/extreme-close-up-of-thrashing-emerald-ocean-waves.jpg?b=1&s=170667a&w=0&k=20&c=qha_PaU54cu9QCu1UTlORP4-sW0MqLGERkdFKmC06lI="),
-        Multimedia(""),
-        false
+        "https://media.istockphoto.com/id/1368264124/photo/extreme-close-up-of-thrashing-emerald-ocean-waves.jpg?b=1&s=170667a&w=0&k=20&c=qha_PaU54cu9QCu1UTlORP4-sW0MqLGERkdFKmC06lI=",
+        "movie",
+        "someelse"
     ),
     Movie(
         0,

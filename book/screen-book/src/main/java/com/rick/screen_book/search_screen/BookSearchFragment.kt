@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.R
@@ -95,11 +96,17 @@ class BookSearchFragment : Fragment() {
 
     private fun initAdapter() {
         adapter = SearchAdapter(
-            this::onBookClick
+            this::onBookClick,
+            this::onFavClick
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.list.addItemDecoration(decoration)
+    }
+
+    // TDDO
+    private fun onFavClick(view: View, favorite: Favorite) {
+        //THIS IS MEANT TO DO NOTHING FOR NOW
     }
 
     private fun FragmentBookSearchBinding.bindState(

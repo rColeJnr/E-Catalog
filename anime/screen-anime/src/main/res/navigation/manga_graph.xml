@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/mangaFavoriteFragment"
-        android:name="com.rick.screen_anime.compose.JikanFavoriteFragment">
+        android:name="com.rick.screen_anime.favorite_screen.JikanFavoriteFragment">
         <action
             android:id="@+id/action_mangaFavoriteFragment_to_mangaDetailsJikanFragment"
             app:destination="@id/mangaDetailsJikanFragment" />

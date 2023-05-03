@@ -1,4 +1,4 @@
-package com.rick.screen_anime.compose
+package com.rick.screen_anime.favorite_screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

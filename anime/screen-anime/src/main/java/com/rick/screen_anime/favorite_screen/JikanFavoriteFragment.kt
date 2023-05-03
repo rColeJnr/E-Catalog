@@ -1,13 +1,24 @@
-package com.rick.screen_anime.compose
+package com.rick.screen_anime.favorite_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
@@ -18,7 +29,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -26,6 +36,7 @@ import androidx.fragment.app.viewModels
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Images
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.data_anime.model_jikan.Jpg
@@ -68,7 +79,7 @@ class JikanFavoriteFragment : Fragment() {
 }
 
 @Composable
-fun FavScreen(anime: List<Jikan>, manga: List<Jikan>, onFavClick: (Jikan) -> Unit) {
+fun FavScreen(anime: List<JikanFavorite>, manga: List<JikanFavorite>, onFavClick: (JikanFavorite) -> Unit) {
     Column {
         Scaffold {
             Text(
@@ -101,7 +112,7 @@ fun FavScreen(anime: List<Jikan>, manga: List<Jikan>, onFavClick: (Jikan) -> Uni
 }
 
 @Composable
-fun AnimeItem(jikan: Jikan) {
+fun AnimeItem(jikan: JikanFavorite) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -142,7 +153,7 @@ fun AnimeItem(jikan: Jikan) {
             Spacer(modifier = Modifier.height(2.dp))
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(jikan.images.jpg.imageUrl)
+                    .data(jikan.image)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.fav_jikan),
@@ -162,7 +173,7 @@ fun AnimeItem(jikan: Jikan) {
 }
 
 @Composable
-fun MangaItem(jikan: Jikan, onFavClick: (Jikan) -> Unit) {
+fun MangaItem(jikan: JikanFavorite, onFavClick: (JikanFavorite) -> Unit) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -203,7 +214,7 @@ fun MangaItem(jikan: Jikan, onFavClick: (Jikan) -> Unit) {
             Spacer(modifier = Modifier.height(2.dp))
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(jikan.images.jpg.imageUrl)
+                    .data(jikan.image)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.fav_jikan),
@@ -226,11 +237,11 @@ private fun OnFavClick() {
 
 }
 
-@Preview
-@Composable
-fun JikanItemPrev() {
-    FavScreen(anime = dummyData, manga = dummyData, {})
-}
+//@Preview
+//@Composable
+//fun JikanItemPrev() {
+//    FavScreen(anime = dummyData, manga = dummyData, {})
+//}
 
 private val dummyData = listOf(
     Jikan(

@@ -32,6 +32,7 @@ import com.google.accompanist.themeadapter.material.MdcTheme
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Book
 import com.rick.data_book.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
@@ -99,7 +100,7 @@ class BookCatalogFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BookCatalogAdapter(this::onBookClick)
+        adapter = BookCatalogAdapter(this::onBookClick, this::onFavClick)
 
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(footer = BookLoadStateAdapter { adapter.retry() })
@@ -166,6 +167,12 @@ class BookCatalogFragment : Fragment() {
         val action = BookCatalogFragmentDirections
             .actionBookCatalogFragmentToBookDetailsFragment(formats = formats)
         navController.navigate(directions = action, navigatorExtras = extras)
+    }
+
+    // TODO(add book to favorite)
+    // man this is a lot of work.
+    private fun onFavClick(view: View, favorite: Favorite) {
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
