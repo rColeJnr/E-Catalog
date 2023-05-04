@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.imdb.series_model.TvSeries
 import com.rick.screen_movie.R
+import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -125,8 +127,12 @@ class TvSeriesFragment : Fragment() {
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
+    private fun onFavClick(view: View, favorite: Favorite) {
+        viewModel.onEvent(UiAction.InsertFavorite(favorite))
+    }
+
     private fun initAdapter() {
-        adapter = TvSeriesAdapter(this::onSeriesClick)
+        adapter = TvSeriesAdapter(this::onSeriesClick, this::onFavClick)
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
