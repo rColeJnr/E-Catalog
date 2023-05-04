@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.rick.data_anime.favorite.JikanFavorite
 import kotlinx.parcelize.Parcelize
 
 
@@ -157,4 +158,14 @@ data class Jikan(
     val themes: List<Theme>?,
     @SerializedName("favorite")
     val favorite: Boolean,
-) : Parcelable
+) : Parcelable {
+    fun toFavorite(): JikanFavorite =
+        JikanFavorite(
+            id = malId.toLong(),
+            title = title?: "Empty title",
+            image = images.jpg.imageUrl,
+            synopsis = synopsis ?: "Empty synosis",
+            rating = rating ?: "Empty rating",
+            type = type
+        )
+}

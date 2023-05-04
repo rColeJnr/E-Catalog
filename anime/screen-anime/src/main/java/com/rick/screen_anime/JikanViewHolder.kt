@@ -8,21 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.databinding.JikanEntryBinding
 
 class JikanViewHolder(
     binding: JikanEntryBinding,
-    private val onItemClick: (view: View, jikan: Jikan) -> Unit
-) : RecyclerView.ViewHolder(binding.root),
-    View.OnClickListener {
+    private val onItemClick: (view: View, jikan: Jikan) -> Unit,
+    private val onFavClick: (view: View, favorite: JikanFavorite) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
     private val pgRating = binding.pgRating
 
     init {
-        binding.root.setOnClickListener(this)
+        binding.root.setOnClickListener{
+            onItemClick(it, jikan)
+        }
+        binding.favButton.setOnClickListener {
+            onFavClick(it, jikan.toFavorite())
+        }
     }
 
     private lateinit var jikan: Jikan
@@ -37,23 +43,25 @@ class JikanViewHolder(
         else resources.getString(R.string.authors, getListAsString(jikan.authors!!.map { it!! }))
     }
     
-    override fun onClick(view: View) {
-        onItemClick(view, jikan)
-    }
+//    override fun onClick(view: View) {
+//        onItemClick(view, jikan)
+//    }
 
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (view: View, jikan: Jikan) -> Unit
+            onItemClick: (view: View, jikan: Jikan) -> Unit,
+            onFavclick: (view: View, favorite: JikanFavorite) -> Unit
         ): JikanViewHolder {
             val itemBinding =
                 JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return JikanViewHolder(itemBinding, onItemClick)
+            return JikanViewHolder(itemBinding, onItemClick, onFavclick)
         }
     }
 
 }
-
+//Dude, we really just have to sit and clean this code.
+// Then start writing tests, we already more than enough features.
 fun getListAsString(list: List<Any>): String {
     val sb = StringBuilder()
 
