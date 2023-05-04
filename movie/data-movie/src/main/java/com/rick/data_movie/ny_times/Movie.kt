@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.rick.data_movie.favorite.Favorite
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -25,4 +26,15 @@ data class Movie(
     val multimedia: Multimedia,
     @SerializedName("favorite")
     val favorite: Boolean,
-): Parcelable
+): Parcelable {
+    fun toFavorite(): Favorite =
+        Favorite(
+            id = id!!,
+            title = title,
+            rating = rating,
+            summary = summary,
+            image = multimedia.src,
+            authors = "",
+            type = "Movie"
+        )
+}

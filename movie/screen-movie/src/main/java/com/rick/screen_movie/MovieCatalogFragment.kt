@@ -1,7 +1,12 @@
 package com.rick.screen_movie
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
@@ -20,6 +25,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.ny_times.Movie
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,7 +91,7 @@ class MovieCatalogFragment : Fragment() {
 
     private fun initAdapter() {
 
-        adapter = MovieCatalogAdapter(this::onMovieClick)
+        adapter = MovieCatalogAdapter(this::onMovieClick, this::onFavClick)
 
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(footer = MoviesLoadStateAdapter { adapter.retry() })
@@ -199,6 +205,10 @@ class MovieCatalogFragment : Fragment() {
                 movieTitle = movie.title, movieId = null, series = null,
             )
         findNavController().navigate(directions = action, navigatorExtras = extras)
+    }
+
+    private fun onFavClick(view: View, favorite: Favorite) {
+        viewModel.onEvent(UiAction.InsertFavorite(favorite))
     }
 
     override fun onDestroy() {
