@@ -1,7 +1,12 @@
 package com.rick.screen_anime.anime_screen
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
@@ -19,9 +24,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Jikan
-import com.rick.screen_anime.*
+import com.rick.screen_anime.JikanCatalogAdapter
+import com.rick.screen_anime.JikanLoadStateAdapter
+import com.rick.screen_anime.R
+import com.rick.screen_anime.RemotePresentationState
+import com.rick.screen_anime.asRemotePresentationState
 import com.rick.screen_anime.databinding.FragmentJikanCatalogBinding
+import com.rick.screen_anime.favorite_screen.JikanEvents
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -88,7 +99,8 @@ class AnimeCatalogFragment : Fragment() {
 
     private fun initAdapter() {
         adapter = JikanCatalogAdapter(
-            this::onAnimeClick
+            this::onAnimeClick,
+            this::onFavClick
         )
 
         binding.recyclerView.adapter =
@@ -152,6 +164,10 @@ class AnimeCatalogFragment : Fragment() {
                 jikan = jikan
             )
         navController.navigate(action)
+    }
+
+    private fun onFavClick(view: View, favorite: JikanFavorite) {
+        viewModel.onEvent(JikanEvents.InsertFavorite(fav = favorite))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
