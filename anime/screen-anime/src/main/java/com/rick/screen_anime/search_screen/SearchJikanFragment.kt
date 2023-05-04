@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.R
 import com.rick.screen_anime.databinding.FragmentJikanSearchBinding
@@ -88,7 +89,8 @@ class SearchJikanFragment : Fragment() {
 
     private fun initAdapter() {
         adapter = SearchJikanAdapter(
-            this::onAnimeClick
+            this::onAnimeClick,
+            this::onFavClick
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -210,6 +212,9 @@ class SearchJikanFragment : Fragment() {
         findNavController().navigate(directions = action,)
     }
 
+    private fun onFavClick(view: View, favorite: JikanFavorite) {
+        // this is meant to do nothing, for now.
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

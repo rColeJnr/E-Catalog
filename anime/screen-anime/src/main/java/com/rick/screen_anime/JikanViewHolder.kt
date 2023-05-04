@@ -51,11 +51,11 @@ class JikanViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (view: View, jikan: Jikan) -> Unit,
-            onFavclick: (view: View, favorite: JikanFavorite) -> Unit
+            onFavClick: (view: View, favorite: JikanFavorite) -> Unit
         ): JikanViewHolder {
             val itemBinding =
                 JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return JikanViewHolder(itemBinding, onItemClick, onFavclick)
+            return JikanViewHolder(itemBinding, onItemClick, onFavClick)
         }
     }
 
