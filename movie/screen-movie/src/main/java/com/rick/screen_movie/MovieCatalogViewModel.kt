@@ -7,11 +7,14 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
+import com.rick.data_movie.favorite.Favorite
 import com.rick.screen_movie.util.LIB_NAME
 import com.rick.screen_movie.util.TIME_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -69,6 +72,19 @@ class MovieCatalogViewModel @Inject constructor(
                     }
                 }
             }
+
+    fun onEvent(event: UiAction) {
+        when (event) {
+            is UiAction.InsertFavorite -> insertFavorite(event.fav)
+            else -> {}
+        }
+    }
+
+    private fun insertFavorite(fav: Favorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(fav)
+        }
+    }
 }
 
 private var previousDate: LocalDate? = null
