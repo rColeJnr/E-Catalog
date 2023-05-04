@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
+import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.imdb.series_model.TvSeries
+import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,6 +60,19 @@ class TvSeriesViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun onEvent(event: UiAction) {
+        when (event) {
+            is UiAction.InsertFavorite -> insertFavorite(event.fav)
+            else -> {}
+        }
+    }
+
+    private fun insertFavorite(favorite: Favorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(favorite)
         }
     }
 

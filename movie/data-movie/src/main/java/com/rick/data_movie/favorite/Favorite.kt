@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class Favorite(
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
-    val id: Long,
+    val id: Long?,
     val title: String,
     val rating: String,
     val summary: String,

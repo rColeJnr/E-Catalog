@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.rick.data_movie.favorite.Favorite
 import kotlinx.parcelize.Parcelize
 
 data class TvSeriesDto(
@@ -53,7 +54,18 @@ data class TvSeries(
     @field:SerializedName("imDbRating")
     val imDbRating: String,
     @field:SerializedName("crew")
-    val crew: String,
+    val cast: String,
     @SerializedName("favorite")
     val favorite: Boolean,
-) : Parcelable
+) : Parcelable {
+    fun toFavorite(): Favorite =
+        Favorite(
+            null,
+            title,
+            imDbRating,
+            summary = "",
+            image = image,
+            authors = cast,
+            type = "Tv"
+        )
+}

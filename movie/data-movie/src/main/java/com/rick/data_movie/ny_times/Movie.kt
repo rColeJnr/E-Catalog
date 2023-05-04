@@ -29,7 +29,7 @@ data class Movie(
 ): Parcelable {
     fun toFavorite(): Favorite =
         Favorite(
-            id = id!!,
+            id = id,
             title = title,
             rating = rating,
             summary = summary,
