@@ -84,3 +84,4 @@ sealed class JikanEvents {
     data class InsertFavorite(val fav: JikanFavorite): JikanEvents()
     data class DeleteFavorite(val fav: JikanFavorite): JikanEvents()
 }
+
