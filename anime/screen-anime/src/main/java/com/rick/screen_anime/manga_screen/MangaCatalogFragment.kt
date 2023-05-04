@@ -90,7 +90,8 @@ class MangaCatalogFragment : Fragment() {
 
     private fun initAdapter() {
         adapter = JikanCatalogAdapter(
-            this::onMangaClick
+            this::onMangaClick,
+            this::onFavClick
         )
 
         binding.recyclerView.adapter =
@@ -108,7 +109,7 @@ class MangaCatalogFragment : Fragment() {
             pagingDataFlow.collect(adapter::submitData)
         }
 
-        lifecycleScope.launch {FF
+        lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
