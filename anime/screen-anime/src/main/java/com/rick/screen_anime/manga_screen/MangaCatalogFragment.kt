@@ -19,9 +19,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Jikan
 import com.rick.screen_anime.*
 import com.rick.screen_anime.databinding.FragmentJikanCatalogBinding
+import com.rick.screen_anime.favorite_screen.JikanEvents
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -106,7 +108,7 @@ class MangaCatalogFragment : Fragment() {
             pagingDataFlow.collect(adapter::submitData)
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launch {FF
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
@@ -152,6 +154,10 @@ class MangaCatalogFragment : Fragment() {
                 jikan = jikan
             )
         navController.navigate(action)
+    }
+
+    private fun onFavClick(view: View, favorite: JikanFavorite) {
+        viewModel.onEvent(JikanEvents.InsertFavorite(favorite))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
