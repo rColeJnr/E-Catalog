@@ -11,7 +11,7 @@ import com.rick.screen_anime.JikanViewHolder
 
 class SearchJikanAdapter(
     private val onItemClick: (view: View, jikan: Jikan) -> Unit,
-    private val onFavClick: (view: View, favorite: JikanFavorite) -> Unit
+    private val onFavClick: (favorite: JikanFavorite) -> Unit
 ): RecyclerView.Adapter<JikanViewHolder>() {
 
     val differ = AsyncListDiffer(this, DIFF_UTIL)

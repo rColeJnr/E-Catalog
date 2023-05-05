@@ -6,9 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_anime.JikanRepository
+import com.rick.data_anime.favorite.JikanFavorite
 import com.rick.data_anime.model_jikan.Jikan
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -114,12 +124,25 @@ class SearchAnimeViewModel @Inject constructor(
         }
     }
 
+    fun onEvent(event: SearchUiAction) {
+        when (event) {
+            is SearchUiAction.InsertFavorite -> insertFavorite(event.fav)
+            else -> {}
+        }
+    }
+
+    private fun insertFavorite(favorite: JikanFavorite) {
+        viewModelScope.launch(Dispatchers.IO){
+            repo.insertFavorite(favorite)
+        }
+    }
 }
 
 sealed class SearchUiAction {
     data class SearchAnime(val query: String) : SearchUiAction()
     data class SearchManga(val query: String) : SearchUiAction()
     data class SearchJikan(val query: String) : SearchUiAction()
+    data class InsertFavorite(val fav: JikanFavorite) : SearchUiAction()
 }
 
 data class SearchUiState(

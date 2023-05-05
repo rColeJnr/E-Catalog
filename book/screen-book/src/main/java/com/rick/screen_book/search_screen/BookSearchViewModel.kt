@@ -6,9 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_book.BookRepository
+import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.model.Book
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,6 +65,19 @@ class BookSearchViewModel @Inject constructor(
         }
     }
 
+    fun onEvent(event: SearchUiAction) {
+        when (event) {
+            is SearchUiAction.InsertFavorite -> insertFavorite(event.favorite)
+            else -> {}
+        }
+    }
+
+    private fun insertFavorite(favorite: Favorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(favorite)
+        }
+    }
+
     private fun searchBooks(query: String) {
         viewModelScope.launch {
             repository.searchBooks(query).collect{ result ->
@@ -78,6 +100,7 @@ class BookSearchViewModel @Inject constructor(
 
 sealed class SearchUiAction {
     data class SearchBooks(val query: String) : SearchUiAction()
+    data class InsertFavorite(val favorite: Favorite): SearchUiAction()
 }
 
 data class SearchUiState(

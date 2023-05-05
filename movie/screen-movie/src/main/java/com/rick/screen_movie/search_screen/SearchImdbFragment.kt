@@ -23,6 +23,7 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
@@ -111,7 +112,8 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter(
             glide,
             options,
-            this::onMovieClick
+            this::onMovieClick,
+            this::onFavClick
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -231,6 +233,9 @@ class SearchFragment : Fragment() {
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
+    private fun onFavClick(favorite: Favorite) {
+        viewModel.onEvent(SearchUiAction.InsertFavorite(favorite))
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -240,7 +245,8 @@ class SearchFragment : Fragment() {
 class SearchAdapter(
     private val glide: RequestManager,
     private val options: RequestOptions,
-    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
+    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit,
+    private val onFavClicked: (favorite: Favorite) -> Unit
 ) : RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
@@ -262,7 +268,7 @@ class SearchAdapter(
     val searchDiffer = AsyncListDiffer(this, searchDiffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        return SearchViewHolder.create(parent, onItemClicked)
+        return SearchViewHolder.create(parent, onItemClicked, onFavClicked)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
@@ -276,15 +282,21 @@ class SearchAdapter(
 
 class SearchViewHolder(
     binding: SearchEntryBinding,
-    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
-) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit,
+    private val onFavClicked: (favorite: Favorite) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.image
     private val title = binding.title
     private val description = binding.description
     private val searchLLayout = binding.searchLlayout
 
     init {
-        binding.root.setOnClickListener(this)
+        binding.root.setOnClickListener {
+            onItemClicked(it, searchResult)
+        }
+        binding.favButton.setOnClickListener {
+            onFavClicked(searchResult.toFavorite())
+        }
     }
 
     private lateinit var searchResult: IMDBSearchResult
@@ -300,18 +312,19 @@ class SearchViewHolder(
             .into(this.image)
     }
 
-    override fun onClick(v: View) {
-        onItemClicked(v, searchResult)
-    }
+//    overridee fun onClick(v: View) {
+//        onItemClicked(v, searchResult)
+//    }
 
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit
+            onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit,
+            onFavClicked: (favorite: Favorite) -> Unit
         ): SearchViewHolder {
             val itemBinding = SearchEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
-            return SearchViewHolder(itemBinding, onItemClicked)
+            return SearchViewHolder(itemBinding, onItemClicked, onFavClicked)
         }
     }
 }

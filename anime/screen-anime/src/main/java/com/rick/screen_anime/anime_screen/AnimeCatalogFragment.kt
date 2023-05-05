@@ -166,7 +166,7 @@ class AnimeCatalogFragment : Fragment() {
         navController.navigate(action)
     }
 
-    private fun onFavClick(view: View, favorite: JikanFavorite) {
+    private fun onFavClick(favorite: JikanFavorite) {
         viewModel.onEvent(JikanEvents.InsertFavorite(fav = favorite))
     }
 

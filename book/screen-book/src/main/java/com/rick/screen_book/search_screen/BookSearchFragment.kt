@@ -105,8 +105,8 @@ class BookSearchFragment : Fragment() {
     }
 
     // TDDO
-    private fun onFavClick(view: View, favorite: Favorite) {
-        //THIS IS MEANT TO DO NOTHING FOR NOW
+    private fun onFavClick(favorite: Favorite) {
+        viewModel.onEvent(SearchUiAction.InsertFavorite(favorite))
     }
 
     private fun FragmentBookSearchBinding.bindState(

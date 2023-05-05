@@ -11,7 +11,7 @@ import com.rick.screen_book.BookCatalogViewHolder
 
 class SearchAdapter(
     private val onItemClick: (view: View, formats: Formats) -> Unit ,
-    private val onFavClick : (view: View, favorite: Favorite) -> Unit
+    private val onFavClick : (favorite: Favorite) -> Unit
 ): RecyclerView.Adapter<BookCatalogViewHolder>() {
 
     private val diffUtil = BookCatalogAdapter.DIFF_UTIL

@@ -7,6 +7,29 @@
     android:layout_margin="@dimen/eight_dimen"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Title, secondary and supporting text -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textSize="24sp" />
+
+        <!--        Star, button to add/remove favorite-->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fav_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="@dimen/two_dimen"
+            android:src="@drawable/star_24" />
+
+    </LinearLayout>
+
     <!-- Media -->
     <ImageView
         android:id="@+id/image"
@@ -19,14 +42,6 @@
         android:paddingBottom="16dp"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/ic_image" />
-
-    <!-- Title, secondary and supporting text -->
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/description"

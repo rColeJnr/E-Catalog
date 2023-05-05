@@ -16,7 +16,7 @@ import com.rick.screen_book.databinding.BookEntryBinding
 class BookCatalogViewHolder(
     binding: BookEntryBinding,
     private val onItemClick: (view: View, formats: Formats) -> Unit,
-    private val onFavClick: (view: View, favorite: Favorite) -> Unit,
+    private val onFavClick: (favorite: Favorite) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val title = binding.bookTitle
@@ -36,7 +36,7 @@ class BookCatalogViewHolder(
             onItemClick(it, book.formats)
         }
         binding.favButton.setOnClickListener{
-            onFavClick(it, book.toFavorite())
+            onFavClick(book.toFavorite())
         }
     }
 
@@ -63,7 +63,7 @@ class BookCatalogViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (view: View, formats: Formats) -> Unit,
-            onFavClick: (view: View, favorite: Favorite) -> Unit
+            onFavClick: (favorite: Favorite) -> Unit
         ):
                 BookCatalogViewHolder {
             val itemBinding = BookEntryBinding
