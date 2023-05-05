@@ -10,7 +10,7 @@ import com.rick.data_book.model.Formats
 
 class BookCatalogAdapter(
     private val onItemClick: (view: View, formats: Formats) -> Unit,
-    private val onFavClick: (view: View, favorite: Favorite) -> Unit
+    private val onFavClick: (favorite: Favorite) -> Unit
 ) : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: BookCatalogViewHolder, position: Int) {

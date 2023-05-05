@@ -6,10 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
+import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -71,9 +80,11 @@ class SearchViewModel @Inject constructor(
                     is Resource.Error -> {
                         _searchError.postValue(result.message)
                     }
+
                     is Resource.Loading -> {
                         _searchLoading.postValue(result.isLoading)
                     }
+
                     is Resource.Success -> {
                         _searchList.postValue(result.data!!)
                     }
@@ -89,14 +100,29 @@ class SearchViewModel @Inject constructor(
                     is Resource.Error -> {
                         _searchError.postValue(result.message)
                     }
+
                     is Resource.Loading -> {
                         _searchLoading.postValue(result.isLoading)
                     }
+
                     is Resource.Success -> {
                         _searchList.postValue(result.data!!)
                     }
                 }
             }
+        }
+    }
+
+    fun onEvent(event: SearchUiAction) {
+        when (event) {
+            is SearchUiAction.InsertFavorite -> insertFavorite(event.favorite)
+            else -> {}
+        }
+    }
+
+    private fun insertFavorite(favorite: Favorite) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(favorite)
         }
     }
 
@@ -109,4 +135,5 @@ data class SearchUiState(
 
 sealed class SearchUiAction {
     data class Search(val query: String) : SearchUiAction()
+    data class InsertFavorite(val favorite: Favorite) : SearchUiAction()
 }

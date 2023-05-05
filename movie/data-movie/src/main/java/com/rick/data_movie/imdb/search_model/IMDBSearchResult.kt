@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.rick.data_movie.favorite.Favorite
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "imdb_search_result")
@@ -21,4 +22,15 @@ data class IMDBSearchResult(
     val description: String,
     @SerializedName("favorite")
     val favorite: Boolean,
-) : Parcelable
+) : Parcelable {
+    fun toFavorite(): Favorite =
+        Favorite(
+            null,
+            title,
+            "",
+            description,
+            image,
+            "",
+            resultType
+        )
+}

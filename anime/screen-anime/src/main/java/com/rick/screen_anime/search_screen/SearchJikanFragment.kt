@@ -212,8 +212,8 @@ class SearchJikanFragment : Fragment() {
         findNavController().navigate(directions = action,)
     }
 
-    private fun onFavClick(view: View, favorite: JikanFavorite) {
-        // this is meant to do nothing, for now.
+    private fun onFavClick(favorite: JikanFavorite) {
+        viewModel.onEvent(SearchUiAction.InsertFavorite(favorite))
     }
     override fun onDestroy() {
         super.onDestroy()

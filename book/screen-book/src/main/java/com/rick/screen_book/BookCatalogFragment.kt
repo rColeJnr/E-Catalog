@@ -177,7 +177,7 @@ class BookCatalogFragment : Fragment() {
 
     // TODO(add book to favorite)
     // man this is a lot of work.
-    private fun onFavClick(view: View, favorite: Favorite) {
+    private fun onFavClick(favorite: Favorite) {
         //how do i even begin to do this?? lol
         // we need to call view model and add the favorite to  db
         // at some point we'LL need to call the db for favorites

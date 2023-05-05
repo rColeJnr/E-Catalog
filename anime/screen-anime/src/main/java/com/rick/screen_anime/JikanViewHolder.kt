@@ -15,7 +15,7 @@ import com.rick.screen_anime.databinding.JikanEntryBinding
 class JikanViewHolder(
     binding: JikanEntryBinding,
     private val onItemClick: (view: View, jikan: Jikan) -> Unit,
-    private val onFavClick: (view: View, favorite: JikanFavorite) -> Unit
+    private val onFavClick: (favorite: JikanFavorite) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
@@ -27,7 +27,7 @@ class JikanViewHolder(
             onItemClick(it, jikan)
         }
         binding.favButton.setOnClickListener {
-            onFavClick(it, jikan.toFavorite())
+            onFavClick(jikan.toFavorite())
         }
     }
 
@@ -51,7 +51,7 @@ class JikanViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (view: View, jikan: Jikan) -> Unit,
-            onFavClick: (view: View, favorite: JikanFavorite) -> Unit
+            onFavClick: (favorite: JikanFavorite) -> Unit
         ): JikanViewHolder {
             val itemBinding =
                 JikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)

@@ -9,7 +9,7 @@ import com.rick.data_anime.model_jikan.Jikan
 
 class JikanCatalogAdapter(
     private val onItemClick: (view: View, jikan: Jikan) -> Unit,
-    private val onFavClick: (view: View, favorite: JikanFavorite) -> Unit
+    private val onFavClick: (favorite: JikanFavorite) -> Unit
 ) : PagingDataAdapter<Jikan, JikanViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: JikanViewHolder, position: Int) {
