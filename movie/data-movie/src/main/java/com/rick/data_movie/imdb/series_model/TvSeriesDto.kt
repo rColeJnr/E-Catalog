@@ -66,6 +66,6 @@ data class TvSeries(
             summary = "",
             image = image,
             authors = cast,
-            type = "Tv"
+            type = "series"
         )
 }
