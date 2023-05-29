@@ -82,15 +82,15 @@ fun FavScreen(movies: List<Favorite>, series: List<Favorite>) {
     Scaffold {
         Column {
             Text(text = "Movies")
-            LazyColumn(modifier = Modifier.padding(it)) {
-                items(movies) { movie ->
-                    MovieItem(movie)
-                    Divider(
-                        Modifier.height(1.dp),
-                        color = MaterialTheme.colors.secondary
-                    )
-                }
-            }
+//            LazyColumn(modifier = Modifier.padding(it)) {
+//                items(movies) { movie ->
+//                    MovieItem(movie)
+//                    Divider(
+//                        Modifier.height(1.dp),
+//                        color = MaterialTheme.colors.secondary
+//                    )
+//                }
+//            }
             Text(text = "Series")
             LazyColumn(modifier = Modifier.padding(it)) {
                 items(series) { series ->
