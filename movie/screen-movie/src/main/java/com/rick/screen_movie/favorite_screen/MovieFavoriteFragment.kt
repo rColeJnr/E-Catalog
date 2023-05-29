@@ -61,8 +61,8 @@ class MovieFavoriteFragment : Fragment() {
         _binding = FragmentMovieFavoriteBinding.inflate(inflater, container, false)
 
         binding.compoeView.setContent {
-            val movies = viewModel.movie.observeAsState().value!!
-            val series = viewModel.series.observeAsState().value!!
+            val movies = viewModel.movie.observeAsState().value ?: listOf()
+            val series = viewModel.series.observeAsState().value ?: listOf()
             MdcTheme {
                 FavScreen(movies = movies, series = series)
             }
