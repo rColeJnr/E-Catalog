@@ -7,6 +7,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.rick.data_movie.favorite.FavDao
 import com.rick.data_movie.favorite.Favorite
+import com.rick.data_movie.favorite.IMDBFavorite
 import com.rick.data_movie.imdb.IMDBConverters
 import com.rick.data_movie.imdb.IMDBMovieAndSeriesDao
 import com.rick.data_movie.imdb.IMDBSearchDao
@@ -23,6 +24,7 @@ import com.rick.data_movie.ny_times.Movie
         IMDBMovie::class,
         IMDBSearchResult::class,
         Favorite::class,
+        IMDBFavorite::class,
         RemoteKeys::class,
         TvSeries::class,
     ],
