@@ -15,7 +15,7 @@ interface FavDao {
     @Delete
     suspend fun delete(favorite: Favorite)
 
-    @Query("SELECT * FROM favorite WHERE type LIKE 'series' ORDER BY title ASC")
+    @Query("SELECT * FROM imdb_favorite WHERE type LIKE 'tv' ORDER BY title ASC")
     suspend fun getFavoriteSeries(): List<Favorite>
 
     @Query("SELECT * FROM favorite WHERE type LIKE 'movie' ORDER BY title ASC")
