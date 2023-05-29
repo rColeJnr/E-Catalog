@@ -13,8 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieFavoriteViewModel @Inject constructor(private val repo: MovieCatalogRepository) :
-    ViewModel() {
+class MovieFavoriteViewModel @Inject constructor(
+    private val repo: MovieCatalogRepository
+) : ViewModel() {
 
     private val _movies = MutableLiveData<List<Favorite>>()
     val movie: LiveData<List<Favorite>> get() = _movies
@@ -37,11 +38,13 @@ class MovieFavoriteViewModel @Inject constructor(private val repo: MovieCatalogR
             repo.getFavoriteMovies().collect { result ->
                 when (result) {
                     is Resource.Loading -> {
-                        _loadingMovies.postValue(result.isLoading)
+                        _loadingMovies.value = result.isLoading
                     }
+
                     is Resource.Success -> {
-                        _movies.postValue(result.data ?: listOf())
+                        _movies.value = result.data!!
                     }
+
                     else -> {}
                 }
             }
@@ -49,11 +52,13 @@ class MovieFavoriteViewModel @Inject constructor(private val repo: MovieCatalogR
             repo.getFavoriteSeries().collect { result ->
                 when (result) {
                     is Resource.Loading -> {
-                        _loadingSeries.postValue(result.isLoading)
+                        _loadingSeries.value = result.isLoading
                     }
+
                     is Resource.Success -> {
-                        _series.postValue(result.data ?: listOf())
+                        _series.value = result.data!!
                     }
+
                     else -> {}
                 }
             }
@@ -82,6 +87,6 @@ class MovieFavoriteViewModel @Inject constructor(private val repo: MovieCatalogR
 }
 
 sealed class FavoriteEvents {
-    data class InsertFavorite(val fav: Favorite): FavoriteEvents()
-    data class DeleteFavorite(val fav: Favorite): FavoriteEvents()
+    data class InsertFavorite(val fav: Favorite) : FavoriteEvents()
+    data class DeleteFavorite(val fav: Favorite) : FavoriteEvents()
 }

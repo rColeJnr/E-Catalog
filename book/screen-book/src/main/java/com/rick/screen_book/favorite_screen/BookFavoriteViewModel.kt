@@ -54,6 +54,7 @@ class BookFavoriteViewModel @Inject constructor(private val repo: BookRepository
     private fun insertFavorite(fav: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insert(fav)
+            Log.d("TAG", "insertFavorite: $fav")
         }
     }
 

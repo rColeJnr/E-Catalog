@@ -1,5 +1,6 @@
 package com.rick.data_movie
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -269,7 +270,7 @@ class MovieCatalogRepository @Inject constructor(
             emit(Resource.Loading(true))
 
             val favMovies: List<Favorite> = db.favDao.getFavoriteMovies()
-
+            Log.d("TAG", "getFavoriteMovies: $favMovies")
             emit(Resource.Success(favMovies))
             emit(Resource.Loading(false))
 
