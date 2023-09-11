@@ -39,6 +39,7 @@ class MovieCatalogFragment : Fragment() {
 
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: MovieCatalogViewModel by viewModels()
     private lateinit var adapter: MovieCatalogAdapter
     private lateinit var navController: NavController

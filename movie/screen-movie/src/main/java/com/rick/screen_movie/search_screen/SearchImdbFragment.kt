@@ -28,7 +28,6 @@ import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
-import com.rick.screen_movie.util.showSoftKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -72,6 +71,7 @@ class SearchFragment : Fragment() {
                         binding.updateListFromInput(viewModel.searchAction)
                         true
                     }
+
                     else -> super.onOptionsItemSelected(item)
                 }
             }
@@ -148,7 +148,7 @@ class SearchFragment : Fragment() {
         onQueryChanged: (SearchUiAction) -> Unit,
     ) {
 
-        showSoftKeyboard(searchInput, requireContext())
+//        showSoftKeyboard(searchInput, requireContext())
 
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
@@ -236,6 +236,7 @@ class SearchFragment : Fragment() {
     private fun onFavClick(favorite: Favorite) {
         viewModel.onEvent(SearchUiAction.InsertFavorite(favorite))
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
