@@ -39,6 +39,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_movie.favorite.Favorite
+import com.rick.data_movie.favorite.IMDBFavorite
 import com.rick.data_movie.ny_times.Link
 import com.rick.data_movie.ny_times.Movie
 import com.rick.data_movie.ny_times.Multimedia
@@ -78,7 +79,7 @@ class MovieFavoriteFragment : Fragment() {
 }
 
 @Composable
-fun FavScreen(movies: List<Favorite>, series: List<Favorite>) {
+fun FavScreen(movies: List<Favorite>, series: List<IMDBFavorite>) {
     // TODO column bug
     Scaffold {
         Column {
@@ -173,7 +174,7 @@ fun MovieItem(movie: Favorite) {
 }
 
 @Composable
-fun SeriesItem(series: Favorite) {
+fun SeriesItem(series: IMDBFavorite) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -212,7 +213,7 @@ fun SeriesItem(series: Favorite) {
                     )
                 }
                 Text(
-                    text = series.rating,
+                    text = series.type,
                     style = MaterialTheme.typography.body1,
                     modifier = Modifier.constrainAs(rating) {
                         end.linkTo(image.start)
@@ -232,7 +233,7 @@ fun SeriesItem(series: Favorite) {
                 contentScale = ContentScale.FillHeight,
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = series.authors, style = MaterialTheme.typography.body1)
+            Text(text = series.plot, style = MaterialTheme.typography.body1)
             Spacer(modifier = Modifier.height(2.dp))
         }
     }

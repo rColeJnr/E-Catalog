@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
+import com.rick.data_movie.favorite.IMDBFavorite
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,8 +24,8 @@ class MovieFavoriteViewModel @Inject constructor(
     private val _loadingMovies = MutableLiveData<Boolean>()
     val loadingMovies: LiveData<Boolean> get() = _loadingMovies
 
-    private val _series = MutableLiveData<List<Favorite>>()
-    val series: LiveData<List<Favorite>> get() = _series
+    private val _series = MutableLiveData<List<IMDBFavorite>>()
+    val series: LiveData<List<IMDBFavorite>> get() = _series
 
     private val _loadingSeries = MutableLiveData<Boolean>()
     val loadingSeries: LiveData<Boolean> get() = _loadingSeries

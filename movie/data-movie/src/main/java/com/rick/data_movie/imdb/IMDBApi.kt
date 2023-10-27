@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface IMDBApi {
-
     @GET("en/API/SearchMovie")
     suspend fun searchMovies(
         @Query("apiKey") apiKey: String,
