@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
 import com.rick.data_movie.favorite.Favorite
+import com.rick.data_movie.favorite.IMDBFavorite
 import com.rick.data_movie.imdb.IMDBApi
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.toImdbMovie
@@ -275,12 +276,12 @@ class MovieCatalogRepository @Inject constructor(
         }
     }
 
-    suspend fun getFavoriteSeries(): Flow<Resource<List<Favorite>>> {
+    suspend fun getFavoriteSeries(): Flow<Resource<List<IMDBFavorite>>> {
         return flow {
 
             emit(Resource.Loading(true))
 
-            val favSeries: List<Favorite> = db.favDao.getFavoriteSeries()
+            val favSeries: List<IMDBFavorite> = db.favDao.getFavoriteSeries()
             emit(Resource.Loading(false))
             emit(Resource.Success(favSeries))
 
