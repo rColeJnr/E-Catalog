@@ -1,7 +1,7 @@
 package com.rick.screen_movie
 
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times_deprecated.Movie
 
 sealed class UiAction {
     data class NavigateToDetails(val movie: Movie? = null): UiAction()

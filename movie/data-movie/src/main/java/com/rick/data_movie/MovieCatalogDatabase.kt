@@ -15,8 +15,13 @@ import com.rick.data_movie.imdb.TvSeriesDao
 import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.data_movie.imdb.series_model.TvSeries
-import com.rick.data_movie.ny_times.Converters
-import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times.ArticleDao
+import com.rick.data_movie.ny_times.RemoteKeys
+import com.rick.data_movie.ny_times.RemoteKeysDao
+import com.rick.data_movie.ny_times.article_models.Converters
+import com.rick.data_movie.ny_times.article_models.Doc
+import com.rick.data_movie.ny_times_deprecated.Movie
+import com.rick.data_movie.ny_times_deprecated.MoviesDao
 
 @Database(
     entities = [
@@ -27,6 +32,7 @@ import com.rick.data_movie.ny_times.Movie
         IMDBFavorite::class,
         RemoteKeys::class,
         TvSeries::class,
+        Doc::class,
     ],
     version = 2,
     exportSchema = true
@@ -37,6 +43,7 @@ abstract class MovieCatalogDatabase: RoomDatabase() {
     abstract val imdbMovieAndSeriesDao: IMDBMovieAndSeriesDao
     abstract val imdbSearchDao: IMDBSearchDao
     abstract val moviesDao: MoviesDao
+    abstract val articleDao: ArticleDao
     abstract val favDao: FavDao
     abstract val remoteKeysDao: RemoteKeysDao
 

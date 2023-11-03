@@ -13,7 +13,9 @@ import com.rick.data_movie.imdb.movie_model.IMDBMovie
 import com.rick.data_movie.imdb.movie_model.toImdbMovie
 import com.rick.data_movie.imdb.search_model.IMDBSearchResult
 import com.rick.data_movie.imdb.series_model.TvSeries
-import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times.MovieCatalogApi
+import com.rick.data_movie.ny_times.MovieCatalogRemoteMediator
+import com.rick.data_movie.ny_times_deprecated.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException

@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times_deprecated.Movie
 
 class MovieCatalogAdapter(
     private val onItemClicked: (view: View, movie: Movie) -> Unit,

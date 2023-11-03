@@ -1,13 +1,11 @@
-package com.rick.data_movie.ny_times
+package com.rick.data_movie.ny_times_deprecated
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
-import com.rick.data_movie.ny_times.Link
-import com.rick.data_movie.ny_times.Movie
-import com.rick.data_movie.ny_times.Multimedia
 
+@Deprecated("Use ny_times/Converters instead")
 @ProvidedTypeConverter
 class Converters(
     private val jsonParser: JsonParser

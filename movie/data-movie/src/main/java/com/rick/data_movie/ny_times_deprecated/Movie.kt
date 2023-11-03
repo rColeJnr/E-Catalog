@@ -1,4 +1,4 @@
-package com.rick.data_movie.ny_times
+package com.rick.data_movie.ny_times_deprecated
 
 import android.os.Parcelable
 import androidx.room.Entity
@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
 import com.rick.data_movie.favorite.Favorite
 import kotlinx.parcelize.Parcelize
 
+@Deprecated("Use Movie from movie/data-movie/src/main/java/com/rick/data_movie/ny_times/Movie.kt")
 @Parcelize
 @Entity(tableName = "movies_db")
 data class Movie(
