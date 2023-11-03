@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times.Movie
+import com.rick.data_movie.ny_times_deprecated.Movie
 import com.rick.screen_movie.databinding.MovieEntryBinding
 import com.rick.screen_movie.util.provideGlide
 

@@ -40,9 +40,9 @@ import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.favorite.IMDBFavorite
-import com.rick.data_movie.ny_times.Link
-import com.rick.data_movie.ny_times.Movie
-import com.rick.data_movie.ny_times.Multimedia
+import com.rick.data_movie.ny_times_deprecated.Link
+import com.rick.data_movie.ny_times_deprecated.Movie
+import com.rick.data_movie.ny_times_deprecated.Multimedia
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint

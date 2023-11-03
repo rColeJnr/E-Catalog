@@ -1,4 +1,4 @@
-package com.rick.data_movie.ny_times
+package com.rick.data_movie.ny_times_deprecated
 
 data class MovieCatalogDto(
     val copyright: String,
