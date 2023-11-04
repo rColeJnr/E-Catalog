@@ -25,6 +25,20 @@ class Converters (
         )!!
 
     @TypeConverter
+    fun fromListMultimedia(multimedia: List<Multimedia>): String =
+        jsonParser.toJson(
+            multimedia,
+            object: TypeToken<List<Multimedia>>() {}.type
+        ) ?: "[]"
+
+    @TypeConverter
+    fun toListMultimedia(json: String): List<Multimedia> =
+        jsonParser.fromJson<List<Multimedia>>(
+            json,
+            object: TypeToken<List<Multimedia>>() {}.type
+        ) ?: emptyList()
+
+    @TypeConverter
     fun fromHeadline(headline: Headline): String =
         jsonParser.toJson(
             headline,
@@ -51,6 +65,20 @@ class Converters (
             json,
             object: TypeToken<Keyword>() {}.type
         )!!
+
+    @TypeConverter
+    fun fromListKeyword(keywords: List<Keyword>): String =
+        jsonParser.toJson(
+            keywords,
+            object: TypeToken<List<Keyword>>() {}.type
+        )  ?: ""
+
+    @TypeConverter
+    fun toListKeyword(json: String): List<Keyword> =
+        jsonParser.fromJson<List<Keyword>>(
+            json,
+            object: TypeToken<List<Keyword>>() {}.type
+        ) ?: emptyList()
 
     @TypeConverter
     fun fromByline(byline: Byline): String =

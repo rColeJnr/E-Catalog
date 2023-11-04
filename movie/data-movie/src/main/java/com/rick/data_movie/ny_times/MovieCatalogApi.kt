@@ -1,19 +1,18 @@
 package com.rick.data_movie.ny_times
 
 import com.rick.data_movie.ny_times.article_models.NYResult
-import com.rick.data_movie.ny_times_deprecated.MovieCatalogDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MovieCatalogApi {
 
-    @Deprecated("Use fetchMovieArticles instead")
-    @GET("svc/movies/v2/reviews/all.json?")
-    suspend fun fetchMovieCatalog(
-        @Query("offset") offset: Int,
-        @Query("order") order_by: String = QUERY_ORDER,
-        @Query("api-key") apikey: String
-    ): MovieCatalogDto
+//    @Deprecated("Use fetchMovieArticles instead")
+//    @GET("svc/movies/v2/reviews/all.json?")
+//    suspend fun fetchMovieCatalog(
+//        @Query("offset") offset: Int,
+//        @Query("order") order_by: String = QUERY_ORDER,
+//        @Query("api-key") apikey: String
+//    ): MovieCatalogDto
 
     @GET("svc/search/v2/articlesearch.json?")
     suspend fun fetchMovieArticles(

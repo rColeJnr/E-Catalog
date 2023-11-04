@@ -3,8 +3,6 @@ package com.rick.data_movie
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.rick.data_movie.favorite.FavDao
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.favorite.IMDBFavorite
@@ -20,12 +18,9 @@ import com.rick.data_movie.ny_times.RemoteKeys
 import com.rick.data_movie.ny_times.RemoteKeysDao
 import com.rick.data_movie.ny_times.article_models.Converters
 import com.rick.data_movie.ny_times.article_models.Doc
-import com.rick.data_movie.ny_times_deprecated.Movie
-import com.rick.data_movie.ny_times_deprecated.MoviesDao
 
 @Database(
     entities = [
-        Movie::class,
         IMDBMovie::class,
         IMDBSearchResult::class,
         Favorite::class,
@@ -42,18 +37,11 @@ abstract class MovieCatalogDatabase: RoomDatabase() {
     abstract val seriesDao: TvSeriesDao
     abstract val imdbMovieAndSeriesDao: IMDBMovieAndSeriesDao
     abstract val imdbSearchDao: IMDBSearchDao
-    abstract val moviesDao: MoviesDao
     abstract val articleDao: ArticleDao
     abstract val favDao: FavDao
     abstract val remoteKeysDao: RemoteKeysDao
 
     companion object {
-        const val DATABASE_NAME = "MOVIE_DB"
-
-        val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE movies_db ADD COLUMN favorite BOOLEAN")
-            }
-        }
+        const val DATABASE_NAME = "TEST_DB"
     }
 }

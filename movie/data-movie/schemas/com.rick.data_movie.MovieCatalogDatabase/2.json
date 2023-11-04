@@ -2,70 +2,8 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "acd95ccdf7265cf3a5e7ebf6996d3827",
+    "identityHash": "89e32e2d1e41457a81303f5be883ccf7",
     "entities": [
-      {
-        "tableName": "movies_db",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `title` TEXT NOT NULL, `summary` TEXT NOT NULL, `rating` TEXT NOT NULL, `openingDate` TEXT, `link` TEXT NOT NULL, `multimedia` TEXT NOT NULL, `favorite` INTEGER NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "summary",
-            "columnName": "summary",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rating",
-            "columnName": "rating",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "openingDate",
-            "columnName": "openingDate",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "link",
-            "columnName": "link",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "multimedia",
-            "columnName": "multimedia",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "favorite",
-            "columnName": "favorite",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
       {
         "tableName": "imdb_movie",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `year` TEXT NOT NULL, `image` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `runtimeStr` TEXT, `plot` TEXT NOT NULL, `awards` TEXT NOT NULL, `directors` TEXT NOT NULL, `writers` TEXT NOT NULL, `actorList` TEXT NOT NULL, `genres` TEXT NOT NULL, `companies` TEXT NOT NULL, `countries` TEXT NOT NULL, `languages` TEXT NOT NULL, `ratings` TEXT NOT NULL, `images` TEXT NOT NULL, `boxOffice` TEXT NOT NULL, `similars` TEXT NOT NULL, `tvSeriesInfo` TEXT, `errorMessage` TEXT, `favorite` INTEGER NOT NULL, PRIMARY KEY(`id`))",
@@ -452,7 +390,7 @@
       },
       {
         "tableName": "ny_times_article",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `webUrl` TEXT NOT NULL, `snippet` TEXT NOT NULL, `leadParagraph` TEXT NOT NULL, `source` TEXT NOT NULL, `multimedia` TEXT NOT NULL, `headline` TEXT NOT NULL, `keywords` TEXT NOT NULL, `pubDate` TEXT NOT NULL, `sectionName` TEXT NOT NULL, `byline` TEXT NOT NULL, `favorite` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `webUrl` TEXT NOT NULL, `snippet` TEXT NOT NULL, `leadParagraph` TEXT NOT NULL, `source` TEXT NOT NULL, `multimedia` TEXT NOT NULL, `headline` TEXT NOT NULL, `keywords` TEXT NOT NULL, `pubDate` TEXT NOT NULL, `sectionName` TEXT NOT NULL, `byline` TEXT NOT NULL, `favorite` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -528,7 +466,9 @@
           }
         ],
         "primaryKey": {
-          "columnNames": [],
+          "columnNames": [
+            "id"
+          ],
           "autoGenerate": false
         },
         "indices": [],
@@ -538,7 +478,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'acd95ccdf7265cf3a5e7ebf6996d3827')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '89e32e2d1e41457a81303f5be883ccf7')"
     ]
   }
 }
