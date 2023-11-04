@@ -35,7 +35,7 @@ interface TMDBApi {
         @Query("query") query: String,
         @Query("include_adult") include_adult: Boolean = true,
         @Query("language") language: String = LANGUAGE,
-        @Query("page") page: Int,
+        @Query("page") page: Int = 1,
         @Query("api_key") apikey: String
     ): SearchResponse
 

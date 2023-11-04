@@ -1,4 +1,4 @@
-package com.rick.data_movie.ny_times
+package com.rick.data_movie.tmdb.trending_movie
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -6,24 +6,20 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.rick.data_movie.MovieCatalogDatabase
-import com.rick.data_movie.ny_times.article_models.Doc
+import com.rick.data_movie.tmdb.TMDBApi
 import retrofit2.HttpException
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
-class MovieCatalogRemoteMediator(
-    private val api: MovieCatalogApi,
+class MovieRemoteMediator(
+    private val api: TMDBApi,
     private val db: MovieCatalogDatabase,
-    private val key: String
-): RemoteMediator<Int, Doc>() {
-
-    override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
+    private val key: String,
+): RemoteMediator<Int, TrendingMovie>() {
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, Doc>
+        state: PagingState<Int, TrendingMovie>
     ): MediatorResult {
 
         val page = when(loadType) {
@@ -45,75 +41,66 @@ class MovieCatalogRemoteMediator(
             }
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
+                remoteKeys?.nextKey?.minus(1) ?: 1
             }
         }
 
         try {
-            // val response = api.fetchMovieCatalog(offset = offset, apikey = key).toMovieCatalog()
-            val response = api.fetchMovieArticles(page = page, apikey = key)
-//            val movies = response.movieCatalog
-//            movies.forEach {
-//                it.id = count++
-//            }
-            val articles = response.response.docs
-//            offset += 20
-            val endOfPaginationReached = articles.isEmpty()
+            val response = api.getTrendingMovie(
+                page = page,
+                apikey = key,
+            )
+            val movies = response.results
+            val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    db.remoteKeysDao.clearRemoteKeys()
-                    db.articleDao.clearArticles()
-//                    offset = 20
-//                    movies = emptyList()
+                    db.tmdbDao.clearMovies()
+                    db.movieRemoteKeys.clearRemoteKeys()
                 }
-                val prevKey = if (page == Companion.STARTING_PAGE_INDEX) null else page - 1
+                val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = articles.map {
-                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                val keys = movies.map {
+                    MovieRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
-                db.remoteKeysDao.insertAll(keys)
-                db.articleDao.insertArticles(articles)
+                db.movieRemoteKeys.insertAll(keys)
+                db.tmdbDao.insertMovies(movies)
             }
-            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        }  catch (e: IOException) {
-            return MediatorResult.Error(e)
+            return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: HttpException) {
+            return MediatorResult.Error(e)
+        } catch (e: IOException) {
             return MediatorResult.Error(e)
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Doc>): RemoteKeys? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, TrendingMovie>): MovieRemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { doc ->
+            ?.let { movie ->
                 // Get the remote keys of the last item retrieved
-                db.remoteKeysDao.remoteKeysMovieId(doc.id)
+                db.movieRemoteKeysDao.remoteKeysMovieId(movie.id)
             }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Doc>): RemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, TrendingMovie>): MovieRemoteKeys? {
         // GEt the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { doc ->
+            ?.let { movie ->
                 // GEt the remote keys of the first items retrieved
-                db.remoteKeysDao.remoteKeysMovieId(doc.id)
+                db.movieRemoteKeysDao.remoteKeysMovieId(movie.id)
             }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Doc>): RemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, TrendingMovie>): MovieRemoteKeys? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { doc ->
-                db.remoteKeysDao.remoteKeysMovieId(doc)
+            state.closestItemToPosition(position)?.id?.let { movie ->
+                db.movieRemoteKeysDao.remoteKeysMovieId(movie)
             }
         }
-    }
-
-    companion object {
-        private const val STARTING_PAGE_INDEX = 0
     }
 
 }

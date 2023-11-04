@@ -1,10 +1,12 @@
 package com.rick.data_movie.tmdb.tv
 
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import com.rick.data_movie.tmdb.movie.Genre
 import com.rick.data_movie.tmdb.movie.SponkenLanguage
 
+@Entity(tableName = "tmdb_tv", primaryKeys = ["id"])
 data class TvResponse(
     @SerializedName("id")
     val id: Int,
