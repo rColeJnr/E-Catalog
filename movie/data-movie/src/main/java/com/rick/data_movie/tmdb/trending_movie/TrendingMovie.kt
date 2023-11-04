@@ -1,9 +1,11 @@
 package com.rick.data_movie.tmdb.trending_movie
 
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
-data class Result(
+@Entity(tableName = "trending_movie", primaryKeys = ["id"])
+data class TrendingMovie(
     @SerializedName("id")
     val id: Int,
     @SerializedName("adult")

@@ -45,7 +45,7 @@ class MovieCatalogRemoteMediator(
             }
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: Companion.STARTING_PAGE_INDEX
+                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
         }
 

@@ -1,8 +1,10 @@
 package com.rick.data_movie.tmdb.search
 
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "search", primaryKeys = ["id"])
 data class Result(
     @SerializedName("adult")
     val adult: Boolean,
