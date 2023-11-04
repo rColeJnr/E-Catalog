@@ -11,13 +11,13 @@ import com.rick.data_movie.ny_times.article_models.Doc
 interface ArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertArticles(movie: List<Doc>)
+    suspend fun insertArticles(article: List<Doc>)
 
     @Query("DELETE FROM ny_times_article")
     suspend fun clearArticles()
 
     @Query("SELECT * FROM ny_times_article")
-    suspend fun getMovieArticles(): PagingSource<String, Doc>
+    fun getMovieArticles(): PagingSource<Int, Doc>
 
     @Query("SELECT * FROM ny_times_article WHERE favorite LIKE :bool ")
     suspend fun getFavoriteMovieArticle(bool: Boolean): List<Doc>

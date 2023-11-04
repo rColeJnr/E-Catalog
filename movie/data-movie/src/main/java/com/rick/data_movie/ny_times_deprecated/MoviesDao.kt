@@ -5,14 +5,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.rick.data_movie.ny_times.article_models.Doc
 
 @Dao
 interface MoviesDao {
 
     @Deprecated("Use insertArticles instead")
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovies(movie: List<Doc>)
+    suspend fun insertMovies(movie: List<Movie>)
 
     @Deprecated("Use clearArticles instead")
     @Query("DELETE FROM movies_db")

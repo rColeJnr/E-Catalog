@@ -3,12 +3,14 @@ package com.rick.data_movie.ny_times.article_models
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "ny_times_article")
 data class Doc(
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("_id")
     val id: String,
     @SerializedName("web_url")
