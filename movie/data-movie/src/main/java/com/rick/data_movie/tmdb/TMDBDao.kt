@@ -26,10 +26,10 @@ interface TMDBDao {
     suspend fun insertMovie(movie: MovieResponse)
 
     @Query("DELETE FROM trending_tv")
-    suspend fun deleteTrendingTv(trendingTv: List<TrendingTv>)
+    suspend fun deleteTrendingTv()
 
     @Query("DELETE FROM trending_movie")
-    suspend fun deleteTrendingMovie(trendingMovie: List<TrendingMovie>)
+    suspend fun deleteTrendingMovie()
 
 //    @Query("DELETE FROM tmdb_tv")
 //    suspend fun deleteTv(tv: TvResponse)
@@ -38,14 +38,15 @@ interface TMDBDao {
 //    suspend fun deleteMovie(movie: MovieResponse)
 
     @Query("SELECT * FROM trending_tv")
-    suspend fun getTrendingTv(): PagingSource<Int, TrendingTv>
+    fun getTrendingTv(): PagingSource<Int, TrendingTv>
 
     @Query("SELECT * FROM trending_movie")
-    suspend fun getTrendingMovie(): PagingSource<Int, TrendingMovie>
+    fun getTrendingMovie(): PagingSource<Int, TrendingMovie>
 
-    @Query("SELECT * FROM tmdb_tv")
-    suspend fun getTv(): TvResponse
+    @Query("SELECT * FROM tmdb_tv WHERE id = :id")
+    suspend fun getTv(id: Int): TvResponse?
 
-    @Query("SELECT * FROM tmdb_movie")
-    suspend fun getMovie(): MovieResponse
+    @Query("SELECT * FROM tmdb_movie WHERE id = :id")
+    suspend fun getMovie(id: Int): MovieResponse?
+
 }

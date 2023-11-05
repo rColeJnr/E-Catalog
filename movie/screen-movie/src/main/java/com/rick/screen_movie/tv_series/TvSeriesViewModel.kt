@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.imdb.series_model.TvSeries
+import com.rick.data_movie.imdb_am_not_paying.series_model.TvSeries
 import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -72,7 +72,7 @@ class TvSeriesViewModel @Inject constructor(
 
     private fun insertFavorite(favorite: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(favorite)
+            repository.insertFavorite(favorite)
         }
     }
 

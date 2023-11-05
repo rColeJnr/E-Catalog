@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.imdb.search_model.IMDBSearchResult
+import com.rick.data_movie.imdb_am_not_paying.search_model.IMDBSearchResult
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -122,7 +122,7 @@ class SearchViewModel @Inject constructor(
 
     private fun insertFavorite(favorite: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(favorite)
+            repository.insertFavorite(favorite)
         }
     }
 

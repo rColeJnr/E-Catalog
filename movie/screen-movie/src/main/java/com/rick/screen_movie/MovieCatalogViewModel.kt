@@ -82,7 +82,7 @@ class MovieCatalogViewModel @Inject constructor(
 
     private fun insertFavorite(fav: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(fav)
+            repository.insertFavorite(fav)
         }
     }
 }

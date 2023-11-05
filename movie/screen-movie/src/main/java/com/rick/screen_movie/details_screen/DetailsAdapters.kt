@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_movie.imdb.movie_model.Actor
-import com.rick.data_movie.imdb.movie_model.Item
-import com.rick.data_movie.imdb.movie_model.Similar
+import com.rick.data_movie.imdb_am_not_paying.movie_model.Actor
+import com.rick.data_movie.imdb_am_not_paying.movie_model.Item
+import com.rick.data_movie.imdb_am_not_paying.movie_model.Similar
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.ActorsEntryBinding
 import com.rick.screen_movie.databinding.ImageEntryBinding

@@ -54,16 +54,16 @@ class MovieRemoteMediator(
             val endOfPaginationReached = movies.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    db.tmdbDao.clearMovies()
-                    db.movieRemoteKeys.clearRemoteKeys()
+                    db.tmdbDao.deleteTrendingMovie()
+                    db.movieRemoteKeysDao.clearRemoteKeys()
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = movies.map {
                     MovieRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
-                db.movieRemoteKeys.insertAll(keys)
-                db.tmdbDao.insertMovies(movies)
+                db.movieRemoteKeysDao.insertAll(keys)
+                db.tmdbDao.insertTrendingMovie(movies)
             }
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: HttpException) {
@@ -79,7 +79,7 @@ class MovieRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
-                db.movieRemoteKeysDao.remoteKeysMovieId(movie.id)
+                db.movieRemoteKeysDao.remoteKeysId(movie.id)
             }
     }
 
@@ -89,7 +89,7 @@ class MovieRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { movie ->
                 // GEt the remote keys of the first items retrieved
-                db.movieRemoteKeysDao.remoteKeysMovieId(movie.id)
+                db.movieRemoteKeysDao.remoteKeysId(movie.id)
             }
     }
 
@@ -98,7 +98,7 @@ class MovieRemoteMediator(
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { movie ->
-                db.movieRemoteKeysDao.remoteKeysMovieId(movie)
+                db.movieRemoteKeysDao.remoteKeysId(movie)
             }
         }
     }

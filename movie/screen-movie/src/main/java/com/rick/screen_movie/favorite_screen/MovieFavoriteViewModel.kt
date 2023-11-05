@@ -75,13 +75,13 @@ class MovieFavoriteViewModel @Inject constructor(
 
     private fun insertFavorite(fav: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insert(fav)
+            repo.insertFavorite(fav)
         }
     }
 
     private fun deleteFavorite(fav: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.delete(fav)
+            repo.deleteFavorite(fav)
         }
     }
 

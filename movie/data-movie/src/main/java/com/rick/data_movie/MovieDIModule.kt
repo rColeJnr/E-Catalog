@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.core.GsonParser
-import com.rick.data_movie.imdb.IMDBApi
-import com.rick.data_movie.imdb.IMDBConverters
 import com.rick.data_movie.ny_times.MovieCatalogApi
 import com.rick.data_movie.ny_times.article_models.Converters
+import com.rick.data_movie.tmdb.TMDBApi
+import com.rick.data_movie.tmdb.TMDBConverters
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,9 +42,9 @@ object MovieDIModule {
 
     @Provides
     @Singleton
-    fun providesIMDBApi(): IMDBApi {
+    fun providesTMDBApi(): TMDBApi {
         return Retrofit.Builder()
-            .baseUrl(IMDBApi.IMDB_BASE_URL)
+            .baseUrl(TMDBApi.TMDB_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
@@ -64,11 +64,11 @@ object MovieDIModule {
             MovieCatalogDatabase::class.java,
             MovieCatalogDatabase.DATABASE_NAME
         ).addTypeConverter(Converters(GsonParser(Gson())))
-            .addTypeConverter(IMDBConverters(GsonParser(Gson())))
+            .addTypeConverter(TMDBConverters(GsonParser(Gson())))
             .build()
 
     @Provides
     @Singleton
-    fun bindMovieCatalogRepository(api: MovieCatalogApi, imdbApi: IMDBApi, db: MovieCatalogDatabase):
-            MovieCatalogRepository = MovieCatalogRepository(nyApi = api, imdbApi = imdbApi, db = db)
+    fun bindMovieCatalogRepository(api: MovieCatalogApi, tmdbApi: TMDBApi, db: MovieCatalogDatabase):
+            MovieCatalogRepository = MovieCatalogRepository(nyApi = api, tmdbApi = tmdbApi, db = db)
 }
