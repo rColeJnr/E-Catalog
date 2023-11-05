@@ -1,5 +1,6 @@
 package com.rick.data_movie.tmdb
 
+import com.rick.data_movie.tmdb.movie.MovieResponse
 import com.rick.data_movie.tmdb.search.SearchResponse
 import com.rick.data_movie.tmdb.trending_movie.TrendingMovieResponse
 import com.rick.data_movie.tmdb.trending_tv.TrendingTvResponse
@@ -53,7 +54,7 @@ interface TMDBApi {
         @Query("append_to_response") appendResponse: String = APPEND_RESPONSE,
         @Query("language") language: String = LANGUAGE,
         @Query("api_key") apikey: String
-    ): TvResponse
+    ): MovieResponse
 
     companion object {
         const val TMDB_BASE_URL = "https://api.themoviedb.org/3/"

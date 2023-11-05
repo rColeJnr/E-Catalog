@@ -3,6 +3,7 @@ package com.rick.data_movie.tmdb.movie
 
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
+import com.rick.data_movie.favorite.Favorite
 
 @Entity(tableName = "tmdb_movie", primaryKeys = ["id"])
 data class MovieResponse(
@@ -18,10 +19,6 @@ data class MovieResponse(
     val genres: List<Genre>,
     @SerializedName("homepage")
     val homepage: String,
-    @SerializedName("original_language")
-    val originalLanguage: String,
-    @SerializedName("original_title")
-    val originalTitle: String,
     @SerializedName("overview")
     val overview: String,
     @SerializedName("popularity")
@@ -34,8 +31,6 @@ data class MovieResponse(
     val revenue: Int,
     @SerializedName("runtime")
     val runtime: Int,
-    @SerializedName("spoken_languages")
-    val spokenLanguages: List<SponkenLanguage>,
     @SerializedName("title")
     val title: String,
     @SerializedName("vote_average")
@@ -44,4 +39,13 @@ data class MovieResponse(
     val voteCount: Int,
     @SerializedName("similar")
     val similar: SimilarResponse
-)
+) {
+    fun toFavorite(): Favorite =
+        Favorite (
+            id = id,
+            title = title,
+            overview = overview,
+            image = posterPath,
+            type = "tv"
+        )
+}

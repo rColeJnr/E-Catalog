@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
-import com.rick.data_movie.imdb.movie_model.IMDBMovie
+import com.rick.data_movie.imdb_am_not_paying.movie_model.IMDBMovie
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint

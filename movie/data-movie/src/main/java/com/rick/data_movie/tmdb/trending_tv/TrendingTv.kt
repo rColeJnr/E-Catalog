@@ -24,8 +24,6 @@ data class TrendingTv(
     val posterPath: String,
     @SerializedName("media_type")
     val mediaType: String,
-    @SerializedName("genre_ids")
-    val genreIds: List<Int>,
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("first_air_date")
@@ -34,6 +32,4 @@ data class TrendingTv(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int,
-    @SerializedName("origin_country")
-    val originCountry: List<String>
 )

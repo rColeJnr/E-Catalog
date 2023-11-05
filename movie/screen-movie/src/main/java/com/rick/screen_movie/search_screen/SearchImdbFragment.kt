@@ -24,7 +24,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.imdb.search_model.IMDBSearchResult
+import com.rick.data_movie.imdb_am_not_paying.search_model.IMDBSearchResult
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding

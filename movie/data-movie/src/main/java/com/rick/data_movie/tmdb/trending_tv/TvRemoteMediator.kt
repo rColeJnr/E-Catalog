@@ -54,16 +54,16 @@ class TvRemoteMediator(
             val endOfPaginationReached = series.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    db.tmdbDao.clearMovies()
-                    db.tvRemoteKeys.clearRemoteKeys()
+                    db.tmdbDao.deleteTrendingTv()
+                    db.tvRemoteKeysDao.clearRemoteKeys()
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = series.map {
                     TvRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
-                db.tvRemoteKeys.insertAll(keys)
-                db.tmdbDao.insertSeries(series)
+                db.tvRemoteKeysDao.insertAll(keys)
+                db.tmdbDao.insertTrendingTv(series)
             }
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: HttpException) {
@@ -79,7 +79,7 @@ class TvRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
-                db.tvRemoteKeysDao.remoteKeysMovieId(movie.id)
+                db.tvRemoteKeysDao.remoteKeysId(movie.id)
             }
     }
 
@@ -89,7 +89,7 @@ class TvRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { tv ->
                 // GEt the remote keys of the first items retrieved
-                db.tvRemoteKeysDao.remoteKeysMovieId(tv.id)
+                db.tvRemoteKeysDao.remoteKeysId(tv.id)
             }
     }
 
@@ -98,7 +98,7 @@ class TvRemoteMediator(
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { tv ->
-                db.tvRemoteKeysDao.remoteKeysMovieId(tv)
+                db.tvRemoteKeysDao.remoteKeysId(tv)
             }
         }
     }
