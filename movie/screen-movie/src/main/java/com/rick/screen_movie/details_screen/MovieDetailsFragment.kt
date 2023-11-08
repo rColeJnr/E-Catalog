@@ -67,7 +67,7 @@ class MovieDetailsFragment : Fragment() {
         }
 
         binding.bindState(
-            movie = viewModel.movingPictures,
+            movie = viewModel.movie,
             loading = viewModel.searchLoading,
             error = viewModel.searchError
         )

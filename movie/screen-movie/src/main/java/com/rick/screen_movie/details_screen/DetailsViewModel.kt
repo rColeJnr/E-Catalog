@@ -6,52 +6,79 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.imdb_am_not_paying.movie_model.IMDBMovie
+import com.rick.data_movie.tmdb.movie.MovieResponse
+import com.rick.data_movie.tmdb.tv.TvResponse
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+//FLOW
+
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
-    private val imdbKey: String
+    private val tmdbKey: String
 
-    private val _searchLoading: MutableLiveData<Boolean> by
-    lazy { MutableLiveData<Boolean>(false) }
-    val searchLoading: LiveData<Boolean> get() = _searchLoading
+    private val _searchLoading: MutableLiveData<DetailsUiState.Loading> by
+    lazy { MutableLiveData<DetailsUiState.Loading>(DetailsUiState.Loading(false)) }
+    val searchLoading: LiveData<DetailsUiState.Loading> get() = _searchLoading
 
-    private val _searchError: MutableLiveData<String> by
-    lazy { MutableLiveData<String>() }
-    val searchError: LiveData<String> get() = _searchError
+    private val _searchError: MutableLiveData<DetailsUiState.Error> by
+    lazy { MutableLiveData<DetailsUiState.Error>() }
+    val searchError: LiveData<DetailsUiState.Error> get() = _searchError
 
-    private val _movingPictures: MutableLiveData<IMDBMovie> by
-    lazy { MutableLiveData<IMDBMovie>() }
-    val movingPictures: LiveData<IMDBMovie> get() = _movingPictures
+    private val _movie: MutableLiveData<DetailsUiState.Movie> by
+    lazy { MutableLiveData<DetailsUiState.Movie>() }
+    val movie: LiveData<DetailsUiState.Movie> get() = _movie
+
+    private val _series: MutableLiveData<DetailsUiState.Tv> by
+    lazy { MutableLiveData<DetailsUiState.Tv>() }
+    val series: LiveData<DetailsUiState.Tv> get() = _series
 
     init {
 
         // Load api_keys
         System.loadLibrary(LIB_NAME)
-        imdbKey = getIMDBKey()
+        tmdbKey = getTMDBKey()
 
     }
 
-    fun getMovieOrSeriesId(title: String) {
+//    fun getMovieOrSeriesId(title: String) {
+//        viewModelScope.launch {
+//            repository.searchExactMatch(apiKey = imdbKey, query = title).collectLatest { result ->
+//                when (result) {
+//                    is Resource.Error -> {
+//                        _searchError.postValue(result.message)
+//                    }
+//                    is Resource.Loading -> {
+//                        _searchLoading.postValue(result.isLoading)
+//                    }
+//                    is Resource.Success -> {
+//                        getMovieOrSeries(result.data!!.first().id)
+//                    }
+//                    else -> {}
+//                }
+//            }
+//        }
+//    }
+
+    private fun getMovie(id: Int) {
         viewModelScope.launch {
-            repository.searchExactMatch(apiKey = imdbKey, query = title).collectLatest { result ->
+            repository.getTmdbMovie(key = tmdbKey, id = id).collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
-                        _searchError.postValue(result.message)
+                        _searchError.postValue(DetailsUiState.Error(result.message))
                     }
                     is Resource.Loading -> {
-                        _searchLoading.postValue(result.isLoading)
+                        _searchLoading.postValue(DetailsUiState.Loading(result.isLoading))
                     }
                     is Resource.Success -> {
-                        getMovieOrSeries(result.data!!.first().id)
+                        _movie.postValue(DetailsUiState.Movie(result.data))
                     }
                     else -> {}
                 }
@@ -59,18 +86,18 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    fun getMovieOrSeries(id: String) {
+    private fun getSeries(id: Int) {
         viewModelScope.launch {
-            repository.getMovieOrSeries(imdbKey, id).collectLatest { result ->
+            repository.getTmdbTv(key = tmdbKey, id = id).collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
-                        _searchError.postValue(result.message)
+                        _searchError.postValue(DetailsUiState.Error(result.message))
                     }
                     is Resource.Loading -> {
-                        _searchLoading.postValue(result.isLoading)
+                        _searchLoading.postValue(DetailsUiState.Loading(result.isLoading))
                     }
                     is Resource.Success -> {
-                        _movingPictures.postValue(result.data!!)
+                        _series.postValue(DetailsUiState.Tv(result.data))
                     }
                     else -> {}
                 }
@@ -78,5 +105,13 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    private external fun getIMDBKey(): String
+    //    private external fun getIMDBKey(): String
+    private external fun getTMDBKey(): String
+}
+
+sealed class DetailsUiState {
+    data class Tv(val tv: TvResponse?) : DetailsUiState()
+    data class Movie(val movie: MovieResponse?) : DetailsUiState()
+    data class Loading(val loading: Boolean): DetailsUiState()
+    data class Error(val msg: String?): DetailsUiState()
 }

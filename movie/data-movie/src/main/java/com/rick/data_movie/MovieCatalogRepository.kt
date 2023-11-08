@@ -11,6 +11,7 @@ import com.rick.data_movie.ny_times.MovieCatalogRemoteMediator
 import com.rick.data_movie.ny_times.article_models.Doc
 import com.rick.data_movie.tmdb.TMDBApi
 import com.rick.data_movie.tmdb.movie.MovieResponse
+import com.rick.data_movie.tmdb.search.SearchResponse
 import com.rick.data_movie.tmdb.trending_movie.MovieRemoteMediator
 import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
 import com.rick.data_movie.tmdb.trending_tv.TrendingTv
@@ -122,6 +123,24 @@ class MovieCatalogRepository @Inject constructor(
                     emit(Resource.Error(e.message))
                     emit(Resource.Loading(false))
                 }
+            }
+        }
+    }
+
+    // Not caching search results
+    fun searchTmdb(query: String, key: String): Flow<Resource<SearchResponse>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val response = tmdbApi.searchMulti(query = query, apikey = key,)
+                emit(Resource.Loading(false))
+                emit(Resource.Success(data = response))
+            } catch (e: IOException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.message))
+                emit(Resource.Loading(false))
             }
         }
     }
