@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.imdb_am_not_paying.search_model.IMDBSearchResult
+import com.rick.data_movie.tmdb.movie.MovieResponse
+import com.rick.data_movie.tmdb.tv.TvResponse
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,25 +22,30 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+// WHY ISNT MY CODEBASE CONSISTENT THROUGHOUT, AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH
+// I'm in public so i can't just blast.
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
-    private val imdbKey: String
+    private val tmdbKey: String
 
-    private val _searchList: MutableLiveData<List<IMDBSearchResult>> by
-    lazy { MutableLiveData<List<IMDBSearchResult>>() }
-    val searchList: LiveData<List<IMDBSearchResult>> get() = _searchList
+    private val _moviesList: MutableLiveData<SearchUiState.Movies> by
+    lazy { MutableLiveData<SearchUiState.Movies>() }
+    val moviesList: LiveData<SearchUiState.Movies> get() = _moviesList
 
-    private val _searchLoading: MutableLiveData<Boolean> by
-    lazy { MutableLiveData<Boolean>(false) }
-    val searchLoading: LiveData<Boolean> get() = _searchLoading
+    private val _seriesList: MutableLiveData<SearchUiState.Series> by
+    lazy { MutableLiveData<SearchUiState.Series>() }
+    val seriesList: LiveData<SearchUiState.Series> get() = _seriesList
 
-    private val _searchError: MutableLiveData<String> by
-    lazy { MutableLiveData<String>() }
-    val searchError: LiveData<String> get() = _searchError
+    private val _searchLoading: MutableLiveData<SearchUiState.Loading> by
+    lazy { MutableLiveData<SearchUiState.Loading>(SearchUiState.Loading(false)) }
+    val searchLoading: LiveData<SearchUiState.Loading> get() = _searchLoading
+
+    private val _searchError: MutableLiveData<SearchUiState.Error> by
+    lazy { MutableLiveData<SearchUiState.Error>() }
+    val searchError: LiveData<SearchUiState.Error> get() = _searchError
 
     val searchState: StateFlow<SearchUiState>
     val searchAction: (SearchUiAction) -> Unit
@@ -48,7 +54,8 @@ class SearchViewModel @Inject constructor(
 
         // Load api_keys
         System.loadLibrary(LIB_NAME)
-        imdbKey = getIMDBKey()
+//        imdbKey = getIMDBKey()
+        tmdbKey = getTMDBKey()
 
         val actionStateFlow = MutableSharedFlow<SearchUiAction>()
         val search =
@@ -61,7 +68,7 @@ class SearchViewModel @Inject constructor(
             }
         }
 
-        searchState = search.map { SearchUiState(searchQuery = it.query) }
+        searchState = search.map { SearchUiState(query = it.query) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
@@ -75,7 +82,7 @@ class SearchViewModel @Inject constructor(
 
     private fun searchMovies(title: String) {
         viewModelScope.launch {
-            repository.searchMovies(apiKey = imdbKey, query = title).collect { result ->
+            repository.searchMovies(apiKey = tmdbKey, query = title).collect { result ->
                 when (result) {
                     is Resource.Error -> {
                         _searchError.postValue(result.message)
@@ -86,7 +93,7 @@ class SearchViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        _searchList.postValue(result.data!!)
+                        _moviesList.postValue(result.data!!)
                     }
                 }
             }
@@ -106,7 +113,7 @@ class SearchViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        _searchList.postValue(result.data!!)
+                        _moviesList.postValue(result.data!!)
                     }
                 }
             }
@@ -126,12 +133,17 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private external fun getIMDBKey(): String
+//    private external fun getIMDBKey(): String
+    private external fun getTMDBKey(): String
 }
 
-data class SearchUiState(
-    val searchQuery: String? = null,
-)
+sealed class SearchUiState {
+    data class Query(val query: String? = null,)
+    data class Movies(val movies: List<MovieResponse>?)
+    data class Series(val series: List<TvResponse>?)
+    data class Loading(val loading: Boolean)
+    data class Error(val msg: String?)
+}
 
 sealed class SearchUiAction {
     data class Search(val query: String) : SearchUiAction()

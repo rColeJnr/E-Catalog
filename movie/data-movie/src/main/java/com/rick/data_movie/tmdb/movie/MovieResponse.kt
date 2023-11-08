@@ -43,7 +43,7 @@ data class MovieResponse(
     fun toFavorite(): Favorite =
         Favorite (
             id = id,
-            title = title,
+            title = title ,
             overview = overview,
             image = posterPath,
             type = "tv"

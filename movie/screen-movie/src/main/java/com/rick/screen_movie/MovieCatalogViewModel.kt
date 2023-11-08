@@ -24,7 +24,6 @@ class MovieCatalogViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
-
     /**
      * Stream of immutable states representative of the UI.
      */
@@ -55,19 +54,19 @@ class MovieCatalogViewModel @Inject constructor(
                     if (before == null) {
                         // we're at the beginning of the list
                         return@insertSeparators UiModel.SeparatorItem(
-                            "${getMonth(after.movie.openingDate).month}  " +
-                                    "${getMonth(after.movie.openingDate).year}"
+                            "${getMonth(after.movie.pubDate).month}  " +
+                                    "${getMonth(after.movie.pubDate).year}"
                         )
                     }
                     if (
-                        getMonth(after.movie.openingDate)
-                            .month.equals(getMonth(before.movie.openingDate).month)
+                        getMonth(after.movie.pubDate)
+                            .month.equals(getMonth(before.movie.pubDate).month)
                     ) {
                         null
                     } else {
                         UiModel.SeparatorItem(
-                            "${getMonth(after.movie.openingDate).month}  " +
-                                    "${getMonth(after.movie.openingDate).year}"
+                            "${getMonth(after.movie.pubDate).month}  " +
+                                    "${getMonth(after.movie.pubDate).year}"
                         )
                     }
                 }
@@ -87,19 +86,15 @@ class MovieCatalogViewModel @Inject constructor(
     }
 }
 
+// This code is bad bcs i never cared to look into it.
 private var previousDate: LocalDate? = null
 private fun getMonth(date: String?): LocalDate {
     val formatter = DateTimeFormatter.ofPattern(TIME_FORMAT)
-    val localDate = if (date != null) {
-        previousDate = LocalDate.parse(date, formatter)
-        previousDate
-    } else if (previousDate == null) {
-        previousDate = LocalDate.now()
-        previousDate
-    } else {
-        previousDate
+    return if (date != null) {
+        LocalDate.parse(date, formatter)
+    } else run {
+        LocalDate.now()
     }
-    return localDate!!
 }
 
 private external fun getNYKey(): String
