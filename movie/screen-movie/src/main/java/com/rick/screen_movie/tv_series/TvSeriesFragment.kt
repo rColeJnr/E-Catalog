@@ -9,21 +9,27 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.imdb_am_not_paying.series_model.TvSeries
+import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.R
 import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TvSeriesFragment : Fragment() {
@@ -73,41 +79,53 @@ class TvSeriesFragment : Fragment() {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
 
-        binding.bindList(
-            viewModel.tvSeriesList,
-            viewModel.tvSeriesLoading,
-            viewModel.tvSeriesError
+        binding.bindState(
+            pagingData = viewModel.pagingDataFlow
+        )
+    }
+    private fun FragmentMovieCatalogBinding.bindState(
+        pagingData: Flow<PagingData<TrendingTv>>
+    ) {
+        bindList(
+            adapter = adapter,
+            pagingData = pagingData
         )
     }
 
     private fun FragmentMovieCatalogBinding.bindList(
-        tvSeriesList: LiveData<TvSeriesUiState.Series>,
-        tvSeriesLoading: LiveData<TvSeriesUiState.Loading>,
-        tvSeriesError: LiveData<TvSeriesUiState.Error>
+        adapter: TvSeriesAdapter,
+        pagingData: Flow<PagingData<TvSeriesUiState>>
     ) {
-        tvSeriesList.observe(viewLifecycleOwner) {
-            adapter.differ.submitList(it.series)
+
+        lifecycleScope.launch {
+            pagingData.collectLatest(adapter::submitData)
         }
 
-        tvSeriesLoading.observe(viewLifecycleOwner) {
-            swipeRefresh.isRefreshing = it.loading
-        }
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect {
 
-        tvSeriesError.observe(viewLifecycleOwner) {
-            emptyList.isVisible = adapter.itemCount == 0
-            it.msg?.let { msg ->
-                Toast.makeText(
-                    context,
-                    "\uD83D\uDE28 Wooops $msg",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
 
-        swipeRefresh.setOnRefreshListener {
-            Toast.makeText(context, getString(R.string.list_updated), Toast.LENGTH_SHORT).show()
-            swipeRefresh.isRefreshing = false
-        }
+//        tvSeriesLoading.observe(viewLifecycleOwner) {
+//            swipeRefresh.isRefreshing = it.loading
+//        }
+//
+//        tvSeriesError.observe(viewLifecycleOwner) {
+//            emptyList.isVisible = adapter.itemCount == 0
+//            it.msg?.let { msg ->
+//                Toast.makeText(
+//                    context,
+//                    "\uD83D\uDE28 Wooops $msg",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+//
+//        swipeRefresh.setOnRefreshListener {
+//            Toast.makeText(context, getString(R.string.list_updated), Toast.LENGTH_SHORT).show()
+//            swipeRefresh.isRefreshing = false
+//        }
 
 
     }

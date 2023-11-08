@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class Search(
     @SerializedName("adult")
     val adult: Boolean,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("backdrop_path")
     val backdropPath: String?,
     @SerializedName("id")

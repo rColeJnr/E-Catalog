@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times_deprecated.Movie
+import com.rick.data_movie.ny_times.article_models.Doc
 import com.rick.screen_movie.databinding.MovieEntryBinding
 import com.rick.screen_movie.util.provideGlide
 
 class MovieCatalogViewHolder(
     binding: MovieEntryBinding,
-    private val onItemClicked: (view: View, movie: Movie) -> Unit,
+    private val onItemClicked: (view: View, movie: Doc) -> Unit,
     private val onFavClicked: (view: View, favorite: Favorite) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.movieName
@@ -19,26 +19,25 @@ class MovieCatalogViewHolder(
     private val image = binding.movieImage
     private val summary = binding.movieSummary
 
-    private lateinit var movie: Movie
+    private lateinit var movie: Doc
 
     init {
         binding.root.setOnClickListener {
             onItemClicked(it, movie)
         }
         binding.favButton.setOnClickListener {
-            onFavClicked(it, movie.toFavorite())
+//            onFavClicked(it, movie.toFavorite())
         }
     }
 
-    fun bind(movie: Movie) {
+    fun bind(movie: Doc) {
         this.movie = movie
-        this.title.text = movie.title
-        this.summary.text = movie.summary
+        this.title.text = movie.headline.main
+        this.summary.text = movie.snippet
         val resources = itemView.resources
-        this.rating.text =
-            if (movie.rating.isNotBlank()) resources.getString(R.string.rated, movie.rating)
-            else resources.getString(R.string.no_data)
-        val src = movie.multimedia.src
+        //TODO (Cheeck rating in nytimes response)
+        this.rating.text = resources.getString(R.string.rated, movie.byline.original)
+        val src = movie.multimedia[0].url
         if (src.isNotBlank()) provideGlide(this.image, src)
     }
 
@@ -49,7 +48,7 @@ class MovieCatalogViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClicked: (view: View, movie: Movie) -> Unit,
+            onItemClicked: (view: View, movie: Doc) -> Unit,
             onFavClicked: (view: View, favorite: Favorite) -> Unit
         ): MovieCatalogViewHolder {
             val itemBinding = MovieEntryBinding

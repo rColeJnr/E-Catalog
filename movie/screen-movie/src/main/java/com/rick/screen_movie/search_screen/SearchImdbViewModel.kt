@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.tmdb.movie.MovieResponse
+import com.rick.data_movie.tmdb.search.Search
+import com.rick.data_movie.tmdb.search.SearchResponse
 import com.rick.data_movie.tmdb.tv.TvResponse
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,9 +32,9 @@ class SearchViewModel @Inject constructor(
 
     private val tmdbKey: String
 
-    private val _moviesList: MutableLiveData<SearchUiState.Movies> by
-    lazy { MutableLiveData<SearchUiState.Movies>() }
-    val moviesList: LiveData<SearchUiState.Movies> get() = _moviesList
+    private val _searchList: MutableLiveData<SearchUiState.Response> by
+    lazy { MutableLiveData<SearchUiState.Response>() }
+    val searchList: LiveData<SearchUiState.Response> get() = _searchList
 
     private val _seriesList: MutableLiveData<SearchUiState.Series> by
     lazy { MutableLiveData<SearchUiState.Series>() }
@@ -47,7 +48,7 @@ class SearchViewModel @Inject constructor(
     lazy { MutableLiveData<SearchUiState.Error>() }
     val searchError: LiveData<SearchUiState.Error> get() = _searchError
 
-    val searchState: StateFlow<SearchUiState>
+    val searchState: StateFlow<SearchUiState.Query>
     val searchAction: (SearchUiAction) -> Unit
 
     init {
@@ -63,16 +64,15 @@ class SearchViewModel @Inject constructor(
 
         viewModelScope.launch {
             search.collectLatest {
-                searchMovies(it.query)
-                searchSeries(it.query)
+                searchTmdb(it.query)
             }
         }
 
-        searchState = search.map { SearchUiState(query = it.query) }
+        searchState = search.map { SearchUiState.Query(query = it.query) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000),
-                initialValue = SearchUiState()
+                initialValue = SearchUiState.Query(null)
             )
 
         searchAction = { action ->
@@ -80,45 +80,45 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchMovies(title: String) {
+    private fun searchTmdb(title: String) {
         viewModelScope.launch {
-            repository.searchMovies(apiKey = tmdbKey, query = title).collect { result ->
+            repository.searchTmdb(key = tmdbKey, query = title).collect { result ->
                 when (result) {
                     is Resource.Error -> {
-                        _searchError.postValue(result.message)
+                        _searchError.postValue(SearchUiState.Error(result.message))
                     }
 
                     is Resource.Loading -> {
-                        _searchLoading.postValue(result.isLoading)
+                        _searchLoading.postValue(SearchUiState.Loading(result.isLoading))
                     }
 
                     is Resource.Success -> {
-                        _moviesList.postValue(result.data!!)
+                        _searchList.postValue(SearchUiState.Response(result.data!!.results))
                     }
                 }
             }
         }
     }
-
-    private fun searchSeries(title: String) {
-        viewModelScope.launch {
-            repository.searchSeries(apiKey = imdbKey, query = title).collect { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _searchError.postValue(result.message)
-                    }
-
-                    is Resource.Loading -> {
-                        _searchLoading.postValue(result.isLoading)
-                    }
-
-                    is Resource.Success -> {
-                        _moviesList.postValue(result.data!!)
-                    }
-                }
-            }
-        }
-    }
+//
+//    private fun searchSeries(title: String) {
+//        viewModelScope.launch {
+//            repository.searchSeries(apiKey = imdbKey, query = title).collect { result ->
+//                when (result) {
+//                    is Resource.Error -> {
+//                        _searchError.postValue(result.message)
+//                    }
+//
+//                    is Resource.Loading -> {
+//                        _searchLoading.postValue(result.isLoading)
+//                    }
+//
+//                    is Resource.Success -> {
+//                        _moviesList.postValue(result.data!!)
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     fun onEvent(event: SearchUiAction) {
         when (event) {
@@ -138,8 +138,8 @@ class SearchViewModel @Inject constructor(
 }
 
 sealed class SearchUiState {
-    data class Query(val query: String? = null,)
-    data class Movies(val movies: List<MovieResponse>?)
+    data class Query(val query: String?)
+    data class Response(val response: List<Search>)
     data class Series(val series: List<TvResponse>?)
     data class Loading(val loading: Boolean)
     data class Error(val msg: String?)
