@@ -25,6 +25,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.imdb_am_not_paying.search_model.IMDBSearchResult
+import com.rick.data_movie.tmdb.search.Search
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.SearchEntryBinding
@@ -121,11 +122,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun FragmentSearchBinding.bindState(
-        searchList: LiveData<List<IMDBSearchResult>>,
-        searchLoading: LiveData<Boolean>,
-        searchError: LiveData<String>,
+        searchList: LiveData<SearchUiState.Response>,
+        searchLoading: LiveData<SearchUiState.Loading>,
+        searchError: LiveData<SearchUiState.Error>,
         uiAction: (SearchUiAction) -> Unit,
-        uiState: StateFlow<SearchUiState>
+        uiState: StateFlow<SearchUiState.Query>
     ) {
 
         list.adapter = searchAdapter
@@ -144,7 +145,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun FragmentSearchBinding.bindSearch(
-        uiState: StateFlow<SearchUiState>,
+        uiState: StateFlow<SearchUiState.Query>,
         onQueryChanged: (SearchUiAction) -> Unit,
     ) {
 
@@ -169,7 +170,7 @@ class SearchFragment : Fragment() {
 
         lifecycleScope.launch {
             uiState
-                .map { it.searchQuery }
+                .map { it.query }
                 .distinctUntilChanged()
                 .collectLatest(searchInput::setText)
         }
@@ -187,24 +188,24 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindList(
         adapter: SearchAdapter,
-        searchList: LiveData<List<IMDBSearchResult>>,
-        searchLoading: LiveData<Boolean>,
-        searchError: LiveData<String>
+        searchList: LiveData<SearchUiState.Response>,
+        searchLoading: LiveData<SearchUiState.Loading>,
+        searchError: LiveData<SearchUiState.Error>
     ) {
         lifecycleScope.launch {
             searchList.observe(viewLifecycleOwner) {
-                adapter.searchDiffer.submitList(it)
+                adapter.searchDiffer.submitList(it.response)
             }
         }
 
         lifecycleScope.launch {
             searchLoading.observe(viewLifecycleOwner) {
-                if (it) searchProgressBar.visibility = View.VISIBLE
+                if (it.loading) searchProgressBar.visibility = View.VISIBLE
                 else searchProgressBar.visibility = View.GONE
             }
 
             searchError.observe(viewLifecycleOwner) {
-                if (it.isNotEmpty()) {
+                if (it.msg != null ) {
                     searchErrorMessage.visibility = View.VISIBLE
                 } else {
                     searchErrorMessage.visibility = View.GONE
@@ -213,19 +214,20 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun onMovieClick(view: View, movie: IMDBSearchResult) {
+    //TODO (REMOVE .toString())
+    private fun onMovieClick(view: View, movie: Search) {
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
-        val searchToDetails = getString(R.string.search_transition_name, movie.id)
+        val searchToDetails = getString(R.string.search_transition_name, movie.id.toString())
         val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action =
             SearchFragmentDirections
                 .actionSearchFragmentToDetailsFragment(
-                    movieId = movie.id,
+                    movieId = movie.id.toString(),
                     movieTitle = null,
                     series = null
                 )
@@ -246,21 +248,21 @@ class SearchFragment : Fragment() {
 class SearchAdapter(
     private val glide: RequestManager,
     private val options: RequestOptions,
-    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit,
+    private val onItemClicked: (view: View, movie: Search) -> Unit,
     private val onFavClicked: (favorite: Favorite) -> Unit
 ) : RecyclerView.Adapter<SearchViewHolder>() {
 
-    private val searchDiffUtil = object : DiffUtil.ItemCallback<IMDBSearchResult>() {
+    private val searchDiffUtil = object : DiffUtil.ItemCallback<Search>() {
         override fun areItemsTheSame(
-            oldItem: IMDBSearchResult,
-            newItem: IMDBSearchResult
+            oldItem: Search,
+            newItem: Search
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: IMDBSearchResult,
-            newItem: IMDBSearchResult
+            oldItem: Search,
+            newItem: Search
         ): Boolean {
             return oldItem == newItem
         }
@@ -283,7 +285,7 @@ class SearchAdapter(
 
 class SearchViewHolder(
     binding: SearchEntryBinding,
-    private val onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit,
+    private val onItemClicked: (view: View, movie: Search) -> Unit,
     private val onFavClicked: (favorite: Favorite) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.image
@@ -293,22 +295,22 @@ class SearchViewHolder(
 
     init {
         binding.root.setOnClickListener {
-            onItemClicked(it, searchResult)
+            onItemClicked(it, result)
         }
         binding.favButton.setOnClickListener {
-            onFavClicked(searchResult.toFavorite())
+//            onFavClicked(result.toFavorite()) TODO (code fav function)
         }
     }
 
-    private lateinit var searchResult: IMDBSearchResult
+    private lateinit var result: Search
 
-    fun bind(glide: RequestManager, options: RequestOptions, searchResult: IMDBSearchResult) {
+    fun bind(glide: RequestManager, options: RequestOptions, searchResult: Search) {
         this.searchLLayout.transitionName = "search ${searchResult.id}"
-        this.searchResult = searchResult
+        this.result = searchResult
         this.title.text = searchResult.title
-        this.description.text = searchResult.description
+        this.description.text = searchResult.overview
         glide
-            .load(searchResult.image)
+            .load(searchResult.backdropPath) //TODO, add path to proper url
             .apply(options)
             .into(this.image)
     }
@@ -320,7 +322,7 @@ class SearchViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClicked: (view: View, movie: IMDBSearchResult) -> Unit,
+            onItemClicked: (view: View, movie: Search) -> Unit,
             onFavClicked: (favorite: Favorite) -> Unit
         ): SearchViewHolder {
             val itemBinding = SearchEntryBinding

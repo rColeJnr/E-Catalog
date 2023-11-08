@@ -65,7 +65,7 @@ class MovieFavoriteFragment : Fragment() {
             val movies = viewModel.movie.observeAsState().value ?: listOf()
             val series = viewModel.series.observeAsState().value ?: listOf()
             MdcTheme {
-                FavScreen(movies = movies, series = series)
+//                FavScreen(movies = movies, /*series = series*/)
             }
         }
 
@@ -78,34 +78,34 @@ class MovieFavoriteFragment : Fragment() {
     }
 }
 
-@Composable
-fun FavScreen(movies: List<Favorite>, series: List<IMDBFavorite>) {
-    // TODO column bug
-    Scaffold {
-        Column {
-            Text(text = "Movies")
-            LazyColumn(modifier = Modifier.padding(it)) {
-                items(movies) { movie ->
-                    MovieItem(movie)
-                    Divider(
-                        Modifier.height(1.dp),
-                        color = MaterialTheme.colors.secondary
-                    )
-                }
-            }
-            Text(text = "Series")
-            LazyColumn(modifier = Modifier.padding(it)) {
-                items(series) { series ->
-                    SeriesItem(series)
-                    Divider(
-                        Modifier.height(1.dp),
-                        color = MaterialTheme.colors.secondary
-                    )
-                }
-            }
-        }
-    }
-}
+//@Composable
+//fun FavScreen(movies: List<Favorite>, /*series: List<IMDBFavorite>*/) {
+//    // TODO column bug
+//    Scaffold {
+//        Column {
+//            Text(text = "Movies")
+//            LazyColumn(modifier = Modifier.padding(it)) {
+//                items(movies) { movie ->
+//                    MovieItem(movie)
+//                    Divider(
+//                        Modifier.height(1.dp),
+//                        color = MaterialTheme.colors.secondary
+//                    )
+//                }
+//            }
+//            Text(text = "Series")
+//            LazyColumn(modifier = Modifier.padding(it)) {
+//                items(series) { series ->
+//                    SeriesItem(series)
+//                    Divider(
+//                        Modifier.height(1.dp),
+//                        color = MaterialTheme.colors.secondary
+//                    )
+//                }
+//            }
+//        }
+//    }
+//}
 
 @Composable
 fun MovieItem(movie: Favorite) {
@@ -147,7 +147,7 @@ fun MovieItem(movie: Favorite) {
                     )
                 }
                 Text(
-                    text = movie.rating,
+                    text = movie.type,
                     style = MaterialTheme.typography.body1,
                     modifier = Modifier.constrainAs(rating) {
                         end.linkTo(image.start)
@@ -167,7 +167,7 @@ fun MovieItem(movie: Favorite) {
                 contentScale = ContentScale.FillHeight,
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = movie.summary, style = MaterialTheme.typography.body1)
+            Text(text = movie.overview, style = MaterialTheme.typography.body1)
             Spacer(modifier = Modifier.height(2.dp))
         }
     }
@@ -254,8 +254,7 @@ val dummyMovies = listOf(
         "This is the summarty of movie 1",
         "pg-13",
         "https://media.istockphoto.com/id/1368264124/photo/extreme-close-up-of-thrashing-emerald-ocean-waves.jpg?b=1&s=170667a&w=0&k=20&c=qha_PaU54cu9QCu1UTlORP4-sW0MqLGERkdFKmC06lI=",
-        "movie",
-        "someelse"
+
     ),
     Movie(
         0,

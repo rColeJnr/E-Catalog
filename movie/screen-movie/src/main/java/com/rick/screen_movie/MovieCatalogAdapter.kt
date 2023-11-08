@@ -6,10 +6,10 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times_deprecated.Movie
+import com.rick.data_movie.ny_times.article_models.Doc
 
 class MovieCatalogAdapter(
-    private val onItemClicked: (view: View, movie: Movie) -> Unit,
+    private val onItemClicked: (view: View, movie: Doc) -> Unit,
     private val onFavClicked: (view: View, favorite: Favorite) -> Unit
 ) :
     PagingDataAdapter<UiModel, ViewHolder>(RESULT_COMPARATOR) {
@@ -44,7 +44,7 @@ class MovieCatalogAdapter(
         private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {
             override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
                 return ((oldItem is UiModel.MovieItem) && (newItem is UiModel.MovieItem) &&
-                        (oldItem.movie.title == newItem.movie.title)
+                        (oldItem.movie.headline.main == newItem.movie.headline.main)
                         ) ||
                         ((oldItem is UiModel.SeparatorItem) && (newItem is UiModel.SeparatorItem) &&
                                 (oldItem.description == newItem.description))
