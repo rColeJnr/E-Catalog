@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.rick.data_book.BookRepository
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Book
+import com.rick.data_book.gutenberg.model.Book
 import com.rick.screen_book.favorite_screen.FavoriteEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -1,6 +1,6 @@
-package com.rick.data_book
+package com.rick.data_book.gutenberg
 
-import com.rick.data_book.model.GutenbergResponseDto
+import com.rick.data_book.gutenberg.model.GutenbergResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

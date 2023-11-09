@@ -21,9 +21,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Author
-import com.rick.data_book.model.Book
-import com.rick.data_book.model.Formats
+import com.rick.data_book.gutenberg.model.Author
+import com.rick.data_book.gutenberg.model.Book
+import com.rick.data_book.gutenberg.model.Formats
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint

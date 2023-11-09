@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Formats
+import com.rick.data_book.gutenberg.model.Formats
 import com.rick.screen_book.BookCatalogAdapter
 import com.rick.screen_book.BookCatalogViewHolder
 
 class SearchAdapter(
-    private val onItemClick: (view: View, formats: Formats) -> Unit ,
+    private val onItemClick: (view: View, formats: Formats) -> Unit,
     private val onFavClick : (favorite: Favorite) -> Unit
 ): RecyclerView.Adapter<BookCatalogViewHolder>() {
 

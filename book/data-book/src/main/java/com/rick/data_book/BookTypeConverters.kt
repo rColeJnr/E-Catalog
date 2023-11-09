@@ -4,9 +4,9 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rick.core.JsonParser
-import com.rick.data_book.model.Author
-import com.rick.data_book.model.Formats
-import com.rick.data_book.model.Translator
+import com.rick.data_book.gutenberg.model.Author
+import com.rick.data_book.gutenberg.model.Formats
+import com.rick.data_book.gutenberg.model.Translator
 
 @ProvidedTypeConverter
 class BookTypeConverters(

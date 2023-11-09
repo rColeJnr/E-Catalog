@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Book
-import com.rick.data_book.model.Formats
+import com.rick.data_book.gutenberg.model.Book
+import com.rick.data_book.gutenberg.model.Formats
 
 class BookCatalogAdapter(
     private val onItemClick: (view: View, formats: Formats) -> Unit,

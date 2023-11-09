@@ -7,8 +7,10 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.rick.core.Resource
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Book
-import com.rick.data_book.model.toGutenBergResponse
+import com.rick.data_book.gutenberg.BookRemoteMediator
+import com.rick.data_book.gutenberg.GutenbergApi
+import com.rick.data_book.gutenberg.model.Book
+import com.rick.data_book.gutenberg.model.toGutenBergResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
