@@ -48,6 +48,17 @@ class DetailsViewModel @Inject constructor(
 
     }
 
+    fun onTriggerEvent(event: DetailsUiEvent) {
+        when (event) {
+            is DetailsUiEvent.GetTrendingMovie -> {
+                getMovie(event.id)
+            }
+            is DetailsUiEvent.GetTrendingTv -> {
+                getSeries(event.id)
+            }
+        }
+    }
+
 //    fun getMovieOrSeriesId(title: String) {
 //        viewModelScope.launch {
 //            repository.searchExactMatch(apiKey = imdbKey, query = title).collectLatest { result ->
@@ -114,4 +125,9 @@ sealed class DetailsUiState {
     data class Movie(val movie: MovieResponse?) : DetailsUiState()
     data class Loading(val loading: Boolean): DetailsUiState()
     data class Error(val msg: String?): DetailsUiState()
+}
+
+sealed class DetailsUiEvent {
+    data class GetTrendingMovie(val id: Int): DetailsUiEvent()
+    data class GetTrendingTv(val id: Int): DetailsUiEvent()
 }

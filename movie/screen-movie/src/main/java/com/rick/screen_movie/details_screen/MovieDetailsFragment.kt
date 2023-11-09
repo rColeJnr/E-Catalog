@@ -28,8 +28,8 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var similarsAdapter: SimilarDetailsAdapter
 
     private var series: String? = null
-    private var title: String? = null
-    private var id: String? = null
+    private var movie: String? = null
+    private var id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +48,12 @@ class MovieDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
             series = safeArgs.series
-            title = safeArgs.movieTitle
-            id = safeArgs.movieId
+            movie = safeArgs.movieTitle
+            id = safeArgs.movieId!!.toInt() //TODO i'll fix it when we move to changes on xml
         }
 
-
-        title?.let { viewModel.getMovieOrSeriesId(it) }
-        id?.let { viewModel.getMovieOrSeries(it) }
-        series?.let { viewModel.getMovieOrSeries(it) }
+        movie?.let { viewModel.onTriggerEvent(DetailsUiEvent.GetTrendingMovie(id!!)) }
+        series?.let { viewModel.onTriggerEvent(DetailsUiEvent.GetTrendingTv(id!!)) }
 
         initAdapters()
 
@@ -79,7 +77,7 @@ class MovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.detailsCardView.transitionName = getString(R.string.movie_detail_transition_name)
-        binding.root.transitionName = getString(R.string.search_transition_name, id)
+        binding.root.transitionName = getString(R.string.search_transition_name, id.toString())
     }
 
     private fun initAdapters() {
@@ -89,7 +87,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun FragmentMovieDetailsBinding.bindState(
-        movie: LiveData<IMDBMovie>, loading: LiveData<Boolean>, error: LiveData<String>
+        movie: LiveData<DetailsUiState.Movie>,
+        loading: LiveData<DetailsUiState.Loading>,
+        error: LiveData<DetailsUiState.Error>
     ) {
         val layoutManager = LinearLayoutManager(
             requireContext(),
@@ -122,9 +122,9 @@ class MovieDetailsFragment : Fragment() {
         imagesAdapter: DetailsImagesAdapter,
         actorDetailsAdapter: ActorDetailsAdapter,
         similarDetailsAdapter: SimilarDetailsAdapter,
-        movie: LiveData<IMDBMovie>,
-        loading: LiveData<Boolean>,
-        error: LiveData<String>
+        movie: LiveData<DetailsUiState.Movie>,
+        loading: LiveData<DetailsUiState.Loading>,
+        error: LiveData<DetailsUiState.Error>
     ) {
 
         val noData = getString(R.string.no_data)

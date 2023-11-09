@@ -26,7 +26,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times_deprecated.Movie
+import com.rick.data_movie.ny_times.article_models.Doc
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -195,15 +195,15 @@ class MovieCatalogFragment : Fragment() {
 
     }
 
-    private fun onMovieClick(v: View, movie: Movie) {
+    private fun onMovieClick(v: View, movie: Doc) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
-        val movieToDetails = getString(R.string.movie_transition_name, movie.title)
+        val movieToDetails = getString(R.string.movie_transition_name, movie.headline.main)
         val extras = FragmentNavigatorExtras(v to movieToDetails)
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToMovieDetailsFragment(
-                movieTitle = movie.title, movieId = null, series = null,
+                movieTitle = movie.headline.main, movieId = null, series = null,
             )
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }

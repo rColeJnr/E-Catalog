@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.tmdb.trending_tv.TrendingTv
@@ -12,6 +13,7 @@ import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,7 +36,7 @@ class TvSeriesViewModel @Inject constructor(
 
 //    private val imdbKey: String
 
-    val pagingDataFlow: Flow<PagingData<TrendingTv>>
+    val pagingDataFlow: Flow<PagingData<TvSeriesUiState.Series>>
 
     private val tmdbKey: String
 
@@ -49,8 +51,9 @@ class TvSeriesViewModel @Inject constructor(
 
     }
 
-    private fun getTrendingTv(key: String): Flow<PagingData<TrendingTv>> =
+    private fun getTrendingTv(key: String): Flow<PagingData<TvSeriesUiState.Series>> =
         repository.getTrendingTv(key)
+            .map { pagingData -> pagingData.map { TvSeriesUiState.Series(it) } }
 
 
 //    private fun getTvSeries() {
@@ -89,7 +92,7 @@ class TvSeriesViewModel @Inject constructor(
 }
 
 sealed class TvSeriesUiState {
-    data class Series(val series: List<TrendingTv>) : TvSeriesUiState()
+    data class Series(val trendingTv: TrendingTv) : TvSeriesUiState()
     data class Loading(val loading: Boolean) : TvSeriesUiState()
     data class Error(val msg: String?) : TvSeriesUiState()
 }
