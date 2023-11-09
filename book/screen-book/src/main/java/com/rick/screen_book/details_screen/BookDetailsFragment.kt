@@ -10,7 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialContainerTransform
-import com.rick.data_book.model.Formats
+import com.rick.data_book.gutenberg.model.Formats
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint

@@ -9,8 +9,8 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Book
-import com.rick.data_book.model.Formats
+import com.rick.data_book.gutenberg.model.Book
+import com.rick.data_book.gutenberg.model.Formats
 import com.rick.screen_book.databinding.BookEntryBinding
 
 class BookCatalogViewHolder(

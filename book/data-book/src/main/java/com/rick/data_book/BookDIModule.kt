@@ -6,7 +6,8 @@ import com.google.gson.Gson
 import com.rick.core.GsonParser
 import com.rick.data_book.BookDatabase.Companion.DATABASE_NAME
 import com.rick.data_book.BookDatabase.Companion.MIGRATION_1_2
-import com.rick.data_book.GutenbergApi.Companion.GUTENBERG_BASE_URL
+import com.rick.data_book.gutenberg.GutenbergApi
+import com.rick.data_book.gutenberg.GutenbergApi.Companion.GUTENBERG_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

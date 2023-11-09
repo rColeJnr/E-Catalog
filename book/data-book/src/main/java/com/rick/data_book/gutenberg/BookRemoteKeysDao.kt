@@ -1,4 +1,4 @@
-package com.rick.data_book
+package com.rick.data_book.gutenberg
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -38,8 +38,8 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Book
-import com.rick.data_book.model.Formats
+import com.rick.data_book.gutenberg.model.Book
+import com.rick.data_book.gutenberg.model.Formats
 import com.rick.screen_book.databinding.FragmentBookCatalogBinding
 import com.rick.screen_book.favorite_screen.FavoriteEvents
 import dagger.hilt.android.AndroidEntryPoint

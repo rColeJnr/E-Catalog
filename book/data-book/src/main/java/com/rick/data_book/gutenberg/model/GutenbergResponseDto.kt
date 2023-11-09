@@ -1,4 +1,4 @@
-package com.rick.data_book.model
+package com.rick.data_book.gutenberg.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

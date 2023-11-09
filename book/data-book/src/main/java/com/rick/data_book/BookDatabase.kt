@@ -7,7 +7,10 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.rick.data_book.favorite.FavDao
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.model.Book
+import com.rick.data_book.gutenberg.BookDao
+import com.rick.data_book.gutenberg.BookRemoteKeys
+import com.rick.data_book.gutenberg.BookRemoteKeysDao
+import com.rick.data_book.gutenberg.model.Book
 
 @Database(
     entities = [Book::class, Favorite::class, BookRemoteKeys::class],

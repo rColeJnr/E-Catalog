@@ -1,19 +1,20 @@
-package com.rick.data_book.model
+package com.rick.data_book.gutenberg.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-data class Author(
+data class TranslatorDto(
     @SerializedName("birth_year")
-    val birthYear: Int,
+    val birthYear: Int?,
     @SerializedName("death_year")
-    val deathYear: Int,
+    val deathYear: Int?,
     @SerializedName("name")
     val name: String
-): Parcelable {
-    override fun toString(): String {
-        return name
-    }
-}
+)
+
+@Parcelize
+data class Translator(
+    @SerializedName("name")
+    val name: String
+): Parcelable
