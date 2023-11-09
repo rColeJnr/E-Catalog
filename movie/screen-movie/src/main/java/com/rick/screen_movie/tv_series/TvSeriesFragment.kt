@@ -1,14 +1,16 @@
 package com.rick.screen_movie.tv_series
 
 import android.os.Bundle
-import android.view.*
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -21,8 +23,6 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.imdb_am_not_paying.series_model.TvSeries
-import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.R
 import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
@@ -84,7 +84,7 @@ class TvSeriesFragment : Fragment() {
         )
     }
     private fun FragmentMovieCatalogBinding.bindState(
-        pagingData: Flow<PagingData<TrendingTv>>
+        pagingData: Flow<PagingData<TvSeriesUiState.Series>>
     ) {
         bindList(
             adapter = adapter,
@@ -94,7 +94,7 @@ class TvSeriesFragment : Fragment() {
 
     private fun FragmentMovieCatalogBinding.bindList(
         adapter: TvSeriesAdapter,
-        pagingData: Flow<PagingData<TvSeriesUiState>>
+        pagingData: Flow<PagingData<TvSeriesUiState.Series>>
     ) {
 
         lifecycleScope.launch {
@@ -130,15 +130,15 @@ class TvSeriesFragment : Fragment() {
 
     }
 
-    private fun onSeriesClick(view: View, series: TvSeries) {
+    private fun onSeriesClick(view: View, series: TvSeriesUiState.Series) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
-        val seriesToDetails = getString(R.string.movie_transition_name, series.title)
+        val seriesToDetails = getString(R.string.movie_transition_name, series.trendingTv.name)
         val extras = FragmentNavigatorExtras(view to seriesToDetails)
         val action = TvSeriesFragmentDirections
             .actionTvSeriesFragmentToSeriesDetailsFragment(
-                series = series.id,
+                series = series.trendingTv.id.toString(), //TODO, remove .toString()
                 movieId = null,
                 movieTitle = null
             )

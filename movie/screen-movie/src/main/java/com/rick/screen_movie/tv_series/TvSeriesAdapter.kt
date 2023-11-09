@@ -4,40 +4,38 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.imdb_am_not_paying.series_model.TvSeries
-import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.databinding.MovieEntryBinding
 import com.rick.screen_movie.util.provideGlide
 
 
 class TvSeriesAdapter(
-    private val onItemClicked: (view: View, series: TrendingTv) -> Unit,
+    private val onItemClicked: (view: View, series: TvSeriesUiState.Series) -> Unit,
     private val onFavClicked: (view: View, favorite: Favorite) -> Unit
-) : PagingDataAdapter<TvSeriesUiState, ViewHolder>(RESULT_COMPARATOR) {
+) : PagingDataAdapter<TvSeriesUiState.Series, TvSeriesViewHolder>(RESULT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvSeriesViewHolder {
         return TvSeriesViewHolder.create(parent, onItemClicked, onFavClicked)
     }
 
     override fun onBindViewHolder(holder: TvSeriesViewHolder, position: Int) {
-        return holder.bind(getItem(position))
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
-    override fun getItemCount(): Int =
-        differ.currentList.size
+//    override fun getItemCount(): Int =
+//        differ.currentList.size
 
     companion object {
-        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<TrendingTv>(){
-            override fun areItemsTheSame(oldItem: TrendingTv, newItem: TrendingTv): Boolean {
-                return oldItem.id == newItem.id
+        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<TvSeriesUiState.Series>(){
+            override fun areItemsTheSame(oldItem: TvSeriesUiState.Series, newItem: TvSeriesUiState.Series): Boolean {
+                return oldItem.trendingTv.id == newItem.trendingTv.id
             }
 
-            override fun areContentsTheSame(oldItem: TrendingTv, newItem: TrendingTv): Boolean {
+            override fun areContentsTheSame(oldItem: TvSeriesUiState.Series, newItem: TvSeriesUiState.Series): Boolean {
                 return oldItem == newItem
             }
         }
@@ -46,7 +44,7 @@ class TvSeriesAdapter(
 
 class TvSeriesViewHolder(
     itemBinding: MovieEntryBinding,
-    private val onItemClicked: (view: View, series: TrendingTv) -> Unit,
+    private val onItemClicked: (view: View, series: TvSeriesUiState.Series) -> Unit,
     private val onFavClicked: (view: View, favorite: Favorite) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
     private val title = itemBinding.movieName
@@ -54,25 +52,25 @@ class TvSeriesViewHolder(
     private val cast = itemBinding.movieSummary
     private val rating = itemBinding.movieRating
 
-    private lateinit var tvSeries: TrendingTv
+    private lateinit var tvSeries: TvSeriesUiState.Series
 
     init {
         itemBinding.root.setOnClickListener{
             onItemClicked(it, tvSeries)
         }
         itemBinding.favButton.setOnClickListener {
-            onFavClicked(it, tvSeries.toFavorite())
+//            onFavClicked(it, tvSeries.toFavorite()) TODO
         }
     }
 
-    fun bind(series: TvSeries) {
+    fun bind(series: TvSeriesUiState.Series) {
         this.tvSeries = series
 
-        val src = series.image
+        val src = series.trendingTv.backdropPath
         if (src.isNotBlank()) provideGlide(this.image, src)
-        this.title.text = series.title
-        this.cast.text = series.cast
-        this.rating.text = series.imDbRating
+        this.title.text = series.trendingTv.name
+        this.cast.text = series.trendingTv.popularity.toString()
+        this.rating.text = series.trendingTv.popularity.toString()
 
     }
 
@@ -83,7 +81,7 @@ class TvSeriesViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (view: View, series: TrendingTv) -> Unit,
+            onItemClick: (view: View, series: TvSeriesUiState.Series) -> Unit,
             onFavClick: (view: View, favorite: Favorite) -> Unit
         ): TvSeriesViewHolder {
             val itemBinding =
