@@ -11,17 +11,21 @@ import com.rick.data_book.gutenberg.BookRemoteMediator
 import com.rick.data_book.gutenberg.GutenbergApi
 import com.rick.data_book.gutenberg.model.Book
 import com.rick.data_book.gutenberg.model.toGutenBergResponse
+import com.rick.data_book.nytimes.NYBookRemoteMediator
+import com.rick.data_book.nytimes.NYTimesAPI
+import com.rick.data_book.nytimes.model.NYBook
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-private const val BOOKS_PER_PAGE = 2
+private const val BOOKS_PER_PAGE = 15
 
 class BookRepository @Inject constructor(
     private val db: BookDatabase,
-    private val api: GutenbergApi
+    private val api: GutenbergApi,
+    private val nyApi: NYTimesAPI
 ) {
 
     fun getBooks(): Flow<PagingData<Book>> {
@@ -30,8 +34,22 @@ class BookRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = BOOKS_PER_PAGE,
+                enablePlaceholders = true
             ),
             remoteMediator = BookRemoteMediator(api = api, db = db),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+    }
+
+    fun getBestsellers(apiKey: String, bookGenre: String): Flow<PagingData<NYBook>> {
+        val pagingSourceFactory = {db.bookDao.getBestsellers()}
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = BOOKS_PER_PAGE,
+                enablePlaceholders = true
+            ),
+            remoteMediator = NYBookRemoteMediator(api = nyApi, db = db, key = apiKey, bookGenre = bookGenre),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }

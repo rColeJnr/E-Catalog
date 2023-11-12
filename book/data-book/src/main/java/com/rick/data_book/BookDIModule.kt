@@ -5,9 +5,9 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.core.GsonParser
 import com.rick.data_book.BookDatabase.Companion.DATABASE_NAME
-import com.rick.data_book.BookDatabase.Companion.MIGRATION_1_2
 import com.rick.data_book.gutenberg.GutenbergApi
 import com.rick.data_book.gutenberg.GutenbergApi.Companion.GUTENBERG_BASE_URL
+import com.rick.data_book.nytimes.NYTimesAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,17 +41,31 @@ object BookDIModule {
 
     @Provides
     @Singleton
+    fun provideNYTimesApi(): NYTimesAPI = Retrofit
+        .Builder()
+        .baseUrl(NYTimesAPI.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(OkHttpClient.Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BASIC
+                }
+            ).build()
+        ).build()
+        .create()
+
+    @Provides
+    @Singleton
     fun providesBookDatabase(@ApplicationContext context: Context): BookDatabase =
         Room.databaseBuilder(
             context,
             BookDatabase::class.java,
             DATABASE_NAME,
         ).addTypeConverter(BookTypeConverters(GsonParser(Gson())))
-            .addMigrations(MIGRATION_1_2)
             .build()
 
     @Provides
     @Singleton
-    fun provideBookRepository(db: BookDatabase, api: GutenbergApi) : BookRepository =
-        BookRepository(db, api)
+    fun provideBookRepository(db: BookDatabase, api: GutenbergApi, nyApi: NYTimesAPI) : BookRepository =
+        BookRepository(db, api = api, nyApi = nyApi)
 }
