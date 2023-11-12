@@ -1,19 +1,19 @@
 package com.rick.data_book.nytimes.model
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class Book(
+@Entity(tableName = "ny_book")
+data class NYBook(
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("rank")
     val rank: Int,
     @SerializedName("rank_last_week")
     val rankLastWeek: Int,
     @SerializedName("weeks_on_list")
     val weeksOnList: Int,
-    @SerializedName("primary_isbn10")
-    val primaryIsbn10: String,
-    @SerializedName("primary_isbn13")
-    val primaryIsbn13: String,
     @SerializedName("publisher")
     val publisher: String,
     @SerializedName("description")

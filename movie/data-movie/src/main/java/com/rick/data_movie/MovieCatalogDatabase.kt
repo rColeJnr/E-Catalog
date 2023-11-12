@@ -37,7 +37,7 @@ import com.rick.data_movie.tmdb.tv.TvResponse
         MovieResponse::class,
         TvResponse::class,
     ],
-    version = 2,
+    version = 1,
     exportSchema = true
 )
 @TypeConverters(Converters::class, TMDBConverters::class)
@@ -53,6 +53,6 @@ abstract class MovieCatalogDatabase : RoomDatabase() {
     abstract val favoriteDao: FavoriteDao
 
     companion object {
-        const val DATABASE_NAME = "TEST_DB"
+        const val DATABASE_NAME = "TEST_MOVIE_DB"
     }
 }

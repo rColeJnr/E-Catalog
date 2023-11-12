@@ -7,6 +7,7 @@ import com.rick.core.JsonParser
 import com.rick.data_book.gutenberg.model.Author
 import com.rick.data_book.gutenberg.model.Formats
 import com.rick.data_book.gutenberg.model.Translator
+import com.rick.data_book.nytimes.model.BuyLink
 
 @ProvidedTypeConverter
 class BookTypeConverters(
@@ -68,4 +69,31 @@ class BookTypeConverters(
             object : TypeToken<List<String>>() {}.type
         ) ?: emptyList()
 
+    @TypeConverter
+    fun fromListBuyLinks(links: List<BuyLink>): String =
+        jsonParser.toJson(
+            jsonParser,
+            object: TypeToken<List<BuyLink>>() {}.type
+        ) ?: "[]"
+
+    @TypeConverter
+    fun toListBuyLinks(links: String): List<BuyLink> =
+        jsonParser.fromJson<List<BuyLink>>(
+            links,
+            object : TypeToken<List<BuyLink>>() {}.type
+        ) ?: emptyList()
+
+    @TypeConverter
+    fun fromBuyLink(link: BuyLink): String =
+        jsonParser.toJson(
+            link,
+            object : TypeToken<BuyLink>() {}.type
+        ) ?: ""
+
+    @TypeConverter
+    fun toBuyLink(link: String) : BuyLink =
+        jsonParser.fromJson<BuyLink>(
+            link,
+            object: TypeToken<BuyLink>() {}.type
+        )!!
 }

@@ -13,5 +13,5 @@ data class Results(
     @SerializedName("updated")
     val updated: String,
     @SerializedName("books")
-    val books: List<Book>
+    val books: List<NYBook>
 )
