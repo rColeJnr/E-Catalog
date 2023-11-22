@@ -12,100 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/book_title"
-            android:layout_width="0dp"
+        <Sha
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/two_dimen"
-            android:text="@string/title"
-            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:hint="Book Title"
+            android:id="book_title"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/fav_button"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="@dimen/two_dimen"
-            android:src="@drawable/star_24"
-            app:layout_constraintBottom_toBottomOf="@id/book_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/book_title" />
-
-        <View
-            android:id="@+id/divider_horizontal"
-            style="@style/Divider.Horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/book_title" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_horizontal" />
-
-        <LinearLayout
-            android:id="@+id/llayout"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/two_dimen"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="@id/divider_horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/authors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/authors"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <View style="@style/Divider.Horizontal" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/topics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/topics"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <View style="@style/Divider.Horizontal" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/bookshelf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/bookshelf"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <View style="@style/Divider.Horizontal" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/languages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/languages"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <View style="@style/Divider.Horizontal" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/downloaded"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
-                android:text="@string/downloaded"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf=""
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
