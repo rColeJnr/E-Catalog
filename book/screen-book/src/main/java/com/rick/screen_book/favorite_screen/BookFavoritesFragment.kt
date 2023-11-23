@@ -112,7 +112,7 @@ fun BookItem(book: Favorite) {
     Column(modifier = Modifier.padding(8.dp)) {
         Text(text = book.title, style = MaterialTheme.typography.h6)
         Spacer(modifier = Modifier.height(2.dp))
-        Text(text = book.authors, style = MaterialTheme.typography.body2)
+        Text(text = book.author, style = MaterialTheme.typography.body2)
         Spacer(modifier = Modifier.height(1.dp))
     }
 }

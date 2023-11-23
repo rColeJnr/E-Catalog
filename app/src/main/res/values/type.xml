@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.MdcTypographyStyles.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">@font/nunito_sans_bold</item>
-        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="fontFamily">@font/high_tower_text</item>
+        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textSize">26sp</item>
     </style>
+
     <style name="TextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/nunito_sans_bold</item>
-        <item name="android:fontFamily">@font/nunito_sans_bold</item>
+        <item name="fontFamily">@font/high_tower_text</item>
+        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textSize">22sp</item>
     </style>
+
     <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/nunito_sans_regular</item>
-        <item name="android:fontFamily">@font/nunito_sans_regular</item>
+        <item name="fontFamily">@font/high_tower_text</item>
+        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textSize">17sp</item>
     </style>
+
     <style name="TextAppearance.MdcTypographyStyles.Body2" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="fontFamily">@font/nunito_sans_regular</item>
-        <item name="android:fontFamily">@font/nunito_sans_regular</item>
+        <item name="fontFamily">@font/high_tower_text</item>
+        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textSize">15sp</item>
     </style>
+
     <style name="TextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/nunito_sans_light</item>
-        <item name="android:fontFamily">@font/nunito_sans_light</item>
+        <item name="fontFamily">@font/high_tower_text</item>
+        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textSize">15sp</item>
     </style>
+
     <style name="TextAppearance.MdcTypographyStyles.Caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/nunito_sans_light</item>
-        <item name="android:fontFamily">@font/nunito_sans_light</item>
+        <item name="fontFamily">@font/high_tower_text</item>
+        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textSize">13sp</item>
     </style>
+
     <style name="TextAppearance.MdcTypographyStyles.Overline" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">@font/nunito_sans_light</item>
-        <item name="android:fontFamily">@font/nunito_sans_light</item>
+        <item name="fontFamily">@font/high_tower_text</item>
+        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textSize">11sp</item>
     </style>
 </resources>

@@ -9,9 +9,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "favorite")
 data class Favorite(
-    @PrimaryKey(autoGenerate = true) @SerializedName("id") val id: Long,
+    @PrimaryKey(autoGenerate = true) @SerializedName("id") val id: Long? = null,
     @SerializedName("title")
     val title: String,
     @SerializedName("authors")
-    val authors: String
+    val author: String
 ): Parcelable
