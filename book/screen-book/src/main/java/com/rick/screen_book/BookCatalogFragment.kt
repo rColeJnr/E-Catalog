@@ -183,6 +183,7 @@ class BookCatalogFragment : Fragment() {
         // at some point we'LL need to call the db for favorites
         // and present them in the same ui as the remote data.  this sounds like
         // loads of fun.
+        // It's was way too much work to do this.  I'm doing something else.
         viewModel.onEvent(FavoriteEvents.InsertFavorite(favorite))
 
     }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
@@ -19,13 +20,10 @@ class BookCatalogViewHolder(
     private val onFavClick: (favorite: Favorite) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val title = binding.bookTitle
+    private val title = binding.title
     private val image = binding.image
-    private val authors = binding.authors
-    private val topics = binding.topics
-    private val bookshelves = binding.bookshelf
-    private val languages = binding.languages
-    private val downloaded = binding.downloaded
+    private val authors = binding.author
+    private val favorite = binding.favorite
 
     private lateinit var book: Book
 
@@ -35,7 +33,7 @@ class BookCatalogViewHolder(
         binding.root.setOnClickListener {
             onItemClick(it, book.formats)
         }
-        binding.favButton.setOnClickListener{
+        binding.favorite.setOnClickListener {
             onFavClick(book.toFavorite())
         }
     }
@@ -49,14 +47,24 @@ class BookCatalogViewHolder(
         this.book = book
         val resources = itemView.resources
         book.formats.image?.let { provideGlide(this.image, it) }
+        if (book.favorite) {
+            val drawable = ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.fav_filled_icon,
+                itemView.context.theme
+            )
+            this.favorite.setImageDrawable(drawable)
+        } else {
+            val drawable = ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.fav_outline_icon,
+                itemView.context.theme
+            )
+            this.favorite.setImageDrawable(drawable)
+        }
         this.title.text = book.title
         this.authors.text = resources.getString(R.string.authors, getListAsString(book.authors))
-        this.topics.text = resources.getString(R.string.topics, getListAsString(book.subjects))
-        this.bookshelves.text =
-            resources.getString(R.string.bookshelf, getListAsString(book.bookshelves))
-        this.languages.text =
-            resources.getString(R.string.languages, getListAsString(book.languages))
-        this.downloaded.text = resources.getString(R.string.downloaded, book.downloads.toString())
+
     }
 
     companion object {
