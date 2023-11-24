@@ -1,6 +1,7 @@
 package com.rick.screen_book.bestseller_screen
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_book.nytimes.model.NYBook
@@ -9,8 +10,8 @@ import com.rick.screen_book.provideGlide
 
 class BestsellerViewHolder(
     binding: BookEntryBinding,
-    private val onBookClick: (book: NYBook) -> Unit,
-    private val onFavoriteClick: (book: NYBook) -> Unit
+    private val onBookClick: (View, NYBook) -> Unit,
+    private val onFavoriteClick: (View, NYBook) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val image = binding.image
@@ -22,10 +23,10 @@ class BestsellerViewHolder(
 
     init {
         binding.favorite.setOnClickListener {
-            onFavoriteClick(book)
+            onFavoriteClick(it, book)
         }
         binding.root.setOnClickListener {
-            onBookClick(book)
+            onBookClick(it, book)
         }
     }
 
@@ -41,8 +42,8 @@ class BestsellerViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onBookClick: (book: NYBook) -> Unit,
-            onFavoriteClick: (book: NYBook) -> Unit
+            onBookClick: (View, NYBook) -> Unit,
+            onFavoriteClick: (View, NYBook) -> Unit
         ): BestsellerViewHolder {
             val itemBinding = BookEntryBinding.inflate(
                 LayoutInflater.from(

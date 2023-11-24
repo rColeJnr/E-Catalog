@@ -13,8 +13,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-private const val LIB_NAME = "book-keys"
 @HiltViewModel
 class BestsellerViewModel @Inject constructor(
     private val repository: BookRepository
@@ -22,7 +20,7 @@ class BestsellerViewModel @Inject constructor(
 
     val pagingDataFlow: Flow<PagingData<NYBook>>
     private val nyKey: String
-
+    private var position: Int = 0
     private var favorite: Favorite? = null
 
     init {
@@ -30,13 +28,13 @@ class BestsellerViewModel @Inject constructor(
         System.loadLibrary(LIB_NAME)
         nyKey = getNYKey()
 
-        pagingDataFlow = fetchBestsellers(nyKey).cachedIn(viewModelScope)
+        pagingDataFlow = fetchBestsellers().cachedIn(viewModelScope)
 
     }
 
     fun onEvent(event: BestsellerEvents) {
         when (event) {
-            is BestsellerEvents.SelectedGenre -> fetchBestsellers(event.bookGenre.listName)
+            is BestsellerEvents.SelectedGenre -> fetchBestsellers(event.bookGenre)
             is BestsellerEvents.OnBookClick -> {}
             is BestsellerEvents.OnFavoriteClick -> { onFavoriteClick(event.book) }
             is BestsellerEvents.OnRemoveFavorite -> { onRemoveFavorite() }
@@ -44,8 +42,10 @@ class BestsellerViewModel @Inject constructor(
     }
 
     //  TODO add bestseller genre selector
-    private fun fetchBestsellers(bookGenre: String = BookGenre.DEFAULT.listName) =
-        repository.getBestsellers(apiKey = nyKey, bookGenre = bookGenre)
+    private fun fetchBestsellers(bookGenre: Int = position): Flow<PagingData<NYBook>>{
+        position = bookGenre
+        return repository.getBestsellers(apiKey = nyKey, bookGenre = BookGenre.values()[position].listName)
+    }
 
     private fun onFavoriteClick(book: NYBook) {
         favorite = Favorite(
@@ -68,3 +68,4 @@ class BestsellerViewModel @Inject constructor(
 }
 
 private external fun getNYKey(): String
+private const val LIB_NAME = "book-keys"

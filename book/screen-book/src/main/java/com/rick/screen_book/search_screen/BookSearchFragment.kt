@@ -210,11 +210,12 @@ class BookSearchFragment : Fragment() {
         }
         val searchToDetails = getString(R.string.search_transition_name, formats.image)
         val extras = FragmentNavigatorExtras(view to searchToDetails)
+        val link: String = formats.run {
+            this.textHtml ?: this.textPlain ?: this.textPlainCharsetUtf8!!
+        }
         val action =
             BookSearchFragmentDirections
-                .actionSearchFragmentToBookDetailsFragment(
-                    formats = formats
-                )
+                .actionSearchFragmentToBookDetailsFragment(link)
 
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }

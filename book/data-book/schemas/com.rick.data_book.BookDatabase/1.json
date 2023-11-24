@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e751e7301326654a471f179664cae1ec",
+    "identityHash": "370b89d84ff41eb05c67fa4dd0647df4",
     "entities": [
       {
         "tableName": "book_db",
@@ -86,13 +86,13 @@
       },
       {
         "tableName": "favorite",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `authors` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `author` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "title",
@@ -101,8 +101,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "authors",
-            "columnName": "authors",
+            "fieldPath": "author",
+            "columnName": "author",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -182,7 +182,7 @@
       },
       {
         "tableName": "ny_book",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rank` INTEGER NOT NULL, `rankLastWeek` INTEGER NOT NULL, `weeksOnList` INTEGER NOT NULL, `publisher` TEXT NOT NULL, `description` TEXT NOT NULL, `title` TEXT NOT NULL, `author` TEXT NOT NULL, `contributor` TEXT NOT NULL, `bookImage` TEXT NOT NULL, `bookReviewLink` TEXT NOT NULL, `buyLinks` TEXT NOT NULL, `bookUri` TEXT NOT NULL, PRIMARY KEY(`rank`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rank` INTEGER NOT NULL, `rankLastWeek` INTEGER NOT NULL, `weeksOnList` INTEGER NOT NULL, `description` TEXT NOT NULL, `title` TEXT NOT NULL, `author` TEXT NOT NULL, `bookImage` TEXT NOT NULL, `amazonLink` TEXT NOT NULL, PRIMARY KEY(`rank`))",
         "fields": [
           {
             "fieldPath": "rank",
@@ -200,12 +200,6 @@
             "fieldPath": "weeksOnList",
             "columnName": "weeksOnList",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "publisher",
-            "columnName": "publisher",
-            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -227,32 +221,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "contributor",
-            "columnName": "contributor",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
             "fieldPath": "bookImage",
             "columnName": "bookImage",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "bookReviewLink",
-            "columnName": "bookReviewLink",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "buyLinks",
-            "columnName": "buyLinks",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "bookUri",
-            "columnName": "bookUri",
+            "fieldPath": "amazonLink",
+            "columnName": "amazonLink",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -270,7 +246,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e751e7301326654a471f179664cae1ec')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '370b89d84ff41eb05c67fa4dd0647df4')"
     ]
   }
 }

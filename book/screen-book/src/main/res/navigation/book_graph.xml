@@ -23,8 +23,9 @@
         android:id="@+id/bookDetailsFragment"
         android:name="com.rick.screen_book.details_screen.BookDetailsFragment">
 
-        <argument android:name="formats"
-            app:argType="com.rick.data_book.gutenberg.model.Formats" />
+        <argument
+            android:name="link"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/bookSearchFragment"
@@ -40,5 +41,16 @@
         <action
             android:id="@+id/action_bookFavoritesFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bestsellerFragment"
+        android:name="com.rick.screen_book.bestseller_screen.BestsellerFragment"
+        android:label="BestsellerFragment" >
+        <action
+            android:id="@+id/action_bestsellerFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+        <action
+            android:id="@+id/action_bestsellerFragment_to_bookFavoritesFragment"
+            app:destination="@id/bookFavoritesFragment" />
     </fragment>
 </navigation>

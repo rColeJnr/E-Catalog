@@ -10,7 +10,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialContainerTransform
-import com.rick.data_book.gutenberg.model.Formats
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +19,7 @@ class BookDetailsFragment : Fragment() {
     private var _binding: FragmentBookDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var formats: Formats
+    private lateinit var link: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +41,7 @@ class BookDetailsFragment : Fragment() {
         arguments?.let {
             val navArgs = BookDetailsFragmentArgs.fromBundle(it)
 
-            formats = navArgs.formats
+            this.link = navArgs.link
         }
 
         return binding.root
@@ -51,8 +50,8 @@ class BookDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.webView.transitionName = getString(R.string.book_transition_name, formats.image)
-        binding.root.transitionName = getString(R.string.search_transition_name, formats.image)
+//        binding.webView.transitionName = getString(R.string.book_transition_name, formats?.image)
+//        binding.root.transitionName = getString(R.string.search_transition_name, formats?.image)
 
         binding.webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -64,21 +63,7 @@ class BookDetailsFragment : Fragment() {
             }
         }
 
-        formats.textHtml?.let {
-            binding.webView.loadUrl(it)
-        } ?: formats.textHtmlCharsetIso88591?.let {
-            binding.webView.loadUrl(it)
-        } ?: formats.textHtmCharsetUtf8?.let {
-            binding.webView.loadUrl(it)
-        } ?: formats.textPlain?.let {
-            binding.webView.loadUrl(it)
-        } ?: formats.textPlainCharsetUtf8?.let {
-            binding.webView.loadUrl(it)
-        } ?: formats.textHtmlCharsetUsAscii?.let {
-            binding.webView.loadUrl(it)
-        } ?: formats.textPlainCharsetUsAscii?.let {
-            binding.webView.loadUrl(it)
-        }
+        binding.webView.loadUrl(link)
 
         binding.failedToLoad.visibility =
             if (binding.webView.url.isNullOrBlank()) View.VISIBLE
