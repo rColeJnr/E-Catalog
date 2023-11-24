@@ -2,11 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/book_graph"
-        android:icon="@drawable/ic_book"
-        android:title="@string/book"
-        app:showAsAction="ifRoom" />
+    <group
+        android:menuCategory="container">
+        <item
+            android:id="@+id/book_graph"
+            android:icon="@drawable/ic_book"
+            android:title="@string/book"
+            app:showAsAction="always" />
+
+       <item
+            android:id="@+id/bestseller_graph"
+            android:icon="@drawable/ic_book"
+            android:title="@string/bestseller"
+            app:showAsAction="always" />
+
+    </group>
 
     <item
         android:id="@+id/movie_graph"

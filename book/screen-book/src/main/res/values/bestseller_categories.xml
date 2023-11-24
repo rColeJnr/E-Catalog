@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bestseller_categories">
+        <item>Fiction</item>
+        <item>Nonfiction</item>
+        <item>Miscellaneous</item>
+        <item>Business</item>
+        <item>Graphical</item>
+    </string-array>
+</resources>

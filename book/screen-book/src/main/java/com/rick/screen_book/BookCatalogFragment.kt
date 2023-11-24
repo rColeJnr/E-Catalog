@@ -170,8 +170,11 @@ class BookCatalogFragment : Fragment() {
         }
         val bookToDetails = getString(R.string.book_transition_name, formats.image)
         val extras = FragmentNavigatorExtras(view to bookToDetails)
+        val link: String = formats.run {
+            this.textHtml ?: this.textPlain ?: this.textPlainCharsetUtf8!!
+        }
         val action = BookCatalogFragmentDirections
-            .actionBookCatalogFragmentToBookDetailsFragment(formats = formats)
+            .actionBookCatalogFragmentToBookDetailsFragment(link)
         navController.navigate(directions = action, navigatorExtras = extras)
     }
 
@@ -225,7 +228,7 @@ class BookCatalogFragment : Fragment() {
 }
 
 @Composable
-private fun ErrorMessage(message: String) {
+fun ErrorMessage(message: String) {
     Text(text = message,
         style = MaterialTheme.typography.h5,
         modifier = Modifier
