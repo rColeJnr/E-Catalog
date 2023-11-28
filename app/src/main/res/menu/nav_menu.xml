@@ -2,50 +2,70 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group
-        android:menuCategory="container">
-        <item
-            android:id="@+id/book_graph"
-            android:icon="@drawable/ic_book"
-            android:title="@string/book"
-            app:showAsAction="always" />
+    <item android:title="@string/books">
+        <menu>
+            <item
+                android:id="@+id/book_graph"
+                android:icon="@drawable/ic_book"
+                android:title="@string/books"
+                />
 
-       <item
-            android:id="@+id/bestseller_graph"
-            android:icon="@drawable/ic_book"
-            android:title="@string/bestseller"
-            app:showAsAction="always" />
+            <item
+                android:id="@+id/bestseller_graph"
+                android:icon="@drawable/ic_book"
+                android:title="@string/bestseller"
+                />
 
-    </group>
+            <item
+                android:id="@+id/favorite_books"
+                android:icon="@drawable/fav_filled_icon"
+                android:title="@string/favorites"
+                />
+        </menu>
+    </item>
 
-    <item
-        android:id="@+id/movie_graph"
-        android:icon="@drawable/ic_movie"
-        android:title="@string/movie"
-        app:showAsAction="always" />
+    <item android:title="@string/moving_pictures">
+        <menu>
+            <item
+                android:id="@+id/movie_graph"
+                android:icon="@drawable/ic_movie"
+                android:title="@string/movie"
+                />
 
-    <item
-        android:id="@+id/series_graph"
-        android:icon="@drawable/ic_tvseries"
-        android:title="@string/series"
-        app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/series_graph"
+                android:icon="@drawable/ic_tvseries"
+                android:title="@string/series"
+                />
 
+            <item
+                android:id="@+id/favorite_mPictures"
+                android:icon="@drawable/fav_filled_icon"
+                android:title="@string/favorites"
+                />
+        </menu>
+    </item>
 
-    <item
-        android:id="@+id/anime_graph"
-        android:icon="@drawable/ic_anime"
-        android:title="@string/anime"
-        app:showAsAction="ifRoom" />
+    <item android:title="@string/animations">
+        <menu>
+            <item
+                android:id="@+id/anime_graph"
+                android:icon="@drawable/ic_anime"
+                android:title="@string/anime"
+                />
 
-    <item
-        android:id="@+id/manga_graph"
-        android:icon="@drawable/ic_manga"
-        android:title="@string/manga"
-        app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/manga_graph"
+                android:icon="@drawable/ic_manga"
+                android:title="@string/manga"
+                />
 
-    <!--    <item android:id="@+id/music_graph"-->
-    <!--        android:title="@string/music"-->
-    <!--        android:icon="@drawable/ic_music"-->
-    <!--        />-->
+            <item
+                android:id="@+id/favorite_animations"
+                android:icon="@drawable/fav_filled_icon"
+                android:title="@string/favorites"
+                />
+        </menu>
+    </item>
 
 </menu>

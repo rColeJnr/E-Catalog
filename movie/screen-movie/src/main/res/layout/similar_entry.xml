@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/two_dimen"
+    android:layout_marginEnd="@dimen/two_dp"
     android:backgroundTint="?attr/colorSurface"
     android:elevation="0dp">
 

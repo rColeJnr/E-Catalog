@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="?attr/colorSurface"
+    android:elevation="@dimen/eight_dp"
+    app:cardCornerRadius="15dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/two_dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="@dimen/two_dp"
+            android:contentDescription="Book image"
+            android:src="@drawable/filled_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/eight_dp"
+            android:layout_marginTop="5dp"
+            android:ems="8"
+            android:hint="Title "
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toTopOf="@id/image"
+/>
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/eight_dp"
+            android:layout_marginBottom="5dp"
+            android:hint="Author who also can very very long names"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:maxEms="8"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@id/image"
+            app:layout_constraintStart_toEndOf="@id/image" />
+
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="Long text, very very much a lot of text, because description is descriptive because description is descriptive because description is descriptive"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image" />
+
+        <ImageView
+            android:id="@+id/favorite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="@dimen/six_dp"
+            android:src="@drawable/fav_outline_icon"
+            app:layout_constraintBottom_toBottomOf="@id/image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/image" />
+
+        <TextView
+            android:id="@+id/rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="Rank: 1"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <TextView
+            android:id="@+id/rank_last_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="Rank last week: 3"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rank" />
+
+        <TextView
+            android:id="@+id/weeks_on_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="Weeks on list: 4"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rank_last_week" />
+
+        <TextView
+            android:id="@+id/amazon_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="Amazon link: Click here"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/weeks_on_list" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:id="@+id/close_dialog"
+            android:background="?attr/colorSecondary"
+            android:text="Close"
+            app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amazon_link" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

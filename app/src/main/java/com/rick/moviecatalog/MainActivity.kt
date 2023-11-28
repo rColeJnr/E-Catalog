@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 View.VISIBLE
 
             binding.toolbarText.text = when (destination.id) {
-                com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.book)
+                com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.books)
                 com.rick.screen_book.R.id.bookFavoritesFragment -> getString(R.string.favs)
                 com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.movie)
                 com.rick.screen_movie.R.id.tvSeriesFragment -> getString(R.string.series)
