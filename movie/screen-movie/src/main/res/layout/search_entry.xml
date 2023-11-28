@@ -4,7 +4,7 @@
     android:id="@+id/search_llayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/eight_dimen"
+    android:layout_margin="@dimen/eight_dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:id="@+id/fav_button"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginEnd="@dimen/two_dimen"
+            android:layout_marginEnd="@dimen/two_dp"
             android:src="@drawable/star_24" />
 
     </LinearLayout>
