@@ -26,7 +26,7 @@
         <item name="fontFamily">@font/high_tower_text</item>
         <item name="android:fontFamily">@font/high_tower_text</item>
         <item name="android:textStyle">italic</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">

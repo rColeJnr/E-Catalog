@@ -20,7 +20,6 @@ class JikanViewHolder(
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
-    private val pgRating = binding.pgRating
 
     init {
         binding.root.setOnClickListener{
@@ -39,8 +38,6 @@ class JikanViewHolder(
         this.title.text = jikan.title
         jikan.images.jpg.imageUrl.let { provideGlide(this.image, it) }
         this.synopsis.text = jikan.synopsis
-        this.pgRating.text = if (this.jikan.type == "TV") resources.getString(R.string.pg_rating, jikan.rating)
-        else resources.getString(R.string.authors, getListAsString(jikan.authors!!.map { it!! }))
     }
     
 //    override fun onClick(view: View) {

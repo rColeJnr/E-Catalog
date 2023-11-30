@@ -69,15 +69,15 @@ class MainActivity : AppCompatActivity() {
 
             binding.toolbarText.text = when (destination.id) {
                 com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.books)
-                com.rick.screen_book.R.id.bookFavoritesFragment -> getString(R.string.favs)
+                com.rick.screen_book.R.id.bookFavoritesFragment -> getString(R.string.favorites)
                 com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.movie)
                 com.rick.screen_movie.R.id.tvSeriesFragment -> getString(R.string.series)
-                com.rick.screen_movie.R.id.movieFavoriteFragment -> getString(R.string.favs)
-                com.rick.screen_movie.R.id.seriesFavoriteFragment -> getString(R.string.favs)
+                com.rick.screen_movie.R.id.movieFavoriteFragment -> getString(R.string.favorites)
+                com.rick.screen_movie.R.id.seriesFavoriteFragment -> getString(R.string.favorites)
                 com.rick.screen_anime.R.id.animeCatalogFragment -> getString(R.string.anime)
                 com.rick.screen_anime.R.id.mangaCatalogFragment -> getString(R.string.manga)
-                com.rick.screen_anime.R.id.animeFavoriteFragment -> getString(R.string.favs)
-                com.rick.screen_anime.R.id.mangaFavoriteFragment -> getString(R.string.favs)
+                com.rick.screen_anime.R.id.animeFavoriteFragment -> getString(R.string.favorites)
+                com.rick.screen_anime.R.id.mangaFavoriteFragment -> getString(R.string.favorites)
                 else -> getString(R.string.empty)
             }
         }

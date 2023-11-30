@@ -10,7 +10,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/black</item>
-
+        <item name="colorOnSurfaceVariant">@color/white</item>
+        <item name="colorPrimaryContainer">@color/white</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="authors">Authors: %1$s</string>
+    <string name="authors">%1$s</string>
     <string name="author">%1$s</string>
     <string name="translators">Translator: %1$s</string>
     <string name="title">%1$s</string>

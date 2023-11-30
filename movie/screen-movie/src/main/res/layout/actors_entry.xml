@@ -11,14 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/actor_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:hint="@string/actor_name"
-            android:textAppearance="?attr/textAppearanceBody2" />
-
         <ImageView
             android:id="@+id/actor_image"
             android:layout_width="wrap_content"
@@ -28,7 +20,15 @@
             android:maxWidth="@dimen/max_image_width"
             android:minWidth="@dimen/min_image_width"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_image" />
+            android:src="@drawable/filled_icon" />
+
+        <TextView
+            android:id="@+id/actor_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/actor_name"
+            android:textAppearance="?attr/textAppearanceBody2" />
 
         <TextView
             android:id="@+id/actor_character"

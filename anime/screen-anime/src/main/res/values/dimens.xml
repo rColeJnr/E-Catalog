@@ -10,4 +10,5 @@
     <dimen name="six_dimen">6dp</dimen>
     <dimen name="min_image_width">150dp</dimen>
     <dimen name="max_image_width">400dp</dimen>
+    <dimen name="six_dp">6dp</dimen>
 </resources>

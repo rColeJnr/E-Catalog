@@ -162,7 +162,7 @@ fun MovieItem(movie: Favorite) {
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.movie_fragment),
-                placeholder = painterResource(R.drawable.ic_100tb),
+                placeholder = painterResource(R.drawable.filled_icon),
                 modifier = Modifier.height(dimensionResource(id = R.dimen.image_height)),
                 contentScale = ContentScale.FillHeight,
             )
@@ -228,7 +228,7 @@ fun SeriesItem(series: IMDBFavorite) {
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.movie_fragment),
-                placeholder = painterResource(R.drawable.ic_100tb),
+                placeholder = painterResource(R.drawable.filled_icon),
                 modifier = Modifier.height(dimensionResource(id = R.dimen.image_height)),
                 contentScale = ContentScale.FillHeight,
             )

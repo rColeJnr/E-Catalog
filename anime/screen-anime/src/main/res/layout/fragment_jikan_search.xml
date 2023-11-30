@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?attr/colorSurface"
     android:transitionGroup="true"
     tools:context=".search_screen.SearchJikanFragment">
 
@@ -45,10 +46,9 @@
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/eight_dimen"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:text="@string/nothing_found"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@android:color/holo_blue_dark"
                 android:visibility="gone" />
 
         </LinearLayout>

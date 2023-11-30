@@ -14,4 +14,5 @@
     <string name="bestseller">Bestseller</string>
     <string name="moving_pictures">Moving Pictures</string>
     <string name="animations">Animations</string>
+    <string name="adult_content">Adult content:</string>
 </resources>

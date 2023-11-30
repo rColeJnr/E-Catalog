@@ -15,7 +15,6 @@ class MovieCatalogViewHolder(
     private val onFavClicked: (view: View, favorite: Favorite) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.movieName
-    private val rating = binding.movieRating
     private val image = binding.movieImage
     private val summary = binding.movieSummary
 
@@ -36,7 +35,6 @@ class MovieCatalogViewHolder(
         this.summary.text = movie.snippet
         val resources = itemView.resources
         //TODO (Cheeck rating in nytimes response)
-        this.rating.text = resources.getString(R.string.rated, movie.byline.original)
         val src = movie.multimedia[0].url
         if (src.isNotBlank()) provideGlide(this.image, src)
     }
