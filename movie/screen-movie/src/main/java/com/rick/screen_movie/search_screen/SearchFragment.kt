@@ -24,11 +24,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.imdb_am_not_paying.search_model.IMDBSearchResult
 import com.rick.data_movie.tmdb.search.Search
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
-import com.rick.screen_movie.databinding.SearchEntryBinding
+import com.rick.screen_movie.databinding.MovieEntryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -284,14 +283,14 @@ class SearchAdapter(
 }
 
 class SearchViewHolder(
-    binding: SearchEntryBinding,
+    binding: MovieEntryBinding,
     private val onItemClicked: (view: View, movie: Search) -> Unit,
     private val onFavClicked: (favorite: Favorite) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-    private val image = binding.image
-    private val title = binding.title
-    private val description = binding.description
-    private val searchLLayout = binding.searchLlayout
+    private val image = binding.movieImage
+    private val title = binding.movieName
+    private val description = binding.movieSummary
+    private val rootLayout = binding.movieEntryCardView
 
     init {
         binding.root.setOnClickListener {
@@ -305,7 +304,7 @@ class SearchViewHolder(
     private lateinit var result: Search
 
     fun bind(glide: RequestManager, options: RequestOptions, searchResult: Search) {
-        this.searchLLayout.transitionName = "search ${searchResult.id}"
+        this.rootLayout.transitionName = "search ${searchResult.id}"
         this.result = searchResult
         this.title.text = searchResult.title
         this.description.text = searchResult.overview
@@ -325,7 +324,7 @@ class SearchViewHolder(
             onItemClicked: (view: View, movie: Search) -> Unit,
             onFavClicked: (favorite: Favorite) -> Unit
         ): SearchViewHolder {
-            val itemBinding = SearchEntryBinding
+            val itemBinding = MovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return SearchViewHolder(itemBinding, onItemClicked, onFavClicked)
         }

@@ -24,7 +24,7 @@
     <string name="tomato_rating">r_tomatoes: %1$s</string>
     <string name="db_rating">movie db: %1$s</string>
     <string name="title">Similar titles</string>
-    <string name="no_title">No Title</string>
+    <string name="no_title">Movie Title</string>
     <string name="movie_title">Movie Title</string>
     <string name="budget">Budget: %1$s</string>
     <string name="open_week_gross">Open week gross: %1$s</string>
@@ -32,7 +32,7 @@
     <string name="as_character">Playing: %1$s</string>
     <string name="actor_name">Actor name</string>
     <string name="actor_image">actor image</string>
-    <string name="ratings">Ratings:</string>
+    <string name="ratings">Ratings</string>
     <string name="actors">Actors</string>
     <string name="box_office">Box office</string>
     <string name="similar_titles">Similar titles</string>

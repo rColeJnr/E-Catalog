@@ -8,7 +8,6 @@ import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.tmdb.search.Search
-import com.rick.data_movie.tmdb.search.SearchResponse
 import com.rick.data_movie.tmdb.tv.TvResponse
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel

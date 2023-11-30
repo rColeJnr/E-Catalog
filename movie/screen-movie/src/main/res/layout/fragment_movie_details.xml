@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/two_dp"
     android:orientation="vertical">
 
@@ -17,47 +18,52 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <!--            <androidx.appcompat.widget.Toolbar-->
+            <!--                android:id="@+id/toolbar"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content">-->
+
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:orientation="vertical">-->
+
+            <!--                    -->
+
+            <!--&lt;!&ndash;                    <ProgressBar&ndash;&gt;-->
+            <!--&lt;!&ndash;                        android:id="@+id/details_progress_bar"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        style="?android:progressBarStyleHorizontal"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        android:layout_width="282dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        android:indeterminate="true" />&ndash;&gt;-->
+
+            <!--                    <TextView-->
+            <!--                        android:id="@+id/details_error_message"-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:text="@string/failed_to_retrieve_data"-->
+            <!--                        android:textAppearance="?attr/textAppearanceCaption"-->
+            <!--                        android:textColor="@android:color/holo_blue_light"-->
+            <!--                        android:visibility="gone" />-->
+
+            <!--                </LinearLayout>-->
+
+            <!--            </androidx.appcompat.widget.Toolbar>-->
+            <TextView
+                android:id="@+id/movie_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/six_dp"
+                android:hint="@string/movie_title"
+                android:textAppearance="?attr/textAppearanceHeadline5" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/movie_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/movie_title"
-                        android:textAppearance="?attr/textAppearanceHeadline5" />
-
-                    <ProgressBar
-                        android:id="@+id/details_progress_bar"
-                        style="?android:progressBarStyleHorizontal"
-                        android:layout_width="282dp"
-                        android:layout_height="wrap_content"
-                        android:indeterminate="true" />
-
-                    <TextView
-                        android:id="@+id/details_error_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/failed_to_retrieve_data"
-                        android:textAppearance="?attr/textAppearanceCaption"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:visibility="gone" />
-
-                </LinearLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_images"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/movie_image"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_height" />
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/two_dp"
+                android:background="?attr/colorOnSurface"
+                android:minHeight="250dp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_summary"
@@ -65,8 +71,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dp"
                 android:hint="@string/movie_summary"
-                android:textAppearance="?attr/textAppearanceBody2"
+                android:textAppearance="?attr/textAppearanceBody1"
                 android:textSize="18sp" />
+
+            <View style="@style/Divider.Horizontal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movie_adult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/two_dp"
+                android:text="@string/adult_content"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_genres"
@@ -93,19 +109,23 @@
                 android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_awards"
+                android:id="@+id/movie_budget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dp"
-                android:text="@string/awards"
+                android:text="@string/budget"
                 android:textAppearance="?attr/textAppearanceBody2" />
+
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/ratings"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
@@ -125,18 +145,7 @@
                     android:gravity="start"
                     android:text="@string/imdb_rating"
                     android:textAppearance="?attr/textAppearanceBody2"
-                    app:chipBackgroundColor="@android:color/white"
-                    app:chipStrokeColor="@android:color/black"
-                    app:chipStrokeWidth="1dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/r_tomatoes_chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/tomato_rating"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    app:chipBackgroundColor="@android:color/white"
+                    app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
 
@@ -147,11 +156,13 @@
                     android:gravity="end"
                     android:text="@string/db_rating"
                     android:textAppearance="?attr/textAppearanceBody2"
-                    app:chipBackgroundColor="@android:color/white"
+                    app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
 
             </com.google.android.material.chip.ChipGroup>
+
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -166,38 +177,10 @@
                 android:id="@+id/list_actors"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/image_height"
-                android:layout_marginBottom="@dimen/six_dp" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dp"
-                android:text="@string/box_office"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+                android:layout_marginBottom="@dimen/six_dp"
+                tools:listitem="@layout/actors_entry"/>
 
             <View style="@style/Divider.Horizontal" />
-
-            <TextView
-                android:id="@+id/movie_budget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/budget"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <TextView
-                android:id="@+id/movie_open_weekend_gross"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/open_week_gross"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <TextView
-                android:id="@+id/movie_world_wide_gross"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/six_dp"
-                android:text="@string/world_wide_gross"
-                android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -211,7 +194,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_similars"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_height" />
+                android:layout_height="@dimen/image_height"
+                tools:listitem="@layout/similar_entry" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

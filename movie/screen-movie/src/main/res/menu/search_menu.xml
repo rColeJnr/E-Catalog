@@ -5,13 +5,13 @@
 
     <item
         android:id="@+id/search_imdb"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/search_icon"
         android:title="@string/search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/fav_imdb"
-        android:icon="@drawable/star_24"
+        android:icon="@drawable/fav_outline_icon"
         android:title="@string/fav_imdb"
         app:showAsAction="ifRoom" />
 

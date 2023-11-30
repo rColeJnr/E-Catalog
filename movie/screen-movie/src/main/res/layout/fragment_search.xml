@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     android:orientation="vertical"
     android:transitionGroup="true"
     tools:context=".search_screen.SearchFragment">
@@ -45,11 +46,11 @@
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/eight_dp"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:text="@string/nothing_found"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@android:color/holo_blue_dark"
-                android:visibility="gone" />
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:visibility="gone"
+                />
 
         </LinearLayout>
 
@@ -60,6 +61,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/search_entry" />
+        tools:listitem="@layout/movie_entry" />
 
 </LinearLayout>

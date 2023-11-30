@@ -44,7 +44,7 @@
                 android:id="@+id/search_error_message"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/eight_dimen"
+                android:layout_marginVertical="@dimen/eight_dp"
                 android:gravity="center"
                 android:text="@string/nothing_found"
                 android:textAppearance="?attr/textAppearanceBody2"

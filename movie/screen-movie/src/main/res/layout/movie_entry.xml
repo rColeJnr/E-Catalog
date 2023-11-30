@@ -4,12 +4,15 @@
     android:id="@+id/movie_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="?attr/colorSurface"
-    android:transitionName="@string/movie_transition_name">
+    android:layout_margin="@dimen/six_dp"
+    android:backgroundTint="?attr/colorOnBackground"
+    android:transitionName="@string/movie_transition_name"
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/twelve_dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/movieName"
@@ -20,26 +23,6 @@
             android:textAppearance="?attr/textAppearanceHeadline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movieRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintBottom_toBottomOf="@id/movieName"
-            app:layout_constraintEnd_toStartOf="@id/fav_button"
-            app:layout_constraintTop_toTopOf="@id/movieName" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/fav_button"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="@dimen/two_dp"
-            android:src="@drawable/star_24"
-            app:layout_constraintBottom_toBottomOf="@id/movieName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/movieName" />
 
         <View
             style="@style/Divider.Horizontal"
@@ -54,16 +37,32 @@
             android:minWidth="@dimen/min_image_width"
             android:minHeight="@dimen/image_height"
             android:scaleType="fitCenter"
+            android:src="?attr/colorOnSurface"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieName"
             app:strokeColor="@null" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fav_button"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="@dimen/six_dp"
+            android:src="@drawable/fav_filled_icon"
+            app:layout_constraintBottom_toBottomOf="@id/movieImage"
+            app:layout_constraintEnd_toEndOf="@id/movieImage" />
 
         <TextView
             android:id="@+id/movieSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/two_dp"
+            android:layout_marginHorizontal="@dimen/two_dp"
+            android:layout_marginVertical="@dimen/six_dp"
+            android:text="Movie summary, very very very
+very long long summary, longer
+than this, movie summaries are
+long "
             android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieImage" />
 

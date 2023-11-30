@@ -22,7 +22,6 @@ class MovieDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: DetailsViewModel by viewModels()
 
-    private lateinit var imagesAdapter: DetailsImagesAdapter
     private lateinit var actorsAdapter: ActorDetailsAdapter
     private lateinit var similarsAdapter: SimilarDetailsAdapter
 
@@ -56,12 +55,12 @@ class MovieDetailsFragment : Fragment() {
 
         initAdapters()
 
-        binding.toolbar.apply {
-            setNavigationIcon(R.drawable.ic_arrow_back)
-            setNavigationOnClickListener {
-                findNavController().navigateUp()
-            }
-        }
+//        binding.toolbar.apply {
+//            setNavigationIcon(R.drawable.ic_arrow_back)
+//            setNavigationOnClickListener {
+//                findNavController().navigateUp()
+//            }
+//        }
 
         binding.bindState(
             movie = viewModel.movie,
@@ -80,7 +79,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun initAdapters() {
-        imagesAdapter = DetailsImagesAdapter()
+//        imagesAdapter = DetailsImagesAdapter()
         actorsAdapter = ActorDetailsAdapter()
         similarsAdapter = SimilarDetailsAdapter()
     }
@@ -90,11 +89,11 @@ class MovieDetailsFragment : Fragment() {
         loading: LiveData<DetailsUiState.Loading>,
         error: LiveData<DetailsUiState.Error>
     ) {
-        val layoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+//        val layoutManager = LinearLayoutManager(
+//            requireContext(),
+//            LinearLayoutManager.HORIZONTAL,
+//            false
+//        )
         val layoutManager2 = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -105,20 +104,17 @@ class MovieDetailsFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        listImages.layoutManager = layoutManager
         listActors.layoutManager = layoutManager2
         listSimilars.layoutManager = layoutManager3
-        listImages.adapter = imagesAdapter
         listActors.adapter = actorsAdapter
         listSimilars.adapter = similarsAdapter
 
         bindList(
-            imagesAdapter, actorsAdapter, similarsAdapter, movie, loading, error
+            actorsAdapter, similarsAdapter, movie, loading, error
         )
     }
 
     private fun FragmentMovieDetailsBinding.bindList(
-        imagesAdapter: DetailsImagesAdapter,
         actorDetailsAdapter: ActorDetailsAdapter,
         similarDetailsAdapter: SimilarDetailsAdapter,
         movie: LiveData<DetailsUiState.Movie>,

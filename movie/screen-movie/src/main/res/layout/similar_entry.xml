@@ -30,7 +30,7 @@
             android:maxWidth="@dimen/max_image_width"
             android:minWidth="@dimen/min_image_width"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_image" />
+            android:src="@drawable/app_icon" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

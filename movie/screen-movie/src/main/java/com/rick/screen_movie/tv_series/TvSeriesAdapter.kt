@@ -50,7 +50,6 @@ class TvSeriesViewHolder(
     private val title = itemBinding.movieName
     private val image = itemBinding.movieImage
     private val cast = itemBinding.movieSummary
-    private val rating = itemBinding.movieRating
 
     private lateinit var tvSeries: TvSeriesUiState.Series
 
@@ -70,7 +69,6 @@ class TvSeriesViewHolder(
         if (src.isNotBlank()) provideGlide(this.image, src)
         this.title.text = series.trendingTv.name
         this.cast.text = series.trendingTv.popularity.toString()
-        this.rating.text = series.trendingTv.popularity.toString()
 
     }
 

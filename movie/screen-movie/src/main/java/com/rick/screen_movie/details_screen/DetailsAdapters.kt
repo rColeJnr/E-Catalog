@@ -10,57 +10,56 @@ import com.rick.data_movie.imdb_am_not_paying.movie_model.Item
 import com.rick.data_movie.imdb_am_not_paying.movie_model.Similar
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.ActorsEntryBinding
-import com.rick.screen_movie.databinding.ImageEntryBinding
 import com.rick.screen_movie.databinding.SimilarEntryBinding
 import com.rick.screen_movie.util.provideGlide
 
-class DetailsImagesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+//class DetailsImagesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+//
+//    private val diffUtil = object : DiffUtil.ItemCallback<Item>() {
+//        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+//            return oldItem.image == newItem.image
+//        }
+//
+//        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+//            return oldItem == newItem
+//        }
+//    }
+//
+//    val imagesDiffer = AsyncListDiffer(this, diffUtil)
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+//        return ImagesViewHolder.create(parent)
+//    }
+//
+//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        val image = imagesDiffer.currentList[position]
+//        (holder as ImagesViewHolder).bind(image)
+//    }
+//
+//    override fun getItemCount(): Int = imagesDiffer.currentList.size
+//}
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Item>() {
-        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem.image == newItem.image
-        }
-
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    val imagesDiffer = AsyncListDiffer(this, diffUtil)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ImagesViewHolder.create(parent)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val image = imagesDiffer.currentList[position]
-        (holder as ImagesViewHolder).bind(image)
-    }
-
-    override fun getItemCount(): Int = imagesDiffer.currentList.size
-}
-
-class ImagesViewHolder(binding: ImageEntryBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    private val imageView = binding.movieImage
-
-    private lateinit var image: Item
-
-    fun bind(image: Item) {
-        this.image = image
-
-        val src = image.image
-        if (src.isNotBlank()) provideGlide(this.imageView, src)
-    }
-
-    companion object {
-        fun create(parent: ViewGroup): ImagesViewHolder {
-            val itemBinding = ImageEntryBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            return ImagesViewHolder(itemBinding)
-        }
-    }
-}
+//class ImagesViewHolder(binding: ImageEntryBinding) :
+//    RecyclerView.ViewHolder(binding.root) {
+//    private val imageView = binding.movieImage
+//
+//    private lateinit var image: Item
+//
+//    fun bind(image: Item) {
+//        this.image = image
+//
+//        val src = image.image
+//        if (src.isNotBlank()) provideGlide(this.imageView, src)
+//    }
+//
+//    companion object {
+//        fun create(parent: ViewGroup): ImagesViewHolder {
+//            val itemBinding = ImageEntryBinding
+//                .inflate(LayoutInflater.from(parent.context), parent, false)
+//            return ImagesViewHolder(itemBinding)
+//        }
+//    }
+//}
 
 class SimilarDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
