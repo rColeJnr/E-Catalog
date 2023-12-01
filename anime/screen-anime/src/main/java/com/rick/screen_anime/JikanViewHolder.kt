@@ -34,7 +34,6 @@ class JikanViewHolder(
 
     fun bind(jikan: Jikan) {
         this.jikan = jikan
-        val resources = itemView.resources
         this.title.text = jikan.title
         jikan.images.jpg.imageUrl.let { provideGlide(this.image, it) }
         this.synopsis.text = jikan.synopsis

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="82dp"
     android:layout_marginBottom="@dimen/six_dp"
-    android:backgroundTint="?attr/colorOnSurface"
+    android:backgroundTint="?attr/colorSurface"
     android:elevation="@dimen/two_dp"
     android:transitionName="@string/book_transition_name"
     app:cardCornerRadius="@dimen/card_corner_radius">
@@ -60,6 +60,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
