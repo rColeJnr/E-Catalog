@@ -51,24 +51,27 @@ class MovieCatalogViewModel @Inject constructor(
                         // we're at the end of the list
                         return@insertSeparators null
                     }
-                    if (before == null) {
-                        // we're at the beginning of the list
-                        return@insertSeparators UiModel.SeparatorItem(
-                            "${getMonth(after.movie.pubDate).month}  " +
-                                    "${getMonth(after.movie.pubDate).year}"
-                        )
-                    }
-                    if (
-                        getMonth(after.movie.pubDate)
-                            .month.equals(getMonth(before.movie.pubDate).month)
-                    ) {
+                    else {
                         null
-                    } else {
-                        UiModel.SeparatorItem(
-                            "${getMonth(after.movie.pubDate).month}  " +
-                                    "${getMonth(after.movie.pubDate).year}"
-                        )
                     }
+//                    if (if (before == null) {
+////                        // we're at the beginning of the list
+//////                        return@insertSeparators UiModel.SeparatorItem(
+//////                            "${getMonth(after.movie.pubDate).month}  " +
+//////                                    "${getMonth(after.movie.pubDate).year}"
+//////                        )
+////                        null
+////                    }
+//                        getMonth(after.movie.pubDate)
+//                            .month.equals(getMonth(before.movie.pubDate).month)
+//                    ) {
+//                        null
+//                    } else {
+//                        UiModel.SeparatorItem(
+//                            "${getMonth(after.movie.pubDate).month}  " +
+//                                    "${getMonth(after.movie.pubDate).year}"
+//                        )
+//                    }
                 }
             }
 

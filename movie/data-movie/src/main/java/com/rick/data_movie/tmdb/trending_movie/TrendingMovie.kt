@@ -1,9 +1,12 @@
 package com.rick.data_movie.tmdb.trending_movie
 
 
+import android.os.Parcelable
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "trending_movie", primaryKeys = ["id"])
 data class TrendingMovie(
     @SerializedName("id")
@@ -30,4 +33,4 @@ data class TrendingMovie(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+): Parcelable
