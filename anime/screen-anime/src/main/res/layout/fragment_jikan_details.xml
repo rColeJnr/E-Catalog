@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/two_dimen"
+    android:layout_margin="@dimen/two_dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/details_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/two_dp"
+        app:cardCornerRadius="@dimen/card_corner_radius"
         android:backgroundTint="?attr/colorSurface">
 
         <LinearLayout
@@ -53,22 +55,24 @@
                 android:id="@+id/synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:hint="@string/synopsis"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/background_headline"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
+
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <View style="@style/Divider.Horizontal" />
@@ -77,7 +81,7 @@
                 android:id="@+id/pg_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/pg_rating"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -85,7 +89,7 @@
                 android:id="@+id/airing_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/airing_status"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -93,7 +97,7 @@
                 android:id="@+id/aired"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/aired"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -101,7 +105,7 @@
                 android:id="@+id/episodes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/episodes"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -109,7 +113,7 @@
                 android:id="@+id/runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/runtime"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -117,7 +121,7 @@
                 android:id="@+id/chapters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/chapters"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -125,14 +129,16 @@
                 android:id="@+id/volumes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/volumes"
                 android:textAppearance="?attr/textAppearanceBody1" />
+
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="Genres"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
@@ -140,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/six_dimen"
+                android:layout_marginBottom="@dimen/six_dp"
                 android:clickable="false"
                 android:foregroundGravity="center_horizontal"
                 android:layoutDirection="locale"
@@ -182,18 +188,22 @@
 
             </com.google.android.material.chip.ChipGroup>
 
+            <View style="@style/Divider.Horizontal" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/ratings"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
+
+            <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/six_dimen"
+                android:layout_marginBottom="@dimen/six_dp"
                 android:clickable="false"
                 android:foregroundGravity="center_horizontal"
                 android:layoutDirection="locale"
@@ -274,7 +284,7 @@
                 android:id="@+id/url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/link_web_page"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -284,7 +294,7 @@
                 android:id="@+id/trailer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/link_trailer"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -292,7 +302,7 @@
                 android:id="@+id/serializations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/serializations"
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -300,7 +310,7 @@
                 android:id="@+id/serialization_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/serialization_name"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
@@ -308,7 +318,7 @@
                 android:id="@+id/serialization_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dimen"
+                android:layout_marginVertical="@dimen/two_dp"
                 android:text="@string/serialization_link"
                 android:textAppearance="?attr/textAppearanceBody1" />
 

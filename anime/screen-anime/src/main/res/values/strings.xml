@@ -24,9 +24,9 @@
     <string name="episodes">Episodes: %1$s</string>
     <string name="chapters">Chapters: %1$s</string>
     <string name="volumes">Volumes: %1$s</string>
-    <string name="link_web_page">Link to web page: %1$s</string>
+    <string name="link_web_page">Link to open web page</string>
     <string name="authors">Authors: %1$s</string>
-    <string name="link_trailer">Link to trailer: %1$s</string>
+    <string name="link_trailer">Click to watch trailer</string>
     <string name="serializations">Serializations</string>
     <string name="serialization_name">Name: %1$s</string>
     <string name="serialization_link">Link to web page: %1$s</string>
@@ -37,4 +37,5 @@
     <string name="jikan_fav"><![CDATA[Favorite anime & manga]]></string>
     <string name="fav_jikan">Favorite jikan</string>
     <string name="favorite">Favorite</string>
+    <string name="retry">Retry</string>
 </resources>

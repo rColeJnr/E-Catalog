@@ -23,7 +23,7 @@
 
             <EditText
                 android:id="@+id/search_input"
-                android:layout_width="282dp"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:autofillHints=""
@@ -31,21 +31,21 @@
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"
                 style="?android:progressBarStyleHorizontal"
-                android:layout_width="282dp"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:indeterminate="true" />
 
             <TextView
                 android:id="@+id/search_error_message"
-                android:layout_width="282dp"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/eight_dimen"
+                android:layout_marginVertical="@dimen/eight_dp"
                 android:layout_gravity="center"
                 android:text="@string/nothing_found"
                 android:textAppearance="?attr/textAppearanceBody2"

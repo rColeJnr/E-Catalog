@@ -68,7 +68,7 @@ class TvSeriesViewHolder(
         val src = series.trendingTv.backdropPath
         if (src.isNotBlank()) provideGlide(this.image, src)
         this.title.text = series.trendingTv.name
-        this.cast.text = series.trendingTv.popularity.toString()
+        this.cast.text = series.trendingTv.overview
 
     }
 
