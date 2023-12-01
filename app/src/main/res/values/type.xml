@@ -40,7 +40,7 @@
         <item name="fontFamily">@font/high_tower_text</item>
         <item name="android:fontFamily">@font/high_tower_text</item>
         <item name="android:textStyle">italic</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Overline" parent="TextAppearance.MaterialComponents.Overline">
