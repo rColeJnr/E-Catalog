@@ -18,44 +18,43 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--            <androidx.appcompat.widget.Toolbar-->
-            <!--                android:id="@+id/toolbar"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content">-->
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-            <!--                <LinearLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:orientation="vertical">-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
-            <!--                    -->
+                                <TextView
+                                    android:id="@+id/movie_title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/six_dp"
+                                    android:hint="@string/movie_title"
+                                    android:textAppearance="?attr/textAppearanceHeadline5" />
 
-            <!--&lt;!&ndash;                    <ProgressBar&ndash;&gt;-->
-            <!--&lt;!&ndash;                        android:id="@+id/details_progress_bar"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        style="?android:progressBarStyleHorizontal"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        android:layout_width="282dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        android:indeterminate="true" />&ndash;&gt;-->
+                                <ProgressBar
+                                    android:id="@+id/details_progress_bar"
+                                    style="?android:progressBarStyleHorizontal"
+                                    android:layout_width="282dp"
+                                    android:layout_height="wrap_content"
+                                    android:indeterminate="true" />
 
-            <!--                    <TextView-->
-            <!--                        android:id="@+id/details_error_message"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:text="@string/failed_to_retrieve_data"-->
-            <!--                        android:textAppearance="?attr/textAppearanceCaption"-->
-            <!--                        android:textColor="@android:color/holo_blue_light"-->
-            <!--                        android:visibility="gone" />-->
+                                <TextView
+                                    android:id="@+id/details_error_message"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/failed_to_retrieve_data"
+                                    android:textAppearance="?attr/textAppearanceCaption"
+                                    android:textColor="@android:color/holo_blue_light"
+                                    android:visibility="gone" />
 
-            <!--                </LinearLayout>-->
+                            </LinearLayout>
 
-            <!--            </androidx.appcompat.widget.Toolbar>-->
-            <TextView
-                android:id="@+id/movie_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/six_dp"
-                android:hint="@string/movie_title"
-                android:textAppearance="?attr/textAppearanceHeadline5" />
+                        </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/movie_image"
@@ -116,6 +115,14 @@
                 android:text="@string/budget"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movie_revenue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/two_dp"
+                android:text="@string/revenue"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
             <View style="@style/Divider.Horizontal" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -161,24 +168,6 @@
                     app:chipStrokeWidth="1dp" />
 
             </com.google.android.material.chip.ChipGroup>
-
-            <View style="@style/Divider.Horizontal" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/two_dp"
-                android:text="@string/actors"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
-
-            <View style="@style/Divider.Horizontal" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_actors"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/image_height"
-                android:layout_marginBottom="@dimen/six_dp"
-                tools:listitem="@layout/actors_entry"/>
 
             <View style="@style/Divider.Horizontal" />
 

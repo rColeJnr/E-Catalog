@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movieCatalogFragment"
-        android:name="com.rick.screen_movie.MovieCatalogFragment">
+        android:name="com.rick.screen_movie.nymovie_screen.MovieCatalogFragment">
         <action
             android:id="@+id/action_movieCatalogFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
@@ -21,18 +21,13 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment">
+
         <argument
-            android:name="movieId"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="id"
+            app:argType="integer" />
         <argument
-            android:name="movieTitle"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="series"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="type"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
