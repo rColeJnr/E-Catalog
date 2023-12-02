@@ -89,7 +89,7 @@ class DetailsViewModel @Inject constructor(
                         _searchLoading.postValue(DetailsUiState.Loading(result.isLoading))
                     }
                     is Resource.Success -> {
-                        _movie.postValue(DetailsUiState.Movie(result.data))
+                        _movie.postValue(DetailsUiState.Movie(result.data!!))
                     }
                     else -> {}
                 }
@@ -108,7 +108,7 @@ class DetailsViewModel @Inject constructor(
                         _searchLoading.postValue(DetailsUiState.Loading(result.isLoading))
                     }
                     is Resource.Success -> {
-                        _series.postValue(DetailsUiState.Tv(result.data))
+                        _series.postValue(DetailsUiState.Tv(result.data!!))
                     }
                     else -> {}
                 }
@@ -121,8 +121,8 @@ class DetailsViewModel @Inject constructor(
 }
 
 sealed class DetailsUiState {
-    data class Tv(val tv: TvResponse?) : DetailsUiState()
-    data class Movie(val movie: MovieResponse?) : DetailsUiState()
+    data class Tv(val tv: TvResponse) : DetailsUiState()
+    data class Movie(val movie: MovieResponse) : DetailsUiState()
     data class Loading(val loading: Boolean): DetailsUiState()
     data class Error(val msg: String?): DetailsUiState()
 }

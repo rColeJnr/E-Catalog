@@ -1,4 +1,4 @@
-package com.rick.screen_movie
+package com.rick.screen_movie.nymovie_screen
 
 import android.view.LayoutInflater
 import android.view.View

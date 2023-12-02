@@ -21,17 +21,11 @@
         android:id="@+id/seriesDetailsFragment"
         android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment">
         <argument
-            android:name="series"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="id"
+            app:argType="integer" />
         <argument
-            android:name="movieId"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="movieTitle"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="type"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/seriesSearchFragment"

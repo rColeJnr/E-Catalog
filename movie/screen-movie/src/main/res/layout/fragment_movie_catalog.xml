@@ -6,7 +6,7 @@
     android:background="?attr/colorSurface"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="@dimen/two_dp"
-    tools:context=".MovieCatalogFragment">
+    tools:context=".nymovie_screen.MovieCatalogFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"

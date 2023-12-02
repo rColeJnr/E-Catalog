@@ -1,4 +1,4 @@
-package com.rick.screen_movie
+package com.rick.screen_movie.nymovie_screen
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.ny_times.article_models.Doc
+import com.rick.screen_movie.R
+import com.rick.screen_movie.SeparatorViewHolder
+import com.rick.screen_movie.UiModel
 
 class MovieCatalogAdapter(
     private val onItemClicked: (view: View, movie: Doc) -> Unit,
