@@ -180,7 +180,7 @@ class MovieCatalogRepository @Inject constructor(
         db.favoriteDao.insertFavorite(favorite)
     }
 
-    suspend fun deleteFavorite(favorite: Favorite) {
+    suspend fun removeFavorite(favorite: Favorite) {
         db.favoriteDao.deleteFavorite(favorite)
     }
 
