@@ -1,7 +1,12 @@
 package com.rick.screen_movie.nymovie_screen
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
@@ -22,7 +27,13 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.ny_times.article_models.Doc
-import com.rick.screen_movie.*
+import com.rick.screen_movie.MovieCatalogFragmentDirections
+import com.rick.screen_movie.MoviesLoadStateAdapter
+import com.rick.screen_movie.R
+import com.rick.screen_movie.RemotePresentationState
+import com.rick.screen_movie.UiAction
+import com.rick.screen_movie.UiModel
+import com.rick.screen_movie.asRemotePresentationState
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -198,9 +209,8 @@ class MovieCatalogFragment : Fragment() {
         val movieToDetails = getString(R.string.movie_transition_name, movie.headline.main)
         val extras = FragmentNavigatorExtras(v to movieToDetails)
         val action =
-            // maybe just open a dialog.
             MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(
-                id = 0,  type = "Movie"
+                movieTitle = movie.headline.main, movieId = null, series = null,
             )
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }
