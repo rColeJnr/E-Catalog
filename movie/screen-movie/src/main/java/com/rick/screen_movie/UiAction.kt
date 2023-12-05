@@ -1,10 +1,8 @@
 package com.rick.screen_movie
 
-import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times_deprecated.Movie
+import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
 
 sealed class UiAction {
-    data class NavigateToDetails(val movie: Movie? = null): UiAction()
-    data class InsertFavorite(val fav: Favorite): UiAction()
-    data class RemoveFavorite(val fav: Favorite): UiAction()
+    data class InsertFavorite(val fav: TrendingMovie): UiAction()
+    object RemoveFavorite: UiAction()
 }

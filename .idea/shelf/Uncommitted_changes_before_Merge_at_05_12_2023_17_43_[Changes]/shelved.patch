@@ -1,0 +1,127 @@
+Index: movie/screen-movie/src/main/java/com/rick/screen_movie/trendingmovie_screen/TrendingMovieViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Package and imports\r\npackage com.rick.screen_movie.trendingmovie_screen\r\n\r\n@AndroidViewModel\r\nclass TrendingMovieViewModel inject constructor(\r\n  private val repo: MovieCatalogRepository\r\n): ViewModel() {\r\n\r\n  private val apiKey: String\r\n  val pagingDataFlow: Flow<PagingData<TrendingMovie>>\r\n  private var favorite: Favorite? = null\r\n  \r\n  init {\r\n    System.getLibrary(LIB_NAME)\r\n    apiKey = getTmdbKey()\r\n\r\n    pagingDataFlow = getTrendingMovies().cachedIn(viewModelScope)\r\n  }\r\n\r\n  private fun getTrendingMovies(): Flow<PagingData<TrendingMovie>> =\r\n    repository.getTrendingMovies(apiKey).collectLatest()\r\n\r\n  fun onEvent(event: UiEvent) {\r\n    when(event) {\r\n      is insertFavorite -> insertFavorite(event.favorite)\r\n      is removeFavorite -> removeFavorite(event.favorite)\r\n      else -> {}\r\n    }\r\n  }\r\n\r\n  private fun insertFavorite(movie: TrendingMovie) {\r\n    favorite = Favorite(\r\n        id = movie.id,\r\n        title = movie.title,\r\n        summary = movie.overview\r\n      )\r\n    viewModelScole.launch(Dispatchers.IO) {\r\n      repository.insertFavorite(favorite!!)\r\n    )\r\n  }\r\n\r\n  private fun removeFavorite() {\r\n    favorite?.let {\r\n      viewModelScope.launch(Dispatchers.IO) {\r\n        repository.removeFavorite(it)\r\n      }\r\n    }\r\n    favorite = null\r\n  }\r\n    \r\n  companion object {\r\n    private const val LIB_NAME = \"movie_keys.c\"\r\n  }\r\n}\r\n\r\nprivate external fun getTmdbKey()\r\n
+===================================================================
+diff --git a/movie/screen-movie/src/main/java/com/rick/screen_movie/trendingmovie_screen/TrendingMovieViewModel.kt b/movie/screen-movie/src/main/java/com/rick/screen_movie/trendingmovie_screen/TrendingMovieViewModel.kt
+--- a/movie/screen-movie/src/main/java/com/rick/screen_movie/trendingmovie_screen/TrendingMovieViewModel.kt	
++++ b/movie/screen-movie/src/main/java/com/rick/screen_movie/trendingmovie_screen/TrendingMovieViewModel.kt	
+@@ -1,56 +1,73 @@
+ // Package and imports
+ package com.rick.screen_movie.trendingmovie_screen
+ 
+-@AndroidViewModel
+-class TrendingMovieViewModel inject constructor(
+-  private val repo: MovieCatalogRepository
+-): ViewModel() {
++import androidx.lifecycle.ViewModel
++import androidx.lifecycle.viewModelScope
++import androidx.paging.PagingData
++import androidx.paging.cachedIn
++import com.rick.data_movie.MovieCatalogRepository
++import com.rick.data_movie.favorite.Favorite
++import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
++import com.rick.screen_movie.UiAction
++import dagger.hilt.android.lifecycle.HiltViewModel
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.flow.Flow
++import kotlinx.coroutines.launch
++import javax.inject.Inject
++
++@HiltViewModel
++class TrendingMovieViewModel @Inject constructor(
++    private val repository: MovieCatalogRepository
++) : ViewModel() {
+ 
+-  private val apiKey: String
+-  val pagingDataFlow: Flow<PagingData<TrendingMovie>>
+-  private var favorite: Favorite? = null
+-  
+-  init {
+-    System.getLibrary(LIB_NAME)
+-    apiKey = getTmdbKey()
++    private val apiKey: String
++    val pagingDataFlow: Flow<PagingData<TrendingMovie>>
++    private var favorite: Favorite? = null
++
++    init {
++        System.loadLibrary(LIB_NAME)
++        apiKey = getTmdbKey()
+ 
+-    pagingDataFlow = getTrendingMovies().cachedIn(viewModelScope)
+-  }
++        pagingDataFlow = getTrendingMovies().cachedIn(viewModelScope)
++    }
+ 
+-  private fun getTrendingMovies(): Flow<PagingData<TrendingMovie>> =
+-    repository.getTrendingMovies(apiKey).collectLatest()
++    private fun getTrendingMovies(): Flow<PagingData<TrendingMovie>> =
++        repository.getTrendingMovie(apiKey)
+ 
+-  fun onEvent(event: UiEvent) {
+-    when(event) {
+-      is insertFavorite -> insertFavorite(event.favorite)
+-      is removeFavorite -> removeFavorite(event.favorite)
+-      else -> {}
+-    }
+-  }
++    fun onEvent(event: UiAction) {
++        when (event) {
++            is UiAction.InsertFavorite -> insertFavorite(event.fav)
++            is UiAction.RemoveFavorite -> removeFavorite()
++            else -> {}
++        }
++    }
+ 
+-  private fun insertFavorite(movie: TrendingMovie) {
+-    favorite = Favorite(
+-        id = movie.id,
+-        title = movie.title,
+-        summary = movie.overview
+-      )
+-    viewModelScole.launch(Dispatchers.IO) {
+-      repository.insertFavorite(favorite!!)
+-    )
+-  }
++    private fun insertFavorite(movie: Favorite) {
++        favorite = Favorite(
++            id = movie.id,
++            title = movie.title,
++            overview = movie.overview,
++            image = movie.image,
++            type = "Movie"
++        )
++        viewModelScope.launch(Dispatchers.IO) {
++            repository.insertFavorite(favorite!!)
++        }
++    }
+ 
+-  private fun removeFavorite() {
+-    favorite?.let {
+-      viewModelScope.launch(Dispatchers.IO) {
+-        repository.removeFavorite(it)
+-      }
+-    }
+-    favorite = null
+-  }
+-    
+-  companion object {
+-    private const val LIB_NAME = "movie_keys.c"
+-  }
++    private fun removeFavorite() {
++        favorite?.let {
++            viewModelScope.launch(Dispatchers.IO) {
++                repository.deleteFavorite(it)
++            }
++        }
++        favorite = null
++    }
++    companion object {
++        private const val LIB_NAME = "movie_keys.c"
++    }
++
+ }
+ 
+-private external fun getTmdbKey()
++private external fun getTmdbKey(): String
++

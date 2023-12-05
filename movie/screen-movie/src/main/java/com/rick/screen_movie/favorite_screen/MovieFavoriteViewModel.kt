@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.rick.core.Resource
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.favorite.IMDBFavorite
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,7 +80,7 @@ class MovieFavoriteViewModel @Inject constructor(
 
     private fun deleteFavorite(fav: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.deleteFavorite(fav)
+            repo.removeFavorite(fav)
         }
     }
 
