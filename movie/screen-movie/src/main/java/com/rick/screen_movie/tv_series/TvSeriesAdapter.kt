@@ -65,10 +65,10 @@ class TvSeriesViewHolder(
     fun bind(series: TvSeriesUiState.Series) {
         this.tvSeries = series
 
-        val src = series.trendingTv.backdropPath
+        val src = series.trendingTv.backdropImage
         if (src.isNotBlank()) provideGlide(this.image, src)
         this.title.text = series.trendingTv.name
-        this.cast.text = series.trendingTv.overview
+        this.cast.text = series.trendingTv.summary
 
     }
 

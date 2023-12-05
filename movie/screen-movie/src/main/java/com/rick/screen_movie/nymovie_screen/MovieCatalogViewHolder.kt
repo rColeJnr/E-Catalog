@@ -4,21 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times.article_models.Doc
+import com.rick.data_movie.ny_times.article_models.NYMovie
 import com.rick.screen_movie.databinding.MovieEntryBinding
 import com.rick.screen_movie.util.provideGlide
 
 class MovieCatalogViewHolder(
     binding: MovieEntryBinding,
-    private val onItemClicked: (view: View, movie: Doc) -> Unit,
-    private val onFavClicked: (view: View, favorite: Favorite) -> Unit
+    private val onItemClicked: (view: View, movie: NYMovie) -> Unit,
+    private val onFavClicked: (view: View, favorite: NYMovie) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.movieName
     private val image = binding.movieImage
     private val summary = binding.movieSummary
 
-    private lateinit var movie: Doc
+    private lateinit var movie: NYMovie
 
     init {
         binding.root.setOnClickListener {
@@ -29,10 +28,10 @@ class MovieCatalogViewHolder(
         }
     }
 
-    fun bind(movie: Doc) {
+    fun bind(movie: NYMovie) {
         this.movie = movie
         this.title.text = movie.headline.main
-        this.summary.text = movie.snippet
+        this.summary.text = movie.summary
         val resources = itemView.resources
         //TODO (Cheeck rating in nytimes response)
         val src = movie.multimedia[0].url
@@ -46,8 +45,8 @@ class MovieCatalogViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClicked: (view: View, movie: Doc) -> Unit,
-            onFavClicked: (view: View, favorite: Favorite) -> Unit
+            onItemClicked: (view: View, movie: NYMovie) -> Unit,
+            onFavClicked: (view: View, favorite: NYMovie) -> Unit
         ): MovieCatalogViewHolder {
             val itemBinding = MovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)

@@ -15,7 +15,7 @@ data class NYBook(
     @SerializedName("weeks_on_list")
     val weeksOnList: Int,
     @SerializedName("description")
-    val description: String,
+    val summary: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("author")

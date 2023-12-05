@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Response(
     @SerializedName("docs")
-    val docs: List<Doc>,
+    val docs: List<NYMovie>,
 )

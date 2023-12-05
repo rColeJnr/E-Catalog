@@ -9,14 +9,14 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "ny_times_article")
-data class Doc(
+data class NYMovie(
     @PrimaryKey(autoGenerate = false)
     @SerializedName("_id")
     val id: String,
     @SerializedName("web_url")
     val webUrl: String,
     @SerializedName("snippet")
-    val snippet: String,
+    val summary: String,
     @SerializedName("lead_paragraph")
     val leadParagraph: String,
     @SerializedName("source")
@@ -25,14 +25,10 @@ data class Doc(
     val multimedia: List<Multimedia>,
     @SerializedName("headline")
     val headline: Headline,
-    @SerializedName("keywords")
-    val keywords: List<Keyword>,
     @SerializedName("pub_date")
     val pubDate: String,
-    @SerializedName("section_name")
-    val sectionName: String,
     @SerializedName("byline")
     val byline: Byline,
     @SerializedName("favorite")
-    val favorite: Boolean,
+    val favorite: Boolean
 ): Parcelable

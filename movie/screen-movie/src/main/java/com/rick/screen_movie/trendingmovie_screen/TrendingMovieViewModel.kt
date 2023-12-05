@@ -1,4 +1,3 @@
-// Package and imports
 package com.rick.screen_movie.trendingmovie_screen
 
 import androidx.lifecycle.ViewModel
@@ -45,8 +44,8 @@ class TrendingMovieViewModel @Inject constructor(
         favorite = Favorite(
             id = movie.id,
             title = movie.title,
-            overview = movie.overview,
-            image = movie.posterPath,
+            overview = movie.summary,
+            image = movie.image,
             type = "Movie"
         )
         viewModelScope.launch(Dispatchers.IO) {

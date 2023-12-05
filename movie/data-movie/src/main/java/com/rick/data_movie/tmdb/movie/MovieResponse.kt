@@ -12,7 +12,7 @@ data class MovieResponse(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropImage: String,
     @SerializedName("budget")
     val budget: Int,
     @SerializedName("genres")
@@ -20,11 +20,11 @@ data class MovieResponse(
     @SerializedName("homepage")
     val homepage: String,
     @SerializedName("overview")
-    val overview: String,
+    val summary: String,
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val image: String,
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("revenue")
@@ -44,8 +44,8 @@ data class MovieResponse(
         Favorite (
             id = id,
             title = title ,
-            overview = overview,
-            image = posterPath,
+            overview = summary,
+            image = image,
             type = "tv"
         )
 }

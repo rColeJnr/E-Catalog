@@ -89,12 +89,12 @@ class MovieDetailsFragment : Fragment() {
 //            LinearLayoutManager.HORIZONTAL,
 //            false
 //        )
-        val similarlayoutManager = LinearLayoutManager(
+        val similarLayoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        listSimilars.layoutManager = similarlayoutManager
+        listSimilars.layoutManager = similarLayoutManager
         listSimilars.adapter = similarsAdapter
 
         bindList(
@@ -114,10 +114,10 @@ class MovieDetailsFragment : Fragment() {
         movie.observe(viewLifecycleOwner) { tmdb ->
             val trendingMovie = tmdb.movie
             movieTitle.text = trendingMovie.title
-            if (trendingMovie.posterPath.isNotEmpty()) {
-                provideGlide(movieImage, trendingMovie.posterPath)
+            if (trendingMovie.image.isNotEmpty()) {
+                provideGlide(movieImage, trendingMovie.image)
             }
-            movieSummary.text = trendingMovie.overview
+            movieSummary.text = trendingMovie.summary
             movieAdult.text = resources.getString(
                 R.string.adult_content,
                 if (trendingMovie.adult) "True" else "False"

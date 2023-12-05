@@ -1,5 +1,6 @@
 package com.rick.screen_movie.trendingmovie_screen
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -10,13 +11,12 @@ import com.rick.screen_movie.databinding.MovieEntryBinding
 import com.rick.screen_movie.util.provideGlide
 
 class TrendingMovieAdapter(
-    private val binding: MovieEntryBinding,
     private val onItemClick: (View, TrendingMovie) -> Unit,
     private val onFavClick: (View, TrendingMovie) -> Unit
 ) : PagingDataAdapter<TrendingMovie, TrendingMovieViewHolder>(DIFF_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingMovieViewHolder {
-        return TrendingMovieViewHolder.create(binding, onItemClick, onFavClick)
+        return TrendingMovieViewHolder.create(parent, onItemClick, onFavClick)
     }
 
     override fun onBindViewHolder(holder: TrendingMovieViewHolder, position: Int) {
@@ -43,7 +43,7 @@ class TrendingMovieAdapter(
 }
 
 class TrendingMovieViewHolder(
-    private val binding: MovieEntryBinding,
+    binding: MovieEntryBinding,
     private val onItemClick: (View, TrendingMovie) -> Unit,
     private val onFavClick: (View, TrendingMovie) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -67,17 +67,18 @@ class TrendingMovieViewHolder(
 
     fun bind(movie: TrendingMovie) {
         this.movie = movie
-        if (movie.posterPath.isNotEmpty()) provideGlide(image, movie.posterPath)
+        if (movie.image.isNotEmpty()) provideGlide(image, movie.image)
         title.text = movie.title
-        summary.text = movie.overview
+        summary.text = movie.summary
     }
 
     companion object {
         internal fun create(
-            binding: MovieEntryBinding,
+            parent: ViewGroup,
             onItemClick: (View, TrendingMovie) -> Unit,
             onFavClick: (View, TrendingMovie) -> Unit
         ): TrendingMovieViewHolder {
+            val binding = MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false  )
             return TrendingMovieViewHolder(binding, onItemClick, onFavClick)
         }
     }

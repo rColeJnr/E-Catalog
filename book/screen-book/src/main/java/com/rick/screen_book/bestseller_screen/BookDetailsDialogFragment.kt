@@ -7,12 +7,15 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.rick.data_book.nytimes.model.NYBook
+import com.rick.screen_book.R
 import com.rick.screen_book.databinding.DialogBookDetailsBinding
 import com.rick.screen_book.provideGlide
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BookDetailsDialogFragment(private val book: NYBook) : DialogFragment() {
 
-    internal lateinit var listener: BookDetailsDialogListener
+    private lateinit var listener: BookDetailsDialogListener
 
     interface BookDetailsDialogListener {
         fun onDialogFavoriteClick(view: View, book: NYBook)
@@ -37,8 +40,8 @@ class BookDetailsDialogFragment(private val book: NYBook) : DialogFragment() {
             view.closeDialog.setOnClickListener {
                 dialog?.dismiss()
             }
-            view.favorite.setOnClickListener {
-                listener.onDialogFavoriteClick(it, book)
+            view.favorite.setOnClickListener {view ->
+                listener.onDialogFavoriteClick(view, book)
             }
             view.amazonLink.setOnClickListener {
                 listener.onAmazonLinkClick(book.amazonLink)
@@ -46,10 +49,10 @@ class BookDetailsDialogFragment(private val book: NYBook) : DialogFragment() {
             if (book.bookImage.isNotEmpty()) provideGlide(view.image, book.bookImage)
             view.title.text = book.title
             view.author.text = book.author
-            view.rank.text = book.rank.toString()
-            view.rankLastWeek.text = book.rankLastWeek.toString()
-            view.weeksOnList.text = book.weeksOnList.toString()
-            view.description.text = book.description
+            view.rank.text = resources.getString(R.string.rank, book.rank)
+            view.rankLastWeek.text = resources.getString(R.string.rankLastWeek, book.rankLastWeek)
+            view.weeksOnList.text = resources.getString(R.string.weeksOnList, book.weeksOnList)
+            view.summary.text = book.summary
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

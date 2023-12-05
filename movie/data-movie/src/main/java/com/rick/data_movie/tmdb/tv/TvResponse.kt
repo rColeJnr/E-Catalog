@@ -13,7 +13,7 @@ data class TvResponse(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropImage: String,
     @SerializedName("created_by")
     val createdBy: List<Creator>,
     @SerializedName("first_air_date")
@@ -26,22 +26,16 @@ data class TvResponse(
     val inProduction: Boolean,
     @SerializedName("last_air_date")
     val lastAirDate: String,
-    @SerializedName("last_episode_to_air")
-    val lastEpisodeToAir: LastEpisodeToAir,
     @SerializedName("name")
     val name: String,
-    @SerializedName("number_of_episodes")
-    val numberOfEpisodes: Int,
     @SerializedName("number_of_seasons")
     val numberOfSeasons: Int,
-    @SerializedName("original_name")
-    val originalName: String,
     @SerializedName("overview")
-    val overview: String,
+    val summary: String,
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterImage: String,
     @SerializedName("status")
     val status: String,
     @SerializedName("vote_average")
@@ -55,8 +49,8 @@ data class TvResponse(
         Favorite (
             id = id,
             title = name,
-            overview = overview,
-            image = posterPath,
+            overview = summary,
+            image = posterImage,
             type = "tv"
         )
 }

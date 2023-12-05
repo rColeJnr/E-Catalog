@@ -9,7 +9,7 @@ import com.rick.data_movie.ny_times.ArticleDao
 import com.rick.data_movie.ny_times.RemoteKeys
 import com.rick.data_movie.ny_times.RemoteKeysDao
 import com.rick.data_movie.ny_times.article_models.Converters
-import com.rick.data_movie.ny_times.article_models.Doc
+import com.rick.data_movie.ny_times.article_models.NYMovie
 import com.rick.data_movie.tmdb.TMDBConverters
 import com.rick.data_movie.tmdb.TMDBDao
 import com.rick.data_movie.tmdb.movie.MovieResponse
@@ -28,7 +28,7 @@ import com.rick.data_movie.tmdb.tv.TvResponse
         Favorite::class,
 //        IMDBFavorite::class,
 //        TvSeries::class,
-        Doc::class,
+        NYMovie::class,
         RemoteKeys::class,
         TrendingMovie::class,
         MovieRemoteKeys::class,

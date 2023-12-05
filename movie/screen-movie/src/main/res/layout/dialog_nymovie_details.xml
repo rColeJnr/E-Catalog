@@ -15,61 +15,58 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="330dp"
+            android:layout_height="250dp"
             android:layout_margin="@dimen/two_dp"
             android:src="@drawable/filled_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/favorite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/six_dp"
+            android:src="@drawable/fav_outline_icon"
+            app:layout_constraintBottom_toBottomOf="@id/image"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/eight_dp"
             android:layout_marginTop="5dp"
             android:ems="8"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="@id/image" />
-
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/eight_dp"
-            android:layout_marginBottom="5dp"
-            android:maxEms="8"
-            android:textAppearance="?attr/textAppearanceBody1"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="@id/image"
-            app:layout_constraintStart_toEndOf="@id/image" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image" />
 
         <TextView
             android:id="@+id/summary"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorSecondary"
             android:padding="4dp"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image" />
-
-        <ImageView
-            android:id="@+id/favorite"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="@dimen/six_dp"
-            android:src="@drawable/fav_outline_icon"
-            app:layout_constraintBottom_toBottomOf="@id/image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/image" />
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <TextView
-            android:id="@+id/rank"
+            android:id="@+id/reporter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSecondary"
+            android:padding="4dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/summary" />
+
+        <TextView
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -79,34 +76,24 @@
             app:layout_constraintTop_toBottomOf="@id/summary" />
 
         <TextView
-            android:id="@+id/rank_last_week"
+            android:id="@+id/source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rank" />
+            app:layout_constraintTop_toBottomOf="@id/date" />
 
         <TextView
-            android:id="@+id/weeks_on_list"
+            android:id="@+id/web_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rank_last_week" />
-
-        <TextView
-            android:id="@+id/amazon_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:textAppearance="?attr/textAppearanceBody1"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/weeks_on_list" />
+            app:layout_constraintTop_toBottomOf="@id/source" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/close_dialog"
@@ -114,11 +101,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorSecondary"
-            android:text="@string/close"
+            android:text="Close"
             app:cornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/amazon_link" />
+            app:layout_constraintTop_toBottomOf="@id/web_page" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
