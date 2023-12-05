@@ -49,4 +49,6 @@
     <string name="fav_imdb">Favorites IMDB</string>
     <string name="favorite">Favorite</string>
     <string name="adult_content">Adult content: %1$s</string>
+    <string name="reporter">Reported by: %1$s</string>
+    <string name="source">"Article source: %1$s"</string>
 </resources>

@@ -53,34 +53,6 @@ class Converters (
         )!!
 
     @TypeConverter
-    fun fromKeyword(keywords: Keyword): String =
-        jsonParser.toJson(
-            keywords,
-            object: TypeToken<Keyword>() {}.type
-        )  ?: ""
-
-    @TypeConverter
-    fun toKeyword(json: String): Keyword =
-        jsonParser.fromJson<Keyword>(
-            json,
-            object: TypeToken<Keyword>() {}.type
-        )!!
-
-    @TypeConverter
-    fun fromListKeyword(keywords: List<Keyword>): String =
-        jsonParser.toJson(
-            keywords,
-            object: TypeToken<List<Keyword>>() {}.type
-        )  ?: ""
-
-    @TypeConverter
-    fun toListKeyword(json: String): List<Keyword> =
-        jsonParser.fromJson<List<Keyword>>(
-            json,
-            object: TypeToken<List<Keyword>>() {}.type
-        ) ?: emptyList()
-
-    @TypeConverter
     fun fromByline(byline: Byline): String =
         jsonParser.toJson(
             byline,

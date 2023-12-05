@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.rick.data_movie.MovieCatalogDatabase
-import com.rick.data_movie.ny_times.article_models.Doc
+import com.rick.data_movie.ny_times.article_models.NYMovie
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -15,7 +15,7 @@ class MovieCatalogRemoteMediator(
     private val api: MovieCatalogApi,
     private val db: MovieCatalogDatabase,
     private val key: String
-): RemoteMediator<Int, Doc>() {
+): RemoteMediator<Int, NYMovie>() {
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -23,7 +23,7 @@ class MovieCatalogRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, Doc>
+        state: PagingState<Int, NYMovie>
     ): MediatorResult {
 
         val page = when(loadType) {
@@ -82,7 +82,7 @@ class MovieCatalogRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Doc>): RemoteKeys? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, NYMovie>): RemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
@@ -92,7 +92,7 @@ class MovieCatalogRemoteMediator(
             }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Doc>): RemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, NYMovie>): RemoteKeys? {
         // GEt the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
@@ -102,7 +102,7 @@ class MovieCatalogRemoteMediator(
             }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Doc>): RemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, NYMovie>): RemoteKeys? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->

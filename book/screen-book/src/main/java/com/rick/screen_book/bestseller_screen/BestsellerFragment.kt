@@ -147,7 +147,6 @@ class BestsellerFragment : Fragment(), BookDetailsDialogFragment.BookDetailsDial
             requireActivity().supportFragmentManager,
             "book_details"
         )
-        viewModel.onEvent(BestsellerEvents.OnBookClick(book))
     }
 
     override fun onDialogFavoriteClick(view: View, book: NYBook) {

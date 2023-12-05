@@ -14,15 +14,13 @@ data class TrendingMovie(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropImage: String,
     @SerializedName("title")
     val title: String,
-    @SerializedName("original_language")
-    val originalLanguage: String,
     @SerializedName("overview")
-    val overview: String,
+    val summary: String,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val image: String,
     @SerializedName("media_type")
     val mediaType: String,
     @SerializedName("popularity")

@@ -18,4 +18,8 @@
     <string name="book_detail_transition_name">book details transition name</string>
     <string name="fav_book">Favorite books</string>
     <string name="favorite">Favorite</string>
+    <string name="close">Close</string>
+    <string name="rank">Rank: %1$d</string>
+    <string name="rankLastWeek">Rank last week: %1$d</string>
+    <string name="weeksOnList">Weeks on list: %1$d</string>
 </resources>

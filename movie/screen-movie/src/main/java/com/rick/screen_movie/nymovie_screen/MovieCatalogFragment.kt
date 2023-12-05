@@ -1,12 +1,7 @@
 package com.rick.screen_movie.nymovie_screen
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
@@ -15,25 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times.article_models.Doc
-import com.rick.screen_movie.MovieCatalogFragmentDirections
-import com.rick.screen_movie.MoviesLoadStateAdapter
-import com.rick.screen_movie.R
-import com.rick.screen_movie.RemotePresentationState
-import com.rick.screen_movie.UiAction
-import com.rick.screen_movie.UiModel
-import com.rick.screen_movie.asRemotePresentationState
+import com.rick.data_movie.ny_times.article_models.NYMovie
+import com.rick.screen_movie.*
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -41,8 +27,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+//TODO REFACTOR TO NYMovieFragment
 @AndroidEntryPoint
-class MovieCatalogFragment : Fragment() {
+class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDetailsDialogListener {
 
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
@@ -202,21 +189,27 @@ class MovieCatalogFragment : Fragment() {
 
     }
 
-    private fun onMovieClick(v: View, movie: Doc) {
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-        }
-        val movieToDetails = getString(R.string.movie_transition_name, movie.headline.main)
-        val extras = FragmentNavigatorExtras(v to movieToDetails)
-        val action =
-            MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieDetailsFragment(
-                movieTitle = movie.headline.main, movieId = null, series = null,
-            )
-        findNavController().navigate(directions = action, navigatorExtras = extras)
+    private fun onMovieClick(view: View, movie: NYMovie) {
+        // Add dialog expand animation
+        NYMovieDetailsDialogFragment(movie).show(
+            requireActivity().supportFragmentManager,
+            "nymovie_details"
+        )
     }
 
-    private fun onFavClick(view: View, favorite: Favorite) {
-        viewModel.onEvent(UiAction.InsertFavorite(favorite))
+    private fun onFavClick(view: View, favorite: NYMovie) {
+//        viewModel.onEvent(UiAction.InsertFavorite(favorite))
+    }
+
+    override fun onDialogFavoriteClick(view: View, movie: NYMovie) {
+        onFavClick(view, movie)
+    }
+
+    override fun onWebUlrClick(link: String) {
+        //TODO implement navigation
+        val action = MovieCatalogFragmentDirections
+            .actionMOvieCatalogFragmentToWebViewFragment(link)
+        navController.navigate(direction = action)
     }
 
     override fun onDestroy() {

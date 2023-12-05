@@ -9,6 +9,4 @@ import kotlinx.parcelize.Parcelize
 data class Headline(
     @SerializedName("main")
     val main: String,
-    @SerializedName("print_headline")
-    val headline: String,
 ): Parcelable

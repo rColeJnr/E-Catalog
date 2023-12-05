@@ -226,9 +226,7 @@ class SearchFragment : Fragment() {
         val action =
             SearchFragmentDirections
                 .actionSearchFragmentToDetailsFragment(
-                    movieId = movie.id.toString(),
-                    movieTitle = null,
-                    series = null
+                    movie.id, movie.
                 )
 
         findNavController().navigate(directions = action, navigatorExtras = extras)
@@ -307,9 +305,9 @@ class SearchViewHolder(
         this.rootLayout.transitionName = "search ${searchResult.id}"
         this.result = searchResult
         this.title.text = searchResult.title
-        this.description.text = searchResult.overview
+        this.description.text = searchResult.summary
         glide
-            .load(searchResult.backdropPath) //TODO, add path to proper url
+            .load(searchResult.backdropImage) //TODO, add path to proper url
             .apply(options)
             .into(this.image)
     }

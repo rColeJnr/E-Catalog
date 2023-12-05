@@ -8,8 +8,6 @@ sealed class BestsellerEvents {
 
     data class OnFavoriteClick(val book: NYBook): BestsellerEvents()
 
-    data class OnBookClick(val book: NYBook): BestsellerEvents()
-
     object OnRemoveFavorite : BestsellerEvents()
 
 }

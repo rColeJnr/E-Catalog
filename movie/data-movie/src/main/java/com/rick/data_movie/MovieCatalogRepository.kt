@@ -8,7 +8,7 @@ import com.rick.core.Resource
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.ny_times.MovieCatalogApi
 import com.rick.data_movie.ny_times.MovieCatalogRemoteMediator
-import com.rick.data_movie.ny_times.article_models.Doc
+import com.rick.data_movie.ny_times.article_models.NYMovie
 import com.rick.data_movie.tmdb.TMDBApi
 import com.rick.data_movie.tmdb.movie.MovieResponse
 import com.rick.data_movie.tmdb.search.SearchResponse
@@ -33,7 +33,7 @@ class MovieCatalogRepository @Inject constructor(
 
     // TODO This could and should be separated into use cases in the next clean up branch
 
-    fun getMovies(key: String): Flow<PagingData<Doc>> {
+    fun getMovies(key: String): Flow<PagingData<NYMovie>> {
 
         val pagingSourceFactory = { db.articleDao.getMovieArticles() }
         @OptIn(ExperimentalPagingApi::class)
