@@ -7,7 +7,7 @@ data class SimilarResponse(
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
-    val results: List<Similar>,
+    val results: List<MovieSimilar>,
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("total_results")

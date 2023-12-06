@@ -1,4 +1,4 @@
-package com.rick.screen_movie.details_screen
+package com.rick.screen_movie.moviedetails_screen
 
 import android.graphics.Color
 import android.os.Bundle
@@ -21,12 +21,10 @@ class MovieDetailsFragment : Fragment() {
 
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel: MovieDetailsViewModel by viewModels()
 
     private lateinit var similarsAdapter: SimilarDetailsAdapter
-
     private var id by Delegates.notNull<Int>()
-    private var type by Delegates.notNull<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +43,9 @@ class MovieDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
             id = safeArgs.id
-            type = safeArgs.type
         }
 
-        if (type == "Movie") { viewModel.onTriggerEvent(DetailsUiEvent.GetTrendingMovie(id!!)) }
-        else { viewModel.onTriggerEvent(DetailsUiEvent.GetTrendingTv(id!!)) }
+        viewModel.onEvent(MovieDetailsEvents.GetMovie(id))
 
 //        binding.toolbar.apply {
 //            setNavigationIcon(R.drawable.ic_arrow_back)
@@ -75,9 +71,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun FragmentMovieDetailsBinding.bindState(
-        movie: LiveData<DetailsUiState.Movie>,
-        loading: LiveData<DetailsUiState.Loading>,
-        error: LiveData<DetailsUiState.Error>
+        movie: LiveData<MovieDetailsUiState.Movie>,
+        loading: LiveData<MovieDetailsUiState.Loading>,
+        error: LiveData<MovieDetailsUiState.Error>
     ) {
 //        val layoutManager = LinearLayoutManager(
 //            requireContext(),
@@ -104,9 +100,9 @@ class MovieDetailsFragment : Fragment() {
 
     private fun FragmentMovieDetailsBinding.bindList(
         similarDetailsAdapter: SimilarDetailsAdapter,
-        movie: LiveData<DetailsUiState.Movie>,
-        loading: LiveData<DetailsUiState.Loading>,
-        error: LiveData<DetailsUiState.Error>
+        movie: LiveData<MovieDetailsUiState.Movie>,
+        loading: LiveData<MovieDetailsUiState.Loading>,
+        error: LiveData<MovieDetailsUiState.Error>
     ) {
 
         val noData = getString(R.string.no_data)

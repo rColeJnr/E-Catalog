@@ -7,7 +7,7 @@ data class SimilarResponse(
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
-    val results: List<Similar>,
+    val results: List<TvSimilar>,
     @SerializedName("total_pages")
     val total_pages: Int,
     @SerializedName("total_results")

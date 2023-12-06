@@ -1,4 +1,4 @@
-package com.rick.screen_movie.details_screen
+package com.rick.screen_movie.moviedetails_screen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_movie.imdb_am_not_paying.movie_model.Actor
-import com.rick.data_movie.tmdb.movie.Similar
+import com.rick.data_movie.tmdb.Similar
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.ActorsEntryBinding
 import com.rick.screen_movie.databinding.SimilarEntryBinding
@@ -95,9 +95,9 @@ class SimilarsViewHolder(binding: SimilarEntryBinding) :
 
     fun bind(similar: Similar) {
         this.similar = similar
-        this.title.text = similar.title
+        this.title.text = similar.name
 
-        val src = similar.posterPath
+        val src = similar.image
         if (src.isNotBlank()) provideGlide(this.image, src)
     }
 

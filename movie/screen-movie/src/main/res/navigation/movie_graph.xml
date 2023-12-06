@@ -9,40 +9,37 @@
         android:id="@+id/movieCatalogFragment"
         android:name="com.rick.screen_movie.nymovie_screen.MovieCatalogFragment">
         <action
-            android:id="@+id/action_movieCatalogFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
-        <action
             android:id="@+id/action_movieCatalogFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_movieCatalogFragment_to_movieFavoriteFragment"
             app:destination="@id/movieFavoriteFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/movieDetailsFragment"
-        android:name="com.rick.screen_movie.details_screen.MovieDetailsFragment">
-
-        <argument
-            android:name="id"
-            app:argType="integer" />
-        <argument
-            android:name="type"
-            app:argType="string" />
+        <action
+            android:id="@+id/action_movieCatalogFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.rick.screen_movie.search_screen.SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_detailsFragment"
-            app:destination="@id/movieDetailsFragment" />
+            android:id="@+id/action_searchFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFavoriteFragment"
         android:name="com.rick.screen_movie.favorite_screen.MovieFavoriteFragment" >
         <action
-            android:id="@+id/action_movieFavoriteFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
+            android:id="@+id/action_movieFavoriteFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.rick.screen_movie.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="link"
+            app:argType="string" />
     </fragment>
 
 </navigation>

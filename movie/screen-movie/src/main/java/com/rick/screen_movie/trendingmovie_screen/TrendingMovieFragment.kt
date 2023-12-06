@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -99,7 +100,10 @@ class TrendingMovieFragment: Fragment() {
     }
 
     private fun onMovieClick(view: View, movie: TrendingMovie){
-        //TODO
+        //TODO add animations
+        val action = TrendingMovieFragmentDirections
+            .actionTrendingMovieFragmentToMovieDetailsFragment2(movie.id)
+        findNavController().navigate(action)
     }
 
     private fun onFavClick(view: View, movie: TrendingMovie){
