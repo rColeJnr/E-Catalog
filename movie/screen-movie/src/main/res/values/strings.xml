@@ -51,4 +51,9 @@
     <string name="adult_content">Adult content: %1$s</string>
     <string name="reporter">Reported by: %1$s</string>
     <string name="source">"Article source: %1$s"</string>
+    <string name="first_air_date">First air date: %1$s</string>
+    <string name="in_production">In production: %1$s</string>
+    <string name="last_air_date">Last air date: %1$s</string>
+    <string name="creators">Creators: %1$s</string>
+    <string name="number_of_seasons">Number of seasons: %1$d</string>
 </resources>

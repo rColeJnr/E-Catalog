@@ -131,18 +131,12 @@ class TvSeriesFragment : Fragment() {
     }
 
     private fun onSeriesClick(view: View, series: TvSeriesUiState.Series) {
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-        }
-        val seriesToDetails = getString(R.string.movie_transition_name, series.trendingTv.name)
-        val extras = FragmentNavigatorExtras(view to seriesToDetails)
+        // TODO redo animations
         val action = TvSeriesFragmentDirections
             .actionTvSeriesFragmentToSeriesDetailsFragment(
-                series = series.trendingTv.id.toString(), //TODO, remove .toString()
-                movieId = null,
-                movieTitle = null
+                id = series.trendingTv.id
             )
-        findNavController().navigate(directions = action, navigatorExtras = extras)
+        findNavController().navigate(action)
     }
 
     private fun onFavClick(view: View, favorite: Favorite) {

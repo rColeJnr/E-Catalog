@@ -35,9 +35,7 @@ data class TvResponse(
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("poster_path")
-    val posterImage: String,
-    @SerializedName("status")
-    val status: String,
+    val image: String,
     @SerializedName("vote_average")
     val voteAverage: Double,
     @SerializedName("vote_count")
@@ -50,7 +48,7 @@ data class TvResponse(
             id = id,
             title = name,
             overview = summary,
-            image = posterImage,
+            image = image,
             type = "tv"
         )
 }
