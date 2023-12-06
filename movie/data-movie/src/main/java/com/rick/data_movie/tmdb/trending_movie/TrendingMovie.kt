@@ -4,6 +4,7 @@ package com.rick.data_movie.tmdb.trending_movie
 import android.os.Parcelable
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
+import com.rick.data_movie.favorite.Favorite
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -31,4 +32,12 @@ data class TrendingMovie(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-): Parcelable
+) : Parcelable {
+    fun toFavorite(): Favorite = Favorite(
+        id = id,
+        title = title,
+        overview = summary,
+        image = image,
+        type = mediaType
+    )
+}

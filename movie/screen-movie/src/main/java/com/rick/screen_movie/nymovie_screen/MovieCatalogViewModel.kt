@@ -8,6 +8,7 @@ import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
+import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.UiModel
 import com.rick.screen_movie.util.LIB_NAME
@@ -16,6 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -33,6 +35,7 @@ class MovieCatalogViewModel @Inject constructor(
     val pagingDataFLow: Flow<PagingData<UiModel>>
 
     private val nyKey: String
+    private var favorite: Favorite? = null
 
     init {
 
@@ -76,15 +79,26 @@ class MovieCatalogViewModel @Inject constructor(
 
     fun onEvent(event: UiAction) {
         when (event) {
-            is UiAction.InsertFavorite -> insertFavorite(event.fav)
+            is UiAction.InsertFavorite -> insertFavorite(event.fav.toFavorite())
+            is UiAction.RemoveFavorite -> removeFavorite()
             else -> {}
         }
     }
 
     private fun insertFavorite(fav: Favorite) {
+        favorite = fav
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertFavorite(fav)
+            repository.insertFavorite(favorite!!)
         }
+    }
+
+    private fun removeFavorite() {
+        favorite?.let {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.removeFavorite(it)
+            }
+        }
+        favorite = null
     }
 }
 

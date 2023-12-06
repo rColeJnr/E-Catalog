@@ -42,7 +42,7 @@ class MovieDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
-            id = safeArgs.id
+            id = 1
         }
 
         viewModel.onEvent(MovieDetailsEvents.GetMovie(id))
@@ -140,7 +140,7 @@ class MovieDetailsFragment : Fragment() {
                 )
             movieDbChip.text = resources.getString(R.string.db_rating, trendingMovie.voteAverage)
 
-            similarDetailsAdapter.similarsDiffer.submitList(trendingMovie.similar.results)
+            similarDetailsAdapter.similarsDiffer.submitList(trendingMovie.similar.results.map { it.toSimilar() })
         }
 
         loading.observe(viewLifecycleOwner) { progressing ->
