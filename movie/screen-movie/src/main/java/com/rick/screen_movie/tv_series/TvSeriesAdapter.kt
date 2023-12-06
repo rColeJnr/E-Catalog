@@ -7,13 +7,14 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_movie.favorite.Favorite
+import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.databinding.MovieEntryBinding
 import com.rick.screen_movie.util.provideGlide
 
 
 class TvSeriesAdapter(
     private val onItemClicked: (view: View, series: TvSeriesUiState.Series) -> Unit,
-    private val onFavClicked: (view: View, favorite: Favorite) -> Unit
+    private val onFavClicked: (view: View, favorite: TrendingTv) -> Unit
 ) : PagingDataAdapter<TvSeriesUiState.Series, TvSeriesViewHolder>(RESULT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvSeriesViewHolder {
@@ -80,7 +81,7 @@ class TvSeriesViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (view: View, series: TvSeriesUiState.Series) -> Unit,
-            onFavClick: (view: View, favorite: Favorite) -> Unit
+            onFavClick: (view: View, favorite: TrendingTv) -> Unit
         ): TvSeriesViewHolder {
             val itemBinding =
                 MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)

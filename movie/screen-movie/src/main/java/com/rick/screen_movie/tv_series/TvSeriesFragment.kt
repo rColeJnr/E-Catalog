@@ -23,6 +23,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data_movie.favorite.Favorite
+import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.R
 import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
@@ -133,13 +134,13 @@ class TvSeriesFragment : Fragment() {
     private fun onSeriesClick(view: View, series: TvSeriesUiState.Series) {
         // TODO redo animations
         val action = TvSeriesFragmentDirections
-            .actionTvSeriesFragmentToSeriesDetailsFragment(
-                id = series.trendingTv.id
+            .actionTvSeriesFragmentToTvDetailsFragment(
+                tv = series.trendingTv.id
             )
         findNavController().navigate(action)
     }
 
-    private fun onFavClick(view: View, favorite: Favorite) {
+    private fun onFavClick(view: View, favorite: TrendingTv) {
         viewModel.onEvent(UiAction.InsertFavorite(favorite))
     }
 

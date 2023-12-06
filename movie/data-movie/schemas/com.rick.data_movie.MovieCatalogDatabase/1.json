@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cab4135e6dabb3b97989f6c30333678f",
+    "identityHash": "2d329d14f29073d2b6adb0ce16153a21",
     "entities": [
       {
         "tableName": "favorite",
@@ -490,7 +490,7 @@
       },
       {
         "tableName": "tmdb_tv",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `adult` INTEGER NOT NULL, `backdropImage` TEXT NOT NULL, `createdBy` TEXT NOT NULL, `firstAirDate` TEXT NOT NULL, `genres` TEXT NOT NULL, `homepage` TEXT NOT NULL, `inProduction` INTEGER NOT NULL, `lastAirDate` TEXT NOT NULL, `name` TEXT NOT NULL, `numberOfSeasons` INTEGER NOT NULL, `summary` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterImage` TEXT NOT NULL, `status` TEXT NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL, `similar` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `adult` INTEGER NOT NULL, `backdropImage` TEXT NOT NULL, `createdBy` TEXT NOT NULL, `firstAirDate` TEXT NOT NULL, `genres` TEXT NOT NULL, `homepage` TEXT NOT NULL, `inProduction` INTEGER NOT NULL, `lastAirDate` TEXT NOT NULL, `name` TEXT NOT NULL, `numberOfSeasons` INTEGER NOT NULL, `summary` TEXT NOT NULL, `popularity` REAL NOT NULL, `image` TEXT NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL, `similar` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -571,14 +571,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "posterImage",
-            "columnName": "posterImage",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "status",
-            "columnName": "status",
+            "fieldPath": "image",
+            "columnName": "image",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -614,7 +608,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cab4135e6dabb3b97989f6c30333678f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d329d14f29073d2b6adb0ce16153a21')"
     ]
   }
 }
