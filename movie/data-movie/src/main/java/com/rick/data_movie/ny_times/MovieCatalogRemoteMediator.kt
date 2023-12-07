@@ -12,7 +12,7 @@ import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class MovieCatalogRemoteMediator(
-    private val api: MovieCatalogApi,
+    private val api: NYMovieApi,
     private val db: MovieCatalogDatabase,
     private val key: String
 ): RemoteMediator<Int, NYMovie>() {
@@ -69,7 +69,7 @@ class MovieCatalogRemoteMediator(
                 val prevKey = if (page == Companion.STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = articles.map {
-                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                    RemoteKeys(id = it.id!!, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.remoteKeysDao.insertAll(keys)
                 db.articleDao.insertArticles(articles)
@@ -88,7 +88,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { doc ->
                 // Get the remote keys of the last item retrieved
-                db.remoteKeysDao.remoteKeysMovieId(doc.id)
+                db.remoteKeysDao.remoteKeysMovieId(doc.id!!)
             }
     }
 
@@ -98,7 +98,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { doc ->
                 // GEt the remote keys of the first items retrieved
-                db.remoteKeysDao.remoteKeysMovieId(doc.id)
+                db.remoteKeysDao.remoteKeysMovieId(doc.id!!)
             }
     }
 

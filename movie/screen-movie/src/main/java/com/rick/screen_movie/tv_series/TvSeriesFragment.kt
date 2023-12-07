@@ -1,31 +1,21 @@
 package com.rick.screen_movie.tv_series
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.R
-import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -84,6 +74,7 @@ class TvSeriesFragment : Fragment() {
             pagingData = viewModel.pagingDataFlow
         )
     }
+
     private fun FragmentMovieCatalogBinding.bindState(
         pagingData: Flow<PagingData<TvSeriesUiState.Series>>
     ) {
@@ -140,8 +131,8 @@ class TvSeriesFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun onFavClick(view: View, favorite: TrendingTv) {
-        viewModel.onEvent(UiAction.InsertFavorite(favorite))
+    private fun onFavClick(view: View, favorite: TvSeriesUiState.Series) {
+        viewModel.onEvent(TvSeriesUiEvent.InsertFavorite(favorite.trendingTv))
     }
 
     private fun initAdapter() {

@@ -6,8 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.rick.core.Resource
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.ny_times.MovieCatalogApi
 import com.rick.data_movie.ny_times.MovieCatalogRemoteMediator
+import com.rick.data_movie.ny_times.NYMovieApi
 import com.rick.data_movie.ny_times.article_models.NYMovie
 import com.rick.data_movie.tmdb.TMDBApi
 import com.rick.data_movie.tmdb.movie.MovieResponse
@@ -27,7 +27,7 @@ private const val PAGE_SIZE = 20
 
 class MovieCatalogRepository @Inject constructor(
     private val db: MovieCatalogDatabase,
-    private val nyApi: MovieCatalogApi,
+    private val nyApi: NYMovieApi,
     private val tmdbApi: TMDBApi,
 ) {
 

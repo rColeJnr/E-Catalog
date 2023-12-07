@@ -19,15 +19,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.tmdb.search.Search
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.MovieEntryBinding
+import com.rick.screen_movie.util.getTmdbImageUrl
+import com.rick.screen_movie.util.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -110,8 +110,6 @@ class SearchFragment : Fragment() {
         val options = RequestOptions().placeholder(circularProgressDrawable)
         val glide = Glide.with(requireContext())
         searchAdapter = SearchAdapter(
-            glide,
-            options,
             this::onMovieClick,
             this::onFavClick
         )
@@ -124,7 +122,7 @@ class SearchFragment : Fragment() {
         searchList: LiveData<SearchUiState.Response>,
         searchLoading: LiveData<SearchUiState.Loading>,
         searchError: LiveData<SearchUiState.Error>,
-        uiAction: (SearchUiAction) -> Unit,
+        uiAction: (SearchUiEvent) -> Unit,
         uiState: StateFlow<SearchUiState.Query>
     ) {
 
@@ -145,7 +143,7 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindSearch(
         uiState: StateFlow<SearchUiState.Query>,
-        onQueryChanged: (SearchUiAction) -> Unit,
+        onQueryChanged: (SearchUiEvent) -> Unit,
     ) {
 
 //        showSoftKeyboard(searchInput, requireContext())
@@ -175,11 +173,11 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.Search) -> Unit) {
+    private fun FragmentSearchBinding.updateListFromInput(onQueryChanged: (SearchUiEvent.SearchQuery) -> Unit) {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
-                onQueryChanged(SearchUiAction.Search(query = query.toString()))
+                onQueryChanged(SearchUiEvent.SearchQuery(query = query.toString()))
 
             }
         }
@@ -232,8 +230,8 @@ class SearchFragment : Fragment() {
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
-    private fun onFavClick(favorite: Favorite) {
-        viewModel.onEvent(SearchUiAction.InsertFavorite(favorite))
+    private fun onFavClick(favorite: Search) {
+        viewModel.onEvent(SearchUiEvent.InsertFavorite(favorite))
     }
 
     override fun onDestroy() {
@@ -243,10 +241,8 @@ class SearchFragment : Fragment() {
 }
 
 class SearchAdapter(
-    private val glide: RequestManager,
-    private val options: RequestOptions,
     private val onItemClicked: (view: View, movie: Search) -> Unit,
-    private val onFavClicked: (favorite: Favorite) -> Unit
+    private val onFavClicked: (favorite: Search) -> Unit
 ) : RecyclerView.Adapter<SearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<Search>() {
@@ -273,7 +269,7 @@ class SearchAdapter(
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val searchResult = searchDiffer.currentList[position]
-        (holder).bind(glide, options, searchResult)
+        (holder).bind(searchResult)
     }
 
     override fun getItemCount(): Int =
@@ -283,7 +279,7 @@ class SearchAdapter(
 class SearchViewHolder(
     binding: MovieEntryBinding,
     private val onItemClicked: (view: View, movie: Search) -> Unit,
-    private val onFavClicked: (favorite: Favorite) -> Unit
+    private val onFavClicked: (favorite: Search) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
@@ -295,21 +291,18 @@ class SearchViewHolder(
             onItemClicked(it, result)
         }
         binding.favButton.setOnClickListener {
-//            onFavClicked(result.toFavorite()) TODO (code fav function)
+            onFavClicked(result)
         }
     }
 
     private lateinit var result: Search
 
-    fun bind(glide: RequestManager, options: RequestOptions, searchResult: Search) {
+    fun bind(searchResult: Search) {
         this.rootLayout.transitionName = "search ${searchResult.id}"
         this.result = searchResult
         this.title.text = searchResult.title
         this.description.text = searchResult.summary
-        glide
-            .load(searchResult.posterImage) //TODO, add path to proper url, whoah
-            .apply(options)
-            .into(this.image)
+        if (searchResult.image.isNotEmpty()) provideGlide(this.image, getTmdbImageUrl(searchResult.image))
     }
 
 //    overridee fun onClick(v: View) {
@@ -320,7 +313,7 @@ class SearchViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClicked: (view: View, movie: Search) -> Unit,
-            onFavClicked: (favorite: Favorite) -> Unit
+            onFavClicked: (favorite: Search) -> Unit
         ): SearchViewHolder {
             val itemBinding = MovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)

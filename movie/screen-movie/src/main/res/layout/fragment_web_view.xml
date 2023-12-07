@@ -9,10 +9,11 @@
         android:layout_height="match_parent" />
 
     <TextView
+        android:id="@+id/failed_to_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/failed_to_load"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/failed_to_load"/>
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:text="@string/failed_to_load" />
 
 </FrameLayout>

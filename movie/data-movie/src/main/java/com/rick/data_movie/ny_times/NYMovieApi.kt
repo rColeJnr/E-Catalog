@@ -4,7 +4,7 @@ import com.rick.data_movie.ny_times.article_models.NYResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MovieCatalogApi {
+interface NYMovieApi {
 
 //    @Deprecated("Use fetchMovieArticles instead")
 //    @GET("svc/movies/v2/reviews/all.json?")

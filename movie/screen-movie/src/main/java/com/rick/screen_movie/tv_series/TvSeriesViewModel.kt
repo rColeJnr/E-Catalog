@@ -8,7 +8,6 @@ import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.tmdb.trending_tv.TrendingTv
-import com.rick.screen_movie.UiAction
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +36,7 @@ class TvSeriesViewModel @Inject constructor(
 //    private val imdbKey: String
 
     val pagingDataFlow: Flow<PagingData<TvSeriesUiState.Series>>
-
+    private lateinit var favorite: Favorite
     private val tmdbKey: String
 
     init {
@@ -74,25 +73,31 @@ class TvSeriesViewModel @Inject constructor(
 //        }
 //    }
 
-    fun onEvent(event: UiAction) {
+    fun onEvent(event: TvSeriesUiEvent) {
         when (event) {
-            is UiAction.InsertFavorite -> insertFavorite(event.fav)
+            is TvSeriesUiEvent.InsertFavorite -> insertFavorite(event.fav)
             else -> {}
         }
     }
 
-    private fun insertFavorite(favorite: Favorite) {
+    private fun insertFavorite(favorite: TrendingTv) {
+        this.favorite = favorite.toFavorite()
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertFavorite(favorite)
+            repository.insertFavorite(this@TvSeriesViewModel.favorite)
         }
     }
 
-    private external fun getIMDBKey(): String
-    private external fun getTMDBKey(): String
 }
+
+private external fun getTMDBKey(): String
 
 sealed class TvSeriesUiState {
     data class Series(val trendingTv: TrendingTv) : TvSeriesUiState()
     data class Loading(val loading: Boolean) : TvSeriesUiState()
     data class Error(val msg: String?) : TvSeriesUiState()
+}
+
+sealed class TvSeriesUiEvent {
+    data class InsertFavorite(val fav: TrendingTv): TvSeriesUiEvent()
+    object RemoveFavorite: TvSeriesUiEvent()
 }

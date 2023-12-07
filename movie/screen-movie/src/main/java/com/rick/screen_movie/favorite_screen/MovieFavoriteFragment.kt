@@ -4,21 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
@@ -167,7 +154,7 @@ fun MovieItem(movie: Favorite) {
                 contentScale = ContentScale.FillHeight,
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = movie.overview, style = MaterialTheme.typography.body1)
+            Text(text = movie.summary, style = MaterialTheme.typography.body1)
             Spacer(modifier = Modifier.height(2.dp))
         }
     }

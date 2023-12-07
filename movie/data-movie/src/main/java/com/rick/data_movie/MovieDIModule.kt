@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.core.GsonParser
-import com.rick.data_movie.ny_times.MovieCatalogApi
+import com.rick.data_movie.ny_times.NYMovieApi
 import com.rick.data_movie.ny_times.article_models.Converters
 import com.rick.data_movie.tmdb.TMDBApi
 import com.rick.data_movie.tmdb.TMDBConverters
@@ -26,9 +26,9 @@ import javax.inject.Singleton
 object MovieDIModule {
     @Provides
     @Singleton
-    fun providesMovieCatalogApi(): MovieCatalogApi {
+    fun providesMovieCatalogApi(): NYMovieApi {
         return Retrofit.Builder()
-            .baseUrl(MovieCatalogApi.NY_TIMES_BASE_URL)
+            .baseUrl(NYMovieApi.NY_TIMES_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
@@ -69,6 +69,6 @@ object MovieDIModule {
 
     @Provides
     @Singleton
-    fun bindMovieCatalogRepository(api: MovieCatalogApi, tmdbApi: TMDBApi, db: MovieCatalogDatabase):
+    fun bindMovieCatalogRepository(api: NYMovieApi, tmdbApi: TMDBApi, db: MovieCatalogDatabase):
             MovieCatalogRepository = MovieCatalogRepository(nyApi = api, tmdbApi = tmdbApi, db = db)
 }

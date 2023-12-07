@@ -36,7 +36,7 @@ data class TrendingMovie(
     fun toFavorite(): Favorite = Favorite(
         id = id,
         title = title,
-        overview = summary,
+        summary = summary,
         image = image,
         type = mediaType
     )

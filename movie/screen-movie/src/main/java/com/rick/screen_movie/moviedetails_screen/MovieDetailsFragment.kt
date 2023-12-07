@@ -42,7 +42,7 @@ class MovieDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs = MovieDetailsFragmentArgs.fromBundle(it)
-            id = 1
+            id = safeArgs.movie
         }
 
         viewModel.onEvent(MovieDetailsEvents.GetMovie(id))

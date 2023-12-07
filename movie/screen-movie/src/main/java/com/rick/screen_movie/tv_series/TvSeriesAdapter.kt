@@ -6,15 +6,14 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.tmdb.trending_tv.TrendingTv
 import com.rick.screen_movie.databinding.MovieEntryBinding
+import com.rick.screen_movie.util.getTmdbImageUrl
 import com.rick.screen_movie.util.provideGlide
 
 
 class TvSeriesAdapter(
     private val onItemClicked: (view: View, series: TvSeriesUiState.Series) -> Unit,
-    private val onFavClicked: (view: View, favorite: TrendingTv) -> Unit
+    private val onFavClicked: (view: View, favorite: TvSeriesUiState.Series) -> Unit
 ) : PagingDataAdapter<TvSeriesUiState.Series, TvSeriesViewHolder>(RESULT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvSeriesViewHolder {
@@ -46,7 +45,7 @@ class TvSeriesAdapter(
 class TvSeriesViewHolder(
     itemBinding: MovieEntryBinding,
     private val onItemClicked: (view: View, series: TvSeriesUiState.Series) -> Unit,
-    private val onFavClicked: (view: View, favorite: Favorite) -> Unit
+    private val onFavClicked: (view: View, favorite: TvSeriesUiState.Series) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
     private val title = itemBinding.movieName
     private val image = itemBinding.movieImage
@@ -59,7 +58,7 @@ class TvSeriesViewHolder(
             onItemClicked(it, tvSeries)
         }
         itemBinding.favButton.setOnClickListener {
-//            onFavClicked(it, tvSeries.toFavorite()) TODO
+            onFavClicked(it, tvSeries)
         }
     }
 
@@ -67,7 +66,7 @@ class TvSeriesViewHolder(
         this.tvSeries = series
 
         val src = series.trendingTv.backdropImage
-        if (src.isNotBlank()) provideGlide(this.image, src)
+        if (src.isNotBlank()) provideGlide(this.image, getTmdbImageUrl(src))
         this.title.text = series.trendingTv.name
         this.cast.text = series.trendingTv.summary
 
@@ -81,7 +80,7 @@ class TvSeriesViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (view: View, series: TvSeriesUiState.Series) -> Unit,
-            onFavClick: (view: View, favorite: TrendingTv) -> Unit
+            onFavClick: (view: View, favorite: TvSeriesUiState.Series) -> Unit
         ): TvSeriesViewHolder {
             val itemBinding =
                 MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)

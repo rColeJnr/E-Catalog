@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+//TODO FAVORITE
 @HiltViewModel
 class MovieFavoriteViewModel @Inject constructor(
     private val repo: MovieCatalogRepository

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_movie.tmdb.tv.TvResponse
 import com.rick.screen_movie.databinding.MovieEntryBinding
+import com.rick.screen_movie.util.getTmdbImageUrl
 import com.rick.screen_movie.util.provideGlide
 
 class TvDetailsAdapter(
@@ -53,7 +54,7 @@ class TvDetailsViewHolder(
 
     fun bind(tv: TvResponse) {
         this.tv = tv
-        if (tv.image.isNotEmpty()) provideGlide(image, tv.image)
+        if (tv.image.isNotEmpty()) provideGlide(image, getTmdbImageUrl(tv.image))
         title.text = tv.name
         summary.text = tv.summary
     }

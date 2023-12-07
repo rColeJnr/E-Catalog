@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
 import com.rick.screen_movie.databinding.MovieEntryBinding
+import com.rick.screen_movie.util.getTmdbImageUrl
 import com.rick.screen_movie.util.provideGlide
 
 class TrendingMovieAdapter(
@@ -67,7 +68,7 @@ class TrendingMovieViewHolder(
 
     fun bind(movie: TrendingMovie) {
         this.movie = movie
-        if (movie.image.isNotEmpty()) provideGlide(image, movie.image)
+        if (movie.image.isNotEmpty()) provideGlide(image, getTmdbImageUrl(movie.image))
         title.text = movie.title
         summary.text = movie.summary
     }

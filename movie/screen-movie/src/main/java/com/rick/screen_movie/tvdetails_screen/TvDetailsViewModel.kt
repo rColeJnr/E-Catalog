@@ -69,9 +69,9 @@ class TvDetailsViewModel @Inject constructor(
         }
     }
 
-    //    private external fun getIMDBKey(): String
-    private external fun getTMDBKey(): String
 }
+
+private external fun getTMDBKey(): String
 
 sealed class TvDetailsUiState {
     data class Tv(val tv: TvResponse) : TvDetailsUiState()
