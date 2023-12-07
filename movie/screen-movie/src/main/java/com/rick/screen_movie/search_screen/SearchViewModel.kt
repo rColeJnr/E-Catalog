@@ -12,24 +12,19 @@ import com.rick.data_movie.tmdb.tv.TvResponse
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 // WHY ISNT MY CODEBASE CONSISTENT THROUGHOUT, AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH
 // I'm in public so i can't just blast.
+// TODO
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
     private val tmdbKey: String
+    private var favorite: Favorite? = null
 
     private val _searchList: MutableLiveData<SearchUiState.Response> by
     lazy { MutableLiveData<SearchUiState.Response>() }
@@ -48,7 +43,7 @@ class SearchViewModel @Inject constructor(
     val searchError: LiveData<SearchUiState.Error> get() = _searchError
 
     val searchState: StateFlow<SearchUiState.Query>
-    val searchAction: (SearchUiAction) -> Unit
+    val searchAction: (SearchUiEvent) -> Unit
 
     init {
 
@@ -57,9 +52,9 @@ class SearchViewModel @Inject constructor(
 //        imdbKey = getIMDBKey()
         tmdbKey = getTMDBKey()
 
-        val actionStateFlow = MutableSharedFlow<SearchUiAction>()
+        val actionStateFlow = MutableSharedFlow<SearchUiEvent>()
         val search =
-            actionStateFlow.filterIsInstance<SearchUiAction.Search>().distinctUntilChanged()
+            actionStateFlow.filterIsInstance<SearchUiEvent.SearchQuery>().distinctUntilChanged()
 
         viewModelScope.launch {
             search.collectLatest {
@@ -119,22 +114,33 @@ class SearchViewModel @Inject constructor(
 //        }
 //    }
 
-    fun onEvent(event: SearchUiAction) {
+    fun onEvent(event: SearchUiEvent) {
         when (event) {
-            is SearchUiAction.InsertFavorite -> insertFavorite(event.favorite)
+            is SearchUiEvent.InsertFavorite -> insertFavorite(event.favorite)
+            is SearchUiEvent.RemoveFavorite -> removeFavorite()
             else -> {}
         }
     }
 
-    private fun insertFavorite(favorite: Favorite) {
+    private fun insertFavorite(favorite: Search) {
+        this.favorite = favorite.toFavorite()
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertFavorite(favorite)
+            repository.insertFavorite(this@SearchViewModel.favorite!!)
         }
     }
 
-//    private external fun getIMDBKey(): String
-    private external fun getTMDBKey(): String
+    private fun removeFavorite() {
+        favorite?.let {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.removeFavorite(it)
+            }
+        }
+        favorite = null
+    }
+
 }
+
+private external fun getTMDBKey(): String
 
 sealed class SearchUiState {
     data class Query(val query: String?)
@@ -144,7 +150,8 @@ sealed class SearchUiState {
     data class Error(val msg: String?)
 }
 
-sealed class SearchUiAction {
-    data class Search(val query: String) : SearchUiAction()
-    data class InsertFavorite(val favorite: Favorite) : SearchUiAction()
+sealed class SearchUiEvent {
+    data class SearchQuery(val query: String) : SearchUiEvent()
+    data class InsertFavorite(val favorite: Search) : SearchUiEvent()
+    object RemoveFavorite: SearchUiEvent()
 }

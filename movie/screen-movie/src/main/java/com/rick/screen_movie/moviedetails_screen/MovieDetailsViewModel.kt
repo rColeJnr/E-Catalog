@@ -69,10 +69,9 @@ class MovieDetailsViewModel @Inject constructor(
             }
         }
     }
-
-    //    private external fun getIMDBKey(): String
-    private external fun getTMDBKey(): String
 }
+
+private external fun getTMDBKey(): String
 
 sealed class MovieDetailsUiState {
     data class Movie(val movie: MovieResponse) : MovieDetailsUiState()

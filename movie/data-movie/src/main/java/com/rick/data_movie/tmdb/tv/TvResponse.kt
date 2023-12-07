@@ -47,7 +47,7 @@ data class TvResponse(
         Favorite (
             id = id,
             title = name,
-            overview = summary,
+            summary = summary,
             image = image,
             type = "tv"
         )

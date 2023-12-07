@@ -44,7 +44,7 @@ data class MovieResponse(
         Favorite (
             id = id,
             title = title ,
-            overview = summary,
+            summary = summary,
             image = image,
             type = "tv"
         )

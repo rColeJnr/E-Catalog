@@ -8,12 +8,11 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rick.data_movie.ny_times.article_models.NYMovie
 import com.rick.screen_movie.R
 import com.rick.screen_movie.SeparatorViewHolder
-import com.rick.screen_movie.UiModel
 
 class MovieCatalogAdapter(
     private val onItemClicked: (view: View, movie: NYMovie) -> Unit,
     private val onFavClicked: (view: View, favorite: NYMovie) -> Unit
-) : PagingDataAdapter<UiModel, ViewHolder>(RESULT_COMPARATOR) {
+) : PagingDataAdapter<NYMovieUiModel, ViewHolder>(RESULT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == R.layout.movie_entry)
@@ -23,7 +22,7 @@ class MovieCatalogAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is UiModel.MovieItem -> R.layout.movie_entry
+            is NYMovieUiModel.MovieItem -> R.layout.movie_entry
             else -> R.layout.recycler_view_separator_item
         }
     }
@@ -32,27 +31,27 @@ class MovieCatalogAdapter(
         val uiModel = getItem(position)
         uiModel.let {
             when (uiModel) {
-                is UiModel.MovieItem -> (holder as MovieCatalogViewHolder).bind(
+                is NYMovieUiModel.MovieItem -> (holder as MovieCatalogViewHolder).bind(
                     movie = uiModel.movie,
                 )
-                is UiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
+                is NYMovieUiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
                 else -> null
             }
         }
     }
 
     companion object {
-        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {
-            override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
-                return ((oldItem is UiModel.MovieItem) && (newItem is UiModel.MovieItem) &&
+        private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<NYMovieUiModel>() {
+            override fun areItemsTheSame(oldItem: NYMovieUiModel, newItem: NYMovieUiModel): Boolean {
+                return ((oldItem is NYMovieUiModel.MovieItem) && (newItem is NYMovieUiModel.MovieItem) &&
                         (oldItem.movie.id == newItem.movie.id)
                         ) ||
-                        ((oldItem is UiModel.SeparatorItem) && (newItem is UiModel.SeparatorItem) &&
+                        ((oldItem is NYMovieUiModel.SeparatorItem) && (newItem is NYMovieUiModel.SeparatorItem) &&
                                 (oldItem.description == newItem.description))
 
             }
 
-            override fun areContentsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
+            override fun areContentsTheSame(oldItem: NYMovieUiModel, newItem: NYMovieUiModel): Boolean {
                 return oldItem == newItem
             }
         }

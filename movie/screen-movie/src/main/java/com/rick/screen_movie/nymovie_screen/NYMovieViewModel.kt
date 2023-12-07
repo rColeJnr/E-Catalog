@@ -8,23 +8,20 @@ import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.tmdb.trending_tv.TrendingTv
-import com.rick.screen_movie.UiAction
-import com.rick.screen_movie.UiModel
+import com.rick.data_movie.ny_times.article_models.NYMovie
 import com.rick.screen_movie.util.LIB_NAME
 import com.rick.screen_movie.util.TIME_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieCatalogViewModel @Inject constructor(
+class NYMovieViewModel @Inject constructor(
     private val repository: MovieCatalogRepository
 ) : ViewModel() {
 
@@ -32,7 +29,7 @@ class MovieCatalogViewModel @Inject constructor(
      * Stream of immutable states representative of the UI.
      */
 
-    val pagingDataFLow: Flow<PagingData<UiModel>>
+    val pagingDataFLow: Flow<PagingData<NYMovieUiModel>>
 
     private val nyKey: String
     private var favorite: Favorite? = null
@@ -47,9 +44,9 @@ class MovieCatalogViewModel @Inject constructor(
 
     }
 
-    private fun fetchMovies(key: String): Flow<PagingData<UiModel>> =
+    private fun fetchMovies(key: String): Flow<PagingData<NYMovieUiModel>> =
         repository.getMovies(key)
-            .map { pagingData -> pagingData.map { UiModel.MovieItem(it) } }
+            .map { pagingData -> pagingData.map { NYMovieUiModel.MovieItem(it) } }
             .map {
                 it.insertSeparators { before, after ->
                     if (after == null) {
@@ -58,7 +55,7 @@ class MovieCatalogViewModel @Inject constructor(
                     }
                     if (before == null) {
                         // we're at the beginning of the list
-                        return@insertSeparators UiModel.SeparatorItem(
+                        return@insertSeparators NYMovieUiModel.SeparatorItem(
                             "${getMonth(after.movie.pubDate).month}  " +
                                     "${getMonth(after.movie.pubDate).year}"
                         )
@@ -69,7 +66,7 @@ class MovieCatalogViewModel @Inject constructor(
                     ) {
                         null
                     } else {
-                        UiModel.SeparatorItem(
+                        NYMovieUiModel.SeparatorItem(
                             "${getMonth(after.movie.pubDate).month}  " +
                                     "${getMonth(after.movie.pubDate).year}"
                         )
@@ -77,10 +74,10 @@ class MovieCatalogViewModel @Inject constructor(
                 }
             }
 
-    fun onEvent(event: UiAction) {
+    fun onEvent(event: NYMovieUiEvent) {
         when (event) {
-            is UiAction.InsertFavorite -> insertFavorite(event.fav.toFavorite())
-            is UiAction.RemoveFavorite -> removeFavorite()
+            is NYMovieUiEvent.InsertFavorite -> insertFavorite(event.fav.toFavorite())
+            is NYMovieUiEvent.RemoveFavorite -> removeFavorite()
             else -> {}
         }
     }
@@ -114,3 +111,13 @@ private fun getMonth(date: String?): LocalDate {
 }
 
 private external fun getNYKey(): String
+
+sealed class NYMovieUiModel {
+    data class MovieItem(val movie: NYMovie): NYMovieUiModel()
+    data class SeparatorItem(val description: String): NYMovieUiModel()
+}
+
+sealed class NYMovieUiEvent {
+    data class InsertFavorite(val fav: NYMovie): NYMovieUiEvent()
+    object RemoveFavorite: NYMovieUiEvent()
+}

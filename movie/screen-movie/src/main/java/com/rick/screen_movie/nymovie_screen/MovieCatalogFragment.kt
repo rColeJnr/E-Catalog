@@ -1,12 +1,7 @@
 package com.rick.screen_movie.nymovie_screen
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
@@ -27,7 +22,6 @@ import com.rick.data_movie.ny_times.article_models.NYMovie
 import com.rick.screen_movie.MoviesLoadStateAdapter
 import com.rick.screen_movie.R
 import com.rick.screen_movie.RemotePresentationState
-import com.rick.screen_movie.UiModel
 import com.rick.screen_movie.asRemotePresentationState
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +37,7 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MovieCatalogViewModel by viewModels()
+    private val viewModel: NYMovieViewModel by viewModels()
     private lateinit var adapter: MovieCatalogAdapter
     private lateinit var navController: NavController
 
@@ -142,7 +136,7 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
-        pagingData: Flow<PagingData<UiModel>>
+        pagingData: Flow<PagingData<NYMovieUiModel>>
     ) {
 
         bindList(
@@ -154,7 +148,7 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
 
     private fun FragmentMovieCatalogBinding.bindList(
         adapter: MovieCatalogAdapter,
-        pagingData: Flow<PagingData<UiModel>>
+        pagingData: Flow<PagingData<NYMovieUiModel>>
     ) {
 
         lifecycleScope.launch {

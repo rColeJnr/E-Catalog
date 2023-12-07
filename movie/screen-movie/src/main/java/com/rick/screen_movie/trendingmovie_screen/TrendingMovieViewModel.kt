@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
-import com.rick.screen_movie.UiAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -33,21 +32,15 @@ class TrendingMovieViewModel @Inject constructor(
     private fun getTrendingMovies(): Flow<PagingData<TrendingMovie>> =
         repository.getTrendingMovie(apiKey)
 
-    fun onEvent(event: UiAction) {
+    fun onEvent(event: TrendingMovieUiEvent) {
         when (event) {
-            is UiAction.InsertFavorite -> insertFavorite(event.fav)
-            is UiAction.RemoveFavorite -> removeFavorite()
+            is TrendingMovieUiEvent.InsertFavorite -> insertFavorite(event.favorite)
+            is TrendingMovieUiEvent.RemoveFavorite -> removeFavorite()
         }
     }
 
     private fun insertFavorite(movie: TrendingMovie) {
-        favorite = Favorite(
-            id = movie.id,
-            title = movie.title,
-            overview = movie.summary,
-            image = movie.image,
-            type = "Movie"
-        )
+        favorite = movie.toFavorite()
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertFavorite(favorite!!)
         }
@@ -62,6 +55,11 @@ class TrendingMovieViewModel @Inject constructor(
         favorite = null
     }
 
+}
+
+sealed class TrendingMovieUiEvent{
+    data class InsertFavorite(val favorite: TrendingMovie): TrendingMovieUiEvent()
+    object RemoveFavorite: TrendingMovieUiEvent()
 }
 
 private const val LIB_NAME = "movie_keys.c"

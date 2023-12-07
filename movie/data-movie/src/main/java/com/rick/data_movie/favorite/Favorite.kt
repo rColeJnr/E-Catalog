@@ -10,7 +10,7 @@ data class Favorite(
     @SerializedName("id")
     val id: Int?,
     val title: String,
-    val overview: String,
+    val summary: String,
     val image: String,
     val type: String,
 )
