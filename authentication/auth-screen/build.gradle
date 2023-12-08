@@ -2,6 +2,12 @@ apply {
     from( "$rootDir/android-library.gradle")
 }
 
+dependencies {
+
+    "implementation" (project(Modules.core))
+    "implementation"(project(Modules.authData))
+}
+
 android {
 //    externalNativeBuild {
 //        ndkBuild {
@@ -10,11 +16,4 @@ android {
 //    }
 //    ndkVersion '25.1.8937393'
     namespace 'com.rick.auth_screen'
-}
-
-dependencies {
-
-    "implementation" (project(Modules.core))
-    "implementation"(project(Modules.movieData))
-
 }

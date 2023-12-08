@@ -16,7 +16,6 @@ import com.rick.screen_movie.moviedetails_screen.SimilarDetailsAdapter
 import com.rick.screen_movie.moviedetails_screen.stringFromList
 import com.rick.screen_movie.util.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class TvDetailsFragment : Fragment() {
@@ -26,7 +25,7 @@ class TvDetailsFragment : Fragment() {
     private val viewModel: TvDetailsViewModel by viewModels()
 
     private lateinit var similarsAdapter: SimilarDetailsAdapter
-    private var id by Delegates.notNull<Int>()
+    private var id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +43,10 @@ class TvDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs = TvDetailsFragmentArgs.fromBundle(it)
-            id = safeArgs.id
+            id = safeArgs.tv
         }
 
-        viewModel.onEvent(TvDetailsEvents.GetTv(id))
+        viewModel.onEvent(TvDetailsEvents.GetTv(id!!))
 
 //        binding.toolbar.apply {
 //            setNavigationIcon(R.drawable.ic_arrow_back)
