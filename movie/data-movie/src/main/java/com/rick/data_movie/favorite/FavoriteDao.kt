@@ -1,10 +1,6 @@
 package com.rick.data_movie.favorite
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface FavoriteDao {
@@ -20,5 +16,8 @@ interface FavoriteDao {
 
     @Query("SELECT * FROM favorite WHERE type LIKE 'movie' ORDER BY title ASC")
     suspend fun getFavoriteMovies(): List<Favorite>
+
+    @Query("SELECT * FROM favorite WHERE type LIKE 'nymovie' ORDER BY title ASC")
+    suspend fun getFavoriteNyMovies(): List<Favorite>
 
 }
