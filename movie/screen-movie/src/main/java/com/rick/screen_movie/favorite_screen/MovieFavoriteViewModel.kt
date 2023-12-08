@@ -24,6 +24,12 @@ class MovieFavoriteViewModel @Inject constructor(
     private val _loadingMovies = MutableLiveData<Boolean>()
     val loadingMovies: LiveData<Boolean> get() = _loadingMovies
 
+    private val _nyMovies = MutableLiveData<List<Favorite>>()
+    val nyMovie: LiveData<List<Favorite>> get() = _nyMovies
+
+    private val _loadingNyMovies = MutableLiveData<Boolean>()
+    val loadingnyMovies: LiveData<Boolean> get() = _loadingNyMovies
+
     private val _series = MutableLiveData<List<Favorite>>()
     val series: LiveData<List<Favorite>> get() = _series
 
@@ -58,6 +64,20 @@ class MovieFavoriteViewModel @Inject constructor(
 
                     is Resource.Success -> {
                         _series.value = result.data!!
+                    }
+
+                    else -> {}
+                }
+            }
+
+            repo.getFavoriteNyMovies().collect { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        _loadingNyMovies.value = result.isLoading
+                    }
+
+                    is Resource.Success -> {
+                        _nyMovies.value = result.data!!
                     }
 
                     else -> {}

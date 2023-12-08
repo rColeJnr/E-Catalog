@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
@@ -12,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -26,7 +31,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.favorite.IMDBFavorite
 import com.rick.data_movie.ny_times_deprecated.Link
 import com.rick.data_movie.ny_times_deprecated.Movie
 import com.rick.data_movie.ny_times_deprecated.Multimedia
@@ -49,10 +53,11 @@ class MovieFavoriteFragment : Fragment() {
         _binding = FragmentMovieFavoriteBinding.inflate(inflater, container, false)
 
         binding.compoeView.setContent {
+            val nyMovies = viewModel.nyMovie.observeAsState().value ?: listOf()
             val movies = viewModel.movie.observeAsState().value ?: listOf()
             val series = viewModel.series.observeAsState().value ?: listOf()
             MdcTheme {
-//                FavScreen(movies = movies, /*series = series*/)
+                FavScreen(nyMovies = nyMovies, movies = movies, series = series)
             }
         }
 
@@ -65,34 +70,49 @@ class MovieFavoriteFragment : Fragment() {
     }
 }
 
-//@Composable
-//fun FavScreen(movies: List<Favorite>, /*series: List<IMDBFavorite>*/) {
-//    // TODO column bug
-//    Scaffold {
-//        Column {
-//            Text(text = "Movies")
-//            LazyColumn(modifier = Modifier.padding(it)) {
-//                items(movies) { movie ->
-//                    MovieItem(movie)
-//                    Divider(
-//                        Modifier.height(1.dp),
-//                        color = MaterialTheme.colors.secondary
-//                    )
-//                }
-//            }
-//            Text(text = "Series")
-//            LazyColumn(modifier = Modifier.padding(it)) {
-//                items(series) { series ->
-//                    SeriesItem(series)
-//                    Divider(
-//                        Modifier.height(1.dp),
-//                        color = MaterialTheme.colors.secondary
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
+@Composable
+fun FavScreen(nyMovies: List<Favorite>, movies: List<Favorite>, series: List<Favorite>) {
+    // TODO column bug
+    Scaffold {
+        Column {
+            Text(text = "Movies")
+            LazyColumn(modifier = Modifier.padding(it)) {
+                items(movies) { movie ->
+                    MovieItem(movie)
+                    Divider(
+                        Modifier.height(1.dp),
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+            }
+            Text(text = "Series")
+            LazyColumn(modifier = Modifier.padding(it)) {
+                items(series) { series ->
+                    SeriesItem(series)
+                    Divider(
+                        Modifier.height(1.dp),
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FavoriteListItem(favorite: Favorite) {
+    Box(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .requiredHeight(82.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = MaterialTheme.colors.surface.copy(alpha = 0.35f))
+            .padding(8.dp)
+    ) {
+
+    }
+}
 
 @Composable
 fun MovieItem(movie: Favorite) {
@@ -161,7 +181,7 @@ fun MovieItem(movie: Favorite) {
 }
 
 @Composable
-fun SeriesItem(series: IMDBFavorite) {
+fun SeriesItem(series: Favorite) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -220,7 +240,7 @@ fun SeriesItem(series: IMDBFavorite) {
                 contentScale = ContentScale.FillHeight,
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = series.plot, style = MaterialTheme.typography.body1)
+            Text(text = series.summary, style = MaterialTheme.typography.body1)
             Spacer(modifier = Modifier.height(2.dp))
         }
     }
