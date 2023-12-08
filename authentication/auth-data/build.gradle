@@ -1,31 +1,32 @@
-apply from: ("$rootDir/kotlin-library.gradle")
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'dagger.hilt.android.plugin'
+apply {
+    from("$rootDir/kotlin-library.gradle")
+    plugin("kotlin-kapt")
+    plugin("kotlin-parcelize")
+    plugin("dagger.hilt.android.plugin")
+}
 
 dependencies {
 
-    implementation project(Modules.core)
+    "implementation"(project(Modules.core))
 
-    implementation(Retrofit.retrofit)
-    implementation(Retrofit.converter)
-    implementation(Retrofit.okhttp)
-    implementation(Retrofit.interceptor)
+    "implementation"(Retrofit.retrofit)
+    "implementation"(Retrofit.converter)
+    "implementation"(Retrofit.okhttp)
+    "implementation"(Retrofit.interceptor)
 
-    implementation Hilt.android
-            kapt Hilt.compiler
+    "implementation"(Hilt.android)
+    "kapt"(Hilt.compiler)
 
-            implementation(Room.roomRuntime)
-    implementation(Room.room)
-    implementation(Room.paging)
-    kapt Room.compiler
+    "implementation"(Room.roomRuntime)
+    "implementation"(Room.room)
+    "implementation"(Room.paging)
+    "kapt"(Room.compiler)
 
-            implementation Paging.paging
-            implementation Paging.runtime
+    "implementation"(Paging.paging)
+    "implementation"(Paging.runtime)
 
-            implementation(Coroutines.core)
+    "implementation"(Coroutines.core)
 }
-
 android {
-    namespace 'com.rick.auth_data'
+    namespace = "com.rick.auth_data"
 }

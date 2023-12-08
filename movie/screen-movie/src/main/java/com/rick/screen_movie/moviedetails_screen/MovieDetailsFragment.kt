@@ -14,7 +14,6 @@ import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import com.rick.screen_movie.util.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -24,7 +23,7 @@ class MovieDetailsFragment : Fragment() {
     private val viewModel: MovieDetailsViewModel by viewModels()
 
     private lateinit var similarsAdapter: SimilarDetailsAdapter
-    private var id by Delegates.notNull<Int>()
+    private var id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +44,7 @@ class MovieDetailsFragment : Fragment() {
             id = safeArgs.movie
         }
 
-        viewModel.onEvent(MovieDetailsEvents.GetMovie(id))
+        viewModel.onEvent(MovieDetailsEvents.GetMovie(id!!))
 
 //        binding.toolbar.apply {
 //            setNavigationIcon(R.drawable.ic_arrow_back)

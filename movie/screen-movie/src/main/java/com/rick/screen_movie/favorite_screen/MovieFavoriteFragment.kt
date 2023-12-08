@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -100,7 +101,11 @@ fun FavScreen(nyMovies: List<Favorite>, movies: List<Favorite>, series: List<Fav
 }
 
 @Composable
-fun FavoriteListItem(favorite: Favorite) {
+fun FavoriteListItem(
+    favorite: Favorite,
+    onItemClick: (Favorite) -> Unit,
+    onFavClick: (Favorite) -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -108,10 +113,63 @@ fun FavoriteListItem(favorite: Favorite) {
             .requiredHeight(82.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(color = MaterialTheme.colors.surface.copy(alpha = 0.35f))
-            .padding(8.dp)
+            .clickable {
+                onItemClick(favorite)
+            }
     ) {
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(favorite.image)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.favorite_fragment),
+                placeholder = painterResource(R.drawable.filled_icon),
+                modifier = Modifier.height(dimensionResource(id = R.dimen.image_height)),
+                contentScale = ContentScale.Fit,
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Column(
+                modifier = Modifier
+                    .wrapContentWidth(align = Alignment.CenterHorizontally)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text(text = favorite.title, style = MaterialTheme.typography.body2)
+                Text(text = favorite.title, style = MaterialTheme.typography.body2)
+            }
+            Spacer(modifier = Modifier.width(6.dp))
+            IconButton(
+                onClick = { onFavClick(favorite) },
+                modifier = Modifier.requiredSize(35.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.fav_filled_icon),
+                    contentDescription = stringResource(
+                        id = R.string.favorite_button
+                    )
+                )
+            }
+        }
     }
+}
+
+@Preview
+@Composable
+fun PreviewFavoriteItem() {
+    FavoriteListItem(favorite = Favorite(
+        1,
+        "Title favorite",
+        "Summary of favorite",
+        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png",
+        "movie"
+    ), onItemClick = {}, onFavClick = {})
 }
 
 @Composable
@@ -262,7 +320,7 @@ val dummyMovies = listOf(
         "pg-13",
         "https://media.istockphoto.com/id/1368264124/photo/extreme-close-up-of-thrashing-emerald-ocean-waves.jpg?b=1&s=170667a&w=0&k=20&c=qha_PaU54cu9QCu1UTlORP4-sW0MqLGERkdFKmC06lI=",
 
-    ),
+        ),
     Movie(
         0,
         "Movie 1",

@@ -48,6 +48,7 @@
     <string name="movie_fav"><![CDATA[Favorite movies & series]]></string>
     <string name="fav_imdb">Favorites IMDB</string>
     <string name="favorite">Favorite</string>
+    <string name="favorite_button">Favorite button</string>
     <string name="adult_content">Adult content: %1$s</string>
     <string name="reporter">Reported by: %1$s</string>
     <string name="source">"Article source: %1$s"</string>
@@ -57,4 +58,5 @@
     <string name="creators">Creators: %1$s</string>
     <string name="number_of_seasons">Number of seasons: %1$d</string>
     <string name="failed_to_load">Failed to load!</string>
+    <string name="favorite_fragment">Fragment favorites</string>
 </resources>
