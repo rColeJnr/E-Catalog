@@ -64,5 +64,6 @@ data class Book(
             id.toLong(),
             title,
             authors.toString(),
+            image = formats.image!!
         )
 }

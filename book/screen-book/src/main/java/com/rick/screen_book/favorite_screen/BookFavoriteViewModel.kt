@@ -1,6 +1,5 @@
 package com.rick.screen_book.favorite_screen
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,7 +35,6 @@ class BookFavoriteViewModel @Inject constructor(private val repo: BookRepository
                     }
                     is Resource.Success -> {
                         _books.postValue(resource.data ?: listOf())
-                        Log.d("TAG", "books fav -> ${resource.data}")
                     }
                     else -> {}
                 }
@@ -54,7 +52,6 @@ class BookFavoriteViewModel @Inject constructor(private val repo: BookRepository
     private fun insertFavorite(fav: Favorite) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insert(fav)
-            Log.d("TAG", "insertFavorite: $fav")
         }
     }
 

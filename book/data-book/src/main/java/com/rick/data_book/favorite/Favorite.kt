@@ -13,5 +13,7 @@ data class Favorite(
     @SerializedName("title")
     val title: String,
     @SerializedName("authors")
-    val author: String
+    val author: String,
+    @SerializedName("image")
+    val image: String
 ): Parcelable
