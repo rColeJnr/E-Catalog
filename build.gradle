@@ -7,6 +7,7 @@ buildscript {
         classpath(Nav.navPlugin)
         classpath Hilt.hiltPlugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.0'
     }
     repositories {
         mavenCentral()

@@ -50,6 +50,7 @@ class BestsellerViewModel @Inject constructor(
         favorite = Favorite(
             title = book.title,
             author = book.author,
+            image = book.bookImage
         )
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(favorite!!)

@@ -4,38 +4,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.rick.data_book.favorite.Favorite
-import com.rick.data_book.gutenberg.model.Author
-import com.rick.data_book.gutenberg.model.Book
-import com.rick.data_book.gutenberg.model.Formats
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,7 +67,7 @@ class BookFavoritesFragment : Fragment() {
             val books = viewModel.books.observeAsState()
             MdcTheme {
                 books.value?.let {
-                    FavScreen(books = it)
+                    FavScreen(favorites = it)
                 }
             }
         }
@@ -72,55 +81,108 @@ class BookFavoritesFragment : Fragment() {
 }
 
 @Composable
-fun FavScreen(books: List<Favorite>) {
+fun FavScreen(favorites: List<Favorite>) {
 
-    // Maybe some day i'll actually start building this :(
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        backgroundColor = MaterialTheme.colors.background
+        modifier = Modifier
+            .padding(8.dp),
+        backgroundColor = MaterialTheme.colors.surface
     ) {
-        LazyColumn(Modifier.padding(it)) {
-            items(books) { book ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    BookItem(book)
-                    IconButton(onClick = {
-
-                    }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Star,
-                            contentDescription = stringResource(
-                                R.string.favorite
-                            )
-                        )
-                    }
+        Column {
+            Text(text = "Favorites", style = MaterialTheme.typography.h5)
+            LazyColumn(modifier = Modifier.padding(it)) {
+                items(favorites) { favorite ->
+                    FavoriteListItem(favorite, {}, {})
+//                    Divider(
+//                        Modifier.height(1.dp),
+//                        color = MaterialTheme.colors.secondary
+//                    )
                 }
-                Divider(
-                    Modifier.height(1.dp),
-                    color = MaterialTheme.colors.secondary
+            }
+        }
+    }
+}
+@Composable
+fun FavoriteListItem(
+    favorite: Favorite,
+    onItemClick: (Favorite) -> Unit,
+    onFavClick: (Favorite) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .requiredHeight(82.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = MaterialTheme.colors.surface.copy(alpha = 0.35f))
+            .clickable {
+                onItemClick(favorite)
+            }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(favorite.image)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.favorite_fragment),
+                placeholder = painterResource(R.drawable.filled_icon),
+                modifier = Modifier.height(250.dp),
+                contentScale = ContentScale.Fit,
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Column(
+                modifier = Modifier
+                    .wrapContentWidth(align = Alignment.Start)
+                    .fillMaxHeight()
+                    .weight(1f),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text(
+                    text = favorite.title,
+                    style = MaterialTheme.typography.body2,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2
+                )
+                Text(
+                    text = favorite.author,
+                    style = MaterialTheme.typography.body2,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2
+                )
+            }
+            Spacer(modifier = Modifier.width(6.dp))
+            IconButton(
+                onClick = { onFavClick(favorite) },
+                modifier = Modifier
+                    .requiredSize(45.dp)
+                    .padding(end = 12.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.fav_filled_icon),
+                    contentDescription = stringResource(
+                        id = R.string.favorite_button
+                    ),
+                    tint = MaterialTheme.colors.secondary
                 )
             }
         }
     }
 }
 
-@Composable
-fun BookItem(book: Favorite) {
-    Column(modifier = Modifier.padding(8.dp)) {
-        Text(text = book.title, style = MaterialTheme.typography.h6)
-        Spacer(modifier = Modifier.height(2.dp))
-        Text(text = book.author, style = MaterialTheme.typography.body2)
-        Spacer(modifier = Modifier.height(1.dp))
-    }
-}
-
 @Preview
 @Composable
 fun PreviewBookItem() {
-
+    FavoriteListItem(favorite = Favorite(
+        1,
+        "Book title",
+        "Book author",
+        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"
+    ), onItemClick = {}, onFavClick = {})
 }
 
 @Preview
@@ -128,62 +190,34 @@ fun PreviewBookItem() {
 fun FavScreenPrev() {
     MaterialTheme {
         FavScreen(
-            books = listOf()
+            favorites = dummyBooks
         )
     }
 }
 
 val dummyBooks = listOf(
-    Book(
-        0,
-        "Book 1",
-        listOf(Author(0, 0, "Richard")),
-        listOf(),
-        true,
-        1000,
-        Formats(null, null, null, null, null, null, null, null),
-        listOf(),
-        "",
-        listOf(),
-        true
-    ),
-    Book(
+    Favorite(
         1,
-        "Book 2",
-        listOf(Author(0, 0, "Richard")),
-        listOf(),
-        true,
-        1000,
-        Formats(null, null, null, null, null, null, null, null),
-        listOf(),
-        "",
-        listOf(),
-        true
+        "Book title",
+        "Book author",
+        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"
     ),
-    Book(
-        2,
-        "Book 3",
-        listOf(Author(0, 0, "Richard")),
-        listOf(),
-        true,
-        1000,
-        Formats(null, null, null, null, null, null, null, null),
-        listOf(),
-        "",
-        listOf(),
-        false
+    Favorite(
+        1,
+        "Book title",
+        "Book author",
+        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"
     ),
-    Book(
-        3,
-        "Book 4",
-        listOf(Author(0, 0, "Richard")),
-        listOf(),
-        true,
-        1000,
-        Formats(null, null, null, null, null, null, null, null),
-        listOf(),
-        "",
-        listOf(),
-        true
+    Favorite(
+        1,
+        "Book title",
+        "Book author",
+        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"
+    ),
+    Favorite(
+        1,
+        "Book title",
+        "Book author",
+        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"
     ),
 )
