@@ -224,7 +224,7 @@ class SearchFragment : Fragment() {
         val action =
             SearchFragmentDirections
                 .actionSearchFragment2ToMovieDetailsFragment2(
-                    movie.id
+                    movie.id, movie.
                 )
 
         findNavController().navigate(directions = action, navigatorExtras = extras)

@@ -1,7 +1,12 @@
 package com.rick.screen_movie.nymovie_screen
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
@@ -102,10 +107,10 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
         inflater.inflate(R.menu.search_menu, menu)
     }
 
-//    override fun onPrepareOptionsMenu(menu: Menu) {
-//        super.onPrepareOptionsMenu(menu)
-//        menu.findItem(R.id.search_options).isVisible = false
-//    }
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.search_imdb).isVisible = false
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

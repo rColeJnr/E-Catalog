@@ -7,7 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.rick.moviecatalog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,10 +40,15 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 com.rick.screen_movie.R.id.movieCatalogFragment,
-                com.rick.screen_book.R.id.bookCatalogFragment,
+                com.rick.screen_movie.R.id.trendingMovieFragment,
                 com.rick.screen_movie.R.id.tvSeriesFragment,
+                com.rick.screen_movie.R.id.movieFavoriteFragment,
+                com.rick.screen_book.R.id.bookCatalogFragment,
+                com.rick.screen_book.R.id.bestsellerFragment,
+                com.rick.screen_book.R.id.bookFavoritesFragment,
                 com.rick.screen_anime.R.id.animeCatalogFragment,
-                com.rick.screen_anime.R.id.mangaCatalogFragment
+                com.rick.screen_anime.R.id.mangaCatalogFragment,
+                com.rick.screen_anime.R.id.animeFavoriteFragment
             ),
             binding.drawerLayout
         )
@@ -66,6 +75,8 @@ class MainActivity : AppCompatActivity() {
                 View.GONE
             else
                 View.VISIBLE
+
+
 
             binding.toolbarText.text = when (destination.id) {
                 com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.books)

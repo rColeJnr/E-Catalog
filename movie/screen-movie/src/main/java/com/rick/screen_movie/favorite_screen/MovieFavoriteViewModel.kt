@@ -28,7 +28,7 @@ class MovieFavoriteViewModel @Inject constructor(
     val nyMovie: LiveData<List<Favorite>> get() = _nyMovies
 
     private val _loadingNyMovies = MutableLiveData<Boolean>()
-    val loadingnyMovies: LiveData<Boolean> get() = _loadingNyMovies
+    val loadingNyMovies: LiveData<Boolean> get() = _loadingNyMovies
 
     private val _series = MutableLiveData<List<Favorite>>()
     val series: LiveData<List<Favorite>> get() = _series
