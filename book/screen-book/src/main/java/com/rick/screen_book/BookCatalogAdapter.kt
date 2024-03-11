@@ -14,9 +14,8 @@ class BookCatalogAdapter(
 ) : PagingDataAdapter<Book, BookCatalogViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: BookCatalogViewHolder, position: Int) {
-        val book = getItem(position)
-        if (book != null) {
-            holder.bind(book = book)
+        getItem(position)?.let {
+            holder.bind(book = it)
         }
     }
 

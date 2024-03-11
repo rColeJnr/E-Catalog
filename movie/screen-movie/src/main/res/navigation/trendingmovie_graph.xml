@@ -6,42 +6,29 @@
     app:startDestination="@id/trendingMovieFragment">
 
     <fragment
-        android:id="@+id/movieDetailsFragment2"
-        android:name="com.rick.screen_movie.moviedetails_screen.MovieDetailsFragment"
-        android:label="MovieDetailsFragment" >
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.rick.screen_movie.moviedetails_screen.MovieDetailsFragment">
         <argument
             android:name="movie"
             app:argType="integer" />
     </fragment>
-    <fragment
-        android:id="@+id/movieFavoriteFragment2"
-        android:name="com.rick.screen_movie.favorite_screen.MovieFavoriteFragment"
-        android:label="MovieFavoriteFragment" >
-        <action
-            android:id="@+id/action_movieFavoriteFragment2_to_movieDetailsFragment2"
-            app:destination="@id/movieDetailsFragment2" />
-    </fragment>
+
     <fragment
         android:id="@+id/trendingMovieFragment"
-        android:name="com.rick.screen_movie.trendingmovie_screen.TrendingMovieFragment"
-        android:label="TrendingMovieFragment" >
+        android:name="com.rick.screen_movie.trendingmovie_screen.TrendingMovieFragment">
         <action
-            android:id="@+id/action_trendingMovieFragment_to_movieDetailsFragment2"
-            app:destination="@id/movieDetailsFragment2" />
+            android:id="@+id/action_trendingMovieFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
         <action
-            android:id="@+id/action_trendingMovieFragment_to_movieFavoriteFragment2"
-            app:destination="@id/movieFavoriteFragment2" />
-        <action
-            android:id="@+id/action_trendingMovieFragment_to_searchFragment2"
-            app:destination="@id/searchFragment2" />
+            android:id="@+id/action_trendingMovieFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment2"
         android:name="com.rick.screen_movie.search_screen.SearchFragment"
-        android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_searchFragment2_to_movieDetailsFragment2"
-            app:destination="@id/movieDetailsFragment2" />
+            android:id="@+id/action_searchFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
     </fragment>
 </navigation>

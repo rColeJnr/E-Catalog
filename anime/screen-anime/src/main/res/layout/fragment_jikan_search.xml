@@ -23,7 +23,7 @@
 
             <EditText
                 android:id="@+id/search_input"
-                android:layout_width="240dp"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:autofillHints=""
@@ -36,7 +36,7 @@
             <ProgressBar
                 android:id="@+id/search_progress_bar"
                 style="?android:progressBarStyleHorizontal"
-                android:layout_width="240dp"
+                android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:indeterminate="true" />

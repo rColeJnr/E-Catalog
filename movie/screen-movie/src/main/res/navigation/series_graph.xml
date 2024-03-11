@@ -11,12 +11,10 @@
             android:id="@+id/action_tvSeriesFragment_to_seriesSearchFragment"
             app:destination="@+id/seriesSearchFragment" />
         <action
-            android:id="@+id/action_tvSeriesFragment_to_seriesFavoriteFragment"
-            app:destination="@id/seriesFavoriteFragment" />
-        <action
             android:id="@+id/action_tvSeriesFragment_to_tvDetailsFragment"
             app:destination="@id/tvDetailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/seriesSearchFragment"
         android:name="com.rick.screen_movie.search_screen.SearchFragment">
@@ -24,17 +22,10 @@
             android:id="@+id/action_seriesSearchFragment_to_tvDetailsFragment"
             app:destination="@id/tvDetailsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/seriesFavoriteFragment"
-        android:name="com.rick.screen_movie.favorite_screen.MovieFavoriteFragment">
-        <action
-            android:id="@+id/action_seriesFavoriteFragment_to_tvDetailsFragment"
-            app:destination="@id/tvDetailsFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/tvDetailsFragment"
-        android:name="com.rick.screen_movie.tvdetails_screen.TvDetailsFragment"
-        android:label="TvDetailsFragment" >
+        android:name="com.rick.screen_movie.tvdetails_screen.TvDetailsFragment">
         <argument
             android:name="tv"
             app:argType="integer" />

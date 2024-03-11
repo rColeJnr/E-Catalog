@@ -2,6 +2,9 @@ package com.rick.screen_movie.trendingmovie_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,6 +17,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
+import com.rick.screen_movie.R
 import com.rick.screen_movie.RemotePresentationState
 import com.rick.screen_movie.asRemotePresentationState
 import com.rick.screen_movie.databinding.FragmentMovieCatalogBinding
@@ -102,12 +106,41 @@ class TrendingMovieFragment: Fragment() {
     private fun onMovieClick(view: View, movie: TrendingMovie){
         //TODO add animations
         val action = TrendingMovieFragmentDirections
-            .actionTrendingMovieFragmentToMovieDetailsFragment2(movie.id)
+            .actionTrendingMovieFragmentToMovieDetailsFragment(movie.id)
         findNavController().navigate(action)
     }
 
     private fun onFavClick(view: View, movie: TrendingMovie){
         //TODO
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_imdb -> {
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+
+                findNavController().navigate(
+                    TrendingMovieFragmentDirections.actionTrendingMovieFragmentToSearchFragment()
+                )
+                true
+            }
+//            R.id.fav_imdb -> {
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+//
+//                navController.navigate(
+//                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesFavoriteFragment()
+//                )
+//
+//                true
+//            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {

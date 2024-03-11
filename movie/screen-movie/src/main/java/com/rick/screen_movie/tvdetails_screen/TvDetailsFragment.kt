@@ -91,6 +91,7 @@ class TvDetailsFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
+        similarsAdapter = SimilarDetailsAdapter()
         listSimilars.layoutManager = similarLayoutManager
         listSimilars.adapter = similarsAdapter
 

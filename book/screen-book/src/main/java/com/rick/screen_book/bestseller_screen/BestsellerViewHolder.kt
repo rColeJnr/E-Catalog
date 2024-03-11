@@ -22,7 +22,7 @@ class BestsellerViewHolder(
     private lateinit var book: NYBook
 
     init {
-        binding.favorite.setOnClickListener {
+        favorite.setOnClickListener {
             onFavoriteClick(it, book)
         }
         binding.root.setOnClickListener {

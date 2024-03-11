@@ -64,7 +64,6 @@ class BookDetailsFragment : Fragment() {
         }
 
         binding.webView.loadUrl(link)
-
         binding.failedToLoad.visibility =
             if (binding.webView.url.isNullOrBlank()) View.VISIBLE
             else View.GONE

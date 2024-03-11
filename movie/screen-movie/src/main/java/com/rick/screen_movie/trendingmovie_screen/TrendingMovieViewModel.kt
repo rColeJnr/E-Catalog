@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
 import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
+import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -62,5 +63,4 @@ sealed class TrendingMovieUiEvent{
     object RemoveFavorite: TrendingMovieUiEvent()
 }
 
-private const val LIB_NAME = "movie_keys.c"
 private external fun getTmdbKey(): String

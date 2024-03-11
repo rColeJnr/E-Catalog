@@ -76,7 +76,6 @@ class BookRemoteMediator(
         }
     }
 
-
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Book>): BookRemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item

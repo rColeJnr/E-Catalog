@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="?attr/colorSurface"
         android:orientation="vertical">
 
@@ -24,6 +24,7 @@
                 android:id="@+id/toolbar_text"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
+                android:text=""
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -51,6 +52,6 @@
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
-        app:menu="@menu/nav_menu" />
+        app:menu="@menu/nav_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

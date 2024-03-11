@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
+import com.rick.data_movie.tmdb.movie.Genre
+import com.rick.data_movie.tmdb.tv.Creator
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentMovieDetailsBinding
 import com.rick.screen_movie.util.provideGlide
@@ -89,6 +91,7 @@ class MovieDetailsFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
+        similarsAdapter = SimilarDetailsAdapter()
         listSimilars.layoutManager = similarLayoutManager
         listSimilars.adapter = similarsAdapter
 
@@ -113,10 +116,16 @@ class MovieDetailsFragment : Fragment() {
                 provideGlide(movieImage, trendingMovie.image)
             }
             movieSummary.text = trendingMovie.summary
-            movieAdult.text = resources.getString(
-                R.string.adult_content,
-                if (trendingMovie.adult) "True" else "False"
-            )
+
+            if (trendingMovie.adult) {
+                movieAdult.text = resources.getString(
+                    R.string.adult_content, "Yes"
+                )
+            } else {
+                movieAdult.text = resources.getString(
+                    R.string.adult_content, "No"
+                )
+            }
             movieGenres.text =
                 resources.getString(R.string.genres, stringFromList(trendingMovie.genres))
 
@@ -183,7 +192,13 @@ class MovieDetailsFragment : Fragment() {
 fun stringFromList(list: List<Any>): String {
     val buffer: StringBuilder = StringBuilder()
     list.forEach {
-        buffer.append(it.toString())
+        if (it is Creator) {
+            buffer.append((it).name)
+            buffer.append(" ")
+        } else {
+            buffer.append((it as Genre).name)
+            buffer.append(" ")
+        }
     }
     return buffer.toString()
 }

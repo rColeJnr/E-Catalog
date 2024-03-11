@@ -19,20 +19,24 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.google.android.material.snackbar.Snackbar
 import com.rick.data_book.nytimes.model.NYBook
 import com.rick.screen_book.BookLoadStateAdapter
 import com.rick.screen_book.ErrorMessage
 import com.rick.screen_book.R
+import com.rick.screen_book.RemotePresentationState
+import com.rick.screen_book.asRemotePresentationState
 import com.rick.screen_book.databinding.FragmentBestsellerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BestsellerFragment : Fragment(), BookDetailsDialogFragment.BookDetailsDialogListener {
+class BestsellerFragment : Fragment() {
 
     private var _binding: FragmentBestsellerBinding? = null
     private val binding get() = _binding!!
@@ -56,17 +60,13 @@ class BestsellerFragment : Fragment(), BookDetailsDialogFragment.BookDetailsDial
         initAdapter()
 
         binding.bindSpinner()
-        binding.bindList(
-            adapter = adapter,
-            viewModel.pagingDataFlow
-        )
 
         return binding.root
     }
 
     private fun FragmentBestsellerBinding.bindList(
         adapter: BestsellerAdapter,
-        pagingDataFlow: Flow<PagingData<NYBook>>
+        pagingDataFlow: Flow<PagingData<NYBook>>,
     ) {
 
         lifecycleScope.launch {
@@ -98,6 +98,19 @@ class BestsellerFragment : Fragment(), BookDetailsDialogFragment.BookDetailsDial
             }
 
         }
+
+        val notLoading = adapter.loadStateFlow.asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
+
+        lifecycleScope.launch {
+            notLoading.collectLatest {
+                if (it) recyclerView.scrollToPosition(0)
+            }
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            adapter.refresh()
+        }
     }
 
     private fun FragmentBestsellerBinding.bindSpinner() {
@@ -113,6 +126,7 @@ class BestsellerFragment : Fragment(), BookDetailsDialogFragment.BookDetailsDial
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
                 viewModel.onEvent(BestsellerEvents.SelectedGenre(pos))
+                bindList(adapter, viewModel.pagingDataFlow)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -123,6 +137,8 @@ class BestsellerFragment : Fragment(), BookDetailsDialogFragment.BookDetailsDial
 
     private fun initAdapter() {
         adapter = BestsellerAdapter(this::onBookClick, this::onFavoriteClick)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(
@@ -143,17 +159,17 @@ class BestsellerFragment : Fragment(), BookDetailsDialogFragment.BookDetailsDial
 
     private fun onBookClick(view: View, book: NYBook) {
         // Add transition to expand dialog
-        BookDetailsDialogFragment(book).show(
+        BookDetailsDialogFragment(book, this::onDialogFavoriteClick, this::onAmazonLinkClick).show(
             requireActivity().supportFragmentManager,
             "book_details"
         )
     }
 
-    override fun onDialogFavoriteClick(view: View, book: NYBook) {
+    private fun onDialogFavoriteClick(view: View, book: NYBook) {
         onFavoriteClick(view, book)
     }
 
-    override fun onAmazonLinkClick(link: String) {
+    private fun onAmazonLinkClick(link: String) {
         val action = BestsellerFragmentDirections
             .actionBestsellerFragmentToBookDetailsFragment(link)
         navController.navigate(directions = action)

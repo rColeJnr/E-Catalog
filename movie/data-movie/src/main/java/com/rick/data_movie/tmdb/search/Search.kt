@@ -6,7 +6,7 @@ import com.rick.data_movie.favorite.Favorite
 data class Search(
     @SerializedName("adult")
     val adult: Boolean,
-    @SerializedName("title")
+    @SerializedName("name")
     val title: String,
     @SerializedName("id")
     val id: Int,

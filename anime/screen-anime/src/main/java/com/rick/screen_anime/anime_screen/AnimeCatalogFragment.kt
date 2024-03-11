@@ -187,16 +187,16 @@ class AnimeCatalogFragment : Fragment() {
                 )
                 true
             }
-            R.id.fav_jikan -> {
-
-                exitTransition = eTransition
-                reenterTransition = reTransition
-
-                navController.navigate(
-                    AnimeCatalogFragmentDirections.actionAnimeCatalogFragmentToAnimeFavoriteFragment()
-                )
-                true
-            }
+//            R.id.fav_jikan -> {
+//
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+//
+//                navController.navigate(
+//                    AnimeCatalogFragmentDirections.actionAnimeCatalogFragmentToAnimeFavoriteFragment()
+//                )
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }

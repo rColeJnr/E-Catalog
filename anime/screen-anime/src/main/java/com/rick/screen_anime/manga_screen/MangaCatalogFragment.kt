@@ -188,17 +188,17 @@ class MangaCatalogFragment : Fragment() {
 
                 true
             }
-            R.id.fav_jikan -> {
-
-                exitTransition = eTransition
-                reenterTransition = reTransition
-
-                navController.navigate(
-                    MangaCatalogFragmentDirections.actionMangaCatalogFragmentToMangaFavoriteFragment()
-                )
-
-                true
-            }
+//            R.id.fav_jikan -> {
+//
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+//
+//                navController.navigate(
+//                    MangaCatalogFragmentDirections.actionMangaCatalogFragmentToMangaFavoriteFragment()
+//                )
+//
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }

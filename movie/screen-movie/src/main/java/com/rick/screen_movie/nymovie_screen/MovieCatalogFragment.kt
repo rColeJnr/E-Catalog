@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 
 //TODO REFACTOR TO NYMovieFragment
 @AndroidEntryPoint
-class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDetailsDialogListener {
+class MovieCatalogFragment : Fragment() {
 
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
@@ -125,23 +125,23 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
 
                 true
             }
-            R.id.fav_imdb -> {
-
-                exitTransition = eTransition
-                reenterTransition = reTransition
-
-                navController.navigate(
-                    MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieFavoriteFragment()
-                )
-
-                true
-            }
+//            R.id.fav_imdb -> {
+//
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+//
+//                navController.navigate(
+//                    MovieCatalogFragmentDirections.actionMovieCatalogFragmentToMovieFavoriteFragment()
+//                )
+//
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun FragmentMovieCatalogBinding.bindState(
-        pagingData: Flow<PagingData<NYMovieUiModel>>
+        pagingData: Flow<PagingData<NYMovieUiModel.MovieItem>>
     ) {
 
         bindList(
@@ -153,7 +153,7 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
 
     private fun FragmentMovieCatalogBinding.bindList(
         adapter: MovieCatalogAdapter,
-        pagingData: Flow<PagingData<NYMovieUiModel>>
+        pagingData: Flow<PagingData<NYMovieUiModel.MovieItem>>
     ) {
 
         lifecycleScope.launch {
@@ -199,7 +199,7 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
 
     private fun onMovieClick(view: View, movie: NYMovie) {
         // Add dialog expand animation
-        NYMovieDetailsDialogFragment(movie).show(
+        NYMovieDetailsDialogFragment(movie, this::onDialogFavoriteClick, this::onWebUlrClick).show(
             requireActivity().supportFragmentManager,
             "nymovie_details"
         )
@@ -209,11 +209,11 @@ class MovieCatalogFragment : Fragment(), NYMovieDetailsDialogFragment.NYMovieDet
 //        viewModel.onEvent(UiAction.InsertFavorite(favorite))
     }
 
-    override fun onDialogFavoriteClick(view: View, movie: NYMovie) {
+    private fun onDialogFavoriteClick(view: View, movie: NYMovie) {
         onFavClick(view, movie)
     }
 
-    override fun onWebUlrClick(link: String) {
+    private fun onWebUlrClick(link: String) {
         //TODO implement navigation
         val action = MovieCatalogFragmentDirections
             .actionMovieCatalogFragmentToWebViewFragment(link)

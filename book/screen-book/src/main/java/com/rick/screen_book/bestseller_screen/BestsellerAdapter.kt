@@ -12,9 +12,8 @@ class BestsellerAdapter(
 ): PagingDataAdapter<NYBook, BestsellerViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: BestsellerViewHolder, position: Int) {
-        val book = getItem(position)
-        if (book != null) {
-            holder.bind(book = book)
+        getItem(position)?.let {
+            holder.bind(book = it)
         }
     }
 

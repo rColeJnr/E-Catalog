@@ -55,8 +55,6 @@ class SearchJikanFragment : Fragment() {
         binding.toolbar.apply {
             inflateMenu(R.menu.jikan_menu)
 
-            menu.findItem(R.id.fav_jikan).isVisible = false
-
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.search_jikan -> {
@@ -179,7 +177,7 @@ class SearchJikanFragment : Fragment() {
             }
 
             searchError.observe(viewLifecycleOwner) {
-                if (!it.isNullOrBlank()) {
+                if (adapter.differ.currentList.isEmpty() && !it.isNullOrBlank()) {
                     searchErrorMessage.visibility = View.VISIBLE
                 } else {
                     searchErrorMessage.visibility = View.GONE

@@ -1,7 +1,6 @@
 package com.rick.screen_movie.nymovie_screen
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -13,24 +12,28 @@ import com.rick.screen_movie.util.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NYMovieDetailsDialogFragment(private val movie: NYMovie): DialogFragment() {
+class NYMovieDetailsDialogFragment(
+    private val movie: NYMovie,
+    private val onDialogFavoriteClick: (View, NYMovie) -> Unit,
+    private val onWebUrlClick: (String) -> Unit
+): DialogFragment() {
 
-    private lateinit var listener: NYMovieDetailsDialogListener
-
-    interface NYMovieDetailsDialogListener {
-        fun onDialogFavoriteClick(view: View, movie: NYMovie)
-        fun onWebUlrClick(link: String)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            listener = context as NYMovieDetailsDialogListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface
-            throw ClassCastException(("$context must implement NYMovieDetailsDialogListener"))
-        }
-    }
+//    private lateinit var listener: NYMovieDetailsDialogListener
+//
+//    interface NYMovieDetailsDialogListener {
+//        fun onDialogFavoriteClick(view: View, movie: NYMovie)
+//        fun onWebUlrClick(link: String)
+//    }
+//
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        try {
+//            listener = context as NYMovieDetailsDialogListener
+//        } catch (e: ClassCastException) {
+//            // The activity doesn't implement the interface
+//            throw ClassCastException(("$context must implement NYMovieDetailsDialogListener"))
+//        }
+//    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -41,16 +44,17 @@ class NYMovieDetailsDialogFragment(private val movie: NYMovie): DialogFragment()
                 dialog?.dismiss()
             }
             view.favorite.setOnClickListener { view ->
-                listener.onDialogFavoriteClick(view, movie)
+                onDialogFavoriteClick(view, movie)
             }
-            view.webPage.setOnClickListener {
-                listener.onWebUlrClick(movie.webUrl)
+            view.source.setOnClickListener {
+                onWebUrlClick(movie.webUrl)
+                dialog?.dismiss()
             }
             val image = movie.multimedia[0].url
-            if (image.isNotEmpty()) provideGlide(view.image, image)
+            if (image.isNotEmpty()) provideGlide(view.image, "https://www.nytimes.com/$image")
             view.title.text = movie.headline.main
             view.summary.text = movie.summary
-            view.date.text = resources.getString(R.string.release_date, movie.pubDate)
+            view.date.text = resources.getString(R.string.release_date, movie.pubDate.substring(0,10))
             view.reporter.text = resources.getString(R.string.reporter, movie.byline.original)
             view.source.text = resources.getString(R.string.source, movie.source)
 

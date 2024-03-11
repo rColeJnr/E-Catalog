@@ -13,6 +13,6 @@ object Modules {
     const val animeData = ":anime:data-anime"
     const val animeScreen = ":anime:screen-anime"
 
-    const val authData = ":authentication:auth-data"
-    const val authScreen = ":authentication:auth-screen"
+    const val authData = ":authentication:auth_data"
+    const val authScreen = ":authentication:auth_screen"
 }
