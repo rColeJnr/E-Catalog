@@ -9,9 +9,9 @@
         android:title="@string/searchLabel"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/fav_book"
-        android:icon="@drawable/fav_filled_icon"
-        android:title="@string/fav_book"
-        app:showAsAction="ifRoom" />
+<!--    <item-->
+<!--        android:id="@+id/fav_book"-->
+<!--        android:icon="@drawable/fav_filled_icon"-->
+<!--        android:title="@string/fav_book"-->
+<!--        app:showAsAction="ifRoom" />-->
 </menu>

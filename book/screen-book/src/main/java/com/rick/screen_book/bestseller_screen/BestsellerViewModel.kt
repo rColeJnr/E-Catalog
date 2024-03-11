@@ -3,7 +3,6 @@ package com.rick.screen_book.bestseller_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.rick.data_book.BookRepository
 import com.rick.data_book.favorite.Favorite
 import com.rick.data_book.nytimes.model.NYBook
@@ -16,11 +15,14 @@ import javax.inject.Inject
 @HiltViewModel
 class BestsellerViewModel @Inject constructor(
     private val repository: BookRepository
-): ViewModel() {
+) : ViewModel() {
 
-    val pagingDataFlow: Flow<PagingData<NYBook>>
+    lateinit var pagingDataFlow: Flow<PagingData<NYBook>>
+
+    // private set
     private val nyKey: String
-    private var position: Int = 0
+    var position: Int = 0
+        private set
     private var favorite: Favorite? = null
 
     init {
@@ -28,22 +30,29 @@ class BestsellerViewModel @Inject constructor(
         System.loadLibrary(LIB_NAME)
         nyKey = getNYKey()
 
-        pagingDataFlow = fetchBestsellers().cachedIn(viewModelScope)
-
     }
 
     fun onEvent(event: BestsellerEvents) {
         when (event) {
             is BestsellerEvents.SelectedGenre -> fetchBestsellers(event.bookGenre)
-            is BestsellerEvents.OnFavoriteClick -> { onFavoriteClick(event.book) }
-            is BestsellerEvents.OnRemoveFavorite -> { onRemoveFavorite() }
+            is BestsellerEvents.OnFavoriteClick -> {
+                onFavoriteClick(event.book)
+            }
+
+            is BestsellerEvents.OnRemoveFavorite -> {
+                onRemoveFavorite()
+            }
         }
     }
 
     //  TODO add bestseller genre selector
-    private fun fetchBestsellers(bookGenre: Int = position): Flow<PagingData<NYBook>>{
+    private fun fetchBestsellers(bookGenre: Int = position) {
         position = bookGenre
-        return repository.getBestsellers(apiKey = nyKey, bookGenre = BookGenre.values()[position].listName)
+        val genre = BookGenre.values()[position].listName
+
+        pagingDataFlow = repository.getBestsellers(
+            apiKey = nyKey, bookGenre = genre
+        )
     }
 
     private fun onFavoriteClick(book: NYBook) {

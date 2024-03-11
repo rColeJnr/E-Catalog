@@ -33,7 +33,7 @@ class JikanFavoriteViewModel @Inject constructor(private val repo: JikanReposito
     }
 
     private fun getFavorites() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repo.getFavoriteAnime().collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {

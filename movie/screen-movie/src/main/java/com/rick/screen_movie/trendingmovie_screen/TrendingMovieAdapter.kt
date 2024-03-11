@@ -21,7 +21,8 @@ class TrendingMovieAdapter(
     }
 
     override fun onBindViewHolder(holder: TrendingMovieViewHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        val movie = (getItem(position))
+        movie?.let { holder.bind(it) }
     }
 
     companion object {

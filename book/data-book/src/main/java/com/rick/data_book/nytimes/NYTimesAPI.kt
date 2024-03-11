@@ -8,11 +8,11 @@ import retrofit2.http.Query
 interface NYTimesAPI {
 
     @GET("svc/books/v3/lists/{date}/{list}.json")
-    fun getBestsellers(
+    suspend fun getBestsellers(
         @Path("date") date: String = DATE,
         @Path("list") bookGenre: String,
         @Query("api-key") apiKey: String,
-        @Query("page") page: Int
+        @Query("page") page: Int // use offset
     ): NYTimesResponse
 
     companion object {

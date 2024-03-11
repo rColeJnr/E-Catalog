@@ -34,7 +34,9 @@ class BookRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = BOOKS_PER_PAGE,
-                enablePlaceholders = true
+                enablePlaceholders = true,
+                prefetchDistance = 0,
+                initialLoadSize = 2
             ),
             remoteMediator = BookRemoteMediator(api = api, db = db),
             pagingSourceFactory = pagingSourceFactory
@@ -42,17 +44,68 @@ class BookRepository @Inject constructor(
     }
 
     fun getBestsellers(apiKey: String, bookGenre: String): Flow<PagingData<NYBook>> {
-        val pagingSourceFactory = {db.bookDao.getBestsellers()}
+        val pagingSourceFactory = { db.bookDao.getBestsellers() }
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
                 pageSize = BOOKS_PER_PAGE,
-                enablePlaceholders = true
+                enablePlaceholders = true,
+                prefetchDistance = 0,
+                initialLoadSize = 2
             ),
-            remoteMediator = NYBookRemoteMediator(api = nyApi, db = db, key = apiKey, bookGenre = bookGenre),
+            remoteMediator = NYBookRemoteMediator(
+                api = nyApi,
+                db = db,
+                key = apiKey,
+                bookGenre = bookGenre
+            ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
+
+//    fun getBestsellers(apikey: String, bookGenre: String): Flow<Resource<List<NYBook>>> {
+//        var books: List<NYBook> = listOf()
+//        // appending '%' so we can allow other characters to be before and after the query string
+//        return flow {
+//
+//            emit(Resource.Loading(true))
+//
+//            db.withTransaction {
+//                books = db.bookDao.getBestsellers()
+//            }
+//
+//            if (books.isNotEmpty()) {
+//                emit(Resource.Success<List<NYBook>>(data = books))
+//                emit(Resource.Loading(false))
+//            }
+//
+//            try {
+//                val response = nyApi.getBestsellers(
+//                    page = 1,
+//                    apiKey = apikey,
+//                    bookGenre = bookGenre
+//                )
+//                if (response.results.books.isNotEmpty()) {
+//                    db.withTransaction {
+//                        db.bookDao.insertBestsellers(response.results.books)
+//                        books = db.bookDao.getBestsellers()
+//                    }
+//                    emit(Resource.Success<List<NYBook>>(data = books))
+//                    emit(Resource.Loading(false))
+//                } else {
+//                    emit(Resource.Error(message = null))
+//                    emit(Resource.Loading(false))
+//                }
+//            } catch (e: IOException) {
+//                emit(Resource.Error(e.message))
+//                emit(Resource.Loading(false))
+//            } catch (e: HttpException) {
+//                emit(Resource.Error(e.message))
+//                emit(Resource.Loading(false))
+//            }
+//        }
+//
+//    }
 
     fun searchBooks(query: String): Flow<Resource<List<Book>>> {
         var books: List<Book> = listOf()
@@ -115,7 +168,6 @@ class BookRepository @Inject constructor(
     suspend fun delete(favorite: Favorite) {
         db.favDao.delete(favorite)
     }
-
 
 
 }

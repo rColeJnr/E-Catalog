@@ -1,6 +1,5 @@
 package com.rick.data_movie.ny_times.article_models
 
-
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,8 +10,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "ny_times_article")
 data class NYMovie(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    @PrimaryKey(autoGenerate = false)
+    @SerializedName("_id")
+    val id: String,
     @SerializedName("web_url")
     val webUrl: String,
     @SerializedName("snippet")
@@ -34,7 +34,7 @@ data class NYMovie(
 ): Parcelable {
     fun toFavorite(): Favorite =
         Favorite (
-            id = id,
+            id = null,
             title = headline.main,
             summary = summary,
             image = multimedia[0].url,

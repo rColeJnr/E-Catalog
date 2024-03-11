@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.rick.data_movie.MovieCatalogRepository
 import com.rick.data_movie.favorite.Favorite
@@ -29,7 +28,7 @@ class NYMovieViewModel @Inject constructor(
      * Stream of immutable states representative of the UI.
      */
 
-    val pagingDataFLow: Flow<PagingData<NYMovieUiModel>>
+    val pagingDataFLow: Flow<PagingData<NYMovieUiModel.MovieItem>>
 
     private val nyKey: String
     private var favorite: Favorite? = null
@@ -44,41 +43,43 @@ class NYMovieViewModel @Inject constructor(
 
     }
 
-    private fun fetchMovies(key: String): Flow<PagingData<NYMovieUiModel>> =
+    private fun fetchMovies(key: String): Flow<PagingData<NYMovieUiModel.MovieItem>> =
         repository.getMovies(key)
             .map { pagingData -> pagingData.map { NYMovieUiModel.MovieItem(it) } }
-            .map {
-                it.insertSeparators { before, after ->
-                    if (after == null) {
-                        // we're at the end of the list
-                        return@insertSeparators null
-                    }
-                    if (before == null) {
-                        // we're at the beginning of the list
-                        return@insertSeparators NYMovieUiModel.SeparatorItem(
-                            "${getMonth(after.movie.pubDate).month}  " +
-                                    "${getMonth(after.movie.pubDate).year}"
-                        )
-                    }
-                    if (
-                        getMonth(after.movie.pubDate)
-                            .month.equals(getMonth(before.movie.pubDate).month)
-                    ) {
-                        null
-                    } else {
-                        NYMovieUiModel.SeparatorItem(
-                            "${getMonth(after.movie.pubDate).month}  " +
-                                    "${getMonth(after.movie.pubDate).year}"
-                        )
-                    }
-                }
-            }
+    // Removed for consistency across application
+//            .map {
+//                it.insertSeparators { before, after ->
+//                    if (after == null) {
+//                        // we're at the end of the list
+//                        return@insertSeparators null
+//                    }
+//                    if (before == null) {
+////                         we're at the beginning of the list
+//                        return@insertSeparators NYMovieUiModel.SeparatorItem(
+//                            "${getMonth(after.movie.pubDate.substring(0, 10)).month}  " +
+//                                    "${getMonth(after.movie.pubDate.substring(0,10)).year}"
+//                        )
+//                        null
+//                    }
+//                    if (
+//                        getMonth(after.movie.pubDate.substring(0,10))
+//                            .month.equals(getMonth(before?.movie?.pubDate?.substring(0,10)).month)
+//                    ) {
+//                        null
+//                    } else {
+//                        NYMovieUiModel.SeparatorItem(
+//                            "${getMonth(after.movie.pubDate.substring(0,10)).month}  " +
+//                                    "${getMonth(after.movie.pubDate.substring(0,10)).year}"
+//                        )
+//                        null
+//                    }
+//                }
+//            }
 
     fun onEvent(event: NYMovieUiEvent) {
         when (event) {
             is NYMovieUiEvent.InsertFavorite -> insertFavorite(event.fav.toFavorite())
             is NYMovieUiEvent.RemoveFavorite -> removeFavorite()
-            else -> {}
         }
     }
 
@@ -105,6 +106,7 @@ private fun getMonth(date: String?): LocalDate {
     val formatter = DateTimeFormatter.ofPattern(TIME_FORMAT)
     return if (date != null) {
         LocalDate.parse(date, formatter)
+        LocalDate.now()
     } else run {
         LocalDate.now()
     }

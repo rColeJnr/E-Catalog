@@ -1,5 +1,6 @@
 package com.rick.data_movie.ny_times
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -69,7 +70,8 @@ class MovieCatalogRemoteMediator(
                 val prevKey = if (page == Companion.STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = articles.map {
-                    RemoteKeys(id = it.id!!, prevKey = prevKey, nextKey = nextKey)
+                    Log.d("TAGG", "prease print it $it")
+                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.remoteKeysDao.insertAll(keys)
                 db.articleDao.insertArticles(articles)
@@ -88,7 +90,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { doc ->
                 // Get the remote keys of the last item retrieved
-                db.remoteKeysDao.remoteKeysMovieId(doc.id!!)
+                db.remoteKeysDao.remoteKeysMovieId(doc.id)
             }
     }
 
@@ -98,7 +100,7 @@ class MovieCatalogRemoteMediator(
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { doc ->
                 // GEt the remote keys of the first items retrieved
-                db.remoteKeysDao.remoteKeysMovieId(doc.id!!)
+                db.remoteKeysDao.remoteKeysMovieId(doc.id)
             }
     }
 

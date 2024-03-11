@@ -14,8 +14,8 @@
             <option value="$PROJECT_DIR$/anime/screen-anime" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/authentication" />
-            <option value="$PROJECT_DIR$/authentication/auth-data" />
-            <option value="$PROJECT_DIR$/authentication/auth-screen" />
+            <option value="$PROJECT_DIR$/authentication/auth_data" />
+            <option value="$PROJECT_DIR$/authentication/auth_screen" />
             <option value="$PROJECT_DIR$/book" />
             <option value="$PROJECT_DIR$/book/data-book" />
             <option value="$PROJECT_DIR$/book/screen-book" />

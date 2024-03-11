@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d6621d997f1e72b82d9cd9e206f0e884",
+    "identityHash": "7eaea1ed641dba9e412f4d73dac726ee",
     "entities": [
       {
         "tableName": "book_db",
@@ -188,8 +188,14 @@
       },
       {
         "tableName": "ny_book",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rank` INTEGER NOT NULL, `rankLastWeek` INTEGER NOT NULL, `weeksOnList` INTEGER NOT NULL, `summary` TEXT NOT NULL, `title` TEXT NOT NULL, `author` TEXT NOT NULL, `bookImage` TEXT NOT NULL, `amazonLink` TEXT NOT NULL, PRIMARY KEY(`rank`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `rank` INTEGER NOT NULL, `rankLastWeek` INTEGER NOT NULL, `weeksOnList` INTEGER NOT NULL, `summary` TEXT NOT NULL, `title` TEXT NOT NULL, `author` TEXT NOT NULL, `bookImage` TEXT NOT NULL, `amazonLink` TEXT NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "rank",
             "columnName": "rank",
@@ -241,9 +247,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "rank"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -252,7 +258,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd6621d997f1e72b82d9cd9e206f0e884')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7eaea1ed641dba9e412f4d73dac726ee')"
     ]
   }
 }

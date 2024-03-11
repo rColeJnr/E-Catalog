@@ -1,6 +1,7 @@
 package com.rick.screen_movie.search_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -63,7 +64,7 @@ class SearchFragment : Fragment() {
         binding.toolbar.apply {
             inflateMenu(R.menu.search_menu)
 
-            menu.findItem(R.id.fav_imdb).isVisible = false
+//            menu.findItem(R.id.fav_imdb).isVisible = false
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -202,7 +203,7 @@ class SearchFragment : Fragment() {
             }
 
             searchError.observe(viewLifecycleOwner) {
-                if (it.msg != null ) {
+                if (adapter.searchDiffer.currentList.isEmpty() && it.msg != null ) {
                     searchErrorMessage.visibility = View.VISIBLE
                 } else {
                     searchErrorMessage.visibility = View.GONE
@@ -223,8 +224,8 @@ class SearchFragment : Fragment() {
         val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action =
             SearchFragmentDirections
-                .actionSearchFragment2ToMovieDetailsFragment2(
-                    movie.id, movie.
+                .actionSeriesSearchFragmentToTvDetailsFragment(
+                    movie.id
                 )
 
         findNavController().navigate(directions = action, navigatorExtras = extras)
@@ -301,8 +302,9 @@ class SearchViewHolder(
         this.rootLayout.transitionName = "search ${searchResult.id}"
         this.result = searchResult
         this.title.text = searchResult.title
+        Log.e("Tagg", "Ttle: ${searchResult.title}")
         this.description.text = searchResult.summary
-        if (searchResult.image.isNotEmpty()) provideGlide(this.image, getTmdbImageUrl(searchResult.image))
+        if (!searchResult.image.isNullOrBlank()) provideGlide(this.image, getTmdbImageUrl(searchResult.image))
     }
 
 //    overridee fun onClick(v: View) {

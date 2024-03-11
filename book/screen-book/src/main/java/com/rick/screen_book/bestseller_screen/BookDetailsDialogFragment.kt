@@ -13,24 +13,28 @@ import com.rick.screen_book.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BookDetailsDialogFragment(private val book: NYBook) : DialogFragment() {
+class BookDetailsDialogFragment(
+    private val book: NYBook,
+    private val onDialogFavoriteClick: (View, NYBook) -> Unit,
+    private val onAmazonLinkClick: (String) -> Unit
+) : DialogFragment() {
 
-    private lateinit var listener: BookDetailsDialogListener
+//    private lateinit var listener: BookDetailsDialogListener
 
-    interface BookDetailsDialogListener {
-        fun onDialogFavoriteClick(view: View, book: NYBook)
-        fun onAmazonLinkClick(link: String)
-    }
+//    interface BookDetailsDialogListener {
+//        fun onDialogFavoriteClick(view: View, book: NYBook)
+//        fun onAmazonLinkClick(link: String)
+//    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            listener = context as BookDetailsDialogListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface
-            throw ClassCastException(("$context must implement BookDetailsDialogListener"))
-        }
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        try {
+//            listener = context as BookDetailsDialogListener
+//        } catch (e: ClassCastException) {
+//            // The activity doesn't implement the interface
+//            throw ClassCastException(("$context must implement BookDetailsDialogListener"))
+//        }
+//    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -41,10 +45,10 @@ class BookDetailsDialogFragment(private val book: NYBook) : DialogFragment() {
                 dialog?.dismiss()
             }
             view.favorite.setOnClickListener {view ->
-                listener.onDialogFavoriteClick(view, book)
+                onDialogFavoriteClick(view, book)
             }
             view.amazonLink.setOnClickListener {
-                listener.onAmazonLinkClick(book.amazonLink)
+                onAmazonLinkClick(book.amazonLink)
             }
             if (book.bookImage.isNotEmpty()) provideGlide(view.image, book.bookImage)
             view.title.text = book.title

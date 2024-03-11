@@ -3,44 +3,51 @@
 
     <item android:title="@string/books">
         <menu>
-            <item
-                android:id="@+id/book_graph"
-                android:icon="@drawable/ic_book"
-                android:title="@string/books"
-                />
 
             <item
                 android:id="@+id/bestseller_graph"
                 android:icon="@drawable/ic_book"
-                android:title="@string/bestseller"
+                android:title="@string/nyt_bestseller"
                 />
 
             <item
-                android:id="@+id/favorite_books"
+                android:id="@+id/book_graph"
+                android:icon="@drawable/ic_book"
+                android:title="@string/the_gutenberg_project"
+                />
+
+            <item
+                android:id="@+id/book_favorite_graph"
                 android:icon="@drawable/fav_filled_icon"
-                android:title="@string/favorites"
+                android:title="@string/favorite"
                 />
         </menu>
     </item>
 
     <item android:title="@string/moving_pictures">
         <menu>
-            <item
-                android:id="@+id/movie_graph"
-                android:icon="@drawable/ic_movie"
-                android:title="@string/movie"
-                />
 
             <item
                 android:id="@+id/series_graph"
                 android:icon="@drawable/ic_tvseries"
-                android:title="@string/series"
+                android:title="@string/trending_series"
                 />
 
             <item
-                android:id="@+id/favorite_mPictures"
+                android:id="@+id/trendingmovie_graph"
+                android:icon="@drawable/ic_movie"
+                android:title="@string/trending_movies"
+                />
+            <item
+                android:id="@+id/movie_graph"
+                android:icon="@drawable/ic_movie"
+                android:title="@string/nyt_articles"
+                />
+
+            <item
+                android:id="@+id/moving_pictures_favorites_graph"
                 android:icon="@drawable/fav_filled_icon"
-                android:title="@string/favorites"
+                android:title="@string/favorite"
                 />
         </menu>
     </item>
@@ -60,9 +67,9 @@
                 />
 
             <item
-                android:id="@+id/favorite_animations"
+                android:id="@+id/animation_favorite_graph"
                 android:icon="@drawable/fav_filled_icon"
-                android:title="@string/favorites"
+                android:title="@string/favorite"
                 />
         </menu>
     </item>

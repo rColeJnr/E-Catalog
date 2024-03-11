@@ -10,9 +10,14 @@
     <string name="favorite">Favorite</string>
     <string name="searchLabel">Search</string>
     <string name="empty" />
-    <string name="the_gutenberg_project">The Gutenberg Project</string>
-    <string name="bestseller">Bestseller</string>
+    <string name="the_gutenberg_project">Gutenberg Project</string>
+    <string name="bestseller">Bestsellers</string>
+    <string name="nyt_bestseller">NY Times Bestsellers</string>
     <string name="moving_pictures">Moving Pictures</string>
     <string name="animations">Animations</string>
     <string name="adult_content">Adult content:</string>
+    <string name="nyt_articles">NY Times articles</string>
+    <string name="trending_movies">Trending Movies</string>
+    <string name="trending_series">Trending Series</string>
+    <string name="limited_experience">Limited experience</string>
 </resources>

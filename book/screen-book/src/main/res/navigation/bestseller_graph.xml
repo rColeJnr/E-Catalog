@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bestseller_graph"
+    app:startDestination="@id/bestsellerFragment">
+
+    <fragment
+        android:id="@+id/bestsellerFragment"
+        android:name="com.rick.screen_book.bestseller_screen.BestsellerFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_bestsellerFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="myapp://com.rick.auth-screen/BestsellerFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="com.rick.screen_book.details_screen.BookDetailsFragment">
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
+</navigation>

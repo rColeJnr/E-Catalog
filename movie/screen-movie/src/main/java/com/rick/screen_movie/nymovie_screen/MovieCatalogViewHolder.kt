@@ -35,7 +35,7 @@ class MovieCatalogViewHolder(
         val resources = itemView.resources
         //TODO (Cheeck rating in nytimes response)
         val src = movie.multimedia[0].url
-        if (src.isNotBlank()) provideGlide(this.image, src)
+        if (src.isNotBlank()) provideGlide(this.image, "https://www.nytimes.com/$src")
     }
 
 //    override fun onClick(v: View) {

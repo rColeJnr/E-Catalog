@@ -56,7 +56,7 @@ class BookSearchFragment : Fragment() {
         binding.toolbar.apply {
             inflateMenu(R.menu.book_search_menu)
 
-            menu.findItem(R.id.fav_book).isVisible = false
+//            menu.findItem(R.id.fav_book).isVisible = false
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -192,7 +192,7 @@ class BookSearchFragment : Fragment() {
             }
 
             searchError.observe(viewLifecycleOwner) {
-                if (it != null && it.isNotEmpty()) {
+                if (adapter.differ.currentList.isEmpty() && it != null && it.isNotEmpty()) {
                     searchErrorMessage.visibility = View.VISIBLE
                 } else {
                     searchErrorMessage.visibility = View.GONE

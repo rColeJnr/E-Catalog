@@ -15,12 +15,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class BookCatalogViewModel @Inject constructor(
     private val repository: BookRepository
 ): ViewModel() {
 
     val pagingDataFlow: Flow<PagingData<Book>>
+    private var jsonString: String = ""
 
     init {
         pagingDataFlow = fetchBooks().cachedIn(viewModelScope)

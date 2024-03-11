@@ -1,4 +1,4 @@
-package com.rick.moviecatalog
+package com.rick.auth_screen
 
 import org.junit.Test
 

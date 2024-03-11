@@ -48,6 +48,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
 class BookCatalogFragment : Fragment() {
 
@@ -171,7 +172,7 @@ class BookCatalogFragment : Fragment() {
         val bookToDetails = getString(R.string.book_transition_name, formats.image)
         val extras = FragmentNavigatorExtras(view to bookToDetails)
         val link: String = formats.run {
-            this.textHtml ?: this.textPlain ?: this.textPlainCharsetUtf8!!
+            this.textPlain ?: this.textPlainCharsetUtf8 ?: this.textHtmCharsetUtf8!!
         }
         val action = BookCatalogFragmentDirections
             .actionBookCatalogFragmentToBookDetailsFragment(link)
@@ -207,16 +208,16 @@ class BookCatalogFragment : Fragment() {
                 )
                 true
             }
-            R.id.fav_book -> {
-
-                exitTransition = eTransition
-                reenterTransition = reTransition
-
-                navController.navigate(
-                    BookCatalogFragmentDirections.actionBookCatalogFragmentToBookFavoritesFragment()
-                )
-                true
-            }
+//            R.id.fav_book -> {
+//
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+//
+//                navController.navigate(
+//                    BookCatalogFragmentDirections.actionBookCatalogFragmentToBookFavoritesFragment()
+//                )
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -229,7 +230,8 @@ class BookCatalogFragment : Fragment() {
 
 @Composable
 fun ErrorMessage(message: String) {
-    Text(text = message,
+    Text(
+        text = message,
         style = MaterialTheme.typography.h5,
         modifier = Modifier
             .fillMaxSize()

@@ -22,11 +22,11 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -85,17 +85,17 @@ fun FavScreen(favorites: List<Favorite>) {
 
     Scaffold(
         modifier = Modifier
-            .padding(8.dp),
-        backgroundColor = MaterialTheme.colors.surface
+            .padding(8.dp).background(MaterialTheme.colorScheme.surface),
+
     ) {
         Column {
-            Text(text = "Favorites", style = MaterialTheme.typography.h5)
+            Text(text = "Favorites", style = MaterialTheme.typography.bodyMedium)
             LazyColumn(modifier = Modifier.padding(it)) {
                 items(favorites) { favorite ->
                     FavoriteListItem(favorite, {}, {})
 //                    Divider(
 //                        Modifier.height(1.dp),
-//                        color = MaterialTheme.colors.secondary
+//                        color = MaterialTheme.cßolors.secondary
 //                    )
                 }
             }
@@ -113,7 +113,7 @@ fun FavoriteListItem(
             .fillMaxWidth()
             .requiredHeight(82.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(color = MaterialTheme.colors.surface.copy(alpha = 0.35f))
+            .background(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.35f))
             .clickable {
                 onItemClick(favorite)
             }
@@ -144,13 +144,13 @@ fun FavoriteListItem(
             ) {
                 Text(
                     text = favorite.title,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2
                 )
                 Text(
                     text = favorite.author,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2
                 )
@@ -159,7 +159,7 @@ fun FavoriteListItem(
             IconButton(
                 onClick = { onFavClick(favorite) },
                 modifier = Modifier
-                    .requiredSize(45.dp)
+                    .requiredSize(65.dp)
                     .padding(end = 12.dp)
             ) {
                 Icon(
@@ -167,7 +167,7 @@ fun FavoriteListItem(
                     contentDescription = stringResource(
                         id = R.string.favorite_button
                     ),
-                    tint = MaterialTheme.colors.secondary
+                    tint = MaterialTheme.colorScheme.secondary
                 )
             }
         }
@@ -196,6 +196,12 @@ fun FavScreenPrev() {
 }
 
 val dummyBooks = listOf(
+    Favorite(
+        1,
+        "Book title",
+        "Book author",
+        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png"
+    ),
     Favorite(
         1,
         "Book title",

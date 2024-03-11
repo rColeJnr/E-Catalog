@@ -26,17 +26,10 @@
             android:id="@+id/action_searchFragment_to_webViewFragment"
             app:destination="@id/webViewFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/movieFavoriteFragment"
-        android:name="com.rick.screen_movie.favorite_screen.MovieFavoriteFragment" >
-        <action
-            android:id="@+id/action_movieFavoriteFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="com.rick.screen_movie.WebViewFragment"
-        android:label="WebViewFragment" >
+        android:name="com.rick.screen_movie.WebViewFragment">
         <argument
             android:name="link"
             app:argType="string" />

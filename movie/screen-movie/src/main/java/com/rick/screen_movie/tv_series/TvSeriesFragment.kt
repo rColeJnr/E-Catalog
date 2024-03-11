@@ -1,7 +1,12 @@
 package com.rick.screen_movie.tv_series
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -163,16 +168,16 @@ class TvSeriesFragment : Fragment() {
                 )
                 true
             }
-            R.id.fav_imdb -> {
-                exitTransition = eTransition
-                reenterTransition = reTransition
-
-                navController.navigate(
-                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesFavoriteFragment()
-                )
-
-                true
-            }
+//            R.id.fav_imdb -> {
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+//
+//                navController.navigate(
+//                    TvSeriesFragmentDirections.actionTvSeriesFragmentToSeriesFavoriteFragment()
+//                )
+//
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }

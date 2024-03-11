@@ -7,7 +7,9 @@
 
     <fragment
         android:id="@+id/bookCatalogFragment"
-        android:name="com.rick.screen_book.BookCatalogFragment" >
+        android:name="com.rick.screen_book.BookCatalogFragment"
+        android:label=""
+        >
         <action
             android:id="@+id/action_bookCatalogFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment"
@@ -15,9 +17,6 @@
         <action
             android:id="@+id/action_bookCatalogFragment_to_searchFragment"
             app:destination="@id/bookSearchFragment" />
-        <action
-            android:id="@+id/action_bookCatalogFragment_to_bookFavoritesFragment"
-            app:destination="@id/bookFavoritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
@@ -34,23 +33,5 @@
         <action
             android:id="@+id/action_searchFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/bookFavoritesFragment"
-        android:name="com.rick.screen_book.favorite_screen.BookFavoritesFragment">
-        <action
-            android:id="@+id/action_bookFavoritesFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/bestsellerFragment"
-        android:name="com.rick.screen_book.bestseller_screen.BestsellerFragment"
-        android:label="BestsellerFragment" >
-        <action
-            android:id="@+id/action_bestsellerFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
-        <action
-            android:id="@+id/action_bestsellerFragment_to_bookFavoritesFragment"
-            app:destination="@id/bookFavoritesFragment" />
     </fragment>
 </navigation>
