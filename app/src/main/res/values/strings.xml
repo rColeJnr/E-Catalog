@@ -7,7 +7,7 @@
     <string name="anime">Anime</string>
     <string name="manga">Manga</string>
     <string name="favorites">Favorites</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">com.rick.data.model_book.Favorite</string>
     <string name="searchLabel">Search</string>
     <string name="empty" />
     <string name="the_gutenberg_project">Gutenberg Project</string>

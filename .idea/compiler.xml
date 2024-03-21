@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="11">
+      <module name="build-logic.convention" target="17" />
+      <module name="build-logic.convention.main" target="17" />
+      <module name="build-logic.convention.test" target="17" />
+      <module name="ecatalogs.anime.data_anime" target="17" />
+      <module name="ecatalogs.anime.screen_anime" target="17" />
+      <module name="ecatalogs.app" target="17" />
+      <module name="ecatalogs.authentication.auth_data" target="17" />
+      <module name="ecatalogs.authentication.auth_screen" target="17" />
+      <module name="ecatalogs.book.data_book" target="17" />
+      <module name="ecatalogs.book.screen_book" target="17" />
+      <module name="ecatalogs.core" target="17" />
+      <module name="ecatalogs.data.datastore" target="17" />
+      <module name="ecatalogs.data.datastore_proto" target="17" />
+      <module name="ecatalogs.movie.data_movie" target="17" />
+      <module name="ecatalogs.movie.screen_movie" target="17" />
+      <module name="ecatalogs.ui_components.auth" target="17" />
+      <module name="ecatalogs.ui_components.common" target="17" />
+      <module name="ecatalogs.ui_components.favorite" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
