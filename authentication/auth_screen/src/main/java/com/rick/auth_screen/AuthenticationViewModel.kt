@@ -14,13 +14,15 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
     private val savedSteHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     private val email = savedSteHandle.getStateFlow(key = EMAIL_QUERY, initialValue = "")
     private val username = savedSteHandle.getStateFlow(key = USERNAME_QUERY, initialValue = "")
     private val password = MutableStateFlow("")
-//    private val refreshing = MutableStateFlow(false)
-    private val screenState = savedSteHandle.getStateFlow(key = SCREEN_STATE_QUERY, initialValue = false)
+
+    //    private val refreshing = MutableStateFlow(false)
+    private val screenState =
+        savedSteHandle.getStateFlow(key = SCREEN_STATE_QUERY, initialValue = false)
     private val errorMessage: MutableStateFlow<String?> = MutableStateFlow(null)
 
     private val _state = MutableStateFlow(AuthScreenState())
@@ -37,11 +39,11 @@ class AuthenticationViewModel @Inject constructor(
                 username,
                 errorMessage,
                 screenState,
-            ){email, password, username, errorMessage, screenState ->
+            ) { email, password, username, errorMessage, screenState ->
                 AuthScreenState(
-                    email =email,
+                    email = email,
                     password = password,
-                    username =username,
+                    username = username,
                     errorMessage = errorMessage,
 //                    refreshing = array.get(4) as Boolean,
                     screenState = screenState,
@@ -49,7 +51,7 @@ class AuthenticationViewModel @Inject constructor(
                 )
 
             }.catch {
-                //Show error messge
+                //Show error message
             }.collect {
                 _state.value = it
             }
@@ -61,20 +63,20 @@ class AuthenticationViewModel @Inject constructor(
         savedSteHandle[EMAIL_QUERY] = email
     }
 
-    fun onPasswordValueChange(password: String){
+    fun onPasswordValueChange(password: String) {
         this.password.value = password
     }
 
-    fun onUsernameValueChange(username: String){
+    fun onUsernameValueChange(username: String) {
         savedSteHandle[USERNAME_QUERY] = username
     }
 
-    fun onScreenStateValueChange(screenState: Boolean){
+    fun onScreenStateValueChange(screenState: Boolean) {
         savedSteHandle[SCREEN_STATE_QUERY] = !screenState
     }
 }
 
-data class AuthScreenState (
+data class AuthScreenState(
 //    val refreshing: Boolean = false,
 //    val isSignIn:Boolean = false,
     val screenState: Boolean = true,

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "com.rick.data.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  string title = 1;
+  string details = 2;
+  string image = 3;
+  bool isFavorite = 4;
+
+  // Next available is 5
+}

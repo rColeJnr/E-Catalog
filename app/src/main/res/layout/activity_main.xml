@@ -37,8 +37,7 @@
             android:layout_weight="1"
             android:background="?attr/colorSurface"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph"
-            tools:layout="@layout/fragment_book_search" />
+            app:navGraph="@navigation/nav_graph" />
 
     </LinearLayout>
 
@@ -52,6 +51,6 @@
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
-        app:menu="@menu/nav_menu"/>
+        app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -24,6 +24,18 @@
           <timeTargetWasSelectedWithDropDown value="2024-03-01T22:44:19.705853Z" />
         </State>
       </entry>
+      <entry key="core">
+        <State />
+      </entry>
+      <entry key="ui_components.auth">
+        <State />
+      </entry>
+      <entry key="ui_components.common">
+        <State />
+      </entry>
+      <entry key="ui_components.favorite">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

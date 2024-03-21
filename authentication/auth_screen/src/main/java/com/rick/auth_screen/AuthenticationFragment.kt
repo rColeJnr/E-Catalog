@@ -7,7 +7,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -37,10 +36,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.rick.auth_screen.databinding.FragmentAuthenticationBinding
+import com.rick.ui_components.auth.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,7 +56,6 @@ class AuthenticationFragment : Fragment() {
     private lateinit var contract: ActivityResultLauncher<Intent>
     private lateinit var intentContract: ActivityResultLauncher<IntentSenderRequest>
     private var userDeclinedOneTap = false
-    private lateinit var db: FirebaseFirestore
 
 
     override fun onStart() {
@@ -77,7 +74,6 @@ class AuthenticationFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(requireContext())
-        db = Firebase.firestore
     }
 
     override fun onCreateView(
@@ -88,10 +84,15 @@ class AuthenticationFragment : Fragment() {
 
         _binding = FragmentAuthenticationBinding.inflate(inflater, container, false)
 
-        val isOnline by mutableStateOf(checkIfOnline())
-
         binding.root.setContent {
-            Login(
+            val viewState by viewModel.state.collectAsState()
+            LoginScreen(
+                email = viewState.email,
+                onEmailValueChange = viewModel::onEmailValueChange,
+                password = viewState.password,
+                onPasswordValueChange = viewModel::onPasswordValueChange,
+                userName = viewState.username,
+                onUsernameValueChange = { viewModel.onUsernameValueChange(it) },
                 onAuthenticate = { email, password -> signInWithPassword(email, password) },
                 onCreateAccount = { email, password, username ->
                     signUpWithPassword(
@@ -101,8 +102,10 @@ class AuthenticationFragment : Fragment() {
                     )
                 },
                 onGoogleOneTap = { signIn() },
-                onPasswordReset = { email -> onPasswordReset(email) },
-                viewModel
+                onResetPassword = { email -> onPasswordReset(email) },
+                screenState = viewState.screenState,
+                onScreenStateValueChange = viewModel::onScreenStateValueChange,
+                isValidEmail = { isValidEmail(it) }
             )
         }
 
@@ -145,23 +148,9 @@ class AuthenticationFragment : Fragment() {
     }
 
     private fun saveUserToDb(username: String) {
-        val user = hashMapOf("username" to username)
-        db.collection("user")
-            .add(user)
+        //  TODO save user to datastore
     }
 
-    //    private fun readUserFromDb() {
-//        db.collection("user")
-//            .get()
-//            .addOnSuccessListener { result ->
-//                for (document in result) {
-//                    Log.d(TAG, "${document.id} => ${document.data}")
-//                }
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error getting documents.", exception)
-//            }
-//    }
     private fun setupAuth() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com")
@@ -207,17 +196,6 @@ class AuthenticationFragment : Fragment() {
             }
     }
 
-    private fun isValidPassword(password: String): Boolean {
-        if (password.isNotBlank()) return password.matches(PASSWORD_REGEX)
-        return false
-    }
-
-
-    private fun isValidUsername(username: String): Boolean {
-        if (username.isNotBlank()) return username.matches(USERNAME_REGEX)
-        return false
-    }
-
     private fun signUpWithPassword(email: String, password: String, username: String) {
         if (
             isValidEmail(email) &&
@@ -226,7 +204,6 @@ class AuthenticationFragment : Fragment() {
         ) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
-                    val currentUser = authResult.user
                     saveUserToDb(username)
                     navigate()
                 }
@@ -250,7 +227,6 @@ class AuthenticationFragment : Fragment() {
         if (email.isNotBlank() && password.isNotBlank()) {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
-                    val currentUser = authResult.user
                     navigate()
                 }
                 .addOnFailureListener {
@@ -342,16 +318,4 @@ class AuthenticationFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
-    companion object {
-        fun isValidEmail(email: String): Boolean {
-            if (email.isNotBlank()) return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-            return false
-        }
-
-    }
 }
-
-// No white spaces, At least # characters.
-private val PASSWORD_REGEX = "^(?=\\S+$).{6,}$".toRegex()
-private val USERNAME_REGEX = "^(?=\\S+$).{3,12}$".toRegex()
