@@ -1,6 +1,6 @@
 package com.rick.data.data_book.repository.bestseller
 
-import com.rick.data.model_book.UserBestseller
+import com.rick.data.model_book.bestseller.UserBestseller
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 

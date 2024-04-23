@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data.model_book.UserBestseller
+import com.rick.data.model_book.bestseller.UserBestseller
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.BookEntryBinding
 import com.rick.screen_book.gutenberg_screen.provideGlide

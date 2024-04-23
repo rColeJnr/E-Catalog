@@ -1,6 +1,8 @@
 package com.rick.data.anime_favorite.model
 
 import com.rick.data.database_anime.model.AnimeEntity
+import com.rick.data.database_anime.model.AnimeRecentSearchQueryEntity
+import com.rick.data.model_anime.AnimeRecentSearchQuery
 import com.rick.data.network_anime.model.AnimeNetwork
 
 fun AnimeNetwork.asEntity(): AnimeEntity = AnimeEntity(
@@ -26,4 +28,9 @@ fun AnimeNetwork.asEntity(): AnimeEntity = AnimeEntity(
     season = season ?: "",
     year = year ?: 0,
     genres = genres
+)
+
+fun AnimeRecentSearchQueryEntity.asExternalModel() = AnimeRecentSearchQuery(
+    query = query,
+    queriedDate = queriedDate,
 )

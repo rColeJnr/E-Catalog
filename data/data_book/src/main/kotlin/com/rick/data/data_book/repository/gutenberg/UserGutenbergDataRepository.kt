@@ -1,6 +1,6 @@
 package com.rick.data.data_book.repository.gutenberg
 
-import com.rick.data.model_book.GutenbergUserData
+import com.rick.data.model_book.gutenberg.GutenbergUserData
 import kotlinx.coroutines.flow.Flow
 
 interface UserGutenbergDataRepository {

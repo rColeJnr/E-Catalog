@@ -1,0 +1,938 @@
+{
+  "status": "OK",
+  "copyright": "Copyright (c) 2024 The New York Times Company.  All Rights Reserved.",
+  "num_results": 66,
+  "results": [
+    {
+      "url": "http://www.nytimes.com/2011/11/13/books/review/11-22-63-by-stephen-king-book-review.html",
+      "publication_dt": "2011-11-13",
+      "byline": "ERROL MORRIS",
+      "book_title": "11/22/63",
+      "book_author": "Stephen King",
+      "summary": "Stephen King’s time traveler tries to undo some painful history.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780307951434",
+        "9780606351461",
+        "9781442344280",
+        "9781442344303",
+        "9781442391635",
+        "9781444727326",
+        "9781451627282",
+        "9781451627299",
+        "9781451627305",
+        "9781451651645",
+        "9781501120602",
+        "9781594135590"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2011/10/31/books/stephen-kings-11-23-63-review.html",
+      "publication_dt": "2011-10-31",
+      "byline": "JANET MASLIN",
+      "book_title": "11/22/63",
+      "book_author": "Stephen King",
+      "summary": "Stephen King’s latest novel, “11/22/63,” tells of a schoolteacher who travels back to 1958 to alter history, and falls in love as well.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780307951434",
+        "9780606351461",
+        "9781442344280",
+        "9781442344303",
+        "9781442391635",
+        "9781444727326",
+        "9781451627282",
+        "9781451627299",
+        "9781451627305",
+        "9781451651645",
+        "9781501120602",
+        "9781594135590"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2004/01/04/books/the-quest-for-the-north-central-positronics.html",
+      "publication_dt": "2004-01-04",
+      "byline": "ANDREW O'HEHIR",
+      "book_title": "Wolves of the Calla",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781848941137"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1993/10/24/books/in-short-fiction-284093.html",
+      "publication_dt": "1993-10-24",
+      "byline": "RICHARD E. NICHOLLS",
+      "book_title": "Nightmares and Dreamscapes",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781441615299"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2001/11/04/books/books-in-brief-fiction-poetry-851302.html",
+      "publication_dt": "2001-11-04",
+      "byline": "MARY ELIZABETH WILLIAMS",
+      "book_title": "Black House",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780375504396"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1990/05/13/books/armageddon-complete-and-uncut.html",
+      "publication_dt": "1990-05-13",
+      "byline": "ROBERT KIELY",
+      "book_title": "The Stand",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781848940833"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1990/09/02/books/scared-but-safe.html",
+      "publication_dt": "1990-09-02",
+      "byline": "ANDY SOLOMON",
+      "book_title": "Four Past Midnight",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780816151776"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1991/10/20/books/l-defending-stephen-king-075091.html",
+      "publication_dt": "1991-10-20",
+      "byline": "",
+      "book_title": "Needful Things",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781598877427"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1992/06/29/books/books-of-the-times-to-be-read-in-daylight-away-from-hungry-dogs.html",
+      "publication_dt": "1992-06-29",
+      "byline": "CHRISTOPHER LEHMANN-HAUPT",
+      "book_title": "Gerald's Game",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670846504"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2002/04/14/books/the-horror-etc.html",
+      "publication_dt": "2002-04-14",
+      "byline": "WALTER KIRN",
+      "book_title": "Everything's Eventual : 14 Dark Tales",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781439568200"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1986/08/21/books/books-of-the-times-547486.html",
+      "publication_dt": "1986-08-21",
+      "byline": "CHRISTOPHER LEHMANN-HAUPT",
+      "book_title": "It",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780451169518"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2010/11/28/books/review/Rafferty-t.html",
+      "publication_dt": "2010-11-28",
+      "byline": "TERRENCE RAFFERTY",
+      "book_title": "Full Dark, No Stars",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781439192566",
+        "9781439192597",
+        "9781439192603",
+        "9781441677112",
+        "9781442335769",
+        "9781444712582",
+        "9781451650600",
+        "9781602859463"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1998/09/27/books/familiar-terrors.html",
+      "publication_dt": "1998-09-27",
+      "byline": "DANIEL MENDELSOHN",
+      "book_title": "Bag of Bones",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780671026073"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2002/03/18/books/books-of-the-times-storytelling-mogul-decides-to-sweep-out-odds-and-ends.html",
+      "publication_dt": "2002-03-18",
+      "byline": "JANET MASLIN",
+      "book_title": "Everything's Eventual : 14 Dark Tales",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781416537816"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1995/07/02/books/in-short-fiction-077895.html",
+      "publication_dt": "1995-07-02",
+      "byline": "RICHARD E. NICHOLLS",
+      "book_title": "Rose Madder",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781568952611"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2013/09/16/books/doctor-sleep-is-stephen-kings-sequel-to-the-shining.html",
+      "publication_dt": "2013-09-16",
+      "byline": "JANET MASLIN",
+      "book_title": "Doctor Sleep",
+      "book_author": "Stephen King",
+      "summary": "In “Doctor Sleep” Stephen King offers a sequel to “The Shining.”",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781451698855"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2013/09/22/books/review/stephen-kings-shining-sequel-doctor-sleep.html",
+      "publication_dt": "2013-09-22",
+      "byline": "MARGARET ATWOOD",
+      "book_title": "Doctor Sleep",
+      "book_author": "Stephen King",
+      "summary": "“Doctor Sleep” picks up the story of Danny, the little boy with psycho-intuitive powers from Stephen King’s 1977 novel “The Shining.”",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781451698855"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2013/06/23/books/review/joyland-by-stephen-king.html",
+      "publication_dt": "2013-06-23",
+      "byline": "WALTER KIRN",
+      "book_title": "Joyland",
+      "book_author": "Stephen King",
+      "summary": "Stephen King’s lovelorn narrator takes a summer job at a haunted Southern amusement park.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781781162644"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2009/11/08/books/review/JParker-t.html",
+      "publication_dt": "2009-11-08",
+      "byline": "JAMES PARKER",
+      "book_title": "Under the Dome",
+      "book_author": "Stephen King",
+      "summary": "When an enormous transparent dome settles over a small town in Maine in Stephen King’s new novel, it’s just fine with Big Jim, the local tyrant-in-waiting, and his pet goon squad.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781476735474"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2009/11/12/books/12book.html",
+      "publication_dt": "2009-11-12",
+      "byline": "JANET MASLIN",
+      "book_title": "Under the Dome",
+      "book_author": "Stephen King",
+      "summary": "“Under the Dome” gravely threatens Stephen King’s status as a mere chart-busting pop cultural phenomenon.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781476735474"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2014/11/14/books/stephen-kings-revival.html",
+      "publication_dt": "2014-11-14",
+      "byline": "JANET MASLIN",
+      "book_title": "Revival",
+      "book_author": "Stephen King",
+      "summary": "In Stephen King’s “Revival,” a boy is befriended by a charismatic minister with whom he will reconnect in eerie and unsettling ways as an adult.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781410473837",
+        "9781442372764",
+        "9781442372788",
+        "9781476770383",
+        "9781476770390",
+        "9781476770406"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2014/11/23/books/review/stephen-kings-revival.html",
+      "publication_dt": "2014-11-23",
+      "byline": "DANIELLE TRUSSONI",
+      "book_title": "Revival",
+      "book_author": "Stephen King",
+      "summary": "Two men are locked in a battle of wills in Stephen King&#8217;s novel of fanaticism and what might exist on the other side of life.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781410473837",
+        "9781442372764",
+        "9781442372788",
+        "9781476770383",
+        "9781476770390",
+        "9781476770406"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2006/11/12/books/review/Windolf.t.html",
+      "publication_dt": "2006-11-12",
+      "byline": "JIM WINDOLF",
+      "book_title": "Lisey's Story",
+      "book_author": "Stephen King",
+      "summary": "When Stephen King really wants to put a scare into you, he brings on his most fearsome monster of all, the writer.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781416523352"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2008/11/05/books/05masl.html",
+      "publication_dt": "2008-11-05",
+      "byline": "JANET MASLIN",
+      "book_title": "Just After Sunset",
+      "book_author": "Stephen King",
+      "summary": "Everyday situations became open portals to fantasy and horror in Stephen King’s succinct, fast-moving new collection.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781416586654"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2008/11/23/books/review/Taylor-t.html",
+      "publication_dt": "2008-11-23",
+      "byline": "CHARLES TAYLOR",
+      "book_title": "Just After Sunset",
+      "book_author": "Stephen King",
+      "summary": "A new short-story collection takes Stephen King back to the form that gave him his seat-of-the-pants start.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781416586654"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2008/01/21/books/21maslin.html",
+      "publication_dt": "2008-01-21",
+      "byline": "JANET MASLIN",
+      "book_title": "Duma Key",
+      "book_author": "Stephen King",
+      "summary": "Stephen King’s use of horror is not what it used to be. It may still be the impetus for his stories, but it is no longer the foremost reason they’re interesting.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781416552963"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2008/03/02/books/review/Campbell-t.html",
+      "publication_dt": "2008-03-02",
+      "byline": "JAMES CAMPBELL",
+      "book_title": "Duma Key",
+      "book_author": "Stephen King",
+      "summary": "In Stephen King’s new novel, a man recuperating in the Florida Keys begins to paint, with sinister results.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781416552963"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2006/10/23/books/23masl.html",
+      "publication_dt": "2006-10-23",
+      "byline": "JANET MASLIN",
+      "book_title": "Lisey's Story",
+      "book_author": "Stephen King",
+      "summary": "In his new book, Stephen King delivers his version of Joycean wordplay, idiosyncrasy, voluptuousness and stubborn, obsessive chronology.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781416523352"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2014/06/08/books/review/stephen-kings-mr-mercedes.html",
+      "publication_dt": "2014-06-08",
+      "byline": "MEGAN ABBOTT",
+      "book_title": "Mr. Mercedes",
+      "book_author": "Stephen King",
+      "summary": "With one eye on Philip Marlowe, Stephen King takes a crack at the detective novel.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781410469007",
+        "9781442369788",
+        "9781442371347",
+        "9781442395404",
+        "9781476754451",
+        "9781476754468",
+        "9781476754475",
+        "9781501125607"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1981/05/10/books/scare-tactics.html",
+      "publication_dt": "1981-05-10",
+      "byline": "MICHELE SLUNG",
+      "book_title": "Stephen King's Danse Macabre",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780896960763"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1981/08/14/books/books-of-the-times-books-of-the-times.html",
+      "publication_dt": "1981-08-14",
+      "byline": "",
+      "book_title": "Cujo",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670451937"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1982/08/11/books/books-of-the-times-074639.html",
+      "publication_dt": "1982-08-11",
+      "byline": "",
+      "book_title": "Different Seasons",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670272662"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1982/08/29/books/horror-writer-s-holiday.html",
+      "publication_dt": "1982-08-29",
+      "byline": "ALAN CHEUSE",
+      "book_title": "Different Seasons",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670272662"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1983/04/03/books/the-other-woman-was-a-car.html",
+      "publication_dt": "1983-04-03",
+      "byline": "PHILLIPE VAN RJNDT",
+      "book_title": "Christine",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670220267"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1983/04/12/books/books-of-the-times-093019.html",
+      "publication_dt": "1983-04-12",
+      "byline": "",
+      "book_title": "Christine",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670220267"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1983/10/21/books/books-of-the-times-243538.html",
+      "publication_dt": "1983-10-21",
+      "byline": "",
+      "book_title": "Pet Sematary",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780385182447"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1985/06/09/books/don-t-turn-your-back-on-this-book.html",
+      "publication_dt": "1985-06-09",
+      "byline": "SUSAN BOLOTIN",
+      "book_title": "Skeleton Crew",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "url": "http://www.nytimes.com/1987/02/22/books/what-the-wicked-magician-did.html",
+      "publication_dt": "1987-02-22",
+      "byline": "BARBARA TRITEL",
+      "book_title": "The Eyes of the Dragon",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "url": "http://www.nytimes.com/1987/05/31/books/summer-reading-sheldon-gets-the-ax.html",
+      "publication_dt": "1987-05-31",
+      "byline": "JOHN KATZENBACH",
+      "book_title": "Misery",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670813643"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1987/06/08/books/books-of-the-times-301987.html",
+      "publication_dt": "1987-06-08",
+      "byline": "",
+      "book_title": "Misery",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670813643"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1987/11/05/books/books-of-the-times-950387.html",
+      "publication_dt": "1987-11-05",
+      "byline": "",
+      "book_title": "The Tommyknockers",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780399133145"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1987/12/20/books/not-with-a-bang-but-an-eeeooooarrrhmm.html",
+      "publication_dt": "1987-12-20",
+      "byline": "NINA AUERBACH",
+      "book_title": "The Tommyknockers",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780399133145"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1989/10/23/books/books-of-the-times-from-stephen-king-a-writer-s-demon.html",
+      "publication_dt": "1989-10-23",
+      "byline": "",
+      "book_title": "The Dark Half",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "url": "http://www.nytimes.com/1989/10/29/books/his-alter-ego-is-a-killer.html",
+      "publication_dt": "1989-10-29",
+      "byline": "GEORGE STADE",
+      "book_title": "The Dark Half",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "url": "http://www.nytimes.com/1991/09/29/books/avaunt-thee-recreant-cyborg.html",
+      "publication_dt": "1991-09-29",
+      "byline": "RICHARD E. NICHOLLS",
+      "book_title": "The Waste Lands: The Dark Tower Book III",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780452267404"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1991/10/03/books/books-of-the-times-turning-favors-into-catastrophe.html",
+      "publication_dt": "1991-10-03",
+      "byline": "",
+      "book_title": "Needful Things: The Last Castle Rock Story",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670839537"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1994/10/06/books/books-of-the-times-lack-of-sleep-the-least-of-his-problems.html",
+      "publication_dt": "1994-10-06",
+      "byline": "",
+      "book_title": "Insomnia,Stephen King Library Ed.",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670855032"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1995/06/26/books/book-review-a-punch-in-the-nose-then-a-new-life-begins.html",
+      "publication_dt": "1995-06-26",
+      "byline": "",
+      "book_title": "Rose Madder",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780670858699"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1998/09/21/books/books-of-the-times-death-terror-and-writer-s-block.html",
+      "publication_dt": "1998-09-21",
+      "byline": "",
+      "book_title": "Bag of Bones",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780684853505"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1999/04/15/books/books-of-the-times-a-modern-fairy-tale-of-the-dark-north-woods.html",
+      "publication_dt": "1999-04-15",
+      "byline": "",
+      "book_title": "The Girl Who Loved Tom Gordon : A Novel",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780684867625"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/1999/05/16/books/books-in-brief-fiction-583618.html",
+      "publication_dt": "1999-05-16",
+      "byline": "ANDREW ESSEX",
+      "book_title": "The Girl Who Loved Tom Gordon : A Novel",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780684867625"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2000/10/05/books/books-of-the-times-how-to-write-if-you-re-stephen-king.html",
+      "publication_dt": "2000-10-05",
+      "byline": "JANET MASLIN",
+      "book_title": "On Writing:  a Memoir of the Craft",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780606222549",
+        "9780606231862",
+        "9780671024253",
+        "9780684853529",
+        "9780743204361",
+        "9780743211536",
+        "9780743455961",
+        "9780743563376",
+        "9781416549864",
+        "9781417647019",
+        "9781439156810",
+        "9781439193631",
+        "9781441658869",
+        "9781444723250",
+        "9781848941083",
+        "9781931208048"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2000/10/08/books/making-it.html",
+      "publication_dt": "2000-10-08",
+      "byline": "FREDERICK BUSCH",
+      "book_title": "On Writing:  a Memoir of the Craft",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780606222549",
+        "9780606231862",
+        "9780671024253",
+        "9780684853529",
+        "9780743204361",
+        "9780743211536",
+        "9780743455961",
+        "9780743563376",
+        "9781416549864",
+        "9781417647019",
+        "9781439156810",
+        "9781439193631",
+        "9781441658869",
+        "9781444723250",
+        "9781848941083",
+        "9781931208048"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2001/03/15/books/books-of-the-times-a-fateful-step-off-a-curb-and-into-alien-territory.html",
+      "publication_dt": "2001-03-15",
+      "byline": "JANET MASLIN",
+      "book_title": "Dreamcatcher",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780743211383"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2001/04/15/books/weasel-from-another-planet.html",
+      "publication_dt": "2001-04-15",
+      "byline": "COLIN HARRISON",
+      "book_title": "Dreamcatcher",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780743211383"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2002/09/23/books/books-of-the-times-cruising-the-dark-side-forget-about-seat-belts.html",
+      "publication_dt": "2002-09-23",
+      "byline": "JANET MASLIN",
+      "book_title": "From a Buick 8",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780743211376"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2002/09/29/books/not-your-father-s-roadmaster.html",
+      "publication_dt": "2002-09-29",
+      "byline": "LAURA MILLER",
+      "book_title": "From a Buick 8",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780743211376"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2004/06/20/books/books-in-brief-fiction-937851.html",
+      "publication_dt": "2004-06-20",
+      "byline": "BEN SISARIO",
+      "book_title": "The Dark Tower VI",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781880418598"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2006/01/23/books/23masl.html",
+      "publication_dt": "2006-01-23",
+      "byline": "JANET MASLIN",
+      "book_title": "Cell",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780743292337"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2006/02/05/books/review/05itzkoff.html",
+      "publication_dt": "2006-02-05",
+      "byline": "DAVE ITZKOFF",
+      "book_title": "Cell",
+      "book_author": "Stephen King",
+      "summary": "",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9780743292337"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2015/05/31/books/review/stephen-kings-finders-keepers.html",
+      "publication_dt": "2015-05-31",
+      "byline": "LAURA LIPPMAN",
+      "book_title": "Finders Keepers",
+      "book_author": "Stephen King",
+      "summary": "Laura Lippman reviews Stephen King’s “Finders Keepers,” the second entry in a planned trilogy that began with “Mr. Mercedes.”",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781410479501",
+        "9781442384347",
+        "9781501100079",
+        "9781501100123",
+        "9781501100130",
+        "9781594138522"
+      ]
+    },
+    {
+      "url": "http://www.nytimes.com/2016/06/12/books/review/stephen-kings-end-of-watch.html",
+      "publication_dt": "2016-06-12",
+      "byline": "DENISE MINA",
+      "book_title": "End of Watch",
+      "book_author": "Stephen King",
+      "summary": "A retired police detective sees the return of his nemesis in this suspense story with a supernatural twist.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781410489906",
+        "9781501129742",
+        "9781501134142",
+        "9781501134159",
+        "9781508211358"
+      ]
+    },
+    {
+      "url": "https://www.nytimes.com/2018/05/22/books/review/outsider-stephen-king.html",
+      "publication_dt": "2018-05-22",
+      "byline": "VICTOR LAVALLE",
+      "book_title": "The Outsider",
+      "book_author": "Stephen King",
+      "summary": "“The Outsider” starts out as a routine police procedural but before long transforms into something much more sinister.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781501180989"
+      ]
+    },
+    {
+      "url": "https://www.nytimes.com/2018/10/26/books/review/stephen-king-elevation.html",
+      "publication_dt": "2018-10-26",
+      "byline": "GILBERT CRUZ",
+      "book_title": "Elevation",
+      "book_author": "Stephen King",
+      "summary": "King’s slim new novel, “Elevation,” returns us to Castle Rock, where prejudice drives a plot that blends the fantastical with the mundane.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781982102319"
+      ]
+    },
+    {
+      "url": "https://www.nytimes.com/2019/09/08/books/review-institute-stephen-king.html",
+      "publication_dt": "2019-09-08",
+      "byline": "DWIGHT GARNER",
+      "book_title": "The Institute",
+      "book_author": "Stephen King",
+      "summary": "In his latest, King tells the story of an institution where children with special powers are cultivated — but that’s just where the nightmare begins.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781982110567"
+      ]
+    },
+    {
+      "url": "https://www.nytimes.com/2019/09/10/books/review/stephen-king-the-institute.html",
+      "publication_dt": "2019-09-10",
+      "byline": "LAURA MILLER",
+      "book_title": "The Institute",
+      "book_author": "Stephen King",
+      "summary": "The terror doesn’t come from ghosts or fiends or clowns — it’s ordinary people, folks just like you and me, who are the evil ones.",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "uri": "nyt://book/00000000-0000-0000-0000-000000000000",
+      "isbn13": [
+        "9781982110567"
+      ]
+    }
+  ]
+}

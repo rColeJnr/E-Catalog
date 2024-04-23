@@ -17,7 +17,7 @@
             <item
                 android:id="@+id/book_favorite_graph"
                 android:icon="@drawable/anime_screen_anime_fav_filled_icon"
-                android:title="@string/anime_screen_anime_favorite" />
+                android:title="@string/favorites" />
         </menu>
     </item>
 
@@ -41,7 +41,7 @@
             <item
                 android:id="@+id/moving_pictures_favorites_graph"
                 android:icon="@drawable/anime_screen_anime_fav_filled_icon"
-                android:title="@string/anime_screen_anime_favorite" />
+                android:title="@string/favorites" />
         </menu>
     </item>
 
@@ -60,7 +60,7 @@
             <item
                 android:id="@+id/animation_favorite_graph"
                 android:icon="@drawable/anime_screen_anime_fav_filled_icon"
-                android:title="@string/anime_screen_anime_favorite" />
+                android:title="@string/favorites" />
         </menu>
     </item>
 

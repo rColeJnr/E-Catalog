@@ -3,10 +3,10 @@ package com.rick.screen_anime.favorite_screen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rick.data.anime_favorite.repository.UserAnimeDataRepository
-import com.rick.data.anime_favorite.repository.UserAnimeRepository
-import com.rick.data.anime_favorite.repository.UserMangaDataRepository
-import com.rick.data.anime_favorite.repository.UserMangaRepository
+import com.rick.data.anime_favorite.repository.anime.UserAnimeDataRepository
+import com.rick.data.anime_favorite.repository.anime.UserAnimeRepository
+import com.rick.data.anime_favorite.repository.manga.UserMangaDataRepository
+import com.rick.data.anime_favorite.repository.manga.UserMangaRepository
 import com.rick.data.model_anime.FavoriteUiEvents
 import com.rick.data.model_anime.FavoriteUiState
 import com.rick.data.model_anime.UserAnime

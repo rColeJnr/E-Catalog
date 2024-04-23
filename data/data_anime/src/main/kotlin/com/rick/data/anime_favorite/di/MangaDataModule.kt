@@ -1,9 +1,9 @@
 package com.rick.data.anime_favorite.di
 
-import com.rick.data.anime_favorite.repository.MangaRepository
-import com.rick.data.anime_favorite.repository.MangaRepositoryImpl
-import com.rick.data.anime_favorite.repository.UserMangaDataRepository
-import com.rick.data.anime_favorite.repository.UserMangaDataRepositoryImpl
+import com.rick.data.anime_favorite.repository.manga.MangaRepository
+import com.rick.data.anime_favorite.repository.manga.MangaRepositoryImpl
+import com.rick.data.anime_favorite.repository.manga.UserMangaDataRepository
+import com.rick.data.anime_favorite.repository.manga.UserMangaDataRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

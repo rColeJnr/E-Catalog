@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.rick.data.model_book.UserGutenberg
 import com.rick.data.model_book.gutenberg.Formats
+import com.rick.data.model_book.gutenberg.UserGutenberg
 
 class BookCatalogAdapter(
     private val onItemClick: (view: View, formats: Formats) -> Unit,

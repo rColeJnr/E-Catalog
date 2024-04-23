@@ -1,7 +1,7 @@
 package com.rick.data.data_book.repository.bestseller
 
 import com.rick.data.datastore.PreferencesDataSource
-import com.rick.data.model_book.BestsellerUserData
+import com.rick.data.model_book.bestseller.BestsellerUserData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

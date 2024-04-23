@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.rick.data.model_book.UserGutenberg
 import com.rick.data.model_book.gutenberg.Formats
+import com.rick.data.model_book.gutenberg.UserGutenberg
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.BookEntryBinding
 

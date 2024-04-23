@@ -12,8 +12,8 @@ import com.rick.data.data_book.repository.gutenberg.UserGutenbergDataRepository
 import com.rick.data.data_book.repository.gutenberg.UserGutenbergRepository
 import com.rick.data.model_book.FavoriteUiEvents
 import com.rick.data.model_book.FavoriteUiState
-import com.rick.data.model_book.UserBestseller
-import com.rick.data.model_book.UserGutenberg
+import com.rick.data.model_book.bestseller.UserBestseller
+import com.rick.data.model_book.gutenberg.UserGutenberg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
