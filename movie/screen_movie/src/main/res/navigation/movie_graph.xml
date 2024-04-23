@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movieCatalogFragment"
-        android:name="com.rick.screen_movie.nymovie_screen.MovieCatalogFragment">
+        android:name="com.rick.screen_movie.article_screen.ArticleFragment">
         <action
             android:id="@+id/action_movieCatalogFragment_to_searchFragment"
             app:destination="@id/searchFragment" />

@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.rick.data_anime.JikanRepository
-import com.rick.data_anime.favorite.JikanFavorite
-import com.rick.data_anime.model_jikan.Jikan
-import com.rick.screen_anime.favorite_screen.JikanEvents
+import com.rick.data.anime_favorite.repository.CompositeMangaRepository
+import com.rick.data.anime_favorite.repository.UserMangaDataRepository
+import com.rick.data.model_anime.UserManga
+import com.rick.screen_anime.anime_screen.JikanUiEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -16,28 +16,34 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MangaCatalogViewModel @Inject constructor(
-    private val repo: JikanRepository
+    private val userDataRepository: UserMangaDataRepository,
+    private val compositeMangaRepository: CompositeMangaRepository
 ) : ViewModel() {
 
-    val pagingDataFlow: Flow<PagingData<Jikan>>
+    val pagingDataFlow: Flow<PagingData<UserManga>>
 
     init {
-
         pagingDataFlow = fetchManga().cachedIn(viewModelScope)
     }
 
-    private fun fetchManga(): Flow<PagingData<Jikan>> =
-        repo.fetchManga()
+    private fun fetchManga(): Flow<PagingData<UserManga>> =
+        compositeMangaRepository.observeManga(viewModelScope)
 
-    fun onEvent(event: JikanEvents) {
+    fun onEvent(event: JikanUiEvents) {
         when (event) {
-            is JikanEvents.ShouldInsertFavorite -> insertFavorite(favorite = event.fav)
+            is JikanUiEvents.UpdateMangaFavorite -> updateMangaFavorite(
+                id = event.id,
+                event.isFavorite
+            )
+
             else -> {}
         }
     }
 
-    private fun insertFavorite(favorite: JikanFavorite) {
-        viewModelScope.launch(Dispatchers.IO) { repo.insertFavorite(favorite = favorite) }
+    private fun updateMangaFavorite(id: Int, isFavorite: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDataRepository.setMangaFavoriteId(id, isFavorite)
+        }
     }
 
 }

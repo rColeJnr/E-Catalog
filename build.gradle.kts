@@ -1,17 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    dependencies {
-//        classpath(Nav.navPlugin)
-//        classpath Hilt.hiltPlugin
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-//        classpath 'com.google.gms:google-services:4.3.3'
-    }
+//    dependencies {
+////        classpath(Nav.navPlugin)
+////        classpath Hilt.hiltPlugin
+////        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+////        classpath("com.google.gms:google-services:4.3.3")
+//    }
     repositories {
         google()
         mavenCentral()
 
 //        Android Build Server
-        maven { url = uri("../ecatalogs-prebuilts/m2repository") }
+
     }
 }
 
@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.baselineprofile) apply false
     alias(libs.plugins.dependencyGuard) apply false
     alias(libs.plugins.kotlin.jvm) apply false
-//    alias(libs.plugins.kotlin.se) apply false // i use parcelize,
+    alias(libs.plugins.kotlin.serialization) apply false // i use parcelize,
     alias(libs.plugins.gms) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
@@ -40,3 +40,5 @@ tasks.register("printModulePaths") {
         }
     }
 }
+
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))

@@ -1,5 +1,6 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
+import com.rick.configureFlavors
 import com.rick.configureKotlinAndroid
 import com.rick.disableUnnecessaryAndroidTests
 import org.gradle.api.Plugin
@@ -21,6 +22,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 34
                 testOptions.animationsDisabled = true
+                configureFlavors(this)
+//                configureGradleManagedDevices(this)
                 // The resource prefix is derived from the module name,
                 // so resources inside ":core:module1" must be prefixed with "core_module1_"
                 resourcePrefix =

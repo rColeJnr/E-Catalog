@@ -12,17 +12,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("ecatalogs.android.library")
                 apply("ecatalogs.android.hilt")
                 apply("ecatalogs.android.navigation")
-                apply("ecatalogs.android.library.jacoco")
-                apply("com.google.devtools.ksp")
             }
 
             extensions.configure<LibraryExtension> {
                 defaultConfig {
                     testInstrumentationRunner =
                         "com.rick.data.testing.EcsTestRunner"
-                }
-                buildFeatures {
-                    viewBinding = true
                 }
                 ndkVersion = "25.1.8937393"
                 testOptions.animationsDisabled = true

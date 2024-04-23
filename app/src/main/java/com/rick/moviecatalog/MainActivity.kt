@@ -13,6 +13,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.FirebaseApp
 import com.rick.moviecatalog.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        FirebaseApp.initializeApp(this)
         installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -61,7 +63,8 @@ class MainActivity : AppCompatActivity() {
             navController,
             appBarConfiguration
         )
-        toolbar.navigationIcon = ResourcesCompat.getDrawable(resources, R.drawable.menu_icon, null)
+        toolbar.navigationIcon =
+            ResourcesCompat.getDrawable(resources, R.drawable.menu_icon, null)
 
         binding.navView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -69,14 +72,14 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Activity toolbar or Fragment toolbar
             toolbar.visibility = if (
-                //Movie screen
+            //Movie screen
                 destination.id == com.rick.screen_movie.R.id.seriesSearchFragment
                 || destination.id == com.rick.screen_movie.R.id.movieDetailsFragment
                 || destination.id == com.rick.screen_movie.R.id.tvDetailsFragment
                 || destination.id == com.rick.screen_movie.R.id.searchFragment
                 || destination.id == com.rick.screen_movie.R.id.moving_pictures_favorites_graph
 
-                //Book screen
+                //Book screen≈
                 || destination.id == com.rick.screen_book.R.id.bookDetailsFragment
                 || destination.id == com.rick.screen_book.R.id.bookSearchFragment
                 || destination.id == com.rick.screen_book.R.id.book_favorite_graph
@@ -109,9 +112,9 @@ class MainActivity : AppCompatActivity() {
                 com.rick.screen_book.R.id.bookFavoritesFragment -> getString(com.rick.screen_book.R.string.fav_book)
 
                 //Anime screen
-                com.rick.screen_anime.R.id.animeCatalogFragment -> getString(R.string.anime)
-                com.rick.screen_anime.R.id.mangaCatalogFragment -> getString(R.string.manga)
-                com.rick.screen_anime.R.id.jikanFavoriteFragment -> getString(com.rick.screen_anime.R.string.jikan_fav)
+                com.rick.screen_anime.R.id.animeCatalogFragment -> getString(R.string.anime_screen_anime_anime)
+                com.rick.screen_anime.R.id.mangaCatalogFragment -> getString(R.string.anime_screen_anime_manga)
+                com.rick.screen_anime.R.id.jikanFavoriteFragment -> getString(com.rick.screen_anime.R.string.anime_screen_anime_jikan_fav)
                 else -> getString(com.rick.moviecatalog.R.string.empty)
             }
         }

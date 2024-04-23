@@ -5,24 +5,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data_anime.favorite.JikanFavorite
-import com.rick.data_anime.model_jikan.Jikan
-import com.rick.screen_anime.JikanViewHolder
+import com.rick.data.model_anime.UserAnime
+import com.rick.screen_anime.anime_screen.AnimeViewHolder
 
 class SearchJikanAdapter(
-    private val onItemClick: (view: View, jikan: Jikan) -> Unit,
-    private val onFavClick: (favorite: JikanFavorite) -> Unit
-): RecyclerView.Adapter<JikanViewHolder>() {
+    private val onItemClick: (view: View, jikan: UserAnime) -> Unit,
+    private val onFavClick: (Int, Boolean) -> Unit,
+) : RecyclerView.Adapter<AnimeViewHolder>() {
 
     val differ = AsyncListDiffer(this, DIFF_UTIL)
 
-    override fun onBindViewHolder(holder: JikanViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val jikan = differ.currentList[position]
         holder.bind(jikan)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JikanViewHolder {
-        return JikanViewHolder.create(parent, onItemClick, onFavClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
+        return AnimeViewHolder.create(
+            parent,
+            onItemClick,
+            onFavClick,
+        )
     }
 
     override fun getItemCount(): Int {
@@ -30,12 +33,12 @@ class SearchJikanAdapter(
     }
 
     companion object {
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Jikan>() {
-            override fun areItemsTheSame(oldItem: Jikan, newItem: Jikan): Boolean {
-                return oldItem.malId == newItem.malId
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<UserAnime>() {
+            override fun areItemsTheSame(oldItem: UserAnime, newItem: UserAnime): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Jikan, newItem: Jikan): Boolean {
+            override fun areContentsTheSame(oldItem: UserAnime, newItem: UserAnime): Boolean {
                 return oldItem == newItem
             }
         }

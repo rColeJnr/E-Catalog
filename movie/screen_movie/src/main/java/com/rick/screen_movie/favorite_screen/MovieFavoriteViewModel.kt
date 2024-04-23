@@ -1,139 +1,170 @@
 package com.rick.screen_movie.favorite_screen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rick.core.Resource
-import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.favorite.Favorite
+import com.rick.data.model_movie.FavoriteUiEvents
+import com.rick.data.model_movie.FavoriteUiState
+import com.rick.data.model_movie.UserArticle
+import com.rick.data.model_movie.UserTrendingMovie
+import com.rick.data.model_movie.UserTrendingSeries
+import com.rick.data.movie_favorite.repository.article.UserArticleDataRepository
+import com.rick.data.movie_favorite.repository.article.UserArticlesRepository
+import com.rick.data.movie_favorite.repository.trending_movie.UserTrendingMovieDataRepository
+import com.rick.data.movie_favorite.repository.trending_movie.UserTrendingMovieRepository
+import com.rick.data.movie_favorite.repository.trending_series.UserTrendingSeriesDataRepository
+import com.rick.data.movie_favorite.repository.trending_series.UserTrendingSeriesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//TODO FAVORITE
 @HiltViewModel
 class MovieFavoriteViewModel @Inject constructor(
-    private val repo: MovieCatalogRepository
+    private val userTrendingMovieDataRepository: UserTrendingMovieDataRepository,
+    private val userTrendingSeriesDataRepository: UserTrendingSeriesDataRepository,
+    private val userArticleDataRepository: UserArticleDataRepository,
+    userArticlesRepository: UserArticlesRepository,
+    userTrendingMovieRepository: UserTrendingMovieRepository,
+    userTrendingSeriesRepository: UserTrendingSeriesRepository,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _movies = MutableLiveData<List<Favorite>>()
-    val movie: LiveData<List<Favorite>> get() = _movies
+    val showArticles = savedStateHandle.getStateFlow(SHOW_ARTICLES, false)
 
-    private val _loadingMovies = MutableLiveData<Boolean>()
-    val loadingMovies: LiveData<Boolean> get() = _loadingMovies
+    val showMovies = savedStateHandle.getStateFlow(SHOW_MOVIES, false)
 
-    private val _nyMovies = MutableLiveData<List<Favorite>>()
-    val nyMovie: LiveData<List<Favorite>> get() = _nyMovies
+    val showSeries = savedStateHandle.getStateFlow(SHOW_SERIES, false)
 
-    private val _loadingNyMovies = MutableLiveData<Boolean>()
-    val loadingNyMovies: LiveData<Boolean> get() = _loadingNyMovies
+    val shouldDisplayUndoArticleFavorite = MutableStateFlow(false)
+    val shouldDisplayUndoMovieFavorite = MutableStateFlow(false)
+    val shouldDisplayUndoSeriesFavorite = MutableStateFlow(false)
+    private var lastRemovedFavorite: Int? = null
+    private var lastRemovedArticleFavorite: Long? = null
 
-    private val _series = MutableLiveData<List<Favorite>>()
-    val series: LiveData<List<Favorite>> get() = _series
+    val feedTrendingMovieUiState: StateFlow<FavoriteUiState> =
+        userTrendingMovieRepository.observeTrendingMovieFavorite()
+            .map<List<UserTrendingMovie>, FavoriteUiState>(FavoriteUiState::TrendingMoviesFavorites)
+            .onStart { emit(FavoriteUiState.Loading) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = FavoriteUiState.Loading
+            )
 
-    private val _loadingSeries = MutableLiveData<Boolean>()
-    val loadingSeries: LiveData<Boolean> get() = _loadingSeries
+    val feedTrendingSeriesUiState: StateFlow<FavoriteUiState> =
+        userTrendingSeriesRepository.observeTrendingSeriesFavorite()
+            .map<List<UserTrendingSeries>, FavoriteUiState>(FavoriteUiState::TrendingSeriesFavorites)
+            .onStart { emit(FavoriteUiState.Loading) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = FavoriteUiState.Loading
+            )
 
-    var showArticles = MutableStateFlow(false)
-        private set
-    var showMovies = MutableStateFlow(false)
-        private set
-    var showSeries = MutableStateFlow(false)
-        private set
+    val feedArticlesUiState: StateFlow<FavoriteUiState> =
+        userArticlesRepository.observeArticleFavorite()
+            .map<List<UserArticle>, FavoriteUiState>(FavoriteUiState::ArticlesFavorites)
+            .onStart { emit(FavoriteUiState.Loading) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = FavoriteUiState.Loading
+            )
 
-    init {
-        getFavorites()
-    }
-
-    private fun getFavorites() {
-        viewModelScope.launch {
-            repo.getFavoriteMovies().collect { result ->
-                when (result) {
-                    is Resource.Loading -> {
-                        _loadingMovies.value = result.isLoading
-                    }
-
-                    is Resource.Success -> {
-                        _movies.value = result.data!!
-                    }
-
-                    else -> {}
-                }
-            }
-
-            repo.getFavoriteSeries().collect { result ->
-                when (result) {
-                    is Resource.Loading -> {
-                        _loadingSeries.value = result.isLoading
-                    }
-
-                    is Resource.Success -> {
-                        _series.value = result.data!!
-                    }
-
-                    else -> {}
-                }
-            }
-
-            repo.getFavoriteNyMovies().collect { result ->
-                when (result) {
-                    is Resource.Loading -> {
-                        _loadingNyMovies.value = result.isLoading
-                    }
-
-                    is Resource.Success -> {
-                        _nyMovies.value = result.data!!
-                    }
-
-                    else -> {}
-                }
-            }
-        }
-    }
-
-    fun onEvent(event: UiEvents) {
+    fun onEvent(event: FavoriteUiEvents) {
         when (event) {
-            is UiEvents.ShouldInsertFavorite -> shouldInsertFavorite(event.fav)
-            is UiEvents.DeleteFavorite -> deleteFavorite(event.fav)
-            UiEvents.ShouldShowArticles -> shouldShowArticles()
-            UiEvents.ShouldShowMovies -> shouldShowMovies()
-            UiEvents.ShouldShowSeries -> shouldShowSeries()
+            is FavoriteUiEvents.ShouldShowArticles -> shouldShowArticles(event.show)
+            is FavoriteUiEvents.ShouldShowMovies -> shouldShowMovies(event.show)
+            is FavoriteUiEvents.ShouldShowSeries -> shouldShowSeries(event.show)
+            is FavoriteUiEvents.RemoveArticleFavorite -> removeArticleFavorite(event.articleId)
+            is FavoriteUiEvents.RemoveTrendingSeriesFavorite -> removeTrendingSeriesFavorite(event.seriesId)
+            is FavoriteUiEvents.RemoveTrendingMovieFavorite -> removeTrendingMovieFavorite(event.movieId)
+            FavoriteUiEvents.UndoArticleFavoriteRemoval -> undoArticleFavoriteRemoval()
+            FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval -> undoTrendingSeriesFavoriteRemoval()
+            FavoriteUiEvents.UndoTrendingMovieFavoriteRemoval -> undoTrendingMovieFavoriteRemoval()
+            FavoriteUiEvents.ClearUndoState -> clearUndoState()
         }
     }
 
-    private fun shouldInsertFavorite(fav: Favorite) {
+    private fun undoTrendingMovieFavoriteRemoval() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertFavorite(fav)
+            lastRemovedFavorite?.let {
+                userTrendingMovieDataRepository.setTrendingMovieFavoriteId(it, true)
+            }
         }
+//        clearUndoState()
     }
 
-    private fun deleteFavorite(fav: Favorite) {
+    private fun undoTrendingSeriesFavoriteRemoval() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.removeFavorite(fav)
+            lastRemovedFavorite?.let {
+                userTrendingSeriesDataRepository.setTrendingSeriesFavoriteId(it, true)
+            }
+        }
+//        clearUndoState()
+    }
+
+    private fun undoArticleFavoriteRemoval() {
+        viewModelScope.launch(Dispatchers.IO) {
+            lastRemovedArticleFavorite?.let {
+                userArticleDataRepository.setNyTimesArticleFavoriteId(it, true)
+            }
+        }
+//        clearUndoState()
+    }
+
+    private fun removeTrendingMovieFavorite(movieId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            shouldDisplayUndoMovieFavorite.value = true
+            lastRemovedFavorite = movieId
+            userTrendingMovieDataRepository.setTrendingMovieFavoriteId(movieId, false)
         }
     }
 
-    private fun shouldShowArticles() {
-        showArticles.value = !showArticles.value
+    private fun removeTrendingSeriesFavorite(seriesId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            shouldDisplayUndoSeriesFavorite.value = true
+            lastRemovedFavorite = seriesId
+            userTrendingSeriesDataRepository.setTrendingSeriesFavoriteId(seriesId, false)
+        }
     }
 
-    private fun shouldShowMovies() {
-        showMovies.value = !showMovies.value
+    private fun removeArticleFavorite(articleId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            shouldDisplayUndoArticleFavorite.value = true
+            lastRemovedArticleFavorite = articleId
+            userArticleDataRepository.setNyTimesArticleFavoriteId(articleId, false)
+        }
     }
 
-    private fun shouldShowSeries() {
-        showSeries.value = !showSeries.value
+    private fun shouldShowArticles(show: Boolean) {
+        savedStateHandle[SHOW_ARTICLES] = show
     }
 
+    private fun shouldShowMovies(show: Boolean) {
+        savedStateHandle[SHOW_MOVIES] = show
+    }
+
+    private fun shouldShowSeries(show: Boolean) {
+        savedStateHandle[SHOW_SERIES] = show
+    }
+
+    private fun clearUndoState() {
+        shouldDisplayUndoArticleFavorite.value = false
+        shouldDisplayUndoMovieFavorite.value = false
+        shouldDisplayUndoSeriesFavorite.value = false
+        lastRemovedFavorite = null
+        lastRemovedArticleFavorite = null
+    }
 }
 
-sealed class UiEvents {
-    data class ShouldInsertFavorite(val fav: Favorite) : UiEvents()
-    data class DeleteFavorite(val fav: Favorite) : UiEvents()
-    object ShouldShowArticles: UiEvents()
-    object ShouldShowMovies: UiEvents()
-    object ShouldShowSeries: UiEvents()
-}
+private const val SHOW_ARTICLES = "showArticles"
+private const val SHOW_MOVIES = "showMovies"
+private const val SHOW_SERIES = "showSeries"

@@ -23,7 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_movie.tmdb.search.Search
+import com.rick.data.model_movie.tmdb.search.Search
 import com.rick.screen_movie.R
 import com.rick.screen_movie.databinding.FragmentSearchBinding
 import com.rick.screen_movie.databinding.MovieEntryBinding
@@ -213,7 +213,7 @@ class SearchFragment : Fragment() {
     }
 
     //TODO (REMOVE .toString())
-    private fun onMovieClick(view: View, movie: Search) {
+    private fun onMovieClick(view: View, movie: com.rick.data.model_movie.tmdb.search.Search) {
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
@@ -231,7 +231,7 @@ class SearchFragment : Fragment() {
         findNavController().navigate(directions = action, navigatorExtras = extras)
     }
 
-    private fun onFavClick(favorite: Search) {
+    private fun onFavClick(favorite: com.rick.data.model_movie.tmdb.search.Search) {
         viewModel.onEvent(SearchUiEvent.InsertFavorite(favorite))
     }
 
@@ -242,21 +242,21 @@ class SearchFragment : Fragment() {
 }
 
 class SearchAdapter(
-    private val onItemClicked: (view: View, movie: Search) -> Unit,
-    private val onFavClicked: (favorite: Search) -> Unit
+    private val onItemClicked: (view: View, movie: com.rick.data.model_movie.tmdb.search.Search) -> Unit,
+    private val onFavClicked: (favorite: com.rick.data.model_movie.tmdb.search.Search) -> Unit
 ) : RecyclerView.Adapter<SearchViewHolder>() {
 
-    private val searchDiffUtil = object : DiffUtil.ItemCallback<Search>() {
+    private val searchDiffUtil = object : DiffUtil.ItemCallback<com.rick.data.model_movie.tmdb.search.Search>() {
         override fun areItemsTheSame(
-            oldItem: Search,
-            newItem: Search
+            oldItem: com.rick.data.model_movie.tmdb.search.Search,
+            newItem: com.rick.data.model_movie.tmdb.search.Search
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: Search,
-            newItem: Search
+            oldItem: com.rick.data.model_movie.tmdb.search.Search,
+            newItem: com.rick.data.model_movie.tmdb.search.Search
         ): Boolean {
             return oldItem == newItem
         }
@@ -279,8 +279,8 @@ class SearchAdapter(
 
 class SearchViewHolder(
     binding: MovieEntryBinding,
-    private val onItemClicked: (view: View, movie: Search) -> Unit,
-    private val onFavClicked: (favorite: Search) -> Unit
+    private val onItemClicked: (view: View, movie: com.rick.data.model_movie.tmdb.search.Search) -> Unit,
+    private val onFavClicked: (favorite: com.rick.data.model_movie.tmdb.search.Search) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
@@ -296,9 +296,9 @@ class SearchViewHolder(
         }
     }
 
-    private lateinit var result: Search
+    private lateinit var result: com.rick.data.model_movie.tmdb.search.Search
 
-    fun bind(searchResult: Search) {
+    fun bind(searchResult: com.rick.data.model_movie.tmdb.search.Search) {
         this.rootLayout.transitionName = "search ${searchResult.id}"
         this.result = searchResult
         this.title.text = searchResult.title
@@ -314,8 +314,8 @@ class SearchViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClicked: (view: View, movie: Search) -> Unit,
-            onFavClicked: (favorite: Search) -> Unit
+            onItemClicked: (view: View, movie: com.rick.data.model_movie.tmdb.search.Search) -> Unit,
+            onFavClicked: (favorite: com.rick.data.model_movie.tmdb.search.Search) -> Unit
         ): SearchViewHolder {
             val itemBinding = MovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)

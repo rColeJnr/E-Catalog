@@ -1,108 +1,118 @@
 package com.rick.screen_anime.favorite_screen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rick.core.Resource
-import com.rick.data_anime.JikanRepository
-import com.rick.data_anime.favorite.JikanFavorite
+import com.rick.data.anime_favorite.repository.UserAnimeDataRepository
+import com.rick.data.anime_favorite.repository.UserAnimeRepository
+import com.rick.data.anime_favorite.repository.UserMangaDataRepository
+import com.rick.data.anime_favorite.repository.UserMangaRepository
+import com.rick.data.model_anime.FavoriteUiEvents
+import com.rick.data.model_anime.FavoriteUiState
+import com.rick.data.model_anime.UserAnime
+import com.rick.data.model_anime.UserManga
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class JikanFavoriteViewModel @Inject constructor(private val repo: JikanRepository) : ViewModel() {
+class JikanFavoriteViewModel @Inject constructor(
+    private val userAnimeDataRepository: UserAnimeDataRepository,
+    private val userMangaDataRepository: UserMangaDataRepository,
+    userAnimeRepository: UserAnimeRepository,
+    userMangaRepository: UserMangaRepository,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val _anime = MutableLiveData<List<JikanFavorite>>()
-    val anime: LiveData<List<JikanFavorite>> get() = _anime
+    val showAnime = savedStateHandle.getStateFlow(key = SHOW_ANIME, initialValue = false)
+    val showManga = savedStateHandle.getStateFlow(key = SHOW_MANGA, initialValue = false)
+    val shouldDisplayAnimeUndoFavorite = MutableStateFlow(false)
+    val shouldDisplayMangaUndoFavorite = MutableStateFlow(false)
 
-    private val _loadingAnime = MutableLiveData<Boolean>()
-    val loadingAnime: LiveData<Boolean> get() = _loadingAnime
+    private var lastRemovedFavorite: Int? = null
 
-    private val _manga = MutableLiveData<List<JikanFavorite>>()
-    val manga: LiveData<List<JikanFavorite>> get() = _manga
+    val feedAnimeUiState: StateFlow<FavoriteUiState> = userAnimeRepository.observeAnimeFavorite()
+        .map<List<UserAnime>, FavoriteUiState>(FavoriteUiState::AnimeFavorites)
+        .onStart { emit(FavoriteUiState.Loading) }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(1000),
+            initialValue = FavoriteUiState.Loading
+        )
 
-    private val _loadingManga = MutableLiveData<Boolean>()
-    val loadingManga: LiveData<Boolean> get() = _loadingManga
+    val feedMangaUiState: StateFlow<FavoriteUiState> = userMangaRepository.observeMangaFavorite()
+        .map<List<UserManga>, FavoriteUiState>(FavoriteUiState::MangaFavorites)
+        .onStart { emit(FavoriteUiState.Loading) }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(1000),
+            initialValue = FavoriteUiState.Loading
+        )
 
-    var showAnime: MutableLiveData<Boolean> = MutableLiveData(false)
-        private set
-    var showManga: MutableLiveData<Boolean> = MutableLiveData(false)
-        private set
-
-
-    init {
-        getFavorites()
-    }
-
-    private fun getFavorites() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.getFavoriteAnime().collectLatest { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        _loadingAnime.postValue(resource.isLoading)
-                    }
-
-                    is Resource.Success -> {
-                        _anime.postValue(resource.data ?: listOf())
-                    }
-
-                    else -> {}
-                }
-            }
-            repo.getFavoriteManga().collectLatest { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        _loadingManga.postValue(resource.isLoading)
-                    }
-
-                    is Resource.Success -> {
-                        _manga.postValue(resource.data ?: listOf())
-                    }
-
-                    else -> {}
-                }
-            }
-        }
-    }
-
-    fun onEvent(event: JikanEvents) {
+    fun onEvent(event: FavoriteUiEvents) {
         when (event) {
-            is JikanEvents.ShouldInsertFavorite -> shouldInsertFavorite(event.fav)
-            is JikanEvents.ShouldShowAnime -> shouldShowAnime()
-            is JikanEvents.ShouldShowManga -> shouldShowManga()
+            is FavoriteUiEvents.RemoveAnimeFavorite -> removeAnimeFavorite(event.animeId)
+            is FavoriteUiEvents.RemoveMangaFavorite -> removeMangaFavorite(event.mangaId)
+            is FavoriteUiEvents.UndoMangaFavoriteRemoval -> undoMangaFavoriteRemoval()
+            is FavoriteUiEvents.UndoAnimeFavoriteRemoval -> undoAnimeFavoriteRemoval()
+            is FavoriteUiEvents.ClearUndoState -> clearUndoState()
+            is FavoriteUiEvents.ShouldShowAnime -> shouldShowAnime(event.show)
+            is FavoriteUiEvents.ShouldShowManga -> shouldShowManga(event.show)
         }
     }
 
-    private fun shouldShowAnime() {
-        showAnime.value = !showAnime.value!!
-    }
-
-    private fun shouldShowManga() {
-        showManga.value = !showManga.value!!
-    }
-
-    private fun shouldInsertFavorite(fav: JikanFavorite) {
-        // Add favorites logic
+    private fun undoAnimeFavoriteRemoval() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertFavorite(fav)
+            lastRemovedFavorite?.let {
+                userAnimeDataRepository.setAnimeFavoriteId(it, true)
+            }
         }
     }
 
-    private fun deleteFavorite(fav: JikanFavorite) {
+    private fun undoMangaFavoriteRemoval() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.deleteFavorite(fav)
+            lastRemovedFavorite?.let {
+                userMangaDataRepository.setMangaFavoriteId(it, true)
+            }
+        }
+        clearUndoState()
+    }
+
+    private fun removeAnimeFavorite(favoriteId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            shouldDisplayAnimeUndoFavorite.value = true
+            lastRemovedFavorite = favoriteId
+            userAnimeDataRepository.setAnimeFavoriteId(favoriteId, false)
         }
     }
 
+    private fun removeMangaFavorite(favoriteId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            shouldDisplayMangaUndoFavorite.value = true
+            lastRemovedFavorite = favoriteId
+            userMangaDataRepository.setMangaFavoriteId(favoriteId, false)
+        }
+    }
+
+    private fun clearUndoState() {
+        shouldDisplayAnimeUndoFavorite.value = false
+        shouldDisplayMangaUndoFavorite.value = false
+        lastRemovedFavorite = null
+    }
+
+    private fun shouldShowAnime(show: Boolean) {
+        savedStateHandle[SHOW_ANIME] = show
+    }
+
+    private fun shouldShowManga(show: Boolean) {
+        savedStateHandle[SHOW_MANGA] = show
+    }
 }
 
-sealed class JikanEvents {
-    data class ShouldInsertFavorite(val fav: JikanFavorite) : JikanEvents()
-    object ShouldShowAnime : JikanEvents()
-    object ShouldShowManga : JikanEvents()
-}
-
+private const val SHOW_ANIME = "showAnime"
+private const val SHOW_MANGA = "showManga"

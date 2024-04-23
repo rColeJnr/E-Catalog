@@ -1,0 +1,81 @@
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1400,
+      "title": "Great Expectations",
+      "authors": [
+        {
+          "name": "Dickens, Charles",
+          "birth_year": 1812,
+          "death_year": 1870
+        }
+      ],
+      "translators": [],
+      "subjects": [
+        "Benefactors -- Fiction",
+        "Bildungsromans",
+        "England -- Fiction",
+        "Ex-convicts -- Fiction",
+        "Man-woman relationships -- Fiction",
+        "Orphans -- Fiction",
+        "Revenge -- Fiction",
+        "Young men -- Fiction"
+      ],
+      "bookshelves": [
+        "Best Books Ever Listings"
+      ],
+      "languages": [
+        "en"
+      ],
+      "copyright": false,
+      "media_type": "Text",
+      "formats": {
+        "text/html": "https://www.gutenberg.org/ebooks/1400.html.images",
+        "application/epub+zip": "https://www.gutenberg.org/ebooks/1400.epub3.images",
+        "image/jpeg": "https://www.gutenberg.org/cache/epub/1400/pg1400.cover.medium.jpg"
+      },
+      "download_count": 18277
+    },
+    {
+      "id": 8608,
+      "title": "Great Expectations",
+      "authors": [
+        {
+          "name": "Dickens, Charles",
+          "birth_year": 1812,
+          "death_year": 1870
+        }
+      ],
+      "translators": [],
+      "subjects": [
+        "Benefactors -- Fiction",
+        "Bildungsromans",
+        "England -- Fiction",
+        "Ex-convicts -- Fiction",
+        "Man-woman relationships -- Fiction",
+        "Orphans -- Fiction",
+        "Revenge -- Fiction",
+        "Young men -- Fiction"
+      ],
+      "bookshelves": [
+        "Best Books Ever Listings"
+      ],
+      "languages": [
+        "en"
+      ],
+      "copyright": true,
+      "media_type": "Sound",
+      "formats": {
+        "text/plain; charset=us-ascii": "https://www.gutenberg.org/files/8608/8608-readme.txt",
+        "text/html; charset=iso-8859-1": "https://www.gutenberg.org/files/8608/8608-index.htm",
+        "audio/mpeg": "https://www.gutenberg.org/files/8608/mp3/8608-000.mp3",
+        "application/rdf+xml": "https://www.gutenberg.org/ebooks/8608.rdf",
+        "application/octet-stream": "https://www.gutenberg.org/files/8608/8608-mp3.zip"
+      },
+      "download_count": 94
+    }
+  ]
+}

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.rick.screen_movie.moviedetails_screen.MovieDetailsFragment">
+        android:name="com.rick.screen_movie.trendingmovie_details_screen.MovieDetailsFragment">
         <argument
             android:name="movie"
             app:argType="integer" />
@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/searchFragment2"
         android:name="com.rick.screen_movie.search_screen.SearchFragment"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />

@@ -4,10 +4,12 @@ option java_package = "com.rick.data.datastore";
 option java_multiple_files = true;
 
 message UserPreferences {
-  string title = 1;
-  string details = 2;
-  string image = 3;
-  bool isFavorite = 4;
-
-  // Next available is 5
+  map<string, bool> bestseller_favorite_ids = 1;
+  map<int32, bool> gutenberg_favorite_ids = 2;
+  map<int32, bool> trending_movie_favorite_ids = 3;
+  map<int32, bool> trending_series_favorite_ids = 4;
+  map<int64, bool> ny_times_articles_favorite_ids = 5;
+  map<int32, bool> anime_favorite_ids = 6;
+  map<int32, bool> manga_favorite_ids = 7;
+  // Next available is 8
 }

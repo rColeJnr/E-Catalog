@@ -24,15 +24,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_anime.favorite.JikanFavorite
-import com.rick.data_anime.model_jikan.Jikan
-import com.rick.screen_anime.JikanCatalogAdapter
+import com.rick.data.model_anime.UserManga
 import com.rick.screen_anime.JikanLoadStateAdapter
 import com.rick.screen_anime.R
 import com.rick.screen_anime.RemotePresentationState
+import com.rick.screen_anime.anime_screen.JikanUiEvents
 import com.rick.screen_anime.asRemotePresentationState
-import com.rick.screen_anime.databinding.FragmentJikanCatalogBinding
-import com.rick.screen_anime.favorite_screen.JikanEvents
+import com.rick.screen_anime.databinding.AnimeScreenAnimeFragmentJikanCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -42,10 +40,10 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MangaCatalogFragment : Fragment() {
 
-    private var _binding: FragmentJikanCatalogBinding? = null
+    private var _binding: AnimeScreenAnimeFragmentJikanCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaCatalogViewModel by viewModels()
-    private lateinit var adapter: JikanCatalogAdapter
+    private lateinit var adapter: MangaCatalogAdapter
     private lateinit var navController: NavController
 
     private lateinit var eTransition: MaterialSharedAxis
@@ -55,7 +53,9 @@ class MangaCatalogFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         enterTransition = MaterialFadeThrough().apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
     }
 
@@ -64,7 +64,7 @@ class MangaCatalogFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentJikanCatalogBinding.inflate(inflater, container, false)
+        _binding = AnimeScreenAnimeFragmentJikanCatalogBinding.inflate(inflater, container, false)
 
         navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -86,10 +86,14 @@ class MangaCatalogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
         reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
 
         postponeEnterTransition()
@@ -97,24 +101,25 @@ class MangaCatalogFragment : Fragment() {
 
     }
 
+    //
     private fun initAdapter() {
-        adapter = JikanCatalogAdapter(
-            this::onMangaClick,
-            this::onFavClick
+        adapter = MangaCatalogAdapter(
+            onItemClick = this::onMangaClick,
+            onMangaFavClick = this::onMangaFavClick,
         )
-
-        binding.recyclerView.adapter =
+//
+        binding.jikanRecyclerView.adapter =
             adapter.withLoadStateFooter(footer = JikanLoadStateAdapter { adapter.retry() })
 
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.jikanRecyclerView.itemAnimator = DefaultItemAnimator()
     }
 
-    private fun FragmentJikanCatalogBinding.bindList(
-        pagingDataFlow: Flow<PagingData<Jikan>>,
-        adapter: JikanCatalogAdapter
+    private fun AnimeScreenAnimeFragmentJikanCatalogBinding.bindList(
+        pagingDataFlow: Flow<PagingData<UserManga>>,
+        adapter: MangaCatalogAdapter
     ) {
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             pagingDataFlow.collect(adapter::submitData)
         }
 
@@ -122,10 +127,10 @@ class MangaCatalogFragment : Fragment() {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
-                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                jikanSwipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.
-                emptyList.isVisible =
-                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+                jikanEmptyList.isVisible =
+                    !jikanSwipeRefresh.isRefreshing && adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
@@ -145,34 +150,36 @@ class MangaCatalogFragment : Fragment() {
 
         lifecycleScope.launch {
             notLoading.collectLatest {
-                if (it) recyclerView.scrollToPosition(0)
+                if (it) jikanRecyclerView.scrollToPosition(0)
             }
         }
 
-        swipeRefresh.setOnRefreshListener {
+        jikanSwipeRefresh.setOnRefreshListener {
             adapter.refresh()
         }
 
     }
 
-    private fun onMangaClick(view: View, jikan: Jikan) {
+    private fun onMangaClick(view: View, jikan: UserManga) {
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
         val action =
             MangaCatalogFragmentDirections.actionMangaCatalogFragmentToMangaDetailsJikanFragment(
-                jikan = jikan
+
             )
         navController.navigate(action)
     }
 
-    private fun onFavClick(favorite: JikanFavorite) {
-        viewModel.onEvent(JikanEvents.ShouldInsertFavorite(favorite))
+    private fun onMangaFavClick(id: Int, isFavorite: Boolean) {
+        viewModel.onEvent(JikanUiEvents.UpdateMangaFavorite(id, !isFavorite))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.jikan_menu, menu)
+        inflater.inflate(R.menu.anime_screen_anime_jikan_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,9 +1,12 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.application)
+    alias(libs.plugins.ecatalogs.android.application.flavors)
     alias(libs.plugins.ecatalogs.android.application.jacoco)
     alias(libs.plugins.ecatalogs.android.navigation)
     id("jacoco")
     alias(libs.plugins.ecatalogs.android.hilt)
+    alias(libs.plugins.ecatalogs.android.room)
+//    alias(libs.plugins.gms)
     alias(libs.plugins.baselineprofile)
 }
 
@@ -13,7 +16,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.rick.data.testing.EcsTestRunner"
+        testInstrumentationRunner =
+            "androidx.test.runner.AndroidJUnitRunner"/*"com.rick.data.testing.EcsTestRunner"*/
 
     }
     buildFeatures {
@@ -53,25 +57,22 @@ android {
 
 dependencies {
 
-    implementation(projects.core)
-    implementation(projects.data.datastore)
-    implementation(projects.data.datastoreProto)
-
-    implementation(projects.movie.dataMovie)
     implementation(projects.movie.screenMovie)
-    implementation(projects.book.dataBook)
     implementation(projects.book.screenBook)
-    implementation(projects.anime.dataAnime)
     implementation(projects.anime.screenAnime)
-    implementation(projects.authentication.authData)
     implementation(projects.authentication.authScreen)
+    implementation(projects.data.datastore)
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.app.compat)
     implementation(libs.android.material)
     implementation(libs.androidx.splash.screen)
-    kspTest(libs.hilt.compiler)
 
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+
+    kspTest(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 //    testImplementation(projects.data.t)
 //    testImplementation(projects.data.testing)
 //    testImplementation(libs.accompanist.testharness)
@@ -88,4 +89,8 @@ dependencies {
     androidTestImplementation(libs.hilt.testing)
 
 //    baselineProfile(projects.benchmarks)
+}
+
+dependencyGuard {
+    configuration("prodReleaseRuntimeClasspath")
 }

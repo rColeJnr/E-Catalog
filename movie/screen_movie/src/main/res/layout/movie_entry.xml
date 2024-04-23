@@ -19,8 +19,8 @@
             android:layout_width="@dimen/movie_title"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/eight_dp"
-            android:text="@string/search_title"
             android:hint="@string/no_title"
+            android:text="@string/search_title"
             android:textAppearance="?attr/textAppearanceHeadline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +47,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_margin="@dimen/six_dp"
-            android:src="@drawable/fav_filled_icon"
+            android:src="@drawable/fav_outline_icon"
             app:layout_constraintBottom_toBottomOf="@id/movieImage"
             app:layout_constraintEnd_toEndOf="@id/movieImage" />
 

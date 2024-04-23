@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.rick.data_anime.JikanRepository
-import com.rick.data_anime.favorite.JikanFavorite
-import com.rick.data_anime.model_jikan.Jikan
-import com.rick.screen_anime.favorite_screen.JikanEvents
+import com.rick.data.anime_favorite.repository.CompositeAnimeRepository
+import com.rick.data.anime_favorite.repository.UserAnimeDataRepository
+import com.rick.data.model_anime.UserAnime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -16,28 +15,39 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnimeCatalogViewModel @Inject constructor(
-    private val repo: JikanRepository
+    private val userDataRepository: UserAnimeDataRepository,
+    private val compositeAnimeRepository: CompositeAnimeRepository
 ) : ViewModel() {
 
-    val pagingDataFlow: Flow<PagingData<Jikan>>
+    val pagingDataFlow: Flow<PagingData<UserAnime>>
 
     init {
-        pagingDataFlow = fetchAnimes().cachedIn(viewModelScope)
+        pagingDataFlow = fetchAnime().cachedIn(viewModelScope)
     }
 
-    fun onEvent(event: JikanEvents) {
+    fun onEvent(event: JikanUiEvents) {
         when (event) {
-            is JikanEvents.ShouldInsertFavorite -> insertFavorite(event.fav)
-            else -> {}
+            is JikanUiEvents.UpdateAnimeFavorite -> {
+                updateAnimeFavorite(id = event.id, isFavorite = event.isFavorite)
+            }
+
+            is JikanUiEvents.UpdateMangaFavorite -> {
+                // Do nothing
+            }
         }
     }
 
-    private fun insertFavorite(favorite: JikanFavorite) {
+    private fun updateAnimeFavorite(id: Int, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertFavorite(favorite)
+            userDataRepository.setAnimeFavoriteId(id, isFavorite)
         }
     }
 
-    private fun fetchAnimes(): Flow<PagingData<Jikan>> =
-        repo.fetchAnime()
+    private fun fetchAnime(): Flow<PagingData<UserAnime>> =
+        compositeAnimeRepository.observeAnime(viewModelScope)
+}
+
+sealed interface JikanUiEvents {
+    data class UpdateAnimeFavorite(val id: Int, val isFavorite: Boolean) : JikanUiEvents
+    data class UpdateMangaFavorite(val id: Int, val isFavorite: Boolean) : JikanUiEvents
 }

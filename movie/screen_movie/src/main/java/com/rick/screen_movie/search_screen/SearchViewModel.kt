@@ -4,27 +4,33 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rick.core.Resource
-import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.tmdb.search.Search
-import com.rick.data_movie.tmdb.tv.TvResponse
+import com.rick.data.model_movie.UserArticle
+import com.rick.data.model_movie.UserTrendingSeries
+import com.rick.data.movie_favorite.repository.article.CompositeArticleRepository
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 // WHY ISNT MY CODEBASE CONSISTENT THROUGHOUT, AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH
 // I'm in public so i can't just blast.
 // TODO
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: MovieCatalogRepository
+    private val repository: CompositeArticleRepository
 ) : ViewModel() {
 
     private val tmdbKey: String
-    private var favorite: Favorite? = null
+    private var favorite: UserArticle? = null
 
     private val _searchList: MutableLiveData<SearchUiState.Response> by
     lazy { MutableLiveData<SearchUiState.Response>() }
@@ -76,21 +82,7 @@ class SearchViewModel @Inject constructor(
 
     private fun searchTmdb(title: String) {
         viewModelScope.launch {
-            repository.searchTmdb(key = tmdbKey, query = title).collect { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _searchError.postValue(SearchUiState.Error(result.message))
-                    }
 
-                    is Resource.Loading -> {
-                        _searchLoading.postValue(SearchUiState.Loading(result.isLoading))
-                    }
-
-                    is Resource.Success -> {
-                        _searchList.postValue(SearchUiState.Response(result.data!!.results))
-                    }
-                }
-            }
         }
     }
 //
@@ -122,17 +114,17 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun insertFavorite(favorite: Search) {
-        this.favorite = favorite.toFavorite()
+    private fun insertFavorite(favorite: com.rick.data.model_movie.tmdb.search.Search) {
+//        this.favorite = favorite
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertFavorite(this@SearchViewModel.favorite!!)
+//            repository.insertFavorite(this@SearchViewModel.favorite!!)
         }
     }
 
     private fun removeFavorite() {
         favorite?.let {
             viewModelScope.launch(Dispatchers.IO) {
-                repository.removeFavorite(it)
+//                repository.removeFavorite(it)
             }
         }
         favorite = null
@@ -144,14 +136,16 @@ private external fun getTMDBKey(): String
 
 sealed class SearchUiState {
     data class Query(val query: String?)
-    data class Response(val response: List<Search>)
-    data class Series(val series: List<TvResponse>?)
+    data class Response(val response: List<com.rick.data.model_movie.tmdb.search.Search>)
+    data class Series(val series: List<UserTrendingSeries>?)
     data class Loading(val loading: Boolean)
     data class Error(val msg: String?)
 }
 
 sealed class SearchUiEvent {
     data class SearchQuery(val query: String) : SearchUiEvent()
-    data class InsertFavorite(val favorite: Search) : SearchUiEvent()
-    object RemoveFavorite: SearchUiEvent()
+    data class InsertFavorite(val favorite: com.rick.data.model_movie.tmdb.search.Search) :
+        SearchUiEvent()
+
+    object RemoveFavorite : SearchUiEvent()
 }

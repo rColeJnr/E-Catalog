@@ -1,0 +1,3090 @@
+{
+  "pagination": {
+    "last_visible_page": 2,
+    "has_next_page": true,
+    "current_page": 1,
+    "items": {
+      "count": 25,
+      "total": 39,
+      "per_page": 25
+    }
+  },
+  "data": [
+    {
+      "mal_id": 11,
+      "url": "https://myanimelist.net/manga/11/Naruto",
+      "images": {},
+      "approved": true,
+      "titles": [],
+      "title": "Naruto",
+      "title_english": "Naruto",
+      "title_japanese": "NARUTO―ナルト―",
+      "title_synonyms": [],
+      "type": "Manga",
+      "chapters": 700,
+      "volumes": 72,
+      "status": "Finished",
+      "publishing": false,
+      "published": {},
+      "score": 8.08,
+      "scored": 8.08,
+      "scored_by": 271541,
+      "rank": 616,
+      "popularity": 11,
+      "members": 414214,
+      "favorites": 43905,
+      "synopsis": "Whenever Naruto Uzumaki proclaims that he will someday become the Hokage—a title bestowed upon the best ninja in the Village Hidden in the Leaves—no one takes him seriously. Since birth, Naruto has been shunned and ridiculed by his fellow villagers. But their contempt isn't because Naruto is loud-mouthed, mischievous, or because of his ineptitude in the ninja arts, but because there is a demon inside him. Prior to Naruto's birth, the powerful and deadly Nine-Tailed Fox attacked the village. In order to stop the rampage, the Fourth Hokage sacrificed his life to seal the demon inside the body of the newborn Naruto. And so when he is assigned to Team 7—along with his new teammates Sasuke Uchiha and Sakura Haruno, under the mentorship of veteran ninja Kakashi Hatake—Naruto is forced to work together with other people for the first time in his life. Through undergoing vigorous training and taking on challenging missions, Naruto must learn what it means to work in a team and carve his own route toward becoming a full-fledged ninja recognized by his village. [Written by MAL Rewrite]",
+      "background": "Naruto has sold over 250 million copies worldwide as of 2020, making it the 4th highest grossing manga series of all time. It was nominated for the 19th Tezuka Osamu Cultural Prize in 2014, and in the same year Masashi Kishimoto was awarded Rookie of the Year in the media fine arts category by Japan's Agency for Cultural Affairs. Numerous databooks, artbooks, novels, and fanbooks on the series have been released. Eight summary volumes featuring unaltered color pages, larger dimensions, and exclusive interviews, covering the first part of the series were released between November 7, 2008 and April 10, 2009. The series was published in English by VIZ Media under the Shonen Jump imprint from August 16, 2003 to October 6, 2015. In the last four months of 2007, the campaign titled \"Naruto Nation\" was launched, in which three volumes were published each month so that US releases would be closer to Japan's, the same practice was done in February through April of 2009 this time titled \"Generation Ninja.\" A 3-in-1 omnibus edition was also published from May 3, 2011 to October 2, 2018. A box set containing volumes 1-27 was released on August 6, 2008, another one containing volumes 28-48 on July 7, 2015, and the final box set with volumes 49-72 on January 5, 2016. It was also published in Brazilian Portuguese by Panini Comics/Planet Manga from May 2007 to June 2015, and again as Naruto Gold edition since July 2015.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 83,
+          "type": "manga",
+          "name": "Shounen Jump (Weekly)",
+          "url": "https://myanimelist.net/manga/magazine/83/Shounen_Jump_Weekly"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 6444,
+      "url": "https://myanimelist.net/manga/6444/Naruto",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/125935.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/125935t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/125935l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/125935.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/125935t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/125935l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Pilot"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO-ナルト-"
+        }
+      ],
+      "title": "Naruto",
+      "title_english": null,
+      "title_japanese": "NARUTO-ナルト-",
+      "title_synonyms": [
+        "Naruto Pilot"
+      ],
+      "type": "One-shot",
+      "chapters": 1,
+      "volumes": null,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "1997-08-18T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 18,
+            "month": 8,
+            "year": 1997
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Aug 18, 1997"
+      },
+      "score": 6.49,
+      "scored": 6.49,
+      "scored_by": 9924,
+      "rank": 15783,
+      "popularity": 1109,
+      "members": 16707,
+      "favorites": 186,
+      "synopsis": null,
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 249,
+          "type": "manga",
+          "name": "Akamaru Jump",
+          "url": "https://myanimelist.net/manga/magazine/249/Akamaru_Jump"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 95210,
+      "url": "https://myanimelist.net/manga/95210/Boruto__Naruto_Next_Generations",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/181968.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/181968t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/181968l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/181968.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/181968t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/181968l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Boruto: Naruto Next Generations"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Gaiden: Michita Tsuki ga Terasu Michi"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: The Path Lit by the Full Moon"
+        },
+        {
+          "type": "Japanese",
+          "title": "BORUTO-ボルト- -NARUTO NEXT GENERATIONS-"
+        },
+        {
+          "type": "English",
+          "title": "Boruto: Naruto Next Generations"
+        }
+      ],
+      "title": "Boruto: Naruto Next Generations",
+      "title_english": "Boruto: Naruto Next Generations",
+      "title_japanese": "BORUTO-ボルト- -NARUTO NEXT GENERATIONS-",
+      "title_synonyms": [
+        "Naruto Gaiden: Michita Tsuki ga Terasu Michi",
+        "Naruto: The Path Lit by the Full Moon"
+      ],
+      "type": "Manga",
+      "chapters": 81,
+      "volumes": 20,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2016-05-09T00:00:00+00:00",
+        "to": "2023-04-21T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 9,
+            "month": 5,
+            "year": 2016
+          },
+          "to": {
+            "day": 21,
+            "month": 4,
+            "year": 2023
+          }
+        },
+        "string": "May 9, 2016 to Apr 21, 2023"
+      },
+      "score": 6.83,
+      "scored": 6.83,
+      "scored_by": 64077,
+      "rank": 11291,
+      "popularity": 103,
+      "members": 118635,
+      "favorites": 3616,
+      "synopsis": "Naruto Uzumaki has finally achieved his dream of becoming Hokage, the leader of the Hidden Leaf Village that he spent his teenage years fighting to protect. Naruto and his peers now live in a world of peace, working hard to uphold an international truce built on good will and diplomacy. However, this stasis comes at a personal cost for the aging hero. Naruto and the shinobi he grew up alongside find that working to upkeep the neutral world takes them away from their families, and even the legendary warriors of Naruto's generation must contend with being mediocre parents to their bitter children, including his own son Boruto. Boruto Uzumaki faces a world completely unlike that of his father, finding unique trouble in the distance between the two. Contending with a society that heaps an unbearable load of pressure on his shoulders over his status as the Hokage's son, Boruto carves his own path through the world, fighting to make a name for himself as evil forces threaten to shatter the peace his father helped create. [Written by MAL Rewrite]",
+      "background": "Boruto: Naruto Next Generations has been published in English by VIZ Media under the Shonen Jump imprint since April 4, 2017. The series was simulpub through MANGA Plus. The first arc of the manga is an adaptation of the Boruto film, while the following arcs take place after the current timeline of the Boruto anime series.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 4529,
+          "type": "people",
+          "name": "Ikemoto, Mikio",
+          "url": "https://myanimelist.net/people/4529/Mikio_Ikemoto"
+        },
+        {
+          "mal_id": 37509,
+          "type": "people",
+          "name": "Kodachi, Ukyou",
+          "url": "https://myanimelist.net/people/37509/Ukyou_Kodachi"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 168,
+          "type": "manga",
+          "name": "V-Jump",
+          "url": "https://myanimelist.net/manga/magazine/168/V-Jump"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 87866,
+      "url": "https://myanimelist.net/manga/87866/Naruto_Gaiden__Nanadaime_Hokage_to_Akairo_no_Hanatsuzuki",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/161762.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/161762t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/161762l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/161762.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/161762t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/161762l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Gaiden: Nanadaime Hokage to Akairo no Hanatsuzuki"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Side Story: The Seventh Hokage and the Scarlet Spring Month"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO外伝 七代目火影と緋色の花つ月"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: The Seventh Hokage and the Scarlet Spring"
+        }
+      ],
+      "title": "Naruto Gaiden: Nanadaime Hokage to Akairo no Hanatsuzuki",
+      "title_english": "Naruto: The Seventh Hokage and the Scarlet Spring",
+      "title_japanese": "NARUTO外伝 七代目火影と緋色の花つ月",
+      "title_synonyms": [
+        "Naruto Side Story: The Seventh Hokage and the Scarlet Spring Month"
+      ],
+      "type": "Manga",
+      "chapters": 10,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2015-04-27T00:00:00+00:00",
+        "to": "2015-07-06T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 27,
+            "month": 4,
+            "year": 2015
+          },
+          "to": {
+            "day": 6,
+            "month": 7,
+            "year": 2015
+          }
+        },
+        "string": "Apr 27, 2015 to Jul 6, 2015"
+      },
+      "score": 7.16,
+      "scored": 7.16,
+      "scored_by": 31636,
+      "rank": 6500,
+      "popularity": 334,
+      "members": 48639,
+      "favorites": 512,
+      "synopsis": "The sun has set on Naruto Uzumaki's youth and is rising on the children of the next generation. One of these kids is Sarada Uchiha, daughter of Naruto's best friends Sasuke Uchiha and Sakura Haruno. Sharing a strong likeness with her father, Sarada has always wondered why she doesn't have any of her mother's features. When she discovers a photograph featuring Sasuke's old comrade Karin, Sarada is shocked to discover that she bears more of a resemblance to this strange woman than she does to her mother. When Sasuke returns to the village with news of a massive impending threat, Naruto obeys his duty as the Seventh Hokage and accompanies his old friend on an investigative mission. Unbeknownst to them both, Sarada and her friend Chouchou Akimichi pursue them, intent on solving the mystery of Sarada's parentage. [Written by MAL Rewrite]",
+      "background": "Naruto Gaiden: Nanadaime Hokage to Akairo no Hanatsuzuki was published in English as Naruto: The Seventh Hokage and the Scarlet Spring by VIZ Media under the Shonen Jump imprint on January 5, 2016; in Polish by J.P Fantastica on March 18, 2016; and in Brazilian Portuguese by Panini Comics/Planet Manga in October 2016.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 83,
+          "type": "manga",
+          "name": "Shounen Jump (Weekly)",
+          "url": "https://myanimelist.net/manga/magazine/83/Shounen_Jump_Weekly"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 90531,
+      "url": "https://myanimelist.net/manga/90531/Naruto_Shinden_Series",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/190847.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/190847t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/190847l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/190847.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/190847t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/190847l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Shinden Series"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto True Legend"
+        },
+        {
+          "type": "Synonym",
+          "title": "Itachi Shinden"
+        },
+        {
+          "type": "Synonym",
+          "title": "Sasuke's Story"
+        },
+        {
+          "type": "Synonym",
+          "title": "Koumyou-hen"
+        },
+        {
+          "type": "Synonym",
+          "title": "Book of Bright Light"
+        },
+        {
+          "type": "Synonym",
+          "title": "Daylight"
+        },
+        {
+          "type": "Synonym",
+          "title": "Anya-hen"
+        },
+        {
+          "type": "Synonym",
+          "title": "Book of Dark Night"
+        },
+        {
+          "type": "Synonym",
+          "title": "Midnight"
+        },
+        {
+          "type": "Synonym",
+          "title": "Raikou-hen"
+        },
+        {
+          "type": "Synonym",
+          "title": "Book of Sunrise"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Itachi's Story"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO -ナルト- 真伝シリーズ"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: Itachi's Story"
+        }
+      ],
+      "title": "Naruto Shinden Series",
+      "title_english": "Naruto: Itachi's Story",
+      "title_japanese": "NARUTO -ナルト- 真伝シリーズ",
+      "title_synonyms": [
+        "Naruto True Legend",
+        "Itachi Shinden",
+        "Sasuke's Story",
+        "Koumyou-hen",
+        "Book of Bright Light",
+        "Daylight",
+        "Anya-hen",
+        "Book of Dark Night",
+        "Midnight",
+        "Raikou-hen",
+        "Book of Sunrise",
+        "Naruto: Itachi's Story"
+      ],
+      "type": "Light Novel",
+      "chapters": 11,
+      "volumes": 3,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2015-09-04T00:00:00+00:00",
+        "to": "2015-11-04T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 4,
+            "month": 9,
+            "year": 2015
+          },
+          "to": {
+            "day": 4,
+            "month": 11,
+            "year": 2015
+          }
+        },
+        "string": "Sep 4, 2015 to Nov 4, 2015"
+      },
+      "score": 8.34,
+      "scored": 8.34,
+      "scored_by": 4345,
+      "rank": 271,
+      "popularity": 1709,
+      "members": 11616,
+      "favorites": 310,
+      "synopsis": "The story will focus on the brothers who have eyes that see through to the truth and who live on the threshold of hope and despair. Itachi's past and Sasuke's future will be made clear.",
+      "background": "Naruto Shinden Series was published in English by VIZ Media from November 1, 2016 to March 7, 2017.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 23473,
+          "type": "people",
+          "name": "Yano, Takashi",
+          "url": "https://myanimelist.net/people/23473/Takashi_Yano"
+        },
+        {
+          "mal_id": 32699,
+          "type": "people",
+          "name": "Towada, Shin",
+          "url": "https://myanimelist.net/people/32699/Shin_Towada"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 97372,
+      "url": "https://myanimelist.net/manga/97372/Naruto_Gaiden__Michita_Tsuki_ga_Terasu_Michi",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/176340.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/176340t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/176340l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/176340.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/176340t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/176340l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Gaiden: Michita Tsuki ga Terasu Michi"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Side Story: The Road Illuminated by the Full Moon"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO-ナルト-外伝 ～満ちた月が照らす道～"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: The Path Lit by the Full Moon"
+        }
+      ],
+      "title": "Naruto Gaiden: Michita Tsuki ga Terasu Michi",
+      "title_english": "Naruto: The Path Lit by the Full Moon",
+      "title_japanese": "NARUTO-ナルト-外伝 ～満ちた月が照らす道～",
+      "title_synonyms": [
+        "Naruto Side Story: The Road Illuminated by the Full Moon"
+      ],
+      "type": "One-shot",
+      "chapters": 1,
+      "volumes": null,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2016-04-25T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 25,
+            "month": 4,
+            "year": 2016
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Apr 25, 2016"
+      },
+      "score": 7.16,
+      "scored": 7.16,
+      "scored_by": 3740,
+      "rank": 6610,
+      "popularity": 3003,
+      "members": 6803,
+      "favorites": 48,
+      "synopsis": "A side story telling the back story of Boruto's teammate, Mitsuki, including his mysterious relation to Orochimaru.",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 83,
+          "type": "manga",
+          "name": "Shounen Jump (Weekly)",
+          "url": "https://myanimelist.net/manga/magazine/83/Shounen_Jump_Weekly"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 57095,
+      "url": "https://myanimelist.net/manga/57095/Naruto__Takigakure_no_Shitou_Ore_ga_Hero_dattebayo",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/261417.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/261417t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/261417l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/261417.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/261417t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/261417l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto: Takigakure no Shitou Ore ga Hero dattebayo!"
+        },
+        {
+          "type": "Synonym",
+          "title": "The Waterfall Village's Fight to the Death I am the Hero!"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Takigakure no Shitou Ore ga Eiyuu dattebayo!"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO 滝隠れの死闘 オレが英雄だってばよ!"
+        },
+        {
+          "type": "English",
+          "title": "Naruto - Mission: Protect the Waterfall Village!"
+        }
+      ],
+      "title": "Naruto: Takigakure no Shitou Ore ga Hero dattebayo!",
+      "title_english": "Naruto - Mission: Protect the Waterfall Village!",
+      "title_japanese": "NARUTO 滝隠れの死闘 オレが英雄だってばよ!",
+      "title_synonyms": [
+        "The Waterfall Village's Fight to the Death I am the Hero!",
+        "Naruto: Takigakure no Shitou Ore ga Eiyuu dattebayo!"
+      ],
+      "type": "Light Novel",
+      "chapters": 16,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2003-12-15T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 15,
+            "month": 12,
+            "year": 2003
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Dec 15, 2003"
+      },
+      "score": 6.86,
+      "scored": 6.86,
+      "scored_by": 428,
+      "rank": 10836,
+      "popularity": 10719,
+      "members": 1587,
+      "favorites": 10,
+      "synopsis": "It was supposed to be just an ordinary, C-rank assigment—but nothing about ninjutsu is as simple as it seems... Squad Seven's latest job is a real snore—escorting a young, cowardly leader named Shibuki back to the remote Hidden Waterfall Village. They arrive without a problem, but get stuck cleaning the village pond! While Naruto and his pals pick up the trash, Kakashi is called back to his home village on urgent business. Then, without warning, a brilliant rogue ninja shows up in tow with his evil henchmen. Suien desperately desires the Hidden Waterfall's most precious possession, a secret potion called the Hero's Water. And as Squad Seven quickly discovers, the guy will do absolutely anything to get it! With their fearless sensei gone, Naruto, Sasuke, and Sakura find themselves in the most deadly situation of their young lives. (Source: VIZ Media)",
+      "background": "Naruto: Takigakure no Shitou Ore ga Hero dattebayo! was published in English as Naruto - Mission: Protect the Waterfall Village! by VIZ Media under the Shounen Jump imprint on October 16, 2007.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 4853,
+          "type": "people",
+          "name": "Kusakabe, Masatoshi",
+          "url": "https://myanimelist.net/people/4853/Masatoshi_Kusakabe"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 151675,
+      "url": "https://myanimelist.net/manga/151675/Naruto__Sasuke_Retsuden_-_Uchiha_no_Matsuei_to_Tenkyuu_no_Hoshikuzu",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/276114.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/276114t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/276114l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/276114.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/276114t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/276114l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto: Sasuke Retsuden - Uchiha no Matsuei to Tenkyuu no Hoshikuzu"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO-ナルト-　サスケ烈伝 うちはの末裔と天球の星屑"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: Sasuke's Story - The Uchiha and the Heavenly Stardust: The Manga"
+        }
+      ],
+      "title": "Naruto: Sasuke Retsuden - Uchiha no Matsuei to Tenkyuu no Hoshikuzu",
+      "title_english": "Naruto: Sasuke's Story - The Uchiha and the Heavenly Stardust: The Manga",
+      "title_japanese": "NARUTO-ナルト-　サスケ烈伝 うちはの末裔と天球の星屑",
+      "title_synonyms": [],
+      "type": "Manga",
+      "chapters": 10,
+      "volumes": 2,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2022-10-23T00:00:00+00:00",
+        "to": "2023-04-23T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 23,
+            "month": 10,
+            "year": 2022
+          },
+          "to": {
+            "day": 23,
+            "month": 4,
+            "year": 2023
+          }
+        },
+        "string": "Oct 23, 2022 to Apr 23, 2023"
+      },
+      "score": 7.05,
+      "scored": 7.05,
+      "scored_by": 3421,
+      "rank": 8146,
+      "popularity": 2920,
+      "members": 6989,
+      "favorites": 90,
+      "synopsis": "Sasuke Uchiha heads for an astronomical observatory, far from the Land of Fire. There, he syncs up with Sakura, and together they dive into an undercover investigation in search of traces of the Sage of Six Paths! They discover a plan that goes beyond life and death, and a battle that will test this husband-and-wife team till death do they part. (Source: VIZ Media)",
+      "background": "Naruto: Sasuke Retsuden - Uchiha no Matsuei to Tenkyuu no Hoshikuzu was published digitally as an English simulpub as Naruto: Sasuke's Story - The Uchiha and the Heavenly Stardust: The Manga through MANGA Plus.",
+      "authors": [
+        {
+          "mal_id": 55529,
+          "type": "people",
+          "name": "Esaka, Jun",
+          "url": "https://myanimelist.net/people/55529/Jun_Esaka"
+        },
+        {
+          "mal_id": 61555,
+          "type": "people",
+          "name": "Kimura, Shingo",
+          "url": "https://myanimelist.net/people/61555/Shingo_Kimura"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 1209,
+          "type": "manga",
+          "name": "Shounen Jump+",
+          "url": "https://myanimelist.net/manga/magazine/1209/Shounen_Jump_"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 151675,
+      "url": "https://myanimelist.net/manga/151675/Naruto__Sasuke_Retsuden_-_Uchiha_no_Matsuei_to_Tenkyuu_no_Hoshikuzu",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/276114.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/276114t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/276114l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/276114.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/276114t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/276114l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto: Sasuke Retsuden - Uchiha no Matsuei to Tenkyuu no Hoshikuzu"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO-ナルト-　サスケ烈伝 うちはの末裔と天球の星屑"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: Sasuke's Story - The Uchiha and the Heavenly Stardust: The Manga"
+        }
+      ],
+      "title": "Naruto: Sasuke Retsuden - Uchiha no Matsuei to Tenkyuu no Hoshikuzu",
+      "title_english": "Naruto: Sasuke's Story - The Uchiha and the Heavenly Stardust: The Manga",
+      "title_japanese": "NARUTO-ナルト-　サスケ烈伝 うちはの末裔と天球の星屑",
+      "title_synonyms": [],
+      "type": "Manga",
+      "chapters": 10,
+      "volumes": 2,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2022-10-23T00:00:00+00:00",
+        "to": "2023-04-23T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 23,
+            "month": 10,
+            "year": 2022
+          },
+          "to": {
+            "day": 23,
+            "month": 4,
+            "year": 2023
+          }
+        },
+        "string": "Oct 23, 2022 to Apr 23, 2023"
+      },
+      "score": 7.05,
+      "scored": 7.05,
+      "scored_by": 3421,
+      "rank": 8146,
+      "popularity": 2920,
+      "members": 6989,
+      "favorites": 90,
+      "synopsis": "Sasuke Uchiha heads for an astronomical observatory, far from the Land of Fire. There, he syncs up with Sakura, and together they dive into an undercover investigation in search of traces of the Sage of Six Paths! They discover a plan that goes beyond life and death, and a battle that will test this husband-and-wife team till death do they part. (Source: VIZ Media)",
+      "background": "Naruto: Sasuke Retsuden - Uchiha no Matsuei to Tenkyuu no Hoshikuzu was published digitally as an English simulpub as Naruto: Sasuke's Story - The Uchiha and the Heavenly Stardust: The Manga through MANGA Plus.",
+      "authors": [
+        {
+          "mal_id": 55529,
+          "type": "people",
+          "name": "Esaka, Jun",
+          "url": "https://myanimelist.net/people/55529/Jun_Esaka"
+        },
+        {
+          "mal_id": 61555,
+          "type": "people",
+          "name": "Kimura, Shingo",
+          "url": "https://myanimelist.net/people/61555/Shingo_Kimura"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 1209,
+          "type": "manga",
+          "name": "Shounen Jump+",
+          "url": "https://myanimelist.net/manga/magazine/1209/Shounen_Jump_"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 6028,
+      "url": "https://myanimelist.net/manga/6028/Naruto__Shiro_no_Douji_Keppu_no_Kijin",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/261705.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/261705t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/261705l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/261705.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/261705t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/261705l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto: Shiro no Douji, Keppu no Kijin"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO -白の童子、血風の鬼人-"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: Innocent Heart, Demonic Blood"
+        }
+      ],
+      "title": "Naruto: Shiro no Douji, Keppu no Kijin",
+      "title_english": "Naruto: Innocent Heart, Demonic Blood",
+      "title_japanese": "NARUTO -白の童子、血風の鬼人-",
+      "title_synonyms": [],
+      "type": "Light Novel",
+      "chapters": 19,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2002-12-16T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 16,
+            "month": 12,
+            "year": 2002
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Dec 16, 2002"
+      },
+      "score": 7.48,
+      "scored": 7.48,
+      "scored_by": 1262,
+      "rank": 3120,
+      "popularity": 5472,
+      "members": 3603,
+      "favorites": 127,
+      "synopsis": "Naruto, a born troublemaker, has the worst grades of anyone at Ninja Academy. But he has big dreams and swears that someday he'll be a respected warrior and the leader of his village! After barely graduating from the academy, Naruto officially becomes a full-fledged ninja and starts accepting assignments. He's thrilled about embarking on his first big job, a bodyguard mission, but his enthusiasm soon turns to panic when his group is ambushed by the powerful, vicious Demon Brothers. Can Naruto triumph over these fearsome foes?",
+      "background": "Naruto: Shiro no Douji, Keppu no Kijin was published in English as Naruto: Innocent Heart, Demonic Blood by VIZ Media on November 21, 2006.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 4853,
+          "type": "people",
+          "name": "Kusakabe, Masatoshi",
+          "url": "https://myanimelist.net/people/4853/Masatoshi_Kusakabe"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": []
+    },
+    {
+      "mal_id": 153000,
+      "url": "https://myanimelist.net/manga/153000/Naruto__Konoha_Shinden_-_Yukemuri_Ninpouchou",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/282751.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/282751t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/282751l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/282751.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/282751t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/282751l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto: Konoha Shinden - Yukemuri Ninpouchou"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO-ナルト- 木ノ葉新伝 湯煙忍法帖"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: Konoha's Story - The Steam Ninja Scrolls: The Manga"
+        }
+      ],
+      "title": "Naruto: Konoha Shinden - Yukemuri Ninpouchou",
+      "title_english": "Naruto: Konoha's Story - The Steam Ninja Scrolls: The Manga",
+      "title_japanese": "NARUTO-ナルト- 木ノ葉新伝 湯煙忍法帖",
+      "title_synonyms": [],
+      "type": "Manga",
+      "chapters": 15,
+      "volumes": 2,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2022-10-29T00:00:00+00:00",
+        "to": "2023-05-27T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 29,
+            "month": 10,
+            "year": 2022
+          },
+          "to": {
+            "day": 27,
+            "month": 5,
+            "year": 2023
+          }
+        },
+        "string": "Oct 29, 2022 to May 27, 2023"
+      },
+      "score": 6.63,
+      "scored": 6.63,
+      "scored_by": 1349,
+      "rank": 14210,
+      "popularity": 6959,
+      "members": 2737,
+      "favorites": 9,
+      "synopsis": "The retired Kakashi and Guy head to a hot springs in the Land of Hot Water with their bodyguard, Mirai Sarutobi! A story connecting two generations through the power of bonds! (Source: MANGA Plus)",
+      "background": "Naruto: Konoha Shinden - Yukemuri Ninpouchou was published digitally as an English simulpub as Naruto: Konoha's Story - The Steam Ninja Scrolls: The Manga through MANGA Plus.",
+      "authors": [
+        {
+          "mal_id": 29559,
+          "type": "people",
+          "name": "Hinata, Shou",
+          "url": "https://myanimelist.net/people/29559/Shou_Hinata"
+        },
+        {
+          "mal_id": 32817,
+          "type": "people",
+          "name": "Sai, Natsuo",
+          "url": "https://myanimelist.net/people/32817/Natsuo_Sai"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 1209,
+          "type": "manga",
+          "name": "Shounen Jump+",
+          "url": "https://myanimelist.net/manga/magazine/1209/Shounen_Jump_"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 160710,
+      "url": "https://myanimelist.net/manga/160710/Naruto_Gaiden__Uzu_no_Naka_no_Tsumujikaze",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/285320.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/285320t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/285320l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/285320.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/285320t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/285320l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Gaiden: Uzu no Naka no Tsumujikaze"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO-ナルト-外伝 〜渦の中のつむじ風〜"
+        },
+        {
+          "type": "English",
+          "title": "Naruto: The Whorl within the Spiral"
+        }
+      ],
+      "title": "Naruto Gaiden: Uzu no Naka no Tsumujikaze",
+      "title_english": "Naruto: The Whorl within the Spiral",
+      "title_japanese": "NARUTO-ナルト-外伝 〜渦の中のつむじ風〜",
+      "title_synonyms": [],
+      "type": "One-shot",
+      "chapters": 1,
+      "volumes": null,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2023-07-17T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 17,
+            "month": 7,
+            "year": 2023
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Jul 17, 2023"
+      },
+      "score": 7.9,
+      "scored": 7.9,
+      "scored_by": 5530,
+      "rank": 1017,
+      "popularity": 2597,
+      "members": 7820,
+      "favorites": 54,
+      "synopsis": "Long before Naruto Uzumaki mastered the formidable Rasengan, Minato Namikaze trains to develop the ninjutsu under the tutelage of his mentor Jiraiya. Minato strives to create his own powerful technique to protect Kushina Uzumaki, the strong-willed woman he loves. Honoring Uzumaki clan tradition, Kushina's body hosts the nine-tailed fox spirit, Kurama. The demon seeks to break free from his confines and wreak havoc on the world. As Kushina struggles against Kurama's power and her own inner turmoil, Minato hurries to complete the Rasengan and save her from herself. [Written by MAL Rewrite]",
+      "background": "Following the NARUTOP99 Worldwide Character Popularity Vote commemorating the 20th anniversary of the Naruto anime, Naruto Gaiden: Uzu no Naka no Tsumujikaze was released to compliment the winning character Minato Namikaze. In celebration of the new manga, a special column series about Minato was made available on the official website between July 19, 2023, and July 23, 2023. The one-shot was published digitally as an English simulpub as Naruto: The Whorl within the Spiral through MANGA Plus.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 83,
+          "type": "manga",
+          "name": "Shounen Jump (Weekly)",
+          "url": "https://myanimelist.net/manga/magazine/83/Shounen_Jump_Weekly"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 40549,
+      "url": "https://myanimelist.net/manga/40549/Road_to_Ninja__Naruto_the_Movie",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/176822.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/176822t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/176822l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/176822.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/176822t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/176822l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Road to Ninja: Naruto the Movie"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Road to Ninja"
+        },
+        {
+          "type": "Japanese",
+          "title": "ROAD TO NINJA -NARUTO THE MOVIE-"
+        }
+      ],
+      "title": "Road to Ninja: Naruto the Movie",
+      "title_english": null,
+      "title_japanese": "ROAD TO NINJA -NARUTO THE MOVIE-",
+      "title_synonyms": [
+        "Naruto: Road to Ninja"
+      ],
+      "type": "One-shot",
+      "chapters": 1,
+      "volumes": null,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2012-07-23T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 23,
+            "month": 7,
+            "year": 2012
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Jul 23, 2012"
+      },
+      "score": 7.21,
+      "scored": 7.21,
+      "scored_by": 4493,
+      "rank": 5864,
+      "popularity": 2441,
+      "members": 8306,
+      "favorites": 62,
+      "synopsis": "A special one-shot connected to the movie.",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        }
+      ],
+      "serializations": [
+        {
+          "mal_id": 83,
+          "type": "manga",
+          "name": "Shounen Jump (Weekly)",
+          "url": "https://myanimelist.net/manga/magazine/83/Shounen_Jump_Weekly"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 86129,
+      "url": "https://myanimelist.net/manga/86129/Naruto_Hiden_Series",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/175457.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/175457t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/175457l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/175457.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/175457t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/175457l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Hiden Series"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Secret Legend"
+        },
+        {
+          "type": "Synonym",
+          "title": "Kakashi Hiden Hyouten no Ikazuchi"
+        },
+        {
+          "type": "Synonym",
+          "title": "Shikamaru Hiden Yami no Shijima ni Ukabu Kumo"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Secret Chronicles"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO秘伝シリーズ"
+        }
+      ],
+      "title": "Naruto Hiden Series",
+      "title_english": null,
+      "title_japanese": "NARUTO秘伝シリーズ",
+      "title_synonyms": [
+        "Naruto Secret Legend",
+        "Kakashi Hiden Hyouten no Ikazuchi",
+        "Shikamaru Hiden Yami no Shijima ni Ukabu Kumo",
+        "Naruto Secret Chronicles"
+      ],
+      "type": "Light Novel",
+      "chapters": 49,
+      "volumes": 6,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2015-02-04T00:00:00+00:00",
+        "to": "2015-07-03T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 4,
+            "month": 2,
+            "year": 2015
+          },
+          "to": {
+            "day": 3,
+            "month": 7,
+            "year": 2015
+          }
+        },
+        "string": "Feb 4, 2015 to Jul 3, 2015"
+      },
+      "score": 7.76,
+      "scored": 7.76,
+      "scored_by": 2302,
+      "rank": 1462,
+      "popularity": 2825,
+      "members": 7222,
+      "favorites": 104,
+      "synopsis": "A series of Naruto novels. Naruto's allies and enemies take center stage in these fast-paced adventures, which each volume focusing on a particular clanmate, ally, team...or villain. 1. Kakashi Hiden: Hyouten no Ikazuchi (Kakashi Secret Legend: Lightning in the Frozen Sky) [Higashiyama Akira] 2. Shikamaru Hiden: Yami no Shijima ni Ukabu Kumo [Yano Takashi] 3. Sakura Hiden: Shiren, Harukaze ni Nosete [Hinata Shou] 4. Konohagakure Hiden: Shuugen Biyori [Oosaki Tomohito] 5. Gaara Hiden: Sajin Gensou [Ukyo Kodachi] 6. Akatsuki Hiden: Sakimidareru Aku no Hana [Shin Towada]",
+      "background": "The first 3 novels of the Naruto Hiden Series were published in English by VIZ Media from November 3, 2015 to May 3, 2016. It has been published in Polish by J.P. Fantastica since July 27, 2016.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 18277,
+          "type": "people",
+          "name": "Higashiyama, Akira",
+          "url": "https://myanimelist.net/people/18277/Akira_Higashiyama"
+        },
+        {
+          "mal_id": 21995,
+          "type": "people",
+          "name": "Oosaki, Tomohito",
+          "url": "https://myanimelist.net/people/21995/Tomohito_Oosaki"
+        },
+        {
+          "mal_id": 23473,
+          "type": "people",
+          "name": "Yano, Takashi",
+          "url": "https://myanimelist.net/people/23473/Takashi_Yano"
+        },
+        {
+          "mal_id": 29559,
+          "type": "people",
+          "name": "Hinata, Shou",
+          "url": "https://myanimelist.net/people/29559/Shou_Hinata"
+        },
+        {
+          "mal_id": 32699,
+          "type": "people",
+          "name": "Towada, Shin",
+          "url": "https://myanimelist.net/people/32699/Shin_Towada"
+        },
+        {
+          "mal_id": 37509,
+          "type": "people",
+          "name": "Kodachi, Ukyou",
+          "url": "https://myanimelist.net/people/37509/Ukyou_Kodachi"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 92286,
+      "url": "https://myanimelist.net/manga/92286/Boruto__Naruto_the_Movie_Tokubetsu_Bangai-hen_-_Naruto_ga_Hokage_ni_Natta_Hi",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/171855.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/171855t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/171855l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/171855.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/171855t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/171855l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Boruto: Naruto the Movie Tokubetsu Bangai-hen - Naruto ga Hokage ni Natta Hi"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Special Gaiden"
+        },
+        {
+          "type": "Synonym",
+          "title": "The Day Naruto Became Hokage"
+        },
+        {
+          "type": "Japanese",
+          "title": "BORUTO -NARUTO THE MOVIE- 特別番外編 ナルトが火影になった日"
+        }
+      ],
+      "title": "Boruto: Naruto the Movie Tokubetsu Bangai-hen - Naruto ga Hokage ni Natta Hi",
+      "title_english": null,
+      "title_japanese": "BORUTO -NARUTO THE MOVIE- 特別番外編 ナルトが火影になった日",
+      "title_synonyms": [
+        "Naruto Special Gaiden",
+        "The Day Naruto Became Hokage"
+      ],
+      "type": "One-shot",
+      "chapters": 1,
+      "volumes": null,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2015-08-07T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 7,
+            "month": 8,
+            "year": 2015
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Aug 7, 2015"
+      },
+      "score": 7.08,
+      "scored": 7.08,
+      "scored_by": 2748,
+      "rank": 7622,
+      "popularity": 3900,
+      "members": 5239,
+      "favorites": 33,
+      "synopsis": "The story shows Naruto Uzumaki's Hokage inauguration day.",
+      "background": "Special one-shot included in the Naruto: Hiden - Zai no Sho - Official Movie Book (NARUTO 秘伝・在の書 オフィシャルムービーBOOK) guidebook, which was distributed exclusively at the screening of the movie.",
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": []
+    },
+    {
+      "mal_id": 40225,
+      "url": "https://myanimelist.net/manga/40225/Naruto_Ninden_Series",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/70963.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/70963t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/70963l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/70963.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/70963t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/70963l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Ninden Series"
+        },
+        {
+          "type": "Synonym",
+          "title": "Tale of the Utterly Gutsy Shinobi"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Dokonjou Ninden"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Dojunjou Ninden"
+        },
+        {
+          "type": "Synonym",
+          "title": "The Tale of the Utterly Purehearted Shinobi"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO -ナルト- 忍伝シリーズ"
+        }
+      ],
+      "title": "Naruto Ninden Series",
+      "title_english": null,
+      "title_japanese": "NARUTO -ナルト- 忍伝シリーズ",
+      "title_synonyms": [
+        "Tale of the Utterly Gutsy Shinobi",
+        "Naruto Dokonjou Ninden",
+        "Naruto Dojunjou Ninden",
+        "The Tale of the Utterly Purehearted Shinobi"
+      ],
+      "type": "Light Novel",
+      "chapters": 14,
+      "volumes": 2,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2010-08-04T00:00:00+00:00",
+        "to": "2015-08-04T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 4,
+            "month": 8,
+            "year": 2010
+          },
+          "to": {
+            "day": 4,
+            "month": 8,
+            "year": 2015
+          }
+        },
+        "string": "Aug 4, 2010 to Aug 4, 2015"
+      },
+      "score": 7.64,
+      "scored": 7.64,
+      "scored_by": 800,
+      "rank": 2019,
+      "popularity": 6293,
+      "members": 3087,
+      "favorites": 41,
+      "synopsis": "1. Naruto: Dokonjou Ninden (Tale of the Utterly Gutsy Shinobi) 2. Naruto: Dojunjou Ninden (The Tale of the Utterly Purehearted Shinobi)",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 18277,
+          "type": "people",
+          "name": "Higashiyama, Akira",
+          "url": "https://myanimelist.net/people/18277/Akira_Higashiyama"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 87714,
+      "url": "https://myanimelist.net/manga/87714/Naruto_Jinraiden__Okami_no_Naku_Hi",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/152723.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/152723t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/152723l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/152723.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/152723t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/152723l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Jinraiden: Okami no Naku Hi"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Jinraiden: The Wolf that Howled at the Sun"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO-ナルト- 迅雷伝 狼の哭く日"
+        }
+      ],
+      "title": "Naruto Jinraiden: Okami no Naku Hi",
+      "title_english": null,
+      "title_japanese": "NARUTO-ナルト- 迅雷伝 狼の哭く日",
+      "title_synonyms": [
+        "Naruto Jinraiden: The Wolf that Howled at the Sun"
+      ],
+      "type": "Light Novel",
+      "chapters": 6,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2012-11-02T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 2,
+            "month": 11,
+            "year": 2012
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Nov 2, 2012"
+      },
+      "score": 7.34,
+      "scored": 7.34,
+      "scored_by": 619,
+      "rank": 4445,
+      "popularity": 8352,
+      "members": 2197,
+      "favorites": 19,
+      "synopsis": "The novel follows Uchiha Sasuke as he journeys to the Howling Wolf Village, where Itachi's eye medicine was produced.",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 18277,
+          "type": "people",
+          "name": "Higashiyama, Akira",
+          "url": "https://myanimelist.net/people/18277/Akira_Higashiyama"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 98462,
+      "url": "https://myanimelist.net/manga/98462/Naruto_Shinden_Series",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/204432.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/204432t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/204432l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/204432.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/204432t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/204432l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Shinden Series"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Konoha Shinden - Yukemuri Ninpouchou"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto Konoha New Legend"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto's Story: Family Day"
+        },
+        {
+          "type": "Synonym",
+          "title": "Sasuke's Story: Star Pupil"
+        },
+        {
+          "type": "Synonym",
+          "title": "Shikamaru's Story: Mourning Clouds"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO -ナルト- 新伝シリーズ"
+        }
+      ],
+      "title": "Naruto Shinden Series",
+      "title_english": null,
+      "title_japanese": "NARUTO -ナルト- 新伝シリーズ",
+      "title_synonyms": [
+        "Naruto: Konoha Shinden - Yukemuri Ninpouchou",
+        "Naruto Konoha New Legend",
+        "Naruto's Story: Family Day",
+        "Sasuke's Story: Star Pupil",
+        "Shikamaru's Story: Mourning Clouds"
+      ],
+      "type": "Light Novel",
+      "chapters": 28,
+      "volumes": 4,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2016-08-04T00:00:00+00:00",
+        "to": "2018-07-04T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 4,
+            "month": 8,
+            "year": 2016
+          },
+          "to": {
+            "day": 4,
+            "month": 7,
+            "year": 2018
+          }
+        },
+        "string": "Aug 4, 2016 to Jul 4, 2018"
+      },
+      "score": 7.17,
+      "scored": 7.17,
+      "scored_by": 511,
+      "rank": 6435,
+      "popularity": 9442,
+      "members": 1875,
+      "favorites": 8,
+      "synopsis": "A series of Naruto novels linking the Naruto and Boruto series. 1. Konoha Shinden: Yukemuri Ninpouchou [Hinata Shou] 2. Naruto Shinden: Oyako no Hi (Naruto's Story: Family Day) [Miyamoto Mirei] 3. Sasuke Shinden: Shitei no Hoshi (Sasuke's Story: Star Pupil) [Esaka Jun] 4. Shikamaru Shinden: Maichiru Hana wo Ureu Kumo (Shikamaru's Story: Mourning Clouds) [Yano Takashi]",
+      "background": "The last 3 volumes of the Naruto Shinden Series were published in English by Viz Media from August 4, 2020 to March 2, 2021.",
+      "authors": [
+        {
+          "mal_id": 23473,
+          "type": "people",
+          "name": "Yano, Takashi",
+          "url": "https://myanimelist.net/people/23473/Takashi_Yano"
+        },
+        {
+          "mal_id": 29559,
+          "type": "people",
+          "name": "Hinata, Shou",
+          "url": "https://myanimelist.net/people/29559/Shou_Hinata"
+        },
+        {
+          "mal_id": 37335,
+          "type": "people",
+          "name": "Zomcho",
+          "url": "https://myanimelist.net/people/37335/Zomcho"
+        },
+        {
+          "mal_id": 55529,
+          "type": "people",
+          "name": "Esaka, Jun",
+          "url": "https://myanimelist.net/people/55529/Jun_Esaka"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 17,
+          "type": "manga",
+          "name": "Martial Arts",
+          "url": "https://myanimelist.net/manga/genre/17/Martial_Arts"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 96769,
+      "url": "https://myanimelist.net/manga/96769/Naruto__Blood_Prison",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/228889.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/228889t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/228889l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/228889.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/228889t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/228889l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto: Blood Prison"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Hoozuki no Shiro"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Shippuuden the Movie 5: Blood Prison"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO 鬼燈の城〈ブラッド・プリズン〉"
+        }
+      ],
+      "title": "Naruto: Blood Prison",
+      "title_english": null,
+      "title_japanese": "NARUTO 鬼燈の城〈ブラッド・プリズン〉",
+      "title_synonyms": [
+        "Naruto: Hoozuki no Shiro",
+        "Naruto: Shippuuden the Movie 5: Blood Prison"
+      ],
+      "type": "Light Novel",
+      "chapters": 9,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2011-07-04T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 4,
+            "month": 7,
+            "year": 2011
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Jul 4, 2011"
+      },
+      "score": 7.25,
+      "scored": 7.25,
+      "scored_by": 332,
+      "rank": 5362,
+      "popularity": 15376,
+      "members": 946,
+      "favorites": 5,
+      "synopsis": "After being captured for attempting to assassinate the leader of Kumogakure, the Raikage, and killing Jounin from Kirigakure and Iwagakure, Naruto is imprisoned in Houzukijou, a criminal containment facility also known as the Blood Prison. The master of the castle, Mui, uses the ultimate imprisonment jutsu to steal power from the prisoners. In this place, something is aiming for Naruto's life. The battle to prove his innocence and uncover the truth has begun for Naruto and his friends. (Source: AnimeAvenue)",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 18277,
+          "type": "people",
+          "name": "Higashiyama, Akira",
+          "url": "https://myanimelist.net/people/18277/Akira_Higashiyama"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 96765,
+      "url": "https://myanimelist.net/manga/96765/Gekijouban_Naruto__Shippuuden",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/228881.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/228881t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/228881l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/1/228881.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/1/228881t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/1/228881l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Gekijouban Naruto: Shippuuden"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Shippuden the Movie"
+        },
+        {
+          "type": "Japanese",
+          "title": "劇場版NARUTO 疾風伝"
+        }
+      ],
+      "title": "Gekijouban Naruto: Shippuuden",
+      "title_english": null,
+      "title_japanese": "劇場版NARUTO 疾風伝",
+      "title_synonyms": [
+        "Naruto: Shippuden the Movie"
+      ],
+      "type": "Light Novel",
+      "chapters": null,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2007-08-06T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 6,
+            "month": 8,
+            "year": 2007
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Aug 6, 2007"
+      },
+      "score": 7.53,
+      "scored": 7.53,
+      "scored_by": 322,
+      "rank": 2786,
+      "popularity": 15491,
+      "members": 936,
+      "favorites": 57,
+      "synopsis": "Demons that once almost destroyed the world, are revived by someone. To prevent the world from being destroyed, the demon has to be sealed and the only one who can do it is the shrine maiden Shion from the country of demons, who has two powers; one is sealing demons and the other is predicting the deaths of humans. This time Naruto's mission is to guard Shion, but she predicts Naruto's death. The only way to escape it, is to get away from Shion, which would leave her unguarded, then the demon, whose only goal is to kill Shion will do so, thus meaning the end of the world. Naruto decides to challenge this \"prediction of death,\" but fails to prove Shion's prediction wrong and supposedly dies in vain. (Source: Wikipedia)",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 4853,
+          "type": "people",
+          "name": "Kusakabe, Masatoshi",
+          "url": "https://myanimelist.net/people/4853/Masatoshi_Kusakabe"
+        },
+        {
+          "mal_id": 5163,
+          "type": "people",
+          "name": "Takegami, Junki",
+          "url": "https://myanimelist.net/people/5163/Junki_Takegami"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 119908,
+      "url": "https://myanimelist.net/manga/119908/Naruto_Retsuden_Series",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/253962.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/253962t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/253962l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/253962.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/253962t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/253962l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto Retsuden Series"
+        },
+        {
+          "type": "Synonym",
+          "title": "Kakashi Retsuden: Rokudaime Hokage to Ochikobore no Shounen"
+        },
+        {
+          "type": "Synonym",
+          "title": "Kakashi's Story: The Sixth Hokage and the Failed Prince"
+        },
+        {
+          "type": "Synonym",
+          "title": "Sasuke Retsuden: Uchiha no Matsuei to Tenkyuu no Hoshikuzu"
+        },
+        {
+          "type": "Synonym",
+          "title": "Sasuke's Story: The Uchiha and the Heavenly Stardust"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto's Story: Uzumaki Naruto and the Spiral Destiny"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO -ナルト- 烈伝シリーズ"
+        }
+      ],
+      "title": "Naruto Retsuden Series",
+      "title_english": null,
+      "title_japanese": "NARUTO -ナルト- 烈伝シリーズ",
+      "title_synonyms": [
+        "Kakashi Retsuden: Rokudaime Hokage to Ochikobore no Shounen",
+        "Kakashi's Story: The Sixth Hokage and the Failed Prince",
+        "Sasuke Retsuden: Uchiha no Matsuei to Tenkyuu no Hoshikuzu",
+        "Sasuke's Story: The Uchiha and the Heavenly Stardust",
+        "Naruto's Story: Uzumaki Naruto and the Spiral Destiny"
+      ],
+      "type": "Light Novel",
+      "chapters": 24,
+      "volumes": 3,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2019-06-04T00:00:00+00:00",
+        "to": "2019-10-04T00:00:00+00:00",
+        "prop": {
+          "from": {
+            "day": 4,
+            "month": 6,
+            "year": 2019
+          },
+          "to": {
+            "day": 4,
+            "month": 10,
+            "year": 2019
+          }
+        },
+        "string": "Jun 4, 2019 to Oct 4, 2019"
+      },
+      "score": 7.73,
+      "scored": 7.73,
+      "scored_by": 304,
+      "rank": 1589,
+      "popularity": 14308,
+      "members": 1057,
+      "favorites": 15,
+      "synopsis": "In the Naruto Retsuden series: 1. Kakashi Retsuden: Rokudaime Hokage to Ochikobore no Shounen (Kakashi's Story: The Sixth Hokage and the Failed Prince) 2. Sasuke Retsuden: Uchiha no Matsuei to Tenkyuu no Hoshikuzu (Sasuke's Story: The Uchiha and the Heavenly Stardust) 3. Naruto Retsuden: Uzumaki Naruto to Rasen no Tenmei (Naruto's Story: Uzumaki Naruto and the Spiral Destiny)",
+      "background": "Naruto Retsuden Series was published in English by VIZ Media under the Shonen Jump imprint from July 26, 2022 to March 28, 2023.",
+      "authors": [
+        {
+          "mal_id": 55529,
+          "type": "people",
+          "name": "Esaka, Jun",
+          "url": "https://myanimelist.net/people/55529/Jun_Esaka"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 96770,
+      "url": "https://myanimelist.net/manga/96770/Road_to_Ninja__Naruto_the_Movie",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/228890.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/228890t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/228890l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/228890.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/228890t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/228890l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Road to Ninja: Naruto the Movie"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Shippuuden the Movie 6: Road to Ninja"
+        },
+        {
+          "type": "Japanese",
+          "title": "ROAD TO NINJA NARUTO THE MOVIE"
+        }
+      ],
+      "title": "Road to Ninja: Naruto the Movie",
+      "title_english": null,
+      "title_japanese": "ROAD TO NINJA NARUTO THE MOVIE",
+      "title_synonyms": [
+        "Naruto: Shippuuden the Movie 6: Road to Ninja"
+      ],
+      "type": "Light Novel",
+      "chapters": null,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2012-07-27T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 27,
+            "month": 7,
+            "year": 2012
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Jul 27, 2012"
+      },
+      "score": 7.38,
+      "scored": 7.38,
+      "scored_by": 271,
+      "rank": 4033,
+      "popularity": 16598,
+      "members": 838,
+      "favorites": 2,
+      "synopsis": "Ten years ago, a gigantic demon beast known as the Nine-Tailed Demon Fox was released from its jinchuuriki by an unknown shinobi wearing a mask. The village of Konohagakure was close to destruction by the attack of the Nine-Tails, but the village was saved by its leader. Minato Namikaze and his wife Kushina Uzumaki—who was the jinchuuriki at the time of the attack—sealed away the demon inside their new born son: Naruto Uzumaki. However, this act of saving the village cost them their lives and they left the future of the ninja world to Naruto. With the demon fox sealed away, things continued as normal. However, the peace of the village would not last long, for Pain, Konan, Itachi Uchiha, Kisame Hoshigaki, Sasori, Deidara, Hidan and Kakuzu—members of a dreaded shinobi group called the Akatsuki—attacked Konohagakure. Naruto narrowly manages to launch a counter-attack but why have these shinobi appeared when all of them were meant to have died? The mystery remains, but the shinobi are praised by heir families for completing such a dangerous mission. However, one of them who has never known the faces of his parents, Naruto, cannot help but feel lonely. At that exact time, suddenly, the masked man makes his appearance in Konoha. Naruto and his allies are both attacked by the man's mysterious new doujutsu. (Source: Naruto Wikia)",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 49798,
+          "type": "people",
+          "name": "Miyata, Yuka",
+          "url": "https://myanimelist.net/people/49798/Yuka_Miyata"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 62,
+          "type": "manga",
+          "name": "Isekai",
+          "url": "https://myanimelist.net/manga/genre/62/Isekai"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 96762,
+      "url": "https://myanimelist.net/manga/96762/Naruto__Dai_Katsugeki_Yuki_Hime_Shinobu_Houjou_Datteba_yo",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/228873.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/228873t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/228873l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/228873.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/228873t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/228873l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Naruto: Dai Katsugeki! Yuki Hime Shinobu Houjou Datteba yo!!"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto the Movie: Ninja Clash in the Land of Snow"
+        },
+        {
+          "type": "Japanese",
+          "title": "NARUTO 大活劇!雪姫忍法帖だってばよ!!"
+        }
+      ],
+      "title": "Naruto: Dai Katsugeki! Yuki Hime Shinobu Houjou Datteba yo!!",
+      "title_english": null,
+      "title_japanese": "NARUTO 大活劇!雪姫忍法帖だってばよ!!",
+      "title_synonyms": [
+        "Naruto the Movie: Ninja Clash in the Land of Snow"
+      ],
+      "type": "Light Novel",
+      "chapters": null,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2004-08-23T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 23,
+            "month": 8,
+            "year": 2004
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Aug 23, 2004"
+      },
+      "score": 6.94,
+      "scored": 6.94,
+      "scored_by": 207,
+      "rank": 9703,
+      "popularity": 18550,
+      "members": 699,
+      "favorites": 2,
+      "synopsis": "Kakashi orders Naruto, Sasuke, and Sakura to watch a movie before their next mission. Naruto is a big fan of the lead actress. After the movie, they see the heroine in person and being chased. They help her and Naruto asks for an autograph but she wouldn't give him one. When the three returns, Kakashi tells them about their mission: to escort the actress to the Snow Country to film a new movie. (Source: ANN)",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 3071,
+          "type": "people",
+          "name": "Sumisawa, Katsuyuki",
+          "url": "https://myanimelist.net/people/3071/Katsuyuki_Sumisawa"
+        },
+        {
+          "mal_id": 4853,
+          "type": "people",
+          "name": "Kusakabe, Masatoshi",
+          "url": "https://myanimelist.net/people/4853/Masatoshi_Kusakabe"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 96768,
+      "url": "https://myanimelist.net/manga/96768/Gekijouban_Naruto__Shippuuden_-_The_Lost_Tower",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/172679.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/172679t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/172679l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/3/172679.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/3/172679t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/3/172679l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Gekijouban Naruto: Shippuuden - The Lost Tower"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Shippuuden the Movie 4: The Lost Tower"
+        },
+        {
+          "type": "Japanese",
+          "title": "劇場版NARUTO 疾風伝 ザ・ロストタワー"
+        }
+      ],
+      "title": "Gekijouban Naruto: Shippuuden - The Lost Tower",
+      "title_english": null,
+      "title_japanese": "劇場版NARUTO 疾風伝 ザ・ロストタワー",
+      "title_synonyms": [
+        "Naruto: Shippuuden the Movie 4: The Lost Tower"
+      ],
+      "type": "Light Novel",
+      "chapters": null,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2010-08-02T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 2,
+            "month": 8,
+            "year": 2010
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Aug 2, 2010"
+      },
+      "score": 7.25,
+      "scored": 7.25,
+      "scored_by": 216,
+      "rank": 5384,
+      "popularity": 18346,
+      "members": 711,
+      "favorites": 5,
+      "synopsis": "Assigned on a mission to capture Mukade, a missing-nin, Naruto Uzumaki sets out for the once glorious historic ruins of \"Ouran,\" where he pursues and corners the rogue ninja. Mukade's goal is revealed to be a dormant leyline within the ruins; he unleashes the power of the leyline, causing a light to envelop Naruto, sending him into the past, 20 years before the series began. When Naruto awakens, he comes into contact with the Fourth Hokage, Minato Namikaze. (Source: Wikipedia)",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 4853,
+          "type": "people",
+          "name": "Kusakabe, Masatoshi",
+          "url": "https://myanimelist.net/people/4853/Masatoshi_Kusakabe"
+        },
+        {
+          "mal_id": 5163,
+          "type": "people",
+          "name": "Takegami, Junki",
+          "url": "https://myanimelist.net/people/5163/Junki_Takegami"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [
+        {
+          "mal_id": 79,
+          "type": "manga",
+          "name": "Time Travel",
+          "url": "https://myanimelist.net/manga/genre/79/Time_Travel"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    },
+    {
+      "mal_id": 96767,
+      "url": "https://myanimelist.net/manga/96767/Gekijouban_Naruto__Shippuuden_-_Hi_no_Ishi_wo_Tsugu_Mono",
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/228884.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/228884t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/228884l.jpg"
+        },
+        "webp": {
+          "image_url": "https://cdn.myanimelist.net/images/manga/2/228884.webp",
+          "small_image_url": "https://cdn.myanimelist.net/images/manga/2/228884t.webp",
+          "large_image_url": "https://cdn.myanimelist.net/images/manga/2/228884l.webp"
+        }
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "Default",
+          "title": "Gekijouban Naruto: Shippuuden - Hi no Ishi wo Tsugu Mono"
+        },
+        {
+          "type": "Synonym",
+          "title": "Naruto: Shippuuden the Movie 3: Inheritors of the Will of Fire"
+        },
+        {
+          "type": "Japanese",
+          "title": "劇場版NARUTO 疾風伝 火の意志を継ぐ者"
+        }
+      ],
+      "title": "Gekijouban Naruto: Shippuuden - Hi no Ishi wo Tsugu Mono",
+      "title_english": null,
+      "title_japanese": "劇場版NARUTO 疾風伝 火の意志を継ぐ者",
+      "title_synonyms": [
+        "Naruto: Shippuuden the Movie 3: Inheritors of the Will of Fire"
+      ],
+      "type": "Light Novel",
+      "chapters": null,
+      "volumes": 1,
+      "status": "Finished",
+      "publishing": false,
+      "published": {
+        "from": "2009-08-03T00:00:00+00:00",
+        "to": null,
+        "prop": {
+          "from": {
+            "day": 3,
+            "month": 8,
+            "year": 2009
+          },
+          "to": {
+            "day": null,
+            "month": null,
+            "year": null
+          }
+        },
+        "string": "Aug 3, 2009"
+      },
+      "score": 7.33,
+      "scored": 7.33,
+      "scored_by": 193,
+      "rank": 4563,
+      "popularity": 19381,
+      "members": 649,
+      "favorites": 4,
+      "synopsis": "Ninjas with bloodline limits begin disappearing in all the countries and blame points toward the fire nation. By Tsunade's order, Kakashi is sacrificed to prevent an all out war. After inheriting charms left by Kakashi, Naruto fights through friends and foes to prevent his death while changing the minds of those who've inherited the will of fire. (Source: ANN)",
+      "background": null,
+      "authors": [
+        {
+          "mal_id": 1879,
+          "type": "people",
+          "name": "Kishimoto, Masashi",
+          "url": "https://myanimelist.net/people/1879/Masashi_Kishimoto"
+        },
+        {
+          "mal_id": 4853,
+          "type": "people",
+          "name": "Kusakabe, Masatoshi",
+          "url": "https://myanimelist.net/people/4853/Masatoshi_Kusakabe"
+        },
+        {
+          "mal_id": 5163,
+          "type": "people",
+          "name": "Takegami, Junki",
+          "url": "https://myanimelist.net/people/5163/Junki_Takegami"
+        }
+      ],
+      "serializations": [],
+      "genres": [
+        {
+          "mal_id": 1,
+          "type": "manga",
+          "name": "Action",
+          "url": "https://myanimelist.net/manga/genre/1/Action"
+        },
+        {
+          "mal_id": 2,
+          "type": "manga",
+          "name": "Adventure",
+          "url": "https://myanimelist.net/manga/genre/2/Adventure"
+        },
+        {
+          "mal_id": 10,
+          "type": "manga",
+          "name": "Fantasy",
+          "url": "https://myanimelist.net/manga/genre/10/Fantasy"
+        }
+      ],
+      "explicit_genres": [],
+      "themes": [],
+      "demographics": [
+        {
+          "mal_id": 27,
+          "type": "manga",
+          "name": "Shounen",
+          "url": "https://myanimelist.net/manga/genre/27/Shounen"
+        }
+      ]
+    }
+  ]
+}

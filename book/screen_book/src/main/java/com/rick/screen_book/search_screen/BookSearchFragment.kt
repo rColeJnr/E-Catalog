@@ -16,9 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data.model_book.Favorite
-import com.rick.data_book.gutenberg.model.Book
-import com.rick.data_book.gutenberg.model.Formats
+import com.rick.data.model_book.UserGutenberg
+import com.rick.data.model_book.gutenberg.Formats
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -106,13 +105,13 @@ class BookSearchFragment : Fragment() {
     }
 
     // TDDO
-    private fun onFavClick(favorite: com.rick.data.model_book.Favorite) {
-        viewModel.onEvent(SearchUiAction.InsertFavorite(favorite))
+    private fun onFavClick(favorite: Int, isFavorite: Boolean) {
+        viewModel.onEvent(SearchUiAction.UpdateGutenbergFavorite(favorite, isFavorite))
     }
 
     private fun FragmentBookSearchBinding.bindState(
         adapter: SearchAdapter,
-        searchList: LiveData<List<Book>>,
+        searchList: LiveData<List<UserGutenberg>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>,
         uiAction: (SearchUiAction) -> Unit,
@@ -176,7 +175,7 @@ class BookSearchFragment : Fragment() {
 
     private fun FragmentBookSearchBinding.bindList(
         adapter: SearchAdapter,
-        searchList: LiveData<List<Book>>,
+        searchList: LiveData<List<UserGutenberg>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>
     ) {
@@ -209,10 +208,10 @@ class BookSearchFragment : Fragment() {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
         }
-        val searchToDetails = getString(R.string.search_transition_name, formats.image)
+        val searchToDetails = getString(R.string.search_transition_name, formats.imageJpeg)
         val extras = FragmentNavigatorExtras(view to searchToDetails)
         val link: String = formats.run {
-            this.textHtml ?: this.textPlain ?: this.textPlainCharsetUtf8!!
+            this.textHtml ?: this.textPlain ?: this.textPlainCharsetUtf8
         }
         val action =
             BookSearchFragmentDirections

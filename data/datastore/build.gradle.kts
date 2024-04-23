@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.ecatalogs.android.library)
     alias(libs.plugins.ecatalogs.android.library.jacoco)
     alias(libs.plugins.ecatalogs.android.hilt)
+    alias(libs.plugins.ecatalogs.android.room)
 }
 
 android {
@@ -19,7 +20,9 @@ android {
 dependencies {
     api(libs.androidx.datastore.core)
     api(projects.data.datastoreProto)
+    api(projects.data.modelAnime)
+    api(projects.data.modelBook)
+    api(projects.data.modelMovie)
 
-//    testImplementation(projects.core.datastoreTest)
-//    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

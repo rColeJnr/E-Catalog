@@ -7,13 +7,11 @@
 
     <fragment
         android:id="@+id/bookCatalogFragment"
-        android:name="com.rick.screen_book.BookCatalogFragment"
-        android:label=""
-        >
+        android:name="com.rick.screen_book.gutenberg_screen.BookCatalogFragment"
+        android:label="">
         <action
             android:id="@+id/action_bookCatalogFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment"
-            />
+            app:destination="@id/bookDetailsFragment" />
         <action
             android:id="@+id/action_bookCatalogFragment_to_searchFragment"
             app:destination="@id/bookSearchFragment" />
@@ -29,7 +27,7 @@
     <fragment
         android:id="@+id/bookSearchFragment"
         android:name="com.rick.screen_book.search_screen.BookSearchFragment"
-        tools:layout="@layout/fragment_book_search" >
+        tools:layout="@layout/fragment_book_search">
         <action
             android:id="@+id/action_searchFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />

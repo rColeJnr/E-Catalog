@@ -4,14 +4,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.data.model_book.Favorite
-import com.rick.data_book.gutenberg.model.Formats
-import com.rick.screen_book.BookCatalogAdapter
-import com.rick.screen_book.BookCatalogViewHolder
+import com.rick.data.model_book.gutenberg.Formats
+import com.rick.screen_book.gutenberg_screen.BookCatalogAdapter
+import com.rick.screen_book.gutenberg_screen.BookCatalogViewHolder
 
 class SearchAdapter(
     private val onItemClick: (view: View, formats: Formats) -> Unit,
-    private val onFavClick: (favorite: com.rick.data.model_book.Favorite) -> Unit
+    private val onFavClick: (Int, Boolean) -> Unit
 ) : RecyclerView.Adapter<BookCatalogViewHolder>() {
 
     private val diffUtil = BookCatalogAdapter.DIFF_UTIL

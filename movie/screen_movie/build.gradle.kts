@@ -1,13 +1,26 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
     alias(libs.plugins.ecatalogs.android.paging)
+    alias(libs.plugins.ecatalogs.android.room)
 }
 //
 dependencies {
-    implementation(projects.movie.dataMovie)
+//    implementation(projects.core)
+    implementation(projects.data.modelMovie)
+    implementation(projects.data.dataMovie)
+    implementation(projects.uiComponents.movieFavorite)
+    implementation(libs.compose.ui)
+    implementation(libs.lifecycle.runtimeCompose)
 }
 
 android {
+    buildFeatures {
+        compose = true
+        viewBinding = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
     externalNativeBuild {
         ndkBuild {
             path = file("src/main/jni/Android.mk") //Path of android.mk

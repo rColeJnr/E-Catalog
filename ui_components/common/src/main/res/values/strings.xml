@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_components_favorite_favorite_button">Favorite button</string>
+    <string name="ui_components_favorite_favorite_fragment">Favorite fragment</string>
+    <string name="ui_components_favorite_favorite">Favorite</string>
+    <string name="ui_components_anime_favorite_favorites">Favorites</string>
+    <string name="ui_components_anime_favorite_nothing_found">NOthing found</string>
+</resources>

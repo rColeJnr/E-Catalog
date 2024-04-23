@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.rick.data_movie.MovieCatalogRepository
-import com.rick.data_movie.favorite.Favorite
-import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
+import com.rick.data.model_movie.UserTrendingMovie
+import com.rick.data.movie_favorite.repository.trending_movie.CompositeTrendingMovieRepository
+import com.rick.data.movie_favorite.repository.trending_movie.UserTrendingMovieDataRepository
 import com.rick.screen_movie.util.LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,12 +16,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TrendingMovieViewModel @Inject constructor(
-    private val repository: MovieCatalogRepository
+    private val compositeMovieRepository: CompositeTrendingMovieRepository,
+    private val userDataRepository: UserTrendingMovieDataRepository
 ) : ViewModel() {
 
     private val apiKey: String
-    val pagingDataFlow: Flow<PagingData<TrendingMovie>>
-    private var favorite: Favorite? = null
+    val pagingDataFlow: Flow<PagingData<UserTrendingMovie>>
 
     init {
         System.loadLibrary(LIB_NAME)
@@ -30,37 +30,29 @@ class TrendingMovieViewModel @Inject constructor(
         pagingDataFlow = getTrendingMovies().cachedIn(viewModelScope)
     }
 
-    private fun getTrendingMovies(): Flow<PagingData<TrendingMovie>> =
-        repository.getTrendingMovie(apiKey)
+    private fun getTrendingMovies(): Flow<PagingData<UserTrendingMovie>> =
+        compositeMovieRepository.observeTrendingMovie(apiKey, viewModelScope)
 
     fun onEvent(event: TrendingMovieUiEvent) {
         when (event) {
-            is TrendingMovieUiEvent.InsertFavorite -> insertFavorite(event.favorite)
-            is TrendingMovieUiEvent.RemoveFavorite -> removeFavorite()
+            is TrendingMovieUiEvent.UpdateTrendingMovieFavorite -> updateTrendingMovieFavorite(
+                event.id,
+                event.isFavorite
+            )
         }
     }
 
-    private fun insertFavorite(movie: TrendingMovie) {
-        favorite = movie.toFavorite()
+    private fun updateTrendingMovieFavorite(id: Int, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertFavorite(favorite!!)
+            userDataRepository.setTrendingMovieFavoriteId(id, isFavorite)
         }
-    }
-
-    private fun removeFavorite() {
-        favorite?.let {
-            viewModelScope.launch(Dispatchers.IO) {
-                repository.removeFavorite(it)
-            }
-        }
-        favorite = null
     }
 
 }
 
-sealed class TrendingMovieUiEvent{
-    data class InsertFavorite(val favorite: TrendingMovie): TrendingMovieUiEvent()
-    object RemoveFavorite: TrendingMovieUiEvent()
+sealed class TrendingMovieUiEvent {
+    data class UpdateTrendingMovieFavorite(val id: Int, val isFavorite: Boolean) :
+        TrendingMovieUiEvent()
 }
 
 private external fun getTmdbKey(): String

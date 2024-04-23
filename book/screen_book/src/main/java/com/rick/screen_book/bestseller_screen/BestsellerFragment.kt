@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,23 +15,15 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.rick.data_book.nytimes.model.NYBook
-import com.rick.`screen-book`.R
-import com.rick.screen_book.BookLoadStateAdapter
-import com.rick.screen_book.ErrorMessage
+import com.rick.data.model_book.UserBestseller
 import com.rick.screen_book.R
-import com.rick.screen_book.RemotePresentationState
-import com.rick.screen_book.asRemotePresentationState
 import com.rick.screen_book.databinding.FragmentBestsellerBinding
+import com.rick.ui_components.common.ErrorMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -45,9 +36,7 @@ class BestsellerFragment : Fragment() {
     private lateinit var adapter: BestsellerAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBestsellerBinding.inflate(inflater, container, false)
 
@@ -66,50 +55,36 @@ class BestsellerFragment : Fragment() {
 
     private fun FragmentBestsellerBinding.bindList(
         adapter: BestsellerAdapter,
-        pagingDataFlow: Flow<PagingData<NYBook>>,
+        pagingDataFlow: Flow<List<UserBestseller>>,
     ) {
 
         lifecycleScope.launch {
-            pagingDataFlow.collectLatest(adapter::submitData)
+            pagingDataFlow.collectLatest(adapter.differ::submitList)
         }
 
         lifecycleScope.launch {
-            adapter.loadStateFlow.collect { loadState ->
-                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-                // show empty list.
-                composeView.setContent {
 
-                    ErrorMessage(getString(R.string.no_results))
+            // show empty list.
+            bookComposeView.setContent {
 
-                }
-                composeView.isVisible =
-                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+                ErrorMessage(getString(R.string.no_results))
 
-                val errorState = loadState.source.refresh as? LoadState.Error
-                    ?: loadState.mediator?.refresh as? LoadState.Error
+            }
 
-                errorState?.let {
+            val errorState = adapter.itemCount == 0
+            when (errorState) {
+                true -> {
                     Toast.makeText(
-                        context,
-                        "\uD83D\uDE28 Wooops $it",
-                        Toast.LENGTH_SHORT
+                        context, "\uD83D\uDE28 Wooops", Toast.LENGTH_SHORT
                     ).show()
+                    bookComposeView.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    bookComposeView.visibility = View.GONE
                 }
             }
 
-        }
-
-        val notLoading = adapter.loadStateFlow.asRemotePresentationState()
-            .map { it == RemotePresentationState.PRESENTED }
-
-        lifecycleScope.launch {
-            notLoading.collectLatest {
-                if (it) recyclerView.scrollToPosition(0)
-            }
-        }
-
-        swipeRefresh.setOnRefreshListener {
-            adapter.refresh()
         }
     }
 
@@ -140,38 +115,28 @@ class BestsellerFragment : Fragment() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
-        binding.recyclerView.adapter =
-            adapter.withLoadStateFooter(
-                footer = BookLoadStateAdapter { adapter.retry() }
-            )
+        binding.recyclerView.adapter = adapter
     }
 
-    private fun onFavoriteClick(view: View, book: NYBook) {
+    private fun onFavoriteClick(view: View, id: String, isFavorite: Boolean) {
         //TODO add animation to indicate favorited
-        viewModel.onEvent(BestsellerEvents.OnFavoriteClick(book))
-        Snackbar.make(view, "Book added to favorites", Snackbar.LENGTH_LONG)
-            .setAction("Cancel") {
-                viewModel.onEvent(BestsellerEvents.OnRemoveFavorite)
-            }
-            .show()
-
+        viewModel.onEvent(BestsellerEvents.UpdateBestsellerFavorite(id, !isFavorite))
     }
 
-    private fun onBookClick(view: View, book: NYBook) {
+    private fun onBookClick(view: View, book: UserBestseller) {
         // Add transition to expand dialog
         BookDetailsDialogFragment(book, this::onDialogFavoriteClick, this::onAmazonLinkClick).show(
-            requireActivity().supportFragmentManager,
-            "book_details"
+            requireActivity().supportFragmentManager, "book_details"
         )
     }
 
-    private fun onDialogFavoriteClick(view: View, book: NYBook) {
-        onFavoriteClick(view, book)
+    private fun onDialogFavoriteClick(view: View, book: UserBestseller) {
+        onFavoriteClick(view, book.id, book.isFavorite)
     }
 
     private fun onAmazonLinkClick(link: String) {
-        val action = BestsellerFragmentDirections
-            .actionBestsellerFragmentToBookDetailsFragment(link)
+        val action =
+            BestsellerFragmentDirections.actionBestsellerFragmentToBookDetailsFragment(link)
         navController.navigate(directions = action)
     }
 
@@ -180,3 +145,5 @@ class BestsellerFragment : Fragment() {
         _binding = null
     }
 }
+
+private const val TAG = "BestsellerFragment"

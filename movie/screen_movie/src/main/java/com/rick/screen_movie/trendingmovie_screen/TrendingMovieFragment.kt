@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.rick.data_movie.tmdb.trending_movie.TrendingMovie
+import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.screen_movie.R
 import com.rick.screen_movie.RemotePresentationState
 import com.rick.screen_movie.asRemotePresentationState
@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TrendingMovieFragment: Fragment() {
+class TrendingMovieFragment : Fragment() {
 
     private var _binding: FragmentMovieCatalogBinding? = null
     private val binding get() = _binding!!
@@ -60,7 +60,7 @@ class TrendingMovieFragment: Fragment() {
     }
 
     private fun FragmentMovieCatalogBinding.bindList(
-        pagingDataFlow: Flow<PagingData<TrendingMovie>>,
+        pagingDataFlow: Flow<PagingData<UserTrendingMovie>>,
         adapter: TrendingMovieAdapter
     ) {
         lifecycleScope.launch {
@@ -103,15 +103,15 @@ class TrendingMovieFragment: Fragment() {
         }
     }
 
-    private fun onMovieClick(view: View, movie: TrendingMovie){
+    private fun onMovieClick(view: View, movie: UserTrendingMovie) {
         //TODO add animations
         val action = TrendingMovieFragmentDirections
             .actionTrendingMovieFragmentToMovieDetailsFragment(movie.id)
         findNavController().navigate(action)
     }
 
-    private fun onFavClick(view: View, movie: TrendingMovie){
-        //TODO
+    private fun onFavClick(view: View, id: Int, isFavorite: Boolean) {
+        viewModel.onEvent(TrendingMovieUiEvent.UpdateTrendingMovieFavorite(id, !isFavorite))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
