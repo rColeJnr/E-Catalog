@@ -1,19 +1,27 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
-    alias(libs.plugins.gms)
+    id("com.google.gms.google-services")
+    alias(libs.plugins.ecatalogs.android.room)
 }
 dependencies {
     implementation(projects.authentication.authData)
     implementation(projects.uiComponents.auth)
 
-    implementation(libs.firebase.bom)
-    implementation(libs.firebase.auth)
-    implementation(libs.play.services.auth)
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     implementation(libs.compose.runtime)
     implementation(libs.compose.ui)
 }
 
 android {
+    buildFeatures {
+        compose = true
+        viewBinding = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
     namespace = "com.rick.auth_screen"
 }

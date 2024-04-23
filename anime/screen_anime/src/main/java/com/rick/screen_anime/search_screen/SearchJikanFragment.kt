@@ -16,10 +16,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data_anime.favorite.JikanFavorite
-import com.rick.data_anime.model_jikan.Jikan
+import com.rick.data.model_anime.UserAnime
 import com.rick.screen_anime.R
-import com.rick.screen_anime.databinding.FragmentJikanSearchBinding
+import com.rick.screen_anime.databinding.AnimeScreenAnimeFragmentJikanSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchJikanFragment : Fragment() {
 
-    private var _binding: FragmentJikanSearchBinding? = null
+    private var _binding: AnimeScreenAnimeFragmentJikanSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchAnimeViewModel by viewModels()
     private lateinit var adapter: SearchJikanAdapter
@@ -38,10 +37,14 @@ class SearchJikanFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
     }
 
@@ -50,10 +53,10 @@ class SearchJikanFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentJikanSearchBinding.inflate(inflater, container, false)
+        _binding = AnimeScreenAnimeFragmentJikanSearchBinding.inflate(inflater, container, false)
 
         binding.toolbar.apply {
-            inflateMenu(R.menu.jikan_menu)
+            inflateMenu(R.menu.anime_screen_anime_jikan_menu)
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -61,11 +64,12 @@ class SearchJikanFragment : Fragment() {
                         binding.updateListFromInput(viewModel.searchUiAction)
                         true
                     }
+
                     else -> super.onOptionsItemSelected(item)
                 }
             }
 
-            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationIcon(R.drawable.anime_screen_anime_ic_arrow_back)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -96,9 +100,9 @@ class SearchJikanFragment : Fragment() {
         binding.list.itemAnimator = DefaultItemAnimator()
     }
 
-    private fun FragmentJikanSearchBinding.bindState(
+    private fun AnimeScreenAnimeFragmentJikanSearchBinding.bindState(
         adapter: SearchJikanAdapter,
-        searchList: LiveData<List<Jikan>>,
+        searchList: LiveData<List<UserAnime>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>,
         uiAction: (SearchUiAction) -> Unit,
@@ -119,7 +123,7 @@ class SearchJikanFragment : Fragment() {
         )
     }
 
-    private fun FragmentJikanSearchBinding.bindSearch(
+    private fun AnimeScreenAnimeFragmentJikanSearchBinding.bindSearch(
         uiState: StateFlow<SearchUiState>,
         onQueryChanged: (SearchUiAction) -> Unit
     ) {
@@ -148,7 +152,7 @@ class SearchJikanFragment : Fragment() {
         }
     }
 
-    private fun FragmentJikanSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchJikan) -> Unit) {
+    private fun AnimeScreenAnimeFragmentJikanSearchBinding.updateListFromInput(onQueryChanged: (SearchUiAction.SearchJikan) -> Unit) {
         searchInput.text!!.trim().let { query ->
             if (query.isNotEmpty()) {
                 list.scrollToPosition(0)
@@ -158,9 +162,9 @@ class SearchJikanFragment : Fragment() {
         }
     }
 
-    private fun FragmentJikanSearchBinding.bindList(
+    private fun AnimeScreenAnimeFragmentJikanSearchBinding.bindList(
         adapter: SearchJikanAdapter,
-        searchList: LiveData<List<Jikan>>,
+        searchList: LiveData<List<UserAnime>>,
         searchLoading: LiveData<Boolean>,
         searchError: LiveData<String>
     ) {
@@ -192,27 +196,32 @@ class SearchJikanFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
-    private fun onAnimeClick(view: View, jikan: Jikan) {
+    private fun onAnimeClick(view: View, jikan: UserAnime) {
         exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.anime_screen_anime_catalog_motion_duration_long)
+                    .toLong()
         }
 //        val searchToDetails = getString(R.string.search_transition_name, formats.image)
 //        val extras = FragmentNavigatorExtras(view to searchToDetails)
         val action =
             SearchJikanFragmentDirections
                 .actionSearchJikanFragmentDetailsJikanFragment(
-                    jikan = jikan
+               
                 )
 
-        findNavController().navigate(directions = action,)
+        findNavController().navigate(directions = action)
     }
 
-    private fun onFavClick(favorite: JikanFavorite) {
-        viewModel.onEvent(SearchUiAction.InsertFavorite(favorite))
+    private fun onFavClick(id: Int, isFavorite: Boolean) {
+        viewModel.onEvent(SearchUiAction.UpdateFavorite(id, isFavorite))
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

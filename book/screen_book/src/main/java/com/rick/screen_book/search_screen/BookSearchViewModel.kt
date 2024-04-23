@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.load.engine.Resource
-import com.rick.core.Resource
-import com.rick.data.model_book.Favorite
-import com.rick.data_book.BookRepository
-import com.rick.data_book.gutenberg.model.Book
+import com.rick.data.data_book.repository.gutenberg.CompositeGutenbergRepository
+import com.rick.data.data_book.repository.gutenberg.UserGutenbergDataRepository
+import com.rick.data.model_book.UserGutenberg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -24,12 +22,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookSearchViewModel @Inject constructor(
-    private val repository: BookRepository
+    private val compositeBookRepository: CompositeGutenbergRepository,
+    private val userDataRepository: UserGutenbergDataRepository
 ) : ViewModel() {
 
-    private val _searchList: MutableLiveData<List<Book>> by
-    lazy { MutableLiveData<List<Book>>() }
-    val searchList: LiveData<List<Book>> get() = _searchList
+    private val _searchList: MutableLiveData<List<UserGutenberg>> by
+    lazy { MutableLiveData<List<UserGutenberg>>() }
+    val searchList: LiveData<List<UserGutenberg>> get() = _searchList
 
     private val _searchLoading: MutableLiveData<Boolean> by
     lazy { MutableLiveData<Boolean>(false) }
@@ -68,34 +67,24 @@ class BookSearchViewModel @Inject constructor(
 
     fun onEvent(event: SearchUiAction) {
         when (event) {
-            is SearchUiAction.InsertFavorite -> insertFavorite(event.favorite)
+            is SearchUiAction.UpdateGutenbergFavorite -> updateGutenbergFavorite(
+                event.id,
+                event.isFavorite
+            )
+
             else -> {}
         }
     }
 
-    private fun insertFavorite(favorite: com.rick.data.model_book.Favorite) {
+    private fun updateGutenbergFavorite(id: Int, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(favorite)
+            userDataRepository.setGutenbergFavoriteId(id, isFavorite)
         }
     }
 
     private fun searchBooks(query: String) {
         viewModelScope.launch {
-            repository.searchBooks(query).collect { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _searchError.postValue(result.message)
-                    }
-
-                    is Resource.Loading -> {
-                        _searchLoading.postValue(result.isLoading)
-                    }
-
-                    is Resource.Success -> {
-                        _searchList.postValue(result.data!!)
-                    }
-                }
-            }
+            //TODO()
         }
     }
 
@@ -103,7 +92,7 @@ class BookSearchViewModel @Inject constructor(
 
 sealed class SearchUiAction {
     data class SearchBooks(val query: String) : SearchUiAction()
-    data class InsertFavorite(val favorite: com.rick.data.model_book.Favorite) : SearchUiAction()
+    data class UpdateGutenbergFavorite(val id: Int, val isFavorite: Boolean) : SearchUiAction()
 }
 
 data class SearchUiState(

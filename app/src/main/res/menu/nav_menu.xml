@@ -7,20 +7,17 @@
             <item
                 android:id="@+id/bestseller_graph"
                 android:icon="@drawable/ic_book"
-                android:title="@string/nyt_bestseller"
-                />
+                android:title="@string/nyt_bestseller" />
 
             <item
                 android:id="@+id/book_graph"
                 android:icon="@drawable/ic_book"
-                android:title="@string/the_gutenberg_project"
-                />
+                android:title="@string/the_gutenberg_project" />
 
             <item
                 android:id="@+id/book_favorite_graph"
-                android:icon="@drawable/fav_filled_icon"
-                android:title="@string/favorite"
-                />
+                android:icon="@drawable/anime_screen_anime_fav_filled_icon"
+                android:title="@string/anime_screen_anime_favorite" />
         </menu>
     </item>
 
@@ -30,25 +27,21 @@
             <item
                 android:id="@+id/series_graph"
                 android:icon="@drawable/ic_tvseries"
-                android:title="@string/trending_series"
-                />
+                android:title="@string/trending_series" />
 
             <item
                 android:id="@+id/trendingmovie_graph"
                 android:icon="@drawable/ic_movie"
-                android:title="@string/trending_movies"
-                />
+                android:title="@string/trending_movies" />
             <item
                 android:id="@+id/movie_graph"
                 android:icon="@drawable/ic_movie"
-                android:title="@string/nyt_articles"
-                />
+                android:title="@string/nyt_articles" />
 
             <item
                 android:id="@+id/moving_pictures_favorites_graph"
-                android:icon="@drawable/fav_filled_icon"
-                android:title="@string/favorite"
-                />
+                android:icon="@drawable/anime_screen_anime_fav_filled_icon"
+                android:title="@string/anime_screen_anime_favorite" />
         </menu>
     </item>
 
@@ -57,20 +50,17 @@
             <item
                 android:id="@+id/anime_graph"
                 android:icon="@drawable/ic_anime"
-                android:title="@string/anime"
-                />
+                android:title="@string/anime_screen_anime_anime" />
 
             <item
                 android:id="@+id/manga_graph"
                 android:icon="@drawable/ic_manga"
-                android:title="@string/manga"
-                />
+                android:title="@string/anime_screen_anime_manga" />
 
             <item
                 android:id="@+id/animation_favorite_graph"
-                android:icon="@drawable/fav_filled_icon"
-                android:title="@string/favorite"
-                />
+                android:icon="@drawable/anime_screen_anime_fav_filled_icon"
+                android:title="@string/anime_screen_anime_favorite" />
         </menu>
     </item>
 

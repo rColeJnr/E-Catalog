@@ -57,7 +57,7 @@
             android:id="@+id/favorite"
             android:layout_width="26dp"
             android:layout_height="21dp"
-            android:src="@drawable/fav_filled_icon"
+            android:src="@drawable/fav_outline_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

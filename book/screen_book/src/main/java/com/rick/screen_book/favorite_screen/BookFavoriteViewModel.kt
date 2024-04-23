@@ -1,72 +1,128 @@
 package com.rick.screen_book.favorite_screen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.load.engine.Resource
-import com.rick.core.Resource
-import com.rick.data.model_book.Favorite
-import com.rick.data_book.BookRepository
+import com.rick.data.data_book.repository.bestseller.UserBestsellerDataRepository
+import com.rick.data.data_book.repository.bestseller.UserBestsellerRepository
+import com.rick.data.data_book.repository.gutenberg.UserGutenbergDataRepository
+import com.rick.data.data_book.repository.gutenberg.UserGutenbergRepository
+import com.rick.data.model_book.FavoriteUiEvents
+import com.rick.data.model_book.FavoriteUiState
+import com.rick.data.model_book.UserBestseller
+import com.rick.data.model_book.UserGutenberg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BookFavoriteViewModel @Inject constructor(private val repo: BookRepository) : ViewModel() {
+class BookFavoriteViewModel @Inject constructor(
+    private val userBestsellerDataRepository: UserBestsellerDataRepository,
+    private val userGutenbergDataRepository: UserGutenbergDataRepository,
+    userBestsellerBookRepository: UserBestsellerRepository,
+    userGutenbergBookRepository: UserGutenbergRepository,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val _books = MutableLiveData<List<com.rick.data.model_book.Favorite>>()
-    val books: LiveData<List<com.rick.data.model_book.Favorite>> get() = _books
+    val showBestsellers = savedStateHandle.getStateFlow(key = SHOW_BESTSELLERS, false)
+    val showGutenberg = savedStateHandle.getStateFlow(key = SHOW_GUTENBERG, true)
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
+    var shouldDisplayUndoGutenbergFavorite by mutableStateOf(false)
+    var shouldDisplayUndoBestsellerFavorite by mutableStateOf(false)
 
-    init {
-        getFavorites()
+    private var lastRemovedBestsellerFavorite: String? = null
+    private var lastRemovedGutenbergFavorite: Int? = null
+
+    val feedGutenbergUiState: StateFlow<FavoriteUiState> =
+        userGutenbergBookRepository.observeGutenbergFavorite()
+            .map<List<UserGutenberg>, FavoriteUiState>(FavoriteUiState::GutenbergFavorites)
+            .onStart { emit(FavoriteUiState.Loading) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = FavoriteUiState.Loading
+            )
+
+    val feedBestsellerUiState: StateFlow<FavoriteUiState> =
+        userBestsellerBookRepository.observeBestsellerFavorite()
+            .map<List<UserBestseller>, FavoriteUiState>(FavoriteUiState::BestsellerFavorites)
+            .onStart { emit(FavoriteUiState.Loading) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = FavoriteUiState.Loading
+            )
+
+    fun onEvent(event: FavoriteUiEvents) {
+        when (event) {
+            is FavoriteUiEvents.RemoveGutenbergFavorite -> removeGutenbergFavorite(event.bookId)
+            is FavoriteUiEvents.RemoveBestsellerFavorite -> removeBestsellerFavorite(event.bookId)
+            is FavoriteUiEvents.UndoBestsellerFavoriteRemoval -> undoBestsellerFavoriteRemoval()
+            is FavoriteUiEvents.UndoGutenbergFavoriteRemoval -> undoGutenbergFavoriteRemoval()
+            is FavoriteUiEvents.ClearUndoState -> clearUndoState()
+            is FavoriteUiEvents.ShouldShowBestsellers -> shouldShowBestsellers(event.show)
+            is FavoriteUiEvents.ShouldShowGutenberg -> shouldShowGutenberg(event.show)
+        }
     }
 
-    private fun getFavorites() {
-        viewModelScope.launch {
-            repo.getFavoriteBook().collectLatest { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        _loading.postValue(resource.isLoading)
-                    }
-
-                    is Resource.Success -> {
-                        _books.postValue(resource.data ?: listOf())
-                    }
-
-                    else -> {}
-                }
+    private fun undoGutenbergFavoriteRemoval() {
+        viewModelScope.launch(Dispatchers.IO) {
+            lastRemovedGutenbergFavorite?.let {
+                userGutenbergDataRepository.setGutenbergFavoriteId(it, true)
             }
         }
     }
 
-    fun onEvent(event: FavoriteEvents) {
-        when (event) {
-            is FavoriteEvents.InsertFavorite -> insertFavorite(event.fav)
-            is FavoriteEvents.DeleteFavorite -> deleteFavorite(event.fav)
+    private fun undoBestsellerFavoriteRemoval() {
+        viewModelScope.launch(Dispatchers.IO) {
+            lastRemovedBestsellerFavorite?.let {
+                userBestsellerDataRepository.setBestsellerFavoriteId(it, true)
+            }
         }
     }
 
-    private fun insertFavorite(fav: com.rick.data.model_book.Favorite) {
+    private fun removeGutenbergFavorite(favoriteId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insert(fav)
+            shouldDisplayUndoGutenbergFavorite = true
+            lastRemovedGutenbergFavorite = favoriteId
+            userGutenbergDataRepository.setGutenbergFavoriteId(favoriteId, false)
         }
     }
 
-    private fun deleteFavorite(fav: com.rick.data.model_book.Favorite) {
+    private fun removeBestsellerFavorite(favoriteId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.delete(fav)
+            shouldDisplayUndoBestsellerFavorite = true
+            lastRemovedBestsellerFavorite = favoriteId
+            userBestsellerDataRepository.setBestsellerFavoriteId(favoriteId, false)
         }
+    }
+
+    private fun clearUndoState() {
+        shouldDisplayUndoGutenbergFavorite = false
+        shouldDisplayUndoBestsellerFavorite = false
+        lastRemovedBestsellerFavorite = null
+        lastRemovedGutenbergFavorite = null
+    }
+
+    private fun shouldShowBestsellers(show: Boolean) {
+        savedStateHandle[SHOW_BESTSELLERS] = show
+    }
+
+    private fun shouldShowGutenberg(show: Boolean) {
+        savedStateHandle[SHOW_GUTENBERG] = show
     }
 
 }
 
-sealed class FavoriteEvents {
-    data class InsertFavorite(val fav: com.rick.data.model_book.Favorite) : FavoriteEvents()
-    data class DeleteFavorite(val fav: com.rick.data.model_book.Favorite) : FavoriteEvents()
-}
+private const val SHOW_BESTSELLERS = "showBestsellers"
+private const val SHOW_GUTENBERG = "showGutenberg"
+private const val TAG = "BookFavoriteViewModel"

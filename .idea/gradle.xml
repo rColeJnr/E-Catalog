@@ -33,21 +33,31 @@
             <option value="$PROJECT_DIR$/book/screen_book" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
-            <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/common" />
+            <option value="$PROJECT_DIR$/data/data_anime" />
+            <option value="$PROJECT_DIR$/data/data_book" />
+            <option value="$PROJECT_DIR$/data/data_movie" />
+            <option value="$PROJECT_DIR$/data/database_anime" />
+            <option value="$PROJECT_DIR$/data/database_book" />
+            <option value="$PROJECT_DIR$/data/database_movie" />
             <option value="$PROJECT_DIR$/data/datastore" />
             <option value="$PROJECT_DIR$/data/datastore_proto" />
             <option value="$PROJECT_DIR$/data/model_anime" />
             <option value="$PROJECT_DIR$/data/model_book" />
-            <option value="$PROJECT_DIR$/data/model_favorite" />
             <option value="$PROJECT_DIR$/data/model_movie" />
+            <option value="$PROJECT_DIR$/data/network_anime" />
+            <option value="$PROJECT_DIR$/data/network_book" />
+            <option value="$PROJECT_DIR$/data/network_movie" />
             <option value="$PROJECT_DIR$/movie" />
             <option value="$PROJECT_DIR$/movie/data_movie" />
             <option value="$PROJECT_DIR$/movie/screen_movie" />
             <option value="$PROJECT_DIR$/ui_components" />
+            <option value="$PROJECT_DIR$/ui_components/anime_favorite" />
             <option value="$PROJECT_DIR$/ui_components/auth" />
+            <option value="$PROJECT_DIR$/ui_components/book_favorite" />
             <option value="$PROJECT_DIR$/ui_components/common" />
-            <option value="$PROJECT_DIR$/ui_components/favorite" />
+            <option value="$PROJECT_DIR$/ui_components/movie_favorite" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

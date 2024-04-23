@@ -12,14 +12,30 @@
       <module name="ecatalogs.authentication.auth_screen" target="17" />
       <module name="ecatalogs.book.data_book" target="17" />
       <module name="ecatalogs.book.screen_book" target="17" />
-      <module name="ecatalogs.core" target="17" />
+      <module name="ecatalogs.data.anime_favorite" target="17" />
+      <module name="ecatalogs.data.book_favorite" target="17" />
+      <module name="ecatalogs.data.common" target="17" />
+      <module name="ecatalogs.data.data_anime" target="17" />
+      <module name="ecatalogs.data.data_book" target="17" />
+      <module name="ecatalogs.data.data_movie" target="17" />
+      <module name="ecatalogs.data.database_anime" target="17" />
+      <module name="ecatalogs.data.database_book" target="17" />
+      <module name="ecatalogs.data.database_movie" target="17" />
       <module name="ecatalogs.data.datastore" target="17" />
       <module name="ecatalogs.data.datastore_proto" target="17" />
+      <module name="ecatalogs.data.model_favorite" target="17" />
+      <module name="ecatalogs.data.movie_favorite" target="17" />
+      <module name="ecatalogs.data.network_anime" target="17" />
+      <module name="ecatalogs.data.network_book" target="17" />
+      <module name="ecatalogs.data.network_movie" target="17" />
       <module name="ecatalogs.movie.data_movie" target="17" />
       <module name="ecatalogs.movie.screen_movie" target="17" />
+      <module name="ecatalogs.ui_components.anime_favorite" target="17" />
       <module name="ecatalogs.ui_components.auth" target="17" />
+      <module name="ecatalogs.ui_components.book_favorite" target="17" />
       <module name="ecatalogs.ui_components.common" target="17" />
       <module name="ecatalogs.ui_components.favorite" target="17" />
+      <module name="ecatalogs.ui_components.movie_favorite" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

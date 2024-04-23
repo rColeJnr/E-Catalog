@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="eight_dp">8dp</dimen>
-    <dimen name="movie_title">300dp</dimen>
-    <dimen name="image_height">260dp</dimen>
-    <dimen name="sixteen_dimen">16dp</dimen>
-    <dimen name="error_text_size">12sp</dimen>
-    <dimen name="large_text">24sp</dimen>
-    <dimen name="two_dp">2dp</dimen>
-    <dimen name="six_dp">6dp</dimen>
-    <dimen name="min_image_width">150dp</dimen>
-    <dimen name="max_image_width">400dp</dimen>
-    <dimen name="card_corner_radius">10dp</dimen>
-    <dimen name="twelve_dp">12dp</dimen>
+    <dimen name="anime_screen_anime_eight_dp">8dp</dimen>
+    <dimen name="anime_screen_anime_movie_title">300dp</dimen>
+    <dimen name="anime_screen_anime_image_height">260dp</dimen>
+    <dimen name="anime_screen_anime_sixteen_dimen">16dp</dimen>
+    <dimen name="anime_screen_anime_error_text_size">12sp</dimen>
+    <dimen name="anime_screen_anime_large_text">24sp</dimen>
+    <dimen name="anime_screen_anime_two_dp">2dp</dimen>
+    <dimen name="anime_screen_anime_six_dp">6dp</dimen>
+    <dimen name="anime_screen_anime_min_image_width">150dp</dimen>
+    <dimen name="anime_screen_anime_max_image_width">400dp</dimen>
+    <dimen name="anime_screen_anime_card_corner_radius">10dp</dimen>
+    <dimen name="anime_screen_anime_twelve_dp">12dp</dimen>
 </resources>

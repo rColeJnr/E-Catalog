@@ -2,17 +2,20 @@ package com.rick.screen_book.bestseller_screen
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import com.rick.data_book.nytimes.model.NYBook
+import androidx.recyclerview.widget.RecyclerView
+import com.rick.data.model_book.UserBestseller
 
 class BestsellerAdapter(
-    private val onBookClick: (View, NYBook) -> Unit,
-    private val onFavoriteClick: (View, NYBook) -> Unit,
-): PagingDataAdapter<NYBook, BestsellerViewHolder>(DIFF_UTIL) {
+    private val onBookClick: (View, UserBestseller) -> Unit,
+    private val onFavoriteClick: (View, String, Boolean) -> Unit,
+) : RecyclerView.Adapter<BestsellerViewHolder>() {
+
+    val differ = AsyncListDiffer(this, DIFF_UTIL)
 
     override fun onBindViewHolder(holder: BestsellerViewHolder, position: Int) {
-        getItem(position)?.let {
+        differ.currentList.get(position)?.let {
             holder.bind(book = it)
         }
     }
@@ -21,12 +24,20 @@ class BestsellerAdapter(
         return BestsellerViewHolder.create(parent, onBookClick, onFavoriteClick)
     }
 
+    override fun getItemCount(): Int = differ.currentList.size
+
     companion object {
-        val DIFF_UTIL = object : DiffUtil.ItemCallback<NYBook>() {
-            override fun areItemsTheSame(oldItem: NYBook, newItem: NYBook): Boolean =
+        val DIFF_UTIL = object : DiffUtil.ItemCallback<UserBestseller>() {
+            override fun areItemsTheSame(
+                oldItem: UserBestseller,
+                newItem: UserBestseller
+            ): Boolean =
                 oldItem.rank == newItem.rank
 
-            override fun areContentsTheSame(oldItem: NYBook, newItem: NYBook): Boolean =
+            override fun areContentsTheSame(
+                oldItem: UserBestseller,
+                newItem: UserBestseller
+            ): Boolean =
                 oldItem == newItem
 
         }

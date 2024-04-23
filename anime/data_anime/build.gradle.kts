@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.rick.data_anime"
 }
+
+dependencies {
+    implementation(projects.data.modelAnime)
+}

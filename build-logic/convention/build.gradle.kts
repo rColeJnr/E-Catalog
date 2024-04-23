@@ -87,10 +87,10 @@ gradlePlugin {
             id = "ecatalogs.android.paging"
             implementationClass = "AndroidPagingConventionPlugin"
         }
-//        register("androidFlavors") {
-//            id = "nowinandroid.android.application.flavors"
-//            implementationClass = "AndroidApplicationFlavorsConventionPlugin"
-//        }
+        register("androidroidFlavors") {
+            id = "ecatalogs.android.application.flavors"
+            implementationClass = "AndroidApplicationFlavorsConventionPlugin"
+        }
         register("androidLint") {
             id = "ecatalogs.android.lint"
             implementationClass = "AndroidLintConventionPlugin"

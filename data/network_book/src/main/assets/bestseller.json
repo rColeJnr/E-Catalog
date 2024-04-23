@@ -1,0 +1,1033 @@
+{
+  "status": "OK",
+  "copyright": "Copyright (c) 2024 The New York Times Company.  All Rights Reserved.",
+  "num_results": 15,
+  "last_modified": "2024-04-10T22:25:23-04:00",
+  "results": {
+    "list_name": "Hardcover Fiction",
+    "list_name_encoded": "hardcover-fiction",
+    "bestsellers_date": "2024-04-06",
+    "published_date": "2024-04-21",
+    "published_date_description": "latest",
+    "next_published_date": "",
+    "previous_published_date": "2024-04-14",
+    "display_name": "Hardcover Fiction",
+    "normal_list_ends_at": 15,
+    "updated": "WEEKLY",
+    "books": [
+      {
+        "rank": 0,
+        "rank_last_week": 1,
+        "weeks_on_list": 9,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "1",
+        "primary_isbn13": "9781250178633",
+        "publisher": "St. Martin's",
+        "description": "In 1965, a nursing student follows her brother to serve during the Vietnam War and returns to a divided America.",
+        "price": "1000000000.00",
+        "title": "rColeJnr",
+        "author": "Ricardo Muiambo",
+        "contributor": "by Al'amir Alshujean",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9781250178633.jpg",
+        "book_image_width": 333,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/1250178630?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "1250178",
+            "isbn13": "9781250178633"
+          },
+          {
+            "isbn10": "1250178657",
+            "isbn13": "9781250178657"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1250178630?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781250178633?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781250178633"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FTHE%2BWOMEN%2FKristin%2BHannah%2F9781250178633"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9781250178633"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9781250178633?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/9ce735af-71cf-5ff3-a367-43ee07e3fdd7"
+      },
+      {
+        "rank": 1,
+        "rank_last_week": 1,
+        "weeks_on_list": 9,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "1250178630",
+        "primary_isbn13": "9781250178633",
+        "publisher": "St. Martin's",
+        "description": "In 1965, a nursing student follows her brother to serve during the Vietnam War and returns to a divided America.",
+        "price": "0.00",
+        "title": "THE WOMEN",
+        "author": "Kristin Hannah",
+        "contributor": "by Kristin Hannah",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9781250178633.jpg",
+        "book_image_width": 333,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/1250178630?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "1250178630",
+            "isbn13": "9781250178633"
+          },
+          {
+            "isbn10": "1250178657",
+            "isbn13": "9781250178657"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1250178630?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781250178633?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781250178633"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FTHE%2BWOMEN%2FKristin%2BHannah%2F9781250178633"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9781250178633"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9781250178633?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/9ce735af-71cf-5ff3-a367-43ee07e3fdd7"
+      },
+      {
+        "rank": 2,
+        "rank_last_week": 0,
+        "weeks_on_list": 1,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0593296370",
+        "primary_isbn13": "9780593296370",
+        "publisher": "Viking",
+        "description": "A collection of six short stories based in New York City around the year 2000 and a novella set during the Golden Age of Hollywood.",
+        "price": "0.00",
+        "title": "TABLE FOR TWO",
+        "author": "Amor Towles",
+        "contributor": "by Amor Towles",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780593296370.jpg",
+        "book_image_width": 331,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0593296370?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0593296370",
+            "isbn13": "9780593296370"
+          },
+          {
+            "isbn10": "0593296389",
+            "isbn13": "9780593296387"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0593296370?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780593296370?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780593296370"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FTABLE%2BFOR%2BTWO%2FAmor%2BTowles%2F9780593296370"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780593296370"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780593296370?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/d5052297-c091-5964-b895-7f8017c26f8a"
+      },
+      {
+        "rank": 3,
+        "rank_last_week": 2,
+        "weeks_on_list": 48,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "1649374046",
+        "primary_isbn13": "9781649374042",
+        "publisher": "Red Tower",
+        "description": "Violet Sorrengail is urged by the commanding general, who also is her mother, to become a candidate for the elite dragon riders.",
+        "price": "0.00",
+        "title": "FOURTH WING",
+        "author": "Rebecca Yarros",
+        "contributor": "by Rebecca Yarros",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9781649374042.jpg",
+        "book_image_width": 309,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/1649374046?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "1649374046",
+            "isbn13": "9781649374042"
+          },
+          {
+            "isbn10": "1649374089",
+            "isbn13": "9781649374080"
+          },
+          {
+            "isbn10": "1705085059",
+            "isbn13": "9781705085059"
+          },
+          {
+            "isbn10": "1705085032",
+            "isbn13": "9781705085035"
+          },
+          {
+            "isbn10": "1649376162",
+            "isbn13": "9781649376169"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1649374046?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781649374042?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781649374042"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FFOURTH%2BWING%2FRebecca%2BYarros%2F9781649374042"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9781649374042"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9781649374042?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/106c2cf0-7d20-51b1-bad4-91c3ebcd131a"
+      },
+      {
+        "rank": 4,
+        "rank_last_week": 3,
+        "weeks_on_list": 22,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "1649374178",
+        "primary_isbn13": "9781649374172",
+        "publisher": "Red Tower",
+        "description": "The second book in the Empyrean series. Violet Sorrengail’s next round of training might require her to betray the man she loves.",
+        "price": "0.00",
+        "title": "IRON FLAME",
+        "author": "Rebecca Yarros",
+        "contributor": "by Rebecca Yarros",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9781649374172.jpg",
+        "book_image_width": 309,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/1649374178?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "1649374178",
+            "isbn13": "9781649374172"
+          },
+          {
+            "isbn10": "1705085083",
+            "isbn13": "9781705085080"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1649374178?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781649374172?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781649374172"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FIRON%2BFLAME%2FRebecca%2BYarros%2F9781649374172"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9781649374172"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9781649374172?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/d3c570c9-3c3a-5c8b-a740-85ea5e92bfc9"
+      },
+      {
+        "rank": 5,
+        "rank_last_week": 5,
+        "weeks_on_list": 3,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0385550367",
+        "primary_isbn13": "9780385550369",
+        "publisher": "Doubleday",
+        "description": "A reimagining of “Adventures of Huckleberry Finn” shines a different light on Mark Twain's classic, revealing new facets of the character of Jim.",
+        "price": "0.00",
+        "title": "JAMES",
+        "author": "Percival Everett",
+        "contributor": "by Percival Everett",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780385550369.jpg",
+        "book_image_width": 333,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0385550367?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0385550367",
+            "isbn13": "9780385550369"
+          },
+          {
+            "isbn10": "0385550375",
+            "isbn13": "9780385550376"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0385550367?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780385550369?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780385550369"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FJAMES%2FPercival%2BEverett%2F9780385550369"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780385550369"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780385550369?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/5788b098-426a-5f2c-a318-475692df69ee"
+      },
+      {
+        "rank": 6,
+        "rank_last_week": 4,
+        "weeks_on_list": 3,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0316499676",
+        "primary_isbn13": "9780316499675",
+        "publisher": "Little, Brown",
+        "description": "A criminal defense attorney in Biloxi becomes the prime suspect in his wife’s murder.",
+        "price": "0.00",
+        "title": "THE #1 LAWYER",
+        "author": "James Patterson and Nancy Allen",
+        "contributor": "by James Patterson and Nancy Allen",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780316499675.jpg",
+        "book_image_width": 323,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0316499676?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0316499676",
+            "isbn13": "9780316499675"
+          },
+          {
+            "isbn10": "0316499692",
+            "isbn13": "9780316499699"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0316499676?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780316499675?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780316499675"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FTHE%2B%25231%2BLAWYER%2FJames%2BPatterson%2Band%2BNancy%2BAllen%2F9780316499675"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780316499675"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780316499675?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/8736f247-4bb0-5b05-8664-28ea55c92479"
+      },
+      {
+        "rank": 7,
+        "rank_last_week": 7,
+        "weeks_on_list": 33,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0593422945",
+        "primary_isbn13": "9780593422946",
+        "publisher": "Riverhead",
+        "description": "Secrets held by the residents of a dilapidated neighborhood come to life when a skeleton is found at the bottom of a well.",
+        "price": "0.00",
+        "title": "THE HEAVEN & EARTH GROCERY STORE",
+        "author": "James McBride",
+        "contributor": "by James McBride",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780593422946.jpg",
+        "book_image_width": 331,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0593422945?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0593422945",
+            "isbn13": "9780593422946"
+          },
+          {
+            "isbn10": "0593422961",
+            "isbn13": "9780593422960"
+          },
+          {
+            "isbn10": "0593684125",
+            "isbn13": "9780593684122"
+          },
+          {
+            "isbn10": "0593684141",
+            "isbn13": "9780593684146"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0593422945?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780593422946?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780593422946"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FTHE%2BHEAVEN%2B%2526%2BEARTH%2BGROCERY%2BSTORE%2FJames%2BMcBride%2F9780593422946"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780593422946"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780593422946?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/7d47b076-7ad7-539c-a051-6664384636b9"
+      },
+      {
+        "rank": 8,
+        "rank_last_week": 0,
+        "weeks_on_list": 1,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0778308065",
+        "primary_isbn13": "9780778308065",
+        "publisher": "Park Row",
+        "description": "A single mom and I.C.U. nurse gets wrapped up in the mystery of a patient named Caitlin who suffered a traumatic brain injury.",
+        "price": "0.00",
+        "title": "SHE'S NOT SORRY",
+        "author": "Mary Kubica",
+        "contributor": "by Mary Kubica",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780778308065.jpg",
+        "book_image_width": 329,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0778308065?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0778308065",
+            "isbn13": "9780778308065"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0778308065?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780778308065?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780778308065"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FSHE%2527S%2BNOT%2BSORRY%2FMary%2BKubica%2F9780778308065"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780778308065"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780778308065?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/4eb83469-51f7-5f9f-b2a7-da4cdccd18f7"
+      },
+      {
+        "rank": 9,
+        "rank_last_week": 0,
+        "weeks_on_list": 1,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "006307947X",
+        "primary_isbn13": "9780063079472",
+        "publisher": "Morrow",
+        "description": "The third book in the Danny Ryan trilogy. Warring factions are revived when the dock worker turned casino mogul tries to build a dream resort on prime Vegas real estate.",
+        "price": "0.00",
+        "title": "CITY IN RUINS",
+        "author": "Don Winslow",
+        "contributor": "by Don Winslow",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780063079472.jpg",
+        "book_image_width": 331,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/006307947X?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "006307947X",
+            "isbn13": "9780063079472"
+          },
+          {
+            "isbn10": "006307950X",
+            "isbn13": "9780063079502"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/006307947X?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780063079472?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780063079472"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FCITY%2BIN%2BRUINS%2FDon%2BWinslow%2F9780063079472"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780063079472"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780063079472?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/34cf66e1-4b4f-5a34-aa69-4f8fdb2e222e"
+      },
+      {
+        "rank": 10,
+        "rank_last_week": 9,
+        "weeks_on_list": 45,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0063204150",
+        "primary_isbn13": "9780063204157",
+        "publisher": "Ecco",
+        "description": "A widow working the night shift at the Sowell Bay Aquarium is aided in solving a mystery by a giant Pacific octopus living there.",
+        "price": "0.00",
+        "title": "REMARKABLY BRIGHT CREATURES",
+        "author": "Shel Van Pelt",
+        "contributor": "by Shelby Van Pelt",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780063204157.jpg",
+        "book_image_width": 329,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0063204150?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0063204150",
+            "isbn13": "9780063204157"
+          },
+          {
+            "isbn10": "0063204185",
+            "isbn13": "9780063204188"
+          },
+          {
+            "isbn10": "0063204169",
+            "isbn13": "9780063204164"
+          },
+          {
+            "isbn10": "0063204177",
+            "isbn13": "9780063204171"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0063204150?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780063204157?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780063204157"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FREMARKABLY%2BBRIGHT%2BCREATURES%2FShel%2BVan%2BPelt%2F9780063204157"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780063204157"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780063204157?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/206a5e83-12f4-5ea9-8e63-1da5470a6ef5"
+      },
+      {
+        "rank": 11,
+        "rank_last_week": 8,
+        "weeks_on_list": 6,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0593599837",
+        "primary_isbn13": "9780593599839",
+        "publisher": "Del Rey",
+        "description": "After the secret of her magic to repel attacks is revealed, Freya encounters dangerous tests by the gods.",
+        "price": "0.00",
+        "title": "A FATE INKED IN BLOOD",
+        "author": "Danielle L. Jensen",
+        "contributor": "by Danielle L. Jensen",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780593599839.jpg",
+        "book_image_width": 331,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0593599837?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0593599837",
+            "isbn13": "9780593599839"
+          },
+          {
+            "isbn10": "0593599845",
+            "isbn13": "9780593599846"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0593599837?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780593599839?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780593599839"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FA%2BFATE%2BINKED%2BIN%2BBLOOD%2FDanielle%2BL.%2BJensen%2F9780593599839"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780593599839"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780593599839?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/db9be42d-5085-535d-b3a4-529aad09f22b"
+      },
+      {
+        "rank": 12,
+        "rank_last_week": 0,
+        "weeks_on_list": 1,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0385550618",
+        "primary_isbn13": "9780385550611",
+        "publisher": "Doubleday",
+        "description": "An infinite supply of husbands emerges from the attic in Lauren’s flat in London.",
+        "price": "0.00",
+        "title": "THE HUSBANDS",
+        "author": "Holly Gramazio",
+        "contributor": "by Holly Gramazio",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780385550611.jpg",
+        "book_image_width": 329,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0385550618?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0385550618",
+            "isbn13": "9780385550611"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0385550618?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780385550611?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780385550611"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FTHE%2BHUSBANDS%2FHolly%2BGramazio%2F9780385550611"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780385550611"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780385550611?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/601cc27c-474a-5879-bcf2-3054bdfebec2"
+      },
+      {
+        "rank": 13,
+        "rank_last_week": 11,
+        "weeks_on_list": 14,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0593492919",
+        "primary_isbn13": "9780593492918",
+        "publisher": "Pamela Dorman",
+        "description": "A woman who works for a mysterious boss takes on a new identity to dig up information on someone.",
+        "price": "0.00",
+        "title": "FIRST LIE WINS",
+        "author": "Ashley Elston",
+        "contributor": "by Ashley Elston",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780593492918.jpg",
+        "book_image_width": 331,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0593492919?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0593492919",
+            "isbn13": "9780593492918"
+          },
+          {
+            "isbn10": "0593492927",
+            "isbn13": "9780593492925"
+          },
+          {
+            "isbn10": "0593789687",
+            "isbn13": "9780593789681"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0593492919?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780593492918?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780593492918"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FFIRST%2BLIE%2BWINS%2FAshley%2BElston%2F9780593492918"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780593492918"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780593492918?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/d5aa005c-08a5-5bd9-ba0e-6dcd5e7e31f8"
+      },
+      {
+        "rank": 14,
+        "rank_last_week": 10,
+        "weeks_on_list": 10,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "1635574102",
+        "primary_isbn13": "9781635574104",
+        "publisher": "Bloomsbury",
+        "description": "The third book in the Crescent City series. Bryce wants to return home while Hunt is trapped in Asteri's dungeons.",
+        "price": "0.00",
+        "title": "HOUSE OF FLAME AND SHADOW",
+        "author": "Sarah J. Maas",
+        "contributor": "by Sarah J. Maas",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9781635574104.jpg",
+        "book_image_width": 325,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/1635574102?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "1635574102",
+            "isbn13": "9781635574104"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1635574102?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781635574104?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781635574104"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FHOUSE%2BOF%2BFLAME%2BAND%2BSHADOW%2FSarah%2BJ.%2BMaas%2F9781635574104"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9781635574104"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9781635574104?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/fd8d95af-3496-5a1b-81d2-d3f7a7a54e90"
+      },
+      {
+        "rank": 15,
+        "rank_last_week": 6,
+        "weeks_on_list": 2,
+        "asterisk": 0,
+        "dagger": 0,
+        "primary_isbn10": "0525539700",
+        "primary_isbn13": "9780525539704",
+        "publisher": "Putnam",
+        "description": "Seeking to turn around a troubled past, TJ Devlin joins his family’s law firm as an investigator and learns that his brother murdered a client.",
+        "price": "0.00",
+        "title": "THE TRUTH ABOUT THE DEVLINS",
+        "author": "Lisa Scottoline",
+        "contributor": "by Lisa Scottoline",
+        "contributor_note": "",
+        "book_image": "https://storage.googleapis.com/du-prd/books/images/9780525539704.jpg",
+        "book_image_width": 331,
+        "book_image_height": 500,
+        "amazon_product_url": "https://www.amazon.com/dp/0525539700?tag=thenewyorktim-20",
+        "age_group": "",
+        "book_review_link": "",
+        "first_chapter_link": "",
+        "sunday_review_link": "",
+        "article_chapter_link": "",
+        "isbns": [
+          {
+            "isbn10": "0525539700",
+            "isbn13": "9780525539704"
+          },
+          {
+            "isbn10": "0525539719",
+            "isbn13": "9780525539711"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0525539700?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780525539704?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780525539704"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FTHE%2BTRUTH%2BABOUT%2BTHE%2BDEVLINS%2FLisa%2BScottoline%2F9780525539704"
+          },
+          {
+            "name": "Bookshop",
+            "url": "https://bookshop.org/a/3546/9780525539704"
+          },
+          {
+            "name": "IndieBound",
+            "url": "https://www.indiebound.org/book/9780525539704?aff=NYT"
+          }
+        ],
+        "book_uri": "nyt://book/c683c95e-727e-5d91-b809-70338e960044"
+      }
+    ],
+    "corrections": []
+  }
+}

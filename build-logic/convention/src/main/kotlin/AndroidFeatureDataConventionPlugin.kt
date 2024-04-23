@@ -11,14 +11,11 @@ class AndroidFeatureDataConventionPlugin : Plugin<Project> {
                 apply("ecatalogs.android.library")
                 apply("ecatalogs.android.hilt")
                 apply("ecatalogs.android.room")
-                apply("ecatalogs.android.library.jacoco")
-                apply("kotlin-parcelize")
-                apply("com.google.devtools.ksp")
             }
 
 
             dependencies {
-                add("implementation", project(":core"))
+                add("implementation", project(":data:common"))
                 add("implementation", libs.findLibrary("square-retrofit").get())
                 add("implementation", libs.findLibrary("square-converter-gson").get())
                 add("implementation", libs.findLibrary("square-okhttp").get())

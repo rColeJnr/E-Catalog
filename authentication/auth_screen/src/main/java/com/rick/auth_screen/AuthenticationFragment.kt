@@ -37,14 +37,14 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.rick.auth_screen.databinding.FragmentAuthenticationBinding
+import com.rick.auth_screen.databinding.AuthenticationAuthScreenFragmentAuthenticationBinding
 import com.rick.ui_components.auth.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AuthenticationFragment : Fragment() {
 
-    private var _binding: FragmentAuthenticationBinding? = null
+    private var _binding: AuthenticationAuthScreenFragmentAuthenticationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AuthenticationViewModel by viewModels()
 
@@ -82,7 +82,11 @@ class AuthenticationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentAuthenticationBinding.inflate(inflater, container, false)
+        _binding = AuthenticationAuthScreenFragmentAuthenticationBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         binding.root.setContent {
             val viewState by viewModel.state.collectAsState()

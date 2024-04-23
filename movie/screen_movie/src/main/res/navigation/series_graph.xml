@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/tvSeriesFragment"
-        android:name="com.rick.screen_movie.tv_series.TvSeriesFragment">
+        android:name="com.rick.screen_movie.trendingseries_screen.TrendingSeriesFragment">
         <action
             android:id="@+id/action_tvSeriesFragment_to_seriesSearchFragment"
             app:destination="@+id/seriesSearchFragment" />
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/tvDetailsFragment"
-        android:name="com.rick.screen_movie.tvdetails_screen.TvDetailsFragment">
+        android:name="com.rick.screen_movie.trendingseries_details_screen.TrendingSeriesDetailsFragment">
         <argument
             android:name="tv"
             app:argType="integer" />

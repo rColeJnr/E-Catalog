@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.screen_anime.databinding.LoadStateFooterBinding
+import com.rick.screen_anime.databinding.AnimeScreenAnimeLoadStateFooterBinding
 
 class JikanLoadStateViewHolder(
-    private val binding: LoadStateFooterBinding,
+    private val binding: AnimeScreenAnimeLoadStateFooterBinding,
     retry: () -> Unit
-): RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.retryButton.setOnClickListener {
@@ -19,7 +19,7 @@ class JikanLoadStateViewHolder(
     }
 
     fun bind(loadState: LoadState) {
-        if (loadState is LoadState.Error){
+        if (loadState is LoadState.Error) {
             binding.errorMsg.text = loadState.error.localizedMessage
         }
         binding.progressBar.isVisible = loadState is LoadState.Loading
@@ -30,8 +30,8 @@ class JikanLoadStateViewHolder(
     companion object {
         fun create(parent: ViewGroup, retry: () -> Unit): JikanLoadStateViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.load_state_footer, parent, false)
-            val binding = LoadStateFooterBinding.bind(view)
+                .inflate(R.layout.anime_screen_anime_load_state_footer, parent, false)
+            val binding = AnimeScreenAnimeLoadStateFooterBinding.bind(view)
             return JikanLoadStateViewHolder(binding, retry)
         }
     }

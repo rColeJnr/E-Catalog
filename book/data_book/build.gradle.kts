@@ -3,5 +3,9 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.data_book"
+    namespace = "com.rick.data.data_book"
+}
+
+dependencies {
+//    api(projects.data.modelBook)
 }

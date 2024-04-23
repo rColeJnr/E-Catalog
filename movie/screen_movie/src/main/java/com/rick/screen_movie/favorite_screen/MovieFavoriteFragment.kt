@@ -4,8 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.accompanist.themeadapter.material.MdcTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rick.data.model_movie.FavoriteUiEvents
 import com.rick.screen_movie.databinding.FragmentMovieFavoriteBinding
+import com.rick.ui_components.movie_favorite.MovieFavScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,28 +22,55 @@ class MovieFavoriteFragment : Fragment() {
     private val viewModel: MovieFavoriteViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMovieFavoriteBinding.inflate(inflater, container, false)
 
-        binding.compoeView.setContent {
-            MdcTheme {
-                FavScreen(
-                    articles = viewModel.nyMovie.observeAsState().value ?: emptyList(),
-                    movies = viewModel.movie.observeAsState().value ?: emptyList(),
-                    series = viewModel.series.observeAsState().value ?: emptyList(),
-                    showArticles = viewModel.showArticles.collectAsState().value,
-                    showMovies = viewModel.showMovies.collectAsState().value,
-                    showSeries = viewModel.showSeries.collectAsState().value,
-                    shouldShowArticles = { viewModel.onEvent(UiEvents.ShouldShowArticles) },
-                    shouldShowMovies = { viewModel.onEvent(UiEvents.ShouldShowMovies) },
-                    shouldShowSeries = { viewModel.onEvent(UiEvents.ShouldShowSeries) },
-                    onFavClick = { viewModel.onEvent(UiEvents.ShouldInsertFavorite(it)) }
-                )
-            }
+        binding.movieComposeView.setContent {
+            val articlesState by viewModel.feedArticlesUiState.collectAsStateWithLifecycle()
+            val moviesState by viewModel.feedTrendingMovieUiState.collectAsStateWithLifecycle()
+            val seriesState by viewModel.feedTrendingSeriesUiState.collectAsStateWithLifecycle()
+            val showArticles by viewModel.showArticles.collectAsState()
+            val showMovies by viewModel.showMovies.collectAsState()
+            val showSeries by viewModel.showSeries.collectAsState()
+            val shouldDisplayUndoArticleFavorite by viewModel.shouldDisplayUndoArticleFavorite.collectAsState()
+            val shouldDisplayUndoMovieFavorite by viewModel.shouldDisplayUndoMovieFavorite.collectAsState()
+            val shouldDisplayUndoSeriesFavorite by viewModel.shouldDisplayUndoSeriesFavorite.collectAsState()
+            MovieFavScreen(
+                articlesState = articlesState,
+                moviesState = moviesState,
+                seriesState = seriesState,
+                showArticles = showArticles,
+                showMovies = showMovies,
+                showSeries = showSeries,
+                shouldShowArticles = { viewModel.onEvent(FavoriteUiEvents.ShouldShowArticles(it)) },
+                shouldShowMovies = { viewModel.onEvent(FavoriteUiEvents.ShouldShowMovies(it)) },
+                shouldShowSeries = { viewModel.onEvent(FavoriteUiEvents.ShouldShowSeries(it)) },
+                onArticleFavClick = {
+                    viewModel.onEvent(
+                        FavoriteUiEvents.RemoveArticleFavorite(it.toLong())
+                    )
+                },
+                onMovieFavClick = {
+                    viewModel.onEvent(
+                        FavoriteUiEvents.RemoveTrendingMovieFavorite(it.toInt())
+                    )
+                },
+                onSeriesFavClick = {
+                    viewModel.onEvent(
+                        FavoriteUiEvents.RemoveTrendingSeriesFavorite(it.toInt())
+                    )
+                },
+                shouldDisplayArticleUndoFavorite = shouldDisplayUndoArticleFavorite,
+                shouldDisplayMovieUndoFavorite = shouldDisplayUndoMovieFavorite,
+                shouldDisplaySeriesUndoFavorite = shouldDisplayUndoSeriesFavorite,
+                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                undoArticleFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoArticleFavoriteRemoval) },
+                undoMovieFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingMovieFavoriteRemoval) },
+                undoSeriesFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval) }
+            )
         }
+
 
         return binding.root
     }
