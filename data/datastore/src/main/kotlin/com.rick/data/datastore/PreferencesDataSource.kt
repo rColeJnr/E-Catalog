@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import com.rick.data.model_anime.AnimeUserData
 import com.rick.data.model_anime.MangaUserData
-import com.rick.data.model_book.BestsellerUserData
-import com.rick.data.model_book.GutenbergUserData
+import com.rick.data.model_book.bestseller.BestsellerUserData
+import com.rick.data.model_book.gutenberg.GutenbergUserData
 import com.rick.data.model_movie.ArticleUserData
 import com.rick.data.model_movie.TrendingMovieUserData
 import com.rick.data.model_movie.TrendingSeriesUserData

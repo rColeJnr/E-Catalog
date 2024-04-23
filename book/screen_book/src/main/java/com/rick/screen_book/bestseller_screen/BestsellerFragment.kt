@@ -17,7 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rick.data.model_book.UserBestseller
+import com.rick.data.model_book.bestseller.UserBestseller
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBestsellerBinding
 import com.rick.ui_components.common.ErrorMessage

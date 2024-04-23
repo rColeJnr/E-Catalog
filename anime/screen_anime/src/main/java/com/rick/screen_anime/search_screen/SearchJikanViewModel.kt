@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rick.data.anime_favorite.repository.CompositeAnimeRepository
-import com.rick.data.anime_favorite.repository.UserAnimeDataRepository
-import com.rick.data.anime_favorite.repository.UserMangaDataRepository
+import com.rick.data.anime_favorite.repository.anime.CompositeAnimeRepository
+import com.rick.data.anime_favorite.repository.anime.UserAnimeDataRepository
+import com.rick.data.anime_favorite.repository.manga.UserMangaDataRepository
 import com.rick.data.model_anime.UserAnime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -17,13 +17,13 @@ interface JikanNetworkDataSource {
 
     suspend fun searchAnime(
         query: String,
-        sfw: Boolean = false,
+        sfw: Boolean = true,
         max_score: Int
     ): AnimeResponse
 
     suspend fun searchManga(
         query: String,
-        sfw: Boolean,
+        sfw: Boolean = true,
         max_score: Int
     ): MangaResponse
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.data.data_book.repository.bestseller.CompositeBestsellerRepository
 import com.rick.data.data_book.repository.bestseller.UserBestsellerDataRepository
-import com.rick.data.model_book.UserBestseller
+import com.rick.data.model_book.bestseller.UserBestseller
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

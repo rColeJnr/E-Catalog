@@ -1,7 +1,7 @@
 package com.rick.data.data_book.repository.gutenberg
 
 import androidx.paging.PagingData
-import com.rick.data.model_book.UserGutenberg
+import com.rick.data.model_book.gutenberg.UserGutenberg
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 

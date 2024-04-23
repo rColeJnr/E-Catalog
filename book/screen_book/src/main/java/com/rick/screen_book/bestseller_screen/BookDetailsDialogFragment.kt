@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.rick.data.model_book.UserBestseller
+import com.rick.data.model_book.bestseller.UserBestseller
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.DialogBookDetailsBinding
 import com.rick.screen_book.gutenberg_screen.provideGlide

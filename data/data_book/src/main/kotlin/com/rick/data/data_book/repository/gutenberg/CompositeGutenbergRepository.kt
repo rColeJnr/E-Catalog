@@ -4,8 +4,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.rick.data.database_book.model.asGutenberg
-import com.rick.data.model_book.UserGutenberg
-import com.rick.data.model_book.mapToUserGutenberg
+import com.rick.data.model_book.gutenberg.UserGutenberg
+import com.rick.data.model_book.gutenberg.mapToUserGutenberg
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

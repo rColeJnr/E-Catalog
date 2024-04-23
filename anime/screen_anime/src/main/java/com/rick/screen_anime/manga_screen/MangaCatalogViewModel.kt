@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.rick.data.anime_favorite.repository.CompositeMangaRepository
-import com.rick.data.anime_favorite.repository.UserMangaDataRepository
+import com.rick.data.anime_favorite.repository.manga.CompositeMangaRepository
+import com.rick.data.anime_favorite.repository.manga.UserMangaDataRepository
 import com.rick.data.model_anime.UserManga
 import com.rick.screen_anime.anime_screen.JikanUiEvents
 import dagger.hilt.android.lifecycle.HiltViewModel

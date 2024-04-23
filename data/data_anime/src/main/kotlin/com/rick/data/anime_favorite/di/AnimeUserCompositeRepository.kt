@@ -1,7 +1,7 @@
 package com.rick.data.anime_favorite.di
 
-import com.rick.data.anime_favorite.repository.CompositeAnimeRepository
-import com.rick.data.anime_favorite.repository.UserAnimeRepository
+import com.rick.data.anime_favorite.repository.anime.CompositeAnimeRepository
+import com.rick.data.anime_favorite.repository.anime.UserAnimeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

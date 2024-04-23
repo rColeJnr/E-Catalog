@@ -1,9 +1,7 @@
 package com.rick.data.network_anime.di
 
 import android.content.Context
-import com.rick.data.network_anime.JikanNetworkDataSource
 import com.rick.data.network_anime.demo.DemoJikanAssetManager
-import com.rick.data.network_anime.retrofit.JikanRetrofitNetwork
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,9 +25,9 @@ internal object NetworkModule {
         @ApplicationContext context: Context
     ): DemoJikanAssetManager = DemoJikanAssetManager(context.assets::open)
 
-    @Provides
-    @Singleton
-    fun provideJikanNetworkDataSource(
-    ): JikanNetworkDataSource = JikanRetrofitNetwork()
+//    @Provides
+//    @Singleton
+//    fun provideJikanNetworkDataSource(
+//    ): JikanNetworkDataSource = JikanRetrofitNetwork()
 
 }

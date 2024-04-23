@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.data.data_book.repository.gutenberg.CompositeGutenbergRepository
 import com.rick.data.data_book.repository.gutenberg.UserGutenbergDataRepository
-import com.rick.data.model_book.UserGutenberg
+import com.rick.data.model_book.gutenberg.UserGutenberg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -47,7 +47,6 @@
     <string name="list_updated">The list is always updated when the screen is open</string>
     <string name="movie_fav"><![CDATA[com.rick.data.model_book.Favorite movies & series]]></string>
     <string name="fav_imdb">Favorites IMDB</string>
-    <string name="favorite">com.rick.data.model_book.Favorite</string>
     <string name="favorite_button">com.rick.data.model_book.Favorite button</string>
     <string name="adult_content">Adult content: %1$s</string>
     <string name="reporter">Reported by: %1$s</string>

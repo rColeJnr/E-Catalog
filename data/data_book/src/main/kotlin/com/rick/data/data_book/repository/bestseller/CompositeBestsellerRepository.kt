@@ -1,7 +1,7 @@
 package com.rick.data.data_book.repository.bestseller
 
-import com.rick.data.model_book.UserBestseller
-import com.rick.data.model_book.mapToUserBestseller
+import com.rick.data.model_book.bestseller.UserBestseller
+import com.rick.data.model_book.bestseller.mapToUserBestseller
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

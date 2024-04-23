@@ -1,0 +1,609 @@
+{
+  "status": "OK",
+  "copyright": "Copyright (c) 2024 The New York Times Company. All Rights Reserved.",
+  "response": {
+    "docs": [
+      {
+        "abstract": "Ash Green was old school — in the hungry reach of his tastes, in the way he knew everyone but never dropped their names.",
+        "web_url": "https://opinionator.blogs.nytimes.com/2012/09/20/death-of-a-gentleman/",
+        "snippet": "Ash Green was old school — in the hungry reach of his tastes, in the way he knew everyone but never dropped their names.",
+        "lead_paragraph": "A routine Google search can guide a young man to any number of places where he can learn how to knot a bow tie, what to expect at his first Seder, why the curse of Rocky Colavito has lasted so long — his trade being the principal reason that the Cleveland Indians have not won a World Series in the 52 years since. ",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "Death of a Gentleman",
+          "kicker": "Timothy Egan",
+          "content_kicker": null,
+          "print_headline": null,
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [
+          {
+            "name": "subject",
+            "value": "Book Trade and Publishing",
+            "rank": 2,
+            "major": "N"
+          }
+        ],
+        "pub_date": "2012-09-21T00:30:48+0000",
+        "document_type": "article",
+        "news_desk": "",
+        "section_name": "Opinion",
+        "byline": {
+          "original": "By Timothy Egan",
+          "person": [
+            {
+              "firstname": "Timothy",
+              "middlename": null,
+              "lastname": "Egan",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "News",
+        "_id": "nyt://article/7d2dcd83-fb35-5962-ad29-cd5974c0524c",
+        "word_count": 923,
+        "uri": "nyt://article/7d2dcd83-fb35-5962-ad29-cd5974c0524c"
+      },
+      {
+        "abstract": "  The question of what books are fit for young eyes has arisen again in the Washington suburbs, where authorities are arguing whether the Mark Twain Intermediate School of Fairfax County should drop Mark Twain's ''Huckleberry Finn'' from the curriculum. My immediate question is, what's it doing in the curriculum in the first place?   It's a dreadful disservice to Mark Twain for teachers to push ''Huckleberry Finn'' on seventh-, eighth- and ninth-graders. I had it forced on me in 11th grade and, after the hair-raising opening passages about Huck's whisky-besotted ''Pap,'' found it tedious in the extreme. Thereafter I avoided it for years. It had been poisoned for me by schoolteachers who drove me to it before I was equipped to enjoy it.",
+        "web_url": "https://www.nytimes.com/1982/04/14/opinion/observer-the-only-gentleman.html",
+        "snippet": "",
+        "lead_paragraph": "The question of what books are fit for young eyes has arisen again in the Washington suburbs, where authorities are arguing whether the Mark Twain Intermediate School of Fairfax County should drop Mark Twain's ''Huckleberry Finn'' from the curriculum. My immediate question is, what's it doing in the curriculum in the first place?",
+        "print_section": "A",
+        "print_page": "23",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "THE ONLY GENTLEMAN",
+          "kicker": "OBSERVER",
+          "content_kicker": null,
+          "print_headline": "OBSERVER; THE ONLY GENTLEMAN",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [
+          {
+            "name": "glocations",
+            "value": "Fairfax (Va)",
+            "rank": 1,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "Censorship",
+            "rank": 2,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "Education and Schools",
+            "rank": 3,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "Books and Literature",
+            "rank": 4,
+            "major": "N"
+          }
+        ],
+        "pub_date": "1982-04-14T05:00:00+0000",
+        "document_type": "article",
+        "news_desk": "Editorial Desk",
+        "section_name": "Opinion",
+        "byline": {
+          "original": "By Russell Baker",
+          "person": [
+            {
+              "firstname": "Russell",
+              "middlename": null,
+              "lastname": "Baker",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "Op-Ed",
+        "_id": "nyt://article/144b33b0-f37c-524a-8ac4-e230a983c481",
+        "word_count": 850,
+        "uri": "nyt://article/144b33b0-f37c-524a-8ac4-e230a983c481"
+      },
+      {
+        "abstract": "SHORTLY before the terrorist attacks of 2001, Gen. H. Hugh Shelton, then the chairman of the Joint Chiefs of Staff and the top military adviser to President Bush, met at an undisclosed location in California with Gen. Richard B. Myers, who later succeeded him in that job, and Gen. Michael E. Ryan, the Air Force chief of staff.    For eight hours, a special Pentagon representative briefed them on matters of strategy and the future. But the briefing was not about national security. Rather, it was about their own financial future -- how to get seats on corporate boards, what kinds of pay packages to ask for, how to approach future employers and how to gain perks, stock options and lucrative consulting contracts.  ",
+        "web_url": "https://www.nytimes.com/2005/06/19/business/an-office-and-a-gentleman.html",
+        "snippet": "SHORTLY before the terrorist attacks of 2001, Gen. H. Hugh Shelton, then the chairman of the Joint Chiefs of Staff and the top military adviser to President Bush, met at an undisclosed location in California with Gen. Richard B. Myers, who later s...",
+        "lead_paragraph": "MOREHEAD CITY, N.C. - SHORTLY before the terrorist attacks of 2001, Gen. H. Hugh Shelton, then the chairman of the Joint Chiefs of Staff and the top military adviser to President Bush, met at an undisclosed location in California with Gen. Richard B. Myers, who later succeeded him in that job, and Gen. Michael E. Ryan, the Air Force chief of staff.",
+        "print_section": "3",
+        "print_page": "1",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "An Office and a Gentleman",
+          "kicker": null,
+          "content_kicker": null,
+          "print_headline": "An Office and a Gentleman",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [],
+        "pub_date": "2005-06-19T05:00:00+0000",
+        "document_type": "article",
+        "news_desk": "SundayBusiness",
+        "section_name": "Business Day",
+        "byline": {
+          "original": "By Leslie Wayne",
+          "person": [
+            {
+              "firstname": "Leslie",
+              "middlename": null,
+              "lastname": "Wayne",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "News",
+        "_id": "nyt://article/ba4b7bba-9797-54db-927b-87e4cae129de",
+        "word_count": 2673,
+        "uri": "nyt://article/ba4b7bba-9797-54db-927b-87e4cae129de"
+      },
+      {
+        "abstract": "Our reading group is the only chance we guys have to stretch our legs and our brains -- to enjoy each other's ideas and little stories, our dreams and frustrations.",
+        "web_url": "https://maplewood.blogs.nytimes.com/2009/09/09/blogs/09maplewood-lit-life22027.html",
+        "snippet": "Our reading group is the only chance we guys have to stretch our legs and our brains -- to enjoy each other's ideas and little stories, our dreams and frustrations.",
+        "lead_paragraph": "I am an older dad, and nothing reminds me of that fact so much as going to birthday parties for my younger son's classmates. Most of the parents look closer to their 30s than their 40s, while I'm bearing down on 60. ",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "Lit Life: A Gentleman's (Book) Club",
+          "kicker": "The Local - Maplewood",
+          "content_kicker": null,
+          "print_headline": "Lit Life: A Gentleman&#39;s (Book) Club",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [],
+        "pub_date": "2009-09-09T16:46:46+0000",
+        "document_type": "article",
+        "news_desk": "None",
+        "section_name": "Blogs",
+        "byline": {
+          "original": "By MARC ARONSON",
+          "person": [
+            {
+              "firstname": "Marc",
+              "middlename": null,
+              "lastname": "ARONSON",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "Web Log",
+        "_id": "nyt://article/95bedc76-dc59-5f88-bca0-a8f1a1cf36d9",
+        "word_count": 457,
+        "uri": "nyt://article/95bedc76-dc59-5f88-bca0-a8f1a1cf36d9"
+      },
+      {
+        "abstract": "HAROLD LASKI\nA Life on the Left.\nBy Isaac Kramnick and Barry Sheerman.\nIllustrated. 669 pp. New York:\nAllen Lane/\nThe Penguin Press. $35.",
+        "web_url": "https://www.nytimes.com/1993/11/07/books/a-gentleman-and-a-socialist.html",
+        "snippet": "HAROLD LASKI\nA Life on the Left.\nBy Isaac Kramnick and Barry Sheerman.\nIllustrated. 669 pp. New York:\nAllen Lane/\nThe Penguin Press. $35.",
+        "lead_paragraph": "HAROLD LASKIA Life on the Left.By Isaac Kramnick and Barry Sheerman.Illustrated. 669 pp. New York:Allen Lane/The Penguin Press. $35.",
+        "print_section": "7",
+        "print_page": "22",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "A Gentleman and a Socialist",
+          "kicker": null,
+          "content_kicker": null,
+          "print_headline": "A Gentleman and a Socialist",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [
+          {
+            "name": "persons",
+            "value": "ANNAN, NOEL",
+            "rank": 1,
+            "major": "N"
+          },
+          {
+            "name": "persons",
+            "value": "KRAMNICK, ISAAC",
+            "rank": 2,
+            "major": "N"
+          },
+          {
+            "name": "persons",
+            "value": "SHEERMAN, BARRY",
+            "rank": 3,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "BOOK REVIEWS",
+            "rank": 4,
+            "major": "N"
+          },
+          {
+            "name": "creative_works",
+            "value": "HAROLD LASKI: A LIFE ON THE LEFT (BOOK)",
+            "rank": 5,
+            "major": "N"
+          }
+        ],
+        "pub_date": "1993-11-07T05:00:00+0000",
+        "document_type": "article",
+        "news_desk": "Book Review Desk",
+        "section_name": "Books",
+        "subsection_name": "Book Review",
+        "byline": {
+          "original": "By Noel Annan",
+          "person": [
+            {
+              "firstname": "Noel",
+              "middlename": null,
+              "lastname": "Annan",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "Review",
+        "_id": "nyt://article/d3cdfe5b-7d8e-56fc-a3e5-d121e0ec3233",
+        "word_count": 1157,
+        "uri": "nyt://article/d3cdfe5b-7d8e-56fc-a3e5-d121e0ec3233"
+      },
+      {
+        "abstract": "LEAD:  ANTHONY EDEN  By Robert Rhodes James. Illustrated. 665 pp. New York: McGraw-Hill Book Company. $22.95.",
+        "web_url": "https://www.nytimes.com/1987/08/23/books/a-gentleman-and-a-scapegoat.html",
+        "snippet": "",
+        "lead_paragraph": "ANTHONY EDEN By Robert Rhodes James. Illustrated. 665 pp. New York: McGraw-Hill Book Company. $22.95.",
+        "print_section": "7",
+        "print_page": "12",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "A GENTLEMAN AND A SCAPEGOAT",
+          "kicker": null,
+          "content_kicker": null,
+          "print_headline": "A GENTLEMAN AND A SCAPEGOAT",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [
+          {
+            "name": "persons",
+            "value": "Eden, Anthony",
+            "rank": 1,
+            "major": "N"
+          },
+          {
+            "name": "persons",
+            "value": "James, Robert Rhodes",
+            "rank": 2,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "BOOK REVIEWS",
+            "rank": 3,
+            "major": "N"
+          },
+          {
+            "name": "creative_works",
+            "value": "ANTHONY EDEN (BOOK)",
+            "rank": 4,
+            "major": "N"
+          }
+        ],
+        "pub_date": "1987-08-23T05:00:00+0000",
+        "document_type": "article",
+        "news_desk": "Book Review Desk",
+        "section_name": "Books",
+        "byline": {
+          "original": "By Gaddis Smith",
+          "person": [
+            {
+              "firstname": "Gaddis",
+              "middlename": null,
+              "lastname": "Smith",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "Review",
+        "_id": "nyt://article/ac616c3b-e22b-5b79-8f3c-0d153da25664",
+        "word_count": 1604,
+        "uri": "nyt://article/ac616c3b-e22b-5b79-8f3c-0d153da25664"
+      },
+      {
+        "abstract": "The life and times of Brig. Gen. Daniel W. Adams, who moved between the rarified aristocracy and the violent world of the 19th Century South.",
+        "web_url": "https://opinionator.blogs.nytimes.com/2013/09/20/a-very-violent-gentleman/",
+        "snippet": "The life and times of Brig. Gen. Daniel W. Adams, who moved between the rarified aristocracy and the violent world of the 19th Century South.",
+        "lead_paragraph": "On Sept. 20, 1863, the 105th Ohio was advancing through thick woods on the Chickamauga battlefield when one of the regiment’s lieutenants heard loud cries for help interspersed with angry curses. He soon found a blood soaked and exhausted Confederate officer leaning against a tree, trying to fend off several Union soldiers who were apparently robbing him. Years later, the regiment’s historian reported that the rebel “was loading them with imprecations of unique and vigorous character.” Seeing the lieutenant, the thieves retreated, and the Union officer was surprised to discover that he had come to the aid of none other than Brig. Gen. Daniel W. Adams, commander of the Army of Tennessee’s Louisiana Brigade. ",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "A Very Violent Gentleman",
+          "kicker": "Disunion",
+          "content_kicker": null,
+          "print_headline": null,
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [
+          {
+            "name": "subject",
+            "value": "Civil War (US) (1861-65)",
+            "rank": 1,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "News and News Media",
+            "rank": 2,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "Prisoners of War",
+            "rank": 3,
+            "major": "N"
+          },
+          {
+            "name": "glocations",
+            "value": "Louisiana",
+            "rank": 4,
+            "major": "N"
+          }
+        ],
+        "pub_date": "2013-09-21T00:30:16+0000",
+        "document_type": "article",
+        "news_desk": "",
+        "section_name": "Opinion",
+        "byline": {
+          "original": "By Terry L. Jones",
+          "person": [
+            {
+              "firstname": "Terry",
+              "middlename": "L.",
+              "lastname": "Jones",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "News",
+        "_id": "nyt://article/bc7e8e89-3c7e-5631-847c-d8ee61a49fdf",
+        "word_count": 1920,
+        "uri": "nyt://article/bc7e8e89-3c7e-5631-847c-d8ee61a49fdf"
+      },
+      {
+        "abstract": "    THE BLUE SUIT By Richard Rayner. 216 pp. Boston: Houghton Mifflin Company. $19.95     THE Cambridge University attended by Richard Rayner in the mid-1970's, and by me some years later, was a place where intellectual matters often took a back seat to the weighty and nerve-racking business of postadolescent self-invention. Some students went the literary route, with corduroy jackets and afternoon play  readings by the river, while others chose the \"Hooray Henry\" persona and braying in restaurants. The options, like the summers, appeared endless: punk and veganism or blazers and boating, white tie, black tie, thespian, politico, bohemian, baby don, poet, drunk or any combination of the above.   ",
+        "web_url": "https://www.nytimes.com/1995/10/22/books/a-gentleman-a-scholar-a-thief.html",
+        "snippet": "",
+        "lead_paragraph": "THE BLUE SUIT By Richard Rayner. 216 pp. Boston: Houghton Mifflin Company. $19.95 THE Cambridge University attended by Richard Rayner in the mid-1970's, and by me some years later, was a place where intellectual matters often took a back seat to the weighty and nerve-racking business of postadolescent self-invention. Some students went the literary route, with corduroy jackets and afternoon play readings by the river, while others chose the \"Hooray Henry\" persona and braying in restaurants. The options, like the summers, appeared endless: punk and veganism or blazers and boating, white tie, black tie, thespian, politico, bohemian, baby don, poet, drunk or any combination of the above.",
+        "print_section": "7",
+        "print_page": "14",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "A Gentleman, a Scholar, a Thief",
+          "kicker": null,
+          "content_kicker": null,
+          "print_headline": "A Gentleman, a Scholar, a Thief",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [
+          {
+            "name": "persons",
+            "value": "Rayner, Richard",
+            "rank": 1,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "Reviews",
+            "rank": 2,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "Books and Literature",
+            "rank": 3,
+            "major": "N"
+          },
+          {
+            "name": "creative_works",
+            "value": "BLUE SUIT, THE (BOOK)",
+            "rank": 4,
+            "major": "N"
+          }
+        ],
+        "pub_date": "1995-10-22T05:00:00+0000",
+        "document_type": "article",
+        "news_desk": "Book Review Desk",
+        "section_name": "Books",
+        "byline": {
+          "original": "By Ben Macintyre",
+          "person": [
+            {
+              "firstname": "Ben",
+              "middlename": null,
+              "lastname": "Macintyre",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "Review",
+        "_id": "nyt://article/de551b90-0d64-5c1f-8813-dbe462d55bcb",
+        "word_count": 1221,
+        "uri": "nyt://article/de551b90-0d64-5c1f-8813-dbe462d55bcb"
+      },
+      {
+        "abstract": "McDonald, Forrest: Alexander Hamilton. A Biography reviewed by Prof David Herbert Donald",
+        "web_url": "https://www.nytimes.com/1979/09/23/archives/the-gentleman-and-the-romantic-hamilton.html",
+        "snippet": "McDonald, Forrest: Alexander Hamilton. A Biography reviewed by Prof David Herbert Donald",
+        "lead_paragraph": "AARON BURR The Years From Princeton to Vice President, 1756‐1805. By Milton Lomask. Illustrated. 443 pp. New York: Farrar, Straus and Giroux. $17.50.",
+        "print_section": "BR",
+        "print_page": "3",
+        "source": "The New York Times",
+        "multimedia": [],
+        "headline": {
+          "main": "The Gentleman and the Romantic",
+          "kicker": null,
+          "content_kicker": null,
+          "print_headline": "The Gentleman and the Romantic",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [
+          {
+            "name": "persons",
+            "value": "Hamilton, Alexander",
+            "rank": 1,
+            "major": "N"
+          },
+          {
+            "name": "persons",
+            "value": "MCDONALD, FORREST",
+            "rank": 2,
+            "major": "N"
+          },
+          {
+            "name": "subject",
+            "value": "BOOK REVIEWS",
+            "rank": 3,
+            "major": "N"
+          },
+          {
+            "name": "creative_works",
+            "value": "ALEXANDER HAMILTON. A BIOGRAPHY",
+            "rank": 4,
+            "major": "N"
+          }
+        ],
+        "pub_date": "1979-09-23T05:00:00+0000",
+        "document_type": "article",
+        "news_desk": "None",
+        "section_name": "Archives",
+        "byline": {
+          "original": "By David Herbert Donald",
+          "person": [
+            {
+              "firstname": "David",
+              "middlename": "Herbert",
+              "lastname": "Donald",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "Archives",
+        "_id": "nyt://article/190258b0-c283-5895-86e6-16a29007942c",
+        "word_count": 1328,
+        "uri": "nyt://article/190258b0-c283-5895-86e6-16a29007942c"
+      },
+      {
+        "abstract": " Privilege, Poison and the Trial That Ushered In the Twentieth Century  By Harold Schechter  494 pages. $27.95. Ballantine Books. ",
+        "web_url": "https://www.nytimes.com/2007/10/24/arts/24iht-bookfri.1.8034599.html",
+        "snippet": "",
+        "lead_paragraph": " Privilege, Poison and the Trial That Ushered In the Twentieth Century  By Harold Schechter  494 pages. $27.95. Ballantine Books. ",
+        "source": "International Herald Tribune",
+        "multimedia": [],
+        "headline": {
+          "main": "Book Review: The Devil's Gentleman",
+          "kicker": null,
+          "content_kicker": null,
+          "print_headline": "Book Review: The Devil's Gentleman",
+          "name": null,
+          "seo": null,
+          "sub": null
+        },
+        "keywords": [],
+        "pub_date": "2007-10-25T05:00:00+0000",
+        "document_type": "article",
+        "news_desk": "IHT News",
+        "section_name": "Arts",
+        "byline": {
+          "original": "Reviewed by William Grimes",
+          "person": [
+            {
+              "firstname": "Reviewed",
+              "middlename": "William",
+              "lastname": "Grimes",
+              "qualifier": null,
+              "title": null,
+              "role": "reported",
+              "organization": "",
+              "rank": 1
+            }
+          ],
+          "organization": null
+        },
+        "type_of_material": "News",
+        "_id": "nyt://article/d91a25e4-1ce0-5c6d-ad95-5854274722c1",
+        "word_count": 641,
+        "uri": "nyt://article/d91a25e4-1ce0-5c6d-ad95-5854274722c1"
+      }
+    ],
+    "meta": {
+      "hits": 3684,
+      "offset": 0,
+      "time": 71
+    }
+  }
+}

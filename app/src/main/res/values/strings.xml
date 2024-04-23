@@ -10,6 +10,7 @@
     <string name="anime_screen_anime_favorite">com.rick.data.model_book.Favorite</string>
     <string name="anime_screen_anime_searchLabel">Search</string>
     <string name="empty" />
+    <string name="favorites">Favorites</string>
     <string name="the_gutenberg_project">Gutenberg Project</string>
     <string name="bestseller">Bestsellers</string>
     <string name="nyt_bestseller">NY Times Bestsellers</string>

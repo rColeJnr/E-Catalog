@@ -16,8 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data.model_book.UserGutenberg
 import com.rick.data.model_book.gutenberg.Formats
+import com.rick.data.model_book.gutenberg.UserGutenberg
 import com.rick.screen_book.R
 import com.rick.screen_book.databinding.FragmentBookSearchBinding
 import dagger.hilt.android.AndroidEntryPoint

@@ -25,8 +25,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.data.model_book.UserGutenberg
 import com.rick.data.model_book.gutenberg.Formats
+import com.rick.data.model_book.gutenberg.UserGutenberg
 import com.rick.screen_book.BookLoadStateAdapter
 import com.rick.screen_book.R
 import com.rick.screen_book.RemotePresentationState
