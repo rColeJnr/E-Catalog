@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/anime_graph"
+    app:startDestination="@id/anime_screen_anime_anime_catalog_animecatalogfragment">
+    <fragment
+        android:id="@+id/anime_screen_anime_anime_catalog_animecatalogfragment"
+        android:name="com.rick.anime.screen_anime.anime_catalog.AnimeCatalogFragment"
+        android:label="">
+        <action
+            android:id="@+id/anime_screen_anime_anime_catalog_action_anime_screen_anime_anime_catalog_animecatalogfragment_to_anime_screen_anime_anime_details_nav_graph"
+            app:destination="@id/anime_screen_anime_anime_details_nav_graph" />
+        <action
+            android:id="@+id/anime_screen_anime_anime_catalog_action_anime_screen_anime_anime_catalog_animecatalogfragment_to_anime_screen_anime_anime_favorites_nav_graph"
+            app:destination="@id/anime_screen_anime_anime_favorites_nav_graph" />
+        <action
+            android:id="@+id/anime_screen_anime_anime_catalog_action_anime_screen_anime_anime_catalog_animecatalogfragment_to_anime_screen_anime_anime_search_nav_graph"
+            app:destination="@id/anime_screen_anime_anime_search_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/anime_screen_anime_anime_details_nav_graph" />
+    <include app:graph="@navigation/anime_screen_anime_anime_search_nav_graph" />
+    <include app:graph="@navigation/anime_screen_anime_anime_favorites_nav_graph" />
+</navigation>

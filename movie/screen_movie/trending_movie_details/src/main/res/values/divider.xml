@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MovieScreenMovieTrendingMovieDetailsDivider">
+        <item name="android:background">?android:attr/listDivider</item>
+        // can add colorur here
+    </style>
+
+    <style name="MovieScreenMovieTrendingMovieDetailsDivider.Horizontal" parent="MovieScreenMovieTrendingMovieDetailsDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+
+</resources>

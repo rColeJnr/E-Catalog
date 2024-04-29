@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/anime_screen_anime_anime_search_ic_search"
+        android:title="@string/anime_screen_anime_anime_search_anime_screen_anime_search"
+        app:showAsAction="always" />
+
+</menu>

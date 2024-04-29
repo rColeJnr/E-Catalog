@@ -11,5 +11,7 @@ message UserPreferences {
   map<int64, bool> ny_times_articles_favorite_ids = 5;
   map<int32, bool> anime_favorite_ids = 6;
   map<int32, bool> manga_favorite_ids = 7;
-  // Next available is 8
+
+  string user_name = 8;
+  // Next available is 9
 }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="movie_screen_movie_trending_series_search_six_dp">6dp</dimen>
+</resources>

@@ -20,9 +20,11 @@ android {
 dependencies {
     api(libs.androidx.datastore.core)
     api(projects.data.datastoreProto)
-    api(projects.data.modelAnime)
-    api(projects.data.modelBook)
-    api(projects.data.modelMovie)
+    api(projects.data.common)
+    api(projects.anime.dataAnime.model)
+    api(projects.book.dataBook.model)
+    api(projects.movie.dataMovie.model)
+    api(projects.settings.dataSettings.model)
 
     testImplementation(libs.kotlinx.coroutines.test)
 }

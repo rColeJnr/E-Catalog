@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_screen_movie_common_nav_graph"
+    app:startDestination="@id/movie_screen_movie_common_webviewfragment">
+
+    <fragment
+        android:id="@+id/movie_screen_movie_common_webviewfragment"
+        android:name="com.rick.movie.screen_movie.common.WebViewFragment"
+        android:label="">
+        <deepLink
+            android:id="@+id/movie_screen_movie_common_webviewfragment_deeplink"
+            app:uri="com.rick.ecs://movie_common_webviewfragment/{link}" />
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
+</navigation>

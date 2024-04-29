@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="movie_screen_movie_trending_series_details_two_dp">2dp</dimen>
+    <dimen name="movie_screen_movie_trending_series_details_six_dp">6dp</dimen>
+    <dimen name="movie_screen_movie_trending_series_details_image_height">250dp</dimen>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_article_search_search_transition_name">transition_article_search</string>
+    <string name="movie_screen_movie_article_search_search">Search</string>
+    <string name="movie_screen_movie_article_search_no_title">No title</string>
+</resources>

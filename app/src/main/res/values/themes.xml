@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Theme.ECatalogs" parent="Base.Theme.ECatalogs">
 
@@ -37,7 +37,6 @@
         <item name="textAppearanceCaption">@style/TextAppearance.MdcTypographyStyles.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.MdcTypographyStyles.Overline
         </item>
-
     </style>
 
     <style name="splashScreen" parent="Theme.SplashScreen">

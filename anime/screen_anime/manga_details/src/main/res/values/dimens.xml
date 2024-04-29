@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="anime_screen_anime_manga_details_two_dp">2dp</dimen>
+    <dimen name="anime_screen_anime_manga_details_card_corner_radius">10dp</dimen>
+    <dimen name="anime_screen_anime_manga_details_min_image_width">300dp</dimen>
+    <dimen name="anime_screen_anime_manga_details_min_image_height">250dp</dimen>
+</resources>

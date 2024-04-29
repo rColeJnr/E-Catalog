@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/anime_screen_anime_anime_details_nav_graph"
+    app:startDestination="@id/anime_screen_anime_anime_details_animedetailsfragment">
+
+    <fragment
+        android:id="@+id/anime_screen_anime_anime_details_animedetailsfragment"
+        android:name="com.rick.anime.screen_anime.anime_details.AnimeDetailsFragment"
+        android:label=""
+        tools:layout="@layout/anime_screen_anime_anime_details_fragment_anime_details">
+        <argument
+            android:name="anime"
+            app:argType="integer" />
+        <deepLink app:uri="com.rick.ecs://anime_screen_anime_anime_details_animedetailsfragment/{anime}" />
+        <action
+            android:id="@+id/anime_screen_anime_anime_details_action_anime_screen_anime_anime_details_animedetailsfragment_to_nav_graph"
+            app:destination="@id/nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/anime_screen_anime_common_nav_graph" />
+</navigation>

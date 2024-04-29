@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_graph"
+    app:startDestination="@id/movie_screen_movie_article_catalog_articlefragment">
+    <fragment
+        android:id="@+id/movie_screen_movie_article_catalog_articlefragment"
+        android:name="com.rick.movie.screen_movie.article_catalog.ArticleFragment"
+        android:label="">
+        <action
+            android:id="@+id/movie_screen_movie_article_catalog_action_movie_screen_movie_article_catalog_articlefragment_to_movie_screen_movie_article_favorite_nav_graph"
+            app:destination="@id/movie_screen_movie_article_favorite_nav_graph" />
+        <action
+            android:id="@+id/movie_screen_movie_article_catalog_action_movie_screen_movie_article_catalog_articlefragment_to_movie_screen_movie_article_search_nav_graph"
+            app:destination="@id/movie_screen_movie_article_search_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/movie_screen_movie_article_favorite_nav_graph" />
+    <include app:graph="@navigation/movie_screen_movie_common_nav_graph" />
+    <include app:graph="@navigation/movie_screen_movie_article_search_nav_graph" />
+    <dialog
+        android:id="@+id/movie_screen_movie_article_catalog_articledetailsdialogfragment"
+        android:name="com.rick.movie.screen_movie.common.ArticleDetailsDialogFragment"
+        android:label="" />
+</navigation>

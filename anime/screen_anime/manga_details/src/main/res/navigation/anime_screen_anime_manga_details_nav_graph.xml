@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/anime_screen_anime_manga_details_nav_graph"
+    app:startDestination="@id/anime_screen_anime_manga_details_mangadetailsfragment">
+
+    <fragment
+        android:id="@+id/anime_screen_anime_manga_details_mangadetailsfragment"
+        android:name="com.rick.anime.screen_anime.manga_details.MangaDetailsFragment"
+        android:label="">
+        <argument
+            android:name="manga"
+            app:argType="integer" />
+        <deepLink app:uri="com.rick.ecs://manga_details_fragment/{manga}" />
+        <action
+            android:id="@+id/anime_screen_anime_manga_details_action_anime_screen_anime_manga_details_mangadetailsfragment_to_nav_graph"
+            app:destination="@id/nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/anime_screen_anime_common_nav_graph" />
+</navigation>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_movie_details_movie_title">Movie Title</string>
+    <string name="movie_screen_movie_trending_movie_details_failed_to_retrieve_data">"Failed to load data, "</string>
+    <string name="movie_screen_movie_trending_movie_details_similar_titles">Similar titles</string>
+    <string name="movie_screen_movie_trending_movie_details_db_rating">Movie db: %1$f</string>
+    <string name="movie_screen_movie_trending_movie_details_imdb_rating">imbd: %1$f</string>
+    <string name="movie_screen_movie_trending_movie_details_ratings">Ratings</string>
+    <string name="movie_screen_movie_trending_movie_details_revenue">Revenue: %1$d</string>
+    <string name="movie_screen_movie_trending_movie_details_runtime">Runtime: %1$d minutes</string>
+    <string name="movie_screen_movie_trending_movie_details_budget">Budget: %1$d</string>
+    <string name="movie_screen_movie_trending_movie_details_release_date">Release data: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_genres">Genres: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_adult_content">Adult content: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_no_data">n/a</string>
+    <string name="movie_screen_movie_trending_movie_details_transition_name">trending_movie_details_transition</string>
+</resources>

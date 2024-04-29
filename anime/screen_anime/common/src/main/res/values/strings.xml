@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_common_retry">Retry</string>
+    <string name="anime_screen_anime_common_failed_to_load">Failed to load</string>
+</resources>

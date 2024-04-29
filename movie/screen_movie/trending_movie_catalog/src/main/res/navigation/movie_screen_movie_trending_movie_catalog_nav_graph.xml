@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/trendingmovie_graph"
+    app:startDestination="@id/movie_screen_movie_trending_movie_catalog_trendingmoviefragment">
+    <fragment
+        android:id="@+id/movie_screen_movie_trending_movie_catalog_trendingmoviefragment"
+        android:name="com.rick.movie.screen_movie.trending_movie_catalog.TrendingMovieFragment"
+        android:label="">
+        <action
+            android:id="@+id/movie_screen_movie_trending_movie_catalog_action_movie_screen_movie_trending_movie_catalog_trendingmoviefragment_to_movie_screen_movie_trending_movie_details_nav_graph"
+            app:destination="@id/movie_screen_movie_trending_movie_details_nav_graph" />
+        <action
+            android:id="@+id/movie_screen_movie_trending_movie_catalog_action_movie_screen_movie_trending_movie_catalog_trendingmoviefragment_to_movie_screen_movie_trending_movie_favorite_nav_graph"
+            app:destination="@id/movie_screen_movie_trending_movie_favorite_nav_graph" />
+        <action
+            android:id="@+id/movie_screen_movie_trending_movie_catalog_action_movie_screen_movie_trending_movie_catalog_trendingmoviefragment_to_movie_screen_movie_common_nav_graph"
+            app:destination="@id/movie_screen_movie_common_nav_graph" />
+        <action
+            android:id="@+id/movie_screen_movie_trending_movie_catalog_action_movie_screen_movie_trending_movie_catalog_trendingmoviefragment_to_movie_screen_movie_trending_movie_search_nav_graph"
+            app:destination="@id/movie_screen_movie_trending_movie_search_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/movie_screen_movie_common_nav_graph" />
+    <include app:graph="@navigation/movie_screen_movie_trending_movie_favorite_nav_graph" />
+    <include app:graph="@navigation/movie_screen_movie_trending_movie_details_nav_graph" />
+
+    <include app:graph="@navigation/movie_screen_movie_trending_movie_search_nav_graph" />
+</navigation>

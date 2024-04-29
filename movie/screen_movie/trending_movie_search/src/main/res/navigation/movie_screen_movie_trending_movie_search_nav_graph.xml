@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_screen_movie_trending_movie_search_nav_graph"
+    app:startDestination="@id/movie_screen_movie_trending_movie_search_trendingmoviesearchfragment">
+
+    <include app:graph="@navigation/movie_screen_movie_trending_movie_details_nav_graph" />
+    <fragment
+        android:id="@+id/movie_screen_movie_trending_movie_search_trendingmoviesearchfragment"
+        android:name="com.rick.movie.screen_movie.trending_movie_search.TrendingMovieSearchFragment"
+        android:label="TrendingMovieSearchFragment">
+        <action
+            android:id="@+id/movie_screen_movie_trending_movie_search_action_movie_screen_movie_trending_movie_search_trendingmoviesearchfragment_to_movie_screen_movie_trending_movie_details_nav_graph"
+            app:destination="@id/movie_screen_movie_trending_movie_details_nav_graph" />
+    </fragment>
+</navigation>

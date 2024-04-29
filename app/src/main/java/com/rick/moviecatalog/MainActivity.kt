@@ -1,10 +1,10 @@
 package com.rick.moviecatalog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         FirebaseApp.initializeApp(this)
         installSplashScreen()
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toolbar = binding.toolbar
+        val toolbar = binding.myToolbar
         setSupportActionBar(toolbar)
 
         val navHostFragment = supportFragmentManager.findFragmentById(
@@ -42,20 +43,15 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 //Movie screen1
-                com.rick.screen_movie.R.id.movieCatalogFragment,
-                com.rick.screen_movie.R.id.trendingMovieFragment,
-                com.rick.screen_movie.R.id.tvSeriesFragment,
-                com.rick.screen_movie.R.id.movieFavoriteFragment,
+                com.rick.movie.screen_movie.article_catalog.R.id.movie_screen_movie_article_catalog_articlefragment,
+                com.rick.movie.screen_movie.trending_movie_catalog.R.id.movie_screen_movie_trending_movie_catalog_trendingmoviefragment,
+                com.rick.movie.screen_movie.trending_series_catalog.R.id.movie_screen_movie_trending_series_catalog_trendingseriesfragment,
                 //Book screen
-                com.rick.screen_book.R.id.bookCatalogFragment,
-                com.rick.screen_book.R.id.bestsellerFragment,
-                com.rick.screen_book.R.id.bookFavoritesFragment,
+                com.rick.book.screen_book.gutenberg_catalog.R.id.book_screen_book_gutenberg_catalog_gutenbergcatalogfragment,
+                com.rick.book.screen_book.bestseller_catalog.R.id.book_screen_book_bestseller_catalog_bestsellerfragment,
                 //Anime screen
-                com.rick.screen_anime.R.id.animeCatalogFragment,
-                com.rick.screen_anime.R.id.mangaCatalogFragment,
-                com.rick.screen_anime.R.id.jikanFavoriteFragment,
-                //Auth screen
-                com.rick.moviecatalog.R.id.authenticationFragment
+                com.rick.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_animecatalogfragment,
+                com.rick.anime.screen_anime.manga_catalog.R.id.anime_screen_anime_manga_catalog_mangacatalogfragment,
             ),
             binding.drawerLayout
         )
@@ -63,8 +59,6 @@ class MainActivity : AppCompatActivity() {
             navController,
             appBarConfiguration
         )
-        toolbar.navigationIcon =
-            ResourcesCompat.getDrawable(resources, R.drawable.menu_icon, null)
 
         binding.navView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -73,26 +67,24 @@ class MainActivity : AppCompatActivity() {
             // Activity toolbar or Fragment toolbar
             toolbar.visibility = if (
             //Movie screen
-                destination.id == com.rick.screen_movie.R.id.seriesSearchFragment
-                || destination.id == com.rick.screen_movie.R.id.movieDetailsFragment
-                || destination.id == com.rick.screen_movie.R.id.tvDetailsFragment
-                || destination.id == com.rick.screen_movie.R.id.searchFragment
-                || destination.id == com.rick.screen_movie.R.id.moving_pictures_favorites_graph
-
+                destination.id == com.rick.movie.screen_movie.trending_series_search.R.id.movie_screen_movie_trending_series_search_trendingseriessearchfragment
+                || destination.id == com.rick.movie.screen_movie.trending_movie_search.R.id.movie_screen_movie_trending_movie_search_trendingmoviesearchfragment
+                || destination.id == com.rick.movie.screen_movie.article_search.R.id.movie_screen_movie_article_search_articlesearchfragment
+                || destination.id == com.rick.movie.screen_movie.trending_movie_details.R.id.movie_screen_movie_trending_movie_details_moviedetailsfragment
+                || destination.id == com.rick.movie.screen_movie.trending_series_details.R.id.movie_screen_movie_trending_series_details_trendingseriesdetailsfragment
                 //Book screen≈
-                || destination.id == com.rick.screen_book.R.id.bookDetailsFragment
-                || destination.id == com.rick.screen_book.R.id.bookSearchFragment
-                || destination.id == com.rick.screen_book.R.id.book_favorite_graph
+                || destination.id == com.rick.book.screen_book.bestseller_favorites.R.id.book_screen_book_bestseller_favorites_bestsellerfavoritesfragment
+                || destination.id == com.rick.book.screen_book.gutenberg_search.R.id.book_screen_book_gutenberg_search_searchfragment
+                || destination.id == com.rick.book.screen_book.gutenberg_favorites.R.id.book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment
 
                 //Anime screen
-                || destination.id == com.rick.screen_anime.R.id.animeSearchJikanFragment
-                || destination.id == com.rick.screen_anime.R.id.animeDetailsJikanFragment
-                || destination.id == com.rick.screen_anime.R.id.mangaDetailsJikanFragment
-                || destination.id == com.rick.screen_anime.R.id.mangaSearchJikanFragment
-                || destination.id == com.rick.screen_anime.R.id.animation_favorite_graph
+                || destination.id == com.rick.anime.screen_anime.anime_search.R.id.anime_screen_anime_anime_search_animesearchfragment
+                || destination.id == com.rick.anime.screen_anime.manga_search.R.id.anime_screen_anime_manga_search_mangasearchfragment
+                || destination.id == com.rick.anime.screen_anime.manga_details.R.id.anime_screen_anime_manga_details_mangadetailsfragment
+                || destination.id == com.rick.anime.screen_anime.anime_details.R.id.anime_screen_anime_anime_details_animedetailsfragment
 
                 //Auth screen
-                || destination.id == com.rick.moviecatalog.R.id.authenticationFragment
+                || destination.id == com.rick.auth_screen.R.id.authenticationFragment
             )
                 View.GONE
             else
@@ -101,23 +93,44 @@ class MainActivity : AppCompatActivity() {
             //Toolbar title
             binding.toolbarText.text = when (destination.id) {
                 //Movie screen
-                com.rick.screen_movie.R.id.movieCatalogFragment -> getString(R.string.nyt_articles)
-                com.rick.screen_movie.R.id.trendingMovieFragment -> getString(R.string.trending_movies)
-                com.rick.screen_movie.R.id.tvSeriesFragment -> getString(R.string.trending_series)
-                com.rick.screen_movie.R.id.movieFavoriteFragment -> getString(com.rick.screen_movie.R.string.movie_fav)
+                com.rick.movie.screen_movie.article_catalog.R.id.movie_screen_movie_article_catalog_articlefragment -> getString(
+                    R.string.nyt_articles
+                )
+
+                com.rick.movie.screen_movie.trending_movie_catalog.R.id.movie_screen_movie_trending_movie_catalog_trendingmoviefragment -> getString(
+                    R.string.trending_movies
+                )
+
+                com.rick.movie.screen_movie.trending_series_catalog.R.id.movie_screen_movie_trending_series_catalog_trendingseriesfragment -> getString(
+                    R.string.trending_series
+                )
 
                 //Book screen
-                com.rick.screen_book.R.id.bookCatalogFragment -> getString(R.string.the_gutenberg_project)
-                com.rick.screen_book.R.id.bestsellerFragment -> getString(R.string.bestseller)
-                com.rick.screen_book.R.id.bookFavoritesFragment -> getString(com.rick.screen_book.R.string.fav_book)
+                com.rick.book.screen_book.gutenberg_catalog.R.id.book_screen_book_gutenberg_catalog_gutenbergcatalogfragment -> getString(
+                    R.string.the_gutenberg_project
+                )
+
+                com.rick.book.screen_book.bestseller_catalog.R.id.book_screen_book_bestseller_catalog_bestsellerfragment -> getString(
+                    R.string.bestseller
+                )
 
                 //Anime screen
-                com.rick.screen_anime.R.id.animeCatalogFragment -> getString(R.string.anime_screen_anime_anime)
-                com.rick.screen_anime.R.id.mangaCatalogFragment -> getString(R.string.anime_screen_anime_manga)
-                com.rick.screen_anime.R.id.jikanFavoriteFragment -> getString(com.rick.screen_anime.R.string.anime_screen_anime_jikan_fav)
-                else -> getString(com.rick.moviecatalog.R.string.empty)
+                com.rick.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_animecatalogfragment -> getString(
+                    R.string.anime_screen_anime_anime
+                )
+
+                com.rick.anime.screen_anime.manga_catalog.R.id.anime_screen_anime_manga_catalog_mangacatalogfragment -> getString(
+                    R.string.anime_screen_anime_manga
+                )
+
+                else -> getString(R.string.empty)
             }
         }
+
+        // Add these three lines
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDefaultDisplayHomeAsUpEnabled(false)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.menu_icon)
     }
 
     override fun onSupportNavigateUp(): Boolean {

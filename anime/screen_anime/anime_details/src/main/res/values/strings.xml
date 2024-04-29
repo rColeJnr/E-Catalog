@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_anime_details_no_results">No results 😓\nSwipe to refresh</string>
+    <string name="anime_screen_anime_anime_details_no_title">No title</string>
+    <string name="anime_screen_anime_anime_details_pg_rating">PG rating: %1$s</string>
+    <string name="anime_screen_anime_anime_details_nothing_found">Nothing found, try again. 😓</string>
+    <string name="anime_screen_anime_anime_details_failed_to_retrieve_data">Failed to retrieve data 😓</string>
+    <string name="anime_screen_anime_anime_details_synopsis">%1$s</string>
+    <string name="anime_screen_anime_anime_details_genres">Genres</string>
+    <string name="anime_screen_anime_anime_details_runtime">Runtime: %1$s</string>
+    <string name="anime_screen_anime_anime_details_ratings">Ratings</string>
+    <string name="anime_screen_anime_anime_details_airing_status">Airing status: %1$s</string>
+    <string name="anime_screen_anime_anime_details_aired">Aired from: %1$s</string>
+    <string name="anime_screen_anime_anime_details_score">Score: %1$f</string>
+    <string name="anime_screen_anime_anime_details_scored_by">Scored by %1$d users</string>
+    <string name="anime_screen_anime_anime_details_rank">Overall rank %1$d</string>
+    <string name="anime_screen_anime_anime_details_popularity">Popularity rank %1$d</string>
+    <string name="anime_screen_anime_anime_details_favorites">Favorite of %1$d users</string>
+    <string name="anime_screen_anime_anime_details_episodes">Episodes: %1$d</string>
+    <string name="anime_screen_anime_anime_details_link_trailer">Click to watch trailer</string>
+    <string name="anime_screen_anime_anime_details_link_web_page">Open web page</string>
+    <string name="anime_screen_anime_anime_details_genre_three">Genre Three</string>
+    <string name="anime_screen_anime_anime_details_genre_two">Genre Two</string>
+    <string name="anime_screen_anime_anime_details_genre_one">Genre One</string>
+    <string name="anime_screen_anime_anime_details_anime_screen_anime_no_data">n/a</string>
+    <string name="anime_screen_anime_anime_details_headline">Headline</string>
+</resources>

@@ -3,6 +3,7 @@ package com.rick.auth_screen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rick.settings.data_settings.data.repository.UserSettingsDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
+    private val userSettingsDataRepository: UserSettingsDataRepository,
     private val savedSteHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -56,7 +58,12 @@ class AuthenticationViewModel @Inject constructor(
                 _state.value = it
             }
         }
+    }
 
+    fun saveUsernameToDatastore(username: String) {
+        viewModelScope.launch {
+            userSettingsDataRepository.setUserName(username)
+        }
     }
 
     fun onEmailValueChange(email: String) {

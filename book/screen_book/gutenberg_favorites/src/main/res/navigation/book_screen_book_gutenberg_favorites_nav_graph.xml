@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/book_screen_book_gutenberg_favorites_nav_graph"
+    app:startDestination="@id/book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment">
+
+    <fragment
+        android:id="@+id/book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment"
+        android:name="com.rick.book.screen_book.gutenberg_favorites.GutenbergFavoritesFragment"
+        android:label="GutenbergFavoritesFragment">
+        <action
+            android:id="@+id/book_screen_book_gutenberg_favorites_action_book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment_to_book_screen_book_common_nav_graph"
+            app:destination="@id/book_screen_book_common_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/book_screen_book_common_nav_graph" />
+</navigation>
