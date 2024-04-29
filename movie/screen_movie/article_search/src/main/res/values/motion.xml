@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Motion-->
+
+    <integer name="movie_screen_movie_article_search_motion_duration_long">300</integer>
+    <integer name="movie_screen_movie_article_search_motion_duration_medium">225</integer>
+    <integer name="movie_screen_movie_article_search_motion_duration_short">175</integer>
+
+</resources>

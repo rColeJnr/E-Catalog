@@ -96,13 +96,14 @@ class AuthenticationFragment : Fragment() {
                 password = viewState.password,
                 onPasswordValueChange = viewModel::onPasswordValueChange,
                 userName = viewState.username,
-                onUsernameValueChange = { viewModel.onUsernameValueChange(it) },
+                onUsernameValueChange = viewModel::onUsernameValueChange,
                 onAuthenticate = { email, password -> signInWithPassword(email, password) },
                 onCreateAccount = { email, password, username ->
                     signUpWithPassword(
-                        email,
-                        password,
-                        username
+                        email = email,
+                        password = password,
+                        username = username,
+                        saveUsername = viewModel::saveUsernameToDatastore
                     )
                 },
                 onGoogleOneTap = { signIn() },
@@ -151,10 +152,6 @@ class AuthenticationFragment : Fragment() {
         findNavController().navigate(request)
     }
 
-    private fun saveUserToDb(username: String) {
-        //  TODO save user to datastore
-    }
-
     private fun setupAuth() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com")
@@ -200,7 +197,12 @@ class AuthenticationFragment : Fragment() {
             }
     }
 
-    private fun signUpWithPassword(email: String, password: String, username: String) {
+    private fun signUpWithPassword(
+        email: String,
+        password: String,
+        username: String,
+        saveUsername: (String) -> Unit
+    ) {
         if (
             isValidEmail(email) &&
             isValidPassword(password) &&
@@ -208,7 +210,7 @@ class AuthenticationFragment : Fragment() {
         ) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
-                    saveUserToDb(username)
+                    saveUsername(username)
                     navigate()
                 }
                 .addOnFailureListener {

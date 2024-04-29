@@ -21,4 +21,6 @@
     <string name="trending_movies">Trending Movies</string>
     <string name="trending_series">Trending Series</string>
     <string name="limited_experience">Limited experience</string>
+    <string name="open_drawer">open\n</string>
+    <string name="close_drawer">close</string>
 </resources>

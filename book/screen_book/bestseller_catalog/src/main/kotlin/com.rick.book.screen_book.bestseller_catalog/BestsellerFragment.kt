@@ -1,0 +1,150 @@
+package com.rick.book.screen_book.bestseller_catalog
+
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.rick.book.screen_book.bestseller_catalog.databinding.BookScreenBookBestsellerCatalogFragmentBestsellerBinding
+import com.rick.data.model_book.bestseller.UserBestseller
+import com.rick.data.ui_components.common.ErrorMessage
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+@AndroidEntryPoint
+class BestsellerFragment : Fragment() {
+
+    private var _binding: BookScreenBookBestsellerCatalogFragmentBestsellerBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: BestsellerViewModel by viewModels()
+    private lateinit var navController: NavController
+    private lateinit var adapter: BestsellerAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = BookScreenBookBestsellerCatalogFragmentBestsellerBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+
+//        view?.findViewById<Toolbar>(R.id.toolbar)
+//            ?.setupWithNavController(navController, appBarConfiguration)
+
+        initAdapter()
+
+        binding.bindSpinner()
+
+        return binding.root
+    }
+
+    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList(
+        adapter: BestsellerAdapter,
+        pagingDataFlow: Flow<List<UserBestseller>>,
+    ) {
+
+        lifecycleScope.launch {
+            pagingDataFlow.collectLatest(adapter.differ::submitList)
+        }
+
+        lifecycleScope.launch {
+
+            // show empty list.
+            bookComposeView.setContent {
+
+                ErrorMessage(getString(R.string.no_results))
+
+            }
+
+            val errorState = adapter.itemCount == 0
+            when (errorState) {
+                true -> {
+                    Toast.makeText(
+                        context, "\uD83D\uDE28 Wooops", Toast.LENGTH_SHORT
+                    ).show()
+                    bookComposeView.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    bookComposeView.visibility = View.GONE
+                }
+            }
+
+        }
+    }
+
+    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindSpinner() {
+        ArrayAdapter.createFromResource(
+            this@BestsellerFragment.requireContext(),
+            R.array.bestseller_categories,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                viewModel.onEvent(BestsellerEvents.SelectedGenre(pos))
+                bindList(adapter, viewModel.pagingDataFlow)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                //Do nothing
+            }
+        }
+    }
+
+    private fun initAdapter() {
+        adapter = BestsellerAdapter(this::onBookClick, this::onFavoriteClick)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.adapter = adapter
+    }
+
+    private fun onFavoriteClick(view: View, id: String, isFavorite: Boolean) {
+        //TODO add animation to indicate favorited
+        viewModel.onEvent(BestsellerEvents.UpdateBestsellerFavorite(id, !isFavorite))
+    }
+
+    private fun onBookClick(view: View, book: UserBestseller) {
+        // Add transition to expand dialog
+        BookDetailsDialogFragment(book, this::onDialogFavoriteClick, this::onAmazonLinkClick).show(
+            requireActivity().supportFragmentManager, "book_details"
+        )
+    }
+
+    private fun onDialogFavoriteClick(view: View, book: UserBestseller) {
+        onFavoriteClick(view, book.id, book.isFavorite)
+    }
+
+    private fun onAmazonLinkClick(link: String) {
+        val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment//$link")
+        findNavController().navigate(uri)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+}
+
+private const val TAG = "BestsellerFragment"

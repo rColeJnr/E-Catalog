@@ -5,13 +5,33 @@
       <module name="build-logic.convention" target="17" />
       <module name="build-logic.convention.main" target="17" />
       <module name="build-logic.convention.test" target="17" />
-      <module name="ecatalogs.anime.data_anime" target="17" />
-      <module name="ecatalogs.anime.screen_anime" target="17" />
+      <module name="ecatalogs.anime.data_anime.data" target="17" />
+      <module name="ecatalogs.anime.data_anime.database" target="17" />
+      <module name="ecatalogs.anime.data_anime.domain" target="17" />
+      <module name="ecatalogs.anime.data_anime.network" target="17" />
+      <module name="ecatalogs.anime.screen_anime.anime_catalog" target="17" />
+      <module name="ecatalogs.anime.screen_anime.anime_details" target="17" />
+      <module name="ecatalogs.anime.screen_anime.anime_favorites" target="17" />
+      <module name="ecatalogs.anime.screen_anime.anime_search" target="17" />
+      <module name="ecatalogs.anime.screen_anime.common" target="17" />
+      <module name="ecatalogs.anime.screen_anime.manga_catalog" target="17" />
+      <module name="ecatalogs.anime.screen_anime.manga_details" target="17" />
+      <module name="ecatalogs.anime.screen_anime.manga_favorites" target="17" />
+      <module name="ecatalogs.anime.screen_anime.manga_search" target="17" />
       <module name="ecatalogs.app" target="17" />
       <module name="ecatalogs.authentication.auth_data" target="17" />
       <module name="ecatalogs.authentication.auth_screen" target="17" />
-      <module name="ecatalogs.book.data_book" target="17" />
-      <module name="ecatalogs.book.screen_book" target="17" />
+      <module name="ecatalogs.book.data_book.data" target="17" />
+      <module name="ecatalogs.book.data_book.database" target="17" />
+      <module name="ecatalogs.book.data_book.domain" target="17" />
+      <module name="ecatalogs.book.data_book.network" target="17" />
+      <module name="ecatalogs.book.screen_book.bestseller_catalog" target="17" />
+      <module name="ecatalogs.book.screen_book.bestseller_favorites" target="17" />
+      <module name="ecatalogs.book.screen_book.bestseller_search" target="17" />
+      <module name="ecatalogs.book.screen_book.common" target="17" />
+      <module name="ecatalogs.book.screen_book.gutenberg_catalog" target="17" />
+      <module name="ecatalogs.book.screen_book.gutenberg_favorites" target="17" />
+      <module name="ecatalogs.book.screen_book.gutenberg_search" target="17" />
       <module name="ecatalogs.data.anime_favorite" target="17" />
       <module name="ecatalogs.data.book_favorite" target="17" />
       <module name="ecatalogs.data.common" target="17" />
@@ -23,13 +43,37 @@
       <module name="ecatalogs.data.database_movie" target="17" />
       <module name="ecatalogs.data.datastore" target="17" />
       <module name="ecatalogs.data.datastore_proto" target="17" />
+      <module name="ecatalogs.data.domain_anime" target="17" />
+      <module name="ecatalogs.data.domain_book" target="17" />
+      <module name="ecatalogs.data.domain_movie" target="17" />
       <module name="ecatalogs.data.model_favorite" target="17" />
       <module name="ecatalogs.data.movie_favorite" target="17" />
       <module name="ecatalogs.data.network_anime" target="17" />
       <module name="ecatalogs.data.network_book" target="17" />
       <module name="ecatalogs.data.network_movie" target="17" />
-      <module name="ecatalogs.movie.data_movie" target="17" />
-      <module name="ecatalogs.movie.screen_movie" target="17" />
+      <module name="ecatalogs.data.ui_components.anime_favorite" target="17" />
+      <module name="ecatalogs.data.ui_components.auth" target="17" />
+      <module name="ecatalogs.data.ui_components.book_favorite" target="17" />
+      <module name="ecatalogs.data.ui_components.common" target="17" />
+      <module name="ecatalogs.data.ui_components.movie_favorite" target="17" />
+      <module name="ecatalogs.movie.data_movie.data" target="17" />
+      <module name="ecatalogs.movie.data_movie.database" target="17" />
+      <module name="ecatalogs.movie.data_movie.domain" target="17" />
+      <module name="ecatalogs.movie.data_movie.network" target="17" />
+      <module name="ecatalogs.movie.screen_movie.article_catalog" target="17" />
+      <module name="ecatalogs.movie.screen_movie.article_favorite" target="17" />
+      <module name="ecatalogs.movie.screen_movie.article_search" target="17" />
+      <module name="ecatalogs.movie.screen_movie.common" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_movie_catalog" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_movie_details" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_movie_favorite" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_movie_search" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_series_catalog" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_series_details" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_series_favorite" target="17" />
+      <module name="ecatalogs.movie.screen_movie.trending_series_search" target="17" />
+      <module name="ecatalogs.settings.data_settings.data" target="17" />
+      <module name="ecatalogs.settings.screen_settings" target="17" />
       <module name="ecatalogs.ui_components.anime_favorite" target="17" />
       <module name="ecatalogs.ui_components.auth" target="17" />
       <module name="ecatalogs.ui_components.book_favorite" target="17" />

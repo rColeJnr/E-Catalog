@@ -10,14 +10,14 @@
                 android:title="@string/nyt_bestseller" />
 
             <item
-                android:id="@+id/book_graph"
+                android:id="@+id/book_screen_book_gutenberg_catalog_nav_graph"
                 android:icon="@drawable/ic_book"
                 android:title="@string/the_gutenberg_project" />
 
-            <item
-                android:id="@+id/book_favorite_graph"
-                android:icon="@drawable/anime_screen_anime_fav_filled_icon"
-                android:title="@string/favorites" />
+<!--            <item-->
+<!--                android:id="@+id/book_favorite_graph"-->
+<!--                android:icon="@drawable/fav_filled_icon"-->
+<!--                android:title="@string/favorites" />-->
         </menu>
     </item>
 
@@ -25,7 +25,7 @@
         <menu>
 
             <item
-                android:id="@+id/series_graph"
+                android:id="@+id/movie_screen_movie_trending_series_catalog_nav_graph"
                 android:icon="@drawable/ic_tvseries"
                 android:title="@string/trending_series" />
 
@@ -38,10 +38,10 @@
                 android:icon="@drawable/ic_movie"
                 android:title="@string/nyt_articles" />
 
-            <item
-                android:id="@+id/moving_pictures_favorites_graph"
-                android:icon="@drawable/anime_screen_anime_fav_filled_icon"
-                android:title="@string/favorites" />
+<!--            <item-->
+<!--                android:id="@+id/moving_pictures_favorites_graph"-->
+<!--                android:icon="@drawable/fav_filled_icon"-->
+<!--                android:title="@string/favorites" />-->
         </menu>
     </item>
 
@@ -57,10 +57,6 @@
                 android:icon="@drawable/ic_manga"
                 android:title="@string/anime_screen_anime_manga" />
 
-            <item
-                android:id="@+id/animation_favorite_graph"
-                android:icon="@drawable/anime_screen_anime_fav_filled_icon"
-                android:title="@string/favorites" />
         </menu>
     </item>
 

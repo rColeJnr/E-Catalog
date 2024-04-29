@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_screen_movie_trending_movie_details_nav_graph"
+    app:startDestination="@id/movie_screen_movie_trending_series_details_trendingseriesdetailsfragment">
+    <fragment
+        android:id="@+id/movie_screen_movie_trending_series_details_trendingseriesdetailsfragment"
+        android:name="com.rick.movie.screen_movie.trending_series_details.TrendingSeriesDetailsFragment"
+        android:label="">
+        <deepLink
+            android:id="@+id/movie_screen_movie_trending_series_details_deeplink"
+            app:uri="com.rick.ecs/trending_series_details_fragment/{series}" />
+        <argument
+            android:name="series"
+            app:argType="integer" />
+        <action
+            android:id="@+id/movie_screen_movie_trending_series_details_action_movie_screen_movie_trending_series_details_trendingseriesdetailsfragment_to_movie_screen_movie_common_nav_graph"
+            app:destination="@id/movie_screen_movie_common_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/movie_screen_movie_common_nav_graph" />
+</navigation>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="anime_screen_anime_anime_search_motion_duration_long">300</integer>
+    <integer name="anime_screen_anime_anime_search_motion_duration_medium">225</integer>
+    <integer name="anime_screen_anime_anime_search_motion_duration_short">175</integer>
+
+</resources>

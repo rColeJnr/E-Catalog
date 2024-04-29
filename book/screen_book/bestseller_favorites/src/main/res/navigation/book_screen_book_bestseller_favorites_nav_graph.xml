@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/book_screen_book_bestseller_favorites_nav_graph"
+    app:startDestination="@id/book_screen_book_bestseller_favorites_bestsellerfavoritesfragment">
+
+    <include app:graph="@navigation/book_screen_book_common_nav_graph" />
+    <fragment
+        android:id="@+id/book_screen_book_bestseller_favorites_bestsellerfavoritesfragment"
+        android:name="com.rick.book.screen_book.bestseller_favorites.BestsellerFavoritesFragment"
+        android:label="">
+        <action
+            android:id="@+id/book_screen_book_bestseller_favorites_action_book_screen_book_bestseller_favorites_bestsellerfavoritesfragment_to_book_screen_book_common_nav_graph"
+            app:destination="@id/book_screen_book_common_nav_graph" />
+    </fragment>
+</navigation>

@@ -9,6 +9,7 @@ import com.rick.data.model_book.gutenberg.GutenbergUserData
 import com.rick.data.model_movie.ArticleUserData
 import com.rick.data.model_movie.TrendingMovieUserData
 import com.rick.data.model_movie.TrendingSeriesUserData
+import com.rick.settings.data_settings.model.SettingsUserData
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
@@ -16,6 +17,14 @@ import javax.inject.Inject
 class PreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>
 ) {
+    //
+    val settingsUserData = userPreferences.data
+        .map {
+            SettingsUserData(
+                userName = it.userName
+            )
+        }
+
     val animeUserData = userPreferences.data
         .map {
             AnimeUserData(

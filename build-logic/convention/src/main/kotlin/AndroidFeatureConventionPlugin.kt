@@ -15,6 +15,9 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<LibraryExtension> {
+                buildFeatures {
+                    viewBinding = true
+                }
                 defaultConfig {
                     testInstrumentationRunner =
                         "com.rick.data.testing.EcsTestRunner"

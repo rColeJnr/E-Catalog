@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/book_screen_book_gutenberg_search_nav_graph"
+    app:startDestination="@id/book_screen_book_gutenberg_search_searchfragment">
+
+    <fragment
+        android:id="@+id/book_screen_book_gutenberg_search_searchfragment"
+        android:name="com.rick.book.screen_book.gutenberg_search.SearchFragment"
+        android:label="">
+        <action
+            android:id="@+id/book_screen_book_gutenberg_search_action_book_screen_book_gutenberg_search_searchfragment_to_book_screen_book_common_nav_graph"
+            app:destination="@id/book_screen_book_common_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/book_screen_book_common_nav_graph" />
+</navigation>

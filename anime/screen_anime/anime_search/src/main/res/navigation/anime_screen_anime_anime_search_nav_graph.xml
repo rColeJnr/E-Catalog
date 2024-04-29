@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/anime_screen_anime_anime_search_nav_graph"
+    app:startDestination="@id/anime_screen_anime_anime_search_animesearchfragment">
+
+    <include app:graph="@navigation/anime_screen_anime_anime_details_nav_graph" />
+    <fragment
+        android:id="@+id/anime_screen_anime_anime_search_animesearchfragment"
+        android:name="com.rick.anime.screen_anime.anime_search.AnimeSearchFragment"
+        android:label="">
+        <action
+            android:id="@+id/anime_screen_anime_anime_search_action_anime_screen_anime_anime_search_animesearchfragment_to_anime_screen_anime_anime_details_nav_graph2"
+            app:destination="@id/anime_screen_anime_anime_details_nav_graph" />
+    </fragment>
+</navigation>

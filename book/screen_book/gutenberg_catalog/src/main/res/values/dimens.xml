@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="book_screen_book_gutenberg_catalog_two_dp">2dp</dimen>
+    <dimen name="book_screen_book_gutenberg_catalog_six_dp">6dp</dimen>
+    <dimen name="book_screen_book_gutenberg_catalog_card_corner_radius">10dp</dimen>
+</resources>

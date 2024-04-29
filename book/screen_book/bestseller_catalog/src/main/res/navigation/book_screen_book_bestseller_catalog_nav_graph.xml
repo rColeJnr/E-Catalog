@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bestseller_graph"
+    app:startDestination="@id/book_screen_book_bestseller_catalog_bestsellerfragment">
+    <include app:graph="@navigation/book_screen_book_common_nav_graph" />
+    <include app:graph="@navigation/book_screen_book_bestseller_favorites_nav_graph" />
+    <include app:graph="@navigation/book_screen_book_bestseller_search_nav_graph" />
+    <fragment
+        android:id="@+id/book_screen_book_bestseller_catalog_bestsellerfragment"
+        android:name="com.rick.book.screen_book.bestseller_catalog.BestsellerFragment"
+        android:label="BestsellerFragment">
+        <action
+            android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_bestseller_favorites_nav_graph"
+            app:destination="@id/book_screen_book_bestseller_favorites_nav_graph" />
+        <action
+            android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_common_nav_graph"
+            app:destination="@id/book_screen_book_common_nav_graph" />
+        <action
+            android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_bestseller_search_nav_graph"
+            app:destination="@id/book_screen_book_bestseller_search_nav_graph" />
+    </fragment>
+</navigation>

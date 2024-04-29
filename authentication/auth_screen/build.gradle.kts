@@ -5,7 +5,8 @@ plugins {
 }
 dependencies {
     implementation(projects.authentication.authData)
-    implementation(projects.uiComponents.auth)
+    implementation(projects.settings.dataSettings.data)
+    implementation(projects.data.uiComponents.auth)
 
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-auth")

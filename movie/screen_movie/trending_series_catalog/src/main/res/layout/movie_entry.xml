@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_entry_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/six_dp"
+    android:backgroundTint="?attr/colorSurface"
+    android:transitionName="@string/movie_transition_name"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/twelve_dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/movieName"
+            android:layout_width="@dimen/movie_title"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/eight_dp"
+            android:hint="@string/no_title"
+            android:text="@string/search_title"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            style="@style/Divider.Horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieName" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/movieImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:minHeight="@dimen/image_height"
+            android:scaleType="fitCenter"
+            android:src="@drawable/app_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieName"
+            app:strokeColor="@null" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fav_button"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="@dimen/six_dp"
+            android:src="@drawable/fav_outline_icon"
+            app:layout_constraintBottom_toBottomOf="@id/movieImage"
+            app:layout_constraintEnd_toEndOf="@id/movieImage" />
+
+        <TextView
+            android:id="@+id/movieSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/two_dp"
+            android:layout_marginVertical="@dimen/six_dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="Movie summary, very very very
+very long long summary, longer
+than this, movie summaries are
+long "
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
