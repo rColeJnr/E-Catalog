@@ -203,6 +203,7 @@ class AuthenticationFragment : Fragment() {
         username: String,
         saveUsername: (String) -> Unit
     ) {
+
         if (
             isValidEmail(email) &&
             isValidPassword(password) &&

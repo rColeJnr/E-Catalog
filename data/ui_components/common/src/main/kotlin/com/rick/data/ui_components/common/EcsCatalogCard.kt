@@ -85,7 +85,7 @@ fun EcsCatalogCard(
                     placeholder = painterResource(id = R.drawable.data_ui_components_common_fav_filled_icon),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 150.dp, max = 350.dp),
+                        .heightIn(min = 150.dp, max = 450.dp),
                     contentScale = ContentScale.FillHeight,
                 )
             }

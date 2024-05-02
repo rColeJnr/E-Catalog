@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -15,9 +16,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.FirebaseApp
+import com.google.android.material.textview.MaterialTextView
 import com.rick.moviecatalog.databinding.ActivityMainBinding
 import com.rick.moviecatalog.databinding.NavHeaderBinding
+import com.rick.settings.screen_settings.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        FirebaseApp.initializeApp(this)
         installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -143,8 +144,8 @@ class MainActivity : AppCompatActivity() {
                     R.string.anime
                 )
 
-                com.rick.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_animecatalogfragment -> getString(
-                    R.string.anime
+                com.rick.anime.screen_anime.manga_catalog.R.id.anime_screen_anime_manga_catalog_mangacatalogfragment -> getString(
+                    R.string.manga
                 )
 
                 com.rick.anime.screen_anime.manga_favorites.R.id.anime_screen_anime_manga_favorites_mangafavoritefragment -> getString(
@@ -165,10 +166,30 @@ class MainActivity : AppCompatActivity() {
             when (state) {
                 MainActivityUiState.Loading -> {}
                 is MainActivityUiState.Success -> {
-                    navHeaderBinding.name.text = state.userData.userName
+                    findViewById<MaterialTextView>(R.id.name).text = state.userData.userName
                 }
             }
         }
+
+
+        binding.navView.getHeaderView(0).setOnClickListener {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            viewModel.showSettingsDialog.value = true
+        }
+
+        viewModel.showSettingsDialog.observe(this) { show ->
+            if (show) {
+                binding.dialogView.setContent {
+                    SettingsDialog(
+                        onDismiss = { viewModel.showSettingsDialog.value = false },
+                        username = findViewById<MaterialTextView>(R.id.name).text.toString()
+                    )
+                }
+            } else {
+                binding.dialogView.setContent { }
+            }
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -178,7 +199,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
-
 //    private fun hideSystemBars() {
 //        val windowInsetsController =
 //            ViewCompat.getWindowInsetsController(window.decorView) ?: return
@@ -187,3 +207,5 @@ class MainActivity : AppCompatActivity() {
 //        windowInsetsController.hide(WindowInsetsCompat.Type.statusBars())
 //    }
 }
+
+private const val TAG = "mainActivity"

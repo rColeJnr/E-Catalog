@@ -13,5 +13,5 @@ dependencies {
     implementation(libs.lifecycle.runtimeCompose)
     implementation(projects.settings.dataSettings.data)
     implementation(projects.settings.dataSettings.model)
-
+    implementation(projects.data.uiComponents.common)
 }

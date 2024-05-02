@@ -56,27 +56,27 @@ fun EcsAnimatedVisibilityBox(
     modifier: Modifier,
     composable: @Composable () -> Unit
 ) {
-    AnimatedVisibility(
-        visible = screenState,
-        enter = slideInVertically {
-            // Slide in from 40 dp from the top.
-            with(density) { fromTop.roundToPx() }
-        } + expandVertically(
-            // Expand from the top.
-            expandFrom = Alignment.Top
-        ) + fadeIn(
-            // Fade in with the initial alpha of 0.3f.
-            initialAlpha = 0.3f
-        ),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut(),
-        modifier = modifier
-    ) {
+    AnimatedVisibility(visible = screenState, enter = slideInVertically {
+        // Slide in from 40 dp from the top.
+        with(density) { fromTop.roundToPx() }
+    } + expandVertically(
+        // Expand from the top.
+        expandFrom = Alignment.Top
+    ) + fadeIn(
+        // Fade in with the initial alpha of 0.3f.
+        initialAlpha = 0.3f
+    ), exit = slideOutVertically() + shrinkVertically() + fadeOut(), modifier = modifier) {
         composable()
     }
 }
 
 @Composable
-fun EcsText(modifier: Modifier, text: String, fontSize: TextUnit = 22.sp, maxLines: Int = 5) {
+fun EcsText(
+    modifier: Modifier = Modifier,
+    text: String,
+    fontSize: TextUnit = 22.sp,
+    maxLines: Int = 5
+) {
     Text(
         text = text,
         maxLines = maxLines,
@@ -85,9 +85,19 @@ fun EcsText(modifier: Modifier, text: String, fontSize: TextUnit = 22.sp, maxLin
         fontFamily = FontFamily(Font(R.font.high_tower_text, FontWeight.Bold)),
         textAlign = TextAlign.Start,
         color = colorResource(id = R.color.data_ui_components_common_text),
-        modifier = modifier
-            .padding(bottom = 2.dp)
+        modifier = modifier.padding(bottom = 2.dp)
     )
+}
+
+@Composable
+fun EcsTextButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    TextButton(
+        modifier = modifier,
+        onClick = onClick,
+//        colors = ButtonDefaults.textButtonColors(containerColor = colorResource(id = R.color.data_ui_components_common_background))
+    ) {
+        EcsText(text = text)
+    }
 }
 
 @Composable
@@ -101,9 +111,7 @@ fun EcsSectionRow(text: String, isVisible: Boolean, onClick: (Boolean) -> Unit) 
             .padding(start = 6.dp),
     ) {
         EcsText(
-            text = text,
-            fontSize = 28.sp,
-            modifier = Modifier
+            text = text, fontSize = 28.sp, modifier = Modifier
         )
         Icon(
             imageVector = if (isVisible) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
@@ -178,8 +186,7 @@ fun EcsScaffold(
 fun ErrorMessage(message: String, onClick: () -> Unit = {}) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         EcsText(
-            text = message,
-            modifier = Modifier
+            text = message, modifier = Modifier
         )
         TextButton(
             onClick = { onClick() },

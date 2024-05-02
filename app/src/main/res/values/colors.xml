@@ -8,4 +8,6 @@
     <color name="color_surface">#E3C4A8</color>
     <color name="color_secondary">#DA8067</color>
 
+    <color name="ic_launcher_background_tint">#E3C4A8</color>
+    <color name="ic_launcher_foreground_tint">#27332D</color>
 </resources>
