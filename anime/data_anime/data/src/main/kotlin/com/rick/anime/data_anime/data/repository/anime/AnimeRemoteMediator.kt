@@ -58,15 +58,15 @@ class AnimeRemoteMediator(
         try {
             val response = network.fetchTopAnime(page)
             val animes = response.data
-            val endOfPaginationReached = response.pagination.hasNextPage
+            val endOfPaginationReached = response.data.isEmpty()
 
             if (loadType == LoadType.REFRESH) {
                 keysDao.clearRemoteKeys()
                 animeDao.clearAnime(animes.map(AnimeNetwork::id))
             }
             val prevKey =
-                if (page == STARTING_PAGE_INDEX) null else response.pagination.currentPage - 1
-            val nextKey = if (endOfPaginationReached) null else response.pagination.currentPage + 1
+                if (page == STARTING_PAGE_INDEX) null else page - 1
+            val nextKey = if (endOfPaginationReached) null else page + 1
             val keys = animes.map {
                 AnimeRemoteKeys(
                     anime = it.id,

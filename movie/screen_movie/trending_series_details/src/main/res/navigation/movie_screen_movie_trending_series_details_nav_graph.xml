@@ -9,7 +9,7 @@
         android:label="">
         <deepLink
             android:id="@+id/movie_screen_movie_trending_series_details_deeplink"
-            app:uri="com.rick.ecs/trending_series_details_fragment/{series}" />
+            app:uri="com.rick.ecs://trending_series_details_fragment/{series}" />
         <argument
             android:name="series"
             app:argType="integer" />

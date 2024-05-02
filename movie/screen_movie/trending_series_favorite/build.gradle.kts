@@ -7,8 +7,10 @@ plugins {
 dependencies {
     implementation(projects.movie.dataMovie.data)
     implementation(projects.movie.dataMovie.model)
+    implementation(projects.movie.screenMovie.common)
     implementation(projects.movie.screenMovie.trendingSeriesDetails)
     implementation(projects.data.uiComponents.movieFavorite)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
     implementation(libs.lifecycle.runtimeCompose)

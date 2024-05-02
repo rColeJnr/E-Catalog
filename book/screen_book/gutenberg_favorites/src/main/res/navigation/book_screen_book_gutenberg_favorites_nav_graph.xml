@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment"
         android:name="com.rick.book.screen_book.gutenberg_favorites.GutenbergFavoritesFragment"
-        android:label="GutenbergFavoritesFragment">
+        android:label="">
         <action
             android:id="@+id/book_screen_book_gutenberg_favorites_action_book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment_to_book_screen_book_common_nav_graph"
             app:destination="@id/book_screen_book_common_nav_graph" />

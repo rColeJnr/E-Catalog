@@ -21,6 +21,7 @@ dependencies {
     implementation(projects.book.screenBook.gutenbergSearch)
     implementation(projects.book.screenBook.gutenbergFavorites)
     implementation(projects.data.uiComponents.common)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
 }

@@ -1,13 +1,14 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.application)
     alias(libs.plugins.ecatalogs.android.application.flavors)
+    alias(libs.plugins.ecatalogs.android.application.firebase)
     alias(libs.plugins.ecatalogs.android.application.jacoco)
     alias(libs.plugins.ecatalogs.android.navigation)
     id("jacoco")
     alias(libs.plugins.ecatalogs.android.hilt)
     alias(libs.plugins.ecatalogs.android.room)
 //    alias(libs.plugins.gms)
-    alias(libs.plugins.baselineprofile)
+//    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -28,18 +29,18 @@ android {
             applicationIdSuffix = EcsBuildType.DEBUG.applicationIdSuffix
         }
         release {
-            isMinifyEnabled = true
             applicationIdSuffix = EcsBuildType.RELEASE.applicationIdSuffix
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
             // To publish on the Play store a private signing key is required, but to allow anyone
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.named("debug").get()
             // Ensure Baseline Profile is fresh for release builds.
-            baselineProfile.automaticGenerationDuringBuild = true
+//            baselineProfile.automaticGenerationDuringBuild = true
         }
     }
     packaging {
@@ -82,7 +83,7 @@ dependencies {
     implementation(projects.anime.screenAnime.mangaDetails)
     implementation(projects.anime.screenAnime.mangaFavorites)
     implementation(projects.anime.screenAnime.mangaSearch)
-    
+
     implementation(projects.authentication.authScreen)
     implementation(projects.settings.dataSettings.data)
     implementation(projects.settings.screenSettings)

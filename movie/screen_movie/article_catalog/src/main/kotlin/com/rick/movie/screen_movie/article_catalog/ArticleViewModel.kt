@@ -82,7 +82,7 @@ class NYMovieViewModel @Inject constructor(
         }
     }
 
-    private fun updateArticleFavorite(id: Long, isFavorite: Boolean) {
+    private fun updateArticleFavorite(id: String, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             userDataRepository.setNyTimesArticleFavoriteId(id, isFavorite)
         }
@@ -104,5 +104,5 @@ private fun getMonth(date: String?): LocalDate {
 private external fun getNYKey(): String
 
 sealed class NYMovieUiEvent {
-    data class UpdateArticleFavorite(val id: Long, val isFavorite: Boolean) : NYMovieUiEvent()
+    data class UpdateArticleFavorite(val id: String, val isFavorite: Boolean) : NYMovieUiEvent()
 }

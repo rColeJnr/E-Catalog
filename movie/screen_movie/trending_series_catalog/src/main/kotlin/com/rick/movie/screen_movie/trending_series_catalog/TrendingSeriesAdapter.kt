@@ -8,9 +8,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data.model_movie.UserTrendingSeries
+import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
-import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieEntryBinding
-import com.rick.screen_movie.util.getTmdbImageUrl
+import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding
 
 
 class TrendingSeriesAdapter(
@@ -51,7 +51,7 @@ class TrendingSeriesAdapter(
 }
 
 class TrendingSeriesViewHolder(
-    itemBinding: MovieEntryBinding,
+    itemBinding: MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding,
     private val onItemClicked: (View, Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -80,9 +80,17 @@ class TrendingSeriesViewHolder(
         this.title.text = series.name
         this.cast.text = series.overview
         this.favorite.foreground = if (series.isFavorite) {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_filled_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.movie_screen_movie_trending_series_catalog_ic_fav_filled,
+                null
+            )
         } else {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_outline_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.movie_screen_movie_trending_series_catalog_ic_fav_outlined,
+                null
+            )
         }
 
     }
@@ -98,7 +106,11 @@ class TrendingSeriesViewHolder(
             onFavClick: (View, Int, Boolean) -> Unit
         ): TrendingSeriesViewHolder {
             val itemBinding =
-                MovieEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding.inflate(
+                    LayoutInflater.from(
+                        parent.context
+                    ), parent, false
+                )
             return TrendingSeriesViewHolder(itemBinding, onItemClick, onFavClick)
         }
     }

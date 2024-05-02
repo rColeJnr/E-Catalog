@@ -10,9 +10,9 @@ import com.rick.data.database_movie.dao.ArticleRemoteKeysDao
 import com.rick.data.database_movie.model.ArticleEntity
 import com.rick.data.database_movie.model.asArticle
 import com.rick.data.model_movie.article_models.Article
-import com.rick.data.network_movie.ArticleNetworkDataSource
-import com.rick.data.network_movie.model.ArticleNetwork
 import com.rick.movie.data_movie.data.model.asArticleEntity
+import com.rick.movie.data_movie.network.ArticleNetworkDataSource
+import com.rick.movie.data_movie.network.model.ArticleNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -46,7 +46,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getArticleFavorites(favorites: Set<Long>): Flow<List<Article>> =
+    override fun getArticleFavorites(favorites: Set<String>): Flow<List<Article>> =
         articleDao.getArticlesWithFilters(
             filterById = true,
             filterArticleIds = favorites
@@ -60,6 +60,9 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 query = query,
                 apiKey = apiKey
             ).response.docs
+
+            articleDao.clearArticles(response.map(ArticleNetwork::id))
+
             articleDao.upsertArticles(response.map(ArticleNetwork::asArticleEntity))
 
             // appending '%' so we can allow other characters to be before and after the query string

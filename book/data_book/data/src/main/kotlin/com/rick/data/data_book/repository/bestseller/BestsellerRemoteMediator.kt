@@ -4,13 +4,13 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.rick.book.data_book.network.BestsellerNetworkDataSource
+import com.rick.book.data_book.network.model.BestsellerNetwork
 import com.rick.data.data_book.model.asBestsellerEntity
 import com.rick.data.database_book.dao.BestsellerDao
 import com.rick.data.database_book.dao.BestsellerRemoteKeysDao
 import com.rick.data.database_book.model.BestsellerEntity
 import com.rick.data.database_book.model.BestsellerRemoteKeys
-import com.rick.data.network_book.BestsellerNetworkDataSource
-import com.rick.data.network_book.model.BestsellerNetwork
 import retrofit2.HttpException
 import java.io.IOException
 

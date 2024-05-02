@@ -10,6 +10,6 @@ import kotlinx.coroutines.flow.Flow
  * */
 interface ArticleRepository {
     fun getArticles(apiKey: String): Flow<PagingData<ArticleEntity>>
-    fun getArticleFavorites(favorites: Set<Long>): Flow<List<Article>>
+    fun getArticleFavorites(favorites: Set<String>): Flow<List<Article>>
     fun searchArticle(query: String, apiKey: String): Flow<List<Article>>
 }

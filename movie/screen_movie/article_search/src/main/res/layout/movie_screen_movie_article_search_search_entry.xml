@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            style="@style/Divider.Horizontal"
+            style="@style/movie_screen_movie_article_search_Divider.Horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieName" />
 
@@ -36,7 +36,7 @@
             android:adjustViewBounds="true"
             android:minHeight="250dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/fav_filled_icon"
+            android:src="@drawable/data_ui_components_common_fav_filled_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieName"
             app:strokeColor="@null" />

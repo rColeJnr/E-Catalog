@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ArticleDetailsDialogFragment(
     private val article: UserArticle,
-    private val onDialogFavoriteClick: (View, Long, Boolean) -> Unit,
+    private val onDialogFavoriteClick: (View, String, Boolean) -> Unit,
     private val onWebUrlClick: (String) -> Unit
 ) : DialogFragment() {
 

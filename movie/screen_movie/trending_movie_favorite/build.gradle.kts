@@ -10,6 +10,7 @@ dependencies {
     implementation(projects.movie.screenMovie.common)
     implementation(projects.movie.screenMovie.trendingMovieDetails)
     implementation(projects.data.uiComponents.movieFavorite)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
     implementation(libs.lifecycle.runtimeCompose)

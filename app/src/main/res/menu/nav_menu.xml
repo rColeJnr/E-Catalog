@@ -50,12 +50,12 @@
             <item
                 android:id="@+id/anime_graph"
                 android:icon="@drawable/ic_anime"
-                android:title="@string/anime_screen_anime_anime" />
+                android:title="@string/anime" />
 
             <item
                 android:id="@+id/manga_graph"
                 android:icon="@drawable/ic_manga"
-                android:title="@string/anime_screen_anime_manga" />
+                android:title="@string/manga" />
 
         </menu>
     </item>

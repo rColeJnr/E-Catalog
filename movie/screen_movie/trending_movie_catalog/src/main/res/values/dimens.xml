@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="eight_dp">8dp</dimen>
-    <dimen name="movie_title">300dp</dimen>
-    <dimen name="image_height">250dp</dimen>
-    <dimen name="twelve_dp">12dp</dimen>
-    <dimen name="error_text_size">12sp</dimen>
-    <dimen name="large_text">24sp</dimen>
-    <dimen name="two_dp">2dp</dimen>
-    <dimen name="six_dp">6dp</dimen>
-    <dimen name="min_image_width">150dp</dimen>
-    <dimen name="max_image_width">400dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_eight_dp">8dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_movie_title">300dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_image_height">250dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_twelve_dp">12dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_error_text_size">12sp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_large_text">24sp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_two_dp">2dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_six_dp">6dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_min_image_width">150dp</dimen>
+    <dimen name="movie_screen_movie_trending_movie_catalog_max_image_width">400dp</dimen>
 </resources>

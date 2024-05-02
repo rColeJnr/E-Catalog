@@ -30,6 +30,7 @@ include(":settings:screen_settings")
 include(":settings:data_settings:data")
 include(":settings:data_settings:model")
 
+include(":data:analytics")
 include(":data:common")
 include(":data:datastore")
 include(":data:datastore_proto")

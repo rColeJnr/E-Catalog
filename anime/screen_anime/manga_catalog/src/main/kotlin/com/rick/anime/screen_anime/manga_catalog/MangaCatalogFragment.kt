@@ -27,13 +27,17 @@ import com.rick.anime.anime_screen.common.JikanLoadStateAdapter
 import com.rick.anime.anime_screen.common.JikanUiEvents
 import com.rick.anime.anime_screen.common.RemotePresentationState
 import com.rick.anime.anime_screen.common.asRemotePresentationState
+import com.rick.anime.anime_screen.common.logMangaOpened
+import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.manga_catalog.databinding.AnimeScreenAnimeMangaCatalogFragmentMangaCatalogBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_anime.UserManga
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MangaCatalogFragment : Fragment() {
@@ -46,6 +50,9 @@ class MangaCatalogFragment : Fragment() {
 
     private lateinit var eTransition: MaterialSharedAxis
     private lateinit var reTransition: MaterialSharedAxis
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +88,7 @@ class MangaCatalogFragment : Fragment() {
             pagingDataFlow = viewModel.pagingDataFlow
         )
 
+        analyticsHelper.logScreenView("mangaCatalog")
         return binding.root
     }
 
@@ -168,6 +176,7 @@ class MangaCatalogFragment : Fragment() {
                 resources.getInteger(com.rick.anime.screen_anime.common.R.integer.anime_screen_anime_common_motion_duration_long)
                     .toLong()
         }
+        analyticsHelper.logMangaOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://manga_details_fragment/$id")
         findNavController().navigate(uri)
     }

@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.anime.screenAnime.common)
     implementation(projects.anime.screenAnime.mangaDetails)
     implementation(projects.data.uiComponents.common)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
 }

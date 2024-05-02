@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/movie_graph">
+    app:startDestination="@id/auth_graph">
     <include app:graph="@navigation/anime_screen_anime_anime_catalog_nav_graph" />
     <include app:graph="@navigation/anime_screen_anime_manga_catalog_nav_graph" />
     <include app:graph="@navigation/book_screen_book_bestseller_catalog_nav_graph" />
@@ -10,5 +10,5 @@
     <include app:graph="@navigation/movie_screen_movie_article_catalog_nav_graph" />
     <include app:graph="@navigation/movie_screen_movie_trending_movie_catalog_nav_graph" />
     <include app:graph="@navigation/movie_screen_movie_trending_series_catalog_nav_graph" />
-    <include app:graph="@navigation/auth_graph" />
+    <include app:graph="@navigation/authentication_auth_screen_auth_graph" />
 </navigation>

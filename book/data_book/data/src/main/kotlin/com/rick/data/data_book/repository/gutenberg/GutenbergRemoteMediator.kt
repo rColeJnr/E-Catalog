@@ -4,13 +4,13 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.rick.book.data_book.network.GutenbergNetworkDataSource
+import com.rick.book.data_book.network.model.GutenbergNetwork
 import com.rick.data.data_book.model.asGutenbergEntity
 import com.rick.data.database_book.dao.GutenbergDao
 import com.rick.data.database_book.dao.GutenbergRemoteKeysDao
 import com.rick.data.database_book.model.GutenbergEntity
 import com.rick.data.database_book.model.GutenbergRemoteKeys
-import com.rick.data.network_book.GutenbergNetworkDataSource
-import com.rick.data.network_book.model.GutenbergNetwork
 import retrofit2.HttpException
 import java.io.IOException
 

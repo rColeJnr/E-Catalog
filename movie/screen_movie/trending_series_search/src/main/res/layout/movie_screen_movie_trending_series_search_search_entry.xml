@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            style="@style/Divider.Horizontal"
+            style="@style/MovieScreenMovieTrendingSeriesSearchDivider.Horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieName" />
 
@@ -34,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:minHeight="@dimen/ui_components_favorite_image_height"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieName"

@@ -23,8 +23,8 @@
             <EditText
                 android:id="@+id/search_input"
                 android:layout_width="272dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="start"
                 android:autofillHints=""
                 android:hint="@string/movie_screen_movie_article_search_search"
                 android:imeOptions="actionSearch"
@@ -36,7 +36,7 @@
                 android:id="@+id/search_progress_bar"
                 style="?android:progressBarStyleHorizontal"
                 android:layout_width="272dp"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
                 android:indeterminate="true"
                 android:visibility="gone" />
@@ -44,10 +44,10 @@
             <TextView
                 android:id="@+id/search_error_message"
                 android:layout_width="272dp"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
                 android:layout_marginVertical="8dp"
-                android:text="@string/ui_components_anime_favorite_nothing_found"
+                android:text="@string/data_ui_components_common_nothing_found"
                 android:textAppearance="?attr/textAppearanceBody1"
                 android:visibility="gone" />
 

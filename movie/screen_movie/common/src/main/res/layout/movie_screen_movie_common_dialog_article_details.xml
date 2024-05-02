@@ -5,20 +5,20 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:backgroundTint="?attr/colorOnSurface"
-    android:elevation="@dimen/eight_dp"
+    android:elevation="8dp"
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/two_dp">
+        android:padding="@dimen/movie_screen_movie_common_two_dp">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="330dp"
             android:layout_height="250dp"
-            android:layout_margin="@dimen/two_dp"
-            android:src="@drawable/filled_icon"
+            android:layout_margin="@dimen/movie_screen_movie_common_two_dp"
+            android:src="@drawable/movie_screen_movie_common_ic_fav_filled"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,8 +26,8 @@
             android:id="@+id/favorite"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="@dimen/six_dp"
-            android:src="@drawable/fav_outline_icon"
+            android:layout_margin="6dp"
+            android:src="@drawable/movie_screen_movie_common_ic_fav_outlined"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -35,7 +35,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/eight_dp"
+            android:layout_marginHorizontal="8dp"
             android:layout_marginTop="5dp"
             android:ems="8"
             android:textAppearance="?attr/textAppearanceBody1"

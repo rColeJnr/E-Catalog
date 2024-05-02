@@ -53,9 +53,16 @@ class BookDetailsDialogFragment(
             if (book.image.isNotEmpty()) provideGlide(view.image, book.image)
             view.title.text = book.title
             view.author.text = book.author
-            view.rank.text = resources.getString(R.string.rank, book.rank)
-            view.rankLastWeek.text = resources.getString(R.string.rankLastWeek, book.rankLastWeek)
-            view.weeksOnList.text = resources.getString(R.string.weeksOnList, book.weeksOnList)
+            view.rank.text =
+                resources.getString(R.string.book_screen_book_bestseller_catalog_rank, book.rank)
+            view.rankLastWeek.text = resources.getString(
+                R.string.book_screen_book_bestseller_catalog_rankLastWeek,
+                book.rankLastWeek
+            )
+            view.weeksOnList.text = resources.getString(
+                R.string.book_screen_book_bestseller_catalog_weeksOnList,
+                book.weeksOnList
+            )
             view.summary.text = book.description
 
             builder.create()

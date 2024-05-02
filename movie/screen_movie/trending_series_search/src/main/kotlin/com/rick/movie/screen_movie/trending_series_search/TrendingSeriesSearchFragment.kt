@@ -22,13 +22,17 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingSeries
 import com.rick.data.ui_components.common.RecentSearchesBody
+import com.rick.movie.screen_movie.common.logScreenView
+import com.rick.movie.screen_movie.common.logTrendingSeriesOpened
+import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_series_search.databinding.MovieScreenMovieTrendingSeriesSearchFragmentSearchTrendingSeriesBinding
 import com.rick.movie.screen_movie.trending_series_search.databinding.MovieScreenMovieTrendingSeriesSearchSearchEntryBinding
-import com.rick.screen_movie.util.getTmdbImageUrl
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TrendingSeriesSearchFragment : Fragment() {
@@ -38,6 +42,9 @@ class TrendingSeriesSearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: TrendingSeriesSearchViewModel by viewModels()
     private lateinit var searchAdapter: TrendingSeriesSearchAdapter
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +105,8 @@ class TrendingSeriesSearchFragment : Fragment() {
             uiState = viewModel.searchState.asLiveData(),
             recentSearchesUiState = viewModel.recentSearchState.asLiveData()
         )
+
+        analyticsHelper.logScreenView("trendingSeriesSearch")
 
         return binding.root
     }
@@ -214,7 +223,8 @@ class TrendingSeriesSearchFragment : Fragment() {
                     }
                 }
 
-                TrendingSeriesSearchUiState.Error -> {
+                is TrendingSeriesSearchUiState.Error -> {
+
                     searchProgressBar.visibility = View.GONE
                     if (adapter.searchDiffer.currentList.isEmpty()) {
                         recentSearchesComposeView.visibility = View.VISIBLE
@@ -234,8 +244,8 @@ class TrendingSeriesSearchFragment : Fragment() {
         }
     }
 
-    //TODO (REMOVE .toString())
     private fun onTrendingSeriesClick(id: Int) {
+        analyticsHelper.logTrendingSeriesOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_series_details_fragment/$id")
         findNavController().navigate(uri)
     }

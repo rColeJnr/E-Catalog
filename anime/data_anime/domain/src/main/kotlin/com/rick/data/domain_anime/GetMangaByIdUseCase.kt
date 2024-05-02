@@ -14,10 +14,11 @@ class GetMangaByIdUseCase @Inject constructor(
     private val userDataRepository: UserMangaDataRepository
 ) {
 
-    operator fun invoke(id: Int): Flow<UserManga> =
-        mangaByIdRepository.getMangaById(id)
+    operator fun invoke(id: Int): Flow<UserManga> {
+        return mangaByIdRepository.getMangaById(id)
             .mapToUserManga(userDataRepository.mangaUserData)
 
+    }
 }
 
 private fun Flow<Manga>.mapToUserManga(userDataStream: Flow<MangaUserData>): Flow<UserManga> =

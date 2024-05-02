@@ -6,19 +6,20 @@
     <string name="movie_screen_movie_trending_series_details_db_rating">Movie db: %1$f</string>
     <string name="movie_screen_movie_trending_series_details_imdb_rating">tmbd: %1$f</string>
     <string name="movie_screen_movie_trending_series_details_ratings">Ratings</string>
-    <string name="movie_screen_movie_trending_series_details_revenue">Revenue: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_revenue">Revenue: %1$d$</string>
     <string name="movie_screen_movie_trending_series_details_runtime">Runtime: %1$d minutes</string>
-    <string name="movie_screen_movie_trending_series_details_budget">Budget: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_budget">Budget: %1$d dollars</string>
     <string name="movie_screen_movie_trending_series_details_release_date">Release data: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_genres">Genres: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_adult_content">Adult content: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_no_data">n/a</string>
     <string name="movie_screen_movie_trending_series_details_transition_name">trending_series_details_transition</string>
-    <string name="movie_screen_movie_trending_series_details_popularity">Popularity: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_popularity">Popularity: %1$f</string>
     <string name="movie_screen_movie_trending_series_details_number_of_seasons">Number of seasons: %1$d</string>
     <string name="movie_screen_movie_trending_series_details_last_air_date">Last air date: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_first_air_date">First air date: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_in_production">In production: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_creators">Creators: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_overview">OVerview of this series\n</string>
+    <string name="movie_screen_movie_trending_series_details_number_of_episodes">Number of episodes: %1$d</string>
 </resources>

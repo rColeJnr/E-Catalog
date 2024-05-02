@@ -8,7 +8,7 @@ message UserPreferences {
   map<int32, bool> gutenberg_favorite_ids = 2;
   map<int32, bool> trending_movie_favorite_ids = 3;
   map<int32, bool> trending_series_favorite_ids = 4;
-  map<int64, bool> ny_times_articles_favorite_ids = 5;
+  map<string, bool> ny_times_articles_favorite_ids = 5;
   map<int32, bool> anime_favorite_ids = 6;
   map<int32, bool> manga_favorite_ids = 7;
 

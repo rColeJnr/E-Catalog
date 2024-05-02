@@ -94,7 +94,7 @@ class ArticleSearchViewModel @Inject constructor(
         savedStateHandle[SEARCH_QUERY] = query
     }
 
-    private fun updateFavorite(id: Long, isFavorite: Boolean) {
+    private fun updateFavorite(id: String, isFavorite: Boolean) {
         viewModelScope.launch {
             userArticleDataRepository.setNyTimesArticleFavoriteId(id, isFavorite)
         }
@@ -126,7 +126,7 @@ sealed interface ArticleSearchUiState {
 sealed interface ArticleSearchUiEvent {
     data class SearchQuery(val query: String) : ArticleSearchUiEvent
 
-    data class UpdateFavorite(val id: Long, val isFavorite: Boolean) : ArticleSearchUiEvent
+    data class UpdateFavorite(val id: String, val isFavorite: Boolean) : ArticleSearchUiEvent
 
     data class OnSearchTriggered(val query: String) : ArticleSearchUiEvent
 

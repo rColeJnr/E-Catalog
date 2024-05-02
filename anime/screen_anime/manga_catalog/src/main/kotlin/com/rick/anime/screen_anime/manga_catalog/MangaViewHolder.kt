@@ -34,7 +34,9 @@ class MangaViewHolder(
     fun bind(manga: UserManga) {
         this.manga = manga
         this.title.text = manga.title
-        provideGlide(this.image, manga.images)
+        if (manga.images.isNotEmpty()) {
+            provideGlide(this.image, manga.images)
+        }
         this.synopsis.text = manga.synopsis
         favorite.foreground = if (manga.isFavorite) {
             ResourcesCompat.getDrawable(

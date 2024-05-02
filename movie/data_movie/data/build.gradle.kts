@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(projects.data.datastore)
+    implementation(projects.data.analytics)
     implementation(projects.movie.dataMovie.model)
     implementation(projects.movie.dataMovie.database)
     implementation(projects.movie.dataMovie.network)

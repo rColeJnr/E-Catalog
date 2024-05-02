@@ -7,12 +7,10 @@
     <fragment
         android:id="@+id/anime_screen_anime_common_webviewfragment"
         android:name="com.rick.anime.anime_screen.common.WebViewFragment"
-        android:label="WebViewFragment">
-        <deepLink
-            android:id="@+id/anime_screen_anime_common_webviewfragment_deeplink"
-            app:uri="com.rick.ecs://anime_common_webviewfragment/{link}" />
+        android:label="">
         <argument
             android:name="link"
             app:argType="string" />
+        <deepLink app:uri="com.rick.ecs://anime_common_webviewfragment/{link}" />
     </fragment>
 </navigation>

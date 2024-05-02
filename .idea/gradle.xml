@@ -60,6 +60,7 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/analytics" />
             <option value="$PROJECT_DIR$/data/common" />
             <option value="$PROJECT_DIR$/data/datastore" />
             <option value="$PROJECT_DIR$/data/datastore_proto" />

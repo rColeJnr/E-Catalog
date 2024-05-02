@@ -19,6 +19,7 @@ dependencies {
     implementation(projects.book.dataBook.model)
     implementation(projects.book.screenBook.common)
     implementation(projects.data.uiComponents.bookFavorite)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
     implementation(libs.lifecycle.runtimeCompose)

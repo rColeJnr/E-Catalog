@@ -1,13 +1,13 @@
 package com.rick.data.data_book.repository.bestseller
 
 import android.util.Log
+import com.rick.book.data_book.network.BestsellerNetworkDataSource
+import com.rick.book.data_book.network.model.BestsellerNetwork
 import com.rick.data.data_book.model.asBestsellerEntity
 import com.rick.data.database_book.dao.BestsellerDao
 import com.rick.data.database_book.model.BestsellerEntity
 import com.rick.data.database_book.model.asBestseller
 import com.rick.data.model_book.bestseller.Bestseller
-import com.rick.data.network_book.BestsellerNetworkDataSource
-import com.rick.data.network_book.model.BestsellerNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest

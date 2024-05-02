@@ -10,7 +10,7 @@
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_margin="12dp"
-        android:src="@drawable/filled_icon"
+        android:src="@drawable/ic_app_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,6 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:text="rColeJnr"
         android:textAppearance="?attr/textAppearanceBody1"
         app:layout_constraintStart_toEndOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/image" />

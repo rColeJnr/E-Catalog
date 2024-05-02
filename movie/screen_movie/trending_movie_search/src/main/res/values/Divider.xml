@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Divider">
-        <item name="android:background">?android:attr/listDivider</item> // can add colorur here
+    <style name="MovieScreenMovieTrendingMovieSearchDivider">
+        <item name="android:background">?android:attr/listDivider</item>
+        // can add colorur here
     </style>
 
-    <style name="Divider.Horizontal" parent="Divider">
+    <style name="MovieScreenMovieTrendingMovieSearchDivider.Horizontal" parent="MovieScreenMovieTrendingMovieSearchDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
     </style>

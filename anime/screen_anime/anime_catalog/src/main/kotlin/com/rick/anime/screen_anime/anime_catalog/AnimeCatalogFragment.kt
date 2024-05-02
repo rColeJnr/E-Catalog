@@ -27,13 +27,17 @@ import com.rick.anime.anime_screen.common.JikanLoadStateAdapter
 import com.rick.anime.anime_screen.common.JikanUiEvents
 import com.rick.anime.anime_screen.common.RemotePresentationState
 import com.rick.anime.anime_screen.common.asRemotePresentationState
+import com.rick.anime.anime_screen.common.logAnimeOpened
+import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.anime_catalog.databinding.AnimeScreenAnimeAnimeCatalogFragmentAnimeCatalogBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_anime.UserAnime
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AnimeCatalogFragment : Fragment() {
@@ -46,6 +50,9 @@ class AnimeCatalogFragment : Fragment() {
 
     private lateinit var eTransition: MaterialSharedAxis
     private lateinit var reTransition: MaterialSharedAxis
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +87,8 @@ class AnimeCatalogFragment : Fragment() {
             adapter = adapter,
             pagingDataFlow = viewModel.pagingDataFlow
         )
+
+        analyticsHelper.logScreenView("AnimeCatalog")
 
         return binding.root
     }
@@ -167,9 +176,9 @@ class AnimeCatalogFragment : Fragment() {
                 resources.getInteger(R.integer.anime_screen_anime_anime_catalog_motion_duration_long)
                     .toLong()
         }
-
+        analyticsHelper.logAnimeOpened(id.toString())
         val uri =
-            Uri.parse("com.rick.ecs://anime_screen_anime_anime_details_animedetailsfragment/$id")
+            Uri.parse("com.rick.ecs://anime_details_fragment/$id")
         findNavController().navigate(uri)
     }
 

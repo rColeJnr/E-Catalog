@@ -8,6 +8,7 @@ import com.rick.data.model_anime.model_jikan.Trailer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
 @Serializable
 data class AnimeNetwork(
     @SerializedName("mal_id")
@@ -19,7 +20,7 @@ data class AnimeNetwork(
     val title: String?,
     @SerializedName("title_english")
     @SerialName("title_english")
-    val title_english: String?,
+    val titleEnglish: String?,
     val type: String?,
     val source: String?,
     val episodes: Int?,

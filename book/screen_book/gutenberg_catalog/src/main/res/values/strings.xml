@@ -4,4 +4,5 @@
     <string name="book_screen_book_gutenberg_catalog_search">Search</string>
     <string name="book_screen_book_gutenberg_catalog_no_results">No results 😓\nSwipe to refresh</string>
     <string name="book_screen_book_gutenberg_catalog_authors">Authors: %1$s</string>
+    <string name="book_screen_book_gutenberg_catalog_favorite">Favorite</string>
 </resources>

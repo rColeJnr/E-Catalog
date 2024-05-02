@@ -6,7 +6,7 @@ sealed class FavoriteUiEvents {
     data class ShouldShowSeries(val show: Boolean) : FavoriteUiEvents()
     data class RemoveTrendingMovieFavorite(val movieId: Int) : FavoriteUiEvents()
     data class RemoveTrendingSeriesFavorite(val seriesId: Int) : FavoriteUiEvents()
-    data class RemoveArticleFavorite(val articleId: Long) : FavoriteUiEvents()
+    data class RemoveArticleFavorite(val articleId: String) : FavoriteUiEvents()
     data object UndoTrendingMovieFavoriteRemoval : FavoriteUiEvents()
     data object UndoTrendingSeriesFavoriteRemoval : FavoriteUiEvents()
     data object UndoArticleFavoriteRemoval : FavoriteUiEvents()

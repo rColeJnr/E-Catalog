@@ -10,10 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import com.rick.anime.anime_screen.common.logMangaWebPageOpened
+import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.manga_details.databinding.AnimeScreenAnimeMangaDetailsFragmentMangaDetailsBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_anime.UserManga
 import com.rick.data.ui_components.common.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MangaDetailsFragment : Fragment() {
@@ -22,6 +28,8 @@ class MangaDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MangaDetailsViewModel by viewModels()
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,6 +57,8 @@ class MangaDetailsFragment : Fragment() {
             viewModel.getManga().asLiveData()
         )
 
+        analyticsHelper.logScreenView("mangaDetails")
+
         return binding.root
     }
 
@@ -61,33 +71,56 @@ class MangaDetailsFragment : Fragment() {
 
             provideGlide(image, manga.images)
 
-            synopsis.text = getString(
-                R.string.anime_screen_anime_manga_details_anime_screen_anime_synopsis,
-                manga.synopsis
-            )
+            synopsis.text = manga.synopsis
 
             background.text =
                 manga.background
 
+            publishing.text = getString(
+                R.string.anime_screen_anime_manga_details_anime_screen_anime_publishing,
+                if (manga.publishing) "being published" else "not publishing"
+            )
+
+            published.text = getString(
+                R.string.anime_screen_anime_manga_details_anime_screen_anime_published,
+                manga.published.string
+            )
+
             chapters.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_chapters,
-                manga.chapters
+                if (manga.chapters == 0) "Unknown" else manga.chapters.toString()
             )
 
             volumes.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_volumes,
-                manga.volumes
+                if (manga.volumes == 0) "Unknown" else manga.volumes.toString()
+            )
+
+            val themes = StringBuilder()
+            manga.themes.forEach {
+                themes.append(it.name)
+                themes.append("; ")
+            }
+
+            this.themes.text = getString(
+                R.string.anime_screen_anime_manga_details_anime_screen_anime_themes,
+                themes.toString()
             )
 
             genreOne.text =
                 manga.genres.firstOrNull()?.name
-                    ?: getString(R.string.anime_screen_anime_manga_details_anime_screen_anime_no_data)
+                    ?: ""
+            if (genreOne.text.isNullOrBlank()) genreOne.visibility = View.GONE
+
             genreTwo.text =
                 manga.genres.getOrNull(1)?.name
-                    ?: getString(R.string.anime_screen_anime_manga_details_anime_screen_anime_no_data)
+                    ?: ""
+            if (genreTwo.text.isNullOrBlank()) genreTwo.visibility = View.GONE
+
             genreThree.text =
                 manga.genres.getOrNull(2)?.name
-                    ?: getString(R.string.anime_screen_anime_manga_details_anime_screen_anime_no_data)
+                    ?: ""
+            if (genreThree.text.isNullOrBlank()) genreOne.visibility = View.GONE
 
             score.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_score,
@@ -110,9 +143,12 @@ class MangaDetailsFragment : Fragment() {
                 manga.rank
             )
 
-            url.setOnClickListener {
-                if (manga.url.isNotEmpty()) {
-                    val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment//$url")
+            val link = manga.url
+            this.url.setOnClickListener {
+                if (link.isNotEmpty()) {
+                    val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+                    analyticsHelper.logMangaWebPageOpened(encodedUrl)
+                    val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment/$encodedUrl")
                     findNavController().navigate(uri)
                 }
             }
@@ -122,9 +158,8 @@ class MangaDetailsFragment : Fragment() {
                 series.append(it.name)
                 series.append("\n")
             }
-            series.deleteAt(series.lastIndex)
 
-            serializationName.text = series.toString()
+            serializationName.text = series.toString().trim()
         }
     }
 

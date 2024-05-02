@@ -12,12 +12,17 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.tmdb.movie.Genre
 import com.rick.data.model_movie.tmdb.series.Creator
+import com.rick.movie.screen_movie.common.logScreenView
+import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_movie_details.R
 import com.rick.movie.screen_movie.trending_movie_details.databinding.MovieScreenMovieTrendingMovieDetailsFragmentTrendingMovieDetailsBinding
+
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TrendingMovieDetailsFragment : Fragment() {
@@ -28,6 +33,9 @@ class TrendingMovieDetailsFragment : Fragment() {
     private val viewModel: TrendingMovieDetailsViewModel by viewModels()
 
     private lateinit var similarsAdapter: MovieSimilarDetailsAdapter
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +71,7 @@ class TrendingMovieDetailsFragment : Fragment() {
             uiState = viewModel.uiState.asLiveData()
         )
 
+        analyticsHelper.logScreenView("trendingMovieDetails")
         return binding.root
     }
 
@@ -116,7 +125,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     val trendingMovie = state.movie
                     movieTitle.text = trendingMovie.title
                     if (trendingMovie.image.isNotEmpty()) {
-                        provideGlide(movieImage, trendingMovie.image)
+                        provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image))
                     }
                     movieSummary.text = trendingMovie.overview
 

@@ -1,4 +1,4 @@
-import com.rick.data.network_book.demo.DemoBookAssetManager
+import com.rick.book.data_book.network.demo.DemoBookAssetManager
 import java.io.File
 import java.io.InputStream
 import java.util.Properties

@@ -17,4 +17,5 @@ dependencies {
     implementation(projects.movie.dataMovie.model)
     implementation(projects.movie.dataMovie.domain)
     implementation(projects.movie.screenMovie.common)
+    implementation(projects.data.analytics)
 }

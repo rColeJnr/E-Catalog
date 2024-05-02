@@ -131,6 +131,22 @@ class JikanConverters(
     }
 
     @TypeConverter
+    fun fromString(obj: List<String>): String {
+        return jsonParser.toJson(
+            obj,
+            object : TypeToken<List<String>>() {}.type
+        ) ?: "[]"
+    }
+
+    @TypeConverter
+    fun toString(obj: String): List<String> {
+        return jsonParser.fromJson<List<String>>(
+            obj,
+            object : TypeToken<List<String>>() {}.type
+        ) ?: emptyList()
+    }
+
+    @TypeConverter
     fun fromThemes(obj: List<Theme>?): String {
         return jsonParser.toJson(
             obj,

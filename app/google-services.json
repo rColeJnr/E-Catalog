@@ -1,0 +1,195 @@
+{
+  "project_info": {
+    "project_number": "185760784140",
+    "project_id": "e-catalogs-eb3c8",
+    "storage_bucket": "e-catalogs-eb3c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185760784140:android:cff5f104b64b8c6f40f329",
+        "android_client_info": {
+          "package_name": "com.rick.auth_screen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185760784140-i5pq1mlrcocmd67ekb0tlesht0k8s2iv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rick.auth_screen",
+            "certificate_hash": "a3a7409674983bb7d3a2357e8b6c5d20b3201ad0"
+          }
+        },
+        {
+          "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbA0kwcXX6Q0zDLBPIc7FePFCLoxYcxl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185760784140:android:113f4968de779a0540f329",
+        "android_client_info": {
+          "package_name": "com.rick.moviecatalog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185760784140-51gngr3aqgspfu1r6vd40piml7aibiqs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rick.moviecatalog",
+            "certificate_hash": "a3a7409674983bb7d3a2357e8b6c5d20b3201ad0"
+          }
+        },
+        {
+          "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbA0kwcXX6Q0zDLBPIc7FePFCLoxYcxl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185760784140:android:113f4968de779a0540f329",
+        "android_client_info": {
+          "package_name": "com.rick.moviecatalog.demo.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185760784140-51gngr3aqgspfu1r6vd40piml7aibiqs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rick.moviecatalog",
+            "certificate_hash": "a3a7409674983bb7d3a2357e8b6c5d20b3201ad0"
+          }
+        },
+        {
+          "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbA0kwcXX6Q0zDLBPIc7FePFCLoxYcxl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185760784140:android:113f4968de779a0540f329",
+        "android_client_info": {
+          "package_name": "com.rick.moviecatalog.prod.release"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185760784140-51gngr3aqgspfu1r6vd40piml7aibiqs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rick.moviecatalog",
+            "certificate_hash": "a3a7409674983bb7d3a2357e8b6c5d20b3201ad0"
+          }
+        },
+        {
+          "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbA0kwcXX6Q0zDLBPIc7FePFCLoxYcxl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185760784140:android:113f4968de779a0540f329",
+        "android_client_info": {
+          "package_name": "com.rick.moviecatalog.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185760784140-51gngr3aqgspfu1r6vd40piml7aibiqs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rick.moviecatalog",
+            "certificate_hash": "a3a7409674983bb7d3a2357e8b6c5d20b3201ad0"
+          }
+        },
+        {
+          "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbA0kwcXX6Q0zDLBPIc7FePFCLoxYcxl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

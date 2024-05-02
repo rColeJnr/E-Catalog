@@ -4,7 +4,7 @@ import com.rick.data.model_movie.article_models.Article
 import com.rick.data.model_movie.article_models.Byline
 
 data class UserArticle internal constructor(
-    val id: Long,
+    val id: String,
     val abstract: String,
     val webUrl: String,
     val leadParagraph: String,

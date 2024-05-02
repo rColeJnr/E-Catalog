@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rick.book.screen_book.gutenberg_catalog.databinding.BookScreenBookGutenbergCatalogGutenbergEntryBinding
 import com.rick.data.model_book.gutenberg.Formats
 import com.rick.data.model_book.gutenberg.UserGutenberg
-import com.rick.data.ui_components.common.getListAsString
 import com.rick.data.ui_components.common.provideGlide
 
 class GutenbergCatalogViewHolder(
@@ -57,10 +56,14 @@ class GutenbergCatalogViewHolder(
                 null
             )
         }
+        val authors = StringBuilder()
+        book.authors.forEach {
+            authors.append("${it.name}\nbirth year: ${it.birthYear}, death year: ${it.deathYear}")
+        }
         this.title.text = book.title
         this.authors.text = resources.getString(
             R.string.book_screen_book_gutenberg_catalog_authors,
-            getListAsString(book.authors)
+            authors.toString().trim()
         )
 
     }

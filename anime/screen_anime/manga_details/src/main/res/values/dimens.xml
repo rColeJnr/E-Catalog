@@ -4,4 +4,5 @@
     <dimen name="anime_screen_anime_manga_details_card_corner_radius">10dp</dimen>
     <dimen name="anime_screen_anime_manga_details_min_image_width">300dp</dimen>
     <dimen name="anime_screen_anime_manga_details_min_image_height">250dp</dimen>
+    <dimen name="anime_screen_anime_manga_details_six_dp">6dp</dimen>
 </resources>

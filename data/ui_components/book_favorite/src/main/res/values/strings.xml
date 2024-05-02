@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ui_components_book_favorite_favorite_button">Favorite button</string>
+    <string name="data_ui_components_book_favorite_favorite_button">Favorite button</string>
 </resources>

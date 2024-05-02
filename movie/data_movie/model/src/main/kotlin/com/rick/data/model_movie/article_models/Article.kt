@@ -1,7 +1,7 @@
 package com.rick.data.model_movie.article_models
 
 data class Article(
-    val id: Long,
+    val id: String,
     val abstract: String,
     val webUrl: String,
     val leadParagraph: String,

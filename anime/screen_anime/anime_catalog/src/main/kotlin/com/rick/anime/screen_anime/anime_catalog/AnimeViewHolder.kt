@@ -22,21 +22,23 @@ class AnimeViewHolder(
 
     init {
         binding.root.setOnClickListener {
-            onItemClick(it, jikan.id)
+            onItemClick(it, anime.id)
         }
         favorite.setOnClickListener {
-            onFavClick(jikan.id, jikan.isFavorite)
+            onFavClick(anime.id, anime.isFavorite)
         }
     }
 
-    private lateinit var jikan: UserAnime
+    private lateinit var anime: UserAnime
 
-    fun bind(jikan: UserAnime) {
-        this.jikan = jikan
-        this.title.text = jikan.title
-        jikan.background.let { provideGlide(this.image, it) }
-        this.synopsis.text = jikan.synopsis
-        favorite.foreground = if (jikan.isFavorite) {
+    fun bind(anime: UserAnime) {
+        this.anime = anime
+        this.title.text = anime.title
+        if (anime.images.isNotEmpty()) {
+            provideGlide(this.image, anime.images)
+        }
+        this.synopsis.text = anime.synopsis
+        favorite.foreground = if (anime.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
                 R.drawable.anime_screen_anime_anime_catalog_ic_filled_favorite,

@@ -111,7 +111,7 @@ fun LoginScreen(
         if (screenState) 0.38f else 0.42f,
         label = "guideline"
     )
-    val buttonsColor = colorResource(id = R.color.onBackground)
+    val buttonsColor = colorResource(id = R.color.data_ui_components_auth_onBackground)
 
     val density = LocalDensity.current
 
@@ -197,10 +197,10 @@ fun LoginScreen(
         constraintSet = constraintSet,
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(R.color.background))
+            .background(color = colorResource(R.color.data_ui_components_auth_background))
     ) {
         Image(
-            painterResource(id = R.drawable.app_icon),
+            painterResource(id = R.drawable.data_ui_components_auth_ic_app_icon),
             contentDescription = null,
             modifier = Modifier
                 .layoutId(LayoutRefs.Icon)
@@ -366,7 +366,7 @@ fun LoginScreen(
                     .padding(8.dp)
             ) {
                 Image(
-                    painterResource(id = R.drawable.google_icon),
+                    painterResource(id = R.drawable.data_ui_components_auth_google_icon),
                     contentDescription = null,
                     modifier = Modifier.size(48.dp)
                 )
@@ -419,7 +419,7 @@ fun CrossfadeText(state: String, label: String, padding: Dp) {
             text = text,
             textAlign = TextAlign.Center,
             fontSize = 22.sp,
-            color = colorResource(id = R.color.text),
+            color = colorResource(id = R.color.data_ui_components_auth_text),
             fontStyle = FontStyle.Italic
         )
     }
@@ -526,9 +526,9 @@ fun PasswordResetDialog(
     val invalidEmail = rememberSaveable {
         mutableStateOf(false)
     }
-    val container = colorResource(id = R.color.background)
-    val content = colorResource(id = R.color.text)
-    val button = colorResource(id = R.color.onBackground)
+    val container = colorResource(id = R.color.data_ui_components_auth_background)
+    val content = colorResource(id = R.color.data_ui_components_auth_text)
+    val button = colorResource(id = R.color.data_ui_components_auth_onBackground)
 
 
     Dialog(

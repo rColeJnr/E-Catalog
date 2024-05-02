@@ -9,10 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.FavoriteUiEvents
+import com.rick.movie.screen_movie.common.logScreenView
 import com.rick.movie.screen_movie.trending_series_favorite.databinding.MovieScreenMovieTrendingSeriesFavoriteFragmentTrendingSeriesFavoriteBinding
 import com.rick.ui_components.movie_favorite.MovieFavScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TrendingSeriesFavoriteFragment : Fragment() {
@@ -21,6 +24,9 @@ class TrendingSeriesFavoriteFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: TrendingSeriesFavoriteViewModel by viewModels()
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,51 +39,22 @@ class TrendingSeriesFavoriteFragment : Fragment() {
             )
 
         binding.movieComposeView.setContent {
-            val articlesState by viewModel.feedArticlesUiState.collectAsStateWithLifecycle()
-            val moviesState by viewModel.feedTrendingMovieUiState.collectAsStateWithLifecycle()
             val seriesState by viewModel.feedTrendingSeriesUiState.collectAsStateWithLifecycle()
-            val showArticles by viewModel.showArticles.collectAsState()
-            val showMovies by viewModel.showMovies.collectAsState()
-            val showSeries by viewModel.showSeries.collectAsState()
-            val shouldDisplayUndoArticleFavorite by viewModel.shouldDisplayUndoArticleFavorite.collectAsState()
-            val shouldDisplayUndoMovieFavorite by viewModel.shouldDisplayUndoMovieFavorite.collectAsState()
             val shouldDisplayUndoSeriesFavorite by viewModel.shouldDisplayUndoSeriesFavorite.collectAsState()
             MovieFavScreen(
-                articlesState = articlesState,
-                moviesState = moviesState,
-                seriesState = seriesState,
-                showArticles = showArticles,
-                showMovies = showMovies,
-                showSeries = showSeries,
-                shouldShowArticles = { viewModel.onEvent(FavoriteUiEvents.ShouldShowArticles(it)) },
-                shouldShowMovies = { viewModel.onEvent(FavoriteUiEvents.ShouldShowMovies(it)) },
-                shouldShowSeries = { viewModel.onEvent(FavoriteUiEvents.ShouldShowSeries(it)) },
-                onArticleFavClick = {
-                    viewModel.onEvent(
-                        FavoriteUiEvents.RemoveArticleFavorite(it.toLong())
-                    )
-                },
-                onMovieFavClick = {
-                    viewModel.onEvent(
-                        FavoriteUiEvents.RemoveTrendingMovieFavorite(it.toInt())
-                    )
-                },
-                onSeriesFavClick = {
+                state = seriesState,
+                onFavClick = {
                     viewModel.onEvent(
                         FavoriteUiEvents.RemoveTrendingSeriesFavorite(it.toInt())
                     )
                 },
-                shouldDisplayArticleUndoFavorite = shouldDisplayUndoArticleFavorite,
-                shouldDisplayMovieUndoFavorite = shouldDisplayUndoMovieFavorite,
-                shouldDisplaySeriesUndoFavorite = shouldDisplayUndoSeriesFavorite,
+                shouldDisplayUndoFavorite = shouldDisplayUndoSeriesFavorite,
                 clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                undoArticleFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoArticleFavoriteRemoval) },
-                undoMovieFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingMovieFavoriteRemoval) },
-                undoSeriesFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval) }
+                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval) },
             )
         }
 
-
+        analyticsHelper.logScreenView("trendingSeriesFavorite")
         return binding.root
     }
 

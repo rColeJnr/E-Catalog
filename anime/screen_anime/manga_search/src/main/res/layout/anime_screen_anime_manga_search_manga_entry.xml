@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            style="@style/Divider.Horizontal"
+            style="@style/AnimeScreenAnimeMangaSearchDivider.Horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 

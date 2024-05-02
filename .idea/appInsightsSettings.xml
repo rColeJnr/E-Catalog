@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.rick.moviecatalog.demo.debug" />
+                  <option name="mobileSdkAppId" value="1:185760784140:android:113f4968de779a0540f329" />
+                  <option name="projectId" value="e-catalogs-eb3c8" />
+                  <option name="projectNumber" value="185760784140" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

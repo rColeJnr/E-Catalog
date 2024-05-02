@@ -13,7 +13,7 @@ interface ArticleRemoteKeysDao {
     suspend fun insertAll(remoteKey: List<ArticleRemoteKeys>)
 
     @Query("SELECT * FROM article_remote_keys_table WHERE id = :id")
-    suspend fun remoteKeysId(id: Long): ArticleRemoteKeys?
+    suspend fun remoteKeysId(id: String): ArticleRemoteKeys?
 
     @Query("DELETE FROM article_remote_keys_table")
     suspend fun clearRemoteKeys()

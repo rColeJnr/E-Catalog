@@ -15,6 +15,7 @@ data class MySeries(
     val lastAirDate: String?,
     val name: String,
     val numberOfSeasons: Int,
+    val numberOfEpisodes: Int,
     val overview: String,
     val popularity: Double,
     val image: String,

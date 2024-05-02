@@ -23,14 +23,19 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserArticle
 import com.rick.data.ui_components.common.RecentSearchesBody
 import com.rick.movie.screen_movie.article_search.databinding.MovieScreenMovieArticleSearchFragmentArticleSearchBinding
 import com.rick.movie.screen_movie.article_search.databinding.MovieScreenMovieArticleSearchSearchEntryBinding
 import com.rick.movie.screen_movie.common.ArticleDetailsDialogFragment
+import com.rick.movie.screen_movie.common.logArticleOpened
+import com.rick.movie.screen_movie.common.logScreenView
 import com.rick.movie.screen_movie.common.util.provideGlide
-import com.rick.screen_movie.util.getTmdbImageUrl
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ArticleSearchFragment : Fragment() {
@@ -39,6 +44,9 @@ class ArticleSearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ArticleSearchViewModel by viewModels()
     private lateinit var searchAdapter: ArticleSearchAdapter
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +107,8 @@ class ArticleSearchFragment : Fragment() {
             uiState = viewModel.searchState.asLiveData(),
             recentSearchesUiState = viewModel.recentSearchState.asLiveData()
         )
+
+        analyticsHelper.logScreenView("articleSearch")
 
         return binding.root
     }
@@ -237,6 +247,7 @@ class ArticleSearchFragment : Fragment() {
 
     //TODO (REMOVE .toString())
     private fun onArticleClick(view: View, article: UserArticle) {
+        analyticsHelper.logArticleOpened(article.id.toString())
         ArticleDetailsDialogFragment(
             article,
             this::onDialogFavoriteClick,
@@ -249,16 +260,17 @@ class ArticleSearchFragment : Fragment() {
 
     }
 
-    private fun onDialogFavoriteClick(view: View, id: Long, isFavorite: Boolean) {
+    private fun onDialogFavoriteClick(view: View, id: String, isFavorite: Boolean) {
         onFavClick(id, isFavorite)
     }
 
     private fun onWebUlrClick(link: String) {
-        val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment//$link")
+        val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+        val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
         findNavController().navigate(uri)
     }
 
-    private fun onFavClick(id: Long, isFavorite: Boolean) {
+    private fun onFavClick(id: String, isFavorite: Boolean) {
         viewModel.onEvent(ArticleSearchUiEvent.UpdateFavorite(id, !isFavorite))
     }
 
@@ -270,7 +282,7 @@ class ArticleSearchFragment : Fragment() {
 
 class ArticleSearchAdapter(
     private val onItemClicked: (View, UserArticle) -> Unit,
-    private val onFavClicked: (Long, Boolean) -> Unit
+    private val onFavClicked: (String, Boolean) -> Unit
 ) : RecyclerView.Adapter<ArticleSearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<UserArticle>() {
@@ -309,7 +321,7 @@ class ArticleSearchAdapter(
 class ArticleSearchViewHolder(
     binding: MovieScreenMovieArticleSearchSearchEntryBinding,
     private val onItemClicked: (view: View, UserArticle) -> Unit,
-    private val onFavClicked: (Long, Boolean) -> Unit
+    private val onFavClicked: (String, Boolean) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
@@ -334,11 +346,8 @@ class ArticleSearchViewHolder(
         this.searchResult = searchResult
         this.title.text = searchResult.headline
         this.description.text = searchResult.leadParagraph
-        if (searchResult.multimedia.isNotEmpty()) {
-            provideGlide(
-                this.image, getTmdbImageUrl(searchResult.multimedia)
-            )
-        }
+        val image = searchResult.multimedia
+        if (image.isNotEmpty()) provideGlide(this.image, "https://www.nytimes.com/$image")
         favorite.foreground = if (searchResult.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
@@ -362,7 +371,7 @@ class ArticleSearchViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClicked: (View, UserArticle) -> Unit,
-            onFavClicked: (Long, Boolean) -> Unit
+            onFavClicked: (String, Boolean) -> Unit
         ): ArticleSearchViewHolder {
             val itemBinding =
                 MovieScreenMovieArticleSearchSearchEntryBinding.inflate(

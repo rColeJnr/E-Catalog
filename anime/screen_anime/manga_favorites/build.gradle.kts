@@ -8,7 +8,9 @@ dependencies {
     implementation(projects.anime.dataAnime.data)
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.screenAnime.mangaDetails)
+    implementation(projects.anime.screenAnime.common)
     implementation(projects.data.uiComponents.animeFavorite)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
     implementation(libs.lifecycle.runtimeCompose)

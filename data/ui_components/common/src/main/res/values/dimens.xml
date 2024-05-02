@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="ui_components_favorite_image_height">282</dimen>
+    <dimen name="data_ui_components_common_image_height">250dp</dimen>
 </resources>

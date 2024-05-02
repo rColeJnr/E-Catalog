@@ -20,4 +20,5 @@ dependencies {
     implementation(projects.movie.screenMovie.trendingSeriesSearch)
     implementation(projects.movie.screenMovie.trendingSeriesDetails)
     implementation(projects.movie.screenMovie.trendingSeriesFavorite)
+    implementation(projects.data.analytics)
 }

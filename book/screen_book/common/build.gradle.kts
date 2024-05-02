@@ -7,3 +7,7 @@ plugins {
 android {
     namespace = "com.rick.book.screen_book.common"
 }
+
+dependencies {
+    implementation(projects.data.analytics)
+}

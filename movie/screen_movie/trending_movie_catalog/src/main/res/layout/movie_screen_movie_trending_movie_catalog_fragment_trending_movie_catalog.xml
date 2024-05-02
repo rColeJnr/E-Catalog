@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="@dimen/two_dp"
+    android:layout_marginHorizontal="@dimen/movie_screen_movie_trending_movie_catalog_two_dp"
     android:background="?attr/colorSurface">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/movie_screen_movie_trending_movie_movie_entry" />
+            tools:listitem="@layout/movie_screen_movie_trending_movie_catalog_movie_entry" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -26,9 +26,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/no_results"
+        android:text="@string/movie_screen_movie_trending_movie_catalog_no_results"
         android:textAppearance="?attr/textAppearanceBody2"
-        android:textSize="@dimen/large_text"
+        android:textSize="@dimen/movie_screen_movie_trending_movie_catalog_large_text"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -10,9 +10,9 @@ import com.rick.data.database_movie.dao.TrendingMovieRemoteKeysDao
 import com.rick.data.database_movie.model.TrendingMovieEntity
 import com.rick.data.database_movie.model.asTrendingMovie
 import com.rick.data.model_movie.tmdb.trending_movie.TrendingMovie
-import com.rick.data.network_movie.TmdbNetworkDataSource
-import com.rick.data.network_movie.model.TrendingMovieNetwork
 import com.rick.movie.data_movie.data.model.asTrendingMovieEntity
+import com.rick.movie.data_movie.network.TmdbNetworkDataSource
+import com.rick.movie.data_movie.network.model.TrendingMovieNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -79,9 +79,12 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
                     }
 
             } catch (e: IOException) {
-                Log.e(TAG, e.localizedMessage ?: "IOException")
+                Log.e(TAG, "IOException ${e.message}")
+                Log.e(TAG, "IOException ${e.cause}")
+                Log.e(TAG, "IOException ${e.printStackTrace()}")
+                e.printStackTrace()
             } catch (e: HttpException) {
-                Log.e(TAG, e.localizedMessage ?: "HTTPException")
+                Log.e(TAG, "HTTPException ${e.localizedMessage}")
             }
         }
 }

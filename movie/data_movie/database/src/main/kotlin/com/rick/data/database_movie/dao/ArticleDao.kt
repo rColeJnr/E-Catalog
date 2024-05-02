@@ -2,15 +2,16 @@ package com.rick.data.database_movie.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Upsert
 import com.rick.data.database_movie.model.ArticleEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
 
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertArticles(article: List<ArticleEntity>)
 
     @Query(
@@ -19,7 +20,7 @@ interface ArticleDao {
         WHERE id IN (:ids)
         """
     )
-    suspend fun clearArticles(ids: List<Long>)
+    suspend fun clearArticles(ids: List<String>)
 
     @Query("SELECT * FROM article_table")
     fun getArticles(): PagingSource<Int, ArticleEntity>
@@ -42,7 +43,7 @@ interface ArticleDao {
     )
     fun getArticlesWithFilters(
         filterById: Boolean = false,
-        filterArticleIds: Set<Long> = emptySet(),
+        filterArticleIds: Set<String> = emptySet(),
         filterByQuery: Boolean = false,
         query: String = ""
     ): Flow<List<ArticleEntity>>

@@ -8,10 +8,13 @@ import androidx.compose.runtime.getValue
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.anime_favorites.databinding.AnimeScreenAnimeAnimeFavoritesFragmentAnimeFavoriteBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_anime.FavoriteUiEvents
 import com.rick.ui_components.anime_favorite.AnimeFavScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AnimeFavoriteFragment : Fragment() {
@@ -19,6 +22,9 @@ class AnimeFavoriteFragment : Fragment() {
     private var _binding: AnimeScreenAnimeAnimeFavoritesFragmentAnimeFavoriteBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeFavoriteViewModel by viewModels()
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,27 +39,16 @@ class AnimeFavoriteFragment : Fragment() {
 
         binding.jikanComposeView.setContent {
             val animeState by viewModel.feedAnimeUiState.collectAsStateWithLifecycle()
-            val mangaState by viewModel.feedMangaUiState.collectAsStateWithLifecycle()
-            val showAnime by viewModel.showAnime.collectAsStateWithLifecycle()
-            val showManga by viewModel.showManga.collectAsStateWithLifecycle()
             val shouldDisplayAnimeUndoFavorite by viewModel.shouldDisplayAnimeUndoFavorite.collectAsStateWithLifecycle()
-            val shouldDisplayMangaUndoFavorite by viewModel.shouldDisplayMangaUndoFavorite.collectAsStateWithLifecycle()
             AnimeFavScreen(
-                animeState = animeState,
-                mangaState = mangaState,
-                onAnimeFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
-                onMangaFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveMangaFavorite(it)) },
-                showAnime = showAnime,
-                shouldShowAnime = { viewModel.onEvent(FavoriteUiEvents.ShouldShowAnime(it)) },
-                showManga = showManga,
-                shouldShowManga = { viewModel.onEvent(FavoriteUiEvents.ShouldShowManga(it)) },
-                shouldDisplayAnimeUndoFavorite = shouldDisplayAnimeUndoFavorite,
-                shouldDisplayMangaUndoFavorite = shouldDisplayMangaUndoFavorite,
-                undoAnimeFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
-                undoMangaFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoMangaFavoriteRemoval) },
+                state = animeState,
+                onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
+                shouldDisplayUndoFavorite = shouldDisplayAnimeUndoFavorite,
+                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
                 clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) }
             )
         }
+        analyticsHelper.logScreenView("AnimeFavorite")
         return binding.root
     }
 
