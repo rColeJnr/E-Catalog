@@ -21,8 +21,12 @@ android {
             "androidx.test.runner.AndroidJUnitRunner"/*"com.rick.data.testing.EcsTestRunner"*/
 
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
     buildFeatures {
         viewBinding = true
+        compose = true
     }
     buildTypes {
         debug {
@@ -96,6 +100,9 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
 
     kspTest(libs.hilt.compiler)
     ksp(libs.hilt.compiler)

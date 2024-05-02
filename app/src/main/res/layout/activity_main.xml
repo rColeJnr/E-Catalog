@@ -47,10 +47,20 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?attr/colorOnSurface"
+        android:clickable="true"
         android:fitsSystemWindows="true"
+        android:focusable="true"
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
-        app:menu="@menu/nav_menu" />
+        app:menu="@menu/nav_menu">
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/dialog_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

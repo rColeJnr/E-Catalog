@@ -1,5 +1,6 @@
 package com.rick.moviecatalog
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.settings.data_settings.data.repository.UserSettingsDataRepository
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     userDataRepository: UserSettingsDataRepository,
 ) : ViewModel() {
+
     val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {
         MainActivityUiState.Success(it)
     }.stateIn(
@@ -22,6 +24,8 @@ class MainActivityViewModel @Inject constructor(
         initialValue = MainActivityUiState.Loading,
         started = SharingStarted.WhileSubscribed(5_000),
     )
+
+    val showSettingsDialog: MutableLiveData<Boolean> = MutableLiveData(false)
 }
 
 sealed interface MainActivityUiState {
