@@ -4,15 +4,15 @@
     android:id="@+id/book_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="82dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="@dimen/book_screen_book_gutenberg_catalog_six_dp"
+    android:layout_margin="4dp"
     android:backgroundTint="?attr/colorSurface"
     android:elevation="@dimen/book_screen_book_gutenberg_catalog_two_dp"
     app:cardCornerRadius="@dimen/book_screen_book_gutenberg_catalog_card_corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="4dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:minWidth="60dp"
             android:minHeight="70dp"
-            android:src="@drawable/filled_icon"
+            android:src="@drawable/book_screen_book_gutenberg_catalog_ic_fav_filled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,6 @@
             android:layout_marginHorizontal="@dimen/book_screen_book_gutenberg_catalog_six_dp"
             android:layout_marginVertical="@dimen/book_screen_book_gutenberg_catalog_two_dp"
             android:ellipsize="end"
-            android:hint="Title is a whole long text"
             android:maxLines="2"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintEnd_toStartOf="@id/favorite"
@@ -45,7 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/book_screen_book_gutenberg_catalog_six_dp"
             android:layout_marginVertical="@dimen/book_screen_book_gutenberg_catalog_two_dp"
-            android:hint="Author name is much longer"
             android:maxLines="2"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,8 +52,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/favorite"
-            android:layout_width="26dp"
-            android:layout_height="21dp"
+            android:layout_width="36dp"
+            android:layout_height="31dp"
             android:src="@drawable/book_screen_book_gutenberg_catalog_ic_fav_outlined"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

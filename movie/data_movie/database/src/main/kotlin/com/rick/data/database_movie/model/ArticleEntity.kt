@@ -8,8 +8,8 @@ import com.rick.data.model_movie.article_models.Byline
 
 @Entity(tableName = "article_table")
 data class ArticleEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long? = null,
+    @PrimaryKey(autoGenerate = false)
+    val id: String,
     val abstract: String,
     @ColumnInfo("web_url")
     val webUrl: String,
@@ -24,7 +24,7 @@ data class ArticleEntity(
 )
 
 fun ArticleEntity.asArticle() = Article(
-    id = id!!,
+    id = id,
     abstract = abstract,
     webUrl = webUrl,
     leadParagraph = leadParagraph,

@@ -5,11 +5,12 @@ import com.rick.data.database_movie.model.ArticleEntity
 import com.rick.data.database_movie.model.ArticleRecentSearchQueryEntity
 import com.rick.data.model_movie.ArticleRecentSearchQuery
 import com.rick.data.model_movie.article_models.Byline
-import com.rick.data.network_movie.model.ArticleNetwork
+import com.rick.movie.data_movie.network.model.ArticleNetwork
 import java.text.SimpleDateFormat
 import java.util.Date
 
 fun ArticleNetwork.asArticleEntity() = ArticleEntity(
+    id = id,
     abstract = abstract,
     webUrl = webUrl,
     leadParagraph = leadParagraph,

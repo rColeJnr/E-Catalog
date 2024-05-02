@@ -5,8 +5,8 @@ import com.rick.data.database_movie.model.TrendingMovieRecentSearchQueryEntity
 import com.rick.data.model_movie.TmdbRecentSearchQuery
 import com.rick.data.model_movie.tmdb.movie.MyMovie
 import com.rick.data.model_movie.tmdb.trending_movie.TrendingMovie
-import com.rick.data.network_movie.model.MovieResponse
-import com.rick.data.network_movie.model.TrendingMovieNetwork
+import com.rick.movie.data_movie.network.model.MovieResponse
+import com.rick.movie.data_movie.network.model.TrendingMovieNetwork
 
 fun TrendingMovieNetwork.asTrendingMovieEntity() = TrendingMovieEntity(
     id = id,

@@ -8,6 +8,7 @@ android {
 
 dependencies {
     implementation(projects.data.datastore)
+    implementation(projects.data.analytics)
     implementation(projects.book.dataBook.model)
     implementation(projects.book.dataBook.database)
     implementation(projects.book.dataBook.network)

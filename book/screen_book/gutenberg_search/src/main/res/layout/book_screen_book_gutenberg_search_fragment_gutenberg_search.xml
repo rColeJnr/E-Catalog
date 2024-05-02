@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:gravity="center"
-                android:text="@string/ui_components_anime_favorite_nothing_found"
+                android:text="@string/book_screen_book_gutenberg_search_nothing_found"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@android:color/holo_blue_dark"
                 android:visibility="gone" />

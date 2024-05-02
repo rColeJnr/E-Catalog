@@ -1,7 +1,7 @@
 package com.rick.data.data_book.model
 
+import com.rick.book.data_book.network.model.BestsellerNetwork
 import com.rick.data.database_book.model.BestsellerEntity
-import com.rick.data.network_book.model.BestsellerNetwork
 
 fun BestsellerNetwork.asBestsellerEntity(): BestsellerEntity = BestsellerEntity(
     id = id,

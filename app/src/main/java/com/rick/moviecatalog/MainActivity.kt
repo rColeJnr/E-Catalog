@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,14 +17,18 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.FirebaseApp
 import com.rick.moviecatalog.databinding.ActivityMainBinding
+import com.rick.moviecatalog.databinding.NavHeaderBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navHeaderBinding: NavHeaderBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private val viewModel: MainActivityViewModel by viewModels()
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val toolbar = binding.myToolbar
@@ -72,10 +79,8 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == com.rick.movie.screen_movie.article_search.R.id.movie_screen_movie_article_search_articlesearchfragment
                 || destination.id == com.rick.movie.screen_movie.trending_movie_details.R.id.movie_screen_movie_trending_movie_details_moviedetailsfragment
                 || destination.id == com.rick.movie.screen_movie.trending_series_details.R.id.movie_screen_movie_trending_series_details_trendingseriesdetailsfragment
-                //Book screen≈
-                || destination.id == com.rick.book.screen_book.bestseller_favorites.R.id.book_screen_book_bestseller_favorites_bestsellerfavoritesfragment
+                //Book screen
                 || destination.id == com.rick.book.screen_book.gutenberg_search.R.id.book_screen_book_gutenberg_search_searchfragment
-                || destination.id == com.rick.book.screen_book.gutenberg_favorites.R.id.book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment
 
                 //Anime screen
                 || destination.id == com.rick.anime.screen_anime.anime_search.R.id.anime_screen_anime_anime_search_animesearchfragment
@@ -105,32 +110,65 @@ class MainActivity : AppCompatActivity() {
                     R.string.trending_series
                 )
 
+                com.rick.movie.screen_movie.trending_series_favorite.R.id.movie_screen_movie_trending_series_favorite_trendingseriesfavoritefragment -> getString(
+                    R.string.trending_series_favorite
+                )
+
+                com.rick.movie.screen_movie.trending_movie_favorite.R.id.movie_screen_movie_trending_movie_favorite_trenidngmoviefavoritefragment -> getString(
+                    R.string.trending_movies_favorite
+                )
+
+                com.rick.movie.screen_movie.article_favorite.R.id.movie_screen_movie_article_favorite_articlefavoritefragment -> getString(
+                    R.string.nyt_articles_favorite
+                )
+
                 //Book screen
                 com.rick.book.screen_book.gutenberg_catalog.R.id.book_screen_book_gutenberg_catalog_gutenbergcatalogfragment -> getString(
                     R.string.the_gutenberg_project
                 )
 
                 com.rick.book.screen_book.bestseller_catalog.R.id.book_screen_book_bestseller_catalog_bestsellerfragment -> getString(
-                    R.string.bestseller
+                    R.string.nyt_bestseller
                 )
 
+                com.rick.book.screen_book.bestseller_favorites.R.id.book_screen_book_bestseller_favorites_bestsellerfavoritesfragment -> getString(
+                    R.string.nyt_bestseller_favorite
+                )
+
+                com.rick.book.screen_book.gutenberg_favorites.R.id.book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment -> getString(
+                    R.string.the_gutenberg_project_favorite
+                )
                 //Anime screen
                 com.rick.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_animecatalogfragment -> getString(
-                    R.string.anime_screen_anime_anime
+                    R.string.anime
                 )
 
-                com.rick.anime.screen_anime.manga_catalog.R.id.anime_screen_anime_manga_catalog_mangacatalogfragment -> getString(
-                    R.string.anime_screen_anime_manga
+                com.rick.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_animecatalogfragment -> getString(
+                    R.string.anime
+                )
+
+                com.rick.anime.screen_anime.manga_favorites.R.id.anime_screen_anime_manga_favorites_mangafavoritefragment -> getString(
+                    R.string.manga_favorite
+                )
+
+                com.rick.anime.screen_anime.anime_favorites.R.id.anime_screen_anime_anime_favorites_animefavoritefragment -> getString(
+                    R.string.anime_favorite
                 )
 
                 else -> getString(R.string.empty)
             }
         }
 
-        // Add these three lines
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDefaultDisplayHomeAsUpEnabled(false)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.menu_icon)
+        val settingsState = viewModel.uiState.asLiveData()
+
+        settingsState.observe(this) { state ->
+            when (state) {
+                MainActivityUiState.Loading -> {}
+                is MainActivityUiState.Success -> {
+                    navHeaderBinding.name.text = state.userData.userName
+                }
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -3,9 +3,6 @@ package com.rick.data.database_anime.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.rick.data.model_anime.Anime
-import com.rick.data.model_anime.model_jikan.Aired
-import com.rick.data.model_anime.model_jikan.Genre
-import com.rick.data.model_anime.model_jikan.Trailer
 
 @Entity(tableName = "anime_table")
 data class AnimeEntity(
@@ -13,13 +10,13 @@ data class AnimeEntity(
     val id: Int,
     val url: String,
     val images: String,
-    val trailer: Trailer,
+    val trailer: String,
     val title: String,
     val type: String,
     val source: String,
     val episodes: Int,
     val airing: Boolean,
-    val aired: Aired?,
+    val aired: String,
     val runtime: String,
     val rating: String,
     val score: Double,
@@ -31,7 +28,7 @@ data class AnimeEntity(
     val background: String,
     val season: String,
     val year: Int,
-    val genres: List<Genre>,
+    val genres: List<String>,
 )
 
 fun AnimeEntity.asAnime() = Anime(

@@ -25,28 +25,30 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/movie_title"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="?attr/actionBarSize"
                         android:layout_marginBottom="@dimen/movie_screen_movie_trending_movie_details_six_dp"
+                        android:gravity="center"
                         android:hint="@string/movie_screen_movie_trending_movie_details_movie_title"
+                        android:textAlignment="textStart"
                         android:textAppearance="?attr/textAppearanceHeadline5" />
 
                     <ProgressBar
                         android:id="@+id/details_progress_bar"
                         style="?android:progressBarStyleHorizontal"
                         android:layout_width="282dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="?attr/actionBarSize"
                         android:indeterminate="true" />
 
                     <TextView
                         android:id="@+id/details_error_message"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="?attr/actionBarSize"
                         android:text="@string/movie_screen_movie_trending_movie_details_failed_to_retrieve_data"
                         android:textAppearance="?attr/textAppearanceCaption"
                         android:textColor="@android:color/holo_blue_light"

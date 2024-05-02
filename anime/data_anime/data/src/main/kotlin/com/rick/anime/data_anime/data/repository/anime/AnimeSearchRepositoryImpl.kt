@@ -1,9 +1,9 @@
 package com.rick.anime.data_anime.data.repository.anime
 
 import android.util.Log
+import com.rick.anime.data_anime.data.model.asEntity
 import com.rick.core.Dispatcher
 import com.rick.core.EcsDispatchers
-import com.rick.anime.data_anime.data.model.asEntity
 import com.rick.data.database_anime.dao.AnimeDao
 import com.rick.data.database_anime.dao.AnimeFtsDao
 import com.rick.data.database_anime.model.AnimeEntity

@@ -19,4 +19,5 @@ dependencies {
     implementation(projects.movie.screenMovie.common)
     implementation(projects.movie.screenMovie.articleFavorite)
     implementation(projects.movie.screenMovie.articleSearch)
+    implementation(projects.data.analytics)
 }

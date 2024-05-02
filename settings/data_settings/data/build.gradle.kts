@@ -11,6 +11,7 @@ dependencies {
 //    implementation(libs.androidx.appcompat)
 //    implementation(libs.google.oss.licenses)
     implementation(projects.data.datastore)
+    implementation(projects.data.analytics)
     implementation(projects.settings.dataSettings.model)
 
 }

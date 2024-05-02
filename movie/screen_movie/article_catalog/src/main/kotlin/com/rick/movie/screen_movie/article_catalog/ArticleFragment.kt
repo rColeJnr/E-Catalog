@@ -16,23 +16,28 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserArticle
 import com.rick.movie.screen_movie.article_catalog.databinding.MovieScreenMovieArticleCatalogFragmentArticleCatalogBinding
 import com.rick.movie.screen_movie.common.ArticleDetailsDialogFragment
 import com.rick.movie.screen_movie.common.MoviesLoadStateAdapter
 import com.rick.movie.screen_movie.common.RemotePresentationState
 import com.rick.movie.screen_movie.common.asRemotePresentationState
+import com.rick.movie.screen_movie.common.logArticleOpened
+import com.rick.movie.screen_movie.common.logScreenView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 //TODO REFACTOR TO NYMovieFragment
 @AndroidEntryPoint
@@ -48,11 +53,16 @@ class ArticleFragment : Fragment() {
     private lateinit var eTransition: MaterialSharedAxis
     private lateinit var reTransition: MaterialSharedAxis
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         enterTransition = MaterialFadeThrough().apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.movie_screen_movie_article_catalog_motion_duration_long)
+                    .toLong()
         }
     }
 
@@ -66,17 +76,13 @@ class ArticleFragment : Fragment() {
         )
 
         navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-
-//        view?.findViewById<Toolbar>(R.id.toolbar)
-//            ?.setupWithNavController(navController, appBarConfiguration)
 
         initAdapter()
 
         binding.bindState(
             pagingData = viewModel.pagingDataFLow
         )
-
+        analyticsHelper.logScreenView("articleCatalog")
         return binding.root
     }
 
@@ -84,10 +90,14 @@ class ArticleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.movie_screen_movie_article_catalog_motion_duration_long)
+                    .toLong()
         }
         reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.movie_screen_movie_article_catalog_motion_duration_long)
+                    .toLong()
         }
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
@@ -107,7 +117,7 @@ class ArticleFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
+        inflater.inflate(R.menu.movie_screen_movie_article_catalog_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -199,6 +209,7 @@ class ArticleFragment : Fragment() {
 
     private fun onMovieClick(view: View, article: UserArticle) {
         // Add dialog expand animation
+        analyticsHelper.logArticleOpened(article.id.toString())
         ArticleDetailsDialogFragment(
             article,
             this::onDialogFavoriteClick,
@@ -209,16 +220,17 @@ class ArticleFragment : Fragment() {
         )
     }
 
-    private fun onFavClick(view: View, id: Long, isFavorite: Boolean) {
+    private fun onFavClick(view: View, id: String, isFavorite: Boolean) {
         viewModel.onEvent(NYMovieUiEvent.UpdateArticleFavorite(id, !isFavorite))
     }
 
-    private fun onDialogFavoriteClick(view: View, id: Long, isFavorite: Boolean) {
+    private fun onDialogFavoriteClick(view: View, id: String, isFavorite: Boolean) {
         onFavClick(view, id, isFavorite)
     }
 
     private fun onWebUlrClick(link: String) {
-        val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment//$link")
+        val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+        val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
         findNavController().navigate(uri)
     }
 

@@ -9,8 +9,8 @@ android {
 }
 
 dependencies {
-//    implementation(libs.androidx.appcompat)
-//    implementation(libs.google.oss.licenses)
+    implementation(libs.google.oss.licenses)
+    implementation(libs.lifecycle.runtimeCompose)
     implementation(projects.settings.dataSettings.data)
     implementation(projects.settings.dataSettings.model)
 

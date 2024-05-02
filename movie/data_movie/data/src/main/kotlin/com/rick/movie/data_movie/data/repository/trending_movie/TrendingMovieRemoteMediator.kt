@@ -8,9 +8,9 @@ import com.rick.data.database_movie.dao.TrendingMovieDao
 import com.rick.data.database_movie.dao.TrendingMovieRemoteKeysDao
 import com.rick.data.database_movie.model.TrendingMovieEntity
 import com.rick.data.database_movie.model.TrendingMovieRemoteKeys
-import com.rick.data.network_movie.TmdbNetworkDataSource
-import com.rick.data.network_movie.model.TrendingMovieNetwork
 import com.rick.movie.data_movie.data.model.asTrendingMovieEntity
+import com.rick.movie.data_movie.network.TmdbNetworkDataSource
+import com.rick.movie.data_movie.network.model.TrendingMovieNetwork
 import retrofit2.HttpException
 import java.io.IOException
 

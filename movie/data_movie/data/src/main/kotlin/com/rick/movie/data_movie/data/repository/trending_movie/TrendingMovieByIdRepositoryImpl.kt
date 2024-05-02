@@ -2,7 +2,7 @@ package com.rick.movie.data_movie.data.repository.trending_movie
 
 import android.util.Log
 import com.rick.data.model_movie.tmdb.movie.MyMovie
-import com.rick.data.network_movie.TmdbNetworkDataSource
+import com.rick.movie.data_movie.network.TmdbNetworkDataSource
 import com.rick.movie.data_movie.data.model.asMyMovie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow

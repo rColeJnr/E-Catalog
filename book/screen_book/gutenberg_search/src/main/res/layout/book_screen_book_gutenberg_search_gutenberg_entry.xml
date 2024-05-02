@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:minWidth="60dp"
             android:minHeight="70dp"
-            android:src="@drawable/filled_icon"
+            android:src="@drawable/book_screen_book_gutenberg_search_ic_fav_filled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

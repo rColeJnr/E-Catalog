@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.anime.screenAnime.mangaFavorites)
     implementation(projects.anime.screenAnime.mangaSearch)
     implementation(projects.data.uiComponents.common)
+    implementation(projects.data.analytics)
 }
 
 android {

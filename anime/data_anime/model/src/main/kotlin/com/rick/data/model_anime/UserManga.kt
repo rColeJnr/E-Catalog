@@ -5,9 +5,8 @@ import com.rick.data.model_anime.model_jikan.Genre
 import com.rick.data.model_anime.model_jikan.Published
 import com.rick.data.model_anime.model_jikan.Serialization
 import com.rick.data.model_anime.model_jikan.Theme
-import kotlinx.serialization.Serializable
 
-@Serializable
+//@Serializable
 data class UserManga internal constructor(
     val id: Int,
     val url: String,

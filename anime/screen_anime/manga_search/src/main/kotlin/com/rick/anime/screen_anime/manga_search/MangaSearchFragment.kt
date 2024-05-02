@@ -18,9 +18,13 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
+import com.rick.anime.anime_screen.common.logMangaOpened
+import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.manga_search.databinding.AnimeScreenAnimeMangaSearchFragmentMangaSearchBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.ui_components.common.RecentSearchesBody
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MangaSearchFragment : Fragment() {
@@ -29,6 +33,9 @@ class MangaSearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MangaSearchViewModel by viewModels()
     private lateinit var searchAdapter: MangaSearchAdapter
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +92,7 @@ class MangaSearchFragment : Fragment() {
             uiState = viewModel.searchState.asLiveData(),
             recentSearchesUiState = viewModel.recentSearchState.asLiveData()
         )
-
+        analyticsHelper.logScreenView("mangaSearch")
         return binding.root
     }
 
@@ -224,6 +231,7 @@ class MangaSearchFragment : Fragment() {
                 resources.getInteger(R.integer.anime_screen_anime_manga_search_motion_duration_long)
                     .toLong()
         }
+        analyticsHelper.logMangaOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://manga_details_fragment/$id")
         findNavController().navigate(uri)
     }

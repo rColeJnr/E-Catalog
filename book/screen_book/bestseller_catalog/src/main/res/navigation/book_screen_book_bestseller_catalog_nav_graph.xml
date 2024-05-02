@@ -5,19 +5,16 @@
     app:startDestination="@id/book_screen_book_bestseller_catalog_bestsellerfragment">
     <include app:graph="@navigation/book_screen_book_common_nav_graph" />
     <include app:graph="@navigation/book_screen_book_bestseller_favorites_nav_graph" />
-    <include app:graph="@navigation/book_screen_book_bestseller_search_nav_graph" />
     <fragment
         android:id="@+id/book_screen_book_bestseller_catalog_bestsellerfragment"
         android:name="com.rick.book.screen_book.bestseller_catalog.BestsellerFragment"
-        android:label="BestsellerFragment">
+        android:label="">
         <action
             android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_bestseller_favorites_nav_graph"
             app:destination="@id/book_screen_book_bestseller_favorites_nav_graph" />
         <action
             android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_common_nav_graph"
             app:destination="@id/book_screen_book_common_nav_graph" />
-        <action
-            android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_bestseller_search_nav_graph"
-            app:destination="@id/book_screen_book_bestseller_search_nav_graph" />
+        <deepLink app:uri="com.rick.ecs://bestseller-catalog-screen" />
     </fragment>
 </navigation>

@@ -7,7 +7,12 @@ import com.rick.data.data_book.repository.bestseller.UserBestsellerDataRepositor
 import com.rick.data.model_book.bestseller.UserBestseller
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +22,7 @@ class BestsellerViewModel @Inject constructor(
     private val userDataRepository: UserBestsellerDataRepository
 ) : ViewModel() {
 
-    lateinit var pagingDataFlow: Flow<List<UserBestseller>>
+    lateinit var bestsellerUiState: StateFlow<BestsellerUIState>
 
     // private set
     private val nyKey: String
@@ -45,9 +50,16 @@ class BestsellerViewModel @Inject constructor(
         position = bookGenre
         val genre = BookGenre.entries[position].listName
 
-        pagingDataFlow = compositeBookRepository.observeBestseller(
+        bestsellerUiState = compositeBookRepository.observeBestseller(
             apiKey = nyKey, genre = genre, date = "current", viewModelScope
-        )
+        ).map<List<UserBestseller>, BestsellerUIState>(BestsellerUIState::Success)
+            .catch { BestsellerUIState.Error }
+            .onStart { emit(BestsellerUIState.Loading) }
+            .stateIn(
+                viewModelScope,
+                started = SharingStarted.WhileSubscribed(1000),
+                initialValue = BestsellerUIState.Loading
+            )
     }
 
     private fun updateBestsellerFavorite(id: String, isFavorite: Boolean) {
@@ -55,6 +67,13 @@ class BestsellerViewModel @Inject constructor(
             userDataRepository.setBestsellerFavoriteId(id, isFavorite)
         }
     }
+}
+
+sealed interface BestsellerUIState {
+    data object Loading : BestsellerUIState
+    data object Error : BestsellerUIState
+    data class Success(val bestsellers: List<UserBestseller>) : BestsellerUIState
+
 }
 
 private external fun getNYKey(): String

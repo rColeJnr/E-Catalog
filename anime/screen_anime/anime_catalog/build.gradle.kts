@@ -13,9 +13,16 @@ dependencies {
     implementation(projects.anime.screenAnime.animeSearch)
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.dataAnime.data)
+    implementation(projects.data.analytics)
 }
 
 android {
+    defaultConfig {
+        proguardFiles(
+            getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro"
+        )
+    }
     externalNativeBuild {
         ndkBuild {
             path = file("src/main/jni/Android.mk") //Path of android.mk

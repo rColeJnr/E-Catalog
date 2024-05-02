@@ -5,14 +5,14 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.rick.book.data_book.network.GutenbergNetworkDataSource
+import com.rick.book.data_book.network.model.GutenbergNetwork
 import com.rick.data.data_book.model.asGutenbergEntity
 import com.rick.data.database_book.dao.GutenbergDao
 import com.rick.data.database_book.dao.GutenbergRemoteKeysDao
 import com.rick.data.database_book.model.GutenbergEntity
 import com.rick.data.database_book.model.asGutenberg
 import com.rick.data.model_book.gutenberg.Gutenberg
-import com.rick.data.network_book.GutenbergNetworkDataSource
-import com.rick.data.network_book.model.GutenbergNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest

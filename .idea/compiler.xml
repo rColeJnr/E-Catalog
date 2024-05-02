@@ -5,6 +5,7 @@
       <module name="build-logic.convention" target="17" />
       <module name="build-logic.convention.main" target="17" />
       <module name="build-logic.convention.test" target="17" />
+      <module name="E-Catalog.ecatalogs.data.ui_components.auth" target="17" />
       <module name="ecatalogs.anime.data_anime.data" target="17" />
       <module name="ecatalogs.anime.data_anime.database" target="17" />
       <module name="ecatalogs.anime.data_anime.domain" target="17" />
@@ -32,6 +33,7 @@
       <module name="ecatalogs.book.screen_book.gutenberg_catalog" target="17" />
       <module name="ecatalogs.book.screen_book.gutenberg_favorites" target="17" />
       <module name="ecatalogs.book.screen_book.gutenberg_search" target="17" />
+      <module name="ecatalogs.data.analytics" target="17" />
       <module name="ecatalogs.data.anime_favorite" target="17" />
       <module name="ecatalogs.data.book_favorite" target="17" />
       <module name="ecatalogs.data.common" target="17" />

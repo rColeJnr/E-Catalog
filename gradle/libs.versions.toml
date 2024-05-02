@@ -23,9 +23,13 @@ datastore = "1.0.0"
 dependencyGuard = "0.5.0"
 firebaseAuth = "22.3.1"
 firebaseBom = "32.8.1"
+firebaseCrashlyticsPlugin = "2.9.9"
+firebasePerfPlugin = "1.4.2"
 glide = "4.12.0"
 gmsPlugin = "4.3.3"
 gms = "20.7.0"
+googleOss = "17.0.1"
+googleOssPlugin = "0.10.6"
 hilt = "2.51"
 hiltNavigation = "1.0.0"
 jacoco = "0.8.8"
@@ -87,6 +91,8 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 firebase-performance = { group = "com.google.firebase", name = "firebase-perf-ktx" }
+google-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "googleOss" }
+google-oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "googleOssPlugin" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
@@ -122,6 +128,8 @@ square-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 # Dependecies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 navigation-safeargs-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigationFragment" }
@@ -134,6 +142,8 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
 dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependencyGuard" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerfPlugin" }
 gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -147,6 +157,7 @@ room = { id = "androidx.room", version.ref = "room" }
 # Plugins defined by this project
 ecatalogs-android-application = { id = "ecatalogs.android.application", version = "unspecified" }
 ecatalogs-android-application-compose = { id = "ecatalogs.android.application.compose", version = "unspecified" }
+ecatalogs-android-application-firebase = { id = "ecatalogs.android.application.firebase", version = "unspecified" }
 ecatalogs-android-application-flavors = { id = "ecatalogs.android.application.flavors", version = "unspecified" }
 ecatalogs-android-application-jacoco = { id = "ecatalogs.android.application.jacoco", version = "unspecified" }
 ecatalogs-android-feature = { id = "ecatalogs.android.feature", version = "unspecified" }

@@ -1,11 +1,11 @@
 <resources>
 
-    <style name="Divider">
+    <style name="AnimeScreenAnimeMangaSearchDivider">
         <item name="android:background">?android:attr/listDivider</item>
         // can add colorur here
     </style>
 
-    <style name="Divider.Horizontal" parent="Divider">
+    <style name="AnimeScreenAnimeMangaSearchDivider.Horizontal" parent="AnimeScreenAnimeMangaSearchDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
     </style>

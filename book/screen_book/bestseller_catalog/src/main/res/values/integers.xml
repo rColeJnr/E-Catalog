@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="catalog_motion_duration_long">300</integer>
+    <integer name="book_screen_book_bestseller_catalog_motion_duration_long">300</integer>
 </resources>

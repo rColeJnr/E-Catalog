@@ -15,10 +15,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.book.screen_book.common.logAmazonLinkOpened
+import com.rick.book.screen_book.common.logScreenView
 import com.rick.book.screen_book.gutenberg_search.databinding.BookScreenBookGutenbergSearchFragmentGutenbergSearchBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_book.gutenberg.Formats
 import com.rick.data.ui_components.common.RecentSearchesBody
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -27,6 +33,9 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: GutenbergSearchViewModel by viewModels()
     private lateinit var adapter: GutenbergSearchAdapter
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +102,7 @@ class SearchFragment : Fragment() {
             recentSearchesUiState = viewModel.recentSearchState.asLiveData()
         )
 
+        analyticsHelper.logScreenView("gutenbergSearch")
 
         return binding.root
     }
@@ -239,7 +249,9 @@ class SearchFragment : Fragment() {
             this.textPlain ?: this.textHtml ?: this.textPlainCharsetUtf8
         }
         link?.let {
-            val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment//$link")
+            analyticsHelper.logAmazonLinkOpened(link)
+            val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+            val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment/$encodedUrl")
             findNavController().navigate(uri)
         }
     }

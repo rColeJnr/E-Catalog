@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="buttons">#E9E2D0</color>
-    <color name="icons">#DA8067</color>
-    <color name="text">#27332D</color>
-    <color name="background">#E3C4A8</color>
+    <color name="movie_screen_movie_article_catalog_buttons">#E9E2D0</color>
+    <color name="movie_screen_movie_article_catalog_icons">#DA8067</color>
+    <color name="movie_screen_movie_article_catalog_text">#27332D</color>
+    <color name="movie_screen_movie_article_catalog_background">#E3C4A8</color>
 </resources>

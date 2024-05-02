@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="movie_screen_movie_common_two_dp">2dp</dimen>
+</resources>

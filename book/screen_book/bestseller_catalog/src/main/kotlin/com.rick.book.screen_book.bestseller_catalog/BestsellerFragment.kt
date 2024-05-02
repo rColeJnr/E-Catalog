@@ -3,26 +3,32 @@ package com.rick.book.screen_book.bestseller_catalog
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rick.book.screen_book.bestseller_catalog.databinding.BookScreenBookBestsellerCatalogFragmentBestsellerBinding
+import com.rick.book.screen_book.common.logAmazonLinkOpened
+import com.rick.book.screen_book.common.logBestsellerOpened
+import com.rick.book.screen_book.common.logScreenView
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_book.bestseller.UserBestseller
 import com.rick.data.ui_components.common.ErrorMessage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class BestsellerFragment : Fragment() {
@@ -33,17 +39,23 @@ class BestsellerFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var adapter: BestsellerAdapter
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = BookScreenBookBestsellerCatalogFragmentBestsellerBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
 
         navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
+//        val appBarConfiguration = AppBarConfiguration(navController.graph)
 
 //        view?.findViewById<Toolbar>(R.id.toolbar)
 //            ?.setupWithNavController(navController, appBarConfiguration)
@@ -52,48 +64,15 @@ class BestsellerFragment : Fragment() {
 
         binding.bindSpinner()
 
+        analyticsHelper.logScreenView("bestsellerCatalog")
+
         return binding.root
-    }
-
-    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList(
-        adapter: BestsellerAdapter,
-        pagingDataFlow: Flow<List<UserBestseller>>,
-    ) {
-
-        lifecycleScope.launch {
-            pagingDataFlow.collectLatest(adapter.differ::submitList)
-        }
-
-        lifecycleScope.launch {
-
-            // show empty list.
-            bookComposeView.setContent {
-
-                ErrorMessage(getString(R.string.no_results))
-
-            }
-
-            val errorState = adapter.itemCount == 0
-            when (errorState) {
-                true -> {
-                    Toast.makeText(
-                        context, "\uD83D\uDE28 Wooops", Toast.LENGTH_SHORT
-                    ).show()
-                    bookComposeView.visibility = View.VISIBLE
-                }
-
-                else -> {
-                    bookComposeView.visibility = View.GONE
-                }
-            }
-
-        }
     }
 
     private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindSpinner() {
         ArrayAdapter.createFromResource(
             this@BestsellerFragment.requireContext(),
-            R.array.bestseller_categories,
+            R.array.book_screen_book_bestseller_catalog_bestseller_categories,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -103,11 +82,47 @@ class BestsellerFragment : Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
                 viewModel.onEvent(BestsellerEvents.SelectedGenre(pos))
-                bindList(adapter, viewModel.pagingDataFlow)
+                bindList(
+                    adapter,
+                    viewModel.bestsellerUiState.asLiveData(),
+                    onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(pos)) })
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 //Do nothing
+            }
+        }
+    }
+
+    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList(
+        adapter: BestsellerAdapter,
+        uiState: LiveData<BestsellerUIState>,
+        onRetry: () -> Unit
+    ) {
+
+        uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                BestsellerUIState.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                    bookComposeView.visibility = View.GONE
+                }
+
+                is BestsellerUIState.Success -> {
+                    progressBar.visibility = View.GONE
+                    bookComposeView.visibility = View.GONE
+                    adapter.differ.submitList(state.bestsellers)
+                }
+
+                BestsellerUIState.Error -> {
+                    progressBar.visibility = View.GONE
+                    bookComposeView.visibility = View.VISIBLE
+                    bookComposeView.setContent {
+                        ErrorMessage(
+                            getString(R.string.book_screen_book_bestseller_catalog_no_results),
+                            onRetry
+                        )
+                    }
+                }
             }
         }
     }
@@ -127,6 +142,7 @@ class BestsellerFragment : Fragment() {
 
     private fun onBookClick(view: View, book: UserBestseller) {
         // Add transition to expand dialog
+        analyticsHelper.logBestsellerOpened(book.id)
         BookDetailsDialogFragment(book, this::onDialogFavoriteClick, this::onAmazonLinkClick).show(
             requireActivity().supportFragmentManager, "book_details"
         )
@@ -137,8 +153,33 @@ class BestsellerFragment : Fragment() {
     }
 
     private fun onAmazonLinkClick(link: String) {
-        val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment//$link")
+        val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+        analyticsHelper.logAmazonLinkOpened(encodedUrl)
+        val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment/$encodedUrl")
         findNavController().navigate(uri)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.book_screen_book_bestseller_catalog_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+//            R.id.search_books -> {
+//
+//                true
+//            }
+
+            R.id.favorite -> {
+
+                navController.navigate(
+                    BestsellerFragmentDirections.bookScreenBookBestsellerCatalogActionBookScreenBookBestsellerCatalogBestsellerfragmentToBookScreenBookBestsellerFavoritesNavGraph()
+                )
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {

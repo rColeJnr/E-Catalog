@@ -138,7 +138,7 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setNyTimesArticlesFavoriteIds(articleId: Long, isFavorite: Boolean) {
+    suspend fun setNyTimesArticlesFavoriteIds(articleId: String, isFavorite: Boolean) {
         try {
             userPreferences.updateData {
                 it.copy {
@@ -179,6 +179,18 @@ class PreferencesDataSource @Inject constructor(
                     } else {
                         mangaFavoriteIds.remove(mangaId)
                     }
+                }
+            }
+        } catch (e: IOException) {
+            Log.e("EcsPreferences", "Failed to update user preferences", e)
+        }
+    }
+
+    suspend fun setUsername(name: String) {
+        try {
+            userPreferences.updateData {
+                it.copy {
+                    userName = name
                 }
             }
         } catch (e: IOException) {

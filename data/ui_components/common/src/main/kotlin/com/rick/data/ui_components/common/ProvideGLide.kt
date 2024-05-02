@@ -23,5 +23,5 @@ fun getListAsString(list: List<Any>): String {
     val sb = StringBuilder()
 
     list.forEach { sb.append("$it ") }
-    return sb.toString()
+    return sb.toString().trim()
 }

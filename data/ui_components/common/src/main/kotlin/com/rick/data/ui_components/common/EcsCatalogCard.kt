@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -48,7 +50,7 @@ fun EcsCatalogCard(
             .fillMaxWidth()
             .padding(2.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.background)
+            containerColor = colorResource(id = R.color.data_ui_components_common_background)
         )
     ) {
         ConstraintLayout(
@@ -68,7 +70,7 @@ fun EcsCatalogCard(
             )
             Card(
                 shape = RectangleShape,
-                colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.buttons)),
+                colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.data_ui_components_common_buttons)),
                 modifier = Modifier.constrainAs(card) {
                     top.linkTo(title.bottom)
                     bottom.linkTo(synopsis.top)
@@ -79,11 +81,11 @@ fun EcsCatalogCard(
                         .data(itemImage)
                         .crossfade(true)
                         .build(),
-                    contentDescription = stringResource(R.string.ui_components_favorite_favorite),
-                    placeholder = painterResource(id = R.drawable.fav_filled_icon),
+                    contentDescription = stringResource(R.string.data_ui_components_common_favorite),
+                    placeholder = painterResource(id = R.drawable.data_ui_components_common_fav_filled_icon),
                     modifier = Modifier
-                        .height(268.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .heightIn(min = 150.dp, max = 350.dp),
                     contentScale = ContentScale.FillHeight,
                 )
             }
@@ -97,8 +99,9 @@ fun EcsCatalogCard(
                 Icon(
                     imageVector = Icons.Outlined.Star,
                     contentDescription = stringResource(
-                        R.string.ui_components_favorite_favorite
-                    )
+                        R.string.data_ui_components_common_favorite
+                    ),
+                    modifier = Modifier.size(width = 36.dp, height = 31.dp)
                 )
             }
             EcsText(
@@ -130,7 +133,7 @@ fun EcsBookCatalogCard(
             .requiredHeight(82.dp)
             .padding(2.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.background).copy(
+            containerColor = colorResource(id = R.color.data_ui_components_common_background).copy(
                 alpha = 0.5f
             )
         )
@@ -146,8 +149,8 @@ fun EcsBookCatalogCard(
                     .data(image)
                     .crossfade(true)
                     .build(),
-                contentDescription = stringResource(R.string.ui_components_favorite_favorite),
-                placeholder = painterResource(R.drawable.fav_filled_icon),
+                contentDescription = stringResource(R.string.data_ui_components_common_favorite),
+                placeholder = painterResource(R.drawable.data_ui_components_common_fav_filled_icon),
                 modifier = Modifier.height(250.dp),
                 contentScale = ContentScale.Fit,
             )
@@ -180,7 +183,7 @@ fun EcsBookCatalogCard(
                 Icon(
                     imageVector = Icons.Outlined.Star,
                     contentDescription = stringResource(
-                        R.string.ui_components_favorite_favorite
+                        R.string.data_ui_components_common_favorite
                     )
                 )
             }

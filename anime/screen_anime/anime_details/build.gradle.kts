@@ -10,6 +10,7 @@ dependencies {
     implementation(projects.data.uiComponents.common)
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.dataAnime.domain)
+    implementation(projects.data.analytics)
 }
 
 android {

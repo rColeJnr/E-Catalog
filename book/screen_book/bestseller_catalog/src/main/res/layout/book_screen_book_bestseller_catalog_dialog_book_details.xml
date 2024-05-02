@@ -4,20 +4,20 @@
     android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:elevation="@dimen/eight_dp"
+    android:elevation="8dp"
     app:cardBackgroundColor="?attr/colorOnSurface">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/two_dp">
+        android:padding="@dimen/book_screen_book_bestseller_catalog_two_dp">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginVertical="@dimen/two_dp"
-            android:src="@drawable/menu_icon"
+            android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
+            android:src="@drawable/book_screen_book_bestseller_catalog_ic_app_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +25,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/eight_dp"
+            android:layout_marginHorizontal="8dp"
             android:layout_marginTop="5dp"
             android:ems="8"
             android:textAppearance="?attr/textAppearanceBody1"
@@ -36,7 +36,7 @@
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/eight_dp"
+            android:layout_marginHorizontal="8dp"
             android:layout_marginBottom="5dp"
             android:maxEms="8"
             android:textAppearance="?attr/textAppearanceBody1"
@@ -48,7 +48,7 @@
             android:id="@+id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/two_dp"
+            android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:background="?attr/colorSecondary"
             android:padding="4dp"
             android:textAppearance="?attr/textAppearanceBody1"
@@ -60,8 +60,8 @@
             android:id="@+id/favorite"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="@dimen/six_dp"
-            android:src="@drawable/fav_outline_icon"
+            android:layout_marginHorizontal="@dimen/book_screen_book_bestseller_catalog_six_dp"
+            android:src="@drawable/book_screen_book_bestseller_catalog_ic_fav_outlined"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/image" />
@@ -100,9 +100,9 @@
             android:id="@+id/amazon_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/two_dp"
+            android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:backgroundTint="?attr/colorSecondary"
-            android:text="@string/book_screen_book_open_link_amazon"
+            android:text="@string/book_screen_book_bestseller_catalog_open_link_amazon"
             android:textAppearance="?attr/textAppearanceBody1"
             app:cornerRadius="15dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,9 +112,9 @@
             android:id="@+id/close_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/two_dp"
+            android:layout_margin="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:backgroundTint="?attr/colorSecondary"
-            android:text="@string/close"
+            android:text="@string/book_screen_book_bestseller_catalog_close"
             app:cornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

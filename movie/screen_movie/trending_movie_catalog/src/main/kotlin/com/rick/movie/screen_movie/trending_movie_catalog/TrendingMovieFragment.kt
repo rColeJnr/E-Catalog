@@ -17,15 +17,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.movie.screen_movie.common.RemotePresentationState
 import com.rick.movie.screen_movie.common.asRemotePresentationState
+import com.rick.movie.screen_movie.common.logScreenView
+import com.rick.movie.screen_movie.common.logTrendingMovieOpened
 import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogFragmentTrendingMovieCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TrendingMovieFragment : Fragment() {
@@ -36,6 +40,9 @@ class TrendingMovieFragment : Fragment() {
     private val viewModel: TrendingMovieViewModel by viewModels()
 
     private lateinit var adapter: TrendingMovieAdapter
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +66,8 @@ class TrendingMovieFragment : Fragment() {
             viewModel.pagingDataFlow,
             adapter = adapter
         )
+
+        analyticsHelper.logScreenView("trendingMovieCatalog")
 
         return binding.root
     }
@@ -113,9 +122,9 @@ class TrendingMovieFragment : Fragment() {
         }
     }
 
-    private fun onMovieClick(view: View, movie: UserTrendingMovie) {
+    private fun onMovieClick(id: Int) {
         //TODO add animations
-
+        analyticsHelper.logTrendingMovieOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_movie_details_fragment/$id")
         findNavController().navigate(uri)
     }
@@ -125,7 +134,7 @@ class TrendingMovieFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
+        inflater.inflate(R.menu.movie_screen_movie_trending_movie_catalog_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -136,6 +145,13 @@ class TrendingMovieFragment : Fragment() {
 
                 findNavController().navigate(
                     TrendingMovieFragmentDirections.movieScreenMovieTrendingMovieCatalogActionMovieScreenMovieTrendingMovieCatalogTrendingmoviefragmentToMovieScreenMovieTrendingMovieSearchNavGraph()
+                )
+                true
+            }
+
+            R.id.fav_imdb -> {
+                findNavController().navigate(
+                    TrendingMovieFragmentDirections.movieScreenMovieTrendingMovieCatalogActionMovieScreenMovieTrendingMovieCatalogTrendingmoviefragmentToMovieScreenMovieTrendingMovieFavoriteNavGraph()
                 )
                 true
             }

@@ -10,9 +10,9 @@ import com.rick.data.database_movie.dao.TrendingSeriesRemoteKeysDao
 import com.rick.data.database_movie.model.TrendingSeriesEntity
 import com.rick.data.database_movie.model.asTrendingSeries
 import com.rick.data.model_movie.tmdb.trending_series.TrendingSeries
-import com.rick.data.network_movie.TmdbNetworkDataSource
-import com.rick.data.network_movie.model.TrendingSeriesNetwork
 import com.rick.movie.data_movie.data.model.asTrendingSeriesEntity
+import com.rick.movie.data_movie.network.TmdbNetworkDataSource
+import com.rick.movie.data_movie.network.model.TrendingSeriesNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest

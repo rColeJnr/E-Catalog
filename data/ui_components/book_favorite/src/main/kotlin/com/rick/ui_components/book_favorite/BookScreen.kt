@@ -1,5 +1,8 @@
 package com.rick.ui_components.book_favorite
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,8 +11,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.rick.data.model_book.FavoriteUiState
+import com.rick.data.model_book.gutenberg.Author
 import com.rick.data.ui_components.common.EcsBookCatalogCard
 import com.rick.data.ui_components.common.EcsEmptyState
 import com.rick.data.ui_components.common.EcsScaffold
@@ -44,7 +49,11 @@ fun BookFavScreen(
     ) {
         when (bestsellerState) {
             FavoriteUiState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.wrapContentSize())
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) { CircularProgressIndicator(modifier = Modifier.wrapContentSize()) }
             }
 
             is FavoriteUiState.BestsellerFavorites -> {
@@ -65,11 +74,35 @@ fun BookFavScreen(
                 }
             }
 
-            is FavoriteUiState.GutenbergFavorites -> {/* Do nothing */
+            is FavoriteUiState.GutenbergFavorites -> {
+                if (bestsellerState.favorites.isEmpty()) {
+                    EcsEmptyState()
+                } else {
+                    LazyColumn {
+                        items(bestsellerState.favorites) { book ->
+                            EcsBookCatalogCard(
+                                image = book.formats.imageJpeg ?: "",
+                                title = book.title,
+                                author = getAuthorsAsString(book.authors),
+                                id = book.id.toString(),
+                                onFavClick = onBestsellerFavClick
+                            )
+                        }
+                    }
+                }
             }
         }
 
     }
+}
+
+fun getAuthorsAsString(authors: List<Author>): String {
+    val author = StringBuilder()
+    authors.forEach {
+        author.append("${it.name}\nbirth year: ${it.birthYear}, death year: ${it.deathYear}")
+    }
+
+    return authors.toString().trim()
 }
 
 private const val TAG = "BookScreen"

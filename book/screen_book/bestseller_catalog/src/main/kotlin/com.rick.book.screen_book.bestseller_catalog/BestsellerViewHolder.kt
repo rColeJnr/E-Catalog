@@ -40,9 +40,17 @@ class BestsellerViewHolder(
         title.text = book.title
         author.text = book.author
         favorite.foreground = if (book.isFavorite) {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_filled_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.book_screen_book_bestseller_catalog_ic_fav_filled,
+                null
+            )
         } else {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_outline_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.book_screen_book_bestseller_catalog_ic_fav_outlined,
+                null
+            )
         }
     }
 

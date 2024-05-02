@@ -15,19 +15,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.book.screen_book.common.BookLoadStateAdapter
 import com.rick.book.screen_book.common.RemotePresentationState
 import com.rick.book.screen_book.common.asRemotePresentationState
+import com.rick.book.screen_book.common.logGutenbergOpened
+import com.rick.book.screen_book.common.logScreenView
 import com.rick.book.screen_book.gutenberg_catalog.databinding.BookScreenBookGutenbergCatalogFragmentGutenbergCatalogBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_book.gutenberg.Formats
 import com.rick.data.model_book.gutenberg.UserGutenberg
 import com.rick.data.ui_components.common.ErrorMessage
@@ -36,6 +37,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -49,6 +53,9 @@ class GutenbergCatalogFragment : Fragment() {
 
     private lateinit var eTransition: MaterialSharedAxis
     private lateinit var reTransition: MaterialSharedAxis
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +87,7 @@ class GutenbergCatalogFragment : Fragment() {
         binding.bindList(
             adapter = adapter, viewModel.pagingDataFlow
         )
-
+        analyticsHelper.logScreenView("gutenbergCatalog")
         return binding.root
     }
 
@@ -156,19 +163,14 @@ class GutenbergCatalogFragment : Fragment() {
     }
 
     private fun onBookClick(view: View, formats: Formats) {
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_catalog_motion_duration_long)
-                    .toLong()
-        }
-        val bookToDetails =
-            getString(R.string.book_screen_book_gutenberg_catalog_book_transition_name)
-        val extras = FragmentNavigatorExtras(view to bookToDetails)
         val link: String? = formats.run {
             this.textPlain ?: this.textHtml ?: this.textPlainCharsetUtf8
         }
+
         link?.let {
-            val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment//$link")
+            analyticsHelper.logGutenbergOpened(link)
+            val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+            val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
             findNavController().navigate(uri)
         }
 

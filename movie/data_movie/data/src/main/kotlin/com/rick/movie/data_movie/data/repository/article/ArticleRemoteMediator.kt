@@ -8,9 +8,9 @@ import com.rick.data.database_movie.dao.ArticleDao
 import com.rick.data.database_movie.dao.ArticleRemoteKeysDao
 import com.rick.data.database_movie.model.ArticleEntity
 import com.rick.data.database_movie.model.ArticleRemoteKeys
-import com.rick.data.network_movie.ArticleNetworkDataSource
-import com.rick.data.network_movie.model.ArticleNetwork
 import com.rick.movie.data_movie.data.model.asArticleEntity
+import com.rick.movie.data_movie.network.ArticleNetworkDataSource
+import com.rick.movie.data_movie.network.model.ArticleNetwork
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -34,18 +34,14 @@ class ArticleRemoteMediator(
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
                 val nextKey = remoteKeys?.nextKey
-                if (nextKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 nextKey
             }
 
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeyForFirstItem(state)
                 val prevKey = remoteKeys?.prevKey
-                if (prevKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 prevKey
             }
 
@@ -64,7 +60,7 @@ class ArticleRemoteMediator(
 //            }
             val articles = response.response.docs
 //            offset += 20
-            val endOfPaginationReached = response.response.meta.offset == 1000
+            val endOfPaginationReached = articles.isEmpty()
 
             if (loadType == LoadType.REFRESH) {
                 keysDao.clearRemoteKeys()
@@ -86,10 +82,10 @@ class ArticleRemoteMediator(
 
             }
             val keys = articles.map {
-                ArticleRemoteKeys(prevKey = prevKey, nextKey = nextKey)
+                ArticleRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
             }
             keysDao.insertAll(keys)
-
+//            val sortedArticles = articles.sortedBy { it.pubDate }
             articleDao.upsertArticles(articles.map(ArticleNetwork::asArticleEntity))
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
@@ -105,7 +101,7 @@ class ArticleRemoteMediator(
         // From that last page, get the last item
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { doc ->
             // Get the remote keys of the last item retrieved
-            keysDao.remoteKeysId(doc.id!!)
+            keysDao.remoteKeysId(doc.id)
         }
     }
 
@@ -114,7 +110,7 @@ class ArticleRemoteMediator(
         // From that first page, get the first item
         return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { doc ->
             // GEt the remote keys of the first items retrieved
-            keysDao.remoteKeysId(doc.id!!)
+            keysDao.remoteKeysId(doc.id)
         }
     }
 

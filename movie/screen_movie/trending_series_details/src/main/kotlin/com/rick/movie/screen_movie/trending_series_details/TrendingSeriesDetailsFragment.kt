@@ -13,11 +13,15 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.tmdb.movie.Genre
 import com.rick.data.model_movie.tmdb.series.Creator
+import com.rick.movie.screen_movie.common.logScreenView
+import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_series_details.databinding.MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TrendingSeriesDetailsFragment : Fragment() {
@@ -29,6 +33,9 @@ class TrendingSeriesDetailsFragment : Fragment() {
 
     private lateinit var similarsAdapter: SeriesSimilarDetailsAdapter
     private var id: Int? = null
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +74,8 @@ class TrendingSeriesDetailsFragment : Fragment() {
         binding.bindState(
             uiState = viewModel.uiState.asLiveData()
         )
+
+        analyticsHelper.logScreenView("trendingSeriesDetails")
 
         return binding.root
     }
@@ -119,15 +128,11 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     detailsProgressBar.visibility = View.GONE
                     val series = state.series
                     tvTitle.text = series.name
-                    if (series.image.isNotEmpty()) {
-                        provideGlide(image, series.image)
+                    if (series.image.isNotBlank()) {
+                        provideGlide(image, getTmdbImageUrl(series.image))
                     }
                     summary.text = series.overview
-                    popularity.text =
-                        getString(
-                            R.string.movie_screen_movie_trending_series_details_popularity,
-                            series.popularity
-                        )
+
                     adult.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_adult_content,
                         if (series.adult) "True" else "False"
@@ -166,14 +171,25 @@ class TrendingSeriesDetailsFragment : Fragment() {
                             series.numberOfSeasons
                         )
 
+                    numberOfEpisodes.text =
+                        getString(
+                            R.string.movie_screen_movie_trending_series_details_number_of_episodes,
+                            series.numberOfEpisodes
+                        )
+
+                    epRuntime.text = getString(
+                        R.string.movie_screen_movie_trending_series_details_runtime,
+                        series.episodeRuntime
+                    )
+
                     imdbChip.text =
                         resources.getString(
                             R.string.movie_screen_movie_trending_series_details_imdb_rating,
-                            series.popularity
+                            series.voteAverage
                         )
                     movieDbChip.text = resources.getString(
-                        R.string.movie_screen_movie_trending_series_details_imdb_rating,
-                        series.voteAverage
+                        R.string.movie_screen_movie_trending_series_details_popularity,
+                        series.popularity
                     )
 
                     similarDetailsAdapter.similarsDiffer.submitList(series.similar)

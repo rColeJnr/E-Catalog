@@ -28,6 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,6 +84,7 @@ fun EcsText(modifier: Modifier, text: String, fontSize: TextUnit = 22.sp, maxLin
         overflow = TextOverflow.Ellipsis,
         fontFamily = FontFamily(Font(R.font.high_tower_text, FontWeight.Bold)),
         textAlign = TextAlign.Start,
+        color = colorResource(id = R.color.data_ui_components_common_text),
         modifier = modifier
             .padding(bottom = 2.dp)
     )
@@ -123,14 +125,14 @@ fun EcsEmptyState(modifier: Modifier = Modifier) {
     ) {
         Image(
             modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.filled_icon),
+            painter = painterResource(id = R.drawable.data_ui_components_common_app_icon),
             contentDescription = null,
         )
 
         Spacer(modifier = Modifier.height(48.dp))
 
         Text(
-            text = stringResource(id = R.string.ui_components_favorite_favorite),
+            text = stringResource(id = R.string.data_ui_components_common_favorites),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleMedium,
@@ -140,7 +142,7 @@ fun EcsEmptyState(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = stringResource(id = R.string.ui_components_anime_favorite_nothing_found),
+            text = stringResource(id = R.string.data_ui_components_common_nothing_found),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
@@ -161,7 +163,11 @@ fun EcsScaffold(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .background(colorResource(id = R.color.background).copy(alpha = 0.8f))
+                .background(
+                    colorResource(id = R.color.data_ui_components_common_background).copy(
+                        alpha = 0.8f
+                    )
+                )
         ) {
             screenContent()
         }
@@ -169,9 +175,16 @@ fun EcsScaffold(
 }
 
 @Composable
-fun ErrorMessage(message: String) {
-    EcsText(
-        text = message,
-        modifier = Modifier
-    )
+fun ErrorMessage(message: String, onClick: () -> Unit = {}) {
+    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        EcsText(
+            text = message,
+            modifier = Modifier
+        )
+        TextButton(
+            onClick = { onClick() },
+        ) {
+            EcsText(modifier = Modifier, text = "Retry")
+        }
+    }
 }

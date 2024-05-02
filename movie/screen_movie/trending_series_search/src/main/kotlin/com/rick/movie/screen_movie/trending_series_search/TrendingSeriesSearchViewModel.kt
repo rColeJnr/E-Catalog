@@ -1,6 +1,5 @@
 package com.rick.movie.screen_movie.trending_series_search
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -50,10 +49,8 @@ class TrendingSeriesSearchViewModel @Inject constructor(
 
         searchState = searchQuery.flatMapLatest { query ->
             if (query.length < SEARCH_QUERY_MIN_LENGTH) {
-                Log.e(TAG, "debugging, this works")
                 flowOf(TrendingSeriesSearchUiState.EmptyQuery)
             } else {
-                Log.e(TAG, "at least i get here")
                 compositeTrendingSeriesRepository.observeSearchTrendingSeries(
                     query = query,
                     apiKey = nyKey
@@ -62,13 +59,11 @@ class TrendingSeriesSearchViewModel @Inject constructor(
                     // time the user types a letter in the search box, which flickers the screen.
 
                     .map<List<UserTrendingSeries>, TrendingSeriesSearchUiState> { series ->
-                        Log.e(TAG, "debugging, series: $series")
                         TrendingSeriesSearchUiState.Success(
                             series = series
                         )
                     }
                     .catch {
-                        Log.e(TAG, "debugging, error works")
                         emit(TrendingSeriesSearchUiState.Error)
                     }
             }

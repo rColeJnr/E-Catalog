@@ -10,4 +10,5 @@ android {
 
 dependencies {
     implementation(projects.movie.dataMovie.model)
+    implementation(projects.data.analytics)
 }

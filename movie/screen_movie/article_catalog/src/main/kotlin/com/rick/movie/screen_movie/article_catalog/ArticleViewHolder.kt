@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data.model_movie.UserArticle
-import com.rick.movie.screen_movie.article_catalog.databinding.MovieEntryBinding
+import com.rick.movie.screen_movie.article_catalog.databinding.MovieScreenMovieArticleCatalogMovieEntryBinding
 import com.rick.movie.screen_movie.common.util.provideGlide
 
 class ArticleViewHolder(
-    binding: MovieEntryBinding,
-    private val onItemClicked: (view: View, movie: UserArticle) -> Unit,
-    private val onFavClicked: (view: View, Long, Boolean) -> Unit
+    binding: MovieScreenMovieArticleCatalogMovieEntryBinding,
+    private val onItemClicked: (View, UserArticle) -> Unit,
+    private val onFavClicked: (view: View, String, Boolean) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.movieName
     private val image = binding.movieImage
@@ -38,9 +38,17 @@ class ArticleViewHolder(
         val src = article.multimedia
         if (src.isNotBlank()) provideGlide(this.image, "https://www.nytimes.com/$src")
         favorite.foreground = if (article.isFavorite) {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_filled_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.movie_screen_movie_article_catalog_ic_fav_filled,
+                null
+            )
         } else {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_outline_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.movie_screen_movie_article_catalog_ic_fav_outlined,
+                null
+            )
         }
     }
 
@@ -52,9 +60,9 @@ class ArticleViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClicked: (view: View, movie: UserArticle) -> Unit,
-            onFavClicked: (view: View, Long, Boolean) -> Unit
+            onFavClicked: (view: View, String, Boolean) -> Unit
         ): ArticleViewHolder {
-            val itemBinding = MovieEntryBinding
+            val itemBinding = MovieScreenMovieArticleCatalogMovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return ArticleViewHolder(
                 itemBinding,

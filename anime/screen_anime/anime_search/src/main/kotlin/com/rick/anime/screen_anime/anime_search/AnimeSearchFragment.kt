@@ -18,9 +18,13 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
+import com.rick.anime.anime_screen.common.logAnimeOpened
+import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.anime_search.databinding.AnimeScreenAnimeAnimeSearchFragmentAnimeSearchBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.ui_components.common.RecentSearchesBody
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AnimeSearchFragment : Fragment() {
@@ -29,6 +33,10 @@ class AnimeSearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: AnimeSearchViewModel by viewModels()
     private lateinit var searchAdapter: AnimeSearchAdapter
+
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,8 +84,9 @@ class AnimeSearchFragment : Fragment() {
         }
 
         initAdapter()
-
+        val query = viewModel.searchQuery.asLiveData()
         binding.bindState(
+            query = query,
             onQueryChanged = {
                 viewModel.onEvent(AnimeSearchUiEvent.SearchQuery(it))
                 viewModel.onEvent(AnimeSearchUiEvent.OnSearchTriggered(it))
@@ -85,7 +94,7 @@ class AnimeSearchFragment : Fragment() {
             uiState = viewModel.searchState.asLiveData(),
             recentSearchesUiState = viewModel.recentSearchState.asLiveData()
         )
-
+        analyticsHelper.logScreenView("AnimeSearch")
         return binding.root
     }
 
@@ -93,6 +102,7 @@ class AnimeSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
+
     }
 
     private fun initAdapter() {
@@ -114,9 +124,9 @@ class AnimeSearchFragment : Fragment() {
     private fun AnimeScreenAnimeAnimeSearchFragmentAnimeSearchBinding.bindState(
         onQueryChanged: (String) -> Unit,
         uiState: LiveData<AnimeSearchUiState>,
-        recentSearchesUiState: LiveData<AnimeRecentSearchQueriesUiState>
+        recentSearchesUiState: LiveData<AnimeRecentSearchQueriesUiState>,
+        query: LiveData<String>
     ) {
-
         list.adapter = searchAdapter
 
         bindSearch(
@@ -224,6 +234,7 @@ class AnimeSearchFragment : Fragment() {
                 resources.getInteger(R.integer.anime_screen_anime_anime_search_motion_duration_long)
                     .toLong()
         }
+        analyticsHelper.logAnimeOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://anime_details_fragment/$id")
         findNavController().navigate(uri)
     }

@@ -10,10 +10,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import com.rick.anime.anime_screen.common.logAnimeWebPageOpened
+import com.rick.anime.anime_screen.common.logScreenView
+import com.rick.anime.anime_screen.common.logTrailerOpened
 import com.rick.anime.screen_anime.anime_details.databinding.AnimeScreenAnimeAnimeDetailsFragmentAnimeDetailsBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_anime.UserAnime
 import com.rick.data.ui_components.common.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AnimeDetailsFragment : Fragment() {
@@ -21,6 +28,10 @@ class AnimeDetailsFragment : Fragment() {
     private var _binding: AnimeScreenAnimeAnimeDetailsFragmentAnimeDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeDetailsViewModel by viewModels()
+
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -46,6 +57,7 @@ class AnimeDetailsFragment : Fragment() {
         binding.bindState(
             viewModel.getAnime().asLiveData()
         )
+        analyticsHelper.logScreenView("AnimeDetails")
 
         return binding.root
     }
@@ -72,7 +84,7 @@ class AnimeDetailsFragment : Fragment() {
                 getString(R.string.anime_screen_anime_anime_details_airing_status, airing)
 
             aired.text =
-                getString(R.string.anime_screen_anime_anime_details_aired, anime.aired?.string)
+                getString(R.string.anime_screen_anime_anime_details_aired, anime.aired)
 
             episodes.text =
                 getString(R.string.anime_screen_anime_anime_details_episodes, anime.episodes)
@@ -81,13 +93,13 @@ class AnimeDetailsFragment : Fragment() {
                 getString(R.string.anime_screen_anime_anime_details_runtime, anime.runtime)
 
             genreOne.text =
-                anime.genres.firstOrNull()?.name
+                anime.genres.firstOrNull()
                     ?: getString(R.string.anime_screen_anime_anime_details_anime_screen_anime_no_data)
             genreTwo.text =
-                anime.genres.getOrNull(1)?.name
+                anime.genres.getOrNull(1)
                     ?: getString(R.string.anime_screen_anime_anime_details_anime_screen_anime_no_data)
             genreThree.text =
-                anime.genres.getOrNull(2)?.name
+                anime.genres.getOrNull(2)
                     ?: getString(R.string.anime_screen_anime_anime_details_anime_screen_anime_no_data)
 
             score.text = getString(R.string.anime_screen_anime_anime_details_score, anime.score)
@@ -99,13 +111,26 @@ class AnimeDetailsFragment : Fragment() {
                 getString(R.string.anime_screen_anime_anime_details_popularity, anime.popularity)
             rank.text = getString(R.string.anime_screen_anime_anime_details_rank, anime.rank)
 
+            val link = anime.url
             url.setOnClickListener {
-                if (anime.url.isNotEmpty()) {
-                    val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment//$url")
+                if (link.isNotEmpty()) {
+                    val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+                    analyticsHelper.logAnimeWebPageOpened(encodedUrl)
+                    val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment/$encodedUrl")
                     findNavController().navigate(uri)
                 }
             }
 
+
+            val trailer = anime.trailer
+            this.trailer.setOnClickListener {
+                if (!trailer.isNullOrBlank()) {
+                    val encodedUrl = URLEncoder.encode(trailer, StandardCharsets.UTF_8.toString())
+                    analyticsHelper.logTrailerOpened(encodedUrl)
+                    val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment/$encodedUrl")
+                    findNavController().navigate(uri)
+                }
+            }
 
         }
     }

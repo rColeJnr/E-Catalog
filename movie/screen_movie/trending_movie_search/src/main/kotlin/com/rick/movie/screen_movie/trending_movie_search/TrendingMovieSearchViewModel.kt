@@ -59,7 +59,9 @@ class TrendingMovieSearchViewModel @Inject constructor(
                             movies = data
                         )
                     }
-                    .catch { emit(TrendingMovieSearchUiState.Error) }
+                    .catch {
+                        emit(TrendingMovieSearchUiState.Error(it.localizedMessage))
+                    }
             }
         }.stateIn(
             scope = viewModelScope,
@@ -121,7 +123,7 @@ sealed interface TrendingMovieSearchUiState {
     data object EmptyQuery : TrendingMovieSearchUiState
     data class Success(val movies: List<UserTrendingMovie>) : TrendingMovieSearchUiState
     data object Loading : TrendingMovieSearchUiState
-    data object Error : TrendingMovieSearchUiState
+    data class Error(val msg: String) : TrendingMovieSearchUiState
 }
 
 sealed interface TrendingMovieSearchUiEvent {
@@ -143,6 +145,6 @@ sealed interface TrendingMovieRecentSearchQueriesUiState {
     ) : TrendingMovieRecentSearchQueriesUiState
 }
 
-
+private const val TAG = "TrendingMovieSearchViewModel"
 private const val SEARCH_QUERY = "trendingMovieSearchQuery"
 private const val SEARCH_QUERY_MIN_LENGTH = 2

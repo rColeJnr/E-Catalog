@@ -8,10 +8,13 @@ import androidx.compose.runtime.getValue
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rick.book.screen_book.common.logScreenView
 import com.rick.book.screen_book.gutenberg_favorites.databinding.BookScreenBookGutenbergFavoritesFragmentGutenbergFavoritesBinding
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_book.FavoriteUiEvents
 import com.rick.ui_components.book_favorite.BookFavScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GutenbergFavoritesFragment : Fragment() {
@@ -19,6 +22,9 @@ class GutenbergFavoritesFragment : Fragment() {
     private var _binding: BookScreenBookGutenbergFavoritesFragmentGutenbergFavoritesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: GutenbergFavoriteViewModel by viewModels()
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +51,7 @@ class GutenbergFavoritesFragment : Fragment() {
                 clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
             )
         }
+        analyticsHelper.logScreenView("gutenbergFavorite")
         return binding.root
     }
 

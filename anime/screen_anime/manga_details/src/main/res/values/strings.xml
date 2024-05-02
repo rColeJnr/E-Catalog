@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="anime_screen_anime_manga_details_anime_screen_anime_synopsis">Synopsis: %1$s</string>
-    <string name="anime_screen_anime_manga_details_anime_screen_anime_chapters">Chapters: %1$d</string>
-    <string name="anime_screen_anime_manga_details_anime_screen_anime_volumes">Volumes: %1$d</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_synopsis">Synopsis</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_chapters">Chapters: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_volumes">Volumes: %1$s</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_no_data">n/a</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_score">Score: %1$f</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_scored_by">Scored by %1$d users</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_favorites">In favorite of %1$d users</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_popularity">Popularity: %1$d</string>
-    <string name="anime_screen_anime_manga_details_anime_screen_anime_rank">Overall rank: %1$f</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_rank">Overall rank: %1$d</string>
     <string name="anime_screen_anime_manga_details_no_title">No title</string>
     <string name="anime_screen_anime_manga_details_headline">Headlline</string>
     <string name="anime_screen_anime_manga_details_genres">Genres</string>
@@ -19,4 +19,7 @@
     <string name="anime_screen_anime_manga_details_link_web_page">Link to web page</string>
     <string name="anime_screen_anime_manga_details_serializations">Serializations</string>
     <string name="anime_screen_anime_manga_details_serialization_name">Serialization name</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_themes">Themes: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_publishing">Publishing status: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_published">Published from: %1$s</string>
 </resources>

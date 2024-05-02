@@ -16,7 +16,7 @@ enum class FlavorDimension {
 @Suppress("EnumEntryName")
 enum class EcsFlavors(val dimension: FlavorDimension, val applicationIdSuffix: String? = null) {
     demo(FlavorDimension.contentType, applicationIdSuffix = ".demo"),
-    prod(FlavorDimension.contentType, applicationIdSuffix = ".prod")
+    prod(FlavorDimension.contentType)
 }
 
 fun configureFlavors(

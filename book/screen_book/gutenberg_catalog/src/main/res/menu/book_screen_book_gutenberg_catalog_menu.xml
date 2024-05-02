@@ -7,4 +7,10 @@
         android:icon="@drawable/book_screen_book_gutenberg_catalog_ic_search"
         android:title="@string/book_screen_book_gutenberg_catalog_search"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/book_screen_book_gutenberg_catalog_ic_fav_outlined"
+        android:title="@string/book_screen_book_gutenberg_catalog_favorite"
+        app:showAsAction="always"/>
 </menu>

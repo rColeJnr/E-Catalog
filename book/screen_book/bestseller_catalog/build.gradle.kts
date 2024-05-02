@@ -26,6 +26,7 @@ dependencies {
     implementation(projects.book.screenBook.bestsellerSearch)
     implementation(projects.book.screenBook.common)
     implementation(projects.data.uiComponents.common)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
 }

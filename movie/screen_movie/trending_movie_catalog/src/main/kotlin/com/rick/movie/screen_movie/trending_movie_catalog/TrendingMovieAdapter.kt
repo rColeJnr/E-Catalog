@@ -8,12 +8,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data.model_movie.UserTrendingMovie
+import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
-import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieMovieEntryBinding
-import com.rick.screen_movie.util.getTmdbImageUrl
+import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogMovieEntryBinding
 
 class TrendingMovieAdapter(
-    private val onItemClick: (View, UserTrendingMovie) -> Unit,
+    private val onItemClick: (Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit
 ) : PagingDataAdapter<UserTrendingMovie, TrendingMovieViewHolder>(DIFF_COMPARATOR) {
 
@@ -46,8 +46,8 @@ class TrendingMovieAdapter(
 }
 
 class TrendingMovieViewHolder(
-    binding: MovieScreenMovieTrendingMovieMovieEntryBinding,
-    private val onItemClick: (View, UserTrendingMovie) -> Unit,
+    binding: MovieScreenMovieTrendingMovieCatalogMovieEntryBinding,
+    private val onItemClick: (Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
@@ -61,7 +61,7 @@ class TrendingMovieViewHolder(
 
     init {
         cardView.setOnClickListener {
-            onItemClick(it, movie)
+            onItemClick(movie.id)
         }
 
         favorite.setOnClickListener {
@@ -75,20 +75,28 @@ class TrendingMovieViewHolder(
         title.text = movie.title
         summary.text = movie.overview
         favorite.foreground = if (movie.isFavorite) {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_filled_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.movie_screen_movie_trending_movie_catalog_ic_fav_filled,
+                null
+            )
         } else {
-            ResourcesCompat.getDrawable(resources, R.drawable.fav_outline_icon, null)
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.movie_screen_movie_trending_movie_catalog_ic_fav_outlined,
+                null
+            )
         }
     }
 
     companion object {
         internal fun create(
             parent: ViewGroup,
-            onItemClick: (View, UserTrendingMovie) -> Unit,
+            onItemClick: (Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit
         ): TrendingMovieViewHolder {
             val binding =
-                MovieScreenMovieTrendingMovieMovieEntryBinding.inflate(
+                MovieScreenMovieTrendingMovieCatalogMovieEntryBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false

@@ -10,6 +10,7 @@ dependencies {
     implementation(projects.book.dataBook.model)
     implementation(projects.book.dataBook.domain)
     implementation(projects.data.uiComponents.common)
+    implementation(projects.data.analytics)
 
     implementation(libs.compose.ui)
 }

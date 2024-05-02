@@ -146,7 +146,7 @@ class AuthenticationFragment : Fragment() {
 
     private fun navigate() {
         val request = NavDeepLinkRequest.Builder
-            .fromUri("myapp://com.rick.auth-screen/BestsellerFragment".toUri())
+            .fromUri("com.rick.ecs://bestseller-catalog-screen".toUri())
             .build()
         findNavController().popBackStack()
         findNavController().navigate(request)

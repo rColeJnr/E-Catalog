@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation(projects.data.datastore)
+    implementation(projects.data.analytics)
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.dataAnime.database)
     implementation(projects.anime.dataAnime.network)

@@ -13,5 +13,5 @@ interface UserArticleDataRepository {
     /**
      * updates the favorite status of the resource
      */
-    suspend fun setNyTimesArticleFavoriteId(articleId: Long, isFavorite: Boolean)
+    suspend fun setNyTimesArticleFavoriteId(articleId: String, isFavorite: Boolean)
 }

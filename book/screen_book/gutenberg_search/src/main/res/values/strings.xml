@@ -3,4 +3,5 @@
     <string name="book_screen_book_gutenberg_search_search_transition_name">gutenberg_search_transition</string>
     <string name="book_screen_book_gutenberg_search_search">Search</string>
     <string name="book_screen_book_gutenberg_search_authors">Authors: %1$s</string>
+    <string name="book_screen_book_gutenberg_search_nothing_found">Nothing found, 😓</string>
 </resources>

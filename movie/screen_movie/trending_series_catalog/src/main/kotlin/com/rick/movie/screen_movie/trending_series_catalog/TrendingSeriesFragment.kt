@@ -19,12 +19,16 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingSeries
+import com.rick.movie.screen_movie.common.logScreenView
+import com.rick.movie.screen_movie.common.logTrendingSeriesOpened
 import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieScreenMovieTrendingSeriesCatalogFragmentTrendingSeriesCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TrendingSeriesFragment : Fragment() {
@@ -39,11 +43,16 @@ class TrendingSeriesFragment : Fragment() {
     private lateinit var eTransition: MaterialSharedAxis
     private lateinit var reTransition: MaterialSharedAxis
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         enterTransition = MaterialFadeThrough().apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.movie_screen_movie_trending_series_catalog_motion_duration_long)
+                    .toLong()
         }
     }
 
@@ -66,6 +75,8 @@ class TrendingSeriesFragment : Fragment() {
 
         initAdapter()
 
+        analyticsHelper.logScreenView("trendingSeriesCatalog")
+
         return binding.root
     }
 
@@ -75,10 +86,14 @@ class TrendingSeriesFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.movie_screen_movie_trending_series_catalog_motion_duration_long)
+                    .toLong()
         }
         reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
+            duration =
+                resources.getInteger(R.integer.movie_screen_movie_trending_series_catalog_motion_duration_long)
+                    .toLong()
         }
 
         binding.bindState(
@@ -135,7 +150,8 @@ class TrendingSeriesFragment : Fragment() {
 
     private fun onSeriesClick(view: View, id: Int) {
         // TODO redo animations
-        val uri = Uri.parse("com.rick.ecs/trending_series_details_fragment/$id")
+        analyticsHelper.logTrendingSeriesOpened(id.toString())
+        val uri = Uri.parse("com.rick.ecs://trending_series_details_fragment/$id")
         findNavController().navigate(uri)
     }
 
@@ -152,7 +168,7 @@ class TrendingSeriesFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
+        inflater.inflate(R.menu.movie_screen_movie_trending_series_catalog_menu, menu)
     }
 
     //    override fun onPrepareOptionsMenu(menu: Menu) {

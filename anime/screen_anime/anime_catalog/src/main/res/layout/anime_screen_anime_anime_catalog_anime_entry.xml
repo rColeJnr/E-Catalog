@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            style="@style/anime_screen_anime_Divider.Horizontal"
+            style="@style/anime_screen_anime_anime_catalog_Divider.Horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 

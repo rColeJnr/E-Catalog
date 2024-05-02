@@ -17,15 +17,14 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingTop="12dp"
-            app:layout_collapseMode="pin">
+            android:layout_height="?attr/actionBarSize">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/toolbar_text"
                 android:layout_width="282dp"
                 android:layout_height="?attr/actionBarSize"
-                android:text=""
+                android:gravity="center_vertical"
+                android:textAlignment="gravity"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
         </androidx.appcompat.widget.Toolbar>

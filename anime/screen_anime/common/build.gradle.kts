@@ -12,4 +12,5 @@ android {
 
 dependencies {
     implementation(libs.bumptech.glide)
+    implementation(projects.data.analytics)
 }
