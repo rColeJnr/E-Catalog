@@ -69,9 +69,9 @@ class TrendingSeriesFragment : Fragment() {
         navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-//        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
+//        view?.findViewById<Toolbar>(R.id.my_toolbar)?.apply {
 //            setupWithNavController(navController, appBarConfiguration)
-
+//        }
 
         initAdapter()
 

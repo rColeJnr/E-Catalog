@@ -15,10 +15,9 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
 
-
     </style>
 
-    <style name="Base.Theme.ECatalogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Base.Theme.ECatalogs" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.ECatalog.SmallComponent
         </item>
         <item name="shapeAppearanceMediumComponent">

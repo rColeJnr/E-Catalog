@@ -89,7 +89,7 @@ class TrendingMovieSearchFragment : Fragment() {
                     else -> super.onOptionsItemSelected(item)
                 }
             }
-
+            setNavigationIcon(R.drawable.movie_screen_movie_trending_movie_search_ic_arrow_back)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }

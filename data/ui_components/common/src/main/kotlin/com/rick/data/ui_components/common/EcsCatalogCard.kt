@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
@@ -57,7 +58,6 @@ fun EcsCatalogCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(6.dp)
         ) {
             val (title, card, favorite, synopsis) = createRefs()
             EcsText(
@@ -70,7 +70,7 @@ fun EcsCatalogCard(
             )
             Card(
                 shape = RectangleShape,
-                colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.data_ui_components_common_buttons)),
+                colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.data_ui_components_common_background)),
                 modifier = Modifier.constrainAs(card) {
                     top.linkTo(title.bottom)
                     bottom.linkTo(synopsis.top)
@@ -85,7 +85,7 @@ fun EcsCatalogCard(
                     placeholder = painterResource(id = R.drawable.data_ui_components_common_fav_filled_icon),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 150.dp, max = 450.dp),
+                        .heightIn(min = 250.dp),
                     contentScale = ContentScale.FillHeight,
                 )
             }
@@ -128,20 +128,17 @@ fun EcsBookCatalogCard(
 ) {
     ElevatedCard(
         modifier = Modifier
-            .padding(8.dp)
             .fillMaxWidth()
-            .requiredHeight(82.dp)
+            .requiredHeight(92.dp)
             .padding(2.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.data_ui_components_common_background).copy(
-                alpha = 0.5f
-            )
+            containerColor = colorResource(id = R.color.data_ui_components_common_background)
         )
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
@@ -188,6 +185,14 @@ fun EcsBookCatalogCard(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewBookCard() {
+    EcsBookCatalogCard(image = "", title = "Book title", author = "Book authro", id = "") {
+
     }
 }
 

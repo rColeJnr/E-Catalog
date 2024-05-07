@@ -36,14 +36,14 @@ interface TmdbNetworkDataSource {
 
     suspend fun searchSeries(
         query: String,
-        include_adult: Boolean = true,
+        include_adult: Boolean = false,
         language: String = "en-US",
         apikey: String
     ): TrendingSeriesResponse
 
     suspend fun searchMovie(
         query: String,
-        include_adult: Boolean = true,
+        include_adult: Boolean = false,
         language: String = "en-US",
         apikey: String
     ): TrendingMovieResponse
