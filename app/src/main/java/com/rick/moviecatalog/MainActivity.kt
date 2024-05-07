@@ -1,11 +1,16 @@
 package com.rick.moviecatalog
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.asLiveData
@@ -16,9 +21,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.textview.MaterialTextView
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.rick.moviecatalog.databinding.ActivityMainBinding
-import com.rick.moviecatalog.databinding.NavHeaderBinding
 import com.rick.settings.screen_settings.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,18 +33,18 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navHeaderBinding: NavHeaderBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var auth: FirebaseAuth
 
     private val viewModel: MainActivityViewModel by viewModels()
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        initFirebase()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val toolbar = binding.myToolbar
@@ -160,13 +167,38 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.showSettingsDialog.observe(this) { show ->
+            if (show) {
+                binding.dialogView.setContent {
+                    val showUsername by viewModel.showChangeUsername.collectAsState()
+                    val showDeleteButton by viewModel.showDeleteButton.collectAsState()
+                    SettingsDialog(
+                        onDismiss = { viewModel.showSettingsDialog.value = false },
+                        username = viewModel.username.value,
+                        onUsernameChange = viewModel::onChangeUsername,
+                        showUsernameTextField = showUsername,
+                        shouldShowUsernameTextField = viewModel::shouldShowChangeUsername,
+                        onSaveUsername = viewModel::onSaveUsername,
+                        shouldShowDeleteButton = viewModel::shouldShowDeleteButton,
+                        showDeleteButton = showDeleteButton,
+                        onSignOut = this::signOut,
+                        onDeleteAccount = this::deleteUserAccount
+                    )
+                }
+            } else {
+                binding.dialogView.setContent { }
+            }
+        }
+
         val settingsState = viewModel.uiState.asLiveData()
 
         settingsState.observe(this) { state ->
             when (state) {
                 MainActivityUiState.Loading -> {}
                 is MainActivityUiState.Success -> {
-                    findViewById<MaterialTextView>(R.id.name).text = state.userData.userName
+                    binding.navView.getHeaderView(0).findViewById<TextView>(R.id.name).text =
+                        state.userData.userName
+                    viewModel.onChangeUsername(state.userData.userName)
                 }
             }
         }
@@ -177,19 +209,27 @@ class MainActivity : AppCompatActivity() {
             viewModel.showSettingsDialog.value = true
         }
 
-        viewModel.showSettingsDialog.observe(this) { show ->
-            if (show) {
-                binding.dialogView.setContent {
-                    SettingsDialog(
-                        onDismiss = { viewModel.showSettingsDialog.value = false },
-                        username = findViewById<MaterialTextView>(R.id.name).text.toString()
-                    )
-                }
-            } else {
-                binding.dialogView.setContent { }
-            }
-        }
 
+    }
+
+    private fun deleteUserAccount() {
+        auth.currentUser!!.delete().addOnCompleteListener {
+            Toast.makeText(this, "Account deleted", Toast.LENGTH_LONG).show()
+            signOut()
+        }
+    }
+
+    private fun signOut() {
+        auth.signOut()
+        navController.popBackStack()
+        viewModel.showSettingsDialog.value = false
+        val uri = Uri.parse("com.rick.ecs://authentication_fragment")
+        navController.navigate(uri)
+    }
+
+    private fun initFirebase() {
+        FirebaseApp.initializeApp(this)
+        auth = Firebase.auth
     }
 
     override fun onSupportNavigateUp(): Boolean {

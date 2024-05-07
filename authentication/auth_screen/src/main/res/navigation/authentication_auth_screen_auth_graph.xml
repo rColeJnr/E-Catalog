@@ -7,5 +7,7 @@
     <fragment
         android:id="@+id/authenticationFragment"
         android:name="com.rick.auth_screen.AuthenticationFragment"
-        android:label="AuthenticationFragment" />
+        android:label="">
+        <deepLink app:uri="com.rick.ecs://authentication_fragment" />
+    </fragment>
 </navigation>

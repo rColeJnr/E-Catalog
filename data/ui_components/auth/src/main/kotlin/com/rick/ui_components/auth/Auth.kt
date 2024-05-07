@@ -29,6 +29,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -39,13 +40,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -84,10 +85,10 @@ enum class LayoutRefs() {
     Username,
     PasswordTips,
     UsernameTips,
+    ProgressBar,
     PasswordReset
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     email: String,
@@ -102,6 +103,8 @@ fun LoginScreen(
     onResetPassword: (String) -> Unit,
     screenState: Boolean,
     onScreenStateValueChange: (Boolean) -> Unit,
+    progressState: Boolean,
+    showProgressState: (Boolean) -> Unit,
     isValidEmail: (String) -> Boolean
 ) {
 
@@ -132,7 +135,15 @@ fun LoginScreen(
         val passwordTips = createRefFor(LayoutRefs.PasswordTips)
         val usernameTips = createRefFor(LayoutRefs.UsernameTips)
         val passwordReset = createRefFor(LayoutRefs.PasswordReset)
+        val progressBar = createRefFor(LayoutRefs.ProgressBar)
         val topGuideline = createGuidelineFromTop(guidelineFromTop)
+
+        constrain(progressBar) {
+            top.linkTo(signIn.top)
+            bottom.linkTo(signIn.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        }
 
         constrain(icon) {
             top.linkTo(parent.top, margin = 26.dp)
@@ -316,6 +327,18 @@ fun LoginScreen(
                 })
             )
         }
+        AnimatedVisibilityBox(
+            screenState = progressState,
+            density = density,
+            modifier = Modifier.layoutId(LayoutRefs.ProgressBar)
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.padding(4.dp).size(50.dp),
+                strokeWidth = 2.dp,
+                trackColor = colorResource(id = R.color.data_ui_components_auth_icons),
+                strokeCap = StrokeCap.Butt
+            )
+        }
 
         AnimatedVisibilityBox(
             screenState = screenState,
@@ -333,6 +356,7 @@ fun LoginScreen(
                 .layoutId(LayoutRefs.SignIn)
                 .size(height = 40.dp, width = 120.dp)
                 .clickable {
+                    showProgressState(true)
                     if (screenState) {
                         onCreateAccount(
                             email,
@@ -362,7 +386,10 @@ fun LoginScreen(
             Box(
                 Modifier
                     .wrapContentSize()
-                    .clickable { onGoogleOneTap() }
+                    .clickable {
+                        showProgressState(true)
+                        onGoogleOneTap()
+                    }
                     .padding(8.dp)
             ) {
                 Image(
@@ -379,6 +406,7 @@ fun LoginScreen(
                 .layoutId(LayoutRefs.CreateAccount)
                 .size(height = 70.dp, width = 140.dp)
                 .clickable {
+                    showProgressState(false)
                     onScreenStateValueChange(screenState)
                 },
         ) {
@@ -641,6 +669,8 @@ fun PreviewLoginContent() {
         onUsernameValueChange = {},
         onScreenStateValueChange = {},
         screenState = true,
+        progressState = true,
+        showProgressState = {},
         isValidEmail = { true }
     )
 }

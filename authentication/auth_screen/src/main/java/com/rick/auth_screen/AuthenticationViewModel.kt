@@ -1,5 +1,6 @@
 package com.rick.auth_screen
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,6 +26,7 @@ class AuthenticationViewModel @Inject constructor(
     //    private val refreshing = MutableStateFlow(false)
     private val screenState =
         savedSteHandle.getStateFlow(key = SCREEN_STATE_QUERY, initialValue = false)
+    val progressState = mutableStateOf(false)
     private val errorMessage: MutableStateFlow<String?> = MutableStateFlow(null)
 
     private val _state = MutableStateFlow(AuthScreenState())
@@ -41,6 +43,7 @@ class AuthenticationViewModel @Inject constructor(
                 username,
                 errorMessage,
                 screenState,
+//                progressState
             ) { email, password, username, errorMessage, screenState ->
                 AuthScreenState(
                     email = email,
@@ -58,6 +61,10 @@ class AuthenticationViewModel @Inject constructor(
                 _state.value = it
             }
         }
+    }
+
+    fun showProgressState(state: Boolean) {
+        progressState.value = state
     }
 
     fun saveUsernameToDatastore(username: String) {

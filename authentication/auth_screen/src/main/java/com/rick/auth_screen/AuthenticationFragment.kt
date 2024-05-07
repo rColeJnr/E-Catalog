@@ -31,7 +31,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -71,11 +70,6 @@ class AuthenticationFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(requireContext())
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -90,6 +84,7 @@ class AuthenticationFragment : Fragment() {
 
         binding.root.setContent {
             val viewState by viewModel.state.collectAsState()
+            val progressState by viewModel.progressState
             LoginScreen(
                 email = viewState.email,
                 onEmailValueChange = viewModel::onEmailValueChange,
@@ -110,6 +105,8 @@ class AuthenticationFragment : Fragment() {
                 onResetPassword = { email -> onPasswordReset(email) },
                 screenState = viewState.screenState,
                 onScreenStateValueChange = viewModel::onScreenStateValueChange,
+                progressState = progressState,
+                showProgressState = viewModel::showProgressState,
                 isValidEmail = { isValidEmail(it) }
             )
         }
@@ -121,6 +118,7 @@ class AuthenticationFragment : Fragment() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val data: Intent? = result.data
                     data?.let { onResultReceived(it) }
+                    viewModel.showProgressState(false)
                 }
             }
 
@@ -129,6 +127,7 @@ class AuthenticationFragment : Fragment() {
                 if (result != null) {
                     val data = result.data
                     data?.let { onSenderReceived(it) }
+                    viewModel.showProgressState(false)
                 }
             }
 
@@ -211,10 +210,12 @@ class AuthenticationFragment : Fragment() {
         ) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
+                    viewModel.showProgressState(false)
                     saveUsername(username)
                     navigate()
                 }
                 .addOnFailureListener {
+                    viewModel.showProgressState(false)
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
                         requireContext(), "Account creation failed. ${it.message}",
@@ -222,6 +223,7 @@ class AuthenticationFragment : Fragment() {
                     ).show()
                 }
         } else {
+            viewModel.showProgressState(false)
             Toast.makeText(
                 requireContext(),
                 "Failed to create account, Please confirm that you meet all of the requirements",
@@ -235,6 +237,7 @@ class AuthenticationFragment : Fragment() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
                     navigate()
+                    viewModel.showProgressState(false)
                 }
                 .addOnFailureListener {
                     // If sign in fails, display a message to the user.
@@ -243,8 +246,10 @@ class AuthenticationFragment : Fragment() {
                         "Invalid login credentials.",
                         Toast.LENGTH_SHORT
                     ).show()
+                    viewModel.showProgressState(false)
                 }
         } else {
+            viewModel.showProgressState(false)
             Toast.makeText(
                 requireContext(), "Please fill in your email and password, then try again.",
                 Toast.LENGTH_SHORT

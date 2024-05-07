@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -40,6 +41,7 @@ class TrendingMovieFragment : Fragment() {
     private val viewModel: TrendingMovieViewModel by viewModels()
 
     private lateinit var adapter: TrendingMovieAdapter
+    private lateinit var navController: NavController
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -59,6 +61,8 @@ class TrendingMovieFragment : Fragment() {
             container,
             false
         )
+
+        navController = findNavController()
 
         initAdapter()
 
@@ -143,14 +147,14 @@ class TrendingMovieFragment : Fragment() {
 //                exitTransition = eTransition
 //                reenterTransition = reTransition
 
-                findNavController().navigate(
+                navController.navigate(
                     TrendingMovieFragmentDirections.movieScreenMovieTrendingMovieCatalogActionMovieScreenMovieTrendingMovieCatalogTrendingmoviefragmentToMovieScreenMovieTrendingMovieSearchNavGraph()
                 )
                 true
             }
 
             R.id.fav_imdb -> {
-                findNavController().navigate(
+                navController.navigate(
                     TrendingMovieFragmentDirections.movieScreenMovieTrendingMovieCatalogActionMovieScreenMovieTrendingMovieCatalogTrendingmoviefragmentToMovieScreenMovieTrendingMovieFavoriteNavGraph()
                 )
                 true
