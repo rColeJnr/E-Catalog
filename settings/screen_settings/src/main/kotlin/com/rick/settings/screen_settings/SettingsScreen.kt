@@ -143,7 +143,7 @@ fun OptionsPanel(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(58.dp)
                         .padding(horizontal = 16.dp),
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
