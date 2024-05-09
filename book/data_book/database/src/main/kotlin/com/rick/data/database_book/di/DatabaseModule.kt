@@ -25,6 +25,6 @@ internal object DatabaseModule {
     ): BookDatabase = Room.databaseBuilder(
         context,
         BookDatabase::class.java,
-        "book-database-test-2"
+        "book-database"
     ).addTypeConverter(BookTypeConverters(GsonParser(Gson()))).build()
 }
