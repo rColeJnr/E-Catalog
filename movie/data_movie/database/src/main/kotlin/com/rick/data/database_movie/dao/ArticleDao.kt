@@ -22,7 +22,7 @@ interface ArticleDao {
     )
     suspend fun clearArticles(ids: List<String>)
 
-    @Query("SELECT * FROM article_table")
+    @Query("SELECT * FROM article_table ORDER BY publication_date DESC")
     fun getArticles(): PagingSource<Int, ArticleEntity>
 
     @Query(

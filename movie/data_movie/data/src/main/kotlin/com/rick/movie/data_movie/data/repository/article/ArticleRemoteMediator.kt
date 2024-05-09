@@ -85,7 +85,6 @@ class ArticleRemoteMediator(
                 ArticleRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
             }
             keysDao.insertAll(keys)
-//            val sortedArticles = articles.sortedBy { it.pubDate }
             articleDao.upsertArticles(articles.map(ArticleNetwork::asArticleEntity))
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)

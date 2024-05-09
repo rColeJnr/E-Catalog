@@ -3,8 +3,10 @@ package com.rick.data.database_movie.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.rick.core.di.toDateString
 import com.rick.data.model_movie.article_models.Article
 import com.rick.data.model_movie.article_models.Byline
+import java.util.Date
 
 @Entity(tableName = "article_table")
 data class ArticleEntity(
@@ -19,7 +21,7 @@ data class ArticleEntity(
     val multimedia: String,
     val title: String,
     @ColumnInfo("publication_date")
-    val pubDate: String,
+    val pubDate: Date,
     val byline: Byline,
 )
 
@@ -31,6 +33,6 @@ fun ArticleEntity.asArticle() = Article(
     source = source,
     multimedia = multimedia,
     headline = title,
-    pubDate = pubDate,
+    pubDate = pubDate.toDateString(),
     byline = byline
 )

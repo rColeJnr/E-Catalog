@@ -21,7 +21,7 @@ interface TrendingMovieDao {
     )
     suspend fun deleteTrendingMovie(ids: List<Int>)
 
-    @Query("SELECT * FROM trending_movie_table ORDER  BY release_date DESC")
+    @Query("SELECT * FROM trending_movie_table")
     fun getTrendingMovie(): PagingSource<Int, TrendingMovieEntity>
 
     @Query(

@@ -1,5 +1,6 @@
 package com.rick.data.database_movie.util
 
+import android.annotation.SuppressLint
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
@@ -11,6 +12,8 @@ import com.rick.data.model_movie.tmdb.movie.Genre
 import com.rick.data.model_movie.tmdb.series.Creator
 import com.rick.data.model_movie.tmdb.series.LastEpisodeToAir
 import kotlinx.datetime.Instant
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @ProvidedTypeConverter
 class NyTimesConverters(
@@ -162,4 +165,15 @@ class NyTimesConverters(
     @TypeConverter
     fun instantToLong(instant: Instant?): Long? =
         instant?.toEpochMilliseconds()
+
+    @TypeConverter
+    @SuppressLint("SimpleDateFormat")
+    fun String.toDateFormat(): Date =
+        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(this)!!
+
+    @TypeConverter
+    @SuppressLint("SimpleDateFormat")
+    fun Date.toDateString(): String =
+        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").format(this)
+
 }

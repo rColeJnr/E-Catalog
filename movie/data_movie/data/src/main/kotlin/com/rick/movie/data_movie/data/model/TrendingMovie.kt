@@ -17,7 +17,7 @@ fun TrendingMovieNetwork.asTrendingMovieEntity() = TrendingMovieEntity(
     popularity = popularity ?: 0.0,
     releaseDate = releaseDate ?: "",
     voteAverage = voteAverage ?: 0.0,
-    voteCount = voteCount ?: 0
+    voteCount = voteCount ?: 0,
 )
 
 fun TrendingMovieNetwork.asTrendingMovie() = TrendingMovie(
