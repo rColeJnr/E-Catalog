@@ -22,7 +22,6 @@ import javax.inject.Inject
 
 // WHY ISNT MY CODEBASE CONSISTENT THROUGHOUT, AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH
 // I'm in public so i can't just blast.
-// TODO
 @HiltViewModel
 class MangaSearchViewModel @Inject constructor(
     getMangaRecentSearchQueriesUseCase: GetMangaRecentSearchQueriesUseCase,

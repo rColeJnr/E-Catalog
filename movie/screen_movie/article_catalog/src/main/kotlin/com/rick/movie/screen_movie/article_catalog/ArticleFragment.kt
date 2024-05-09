@@ -39,7 +39,6 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
-//TODO REFACTOR TO NYMovieFragment
 @AndroidEntryPoint
 class ArticleFragment : Fragment() {
 

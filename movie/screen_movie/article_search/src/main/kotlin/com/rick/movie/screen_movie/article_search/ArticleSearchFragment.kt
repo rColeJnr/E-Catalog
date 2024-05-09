@@ -245,7 +245,6 @@ class ArticleSearchFragment : Fragment() {
         }
     }
 
-    //TODO (REMOVE .toString())
     private fun onArticleClick(view: View, article: UserArticle) {
         analyticsHelper.logArticleOpened(article.id.toString())
         ArticleDetailsDialogFragment(

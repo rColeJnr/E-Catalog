@@ -27,7 +27,6 @@ class WebViewFragment : Fragment() {
         _binding = MovieScreenMovieCommonFragmentWebViewBinding.inflate(inflater, container, false)
 
         arguments?.let {
-            // TODO, IMPLEMNT NAVIGATION,
             val navArgs = WebViewFragmentArgs.fromBundle(it)
             this.link = navArgs.link
         }
