@@ -25,7 +25,7 @@ object DatabaseModule {
         Room.databaseBuilder(
             context,
             MovieDatabase::class.java,
-            "movie-database-test-1"
+            "movie-database"
         ).addTypeConverter(NyTimesConverters(GsonParser(Gson())))
             .build()
 

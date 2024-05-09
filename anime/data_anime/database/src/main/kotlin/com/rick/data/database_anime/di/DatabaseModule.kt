@@ -23,6 +23,6 @@ internal object DatabaseModule {
     ): JikanDatabase = Room.databaseBuilder(
         context,
         JikanDatabase::class.java,
-        "jikan-database-test-1",
+        "jikan-database",
     ).addTypeConverter(JikanConverters(GsonParser(Gson()))).build()
 }
