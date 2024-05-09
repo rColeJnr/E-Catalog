@@ -222,7 +222,6 @@ class AnimeSearchFragment : Fragment() {
         }
     }
 
-    //TODO (REMOVE .toString())
     private fun onAnimeClick(view: View, id: Int) {
         exitTransition = MaterialElevationScale(false).apply {
             duration =

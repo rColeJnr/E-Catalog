@@ -219,7 +219,6 @@ class MangaSearchFragment : Fragment() {
         }
     }
 
-    //TODO (REMOVE .toString())
     private fun onMangaClick(view: View, id: Int) {
         exitTransition = MaterialElevationScale(false).apply {
             duration =

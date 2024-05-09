@@ -243,7 +243,6 @@ class TrendingMovieSearchFragment : Fragment() {
         }
     }
 
-    //TODO (REMOVE .toString())
     private fun onTrendingMovieClick(view: View, id: Int) {
         analyticsHelper.logTrendingMovieOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_movie_details_fragment/$id")

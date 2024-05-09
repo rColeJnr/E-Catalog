@@ -45,7 +45,6 @@ class BestsellerViewModel @Inject constructor(
         }
     }
 
-    //  TODO add bestseller genre selector
     private fun fetchBestsellers(bookGenre: Int = position) {
         position = bookGenre
         val genre = BookGenre.entries[position].listName

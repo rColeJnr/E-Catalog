@@ -176,8 +176,6 @@ class GutenbergCatalogFragment : Fragment() {
 
     }
 
-    // TODO(add book to favorite)
-    // man this is a lot of work.
     private fun onGutenbergFavClick(id: Int, isFavorite: Boolean) {
         //how do i even begin to do this?? lol
         // we need to call view model and add the favorite to  db
