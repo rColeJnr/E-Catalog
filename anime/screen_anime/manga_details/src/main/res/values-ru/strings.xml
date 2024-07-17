@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_synopsis">Синопсис</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_chapters">Главы: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_volumes">Тома: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_no_data">н/д</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_score">Оценка: %1$f</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_scored_by">Оценено %1$d пользователями</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_favorites">В избранном у %1$d пользователей</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_popularity">Популярность: %1$d</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_rank">Общий рейтинг: %1$d</string>
+    <string name="anime_screen_anime_manga_details_no_title">Нет названия</string>
+    <string name="anime_screen_anime_manga_details_headline">Заголовок</string>
+    <string name="anime_screen_anime_manga_details_genres">Жанры</string>
+    <string name="anime_screen_anime_manga_details_genre_one">%1$s</string>
+    <string name="anime_screen_anime_manga_details_genre_two">%1$s</string>
+    <string name="anime_screen_anime_manga_details_genre_three">%1$s</string>
+    <string name="anime_screen_anime_manga_details_ratings">Рейтинги</string>
+    <string name="anime_screen_anime_manga_details_link_web_page">Ссылка на веб-страницу</string>
+    <string name="anime_screen_anime_manga_details_serializations">Сериалы</string>
+    <string name="anime_screen_anime_manga_details_serialization_name">Название сериала</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_themes">Темы: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_publishing">Статус публикации: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_published">Опубликовано с: %1$s</string>
+    <string name="anime_screen_anime_manga_details_show_translation">Показать перевод</string>
+    <string name="anime_screen_anime_manga_details_show_original">Показать оригинал</string>
+</resources>

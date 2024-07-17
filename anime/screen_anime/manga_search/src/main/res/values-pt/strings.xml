@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_manga_search_search">Pesquisar</string>
+    <string name="anime_screen_anime_manga_search_transition_name">manga_transition_name</string>
+    <string name="anime_screen_anime_manga_search_no_title">Sem título</string>
+</resources>

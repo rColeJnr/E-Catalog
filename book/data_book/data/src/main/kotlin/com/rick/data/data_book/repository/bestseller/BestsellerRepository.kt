@@ -23,6 +23,4 @@ interface BestsellerRepository {
     ): Flow<List<Bestseller>>
 
     fun getBestsellerFavorites(favorites: Set<String>): Flow<List<Bestseller>>
-
-//    fun searchBestseller(query: String): Flow<List<Bestseller>>
 }

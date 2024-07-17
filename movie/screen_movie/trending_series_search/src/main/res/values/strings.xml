@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="movie_screen_movie_trending_series_search_search_transition_name" translatable="false">trending_series_search_transition</string>
     <string name="movie_screen_movie_trending_series_search_search">Search</string>
-    <string name="movie_screen_movie_trending_series_search_search_transition_name">trending_series_search_transition</string>
     <string name="movie_screen_movie_trending_series_search_no_title">No title</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_manga_catalog_anime_screen_anime_search">Поиск</string>
+    <string name="anime_screen_anime_manga_catalog_no_results">Нет результатов</string>
+    <string name="anime_screen_anime_manga_catalog_no_title">Нет названия</string>
+    <string name="anime_screen_anime_manga_catalog_whoops">😨 Упс %1$s</string>
+    <string name="anime_screen_anime_manga_catalog_show_original">Показать оригинал</string>
+    <string name="anime_screen_anime_manga_catalog_show_translation">Показать перевод</string>
+</resources>

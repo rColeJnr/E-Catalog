@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="data_ui_components_book_favorite_favorite_button">Favorite button</string>
+    <string name="data_ui_components_book_favorite_birth_year_death_year">%1$s\nbirth year: %2$d, death year: %3$d</string>
+    <string name="data_ui_components_book_favorite_undo">Undo</string>
+    <string name="data_ui_components_book_favorite_bestseller_favorite_removed">Bestseller Favorite removed</string>
 </resources>

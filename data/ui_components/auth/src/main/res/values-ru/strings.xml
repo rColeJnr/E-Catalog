@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_auth_create">Создать</string>
+    <string name="data_ui_components_auth_sign_in">Войти</string>
+    <string name="data_ui_components_auth_have_an_account">Уже есть\nаккаунт?</string>
+    <string name="data_ui_components_auth_create_an_account">Создать\nаккаунт</string>
+    <string name="data_ui_components_auth_catalogs">Каталоги</string>
+    <string name="data_ui_components_auth_slogan">Откройте для себя,\nчто посмотреть\nили почитать</string>
+    <string name="data_ui_components_auth_show_password">Показать пароль</string>
+    <string name="data_ui_components_auth_hide_password">Скрыть пароль</string>
+    <string name="data_ui_components_auth_forgot_password">Забыли пароль?</string>
+    <string name="data_ui_components_auth_no_whitespaces">Без пробелов</string>
+    <string name="data_ui_components_auth_a_chars_min">Минимум 6 символов</string>
+    <string name="data_ui_components_auth_latino_alphabet">Только буквы латинского алфавита</string>
+    <string name="data_ui_components_auth_username">Имя пользователя</string>
+    <string name="data_ui_components_auth_username_chars">От 3 до 12 символов</string>
+    <string name="data_ui_components_auth_must_contain">%1$s должен содержать:</string>
+    <string name="data_ui_components_auth_request_password_reset">Запросить сброс пароля</string>
+    <string name="data_ui_components_auth_enter_the_email_associated">Введите адрес электронной почты, связанный с вашей учетной записью!</string>
+    <string name="data_ui_components_auth_invalid_email">\t•\tНеверный адрес электронной почты</string>
+    <string name="data_ui_components_auth_dismiss">Отклонить</string>
+    <string name="data_ui_components_auth_send">Отправить</string>
+</resources>

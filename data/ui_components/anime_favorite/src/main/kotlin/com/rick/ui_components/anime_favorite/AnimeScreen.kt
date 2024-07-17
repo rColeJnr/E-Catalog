@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import com.rick.data.model_anime.FavoriteUiState
@@ -39,12 +40,12 @@ fun AnimeFavScreen(
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
-
+    val context = LocalContext.current
     LaunchedEffect(key1 = shouldDisplayUndoFavorite) {
         if (shouldDisplayUndoFavorite) {
             val snackBarResult = snackbarHostState.showSnackbar(
-                message = "Anime Favorite removed",
-                actionLabel = "Undo"
+                message = context.getString(R.string.data_ui_components_anime_favorite_anime_favorite_removed),
+                actionLabel = context.getString(R.string.data_ui_components_anime_favorite_undo)
             ) == SnackbarResult.ActionPerformed
             if (snackBarResult) {
                 undoFavoriteRemoval()

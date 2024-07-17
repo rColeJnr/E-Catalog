@@ -1,6 +1,5 @@
 package com.rick.anime.data_anime.data.repository.manga
 
-import android.nfc.tech.MifareUltralight
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -34,7 +33,7 @@ internal class MangaRepositoryImpl @Inject constructor(
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
-                pageSize = MifareUltralight.PAGE_SIZE,
+                pageSize = 20,
                 enablePlaceholders = true,
                 prefetchDistance = 1,
                 initialLoadSize = 1

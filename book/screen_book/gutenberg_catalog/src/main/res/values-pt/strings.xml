@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="book_screen_book_gutenberg_catalog_search">Pesquisar</string>
+    <string name="book_screen_book_gutenberg_catalog_no_results">Sem resultados 😓\nDeslize para atualizar</string>
+    <string name="book_screen_book_gutenberg_catalog_authors">Autores: %1$s</string>
+    <string name="book_screen_book_gutenberg_catalog_favorite">Favorito</string>
+    <string name="book_screen_book_gutenberg_catalog_wooops">😨 Wooops %1$s</string>
+</resources>

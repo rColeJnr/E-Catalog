@@ -30,7 +30,7 @@
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"
@@ -48,7 +48,7 @@
                 android:layout_gravity="center"
                 android:layout_marginVertical="8dp"
                 android:text="@string/data_ui_components_common_nothing_found"
-                android:textAppearance="?attr/textAppearanceBody2"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:visibility="gone" />
 
         </LinearLayout>

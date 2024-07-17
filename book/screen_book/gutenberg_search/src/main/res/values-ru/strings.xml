@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="book_screen_book_gutenberg_search_search">Поиск</string>
+    <string name="book_screen_book_gutenberg_search_authors">Авторы: %1$s</string>
+    <string name="book_screen_book_gutenberg_search_nothing_found">Ничего не найдено, 😓</string>
+</resources>

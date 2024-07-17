@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceBody2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         tools:text="Timeout" />
 
     <ProgressBar
@@ -28,5 +28,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/movie_screen_movie_common_retry"
-        android:textAppearance="?attr/textAppearanceButton" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
 </LinearLayout>

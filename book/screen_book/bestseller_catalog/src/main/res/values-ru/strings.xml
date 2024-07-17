@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="book_screen_book_bestseller_catalog_favorite">Избранное</string>
+    <string name="book_screen_book_bestseller_catalog_close">Закрыть</string>
+    <string name="book_screen_book_bestseller_catalog_rank">Рейтинг: %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_rankLastWeek">Рейтинг на прошлой неделе: %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_weeksOnList">Недели в списке: %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_bestseller_category">Выбранная категория:</string>
+    <string name="book_screen_book_bestseller_catalog_search">Поиск</string>
+    <string name="book_screen_book_bestseller_catalog_open_link_amazon">Открыть страницу Amazon</string>
+    <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Упс"\nРезультаты не найдены, 😓</string>
+    <string name="book_screen_book_bestseller_catalog_show_translation">Показать перевод</string>
+    <string name="book_screen_book_bestseller_catalog_show_original">Показать оригинал</string>
+</resources>

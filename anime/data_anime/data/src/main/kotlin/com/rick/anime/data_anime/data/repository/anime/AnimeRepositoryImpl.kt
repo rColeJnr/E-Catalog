@@ -35,7 +35,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 pageSize = 20,
                 enablePlaceholders = true,
                 prefetchDistance = 1,
-                initialLoadSize = 40
+                initialLoadSize = 1
             ),
             remoteMediator = AnimeRemoteMediator(
                 network = network,

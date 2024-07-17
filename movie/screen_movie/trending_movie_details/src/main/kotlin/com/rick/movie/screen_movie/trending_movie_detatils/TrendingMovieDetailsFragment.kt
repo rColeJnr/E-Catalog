@@ -9,19 +9,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.tmdb.movie.Genre
 import com.rick.data.model_movie.tmdb.series.Creator
+import com.rick.movie.screen_movie.common.TranslationEvent
+import com.rick.movie.screen_movie.common.TranslationViewModel
 import com.rick.movie.screen_movie.common.logScreenView
 import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_movie_details.R
 import com.rick.movie.screen_movie.trending_movie_details.databinding.MovieScreenMovieTrendingMovieDetailsFragmentTrendingMovieDetailsBinding
-
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,6 +36,7 @@ class TrendingMovieDetailsFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: TrendingMovieDetailsViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var similarsAdapter: MovieSimilarDetailsAdapter
 
@@ -54,6 +60,10 @@ class TrendingMovieDetailsFragment : Fragment() {
             container,
             false
         )
+
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
 
         arguments?.let {
             val safeArgs = TrendingMovieDetailsFragmentArgs.fromBundle(it)
@@ -128,6 +138,27 @@ class TrendingMovieDetailsFragment : Fragment() {
                         provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image))
                     }
                     movieSummary.text = trendingMovie.overview
+
+                    showTranslation.setOnClickListener {
+                        translationViewModel.onEvent(
+                            TranslationEvent.GetTranslation(
+                                listOf(trendingMovie.overview), translationViewModel.location.value
+                            )
+                        )
+                        lifecycleScope.launch {
+                            translationViewModel.translation.collectLatest {
+                                movieSummary.text = it.first().text
+                            }
+                        }
+                        showTranslation.visibility = View.GONE
+                        showOriginal.visibility = View.VISIBLE
+                    }
+
+                    showOriginal.setOnClickListener {
+                        movieSummary.text = trendingMovie.overview
+                        showTranslation.visibility = View.VISIBLE
+                        showOriginal.visibility = View.GONE
+                    }
 
                     if (trendingMovie.adult) {
                         movieAdult.text = resources.getString(

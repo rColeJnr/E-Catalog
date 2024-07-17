@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_book_favorite_favorite_button">Кнопка избранного</string>
+    <string name="data_ui_components_book_favorite_birth_year_death_year">%1$s\nгод рождения: %2$d, год смерти: %3$d</string>
+    <string name="data_ui_components_book_favorite_undo">Отменить</string>
+    <string name="data_ui_components_book_favorite_bestseller_favorite_removed">Бестселлер удален из избранного</string>
+</resources>

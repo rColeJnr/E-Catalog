@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_anime_catalog_search">Поиск</string>
+    <string name="anime_screen_anime_anime_catalog_favorite">Избранное</string>
+    <string name="anime_screen_anime_anime_catalog_whoops">😨 Упс %1$s</string>
+    <string name="anime_screen_anime_anime_catalog_show_translation">Показать перевод</string>
+    <string name="anime_screen_anime_anime_catalog_show_original">Показать оригинал</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_auth_create">Criar</string>
+    <string name="data_ui_components_auth_sign_in">Entrar</string>
+    <string name="data_ui_components_auth_have_an_account">Já tem\numa Conta?</string>
+    <string name="data_ui_components_auth_create_an_account">Criar uma\nConta</string>
+    <string name="data_ui_components_auth_catalogs">Catálogos</string>
+    <string name="data_ui_components_auth_slogan">Descubra o que\nassistir em\nseguida, ou ler</string>
+    <string name="data_ui_components_auth_show_password">Mostrar senha</string>
+    <string name="data_ui_components_auth_hide_password">Esconder senha</string>
+    <string name="data_ui_components_auth_forgot_password">Esqueceu a senha?</string>
+    <string name="data_ui_components_auth_no_whitespaces">Sem espaços em branco</string>
+    <string name="data_ui_components_auth_a_chars_min">No mínimo 6 caracteres</string>
+    <string name="data_ui_components_auth_latino_alphabet">Apenas letras do alfabeto latino</string>
+    <string name="data_ui_components_auth_username">Nome de usuário</string>
+    <string name="data_ui_components_auth_username_chars">De 3 a 12 caracteres</string>
+    <string name="data_ui_components_auth_must_contain">%1$s deve conter:</string>
+    <string name="data_ui_components_auth_request_password_reset">Solicitar redefinição de senha</string>
+    <string name="data_ui_components_auth_enter_the_email_associated">Digite o email associado à sua conta!</string>
+    <string name="data_ui_components_auth_invalid_email">\t•\tEmail inválido</string>
+    <string name="data_ui_components_auth_dismiss">Dispensar</string>
+    <string name="data_ui_components_auth_send">Enviar</string>
+</resources>

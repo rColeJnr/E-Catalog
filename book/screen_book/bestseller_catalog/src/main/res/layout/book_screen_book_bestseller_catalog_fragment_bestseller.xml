@@ -10,19 +10,21 @@
 
     <TextView
         android:id="@+id/category"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/book_screen_book_bestseller_catalog_two_dp"
         android:text="@string/book_screen_book_bestseller_catalog_bestseller_category"
-        android:textAppearance="?attr/textAppearanceBody2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="250dp"
+        android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:background="?attr/colorSurface"
+        android:gravity="start"
+        android:textAlignment="gravity"
         app:layout_constraintBottom_toBottomOf="@id/category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/category"

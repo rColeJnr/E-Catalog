@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/book_entry_card_view"
     android:layout_width="match_parent"
-    android:layout_height="82dp"
+    android:layout_height="138dp"
+    android:layout_gravity="center_vertical"
     android:layout_margin="4dp"
     android:backgroundTint="?attr/colorSurface"
     android:elevation="@dimen/book_screen_book_bestseller_search_two_dp"
@@ -12,17 +13,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="4dp">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="60dp"
-            android:minHeight="70dp"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/book_screen_book_bestseller_catalog_six_dp"
             android:src="@drawable/book_screen_book_bestseller_catalog_ic_fav_outlined"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,10 +32,10 @@
             android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="?attr/textAppearanceBody2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toStartOf="@id/favorite"
             app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/image" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/author"
@@ -46,20 +44,32 @@
             android:layout_marginHorizontal="@dimen/book_screen_book_bestseller_catalog_six_dp"
             android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:maxLines="2"
-            android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toTopOf="@id/show_translation"
             app:layout_constraintEnd_toStartOf="@id/favorite"
             app:layout_constraintStart_toEndOf="@id/image" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/favorite"
-            android:layout_width="36dp"
-            android:layout_height="31dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="@dimen/book_screen_book_bestseller_catalog_six_dp"
             android:src="@drawable/book_screen_book_bestseller_catalog_ic_fav_outlined"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/show_translation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
+            android:layout_marginStart="@dimen/book_screen_book_bestseller_catalog_two_dp"
+            android:padding="4dp"
+            android:text="@string/book_screen_book_bestseller_catalog_show_translation"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="@id/image"
+            app:layout_constraintTop_toBottomOf="@id/image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

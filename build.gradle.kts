@@ -21,7 +21,6 @@ buildscript {
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.android.test) apply false
     alias(libs.plugins.baselineprofile) apply false
     alias(libs.plugins.dependencyGuard) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
@@ -46,4 +45,4 @@ tasks.register("printModulePaths") {
     }
 }
 
-gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+//gradle.startParameter.excludedTaskNames.addAll(listOf(".convention:testClasses"))

@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
     alias(libs.plugins.ecatalogs.android.paging)
-//    alias(libs.plugins.ecatalogs.android.room)
 }
 
 android {
@@ -21,6 +20,7 @@ android {
 
 dependencies {
     implementation(projects.book.dataBook.data)
+    implementation(projects.book.dataBook.domain)
     implementation(projects.book.dataBook.model)
     implementation(projects.book.screenBook.bestsellerFavorites)
     implementation(projects.book.screenBook.bestsellerSearch)

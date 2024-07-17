@@ -1,6 +1,7 @@
 *.iml
 .gradle
 /local.properties
+/gradle.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -13,8 +14,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+gradle.properties
 movie/screen-movie/src/main/jni
 book/screen-book/src/main/jni
 anime/screen-anime/src/main/jni
-
-

@@ -20,8 +20,8 @@ class ArticleDetailsDialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val view =
-                MovieScreenMovieCommonDialogArticleDetailsBinding.inflate(it.layoutInflater)
+            val view = MovieScreenMovieCommonDialogArticleDetailsBinding
+                .inflate(it.layoutInflater)
             builder.setView(view.root)
             view.closeDialog.setOnClickListener {
                 dialog?.dismiss()
@@ -47,7 +47,10 @@ class ArticleDetailsDialogFragment(
                 article.byline.original
             )
             view.source.text =
-                resources.getString(R.string.movie_screen_movie_common_source, article.source)
+                resources.getString(
+                    R.string.movie_screen_movie_common_source,
+                    article.source
+                )
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

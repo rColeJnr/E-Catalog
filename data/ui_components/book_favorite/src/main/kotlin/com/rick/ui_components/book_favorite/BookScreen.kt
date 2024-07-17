@@ -1,5 +1,6 @@
 package com.rick.ui_components.book_favorite
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +14,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.rick.data.model_book.FavoriteUiState
 import com.rick.data.model_book.gutenberg.Author
+import com.rick.data.ui_components.book_favorite.R
 import com.rick.data.ui_components.common.EcsBookCatalogCard
 import com.rick.data.ui_components.common.EcsEmptyState
 import com.rick.data.ui_components.common.EcsScaffold
@@ -30,14 +33,15 @@ fun BookFavScreen(
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
-
+    val context = LocalContext.current
     LaunchedEffect(
         key1 = shouldDisplayBestsellerUndoFavorite,
     ) {
         if (shouldDisplayBestsellerUndoFavorite) {
             EcsSnackbar(
                 snackbarHostState = snackbarHostState,
-                message = "Bestseller Favorite removed",
+                message = context.getString(R.string.data_ui_components_book_favorite_bestseller_favorite_removed),
+                label = context.getString(R.string.data_ui_components_book_favorite_undo),
                 undoRemoval = undoBestsellerFavoriteRemoval,
                 clearUndoState = clearUndoState
             )
@@ -83,7 +87,7 @@ fun BookFavScreen(
                             EcsBookCatalogCard(
                                 image = book.formats.imageJpeg ?: "",
                                 title = book.title,
-                                author = getAuthorsAsString(book.authors),
+                                author = getAuthorsAsString(context = context, book.authors),
                                 id = book.id.toString(),
                                 onFavClick = onBestsellerFavClick
                             )
@@ -96,10 +100,17 @@ fun BookFavScreen(
     }
 }
 
-fun getAuthorsAsString(authors: List<Author>): String {
+fun getAuthorsAsString(context: Context, authors: List<Author>): String {
     val author = StringBuilder()
     authors.forEach {
-        author.append("${it.name}\nbirth year: ${it.birthYear}, death year: ${it.deathYear}")
+        author.append(
+            context.getString(
+                R.string.data_ui_components_book_favorite_birth_year_death_year,
+                it.name,
+                it.birthYear,
+                it.deathYear
+            )
+        )
     }
 
     return authors.toString().trim()

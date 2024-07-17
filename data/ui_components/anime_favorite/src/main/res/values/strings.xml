@@ -5,4 +5,6 @@
     <string name="data_ui_components_anime_favorite_favorite">Favorite</string>
     <string name="data_ui_components_anime_favorite_favorites">Favorites</string>
     <string name="data_ui_components_anime_favorite_nothing_found">Nothing found</string>
+    <string name="data_ui_components_anime_favorite_anime_favorite_removed">Anime Favorite removed</string>
+    <string name="data_ui_components_anime_favorite_undo">Undo</string>
 </resources>

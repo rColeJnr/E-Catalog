@@ -2,6 +2,7 @@ package com.rick.anime.screen_anime.manga_details
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.rick.anime.anime_screen.common.TranslationEvent
+import com.rick.anime.anime_screen.common.TranslationViewModel
 import com.rick.anime.anime_screen.common.logMangaWebPageOpened
 import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.manga_details.databinding.AnimeScreenAnimeMangaDetailsFragmentMangaDetailsBinding
@@ -17,8 +21,11 @@ import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_anime.UserManga
 import com.rick.data.ui_components.common.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,6 +34,7 @@ class MangaDetailsFragment : Fragment() {
     private var _binding: AnimeScreenAnimeMangaDetailsFragmentMangaDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaDetailsViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -44,6 +52,10 @@ class MangaDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = MangaDetailsFragmentArgs.fromBundle(it)
             viewModel.setMangaId(safeArgs.manga)
+        }
+
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
         }
 
         binding.toolbar.apply {
@@ -69,7 +81,34 @@ class MangaDetailsFragment : Fragment() {
         mangaLiveData.observe(viewLifecycleOwner) { manga ->
             title.text = manga.title
 
+            Log.e("Manga", "one")
             provideGlide(image, manga.images)
+
+            showTranslation.setOnClickListener {
+                translationViewModel.onEvent(
+                    TranslationEvent.GetTranslation(
+                        listOf(
+                            manga.synopsis,
+                            manga.background
+                        ), translationViewModel.location.value
+                    )
+                )
+                lifecycleScope.launch {
+                    translationViewModel.translation.collectLatest {
+                        synopsis.text = it.first().text
+                        background.text = it.last().text
+                        showTranslation.visibility = View.GONE
+                        showOriginal.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            showOriginal.setOnClickListener {
+                synopsis.text = manga.synopsis
+                background.text = manga.background
+                showOriginal.visibility = View.GONE
+                showTranslation.visibility = View.VISIBLE
+            }
 
             synopsis.text = manga.synopsis
 

@@ -209,7 +209,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.showSettingsDialog.value = true
         }
 
-
     }
 
     private fun deleteUserAccount() {

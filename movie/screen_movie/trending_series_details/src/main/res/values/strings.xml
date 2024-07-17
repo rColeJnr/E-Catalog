@@ -22,4 +22,6 @@
     <string name="movie_screen_movie_trending_series_details_creators">Creators: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_overview">OVerview of this series\n</string>
     <string name="movie_screen_movie_trending_series_details_number_of_episodes">Number of episodes: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_show_translation">Show translation</string>
+    <string name="movie_screen_movie_trending_series_details_show_original">Show translation</string>
 </resources>

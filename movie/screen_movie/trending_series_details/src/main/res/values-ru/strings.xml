@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_series_details_series_name">Название фильма</string>
+    <string name="movie_screen_movie_trending_series_details_failed_to_retrieve_data">"Не удалось загрузить данные, "</string>
+    <string name="movie_screen_movie_trending_series_details_similar_titles">Похожие названия</string>
+    <string name="movie_screen_movie_trending_series_details_db_rating">Movie db: %1$f</string>
+    <string name="movie_screen_movie_trending_series_details_imdb_rating">tmbd: %1$f</string>
+    <string name="movie_screen_movie_trending_series_details_ratings">Рейтинги</string>
+    <string name="movie_screen_movie_trending_series_details_revenue">Доход: %1$d$</string>
+    <string name="movie_screen_movie_trending_series_details_runtime">Продолжительность: %1$d минут</string>
+    <string name="movie_screen_movie_trending_series_details_budget">Бюджет: %1$d долларов</string>
+    <string name="movie_screen_movie_trending_series_details_release_date">Дата выхода: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_genres">Жанры: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_adult_content">Контент для взрослых: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_no_data">н/д</string>
+    <string name="movie_screen_movie_trending_series_details_transition_name">trending_series_details_transition</string>
+    <string name="movie_screen_movie_trending_series_details_popularity">Популярность: %1$f</string>
+    <string name="movie_screen_movie_trending_series_details_number_of_seasons">Количество сезонов: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_last_air_date">Последняя дата выхода в эфир: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_first_air_date">Первая дата выхода в эфир: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_in_production">В производстве: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_creators">Создатели: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_overview">Обзор этой серии\n</string>
+    <string name="movie_screen_movie_trending_series_details_number_of_episodes">Количество эпизодов: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_show_translation">Показать перевод</string>
+    <string name="movie_screen_movie_trending_series_details_show_original">Показать оригинал</string>
+</resources>

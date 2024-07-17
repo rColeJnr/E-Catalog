@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_anime_favorite_favorite_button">Кнопка избранного</string>
+    <string name="data_ui_components_anime_favorite_favorite_fragment">Фрагмент избранного</string>
+    <string name="data_ui_components_anime_favorite_favorite">Избранное</string>
+    <string name="data_ui_components_anime_favorite_favorites">Избранные</string>
+    <string name="data_ui_components_anime_favorite_nothing_found">Ничего не найдено</string>
+    <string name="data_ui_components_anime_favorite_anime_favorite_removed">Аниме удалено из избранного</string>
+    <string name="data_ui_components_anime_favorite_undo">Отменить</string>
+</resources>

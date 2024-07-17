@@ -21,11 +21,13 @@ class AuthenticationViewModel @Inject constructor(
 
     private val email = savedSteHandle.getStateFlow(key = EMAIL_QUERY, initialValue = "")
     private val username = savedSteHandle.getStateFlow(key = USERNAME_QUERY, initialValue = "")
+    val passwordVisible =
+        savedSteHandle.getStateFlow(key = PASSWORD_VISIBLE_QUERY, initialValue = false)
     private val password = MutableStateFlow("")
 
     //    private val refreshing = MutableStateFlow(false)
     private val screenState =
-        savedSteHandle.getStateFlow(key = SCREEN_STATE_QUERY, initialValue = false)
+        savedSteHandle.getStateFlow(key = SCREEN_STATE_QUERY, initialValue = true)
     val progressState = mutableStateOf(false)
     private val errorMessage: MutableStateFlow<String?> = MutableStateFlow(null)
 
@@ -43,7 +45,6 @@ class AuthenticationViewModel @Inject constructor(
                 username,
                 errorMessage,
                 screenState,
-//                progressState
             ) { email, password, username, errorMessage, screenState ->
                 AuthScreenState(
                     email = email,
@@ -88,12 +89,16 @@ class AuthenticationViewModel @Inject constructor(
     fun onScreenStateValueChange(screenState: Boolean) {
         savedSteHandle[SCREEN_STATE_QUERY] = !screenState
     }
+
+    fun onPasswordVisible() {
+        savedSteHandle[PASSWORD_VISIBLE_QUERY] = !passwordVisible.value
+    }
 }
 
 data class AuthScreenState(
 //    val refreshing: Boolean = false,
 //    val isSignIn:Boolean = false,
-    val screenState: Boolean = true,
+    val screenState: Boolean = false,
     val email: String = "",
     val password: String = "",
     val username: String = "",
@@ -102,4 +107,5 @@ data class AuthScreenState(
 
 private const val EMAIL_QUERY = "emailQuery"
 private const val USERNAME_QUERY = "usernameQuery"
+private const val PASSWORD_VISIBLE_QUERY = "passwordVisibleQuery"
 private const val SCREEN_STATE_QUERY = "screenStateQuery"

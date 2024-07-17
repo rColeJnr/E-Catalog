@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_article_catalog_no_results">Sem resultados 😓\nDeslize para atualizar</string>
+    <string name="movie_screen_movie_article_catalog_search">pesquisar</string>
+    <string name="movie_screen_movie_article_catalog_no_title">Título do Filme</string>
+    <string name="movie_screen_movie_article_catalog_similar_titles">Títulos semelhantes</string>
+    <string name="movie_screen_movie_article_catalog_favorite">Favorito</string>
+    <string name="movie_screen_movie_article_catalog_whoops">😨 Ops %1$s</string>
+    <string name="movie_screen_movie_article_catalog_show_translation">Mostrar tradução</string>
+    <string name="movie_screen_movie_article_catalog_show_original">Mostrar original</string>
+</resources>

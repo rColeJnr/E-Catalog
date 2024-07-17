@@ -23,7 +23,6 @@ class AnimeDetailsViewModel @Inject constructor(
 
     fun getAnime(): Flow<UserAnime> =
         getAnimeByIdUseCase(animeId.value)
-
 }
 
 private const val ANIME_ID = "anime"

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="data_ui_components_auth_40dp">40dp</dimen>
+    <dimen name="data_ui_components_auth_48dp">48dp</dimen>
+    <dimen name="data_ui_components_auth_50dp">50dp</dimen>
+    <dimen name="data_ui_components_auth_28dp">28dp</dimen>
+    <dimen name="data_ui_components_auth_12dp">12dp</dimen>
+    <dimen name="data_ui_components_auth_minus_12dp">-12dp</dimen>
+    <dimen name="data_ui_components_auth_4dp">4dp</dimen>
+    <dimen name="data_ui_components_auth_5dp">5dp</dimen>
+    <dimen name="data_ui_components_auth_2dp">2dp</dimen>
+    <dimen name="data_ui_components_auth_120dp">120dp</dimen>
+    <dimen name="data_ui_components_auth_8dp">8dp</dimen>
+    <dimen name="data_ui_components_auth_70dp">70dp</dimen>
+    <dimen name="data_ui_components_auth_140dp">140dp</dimen>
+    <dimen name="data_ui_components_auth_180dp">180dp</dimen>
+    <dimen name="data_ui_components_auth_22dp">22dp</dimen>
+    <dimen name="data_ui_components_auth_282dp">282dp</dimen>
+    <dimen name="data_ui_components_auth_68dp">68dp</dimen>
+    <dimen name="data_ui_components_auth_62dp">62dp</dimen>
+    <dimen name="data_ui_components_auth_280dp">280dp</dimen>
+    <dimen name="data_ui_components_auth_205dp">205dp</dimen>
+    <dimen name="data_ui_components_auth_16dp">16dp</dimen>
+    <dimen name="data_ui_components_auth_100dp">100dp</dimen>
+    <dimen name="data_ui_components_auth_26dp">26dp</dimen>
+    <dimen name="data_ui_components_auth_14dp">14dp</dimen>
+    <dimen name="data_ui_components_auth_36dp">36dp</dimen>
+
+</resources>

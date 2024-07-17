@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_movie_catalog_release_date">Дата выхода: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_rated">Рейтинг: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_read_article">Читать полную статью о фильме: \n%1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_rating">без рейтинга</string>
+    <string name="movie_screen_movie_trending_movie_catalog_movie_summary">Этот фильм о мальчике, который в детстве мечтал стать разработчиком программного обеспечения</string>
+    <string name="movie_screen_movie_trending_movie_catalog_retry">Ошибка, попробуйте еще раз</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_results">Нет результатов😓\nПроведите для обновления</string>
+    <string name="movie_screen_movie_trending_movie_catalog_may_month">Май</string>
+    <string name="movie_screen_movie_trending_movie_catalog_search">поиск</string>
+    <string name="movie_screen_movie_trending_movie_catalog_searchOptions">параметры поиска</string>
+    <string name="movie_screen_movie_trending_movie_catalog_nothing_found">Ничего не найдено, попробуйте еще раз. 😓</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_title">Название фильма</string>
+    <string name="movie_screen_movie_trending_movie_catalog_movie_title">Название фильма</string>
+    <string name="movie_screen_movie_trending_movie_catalog_as_character">В роли: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_ratings">Рейтинги</string>
+    <string name="movie_screen_movie_trending_movie_catalog_similar_titles">Похожие названия</string>
+    <string name="movie_screen_movie_trending_movie_catalog_content_description_media">content_description_media</string>
+    <string name="movie_screen_movie_trending_movie_catalog_failed_to_retrieve_data">Не удалось получить данные 😓</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_data">н/д</string>
+    <string name="movie_screen_movie_trending_movie_catalog_favorite">Избранное</string>
+    <string name="movie_screen_movie_trending_movie_catalog_whoops">😨 Упс %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_show_translation">Показать перевод</string>
+    <string name="movie_screen_movie_trending_movie_catalog_show_original">Показать оригинал</string>
+</resources>

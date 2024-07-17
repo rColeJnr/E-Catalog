@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="data_ui_components_auth_50">30</integer>
+    <integer name="data_ui_components_auth_28">22</integer>
+    <integer name="data_ui_components_auth_22">14</integer>
+    <integer name="data_ui_components_auth_12">10</integer>
+    <integer name="data_ui_components_auth_32">26</integer>
+    <integer name="data_ui_components_auth_38">32</integer>
+</resources>

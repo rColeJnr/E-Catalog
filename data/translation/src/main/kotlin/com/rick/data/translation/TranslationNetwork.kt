@@ -26,7 +26,7 @@ interface TranslationApi {
 
 @Singleton
 internal class TranslationNetwork @Inject constructor() : TranslationDataSource {
-    private val apiKey = BuildConfig.TranslationApiKey
+    private val apiKey = BuildConfig.translationApiKey
     private val api = Retrofit.Builder().baseUrl("https://translate.api.cloud.yandex.net/")
         .addConverterFactory(
             GsonConverterFactory
@@ -41,5 +41,5 @@ internal class TranslationNetwork @Inject constructor() : TranslationDataSource 
         .create(TranslationApi::class.java)
 
     override suspend fun getTranslation(body: TranslationBody): TranslationResponse =
-        api.getTranslation(apiKey = apiKey, translationBody = body)
+        api.getTranslation(apiKey = ": Api-Key $apiKey", translationBody = body)
 }

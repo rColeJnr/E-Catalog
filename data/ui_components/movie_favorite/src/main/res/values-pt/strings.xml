@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_movie_favorite_favorite_removed">Favorito removido</string>
+    <string name="data_ui_components_movie_favorite_undo">Desfazer</string>
+</resources>

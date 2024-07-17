@@ -16,6 +16,7 @@ android {
 
 dependencies {
     implementation(projects.book.dataBook.data)
+    implementation(projects.book.dataBook.domain)
     implementation(projects.book.dataBook.model)
     implementation(projects.book.screenBook.common)
     implementation(projects.book.screenBook.gutenbergSearch)

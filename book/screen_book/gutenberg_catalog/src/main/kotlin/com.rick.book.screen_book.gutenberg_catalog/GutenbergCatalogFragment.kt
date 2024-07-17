@@ -144,7 +144,9 @@ class GutenbergCatalogFragment : Fragment() {
 
                 errorState?.let {
                     Toast.makeText(
-                        context, "\uD83D\uDE28 Wooops $it", Toast.LENGTH_SHORT
+                        context,
+                        getString(R.string.book_screen_book_gutenberg_catalog_wooops, it),
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
 
@@ -164,7 +166,7 @@ class GutenbergCatalogFragment : Fragment() {
 
     private fun onBookClick(view: View, formats: Formats) {
         val link: String? = formats.run {
-            this.textPlain ?: this.textHtml ?: this.textPlainCharsetUtf8
+            this.textHtml ?: this.textPlainCharsetUtf8 ?: this.textPlain
         }
 
         link?.let {

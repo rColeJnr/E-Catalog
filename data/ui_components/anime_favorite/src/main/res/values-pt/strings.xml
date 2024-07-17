@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_anime_favorite_favorite_button">Botão de favorito</string>
+    <string name="data_ui_components_anime_favorite_favorite_fragment">Fragmento de favorito</string>
+    <string name="data_ui_components_anime_favorite_favorite">Favorito</string>
+    <string name="data_ui_components_anime_favorite_favorites">Favoritos</string>
+    <string name="data_ui_components_anime_favorite_nothing_found">Nada encontrado</string>
+    <string name="data_ui_components_anime_favorite_anime_favorite_removed">Favorito de Anime removido</string>
+    <string name="data_ui_components_anime_favorite_undo">Desfazer</string>
+</resources>

@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
     alias(libs.plugins.ecatalogs.android.paging)
-//    alias(libs.plugins.ecatalogs.android.room)
 }
 
 android {
@@ -15,6 +14,7 @@ android {
 
 dependencies {
     implementation(projects.movie.dataMovie.data)
+    implementation(projects.movie.dataMovie.domain)
     implementation(projects.movie.dataMovie.model)
     implementation(projects.movie.screenMovie.common)
     implementation(projects.movie.screenMovie.articleFavorite)

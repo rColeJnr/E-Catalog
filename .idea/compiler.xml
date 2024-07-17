@@ -6,6 +6,7 @@
       <module name="build-logic.convention.main" target="17" />
       <module name="build-logic.convention.test" target="17" />
       <module name="E-Catalog.ecatalogs.data.ui_components.auth" target="17" />
+      <module name="E-Catalog.ecatalogs.data.ui_components.common" target="17" />
       <module name="ecatalogs.anime.data_anime.data" target="17" />
       <module name="ecatalogs.anime.data_anime.database" target="17" />
       <module name="ecatalogs.anime.data_anime.domain" target="17" />
@@ -53,6 +54,7 @@
       <module name="ecatalogs.data.network_anime" target="17" />
       <module name="ecatalogs.data.network_book" target="17" />
       <module name="ecatalogs.data.network_movie" target="17" />
+      <module name="ecatalogs.data.translation" target="17" />
       <module name="ecatalogs.data.ui_components.anime_favorite" target="17" />
       <module name="ecatalogs.data.ui_components.auth" target="17" />
       <module name="ecatalogs.data.ui_components.book_favorite" target="17" />

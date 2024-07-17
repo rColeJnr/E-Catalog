@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/movie_screen_movie_article_catalog_twelve_dp">
+        android:layout_margin="@dimen/movie_screen_movie_article_catalog_twelve_dp"
+        android:animateLayoutChanges="true">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/movieName"
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/movie_screen_movie_article_catalog_eight_dp"
             android:hint="@string/movie_screen_movie_article_catalog_no_title"
-            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,10 +59,22 @@
             android:layout_marginVertical="@dimen/movie_screen_movie_article_catalog_six_dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textAppearance="?attr/textAppearanceBody1"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieImage" />
+
+        <TextView
+            android:id="@+id/show_translation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/movie_screen_movie_article_catalog_two_dp"
+            android:layout_marginVertical="@dimen/movie_screen_movie_article_catalog_two_dp"
+            android:text="@string/movie_screen_movie_article_catalog_show_translation"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieSummary" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

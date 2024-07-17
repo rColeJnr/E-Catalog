@@ -23,9 +23,9 @@
                 android:id="@+id/toolbar_text"
                 android:layout_width="282dp"
                 android:layout_height="?attr/actionBarSize"
-                android:gravity="center_vertical"
+                android:gravity="start|center_vertical"
                 android:textAlignment="gravity"
-                android:textAppearance="?attr/textAppearanceHeadline5" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
         </androidx.appcompat.widget.Toolbar>
 

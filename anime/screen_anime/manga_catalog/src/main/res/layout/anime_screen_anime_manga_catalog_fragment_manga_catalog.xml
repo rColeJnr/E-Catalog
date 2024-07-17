@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/anime_screen_anime_manga_catalog_two_dp"
-    >
+    android:layout_margin="@dimen/anime_screen_anime_manga_catalog_two_dp">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/jikan_swipe_refresh"
@@ -27,7 +26,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/anime_screen_anime_manga_catalog_no_results"
-        android:textAppearance="?attr/textAppearanceBody1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

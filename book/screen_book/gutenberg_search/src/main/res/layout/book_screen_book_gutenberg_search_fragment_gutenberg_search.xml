@@ -29,7 +29,7 @@
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"
@@ -47,7 +47,7 @@
                 android:layout_marginVertical="8dp"
                 android:gravity="center"
                 android:text="@string/book_screen_book_gutenberg_search_nothing_found"
-                android:textAppearance="?attr/textAppearanceBody2"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="@android:color/holo_blue_dark"
                 android:visibility="gone" />
 

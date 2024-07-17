@@ -2,7 +2,6 @@ package com.rick.movie.screen_movie.trending_movie_search
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -224,7 +223,6 @@ class TrendingMovieSearchFragment : Fragment() {
                 }
 
                 is TrendingMovieSearchUiState.Error -> {
-                    Log.e(TAG, "da error: ${state.msg}")
                     if (adapter.searchDiffer.currentList.isEmpty()) {
 
                         searchErrorMessage.visibility = View.VISIBLE

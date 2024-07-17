@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">E-Catalogs</string>
+    <string name="app_name" translatable="false">E-Catalogs</string>
     <string name="movie">Movies</string>
     <string name="series">Series</string>
     <string name="anime">Anime</string>
@@ -23,7 +23,7 @@
     <string name="articles">Articles</string>
     <string name="adult_content">Adult content:</string>
     <string name="limited_experience">Limited experience</string>
-    <string name="open_drawer">open\n</string>
+    <string name="open_drawer">open</string>
     <string name="close_drawer">close</string>
-    <string name="empty" />
+    <string name="empty" translatable="false" />
 </resources>

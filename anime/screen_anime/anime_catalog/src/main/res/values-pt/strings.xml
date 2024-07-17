@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_anime_catalog_search">Pesquisar</string>
+    <string name="anime_screen_anime_anime_catalog_favorite">Favorito</string>
+    <string name="anime_screen_anime_anime_catalog_whoops">😨 Uuups %1$s</string>
+    <string name="anime_screen_anime_anime_catalog_show_translation">Mostrar tradução</string>
+    <string name="anime_screen_anime_anime_catalog_show_original">Mostrar original</string>
+</resources>

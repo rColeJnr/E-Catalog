@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_anime_details_no_results">Sem resultados 😓\nDeslize para atualizar</string>
+    <string name="anime_screen_anime_anime_details_no_title">Sem título</string>
+    <string name="anime_screen_anime_anime_details_pg_rating">Classificação PG: %1$s</string>
+    <string name="anime_screen_anime_anime_details_nothing_found">Nada encontrado, tente novamente. 😓</string>
+    <string name="anime_screen_anime_anime_details_failed_to_retrieve_data">Falha ao recuperar dados 😓</string>
+    <string name="anime_screen_anime_anime_details_synopsis">%1$s</string>
+    <string name="anime_screen_anime_anime_details_genres">Gêneros</string>
+    <string name="anime_screen_anime_anime_details_runtime">Tempode execução: %1$s</string>
+    <string name="anime_screen_anime_anime_details_ratings">Classificações</string>
+    <string name="anime_screen_anime_anime_details_airing_status">Status de exibição: %1$s</string>
+    <string name="anime_screen_anime_anime_details_aired">Exibido de: %1$s</string>
+    <string name="anime_screen_anime_anime_details_score">Pontuação: %1$f</string>
+    <string name="anime_screen_anime_anime_details_scored_by">Avaliado por %1$d usuários</string>
+    <string name="anime_screen_anime_anime_details_rank">Classificação geral %1$d</string>
+    <string name="anime_screen_anime_anime_details_popularity">Classificação de popularidade %1$d</string>
+    <string name="anime_screen_anime_anime_details_favorites">Favorito de %1$d usuários</string>
+    <string name="anime_screen_anime_anime_details_episodes">Episódios: %1$d</string>
+    <string name="anime_screen_anime_anime_details_link_trailer">Assista ao trailer</string>
+    <string name="anime_screen_anime_anime_details_link_web_page">Abrir página da web</string>
+    <string name="anime_screen_anime_anime_details_genre_three">Gênero Três</string>
+    <string name="anime_screen_anime_anime_details_genre_two">Gênero Dois</string>
+    <string name="anime_screen_anime_anime_details_genre_one">Gênero Um</string>
+    <string name="anime_screen_anime_anime_details_anime_screen_anime_no_data">n/a</string>
+    <string name="anime_screen_anime_anime_details_headline">Título</string>
+    <string name="anime_screen_anime_anime_details_airing">Exibindo!</string>
+    <string name="anime_screen_anime_anime_details_not_airing">Não exibindo!</string>
+    <string name="anime_screen_anime_anime_details_show_translation">Mostrar tradução</string>
+    <string name="anime_screen_anime_anime_details_show_original">Mostrar original</string>
+</resources>

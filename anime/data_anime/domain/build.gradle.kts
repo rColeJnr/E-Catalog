@@ -11,6 +11,7 @@ android {
 dependencies {
     api(projects.anime.dataAnime.data)
     api(projects.anime.dataAnime.model)
+    api(projects.data.translation)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)

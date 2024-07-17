@@ -14,4 +14,5 @@ interface AnimeRepository {
     fun getAnimeFavorites(favorites: Set<Int>): Flow<List<Anime>>
 
     fun searchAnimes(query: String): Flow<List<Anime>>
+
 }

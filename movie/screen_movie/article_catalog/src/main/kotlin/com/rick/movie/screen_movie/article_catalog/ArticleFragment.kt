@@ -27,6 +27,8 @@ import com.rick.movie.screen_movie.article_catalog.databinding.MovieScreenMovieA
 import com.rick.movie.screen_movie.common.ArticleDetailsDialogFragment
 import com.rick.movie.screen_movie.common.MoviesLoadStateAdapter
 import com.rick.movie.screen_movie.common.RemotePresentationState
+import com.rick.movie.screen_movie.common.TranslationEvent
+import com.rick.movie.screen_movie.common.TranslationViewModel
 import com.rick.movie.screen_movie.common.asRemotePresentationState
 import com.rick.movie.screen_movie.common.logArticleOpened
 import com.rick.movie.screen_movie.common.logScreenView
@@ -37,6 +39,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,6 +49,7 @@ class ArticleFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: NYMovieViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var adapter: ArticleAdapter
     private lateinit var navController: NavController
 
@@ -78,6 +82,10 @@ class ArticleFragment : Fragment() {
 
         initAdapter()
 
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
+
         binding.bindState(
             pagingData = viewModel.pagingDataFLow
         )
@@ -106,7 +114,7 @@ class ArticleFragment : Fragment() {
 
     private fun initAdapter() {
 
-        adapter = ArticleAdapter(this::onMovieClick, this::onFavClick)
+        adapter = ArticleAdapter(this::onMovieClick, this::onFavClick, this::onTranslationClick)
 
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(footer = MoviesLoadStateAdapter { adapter.retry() })
@@ -184,7 +192,7 @@ class ArticleFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        "\uD83D\uDE28 Wooops $it",
+                        getString(R.string.movie_screen_movie_article_catalog_whoops, it),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -206,7 +214,7 @@ class ArticleFragment : Fragment() {
 
     }
 
-    private fun onMovieClick(view: View, article: UserArticle) {
+    private fun onMovieClick(article: UserArticle) {
         // Add dialog expand animation
         analyticsHelper.logArticleOpened(article.id.toString())
         ArticleDetailsDialogFragment(
@@ -221,6 +229,19 @@ class ArticleFragment : Fragment() {
 
     private fun onFavClick(view: View, id: String, isFavorite: Boolean) {
         viewModel.onEvent(NYMovieUiEvent.UpdateArticleFavorite(id, !isFavorite))
+    }
+
+    private fun onTranslationClick(article: UserArticle, translation: List<String>) {
+        translationViewModel.onEvent(
+            TranslationEvent.GetTranslation(
+                texts = translation, lCode = translationViewModel.location.value
+            )
+        )
+        lifecycleScope.launch {
+            translationViewModel.translation.collectLatest {
+                onMovieClick(article.copy(leadParagraph = it.first().text))
+            }
+        }
     }
 
     private fun onDialogFavoriteClick(view: View, id: String, isFavorite: Boolean) {
