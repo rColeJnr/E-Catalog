@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_article_catalog_no_results">Нет результатов 😓\nПроведите для обновления</string>
+    <string name="movie_screen_movie_article_catalog_search">поиск</string>
+    <string name="movie_screen_movie_article_catalog_no_title">Название фильма</string>
+    <string name="movie_screen_movie_article_catalog_similar_titles">Похожие названия</string>
+    <string name="movie_screen_movie_article_catalog_favorite">Избранное</string>
+    <string name="movie_screen_movie_article_catalog_whoops">😨 Упс %1$s</string>
+    <string name="movie_screen_movie_article_catalog_show_translation">Показать перевод</string>
+    <string name="movie_screen_movie_article_catalog_show_original">Показать оригинал</string>
+</resources>

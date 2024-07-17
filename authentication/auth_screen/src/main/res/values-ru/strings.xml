@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authentication_auth_screen_connection_error">Ошибка подключения!\nПроверьте подключение к интернету.</string>
+    <string name="authentication_auth_screen_check_your_inbox">Проверьте свою почту и перейдите по ссылке, чтобы сбросить пароль</string>
+    <string name="authentication_auth_screen_authentication_with_credentials_failed">Ошибка аутентификации сиспользованием учетных данных.</string>
+    <string name="authentication_auth_screen_account_creation_failed">Ошибка создания учетной записи.</string>
+    <string name="authentication_auth_screen_failed_to_create_account">Не удалось создать учетную запись. Пожалуйста, убедитесь, что вы соответствуете всем требованиям</string>
+    <string name="authentication_auth_screen_invalid_login_credentials">Неверные учетные данные для входа.</string>
+    <string name="authentication_auth_screen_fill_all_fields">Пожалуйста, заполнитеполя электронной почты и пароля и попробуйте снова.</string>
+    <string name="authentication_auth_screen_failed_google_auth">Ошибка аутентификации через Google</string>
+</resources>

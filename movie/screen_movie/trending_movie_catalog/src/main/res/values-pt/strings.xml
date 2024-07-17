@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_movie_catalog_release_date">Data de lançamento: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_rated">Classificado como: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_read_article">Leia o artigo completo do filme: \n%1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_rating">sem classificação</string>
+    <string name="movie_screen_movie_trending_movie_catalog_movie_summary">Este filme é sobre um menino que, quando jovem, sonhava em ser um desenvolvedor de software</string>
+    <string name="movie_screen_movie_trending_movie_catalog_retry">Erro, tente novamente</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_results">Sem resultados 😓\nDeslize para atualizar</string>
+    <string name="movie_screen_movie_trending_movie_catalog_may_month">Maio</string>
+    <string name="movie_screen_movie_trending_movie_catalog_search">pesquisar</string>
+    <string name="movie_screen_movie_trending_movie_catalog_searchOptions">opções de pesquisa</string>
+    <string name="movie_screen_movie_trending_movie_catalog_nothing_found">Nada encontrado, tente novamente. 😓</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_title">Título do Filme</string>
+    <string name="movie_screen_movie_trending_movie_catalog_movie_title">Título do Filme</string>
+    <string name="movie_screen_movie_trending_movie_catalog_as_character">Interpretando: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_ratings">Classificações</string>
+    <string name="movie_screen_movie_trending_movie_catalog_similar_titles">Títulos semelhantes</string>
+    <string name="movie_screen_movie_trending_movie_catalog_content_description_media">content_description_media</string>
+    <string name="movie_screen_movie_trending_movie_catalog_failed_to_retrieve_data">Falha ao recuperar dados 😓</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_data">n/a</string>
+    <string name="movie_screen_movie_trending_movie_catalog_favorite">Favorito</string>
+    <string name="movie_screen_movie_trending_movie_catalog_whoops">😨 Ops %1$s</string>
+    <string name="movie_screen_movie_trending_movie_catalog_show_translation">Mostrar tradução</string>
+    <string name="movie_screen_movie_trending_movie_catalog_show_original">Mostrar original</string>
+</resources>

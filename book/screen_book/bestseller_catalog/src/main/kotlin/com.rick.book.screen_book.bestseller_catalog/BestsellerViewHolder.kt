@@ -11,14 +11,16 @@ import com.rick.data.ui_components.common.provideGlide
 
 class BestsellerViewHolder(
     binding: BookScreenBookBestsellerCatalogBookEntryBinding,
-    private val onBookClick: (View, UserBestseller) -> Unit,
-    private val onFavoriteClick: (View, String, Boolean) -> Unit
+    private val onBookClick: (UserBestseller) -> Unit,
+    private val onFavoriteClick: (View, String, Boolean) -> Unit,
+    private val onTranslationClick: (UserBestseller, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val image = binding.image
     private val title = binding.title
     private val author = binding.author
     private val favorite = binding.favorite
+    private val showTranslation = binding.showTranslation
     private val resources = itemView.resources
 
     private lateinit var book: UserBestseller
@@ -28,7 +30,10 @@ class BestsellerViewHolder(
             onFavoriteClick(it, book.id, book.isFavorite)
         }
         binding.root.setOnClickListener {
-            onBookClick(it, book)
+            onBookClick(book)
+        }
+        showTranslation.setOnClickListener {
+            onTranslationClick(book, listOf(book.description))
         }
     }
 
@@ -57,15 +62,21 @@ class BestsellerViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onBookClick: (View, UserBestseller) -> Unit,
-            onFavoriteClick: (View, String, Boolean) -> Unit
+            onBookClick: (UserBestseller) -> Unit,
+            onFavoriteClick: (View, String, Boolean) -> Unit,
+            onTranslationClick: (UserBestseller, List<String>) -> Unit
         ): BestsellerViewHolder {
             val itemBinding = BookScreenBookBestsellerCatalogBookEntryBinding.inflate(
                 LayoutInflater.from(
                     parent.context
                 ), parent, false
             )
-            return BestsellerViewHolder(itemBinding, onBookClick, onFavoriteClick)
+            return BestsellerViewHolder(
+                itemBinding,
+                onBookClick,
+                onFavoriteClick,
+                onTranslationClick
+            )
         }
     }
 }

@@ -55,7 +55,6 @@ internal class ArticleRepositoryImpl @Inject constructor(
 
     override fun searchArticle(query: String, apiKey: String): Flow<List<Article>> = channelFlow {
         try {
-            Log.e(TAG, "DUDES GET'S HERE")
             val response = network.searchMovieArticles(
                 query = query,
                 apiKey = apiKey

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_movie_search_search">Pesquisar</string>
+    <string name="movie_screen_movie_trending_movie_search_no_title">Sem título</string>
+</resources>

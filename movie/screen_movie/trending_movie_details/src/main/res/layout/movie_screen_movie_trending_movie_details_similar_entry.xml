@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:hint="@string/movie_screen_movie_trending_movie_details_movie_title"
-            android:textAppearance="?attr/textAppearanceBody2" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
 
         <ImageView
             android:id="@+id/similar_image"

@@ -14,11 +14,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.rick.data.model_movie.FavoriteUiState
 import com.rick.data.ui_components.common.EcsCatalogCard
 import com.rick.data.ui_components.common.EcsEmptyState
 import com.rick.data.ui_components.common.EcsScaffold
 import com.rick.data.ui_components.common.EcsSnackbar
+import com.rick.data.ui_components.movie_favorite.R
 
 @Composable
 fun MovieFavScreen(
@@ -32,6 +34,7 @@ fun MovieFavScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
+    val context = LocalContext.current
 
     LaunchedEffect(
         key1 = shouldDisplayUndoFavorite
@@ -39,7 +42,8 @@ fun MovieFavScreen(
         if (shouldDisplayUndoFavorite) {
             EcsSnackbar(
                 snackbarHostState = snackbarHostState,
-                message = "Favorite removed",
+                message = context.getString(R.string.data_ui_components_movie_favorite_favorite_removed),
+                label = context.getString(R.string.data_ui_components_movie_favorite_undo),
                 undoRemoval = undoFavoriteRemoval,
                 clearUndoState = clearUndoState
             )

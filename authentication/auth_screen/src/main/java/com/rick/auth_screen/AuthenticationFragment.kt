@@ -64,7 +64,7 @@ class AuthenticationFragment : Fragment() {
             showOneTapUI(auth.currentUser)
         } else {
             Toast.makeText(
-                requireContext(), "Connection Error!\nCheck your internet connection.",
+                requireContext(), getString(R.string.authentication_auth_screen_connection_error),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -85,6 +85,7 @@ class AuthenticationFragment : Fragment() {
         binding.root.setContent {
             val viewState by viewModel.state.collectAsState()
             val progressState by viewModel.progressState
+            val passwordVisible by viewModel.passwordVisible.collectAsState()
             LoginScreen(
                 email = viewState.email,
                 onEmailValueChange = viewModel::onEmailValueChange,
@@ -107,7 +108,9 @@ class AuthenticationFragment : Fragment() {
                 onScreenStateValueChange = viewModel::onScreenStateValueChange,
                 progressState = progressState,
                 showProgressState = viewModel::showProgressState,
-                isValidEmail = { isValidEmail(it) }
+                isValidEmail = { isValidEmail(it) },
+                passwordVisible = passwordVisible,
+                onPasswordVisible = viewModel::onPasswordVisible
             )
         }
 
@@ -138,8 +141,11 @@ class AuthenticationFragment : Fragment() {
     private fun onPasswordReset(email: String) {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener {
-                Toast.makeText(requireContext(), "Password reset link sent", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    context,
+                    getString(R.string.authentication_auth_screen_check_your_inbox),
+                    Toast.LENGTH_LONG
+                ).show()
             }
     }
 
@@ -189,7 +195,7 @@ class AuthenticationFragment : Fragment() {
                     // failed to authenticate
                     Snackbar.make(
                         requireView(),
-                        "Authentication with credential Failed.",
+                        getString(R.string.authentication_auth_screen_authentication_with_credentials_failed),
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
@@ -218,7 +224,8 @@ class AuthenticationFragment : Fragment() {
                     viewModel.showProgressState(false)
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
-                        requireContext(), "Account creation failed. ${it.message}",
+                        requireContext(),
+                        getString(R.string.authentication_auth_screen_account_creation_failed),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -226,7 +233,7 @@ class AuthenticationFragment : Fragment() {
             viewModel.showProgressState(false)
             Toast.makeText(
                 requireContext(),
-                "Failed to create account, Please confirm that you meet all of the requirements",
+                getString(R.string.authentication_auth_screen_failed_to_create_account),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -243,7 +250,7 @@ class AuthenticationFragment : Fragment() {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
                         requireContext(),
-                        "Invalid login credentials.",
+                        getString(R.string.authentication_auth_screen_invalid_login_credentials),
                         Toast.LENGTH_SHORT
                     ).show()
                     viewModel.showProgressState(false)
@@ -251,7 +258,7 @@ class AuthenticationFragment : Fragment() {
         } else {
             viewModel.showProgressState(false)
             Toast.makeText(
-                requireContext(), "Please fill in your email and password, then try again.",
+                requireContext(), getString(R.string.authentication_auth_screen_fill_all_fields),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -300,7 +307,7 @@ class AuthenticationFragment : Fragment() {
         } catch (e: ApiException) {
             // Google sign in failed
             Toast.makeText(
-                requireContext(), "Authentication failed with error:\n${e.message}",
+                requireContext(), getString(R.string.authentication_auth_screen_failed_google_auth),
                 Toast.LENGTH_LONG
             ).show()
         }

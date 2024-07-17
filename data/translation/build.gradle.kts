@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.ecatalogs.android.library)
     alias(libs.plugins.ecatalogs.android.library.jacoco)
@@ -10,10 +12,12 @@ android {
         buildConfig = true
     }
     namespace = "com.rick.data.translation"
+
+    val key: String = gradleLocalProperties(rootDir, providers).getProperty("translationApiKey")
     defaultConfig {
         buildConfigField(
-            "String", "TranslationApiKey",
-            properties["translationApiKey"].toString()
+            "String", "translationApiKey",
+            key
         )
     }
 }

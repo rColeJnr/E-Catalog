@@ -15,6 +15,7 @@ android {
 
 dependencies {
     implementation(projects.movie.dataMovie.data)
+    implementation(projects.movie.dataMovie.domain)
     implementation(projects.movie.dataMovie.model)
     implementation(projects.movie.screenMovie.common)
     implementation(projects.movie.screenMovie.trendingMovieSearch)

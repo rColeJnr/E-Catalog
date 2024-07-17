@@ -14,12 +14,11 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.rick.moviecatalog"
-        versionCode = 1
+        versionCode = 4
         versionName = "1.0"
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner"/*"com.rick.data.testing.EcsTestRunner"*/
-
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
@@ -103,13 +102,13 @@ dependencies {
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
-
-    kspTest(libs.hilt.compiler)
     ksp(libs.hilt.compiler)
+
+//    kspTest(libs.hilt.compiler)
 //    testImplementation(projects.data.t)
 //    testImplementation(projects.data.testing)
 //    testImplementation(libs.accompanist.testharness)
-    testImplementation(libs.hilt.testing)
+//    testImplementation(libs.hilt.testing)
 //    testImplementation(libs.work.testing)
 
 //    testDemoImplementation(libs.robolectric)
@@ -117,9 +116,9 @@ dependencies {
 //    testDemoImplementation(projects.core.screenshotTesting)
 
 //    androidTestImplementation(projects.data.testing)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.androidx.navigation.testing)
-    androidTestImplementation(libs.hilt.testing)
+//    androidTestImplementation(libs.androidx.test.espresso.core)
+//    androidTestImplementation(libs.androidx.navigation.testing)
+//    androidTestImplementation(libs.hilt.testing)
 
 //    baselineProfile(projects.benchmarks)
 }

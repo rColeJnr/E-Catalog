@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_synopsis">Sinopse</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_chapters">Capítulos: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_volumes">Volumes: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_no_data">n/a</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_score">Pontuação: %1$f</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_scored_by">Avaliado por %1$d usuários</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_favorites">Nos favoritos de %1$d usuários</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_popularity">Popularidade: %1$d</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_rank">Classificação geral: %1$d</string>
+    <string name="anime_screen_anime_manga_details_no_title">Sem título</string>
+    <string name="anime_screen_anime_manga_details_headline">Título</string>
+    <string name="anime_screen_anime_manga_details_genres">Gêneros</string>
+    <string name="anime_screen_anime_manga_details_genre_one">%1$s</string>
+    <string name="anime_screen_anime_manga_details_genre_two">%1$s</string>
+    <string name="anime_screen_anime_manga_details_genre_three">%1$s</string>
+    <string name="anime_screen_anime_manga_details_ratings">Classificações</string>
+    <string name="anime_screen_anime_manga_details_link_web_page">Link para a página da web</string>
+    <string name="anime_screen_anime_manga_details_serializations">Serializações</string>
+    <string name="anime_screen_anime_manga_details_serialization_name">Nome da serialização</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_themes">Temas: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_publishing">Status de publicação: %1$s</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_published">Publicado de: %1$s</string>
+    <string name="anime_screen_anime_manga_details_show_translation">Mostrar tradução</string>
+    <string name="anime_screen_anime_manga_details_show_original">"Mostrar original "</string>
+</resources>

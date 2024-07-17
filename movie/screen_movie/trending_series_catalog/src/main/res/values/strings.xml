@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="movie_screen_movie_trending_series_catalog_no_results">No results 😓\nSwipe to refresh</string>
-    <string name="movie_screen_movie_trending_series_catalog_transition_name">trending_series_transition</string>
     <string name="movie_screen_movie_trending_series_catalog_favorite">Favorite</string>
+    <string name="movie_screen_movie_trending_series_catalog_transition_name" translatable="false">trending_series_transition</string>
+    <string name="movie_screen_movie_trending_series_catalog_show_translation">Show translation</string>
+    <string name="movie_screen_movie_trending_series_catalog_show_original">Show original</string>
 </resources>

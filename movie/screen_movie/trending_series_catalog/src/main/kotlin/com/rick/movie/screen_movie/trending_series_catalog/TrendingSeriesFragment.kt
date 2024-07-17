@@ -8,19 +8,21 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingSeries
+import com.rick.movie.screen_movie.common.TranslationEvent
+import com.rick.movie.screen_movie.common.TranslationViewModel
 import com.rick.movie.screen_movie.common.logScreenView
 import com.rick.movie.screen_movie.common.logTrendingSeriesOpened
 import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieScreenMovieTrendingSeriesCatalogFragmentTrendingSeriesCatalogBinding
@@ -28,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,6 +40,7 @@ class TrendingSeriesFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: TrendingSeriesViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var adapter: TrendingSeriesAdapter
     private lateinit var navController: NavController
 
@@ -67,13 +71,12 @@ class TrendingSeriesFragment : Fragment() {
             )
 
         navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-
-//        view?.findViewById<Toolbar>(R.id.my_toolbar)?.apply {
-//            setupWithNavController(navController, appBarConfiguration)
-//        }
 
         initAdapter()
+
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
 
         analyticsHelper.logScreenView("trendingSeriesCatalog")
 
@@ -159,8 +162,23 @@ class TrendingSeriesFragment : Fragment() {
         viewModel.onEvent(TrendingSeriesUiEvent.UpdateTrendingSeriesFavorite(id, !isFavorite))
     }
 
+    private fun onTranslationClick(view: View, text: List<String>) {
+        translationViewModel.onEvent(
+            TranslationEvent.GetTranslation(
+                text,
+                translationViewModel.location.value
+            )
+        )
+        lifecycleScope.launch {
+            translationViewModel.translation.collectLatest {
+                (view as TextView).text = it.first().text
+            }
+        }
+    }
+
     private fun initAdapter() {
-        adapter = TrendingSeriesAdapter(this::onSeriesClick, this::onFavClick)
+        adapter =
+            TrendingSeriesAdapter(this::onSeriesClick, this::onFavClick, this::onTranslationClick)
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.itemAnimator = DefaultItemAnimator()

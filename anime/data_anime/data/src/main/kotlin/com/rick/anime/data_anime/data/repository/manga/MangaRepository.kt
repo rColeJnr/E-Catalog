@@ -17,4 +17,5 @@ interface MangaRepository {
     fun getMangaFavorites(favorites: Set<Int>): Flow<List<Manga>>
 
     fun searchManga(query: String): Flow<List<Manga>>
+
 }

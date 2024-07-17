@@ -7,12 +7,13 @@ import androidx.compose.material3.SnackbarResult
 suspend fun EcsSnackbar(
     snackbarHostState: SnackbarHostState,
     message: String,
+    label: String,
     undoRemoval: () -> Unit,
     clearUndoState: () -> Unit
 ) {
     val snackBarResult = snackbarHostState.showSnackbar(
         message = message,
-        actionLabel = "Undo",
+        actionLabel = label,
         duration = SnackbarDuration.Long
     ) == SnackbarResult.ActionPerformed
     if (snackBarResult) {

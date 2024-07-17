@@ -15,9 +15,4 @@ interface BestsellerNetworkDataSource {
         apiKey: String
     ): SearchBestsellerResponse
 
-    companion object {
-        const val BASE_URL = "https://api.nytimes.com/"
-        private const val DATE = "current"
-    }
-
 }

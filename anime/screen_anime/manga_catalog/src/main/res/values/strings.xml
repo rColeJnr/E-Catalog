@@ -3,4 +3,7 @@
     <string name="anime_screen_anime_manga_catalog_anime_screen_anime_search">Search</string>
     <string name="anime_screen_anime_manga_catalog_no_results">No results</string>
     <string name="anime_screen_anime_manga_catalog_no_title">No title</string>
+    <string name="anime_screen_anime_manga_catalog_whoops">😨 Whoops %1$s</string>
+    <string name="anime_screen_anime_manga_catalog_show_original">Show original</string>
+    <string name="anime_screen_anime_manga_catalog_show_translation">Show translation</string>
 </resources>

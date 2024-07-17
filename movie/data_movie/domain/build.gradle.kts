@@ -11,6 +11,7 @@ android {
 dependencies {
     api(projects.movie.dataMovie.data)
     api(projects.movie.dataMovie.model)
+    api(projects.data.translation)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)

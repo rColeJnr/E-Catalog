@@ -14,11 +14,12 @@ import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScree
 
 class TrendingMovieAdapter(
     private val onItemClick: (Int) -> Unit,
-    private val onFavClick: (View, Int, Boolean) -> Unit
+    private val onFavClick: (View, Int, Boolean) -> Unit,
+    private val onTranslationClick: (View, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingMovie, TrendingMovieViewHolder>(DIFF_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingMovieViewHolder {
-        return TrendingMovieViewHolder.create(parent, onItemClick, onFavClick)
+        return TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
     }
 
     override fun onBindViewHolder(holder: TrendingMovieViewHolder, position: Int) {
@@ -48,12 +49,15 @@ class TrendingMovieAdapter(
 class TrendingMovieViewHolder(
     binding: MovieScreenMovieTrendingMovieCatalogMovieEntryBinding,
     private val onItemClick: (Int) -> Unit,
-    private val onFavClick: (View, Int, Boolean) -> Unit
+    private val onFavClick: (View, Int, Boolean) -> Unit,
+    private val onTranslationClick: (View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
     private val summary = binding.movieSummary
     private val favorite = binding.favButton
+    private val showTranslation = binding.showTranslation
+    private val showOriginal = binding.showOriginal
     private val cardView = binding.movieEntryCardView
     private val resources = itemView.resources
 
@@ -66,6 +70,17 @@ class TrendingMovieViewHolder(
 
         favorite.setOnClickListener {
             onFavClick(it, movie.id, movie.isFavorite)
+        }
+        showTranslation.setOnClickListener {
+            onTranslationClick(summary, listOf(movie.overview))
+            it.visibility = View.GONE
+            showOriginal.visibility = View.VISIBLE
+
+        }
+        showOriginal.setOnClickListener {
+            summary.text = movie.overview
+            it.visibility = View.GONE
+            showTranslation.visibility = View.VISIBLE
         }
     }
 
@@ -93,7 +108,8 @@ class TrendingMovieViewHolder(
         internal fun create(
             parent: ViewGroup,
             onItemClick: (Int) -> Unit,
-            onFavClick: (View, Int, Boolean) -> Unit
+            onFavClick: (View, Int, Boolean) -> Unit,
+            onTranslationClick: (View, List<String>) -> Unit
         ): TrendingMovieViewHolder {
             val binding =
                 MovieScreenMovieTrendingMovieCatalogMovieEntryBinding.inflate(
@@ -101,7 +117,7 @@ class TrendingMovieViewHolder(
                     parent,
                     false
                 )
-            return TrendingMovieViewHolder(binding, onItemClick, onFavClick)
+            return TrendingMovieViewHolder(binding, onItemClick, onFavClick, onTranslationClick)
         }
     }
 }

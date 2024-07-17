@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_series_catalog_no_results">Нет результатов 😓\nПроведите для обновления</string>
+    <string name="movie_screen_movie_trending_series_catalog_favorite">Избранное</string>
+    <string name="movie_screen_movie_trending_series_catalog_show_translation">Показать перевод</string>
+    <string name="movie_screen_movie_trending_series_catalog_show_original">Показать оригинал</string>
+</resources>

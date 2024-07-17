@@ -11,6 +11,7 @@ android {
 dependencies {
     api(projects.book.dataBook.data)
     api(projects.book.dataBook.model)
+    api(projects.data.translation)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)

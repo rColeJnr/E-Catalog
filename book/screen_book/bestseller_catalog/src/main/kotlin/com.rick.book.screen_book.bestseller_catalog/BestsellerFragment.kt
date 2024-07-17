@@ -14,11 +14,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rick.book.screen_book.bestseller_catalog.databinding.BookScreenBookBestsellerCatalogFragmentBestsellerBinding
+import com.rick.book.screen_book.common.TranslationEvent
+import com.rick.book.screen_book.common.TranslationViewModel
 import com.rick.book.screen_book.common.logAmazonLinkOpened
 import com.rick.book.screen_book.common.logBestsellerOpened
 import com.rick.book.screen_book.common.logScreenView
@@ -26,8 +29,11 @@ import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_book.bestseller.UserBestseller
 import com.rick.data.ui_components.common.ErrorMessage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +42,7 @@ class BestsellerFragment : Fragment() {
     private var _binding: BookScreenBookBestsellerCatalogFragmentBestsellerBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BestsellerViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var adapter: BestsellerAdapter
 
@@ -55,10 +62,10 @@ class BestsellerFragment : Fragment() {
         )
 
         navController = findNavController()
-//        val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-//        view?.findViewById<Toolbar>(R.id.toolbar)
-//            ?.setupWithNavController(navController, appBarConfiguration)
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
 
         initAdapter()
 
@@ -128,7 +135,8 @@ class BestsellerFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BestsellerAdapter(this::onBookClick, this::onFavoriteClick)
+        adapter =
+            BestsellerAdapter(this::onBookClick, this::onFavoriteClick, this::onTranslationClick)
         binding.recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
@@ -140,12 +148,26 @@ class BestsellerFragment : Fragment() {
         viewModel.onEvent(BestsellerEvents.UpdateBestsellerFavorite(id, !isFavorite))
     }
 
-    private fun onBookClick(view: View, book: UserBestseller) {
+    private fun onBookClick(book: UserBestseller) {
         // Add transition to expand dialog
         analyticsHelper.logBestsellerOpened(book.id)
         BookDetailsDialogFragment(book, this::onDialogFavoriteClick, this::onAmazonLinkClick).show(
             requireActivity().supportFragmentManager, "book_details"
         )
+    }
+
+    private fun onTranslationClick(book: UserBestseller, text: List<String>) {
+        translationViewModel.onEvent(
+            TranslationEvent.GetTranslation(
+                text,
+                translationViewModel.location.value
+            )
+        )
+        lifecycleScope.launch {
+            translationViewModel.translation.collectLatest {
+                onBookClick(book.copy(description = it.first().text))
+            }
+        }
     }
 
     private fun onDialogFavoriteClick(view: View, book: UserBestseller) {

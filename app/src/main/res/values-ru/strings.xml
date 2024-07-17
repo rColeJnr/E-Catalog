@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie">Фильмы</string>
+    <string name="series">Сериалы</string>
+    <string name="anime">Аниме</string>
+    <string name="manga">Манга</string>
+    <string name="nyt_articles">Статьи NY Times</string>
+    <string name="trending_movies">Популярные фильмы</string>
+    <string name="trending_series">Популярные сериалы</string>
+    <string name="the_gutenberg_project">Проект Гутенберг</string>
+    <string name="nyt_bestseller">Бестселлеры NY Times</string>
+    <string name="anime_favorite">Любимые аниме</string>
+    <string name="manga_favorite">Любимые манга</string>
+    <string name="nyt_articles_favorite">Любимые статьи</string>
+    <string name="trending_movies_favorite">Любимые фильмы</string>
+    <string name="trending_series_favorite">Любимые сериалы</string>
+    <string name="the_gutenberg_project_favorite">Избранное Гутенберга</string>
+    <string name="nyt_bestseller_favorite">Любимые бестселлеры</string>
+    <string name="favorites">Избранное</string>
+    <string name="moving_pictures">Кино</string>
+    <string name="animations">Анимация</string>
+    <string name="books">Книги</string>
+    <string name="articles">Статьи</string>
+    <string name="adult_content">Контент для взрослых:</string>
+    <string name="limited_experience">Ограниченный опыт</string>
+    <string name="open_drawer">открыть</string>
+    <string name="close_drawer">закрыть</string>
+</resources>

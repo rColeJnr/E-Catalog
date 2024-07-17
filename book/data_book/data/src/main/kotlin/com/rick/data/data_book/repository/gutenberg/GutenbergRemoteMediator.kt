@@ -65,7 +65,6 @@ class GutenbergRemoteMediator(
             val books = response.results
             val endOfPaginationReached = books.isEmpty()
 
-
             if (loadType == LoadType.REFRESH) {
                 keysDao.clearRemoteKeys()
                 gutenbergDao.clearGutenbergs(books.map(GutenbergNetwork::id))

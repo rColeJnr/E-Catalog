@@ -73,10 +73,10 @@ gradlePlugin {
             id = "ecatalogs.android.library.jacoco"
             implementationClass = "AndroidLibraryJacocoConventionPlugin"
         }
-        register("androidTest") {
-            id = "ecatalogs.android.test"
-            implementationClass = "AndroidTestConventionPlugin"
-        }
+//        register("androidTest") {
+//            id = "ecatalogs.android.test"
+//            implementationClass = "AndroidTestConventionPlugin"
+//        }
         register("androidHilt") {
             id = "ecatalogs.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
@@ -93,7 +93,7 @@ gradlePlugin {
             id = "ecatalogs.android.paging"
             implementationClass = "AndroidPagingConventionPlugin"
         }
-        register("androidroidFlavors") {
+        register("androidFlavors") {
             id = "ecatalogs.android.application.flavors"
             implementationClass = "AndroidApplicationFlavorsConventionPlugin"
         }

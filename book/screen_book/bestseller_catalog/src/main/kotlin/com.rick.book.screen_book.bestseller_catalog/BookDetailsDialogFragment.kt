@@ -14,7 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class BookDetailsDialogFragment(
     private val book: UserBestseller,
     private val onDialogFavoriteClick: (View, UserBestseller) -> Unit,
-    private val onAmazonLinkClick: (String) -> Unit
+    private val onAmazonLinkClick: (String) -> Unit,
+//    private val onTranslationClick: (List<String>) -> Unit
 ) : DialogFragment() {
 
 //    private lateinit var listener: BookDetailsDialogListener
@@ -43,8 +44,8 @@ class BookDetailsDialogFragment(
             view.closeDialog.setOnClickListener {
                 dismiss()
             }
-            view.favorite.setOnClickListener { view ->
-                onDialogFavoriteClick(view, book)
+            view.favorite.setOnClickListener { fav ->
+                onDialogFavoriteClick(fav, book)
             }
             view.amazonLink.setOnClickListener {
                 onAmazonLinkClick(book.amazonLink)

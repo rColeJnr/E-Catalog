@@ -25,6 +25,7 @@ internal fun Project.configureAndroidCompose(
             "implementation"(libs.findLibrary("compose-ui").get())
             add("implementation", libs.findLibrary("compose.runtime").get())
             add("implementation", libs.findLibrary("compose.material").get())
+            add("implementation", libs.findLibrary("compose.material.icons").get())
             add("implementation", libs.findLibrary("compose.foundation").get())
             add("implementation", libs.findLibrary("compose.foundation.layout").get())
             add("implementation", libs.findLibrary("compose.constraint.layout").get())

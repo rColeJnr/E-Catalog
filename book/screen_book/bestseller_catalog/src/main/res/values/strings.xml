@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="book_screen_book_bestseller_catalog_favorite">com.rick.data.model_book.Favorite</string>
+    <string name="book_screen_book_bestseller_catalog_transition_name" translatable="false">bestseller_catalog_transition</string>
+    <string name="book_screen_book_bestseller_catalog_favorite">Favorite</string>
     <string name="book_screen_book_bestseller_catalog_close">Close</string>
     <string name="book_screen_book_bestseller_catalog_rank">Rank: %1$d</string>
     <string name="book_screen_book_bestseller_catalog_rankLastWeek">Rank last week: %1$d</string>
     <string name="book_screen_book_bestseller_catalog_weeksOnList">Weeks on list: %1$d</string>
-    <string name="book_screen_book_bestseller_catalog_transition_name">bestseller_catalog_transition</string>
     <string name="book_screen_book_bestseller_catalog_bestseller_category">Selected category:</string>
     <string name="book_screen_book_bestseller_catalog_search">Search</string>
     <string name="book_screen_book_bestseller_catalog_open_link_amazon">Open amazon web page</string>
     <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Wooops"\nNo results found, 😓</string>
+    <string name="book_screen_book_bestseller_catalog_show_translation">Show translation</string>
+    <string name="book_screen_book_bestseller_catalog_show_original">Show original</string>
 </resources>

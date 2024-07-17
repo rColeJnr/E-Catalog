@@ -12,12 +12,15 @@ import com.rick.data.ui_components.common.provideGlide
 class MangaViewHolder(
     binding: AnimeScreenAnimeMangaCatalogMangaEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
-    private val onFavClick: (Int, Boolean) -> Unit
+    private val onFavClick: (Int, Boolean) -> Unit,
+    private val onTranslationClick: (View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
     private val favorite = binding.favButton
+    private val showTranslation = binding.showTranslation
+    private val showOriginal = binding.showOriginal
     private val resources = itemView.resources
 
     init {
@@ -26,6 +29,16 @@ class MangaViewHolder(
         }
         favorite.setOnClickListener {
             onFavClick(manga.id, manga.isFavorite)
+        }
+        showTranslation.setOnClickListener {
+            onTranslationClick(synopsis, listOf(manga.synopsis))
+            showOriginal.visibility = View.VISIBLE
+            it.visibility = View.GONE
+        }
+        showOriginal.setOnClickListener {
+            synopsis.text = manga.synopsis
+            it.visibility = View.GONE
+            showTranslation.visibility = View.VISIBLE
         }
     }
 
@@ -62,6 +75,7 @@ class MangaViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (Int, Boolean) -> Unit,
+            onTranslationClick: (View, List<String>) -> Unit
         ): MangaViewHolder {
             val itemBinding =
                 AnimeScreenAnimeMangaCatalogMangaEntryBinding.inflate(
@@ -69,7 +83,7 @@ class MangaViewHolder(
                     parent,
                     false
                 )
-            return MangaViewHolder(itemBinding, onItemClick, onFavClick)
+            return MangaViewHolder(itemBinding, onItemClick, onFavClick, onTranslationClick)
         }
     }
 

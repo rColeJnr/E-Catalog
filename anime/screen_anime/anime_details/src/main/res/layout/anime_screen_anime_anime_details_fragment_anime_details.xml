@@ -12,6 +12,7 @@
         android:id="@+id/details_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:backgroundTint="?attr/colorSurface"
         android:elevation="@dimen/anime_screen_anime_anime_details_two_dp"
         app:cardCornerRadius="@dimen/anime_screen_anime_anime_details_card_corner_radius">
@@ -19,6 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
@@ -35,8 +37,10 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
+                        android:gravity="center_vertical"
                         android:hint="@string/anime_screen_anime_anime_details_no_title"
-                        android:textAppearance="?attr/textAppearanceHeadline5" />
+                        android:textAlignment="viewStart"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
                 </LinearLayout>
 
@@ -52,12 +56,33 @@
                 android:scaleType="fitCenter"
                 app:strokeColor="@null" />
 
+            <View style="@style/AnimeScreenAnimeAnimeDetailsDivider.Horizontal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/show_translation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
+                android:text="@string/anime_screen_anime_anime_details_show_translation"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/show_original"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
+                android:text="@string/anime_screen_anime_anime_details_show_original"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:visibility="gone" />
+
+            <View style="@style/AnimeScreenAnimeAnimeDetailsDivider.Horizontal" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/synopsis"
@@ -65,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
                 android:hint="@string/anime_screen_anime_anime_details_synopsis"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <View style="@style/AnimeScreenAnimeAnimeDetailsDivider.Horizontal" />
 
@@ -75,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
                 android:text="@string/anime_screen_anime_anime_details_pg_rating"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/airing_status"
@@ -83,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
                 android:text="@string/anime_screen_anime_anime_details_airing_status"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/aired"
@@ -91,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
                 android:text="@string/anime_screen_anime_anime_details_aired"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/episodes"
@@ -99,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
                 android:text="@string/anime_screen_anime_anime_details_episodes"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/runtime"
@@ -107,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
                 android:text="@string/anime_screen_anime_anime_details_runtime"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <View style="@style/AnimeScreenAnimeAnimeDetailsDivider.Horizontal" />
 
@@ -116,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
                 android:text="@string/anime_screen_anime_anime_details_genres"
-                android:textAppearance="?attr/textAppearanceHeadline5" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
@@ -135,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/anime_screen_anime_anime_details_genre_one"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -146,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/anime_screen_anime_anime_details_genre_two"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -157,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/anime_screen_anime_anime_details_genre_three"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -192,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:text="@string/anime_screen_anime_anime_details_score"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -203,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="@string/anime_screen_anime_anime_details_scored_by"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -214,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/anime_screen_anime_anime_details_favorites"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -225,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/anime_screen_anime_anime_details_popularity"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -236,7 +261,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/anime_screen_anime_anime_details_rank"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -251,7 +276,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_six_dp"
                 android:text="@string/anime_screen_anime_anime_details_link_web_page"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <View style="@style/AnimeScreenAnimeAnimeDetailsDivider.Horizontal" />
 
@@ -261,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_six_dp"
                 android:text="@string/anime_screen_anime_anime_details_link_trailer"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <View style="@style/AnimeScreenAnimeAnimeDetailsDivider.Horizontal" />
         </LinearLayout>

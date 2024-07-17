@@ -4,6 +4,9 @@
     <string name="movie_screen_movie_article_catalog_search">search</string>
     <string name="movie_screen_movie_article_catalog_no_title">Movie Title</string>
     <string name="movie_screen_movie_article_catalog_similar_titles">Similar titles</string>
-    <string name="movie_screen_movie_article_catalog_transition_name">article_catalog_transition</string>
     <string name="movie_screen_movie_article_catalog_favorite">Favorite</string>
+    <string name="movie_screen_movie_article_catalog_whoops">😨 Whoops %1$s</string>
+    <string name="movie_screen_movie_article_catalog_transition_name" translatable="false">article_catalog_transition</string>
+    <string name="movie_screen_movie_article_catalog_show_translation">Show translation</string>
+    <string name="movie_screen_movie_article_catalog_show_original">Show original</string>
 </resources>

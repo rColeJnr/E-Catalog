@@ -10,17 +10,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.tmdb.movie.Genre
 import com.rick.data.model_movie.tmdb.series.Creator
+import com.rick.movie.screen_movie.common.TranslationEvent
+import com.rick.movie.screen_movie.common.TranslationViewModel
 import com.rick.movie.screen_movie.common.logScreenView
 import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_series_details.databinding.MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,6 +36,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: SeriesDetailsViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var similarsAdapter: SeriesSimilarDetailsAdapter
     private var id: Int? = null
@@ -51,9 +58,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
     ): View {
         _binding =
             MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding.inflate(
-                inflater,
-                container,
-                false
+                inflater, container, false
             )
 
         arguments?.let {
@@ -61,8 +66,9 @@ class TrendingSeriesDetailsFragment : Fragment() {
             viewModel.setSeriesId(safeArgs.series)
         }
 
-//        val safeArgs: FragmentBArgs by navArgs()
-//        val yourarg = safeArgs.yourarg
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
 
         binding.toolbar.apply {
             setNavigationIcon(R.drawable.movie_screen_movie_trending_series_details_ic_arrow_back)
@@ -94,9 +100,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
 //            false
 //        )
         val similarLayoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.HORIZONTAL,
-            false
+            requireContext(), LinearLayoutManager.HORIZONTAL, false
         )
         similarsAdapter = SeriesSimilarDetailsAdapter()
         listSimilars.layoutManager = similarLayoutManager
@@ -126,6 +130,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
                 SeriesDetailsUiState.Loading -> detailsProgressBar.visibility = View.VISIBLE
                 is SeriesDetailsUiState.Success -> {
                     detailsProgressBar.visibility = View.GONE
+
                     val series = state.series
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
@@ -133,60 +138,75 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     }
                     summary.text = series.overview
 
+                    showTranslation.setOnClickListener {
+                        translationViewModel.onEvent(
+                            TranslationEvent.GetTranslation(
+                                listOf(series.overview), translationViewModel.location.value
+                            )
+                        )
+
+                        lifecycleScope.launch {
+                            translationViewModel.translation.collectLatest {
+                                summary.text = it.first().text
+                            }
+                        }
+                        it.visibility = View.GONE
+                        showOriginal.visibility = View.VISIBLE
+                    }
+
+                    showOriginal.setOnClickListener {
+                        summary.text = series.overview
+                        it.visibility = View.GONE
+                        showTranslation.visibility = View.VISIBLE
+                    }
+
                     adult.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_adult_content,
                         if (series.adult) "True" else "False"
                     )
-                    genres.text =
-                        resources.getString(
-                            R.string.movie_screen_movie_trending_series_details_genres,
-                            stringFromList(series.genres)
-                        )
+                    genres.text = resources.getString(
+                        R.string.movie_screen_movie_trending_series_details_genres,
+                        stringFromList(series.genres)
+                    )
 
-                    firstAirDate.text =
-                        resources.getString(
-                            R.string.movie_screen_movie_trending_series_details_first_air_date,
-                            series.firstAirDate
-                        )
+                    firstAirDate.text = resources.getString(
+                        R.string.movie_screen_movie_trending_series_details_first_air_date,
+                        series.firstAirDate
+                    )
                     inProduction.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_in_production,
                         if (series.inProduction) "yes" else "no"
                     )
 
-                    lastAirDate.text =
-                        resources.getString(
-                            R.string.movie_screen_movie_trending_series_details_last_air_date,
-                            series.lastAirDate
-                        )
+                    lastAirDate.text = resources.getString(
+                        R.string.movie_screen_movie_trending_series_details_last_air_date,
+                        series.lastAirDate
+                    )
 
-                    creator.text =
-                        resources.getString(
-                            R.string.movie_screen_movie_trending_series_details_creators,
-                            stringFromList(series.createdBy)
-                        )
+                    creator.text = resources.getString(
+                        R.string.movie_screen_movie_trending_series_details_creators,
+                        stringFromList(series.createdBy)
+                    )
 
-                    numberOfSeasons.text =
-                        getString(
-                            R.string.movie_screen_movie_trending_series_details_number_of_seasons,
-                            series.numberOfSeasons
-                        )
+                    numberOfSeasons.text = getString(
+                        R.string.movie_screen_movie_trending_series_details_number_of_seasons,
+                        series.numberOfSeasons
+                    )
 
-                    numberOfEpisodes.text =
-                        getString(
-                            R.string.movie_screen_movie_trending_series_details_number_of_episodes,
-                            series.numberOfEpisodes
-                        )
+                    numberOfEpisodes.text = getString(
+                        R.string.movie_screen_movie_trending_series_details_number_of_episodes,
+                        series.numberOfEpisodes
+                    )
 
                     epRuntime.text = getString(
                         R.string.movie_screen_movie_trending_series_details_runtime,
                         series.episodeRuntime
                     )
 
-                    imdbChip.text =
-                        resources.getString(
-                            R.string.movie_screen_movie_trending_series_details_imdb_rating,
-                            series.voteAverage
-                        )
+                    imdbChip.text = resources.getString(
+                        R.string.movie_screen_movie_trending_series_details_imdb_rating,
+                        series.voteAverage
+                    )
                     movieDbChip.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_popularity,
                         series.popularity

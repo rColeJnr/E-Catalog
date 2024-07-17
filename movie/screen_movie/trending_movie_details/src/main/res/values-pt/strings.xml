@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_movie_details_movie_title">Título do Filme</string>
+    <string name="movie_screen_movie_trending_movie_details_failed_to_retrieve_data">"Falha ao
+    carregar dados, "
+</string>
+    <string name="movie_screen_movie_trending_movie_details_similar_titles">Títulos semelhantes</string>
+    <string name="movie_screen_movie_trending_movie_details_db_rating">Movie db: %1$f</string>
+    <string name="movie_screen_movie_trending_movie_details_imdb_rating">imbd: %1$f</string>
+    <string name="movie_screen_movie_trending_movie_details_ratings">Classificações</string>
+    <string name="movie_screen_movie_trending_movie_details_revenue">Receita: %1$d dólares</string>
+    <string name="movie_screen_movie_trending_movie_details_runtime">Tempo de execução: %1$d minutos</string>
+    <string name="movie_screen_movie_trending_movie_details_budget">Orçamento: %1$d dólares</string>
+    <string name="movie_screen_movie_trending_movie_details_release_date">Data de lançamento: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_genres">Gêneros: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_adult_content">Conteúdo adulto: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_no_data">n/a</string>
+    <string name="movie_screen_movie_trending_movie_details_show_translation">Mostrar tradução</string>
+    <string name="movie_screen_movie_trending_movie_details_show_original">Mostrar original</string>
+</resources>

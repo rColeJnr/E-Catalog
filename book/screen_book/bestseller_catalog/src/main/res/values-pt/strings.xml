@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="book_screen_book_bestseller_catalog_favorite">Favorito</string>
+    <string name="book_screen_book_bestseller_catalog_close">Fechar</string>
+    <string name="book_screen_book_bestseller_catalog_rank">Classificação: %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_rankLastWeek">Classificação na semana passada: %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_weeksOnList">Semanas na lista: %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_bestseller_category">Categoria selecionada:</string>
+    <string name="book_screen_book_bestseller_catalog_search">Pesquisar</string>
+    <string name="book_screen_book_bestseller_catalog_open_link_amazon">Abrir página web da Amazon</string>
+    <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Wooops"\nNenhum resultado encontrado, 😓</string>
+    <string name="book_screen_book_bestseller_catalog_show_translation">Mostrar tradução</string>
+    <string name="book_screen_book_bestseller_catalog_show_original">Mostrar original</string>
+</resources>

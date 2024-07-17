@@ -9,6 +9,7 @@ import com.rick.data.model_anime.UserManga
 class MangaCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
     private val onMangaFavClick: (Int, Boolean) -> Unit,
+    private val onTranslationClick: (View, List<String>) -> Unit
 ) : PagingDataAdapter<UserManga, MangaViewHolder>(DIFF_UTIL) {
 
     override fun onBindViewHolder(holder: MangaViewHolder, position: Int) {
@@ -19,7 +20,7 @@ class MangaCatalogAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
-        return MangaViewHolder.create(parent, onItemClick, onMangaFavClick)
+        return MangaViewHolder.create(parent, onItemClick, onMangaFavClick, onTranslationClick)
     }
 
     companion object {

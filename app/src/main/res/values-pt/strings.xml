@@ -1,0 +1,27 @@
+<resources>
+    <string name="movie">Filme</string>
+    <string name="series">Séries</string>
+    <string name="anime">Anime</string>
+    <string name="manga">Manga</string>
+    <string name="nyt_articles">Artigos do NY Times</string>
+    <string name="trending_movies">Filmes em Alta</string>
+    <string name="trending_series">Séries em Alta</string>
+    <string name="the_gutenberg_project">Projeto Gutenberg</string>
+    <string name="nyt_bestseller">Mais Vendidos do NY Times</string>
+    <string name="anime_favorite">Animes Favoritos</string>
+    <string name="manga_favorite">Mangás Favoritos</string>
+    <string name="nyt_articles_favorite">Artigos Favoritos</string>
+    <string name="trending_movies_favorite">Filmes Favoritos</string>
+    <string name="trending_series_favorite">Séries Favoritas</string>
+    <string name="the_gutenberg_project_favorite">Favoritos do Gutenberg</string>
+    <string name="nyt_bestseller_favorite">Favoritos do NY Times</string>
+    <string name="favorites">Favoritos</string>
+    <string name="moving_pictures">Imagens em Movimento</string>
+    <string name="animations">Animações</string>
+    <string name="books">Livros</string>
+    <string name="articles">Artigos</string>
+    <string name="adult_content">Conteúdo adulto:</string>
+    <string name="limited_experience">Experiência limitada</string>
+    <string name="open_drawer">abrir</string>
+    <string name="close_drawer">fechar</string>
+</resources>

@@ -6,6 +6,7 @@ plugins {
 //
 dependencies {
     implementation(projects.anime.dataAnime.data)
+    implementation(projects.anime.dataAnime.domain)
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.screenAnime.common)
     implementation(projects.anime.screenAnime.mangaDetails)

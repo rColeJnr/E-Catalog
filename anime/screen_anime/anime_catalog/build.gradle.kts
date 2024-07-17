@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.anime.screenAnime.animeFavorites)
     implementation(projects.anime.screenAnime.animeSearch)
     implementation(projects.anime.dataAnime.model)
+    implementation(projects.anime.dataAnime.domain)
     implementation(projects.anime.dataAnime.data)
     implementation(projects.data.analytics)
 }

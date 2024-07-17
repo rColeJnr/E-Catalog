@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_auth_create">Create</string>
+    <string name="data_ui_components_auth_sign_in">Sign in</string>
+    <string name="data_ui_components_auth_have_an_account">Have an\nAccount?</string>
+    <string name="data_ui_components_auth_create_an_account">Create an\nAccount</string>
+    <string name="data_ui_components_auth_catalogs">Catalogs</string>
+    <string name="data_ui_components_auth_slogan">Discover what\nto binge watch\nnext,\nor read</string>
+    <string name="data_ui_components_auth_show_password">Show password</string>
+    <string name="data_ui_components_auth_hide_password">Hide password</string>
+    <string name="data_ui_components_auth_forgot_password">Forgot password?</string>
+    <string name="data_ui_components_auth_no_whitespaces">No whitespaces</string>
+    <string name="data_ui_components_auth_a_chars_min">A minimum of 6 characters</string>
+    <string name="data_ui_components_auth_latino_alphabet">Only letters of the latino alphabet</string>
+    <string name="data_ui_components_auth_username">Username</string>
+    <string name="data_ui_components_auth_username_chars">3 to 12 characters</string>
+    <string name="data_ui_components_auth_must_contain">%1$s must contain:</string>
+    <string name="data_ui_components_auth_request_password_reset">Request password reset</string>
+    <string name="data_ui_components_auth_enter_the_email_associated">Enter the email associated with your account!</string>
+    <string name="data_ui_components_auth_invalid_email">\t•\tInvalid email</string>
+    <string name="data_ui_components_auth_dismiss">Dismiss</string>
+    <string name="data_ui_components_auth_send">Send</string>
+</resources>

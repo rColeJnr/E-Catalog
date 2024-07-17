@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp">
+        android:layout_margin="12dp"
+        android:animateLayoutChanges="true">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
@@ -21,7 +22,7 @@
             android:layout_marginTop="8dp"
             android:layout_weight="0.999"
             android:gravity="center_vertical|start"
-            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,9 +58,30 @@
             android:ellipsize="end"
             android:ems="5"
             android:maxLines="3"
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image" />
+
+        <TextView
+            android:id="@+id/translate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
+            android:text="@string/anime_screen_anime_anime_catalog_show_translation"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/synopsis" />
+
+        <TextView
+            android:id="@+id/show_original"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
+            android:text="@string/anime_screen_anime_anime_catalog_show_original"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/synopsis" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

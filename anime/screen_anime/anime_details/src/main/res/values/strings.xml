@@ -24,4 +24,8 @@
     <string name="anime_screen_anime_anime_details_genre_one">Genre One</string>
     <string name="anime_screen_anime_anime_details_anime_screen_anime_no_data">n/a</string>
     <string name="anime_screen_anime_anime_details_headline">Headline</string>
+    <string name="anime_screen_anime_anime_details_airing">Airing!</string>
+    <string name="anime_screen_anime_anime_details_not_airing">Not airing!</string>
+    <string name="anime_screen_anime_anime_details_show_translation">Show translation</string>
+    <string name="anime_screen_anime_anime_details_show_original">Show original</string>
 </resources>

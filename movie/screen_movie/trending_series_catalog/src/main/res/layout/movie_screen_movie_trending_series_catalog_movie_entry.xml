@@ -12,14 +12,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp">
+        android:layout_margin="12dp"
+        android:animateLayoutChanges="true">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/movieName"
             android:layout_width="@dimen/movie_screen_movie_trending_series_catalog_movie_title"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/movie_screen_movie_trending_series_catalog_eight_dp"
-            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,10 +58,35 @@
             android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_catalog_six_dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieImage" />
+
+        <TextView
+            android:id="@+id/show_translation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/movie_screen_movie_trending_series_catalog_two_dp"
+            android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_catalog_six_dp"
+            android:text="@string/movie_screen_movie_trending_series_catalog_show_translation"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieSummary" />
+
+        <TextView
+            android:id="@+id/show_original"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/movie_screen_movie_trending_series_catalog_two_dp"
+            android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_catalog_six_dp"
+            android:text="@string/movie_screen_movie_trending_series_catalog_show_original"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movieSummary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

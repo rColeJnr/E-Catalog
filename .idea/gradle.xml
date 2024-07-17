@@ -64,6 +64,7 @@
             <option value="$PROJECT_DIR$/data/common" />
             <option value="$PROJECT_DIR$/data/datastore" />
             <option value="$PROJECT_DIR$/data/datastore_proto" />
+            <option value="$PROJECT_DIR$/data/translation" />
             <option value="$PROJECT_DIR$/data/ui_components" />
             <option value="$PROJECT_DIR$/data/ui_components/anime_favorite" />
             <option value="$PROJECT_DIR$/data/ui_components/auth" />

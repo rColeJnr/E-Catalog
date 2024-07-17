@@ -3,6 +3,7 @@
     <string name="movie_screen_movie_common_failed_to_load">Failed to load</string>
     <string name="movie_screen_movie_common_retry">Retry</string>
     <string name="movie_screen_movie_common_source">"Article source: %1$s"</string>
-    <string name="movie_screen_movie_common_reporter">Reported by: %1$s</string>
+    <string name="movie_screen_movie_common_reporter">Reported %1$s</string>
     <string name="movie_screen_movie_common_release_date">Release date: %1$s</string>
+    <string name="movie_screen_movie_common_close">Close</string>
 </resources>

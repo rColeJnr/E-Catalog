@@ -33,7 +33,7 @@
             android:layout_marginVertical="@dimen/book_screen_book_gutenberg_catalog_two_dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="?attr/textAppearanceBody2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toStartOf="@id/favorite"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
             android:layout_marginHorizontal="@dimen/book_screen_book_gutenberg_catalog_six_dp"
             android:layout_marginVertical="@dimen/book_screen_book_gutenberg_catalog_two_dp"
             android:maxLines="2"
-            android:textAppearance="?attr/textAppearanceBody2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/favorite"
             app:layout_constraintStart_toEndOf="@id/image" />

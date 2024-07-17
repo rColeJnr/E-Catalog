@@ -34,6 +34,7 @@ include(":data:analytics")
 include(":data:common")
 include(":data:datastore")
 include(":data:datastore_proto")
+include("data:translation")
 
 include(":anime:screen_anime:anime_catalog")
 include(":anime:screen_anime:anime_details")

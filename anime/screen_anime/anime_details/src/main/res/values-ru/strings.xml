@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_anime_details_no_results">Нет результатов 😓\nПроведите для обновления</string>
+    <string name="anime_screen_anime_anime_details_no_title">Нет названия</string>
+    <string name="anime_screen_anime_anime_details_pg_rating">Возрастной рейтинг: %1$s</string>
+    <string name="anime_screen_anime_anime_details_nothing_found">Ничего не найдено, попробуйте еще раз. 😓</string>
+    <string name="anime_screen_anime_anime_details_failed_to_retrieve_data">Не удалось получить данные 😓</string>
+    <string name="anime_screen_anime_anime_details_synopsis">%1$s</string>
+    <string name="anime_screen_anime_anime_details_genres">Жанры</string>
+    <string name="anime_screen_anime_anime_details_runtime">Продолжительность: %1$s</string>
+    <string name="anime_screen_anime_anime_details_ratings">Рейтинги</string>
+    <string name="anime_screen_anime_anime_details_airing_status">Статус показа: %1$s</string>
+    <string name="anime_screen_anime_anime_details_aired">Выходил в эфир с: %1$s</string>
+    <string name="anime_screen_anime_anime_details_score">Оценка: %1$f</string>
+    <string name="anime_screen_anime_anime_details_scored_by">Оценено %1$d пользователями</string>
+    <string name="anime_screen_anime_anime_details_rank">Общий рейтинг %1$d</string>
+    <string name="anime_screen_anime_anime_details_popularity">Рейтинг популярности %1$d</string>
+    <string name="anime_screen_anime_anime_details_favorites">В избранном у %1$d пользователей</string>
+    <string name="anime_screen_anime_anime_details_episodes">Эпизоды: %1$d</string>
+    <string name="anime_screen_anime_anime_details_link_trailer">Посмотреть трейлер</string>
+    <string name="anime_screen_anime_anime_details_link_web_page">Открыть веб-страницу</string>
+    <string name="anime_screen_anime_anime_details_genre_three">Жанр три</string>
+    <string name="anime_screen_anime_anime_details_genre_two">Жанр два</string>
+    <string name="anime_screen_anime_anime_details_genre_one">Жанр один</string>
+    <string name="anime_screen_anime_anime_details_anime_screen_anime_no_data">н/д</string>
+    <string name="anime_screen_anime_anime_details_headline">Заголовок</string>
+    <string name="anime_screen_anime_anime_details_airing">В эфире!</string>
+    <string name="anime_screen_anime_anime_details_not_airing">Не в эфире!</string>
+    <string name="anime_screen_anime_anime_details_show_translation">Показать перевод</string>
+    <string name="anime_screen_anime_anime_details_show_original">Позазать оригинал</string>
+</resources>

@@ -2,12 +2,14 @@ package com.rick.anime.screen_anime.anime_catalog
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -16,7 +18,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -26,6 +27,8 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.anime.anime_screen.common.JikanLoadStateAdapter
 import com.rick.anime.anime_screen.common.JikanUiEvents
 import com.rick.anime.anime_screen.common.RemotePresentationState
+import com.rick.anime.anime_screen.common.TranslationEvent
+import com.rick.anime.anime_screen.common.TranslationViewModel
 import com.rick.anime.anime_screen.common.asRemotePresentationState
 import com.rick.anime.anime_screen.common.logAnimeOpened
 import com.rick.anime.anime_screen.common.logScreenView
@@ -37,6 +40,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,6 +49,7 @@ class AnimeCatalogFragment : Fragment() {
     private var _binding: AnimeScreenAnimeAnimeCatalogFragmentAnimeCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeCatalogViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var adapter: AnimeCatalogAdapter
     private lateinit var navController: NavController
 
@@ -76,10 +81,10 @@ class AnimeCatalogFragment : Fragment() {
         )
 
         navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-//        view?.findViewById<Toolbar>(R.id.myToolbar)
-//            ?.setupWithNavController(navController, appBarConfiguration)
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
 
         initAdapter()
 
@@ -115,7 +120,8 @@ class AnimeCatalogFragment : Fragment() {
     private fun initAdapter() {
         adapter = AnimeCatalogAdapter(
             onItemClick = this::onAnimeClick,
-            onAnimeFavClick = this::onAnimeFavClick
+            onAnimeFavClick = this::onAnimeFavClick,
+            onTranslationClick = this::onTranslationClick
         )
 
         binding.jikanRecyclerView.adapter =
@@ -129,13 +135,14 @@ class AnimeCatalogFragment : Fragment() {
         adapter: AnimeCatalogAdapter
     ) {
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             pagingDataFlow.collect(adapter::submitData)
         }
 
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
+                Log.e("Anime", "one")
                 // show progress bar during initial load or refresh.
                 jikanSwipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.
@@ -148,7 +155,7 @@ class AnimeCatalogFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        "\uD83D\uDE28 Wooops $it",
+                        getString(R.string.anime_screen_anime_anime_catalog_whoops, it),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -184,6 +191,20 @@ class AnimeCatalogFragment : Fragment() {
 
     private fun onAnimeFavClick(id: Int, isFavorite: Boolean) {
         viewModel.onEvent(JikanUiEvents.UpdateAnimeFavorite(id, !isFavorite))
+    }
+
+    private fun onTranslationClick(text: View, texts: List<String>) {
+        translationViewModel.onEvent(
+            TranslationEvent.GetTranslation(
+                texts = texts,
+                lCode = translationViewModel.location.value
+            )
+        )
+        lifecycleScope.launch {
+            translationViewModel.translation.collectLatest {
+                (text as TextView).text = it.first().text
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

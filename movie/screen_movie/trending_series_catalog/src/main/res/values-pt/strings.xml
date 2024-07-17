@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_series_catalog_no_results">Sem resultados 😓\nDeslize para atualizar</string>
+    <string name="movie_screen_movie_trending_series_catalog_favorite">Favorito</string>
+    <string name="movie_screen_movie_trending_series_catalog_show_translation">Mostrar tradução</string>
+    <string name="movie_screen_movie_trending_series_catalog_show_original">Mostrar original</string>
+</resources>

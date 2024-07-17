@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rick.data.model_book.bestseller.UserBestseller
 
 class BestsellerAdapter(
-    private val onBookClick: (View, UserBestseller) -> Unit,
+    private val onBookClick: (UserBestseller) -> Unit,
     private val onFavoriteClick: (View, String, Boolean) -> Unit,
+    private val onTranslationClick: (UserBestseller, List<String>) -> Unit
 ) : RecyclerView.Adapter<BestsellerViewHolder>() {
 
     val differ = AsyncListDiffer(this, DIFF_UTIL)
@@ -21,7 +22,7 @@ class BestsellerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BestsellerViewHolder {
-        return BestsellerViewHolder.create(parent, onBookClick, onFavoriteClick)
+        return BestsellerViewHolder.create(parent, onBookClick, onFavoriteClick, onTranslationClick)
     }
 
     override fun getItemCount(): Int = differ.currentList.size

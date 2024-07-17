@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="anime_screen_anime_anime_search_anime_screen_anime_search">Search</string>
-    <string name="anime_screen_anime_anime_search_anime_screen_anime_search_transition_name_anime">transition_anime</string>
+    <string name="anime_screen_anime_anime_search_anime_screen_anime_search_transition_name_anime" translatable="false">transition_anime</string>
 </resources>

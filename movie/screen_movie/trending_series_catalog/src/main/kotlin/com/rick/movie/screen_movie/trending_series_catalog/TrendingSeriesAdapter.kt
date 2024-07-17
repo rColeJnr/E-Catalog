@@ -15,11 +15,17 @@ import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieScre
 
 class TrendingSeriesAdapter(
     private val onItemClicked: (View, Int) -> Unit,
-    private val onFavClicked: (View, Int, Boolean) -> Unit
+    private val onFavClicked: (View, Int, Boolean) -> Unit,
+    private val onTranslationClick: (View, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingSeries, TrendingSeriesViewHolder>(RESULT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingSeriesViewHolder {
-        return TrendingSeriesViewHolder.create(parent, onItemClicked, onFavClicked)
+        return TrendingSeriesViewHolder.create(
+            parent,
+            onItemClicked,
+            onFavClicked,
+            onTranslationClick
+        )
     }
 
     override fun onBindViewHolder(holder: TrendingSeriesViewHolder, position: Int) {
@@ -53,12 +59,15 @@ class TrendingSeriesAdapter(
 class TrendingSeriesViewHolder(
     itemBinding: MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding,
     private val onItemClicked: (View, Int) -> Unit,
-    private val onFavClicked: (View, Int, Boolean) -> Unit
+    private val onFavClicked: (View, Int, Boolean) -> Unit,
+    private val onTranslationClick: (View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
     private val title = itemBinding.movieName
     private val image = itemBinding.movieImage
-    private val cast = itemBinding.movieSummary
+    private val overview = itemBinding.movieSummary
     private val favorite = itemBinding.favButton
+    private val showTranslation = itemBinding.showTranslation
+    private val showOriginal = itemBinding.showOriginal
     private val resources = itemView.resources
 
     private lateinit var trendingSeries: UserTrendingSeries
@@ -70,6 +79,16 @@ class TrendingSeriesViewHolder(
         favorite.setOnClickListener {
             onFavClicked(it, trendingSeries.id, trendingSeries.isFavorite)
         }
+        showTranslation.setOnClickListener {
+            onTranslationClick(overview, listOf(trendingSeries.overview))
+            showOriginal.visibility = View.VISIBLE
+            it.visibility = View.GONE
+        }
+        showOriginal.setOnClickListener {
+            overview.text = trendingSeries.overview
+            it.visibility = View.GONE
+            showTranslation.visibility = View.VISIBLE
+        }
     }
 
     fun bind(series: UserTrendingSeries) {
@@ -78,7 +97,7 @@ class TrendingSeriesViewHolder(
         val src = series.image
         if (src.isNotBlank()) provideGlide(this.image, getTmdbImageUrl(src))
         this.title.text = series.name
-        this.cast.text = series.overview
+        this.overview.text = series.overview
         this.favorite.foreground = if (series.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
@@ -103,7 +122,8 @@ class TrendingSeriesViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
-            onFavClick: (View, Int, Boolean) -> Unit
+            onFavClick: (View, Int, Boolean) -> Unit,
+            onTranslationClick: (View, List<String>) -> Unit
         ): TrendingSeriesViewHolder {
             val itemBinding =
                 MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding.inflate(
@@ -111,7 +131,12 @@ class TrendingSeriesViewHolder(
                         parent.context
                     ), parent, false
                 )
-            return TrendingSeriesViewHolder(itemBinding, onItemClick, onFavClick)
+            return TrendingSeriesViewHolder(
+                itemBinding,
+                onItemClick,
+                onFavClick,
+                onTranslationClick
+            )
         }
     }
 }

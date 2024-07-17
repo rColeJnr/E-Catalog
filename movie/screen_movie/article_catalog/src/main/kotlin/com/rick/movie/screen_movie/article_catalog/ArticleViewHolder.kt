@@ -11,23 +11,28 @@ import com.rick.movie.screen_movie.common.util.provideGlide
 
 class ArticleViewHolder(
     binding: MovieScreenMovieArticleCatalogMovieEntryBinding,
-    private val onItemClicked: (View, UserArticle) -> Unit,
-    private val onFavClicked: (view: View, String, Boolean) -> Unit
+    private val onItemClicked: (UserArticle) -> Unit,
+    private val onFavClicked: (view: View, String, Boolean) -> Unit,
+    private val onTranslationClick: (UserArticle, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.movieName
     private val image = binding.movieImage
     private val summary = binding.movieSummary
     private val favorite = binding.favButton
+    private val showTranslation = binding.showTranslation
     private val resources = itemView.resources
 
     private lateinit var article: UserArticle
 
     init {
         binding.root.setOnClickListener {
-            onItemClicked(it, article)
+            onItemClicked(article)
         }
         favorite.setOnClickListener {
             onFavClicked(it, article.id, article.isFavorite)
+        }
+        showTranslation.setOnClickListener {
+            onTranslationClick(article, listOf(article.leadParagraph))
         }
     }
 
@@ -59,15 +64,17 @@ class ArticleViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClicked: (view: View, movie: UserArticle) -> Unit,
-            onFavClicked: (view: View, String, Boolean) -> Unit
+            onItemClicked: (UserArticle) -> Unit,
+            onFavClicked: (view: View, String, Boolean) -> Unit,
+            onTranslationClick: (UserArticle, List<String>) -> Unit
         ): ArticleViewHolder {
             val itemBinding = MovieScreenMovieArticleCatalogMovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return ArticleViewHolder(
                 itemBinding,
                 onItemClicked,
-                onFavClicked
+                onFavClicked,
+                onTranslationClick
             )
         }
     }

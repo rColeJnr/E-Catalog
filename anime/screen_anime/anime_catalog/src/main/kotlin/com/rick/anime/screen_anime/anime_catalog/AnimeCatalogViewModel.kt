@@ -17,8 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AnimeCatalogViewModel @Inject constructor(
     private val userDataRepository: UserAnimeDataRepository,
-    private val compositeAnimeRepository: CompositeAnimeRepository
+    private val compositeAnimeRepository: CompositeAnimeRepository,
 ) : ViewModel() {
+
 
     val pagingDataFlow: Flow<PagingData<UserAnime>>
 
@@ -46,4 +47,9 @@ class AnimeCatalogViewModel @Inject constructor(
 
     private fun fetchAnime(): Flow<PagingData<UserAnime>> =
         compositeAnimeRepository.observeAnime(viewModelScope)
+
+
 }
+
+private const val LOCATION_QUERY = "LocationQuery"
+private const val FOLDER_ID = "b1g3qbtiprdplbrpod5i"

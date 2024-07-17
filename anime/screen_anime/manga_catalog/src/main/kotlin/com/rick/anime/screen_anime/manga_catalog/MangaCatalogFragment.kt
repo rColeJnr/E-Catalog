@@ -2,12 +2,14 @@ package com.rick.anime.screen_anime.manga_catalog
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -16,7 +18,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -26,6 +27,8 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.anime.anime_screen.common.JikanLoadStateAdapter
 import com.rick.anime.anime_screen.common.JikanUiEvents
 import com.rick.anime.anime_screen.common.RemotePresentationState
+import com.rick.anime.anime_screen.common.TranslationEvent
+import com.rick.anime.anime_screen.common.TranslationViewModel
 import com.rick.anime.anime_screen.common.asRemotePresentationState
 import com.rick.anime.anime_screen.common.logMangaOpened
 import com.rick.anime.anime_screen.common.logScreenView
@@ -37,6 +40,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,6 +49,7 @@ class MangaCatalogFragment : Fragment() {
     private var _binding: AnimeScreenAnimeMangaCatalogFragmentMangaCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaCatalogViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var adapter: MangaCatalogAdapter
     private lateinit var navController: NavController
 
@@ -65,27 +70,22 @@ class MangaCatalogFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = AnimeScreenAnimeMangaCatalogFragmentMangaCatalogBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
 
         navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-//        view?.findViewById<Toolbar>(R.id.toolbar)
-//            ?.setupWithNavController(navController, appBarConfiguration)
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
 
         initAdapter()
 
         binding.bindList(
-            adapter = adapter,
-            pagingDataFlow = viewModel.pagingDataFlow
+            adapter = adapter, pagingDataFlow = viewModel.pagingDataFlow
         )
 
         analyticsHelper.logScreenView("mangaCatalog")
@@ -116,6 +116,7 @@ class MangaCatalogFragment : Fragment() {
         adapter = MangaCatalogAdapter(
             onItemClick = this::onMangaClick,
             onMangaFavClick = this::onMangaFavClick,
+            onTranslationClick = this::onTranslationClick
         )
 //
         binding.jikanRecyclerView.adapter =
@@ -125,8 +126,7 @@ class MangaCatalogFragment : Fragment() {
     }
 
     private fun AnimeScreenAnimeMangaCatalogFragmentMangaCatalogBinding.bindList(
-        pagingDataFlow: Flow<PagingData<UserManga>>,
-        adapter: MangaCatalogAdapter
+        pagingDataFlow: Flow<PagingData<UserManga>>, adapter: MangaCatalogAdapter
     ) {
 
         lifecycleScope.launch {
@@ -136,11 +136,11 @@ class MangaCatalogFragment : Fragment() {
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
+                Log.e("Manga", "one")
                 // show progress bar during initial load or refresh.
                 jikanSwipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.
-                jikanEmptyList.isVisible =
-                    !jikanSwipeRefresh.isRefreshing && adapter.itemCount == 0
+                jikanEmptyList.isVisible = !jikanSwipeRefresh.isRefreshing && adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
@@ -148,7 +148,7 @@ class MangaCatalogFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        "\uD83D\uDE28 Wooops $it",
+                        getString(R.string.anime_screen_anime_manga_catalog_whoops, it),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -185,6 +185,19 @@ class MangaCatalogFragment : Fragment() {
         viewModel.onEvent(JikanUiEvents.UpdateMangaFavorite(id, !isFavorite))
     }
 
+    private fun onTranslationClick(text: View, translation: List<String>) {
+        translationViewModel.onEvent(
+            TranslationEvent.GetTranslation(
+                texts = translation, lCode = translationViewModel.location.value
+            )
+        )
+        lifecycleScope.launch {
+            translationViewModel.translation.collectLatest {
+                (text as TextView).text = it.first().text
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.anime_screen_anime_manga_catalog_menu, menu)
@@ -198,8 +211,7 @@ class MangaCatalogFragment : Fragment() {
                 reenterTransition = reTransition
 
                 navController.navigate(
-                    MangaCatalogFragmentDirections
-                        .animeScreenAnimeMangaCatalogActionAnimeScreenAnimeMangaCatalogMangacatalogfragmentToAnimeScreenAnimeMangaSearchNavGraph()
+                    MangaCatalogFragmentDirections.animeScreenAnimeMangaCatalogActionAnimeScreenAnimeMangaCatalogMangacatalogfragmentToAnimeScreenAnimeMangaSearchNavGraph()
                 )
 
                 true

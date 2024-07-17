@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/movie_screen_movie_trending_movie_catalog_no_results"
-        android:textAppearance="?attr/textAppearanceBody2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textSize="@dimen/movie_screen_movie_trending_movie_catalog_large_text"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

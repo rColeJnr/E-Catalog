@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_book_favorite_favorite_button">Botão de favorito</string>
+    <string name="data_ui_components_book_favorite_birth_year_death_year">%1$s\nano de nascimento: %2$d, ano de morte: %3$d</string>
+    <string name="data_ui_components_book_favorite_undo">Desfazer</string>
+    <string name="data_ui_components_book_favorite_bestseller_favorite_removed">Favorito de Bestseller removido</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_trending_series_details_series_name">Título do Filme</string>
+    <string name="movie_screen_movie_trending_series_details_failed_to_retrieve_data">"Falha ao carregar dados, "</string>
+    <string name="movie_screen_movie_trending_series_details_similar_titles">Títulos semelhantes</string>
+    <string name="movie_screen_movie_trending_series_details_db_rating">Movie db: %1$f</string>
+    <string name="movie_screen_movie_trending_series_details_imdb_rating">tmbd: %1$f</string>
+    <string name="movie_screen_movie_trending_series_details_ratings">Classificações</string>
+    <string name="movie_screen_movie_trending_series_details_revenue">Receita: %1$d$</string>
+    <string name="movie_screen_movie_trending_series_details_runtime">Tempo de execução: %1$d minutos</string>
+    <string name="movie_screen_movie_trending_series_details_budget">Orçamento: %1$d dólares</string>
+    <string name="movie_screen_movie_trending_series_details_release_date">Data de lançamento: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_genres">Gêneros: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_adult_content">Conteúdo adulto: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_no_data">n/a</string>
+    <string name="movie_screen_movie_trending_series_details_transition_name">trending_series_details_transition</string>
+    <string name="movie_screen_movie_trending_series_details_popularity">Popularidade: %1$f</string>
+    <string name="movie_screen_movie_trending_series_details_number_of_seasons">Número de temporadas: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_last_air_date">Última data de exibição: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_first_air_date">Primeira data de exibição: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_in_production">Em produção: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_creators">Criadores: %1$s</string>
+    <string name="movie_screen_movie_trending_series_details_overview">Visão geral desta série\n</string>
+    <string name="movie_screen_movie_trending_series_details_number_of_episodes">Número de episódios: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_show_translation">Mostrar tradução</string>
+    <string name="movie_screen_movie_trending_series_details_show_original">Mostrar original</string>
+</resources>

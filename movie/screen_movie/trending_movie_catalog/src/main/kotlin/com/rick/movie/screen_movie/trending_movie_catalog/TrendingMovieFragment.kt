@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.movie.screen_movie.common.RemotePresentationState
+import com.rick.movie.screen_movie.common.TranslationEvent
+import com.rick.movie.screen_movie.common.TranslationViewModel
 import com.rick.movie.screen_movie.common.asRemotePresentationState
 import com.rick.movie.screen_movie.common.logScreenView
 import com.rick.movie.screen_movie.common.logTrendingMovieOpened
@@ -30,6 +33,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,6 +43,7 @@ class TrendingMovieFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: TrendingMovieViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var adapter: TrendingMovieAdapter
     private lateinit var navController: NavController
@@ -66,6 +71,10 @@ class TrendingMovieFragment : Fragment() {
 
         initAdapter()
 
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
+
         binding.bindList(
             viewModel.pagingDataFlow,
             adapter = adapter
@@ -77,7 +86,8 @@ class TrendingMovieFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = TrendingMovieAdapter(this::onMovieClick, this::onFavClick)
+        adapter =
+            TrendingMovieAdapter(this::onMovieClick, this::onFavClick, this::onTranslationClick)
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
         binding.recyclerView.adapter = adapter
     }
@@ -105,7 +115,7 @@ class TrendingMovieFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        "\uD83D\uDE28 Wooops $it",
+                        getString(R.string.movie_screen_movie_trending_movie_catalog_whoops, it),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -135,6 +145,20 @@ class TrendingMovieFragment : Fragment() {
 
     private fun onFavClick(view: View, id: Int, isFavorite: Boolean) {
         viewModel.onEvent(TrendingMovieUiEvent.UpdateTrendingMovieFavorite(id, !isFavorite))
+    }
+
+    private fun onTranslationClick(text: View, translation: List<String>) {
+        translationViewModel.onEvent(
+            TranslationEvent.GetTranslation(
+                translation,
+                translationViewModel.location.value
+            )
+        )
+        lifecycleScope.launch {
+            translationViewModel.translation.collectLatest {
+                (text as TextView).text = it.first().text
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

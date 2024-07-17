@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import com.rick.data.model_movie.UserArticle
 
 class ArticleAdapter(
-    private val onItemClicked: (View, UserArticle) -> Unit,
-    private val onFavClicked: (View, String, Boolean) -> Unit
+    private val onItemClicked: (UserArticle) -> Unit,
+    private val onFavClicked: (View, String, Boolean) -> Unit,
+    private val onTranslationClicked: (UserArticle, List<String>) -> Unit
 ) : PagingDataAdapter<UserArticle, ArticleViewHolder>(RESULT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        return ArticleViewHolder.create(parent, onItemClicked, onFavClicked)
+        return ArticleViewHolder.create(parent, onItemClicked, onFavClicked, onTranslationClicked)
     }
 
 //    override fun getItemViewType(position: Int): Int {

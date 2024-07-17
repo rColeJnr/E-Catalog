@@ -20,7 +20,7 @@
             android:layout_marginTop="8dp"
             android:hint="@string/movie_screen_movie_trending_series_search_no_title"
             android:text="@string/movie_screen_movie_trending_series_search_search"
-            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,11 +56,7 @@
             android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_search_six_dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="Movie summary, very very very
-very long long summary, longer
-than this, movie summaries are
-long "
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieImage" />

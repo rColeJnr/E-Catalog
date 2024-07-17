@@ -16,6 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
@@ -33,10 +34,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:layout_marginBottom="@dimen/movie_screen_movie_trending_series_details_six_dp"
-                        android:gravity="center"
+                        android:gravity="center_vertical"
                         android:hint="@string/movie_screen_movie_trending_series_details_series_name"
-                        android:textAlignment="gravity"
-                        android:textAppearance="?attr/textAppearanceHeadline5" />
+                        android:textAlignment="viewStart"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
                     <ProgressBar
                         android:id="@+id/details_progress_bar"
@@ -50,7 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:text="@string/movie_screen_movie_trending_series_details_failed_to_retrieve_data"
-                        android:textAppearance="?attr/textAppearanceCaption"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                         android:textColor="@android:color/holo_blue_light"
                         android:visibility="gone" />
 
@@ -66,14 +67,34 @@
                 android:background="?attr/colorOnSurface"
                 android:minHeight="250dp" />
 
+            <View style="@style/MovieScreenMovieTrendingSeriesDetailsDivider.Horizontal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/show_translation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_six_dp"
+                android:text="@string/movie_screen_movie_trending_series_details_show_translation"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/show_original"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_six_dp"
+                android:text="@string/movie_screen_movie_trending_series_details_show_original"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:visibility="gone" />
+
+            <View style="@style/MovieScreenMovieTrendingSeriesDetailsDivider.Horizontal" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:hint="@string/movie_screen_movie_trending_series_details_overview"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textSize="18sp" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <View style="@style/MovieScreenMovieTrendingSeriesDetailsDivider.Horizontal" />
 
@@ -83,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_adult_content"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/genres"
@@ -91,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_genres"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/creator"
@@ -99,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:hint="@string/movie_screen_movie_trending_series_details_creators"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/in_production"
@@ -107,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_in_production"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/first_air_date"
@@ -115,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_first_air_date"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/last_air_date"
@@ -123,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_last_air_date"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/number_of_seasons"
@@ -131,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_number_of_seasons"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/number_of_episodes"
@@ -139,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_number_of_episodes"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/ep_runtime"
@@ -147,14 +168,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_runtime"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_ratings"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
             <View style="@style/MovieScreenMovieTrendingSeriesDetailsDivider.Horizontal" />
 
@@ -175,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:text="@string/movie_screen_movie_trending_series_details_imdb_rating"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -186,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/movie_screen_movie_trending_series_details_db_rating"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />
@@ -200,7 +221,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/movie_screen_movie_trending_series_details_two_dp"
                 android:text="@string/movie_screen_movie_trending_series_details_similar_titles"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
             <View style="@style/MovieScreenMovieTrendingSeriesDetailsDivider.Horizontal" />
 

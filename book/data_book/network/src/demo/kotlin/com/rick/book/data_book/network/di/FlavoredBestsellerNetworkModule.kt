@@ -1,5 +1,6 @@
-package com.rick.book.data_book.network
+package com.rick.book.data_book.network.di
 
+import com.rick.book.data_book.network.BestsellerNetworkDataSource
 import com.rick.book.data_book.network.demo.DemoBestsellerNetworkDataSource
 import dagger.Binds
 import dagger.Module
