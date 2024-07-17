@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.ecatalogs.android.library)
     alias(libs.plugins.ecatalogs.android.library.jacoco)
     alias(libs.plugins.ecatalogs.android.hilt)
+    id("kotlinx-serialization")
 }
 
 android {
@@ -22,4 +23,5 @@ dependencies {
     api(libs.square.okhttp)
     api(libs.square.logging.interceptor)
     api(libs.square.converter.gson)
+    api(libs.kotlinx.serialization.json)
 }
