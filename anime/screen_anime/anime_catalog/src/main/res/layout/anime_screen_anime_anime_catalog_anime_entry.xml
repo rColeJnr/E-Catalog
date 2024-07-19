@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:animateLayoutChanges="true">
+        android:layout_margin="12dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
@@ -46,7 +45,6 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_margin="@dimen/anime_screen_anime_common_six_dp"
-            android:src="@drawable/anime_screen_anime_anime_catalog_ic_outlined_favorite"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="@id/image" />
 
@@ -55,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/anime_screen_anime_anime_details_two_dp"
+            android:animateLayoutChanges="true"
             android:ellipsize="end"
             android:ems="5"
             android:maxLines="3"
@@ -67,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/anime_screen_anime_anime_details_two_dp"
+            android:animateLayoutChanges="true"
             android:text="@string/anime_screen_anime_anime_catalog_show_translation"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintStart_toStartOf="parent"

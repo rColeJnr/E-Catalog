@@ -38,7 +38,10 @@ class BestsellerViewModel @Inject constructor(
 
     fun onEvent(event: BestsellerEvents) {
         when (event) {
-            is BestsellerEvents.SelectedGenre -> fetchBestsellers(event.bookGenre)
+            is BestsellerEvents.SelectedGenre -> {
+                fetchBestsellers(event.bookGenre)
+            }
+
             is BestsellerEvents.UpdateBestsellerFavorite -> {
                 updateBestsellerFavorite(event.id, event.isFavorite)
             }

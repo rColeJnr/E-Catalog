@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="data_ui_components_auth_white">#E9E2D0</color>
     <color name="data_ui_components_auth_onBackground">#EBAF81</color>
     <color name="data_ui_components_auth_icons">#DA8067</color>
     <color name="data_ui_components_auth_text">#27332D</color>

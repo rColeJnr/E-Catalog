@@ -1,11 +1,12 @@
 package com.rick.movie.screen_movie.trending_series_details
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -17,9 +18,11 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.tmdb.movie.Genre
 import com.rick.data.model_movie.tmdb.series.Creator
+import com.rick.data.model_movie.tmdb.trending_series.TrendingSeries
 import com.rick.movie.screen_movie.common.TranslationEvent
 import com.rick.movie.screen_movie.common.TranslationViewModel
 import com.rick.movie.screen_movie.common.logScreenView
+import com.rick.movie.screen_movie.common.logTrendingSeriesOpened
 import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_series_details.databinding.MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding
@@ -39,7 +42,6 @@ class TrendingSeriesDetailsFragment : Fragment() {
     private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var similarsAdapter: SeriesSimilarDetailsAdapter
-    private var id: Int? = null
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -102,7 +104,8 @@ class TrendingSeriesDetailsFragment : Fragment() {
         val similarLayoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         )
-        similarsAdapter = SeriesSimilarDetailsAdapter()
+        similarsAdapter =
+            SeriesSimilarDetailsAdapter(this@TrendingSeriesDetailsFragment::onSimilarClick)
         listSimilars.layoutManager = similarLayoutManager
         listSimilars.adapter = similarsAdapter
 
@@ -111,27 +114,39 @@ class TrendingSeriesDetailsFragment : Fragment() {
         )
     }
 
+    private fun onSimilarClick(series: TrendingSeries) {
+        analyticsHelper.logTrendingSeriesOpened(series.id.toString())
+        val uri = Uri.parse("com.rick.ecs://trending_series_details_fragment/${series.id}")
+        findNavController().navigate(uri)
+    }
+
     private fun MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding.bindList(
         similarDetailsAdapter: SeriesSimilarDetailsAdapter,
         uiState: LiveData<SeriesDetailsUiState>,
     ) {
 
-        val noData = getString(R.string.movie_screen_movie_trending_series_details_no_data)
-
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is SeriesDetailsUiState.Error -> {
-                    Log.e(TAG, "see ${state.msg}")
+                    Toast.makeText(
+                        requireContext(),
+                        "series: error, ${state.msg}",
+                        Toast.LENGTH_LONG
+                    ).show()
+
                     detailsProgressBar.visibility = View.GONE
                     if (state.msg.isNullOrBlank()) detailsErrorMessage.visibility = View.GONE
                     else detailsErrorMessage.visibility = View.VISIBLE
                 }
 
                 SeriesDetailsUiState.Loading -> detailsProgressBar.visibility = View.VISIBLE
+
                 is SeriesDetailsUiState.Success -> {
                     detailsProgressBar.visibility = View.GONE
 
                     val series = state.series
+                    Toast.makeText(requireContext(), "series: ${series.id}", Toast.LENGTH_LONG)
+                        .show()
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
                         provideGlide(image, getTmdbImageUrl(series.image))

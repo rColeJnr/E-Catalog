@@ -1,6 +1,5 @@
 package com.rick.auth_screen
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,49 +18,140 @@ class AuthenticationViewModel @Inject constructor(
     private val savedSteHandle: SavedStateHandle
 ) : ViewModel() {
 
+    // Email
     private val email = savedSteHandle.getStateFlow(key = EMAIL_QUERY, initialValue = "")
-    private val username = savedSteHandle.getStateFlow(key = USERNAME_QUERY, initialValue = "")
-    val passwordVisible =
-        savedSteHandle.getStateFlow(key = PASSWORD_VISIBLE_QUERY, initialValue = false)
+    private val isValidEmail = MutableStateFlow(false)
+
+    // Password
     private val password = MutableStateFlow("")
+    private val confirmPassword = MutableStateFlow("")
+    private val passwordVisible = MutableStateFlow(true)
+    private val showPasswordTips = MutableStateFlow(false)
+    private val showConfirmPassword = MutableStateFlow(false)
 
-    //    private val refreshing = MutableStateFlow(false)
-    private val screenState =
+    // Username
+    private val username = savedSteHandle.getStateFlow(key = USERNAME_QUERY, initialValue = "")
+    private val isValidUsername = MutableStateFlow(false)
+    private val showUsernameTips = MutableStateFlow(false)
+
+    // Screen State
+    private val progressState = MutableStateFlow(false)
+    private val authErrorMsg = MutableStateFlow("")
+
+    /* True if create account state, false if sign in state */
+    private val authScreenState =
         savedSteHandle.getStateFlow(key = SCREEN_STATE_QUERY, initialValue = true)
-    val progressState = mutableStateOf(false)
-    private val errorMessage: MutableStateFlow<String?> = MutableStateFlow(null)
 
-    private val _state = MutableStateFlow(AuthScreenState())
+    // StateFlow
+    private val _screenState = MutableStateFlow(AuthScreenState())
+    val screenState: StateFlow<AuthScreenState>
+        get() = _screenState
 
-    val state: StateFlow<AuthScreenState>
-        get() = _state
+    private val _inputState = MutableStateFlow(InputState())
+    val inputState: StateFlow<InputState>
+        get() = _inputState
+
+    private val _passwordState = MutableStateFlow(PasswordState())
+    val passwordState: StateFlow<PasswordState>
+        get() = _passwordState
 
     init {
 
         viewModelScope.launch {
             combine(
-                email,
-                password,
-                username,
-                errorMessage,
-                screenState,
-            ) { email, password, username, errorMessage, screenState ->
+                progressState,
+                authErrorMsg,
+                authScreenState
+            ) { progress, msg, screen ->
                 AuthScreenState(
-                    email = email,
-                    password = password,
-                    username = username,
-                    errorMessage = errorMessage,
-//                    refreshing = array.get(4) as Boolean,
-                    screenState = screenState,
-//                    isSignIn = array.get(6) as Boolean,
+                    authScreenState = screen,
+                    progressState = progress,
+                    authErrorMsg = msg
                 )
-
             }.catch {
-                //Show error message
+                authErrorMsg.value = it.message ?: ""
             }.collect {
-                _state.value = it
+                _screenState.value = it
             }
         }
+
+        viewModelScope.launch {
+            combine(
+                email,
+                isValidEmail,
+                username,
+                isValidUsername,
+                showUsernameTips
+            ) { email, isValidEmail, username, isValidUsername, showUsernameTips ->
+                InputState(
+                    email = email,
+                    isValidEmail = isValidEmail,
+                    username = username,
+                    isValidUsername = isValidUsername,
+                    showUsernameTips = showUsernameTips
+                )
+            }.catch {
+                authErrorMsg.value = it.message ?: ""
+            }.collect {
+                _inputState.value = it
+            }
+        }
+
+        viewModelScope.launch {
+            combine(
+                password,
+                confirmPassword,
+                passwordVisible,
+                showPasswordTips,
+                showConfirmPassword
+            ) { password, confirmPassword, passwordVisible, showPasswordTips, showConfirmPassword ->
+                PasswordState(
+                    password = password,
+                    confirmPassword = confirmPassword,
+                    passwordVisible = passwordVisible,
+                    showPasswordTips = showPasswordTips,
+                    showConfirmPassword = showConfirmPassword
+                )
+            }.catch {
+                authErrorMsg.value = it.message ?: ""
+            }.collect {
+                _passwordState.value = it
+            }
+        }
+    }
+
+    fun onEmailValueChange(email: String) {
+        savedSteHandle[EMAIL_QUERY] = email
+        this.isValidEmail.value = isValidEmail(email)
+    }
+
+    fun isEmailInputValid(email: String): Boolean =
+        isValidEmail(email)
+
+    fun onPasswordValueChange(password: String) {
+        this.password.value = password
+        val validPass = isValidPassword(password)
+        this.showPasswordTips.value = !validPass
+        this.showConfirmPassword.value = validPass
+    }
+
+    fun onConfirmPasswordValueChange(password: String) {
+        this.confirmPassword.value = password
+    }
+
+    fun onPasswordVisible() {
+        this.passwordVisible.value = !this.passwordVisible.value
+    }
+
+    fun onUsernameValueChange(username: String) {
+        savedSteHandle[USERNAME_QUERY] = username
+        val validName = isValidUsername(username)
+        showUsernameTips.value = !validName
+        isValidUsername.value = validName
+    }
+
+    fun onScreenStateCreateValueChange() {
+        savedSteHandle[SCREEN_STATE_QUERY] = !authScreenState.value
     }
 
     fun showProgressState(state: Boolean) {
@@ -74,38 +164,11 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-    fun onEmailValueChange(email: String) {
-        savedSteHandle[EMAIL_QUERY] = email
-    }
-
-    fun onPasswordValueChange(password: String) {
-        this.password.value = password
-    }
-
-    fun onUsernameValueChange(username: String) {
-        savedSteHandle[USERNAME_QUERY] = username
-    }
-
-    fun onScreenStateValueChange(screenState: Boolean) {
-        savedSteHandle[SCREEN_STATE_QUERY] = !screenState
-    }
-
-    fun onPasswordVisible() {
-        savedSteHandle[PASSWORD_VISIBLE_QUERY] = !passwordVisible.value
+    fun onAuthErrorMsg(msg: String) {
+        this.authErrorMsg.value = msg
     }
 }
 
-data class AuthScreenState(
-//    val refreshing: Boolean = false,
-//    val isSignIn:Boolean = false,
-    val screenState: Boolean = false,
-    val email: String = "",
-    val password: String = "",
-    val username: String = "",
-    val errorMessage: String? = null
-)
-
 private const val EMAIL_QUERY = "emailQuery"
 private const val USERNAME_QUERY = "usernameQuery"
-private const val PASSWORD_VISIBLE_QUERY = "passwordVisibleQuery"
 private const val SCREEN_STATE_QUERY = "screenStateQuery"

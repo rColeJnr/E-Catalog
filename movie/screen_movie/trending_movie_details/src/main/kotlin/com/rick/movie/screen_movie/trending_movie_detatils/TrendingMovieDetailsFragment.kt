@@ -1,7 +1,9 @@
 package com.rick.movie.screen_movie.trending_movie_detatils
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +18,11 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.tmdb.movie.Genre
 import com.rick.data.model_movie.tmdb.series.Creator
+import com.rick.data.model_movie.tmdb.trending_movie.TrendingMovie
 import com.rick.movie.screen_movie.common.TranslationEvent
 import com.rick.movie.screen_movie.common.TranslationViewModel
 import com.rick.movie.screen_movie.common.logScreenView
+import com.rick.movie.screen_movie.common.logTrendingMovieOpened
 import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_movie_details.R
@@ -101,13 +105,20 @@ class TrendingMovieDetailsFragment : Fragment() {
         val similarLayoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         )
-        similarsAdapter = MovieSimilarDetailsAdapter()
+        similarsAdapter =
+            MovieSimilarDetailsAdapter(this@TrendingMovieDetailsFragment::onSimilarClick)
         listSimilars.layoutManager = similarLayoutManager
         listSimilars.adapter = similarsAdapter
 
         bindList(
             similarsAdapter, uiState
         )
+    }
+
+    private fun onSimilarClick(similar: TrendingMovie) {
+        analyticsHelper.logTrendingMovieOpened(similar.id.toString())
+        val uri = Uri.parse("com.rick.ecs://trending_movie_details_fragment/${similar.id}")
+        findNavController().navigate(uri)
     }
 
     private fun MovieScreenMovieTrendingMovieDetailsFragmentTrendingMovieDetailsBinding.bindList(
@@ -134,6 +145,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     detailsProgressBar.visibility = View.GONE
                     val trendingMovie = state.movie
                     movieTitle.text = trendingMovie.title
+                    Log.e(TAG, trendingMovie.title)
                     if (trendingMovie.image.isNotEmpty()) {
                         provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image))
                     }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.data.model_movie.tmdb.trending_movie.TrendingMovie
+import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
 import com.rick.movie.screen_movie.trending_movie_details.databinding.MovieScreenMovieTrendingMovieDetailsSimilarEntryBinding
 
@@ -57,7 +58,9 @@ import com.rick.movie.screen_movie.trending_movie_details.databinding.MovieScree
 //    }
 //}
 
-class MovieSimilarDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MovieSimilarDetailsAdapter(
+    private val onSimilarClick: (TrendingMovie) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val diffUtil =
         object : DiffUtil.ItemCallback<TrendingMovie>() {
@@ -79,7 +82,7 @@ class MovieSimilarDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     val similarsDiffer = AsyncListDiffer(this, diffUtil)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return SimilarsViewHolder.create(parent)
+        return SimilarsViewHolder.create(parent, onSimilarClick)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -90,26 +93,36 @@ class MovieSimilarDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     override fun getItemCount(): Int = similarsDiffer.currentList.size
 }
 
-class SimilarsViewHolder(binding: MovieScreenMovieTrendingMovieDetailsSimilarEntryBinding) :
+class SimilarsViewHolder(
+    binding: MovieScreenMovieTrendingMovieDetailsSimilarEntryBinding,
+    onSimilarClick: (TrendingMovie) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
     private val image = binding.similarImage
     private val title = binding.similarTitle
+    private val card = binding.root
 
     private lateinit var similar: TrendingMovie
+
+    init {
+        card.setOnClickListener {
+            onSimilarClick(similar)
+        }
+    }
 
     fun bind(similar: TrendingMovie) {
         this.similar = similar
         this.title.text = similar.title
 
         val src = similar.image
-        if (src.isNotBlank()) provideGlide(this.image, src)
+        if (src.isNotBlank()) provideGlide(this.image, getTmdbImageUrl(src))
     }
 
     companion object {
-        fun create(parent: ViewGroup): SimilarsViewHolder {
+        fun create(parent: ViewGroup, onSimilarClick: (TrendingMovie) -> Unit): SimilarsViewHolder {
             val itemBinding = MovieScreenMovieTrendingMovieDetailsSimilarEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
-            return SimilarsViewHolder(itemBinding)
+            return SimilarsViewHolder(itemBinding, onSimilarClick)
         }
     }
 }

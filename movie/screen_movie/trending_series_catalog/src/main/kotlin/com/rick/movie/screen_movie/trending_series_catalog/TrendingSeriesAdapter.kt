@@ -14,7 +14,7 @@ import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieScre
 
 
 class TrendingSeriesAdapter(
-    private val onItemClicked: (View, Int) -> Unit,
+    private val onItemClicked: (Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingSeries, TrendingSeriesViewHolder>(RESULT_COMPARATOR) {
@@ -58,7 +58,7 @@ class TrendingSeriesAdapter(
 
 class TrendingSeriesViewHolder(
     itemBinding: MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding,
-    private val onItemClicked: (View, Int) -> Unit,
+    private val onItemClicked: (Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -74,7 +74,7 @@ class TrendingSeriesViewHolder(
 
     init {
         itemBinding.root.setOnClickListener {
-            onItemClicked(it, trendingSeries.id)
+            onItemClicked(trendingSeries.id)
         }
         favorite.setOnClickListener {
             onFavClicked(it, trendingSeries.id, trendingSeries.isFavorite)
@@ -101,13 +101,13 @@ class TrendingSeriesViewHolder(
         this.favorite.foreground = if (series.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.movie_screen_movie_trending_series_catalog_ic_fav_filled,
+                R.drawable.movie_screen_movie_trending_series_catalog_star_filled,
                 null
             )
         } else {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.movie_screen_movie_trending_series_catalog_ic_fav_outlined,
+                R.drawable.movie_screen_movie_trending_series_catalog_star_outlined,
                 null
             )
         }
@@ -121,7 +121,7 @@ class TrendingSeriesViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (View, Int) -> Unit,
+            onItemClick: (Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
             onTranslationClick: (View, List<String>) -> Unit
         ): TrendingSeriesViewHolder {

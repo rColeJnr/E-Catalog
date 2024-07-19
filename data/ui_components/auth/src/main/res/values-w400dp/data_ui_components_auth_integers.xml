@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="data_ui_components_auth_50">50</integer>
-    <integer name="data_ui_components_auth_28">28</integer>
-    <integer name="data_ui_components_auth_22">22</integer>
-    <integer name="data_ui_components_auth_12">12</integer>
-    <integer name="data_ui_components_auth_32">32</integer>
-    <integer name="data_ui_components_auth_38">38</integer>
-</resources>

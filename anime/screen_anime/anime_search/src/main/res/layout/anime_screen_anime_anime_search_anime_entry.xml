@@ -46,7 +46,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_margin="@dimen/anime_screen_anime_anime_details_six_dp"
-            android:src="@drawable/anime_screen_anime_anime_search_ic_fav_outlined"
+            android:src="@drawable/anime_screen_anime_anime_search_star_outlined"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="@id/image" />
 

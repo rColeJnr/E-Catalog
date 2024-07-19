@@ -2,7 +2,6 @@ package com.rick.anime.screen_anime.manga_catalog
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -136,7 +135,6 @@ class MangaCatalogFragment : Fragment() {
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
-                Log.e("Manga", "one")
                 // show progress bar during initial load or refresh.
                 jikanSwipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.

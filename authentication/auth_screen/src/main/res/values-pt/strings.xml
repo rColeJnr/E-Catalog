@@ -2,9 +2,8 @@
 <resources>
     <string name="authentication_auth_screen_connection_error">Erro de Conexão!\nVerifique sua conexão com a internet.</string>
     <string name="authentication_auth_screen_check_your_inbox">Verifique sua caixa de entrada e siga o link para redefinir sua senha</string>
-    <string name="authentication_auth_screen_authentication_with_credentials_failed">Falha na autenticaçãocom credenciais.</string>
     <string name="authentication_auth_screen_account_creation_failed">Falha na criação da conta.</string>
-    <string name="authentication_auth_screen_failed_to_create_account">Falha ao criar a conta. Por favor, confirme que você atende a todos os requisitos</string>
+    <string name="authentication_auth_screen_failed_to_create_account">Falha ao criar a conta</string>
     <string name="authentication_auth_screen_invalid_login_credentials">Credenciais de login inválidas.</string>
     <string name="authentication_auth_screen_fill_all_fields">Por favor, preencha seu email esenha e tente novamente.</string>
     <string name="authentication_auth_screen_failed_google_auth">Falha na autenticação com o Google</string>
