@@ -92,13 +92,13 @@ class TrendingMovieViewHolder(
         favorite.foreground = if (movie.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.movie_screen_movie_trending_movie_catalog_ic_fav_filled,
+                R.drawable.movie_screen_movie_trending_movie_catalog_star_filled,
                 null
             )
         } else {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.movie_screen_movie_trending_movie_catalog_ic_fav_outlined,
+                R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined,
                 null
             )
         }

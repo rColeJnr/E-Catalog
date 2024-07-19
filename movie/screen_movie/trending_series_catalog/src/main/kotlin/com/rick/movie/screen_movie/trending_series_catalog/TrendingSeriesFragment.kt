@@ -9,29 +9,32 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingSeries
+import com.rick.movie.screen_movie.common.RemotePresentationState
 import com.rick.movie.screen_movie.common.TranslationEvent
 import com.rick.movie.screen_movie.common.TranslationViewModel
+import com.rick.movie.screen_movie.common.asRemotePresentationState
 import com.rick.movie.screen_movie.common.logScreenView
 import com.rick.movie.screen_movie.common.logTrendingSeriesOpened
 import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieScreenMovieTrendingSeriesCatalogFragmentTrendingSeriesCatalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class TrendingSeriesFragment : Fragment() {
@@ -41,11 +44,9 @@ class TrendingSeriesFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: TrendingSeriesViewModel by viewModels()
     private val translationViewModel: TranslationViewModel by viewModels()
+
     private lateinit var adapter: TrendingSeriesAdapter
     private lateinit var navController: NavController
-
-    private lateinit var eTransition: MaterialSharedAxis
-    private lateinit var reTransition: MaterialSharedAxis
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -53,16 +54,13 @@ class TrendingSeriesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        enterTransition = MaterialFadeThrough().apply {
-            duration =
-                resources.getInteger(R.integer.movie_screen_movie_trending_series_catalog_motion_duration_long)
-                    .toLong()
-        }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding =
             MovieScreenMovieTrendingSeriesCatalogFragmentTrendingSeriesCatalogBinding.inflate(
                 inflater,
@@ -78,81 +76,69 @@ class TrendingSeriesFragment : Fragment() {
             translationViewModel.setLocation(Locale.getDefault().language)
         }
 
-        analyticsHelper.logScreenView("trendingSeriesCatalog")
+        binding.bindList(
+            viewModel.pagingDataFlow,
+            adapter = adapter
+        )
+
+        analyticsHelper.logScreenView("trendingMovieCatalog")
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-
-        eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration =
-                resources.getInteger(R.integer.movie_screen_movie_trending_series_catalog_motion_duration_long)
-                    .toLong()
-        }
-        reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration =
-                resources.getInteger(R.integer.movie_screen_movie_trending_series_catalog_motion_duration_long)
-                    .toLong()
-        }
-
-        binding.bindState(
-            pagingData = viewModel.pagingDataFlow
-        )
-    }
-
-    private fun MovieScreenMovieTrendingSeriesCatalogFragmentTrendingSeriesCatalogBinding.bindState(
-        pagingData: Flow<PagingData<UserTrendingSeries>>
-    ) {
-        bindList(
-            adapter = adapter,
-            pagingData = pagingData
-        )
+    private fun initAdapter() {
+        adapter =
+            TrendingSeriesAdapter(this::onSeriesClick, this::onFavClick, this::onTranslationClick)
+        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.adapter = adapter
     }
 
     private fun MovieScreenMovieTrendingSeriesCatalogFragmentTrendingSeriesCatalogBinding.bindList(
-        adapter: TrendingSeriesAdapter,
-        pagingData: Flow<PagingData<UserTrendingSeries>>
+        pagingDataFlow: Flow<PagingData<UserTrendingSeries>>,
+        adapter: TrendingSeriesAdapter
     ) {
-
         lifecycleScope.launch {
-            pagingData.collectLatest(adapter::submitData)
+            pagingDataFlow.collectLatest(adapter::submitData)
         }
 
         lifecycleScope.launch {
-            adapter.loadStateFlow.collect {
+            adapter.loadStateFlow.collect { loadState ->
 
+                // show progress bar during initial load or refresh.
+                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                // show empty list.
+                emptyList.isVisible =
+                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+
+                val errorState = loadState.source.refresh as? LoadState.Error
+                    ?: loadState.mediator?.refresh as? LoadState.Error
+
+                errorState?.let {
+                    android.widget.Toast.makeText(
+                        context,
+                        "😨 Whoops, ${it.error.message}",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
-//        tvSeriesLoading.observe(viewLifecycleOwner) {
-//            swipeRefresh.isRefreshing = it.loading
-//        }
-//
-//        tvSeriesError.observe(viewLifecycleOwner) {
-//            emptyList.isVisible = adapter.itemCount == 0
-//            it.msg?.let { msg ->
-//                Toast.makeText(
-//                    context,
-//                    "\uD83D\uDE28 Wooops $msg",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
-//
-//        swipeRefresh.setOnRefreshListener {
-//            Toast.makeText(context, getString(R.string.list_updated), Toast.LENGTH_SHORT).show()
-//            swipeRefresh.isRefreshing = false
-//        }
+        val notLoading = adapter.loadStateFlow.asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
 
+        lifecycleScope.launch {
+            notLoading.collectLatest {
+                if (it) recyclerView.scrollToPosition(0)
+            }
+        }
 
+        swipeRefresh.setOnRefreshListener {
+            adapter.refresh()
+        }
     }
 
-    private fun onSeriesClick(view: View, id: Int) {
-        // TODO redo animations
+    private fun onSeriesClick(id: Int) {
+        //TODO add animations
         analyticsHelper.logTrendingSeriesOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_series_details_fragment/$id")
         findNavController().navigate(uri)
@@ -162,43 +148,29 @@ class TrendingSeriesFragment : Fragment() {
         viewModel.onEvent(TrendingSeriesUiEvent.UpdateTrendingSeriesFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(view: View, text: List<String>) {
+    private fun onTranslationClick(text: View, translation: List<String>) {
         translationViewModel.onEvent(
             TranslationEvent.GetTranslation(
-                text,
+                translation,
                 translationViewModel.location.value
             )
         )
         lifecycleScope.launch {
             translationViewModel.translation.collectLatest {
-                (view as TextView).text = it.first().text
+                (text as TextView).text = it.first().text
             }
         }
-    }
-
-    private fun initAdapter() {
-        adapter =
-            TrendingSeriesAdapter(this::onSeriesClick, this::onFavClick, this::onTranslationClick)
-
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.movie_screen_movie_trending_series_catalog_menu, menu)
     }
 
-    //    override fun onPrepareOptionsMenu(menu: Menu) {
-//        super.onPrepareOptionsMenu(menu)
-//        menu.findItem(R.id.search_options).isVisible = false
-//    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_imdb -> {
-                exitTransition = eTransition
-                reenterTransition = reTransition
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
 
                 navController.navigate(
                     TrendingSeriesFragmentDirections.movieScreenMovieTrendingSeriesCatalogActionMovieScreenMovieTrendingSeriesCatalogTrendingseriesfragmentToMovieScreenMovieTrendingSeriesSearchNavGraph()
@@ -207,14 +179,9 @@ class TrendingSeriesFragment : Fragment() {
             }
 
             R.id.fav_imdb -> {
-
-                exitTransition = eTransition
-                reenterTransition = reTransition
-
                 navController.navigate(
                     TrendingSeriesFragmentDirections.movieScreenMovieTrendingSeriesCatalogActionMovieScreenMovieTrendingSeriesCatalogTrendingseriesfragmentToMovieScreenMovieTrendingSeriesFavoriteNavGraph()
                 )
-
                 true
             }
 

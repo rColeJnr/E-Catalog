@@ -39,13 +39,13 @@ class AnimeSearchViewHolder(
         favorite.foreground = if (jikan.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.anime_screen_anime_anime_search_ic_fav_filled,
+                R.drawable.anime_screen_anime_anime_search_star_filled,
                 null
             )
         } else {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.anime_screen_anime_anime_search_ic_fav_outlined,
+                R.drawable.anime_screen_anime_anime_search_star_outlined,
                 null
             )
         }

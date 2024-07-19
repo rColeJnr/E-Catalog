@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="authentication_auth_screen_web_client_id">185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com</string>
     <string name="authentication_auth_screen_connection_error">Connection Error!\nCheck your internet connection.</string>
     <string name="authentication_auth_screen_check_your_inbox">Check your inbox and follow the link to reset your password</string>
-    <string name="authentication_auth_screen_authentication_with_credentials_failed">Authentication with credentials Failed.</string>
     <string name="authentication_auth_screen_account_creation_failed">Account creation failed.</string>
-    <string name="authentication_auth_screen_failed_to_create_account">Failed to create account, Please confirm that you meet all of the requirements</string>
+    <string name="authentication_auth_screen_failed_to_create_account">Failed to create account</string>
     <string name="authentication_auth_screen_invalid_login_credentials">Invalid login credentials.</string>
     <string name="authentication_auth_screen_fill_all_fields">Please fill in your email and password, then try again.</string>
     <string name="authentication_auth_screen_failed_google_auth">Authentication with Google failed</string>

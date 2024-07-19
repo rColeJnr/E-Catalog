@@ -66,7 +66,7 @@ class BestsellerRemoteMediator(
 
             if (loadType == LoadType.REFRESH) {
                 keysDao.clearRemoteKeys()
-                bestsellerDao.clearBestsellers(books.map(BestsellerNetwork::id))
+                bestsellerDao.clearBestsellers()
             }
             val prevKey = if (page == 1) null else page - 1
             val nextKey = if (endOfPaginationReached) null else page + 1

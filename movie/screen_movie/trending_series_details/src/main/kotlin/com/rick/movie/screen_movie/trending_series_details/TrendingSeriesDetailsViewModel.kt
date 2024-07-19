@@ -64,7 +64,7 @@ class SeriesDetailsViewModel @Inject constructor(
 }
 
 private external fun getTMDBKey(): String
-private const val SERIES_ID = "movieId"
+private const val SERIES_ID = "seriesId"
 
 sealed interface SeriesDetailsUiState {
     data class Success(val series: UserSeries) : SeriesDetailsUiState

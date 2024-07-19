@@ -47,7 +47,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_margin="@dimen/movie_screen_movie_article_catalog_six_dp"
-            android:src="@drawable/movie_screen_movie_article_catalog_ic_fav_outlined"
+            android:src="@drawable/movie_screen_movie_article_catalog_star_outlined"
             app:layout_constraintBottom_toBottomOf="@id/movieImage"
             app:layout_constraintEnd_toEndOf="@id/movieImage" />
 

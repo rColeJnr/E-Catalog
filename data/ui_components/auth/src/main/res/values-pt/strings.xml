@@ -20,4 +20,9 @@
     <string name="data_ui_components_auth_invalid_email">\t•\tEmail inválido</string>
     <string name="data_ui_components_auth_dismiss">Dispensar</string>
     <string name="data_ui_components_auth_send">Enviar</string>
+    <string name="data_ui_components_auth_password">Palavra passe</string>
+    <string name="data_ui_components_auth_password_placeholder">Criar palavra-passe</string>
+    <string name="data_ui_components_auth_invalid_input">Entrada inválida</string>
+    <string name="data_ui_components_auth_valid_input">Entrada valida</string>
+    <string name="data_ui_components_auth_confirm_password">Confirma a palavra-passe</string>
 </resources>

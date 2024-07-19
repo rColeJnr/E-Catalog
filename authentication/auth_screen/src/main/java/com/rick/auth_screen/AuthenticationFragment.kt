@@ -30,7 +30,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -59,58 +58,54 @@ class AuthenticationFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        // check user's internet connection
-        if (checkIfOnline()) {
-            showOneTapUI(auth.currentUser)
-        } else {
-            Toast.makeText(
-                requireContext(), getString(R.string.authentication_auth_screen_connection_error),
-                Toast.LENGTH_LONG
-            ).show()
-        }
+        showOneTapUI(auth.currentUser)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
+        findNavController().popBackStack()
+
         _binding = AuthenticationAuthScreenFragmentAuthenticationBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
 
         binding.root.setContent {
-            val viewState by viewModel.state.collectAsState()
-            val progressState by viewModel.progressState
-            val passwordVisible by viewModel.passwordVisible.collectAsState()
+            val screenState by viewModel.screenState.collectAsState()
+            val inputState by viewModel.inputState.collectAsState()
+            val passwordState by viewModel.passwordState.collectAsState()
             LoginScreen(
-                email = viewState.email,
+                email = inputState.email,
                 onEmailValueChange = viewModel::onEmailValueChange,
-                password = viewState.password,
+                isValidEmail = inputState.isValidEmail,
+                isEmailInputValid = viewModel::isEmailInputValid,
+                password = passwordState.password,
                 onPasswordValueChange = viewModel::onPasswordValueChange,
-                userName = viewState.username,
+                passwordVisible = passwordState.passwordVisible,
+                onPasswordVisible = viewModel::onPasswordVisible,
+                showPasswordTips = passwordState.showPasswordTips,
+                showConfirmPassword = passwordState.showConfirmPassword,
+                confirmPassword = passwordState.confirmPassword,
+                onConfirmPasswordValueChange = viewModel::onConfirmPasswordValueChange,
+                isValidConfirmPassword = passwordState.password == passwordState.confirmPassword,
+                username = inputState.username,
                 onUsernameValueChange = viewModel::onUsernameValueChange,
+                isValidUsername = inputState.isValidUsername,
+                showUsernameTips = inputState.showUsernameTips,
+                screenStateCreate = screenState.authScreenState,
+                onScreenStateCreateValueChange = viewModel::onScreenStateCreateValueChange,
+                progressState = screenState.progressState,
+                showProgressState = viewModel::showProgressState,
+                onGoogleOneTap = { signIn() },
                 onAuthenticate = { email, password -> signInWithPassword(email, password) },
                 onCreateAccount = { email, password, username ->
                     signUpWithPassword(
-                        email = email,
-                        password = password,
-                        username = username,
-                        saveUsername = viewModel::saveUsernameToDatastore
+                        email, password, username, saveUsername = viewModel::saveUsernameToDatastore
                     )
                 },
-                onGoogleOneTap = { signIn() },
                 onResetPassword = { email -> onPasswordReset(email) },
-                screenState = viewState.screenState,
-                onScreenStateValueChange = viewModel::onScreenStateValueChange,
-                progressState = progressState,
-                showProgressState = viewModel::showProgressState,
-                isValidEmail = { isValidEmail(it) },
-                passwordVisible = passwordVisible,
-                onPasswordVisible = viewModel::onPasswordVisible
+                authErrorMsg = screenState.authErrorMsg
             )
         }
 
@@ -121,8 +116,10 @@ class AuthenticationFragment : Fragment() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val data: Intent? = result.data
                     data?.let { onResultReceived(it) }
-                    viewModel.showProgressState(false)
-                }
+                } else
+                    viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_failed_google_auth))
+                viewModel.showProgressState(false)
+
             }
 
         intentContract =
@@ -137,45 +134,38 @@ class AuthenticationFragment : Fragment() {
         return binding.root
     }
 
-
     private fun onPasswordReset(email: String) {
-        auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener {
-                Toast.makeText(
-                    context,
-                    getString(R.string.authentication_auth_screen_check_your_inbox),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        auth.sendPasswordResetEmail(email).addOnCompleteListener {
+            Toast.makeText(
+                context,
+                getString(R.string.authentication_auth_screen_check_your_inbox),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun navigate() {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri("com.rick.ecs://bestseller-catalog-screen".toUri())
-            .build()
-        findNavController().popBackStack()
+        val request =
+            NavDeepLinkRequest.Builder.fromUri("com.rick.ecs://bestseller-catalog-screen".toUri())
+                .build()
         findNavController().navigate(request)
     }
 
     private fun setupAuth() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com")
-            .requestEmail()
-            .build()
+            .requestEmail().build()
 
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
         auth = Firebase.auth
         oneTapClient = Identity.getSignInClient(requireContext())
-        signInRequest = BeginSignInRequest.builder()
-            .setPasswordRequestOptions(
-                BeginSignInRequest.PasswordRequestOptions.builder().setSupported(true).build()
-            )
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    .setServerClientId("185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com")
-                    .build()
-            ).build()
+        signInRequest = BeginSignInRequest.builder().setPasswordRequestOptions(
+            BeginSignInRequest.PasswordRequestOptions.builder().setSupported(true).build()
+        ).setGoogleIdTokenRequestOptions(
+            BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
+                .setServerClientId("185760784140-6o04up90to11vk15fl0kko5hr1fdmcbr.apps.googleusercontent.com")
+                .build()
+        ).build()
     }
 
     // One tap sign in/ auto
@@ -186,81 +176,51 @@ class AuthenticationFragment : Fragment() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    // user authenticated
-                    navigate()
-                } else {
-                    // failed to authenticate
-                    Snackbar.make(
-                        requireView(),
-                        getString(R.string.authentication_auth_screen_authentication_with_credentials_failed),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
+        auth.signInWithCredential(credential).addOnCompleteListener(requireActivity()) { task ->
+            if (task.isSuccessful) {
+                // user authenticated
+                navigate()
             }
+        }.addOnFailureListener {
+            viewModel.showProgressState(false)
+            viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_failed_google_auth))
+        }.addOnCanceledListener {
+            viewModel.showProgressState(false)
+        }
     }
 
     private fun signUpWithPassword(
-        email: String,
-        password: String,
-        username: String,
-        saveUsername: (String) -> Unit
+        email: String, password: String, username: String, saveUsername: (String) -> Unit
     ) {
 
-        if (
-            isValidEmail(email) &&
-            isValidPassword(password) &&
-            isValidUsername(username)
-        ) {
+        if (isValidEmail(email) && isValidPassword(password) && isValidUsername(username)) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
                     viewModel.showProgressState(false)
                     saveUsername(username)
                     navigate()
-                }
-                .addOnFailureListener {
+                }.addOnFailureListener {
                     viewModel.showProgressState(false)
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.authentication_auth_screen_account_creation_failed),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_account_creation_failed))
                 }
         } else {
             viewModel.showProgressState(false)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.authentication_auth_screen_failed_to_create_account),
-                Toast.LENGTH_LONG
-            ).show()
+            viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_failed_to_create_account))
         }
     }
 
     private fun signInWithPassword(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener { authResult ->
-                    navigate()
-                    viewModel.showProgressState(false)
-                }
-                .addOnFailureListener {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.authentication_auth_screen_invalid_login_credentials),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    viewModel.showProgressState(false)
-                }
+            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener { authResult ->
+                navigate()
+                viewModel.showProgressState(false)
+            }.addOnFailureListener {
+                viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_invalid_login_credentials))
+                viewModel.showProgressState(false)
+            }
         } else {
             viewModel.showProgressState(false)
-            Toast.makeText(
-                requireContext(), getString(R.string.authentication_auth_screen_fill_all_fields),
-                Toast.LENGTH_SHORT
-            ).show()
+            viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_fill_all_fields))
         }
     }
 
@@ -284,16 +244,15 @@ class AuthenticationFragment : Fragment() {
             //move forward
             navigate()
         } else {
-            oneTapClient.beginSignIn(signInRequest)
-                .addOnSuccessListener { result ->
-                    try {
-                        val intent =
-                            IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
-                        intentContract.launch(intent)
-                    } catch (_: IntentSender.SendIntentException) {
-                        // do nothing and continue presenting the signed-out UI.
-                    }
+            oneTapClient.beginSignIn(signInRequest).addOnSuccessListener { result ->
+                try {
+                    val intent =
+                        IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                    intentContract.launch(intent)
+                } catch (_: IntentSender.SendIntentException) {
+                    // do nothing and continue presenting the signed-out UI.
                 }
+            }
         }
     }
 
@@ -303,13 +262,17 @@ class AuthenticationFragment : Fragment() {
         try {
             // Google sign in was successful, authenticate with firebase
             val account = task.getResult(ApiException::class.java)
+            task.addOnCanceledListener {
+                viewModel.showProgressState(false)
+            }
+            task.addOnFailureListener {
+                viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_failed_google_auth))
+            }
             account?.idToken?.let { firebaseAuthWithGoogle(it) }
         } catch (e: ApiException) {
             // Google sign in failed
-            Toast.makeText(
-                requireContext(), getString(R.string.authentication_auth_screen_failed_google_auth),
-                Toast.LENGTH_LONG
-            ).show()
+            viewModel.showProgressState(false)
+            viewModel.onAuthErrorMsg(getString(R.string.authentication_auth_screen_failed_google_auth))
         }
     }
 
@@ -323,10 +286,15 @@ class AuthenticationFragment : Fragment() {
             }
             credential.password?.let { password ->
                 signInWithPassword(credential.id, password)
+                return
             }
         } catch (e: ApiException) {
             when (e.statusCode) {
-                CommonStatusCodes.CANCELED -> userDeclinedOneTap = true
+                CommonStatusCodes.CANCELED -> {
+                    userDeclinedOneTap = true
+                    viewModel.showProgressState(false)
+                }
+
                 CommonStatusCodes.NETWORK_ERROR -> {} // no internet
             }
         }

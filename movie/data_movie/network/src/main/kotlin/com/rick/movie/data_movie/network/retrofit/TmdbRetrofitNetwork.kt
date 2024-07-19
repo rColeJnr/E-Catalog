@@ -80,7 +80,7 @@ private interface TmdbRetrofitNetworkApi {
 //    https://api.themoviedb.org/3/tv/157065?api_key=&append_to_response=images,similar
 
 @Singleton
-internal class TmdbRetrofitNetwork @Inject constructor() : TmdbNetworkDataSource {
+class TmdbRetrofitNetwork @Inject constructor() : TmdbNetworkDataSource {
     private val networkApi = Retrofit.Builder()
         .baseUrl("https://api.themoviedb.org/3/")
         .addConverterFactory(GsonConverterFactory.create())

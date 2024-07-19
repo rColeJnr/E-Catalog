@@ -34,7 +34,7 @@ internal class BestsellerRepositoryImpl @Inject constructor(
                 apiKey = apiKey
             ).results.books
 
-            bestsellerDao.clearBestsellers(bestsellers.map(BestsellerNetwork::id))
+            bestsellerDao.clearBestsellers()
 
             bestsellerDao.upsertBestsellers(bestsellers.map(BestsellerNetwork::asBestsellerEntity))
 

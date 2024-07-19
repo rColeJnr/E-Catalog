@@ -20,4 +20,9 @@
     <string name="data_ui_components_auth_invalid_email">\t•\tНеверный адрес электронной почты</string>
     <string name="data_ui_components_auth_dismiss">Отклонить</string>
     <string name="data_ui_components_auth_send">Отправить</string>
+    <string name="data_ui_components_auth_password">Пароль</string>
+    <string name="data_ui_components_auth_password_placeholder">Создать пароль</string>
+    <string name="data_ui_components_auth_invalid_input">Неверный ввод</string>
+    <string name="data_ui_components_auth_valid_input">Верный ввод</string>
+    <string name="data_ui_components_auth_confirm_password">Подтвердите пароль</string>
 </resources>

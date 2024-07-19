@@ -53,18 +53,14 @@ class AnimeViewHolder(
         this.synopsis.text = this.anime.synopsis
         favorite.foreground = if (anime.isFavorite) {
             ResourcesCompat.getDrawable(
-                resources, R.drawable.anime_screen_anime_anime_catalog_ic_filled_favorite, null
+                resources, R.drawable.anime_screen_anime_anime_catalog_star_filled, null
             )
         } else {
             ResourcesCompat.getDrawable(
-                resources, R.drawable.anime_screen_anime_anime_catalog_ic_outlined_favorite, null
+                resources, R.drawable.anime_screen_anime_anime_catalog_star_outlined, null
             )
         }
     }
-
-//    override fun onClick(view: View) {
-//        onItemClick(view, jikan)
-//    }
 
     companion object {
         fun create(

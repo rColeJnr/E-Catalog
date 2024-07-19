@@ -20,4 +20,12 @@
     <string name="data_ui_components_auth_invalid_email">\t•\tInvalid email</string>
     <string name="data_ui_components_auth_dismiss">Dismiss</string>
     <string name="data_ui_components_auth_send">Send</string>
+    <string name="data_ui_components_auth_password">Password</string>
+    <string name="data_ui_components_auth_password_placeholder">Create a password</string>
+    <string name="data_ui_components_auth_email" translatable="false">Email</string>
+    <string name="data_ui_components_auth_email_placeholder" translatable="false">Email@user.com</string>
+    <string name="data_ui_components_auth_invalid_input">Invalid input</string>
+    <string name="data_ui_components_auth_valid_input">Valid input</string>
+    <string name="data_ui_components_auth_confirm_password">Confirm password</string>
+    <string name="data_ui_components_auth_failed_to_authenticate" translatable="false">%1$s</string>
 </resources>

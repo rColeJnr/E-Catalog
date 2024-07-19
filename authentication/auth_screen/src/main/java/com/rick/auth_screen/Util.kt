@@ -3,19 +3,23 @@ package com.rick.auth_screen
 import android.util.Patterns
 
 fun isValidEmail(email: String): Boolean {
-    if (email.isNotBlank()) return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    return false
+    return if (email.isNotBlank())
+        Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    else false
 }
 
 fun isValidPassword(password: String): Boolean {
-    if (password.isNotBlank()) return password.matches(PASSWORD_REGEX)
-    return false
+    return if (password.isNotEmpty())
+        password.matches(PASSWORD_REGEX)
+    else
+        false
 }
 
-
 fun isValidUsername(username: String): Boolean {
-    if (username.isNotBlank()) return username.matches(USERNAME_REGEX)
-    return false
+    return if (username.isNotBlank())
+        username.matches(USERNAME_REGEX)
+    else
+        false
 }
 
 // No white spaces, At least # characters.

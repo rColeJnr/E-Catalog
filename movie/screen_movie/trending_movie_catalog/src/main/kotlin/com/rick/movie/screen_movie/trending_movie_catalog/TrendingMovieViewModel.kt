@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.rick.data.domain_movie.GetTranslationUseCase
 import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.movie.data_movie.data.repository.trending_movie.CompositeTrendingMovieRepository
 import com.rick.movie.data_movie.data.repository.trending_movie.UserTrendingMovieDataRepository
@@ -18,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class TrendingMovieViewModel @Inject constructor(
     private val compositeMovieRepository: CompositeTrendingMovieRepository,
-    private val getTranslationUseCase: GetTranslationUseCase,
     private val userDataRepository: UserTrendingMovieDataRepository
 ) : ViewModel() {
 

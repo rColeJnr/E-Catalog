@@ -18,10 +18,9 @@ interface BestsellerDao {
     @Query(
         value = """
             DELETE FROM bestseller_table
-            WHERE id in (:ids)
         """,
     )
-    suspend fun clearBestsellers(ids: List<String>)
+    suspend fun clearBestsellers()
 
     @Query("SELECT * FROM bestseller_table ORDER BY rank ASC")
     fun getBestsellers(): Flow<List<BestsellerEntity>>

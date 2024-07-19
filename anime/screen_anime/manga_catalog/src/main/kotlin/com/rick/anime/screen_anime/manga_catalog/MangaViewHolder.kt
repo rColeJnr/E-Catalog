@@ -54,13 +54,13 @@ class MangaViewHolder(
         favorite.foreground = if (manga.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.anime_screen_anime_manga_catalog_ic_fav_filled,
+                R.drawable.anime_screen_anime_manga_catalog_star_filled,
                 null
             )
         } else {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.anime_screen_anime_manga_catalog_ic_fav_outlined,
+                R.drawable.anime_screen_anime_manga_catalog_star_outlined,
                 null
             )
         }
