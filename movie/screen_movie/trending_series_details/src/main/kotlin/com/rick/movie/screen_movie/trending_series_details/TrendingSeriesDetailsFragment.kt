@@ -128,15 +128,11 @@ class TrendingSeriesDetailsFragment : Fragment() {
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is SeriesDetailsUiState.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "series: error, ${state.msg}",
-                        Toast.LENGTH_LONG
-                    ).show()
-
                     detailsProgressBar.visibility = View.GONE
                     if (state.msg.isNullOrBlank()) detailsErrorMessage.visibility = View.GONE
                     else detailsErrorMessage.visibility = View.VISIBLE
+                    Toast.makeText(requireContext(), "stack: ${state.msg}", Toast.LENGTH_LONG)
+                        .show()
                 }
 
                 SeriesDetailsUiState.Loading -> detailsProgressBar.visibility = View.VISIBLE
@@ -145,8 +141,6 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     detailsProgressBar.visibility = View.GONE
 
                     val series = state.series
-                    Toast.makeText(requireContext(), "series: ${series.id}", Toast.LENGTH_LONG)
-                        .show()
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
                         provideGlide(image, getTmdbImageUrl(series.image))
@@ -220,11 +214,11 @@ class TrendingSeriesDetailsFragment : Fragment() {
 
                     imdbChip.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_imdb_rating,
-                        series.voteAverage
+                        series.voteAverage.toInt()
                     )
                     movieDbChip.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_popularity,
-                        series.popularity
+                        series.popularity.toInt()
                     )
 
                     similarDetailsAdapter.similarsDiffer.submitList(series.similar)

@@ -38,7 +38,7 @@ data class UserSeries internal constructor(
         name = series.name,
         numberOfSeasons = series.numberOfSeasons,
         numberOfEpisodes = series.numberOfEpisodes,
-        episodeRuntime = series.episodeRuntime.first(),
+        episodeRuntime = series.episodeRuntime.firstOrNull() ?: 0,
         overview = series.overview,
         popularity = series.popularity,
         image = series.image,
