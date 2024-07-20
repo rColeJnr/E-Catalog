@@ -19,7 +19,7 @@ data class UserTrendingSeries internal constructor(
         id = series.id,
         name = series.name,
         overview = series.overview,
-        image = series.image,
+        image = series.image ?: "",
         popularity = series.popularity,
         firstAirDate = series.firstAirDate,
         voteAverage = series.voteAverage,

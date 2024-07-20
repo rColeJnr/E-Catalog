@@ -212,12 +212,12 @@ class TrendingMovieDetailsFragment : Fragment() {
 
                     imdbChip.text = resources.getString(
                         R.string.movie_screen_movie_trending_movie_details_imdb_rating,
-                        trendingMovie.popularity
+                        trendingMovie.popularity.toInt()
                     )
                     movieDbChip.text =
                         resources.getString(
                             R.string.movie_screen_movie_trending_movie_details_imdb_rating,
-                            trendingMovie.voteAverage
+                            trendingMovie.voteAverage.toInt()
                         )
 
                     similarDetailsAdapter.similarsDiffer

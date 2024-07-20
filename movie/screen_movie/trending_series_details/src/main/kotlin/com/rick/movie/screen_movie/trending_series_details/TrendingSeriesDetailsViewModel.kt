@@ -48,7 +48,10 @@ class SeriesDetailsViewModel @Inject constructor(
                     .map<UserSeries, SeriesDetailsUiState> {
                         SeriesDetailsUiState.Success(it)
                     }
-                    .catch { emit(SeriesDetailsUiState.Error(it.localizedMessage)) }
+                    .catch {
+                        emit(SeriesDetailsUiState.Error(it.localizedMessage))
+                        it.printStackTrace()
+                    }
             }
         }.stateIn(
             viewModelScope,

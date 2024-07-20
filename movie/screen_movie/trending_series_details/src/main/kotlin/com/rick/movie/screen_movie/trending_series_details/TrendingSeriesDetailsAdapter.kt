@@ -67,7 +67,7 @@ class SeriesSimilarsViewHolder(
         this.title.text = similar.name
 
         val src = similar.image
-        if (src.isNotBlank()) provideGlide(this.image, getTmdbImageUrl(src))
+        if (!src.isNullOrEmpty()) provideGlide(this.image, getTmdbImageUrl(src))
     }
 
     companion object {
