@@ -4,6 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Multimedia(
-    val type: String,
-    val url: String,
+    val default: DefaultImage?
 )//: Parcelable
+
+@Serializable
+data class DefaultImage(
+    val url: String?
+)

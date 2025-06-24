@@ -34,7 +34,7 @@ class ArticleDetailsDialogFragment(
                 dialog?.dismiss()
             }
             val image = article.multimedia
-            if (image.isNotEmpty()) provideGlide(view.image, "https://www.nytimes.com/$image")
+            if (image.isNotEmpty()) provideGlide(view.image, image)
             view.title.text = article.headline
             view.summary.text = article.leadParagraph
             view.date.text =

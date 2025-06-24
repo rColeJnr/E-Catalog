@@ -346,7 +346,7 @@ class ArticleSearchViewHolder(
         this.title.text = searchResult.headline
         this.description.text = searchResult.leadParagraph
         val image = searchResult.multimedia
-        if (image.isNotEmpty()) provideGlide(this.image, "https://www.nytimes.com/$image")
+        if (image.isNotEmpty()) provideGlide(this.image, image)
         favorite.foreground = if (searchResult.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,

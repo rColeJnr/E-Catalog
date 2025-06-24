@@ -16,11 +16,11 @@ data class ArticleNetwork(
     @SerializedName("web_url")
     @SerialName("web_url")
     val webUrl: String,
-    @SerializedName("lead_paragraph")
+    @SerializedName("snippet")
     @SerialName("lead_paragraph")
     val leadParagraph: String,
     val source: String,
-    val multimedia: List<Multimedia>?,
+    val multimedia: Multimedia?,
     val headline: Headline,
     @SerializedName("pub_date")
     @SerialName("pub_date")

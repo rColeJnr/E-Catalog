@@ -35,7 +35,7 @@ interface ArticleDao {
                 END
             AND
                 CASE WHEN :filterByQuery
-                    THEN title LIKE (:query)
+                    THEN title LIKE (:query) OR lead_paragraph LIKE (:query)
                     ELSE 1
                 END
             ORDER BY publication_date DESC
