@@ -73,7 +73,7 @@ fun MovieFavScreen(
                             EcsCatalogCard(
                                 itemTitle = article.headline,
                                 itemSummary = article.leadParagraph,
-                                itemImage = "https://www.nytimes.com/${article.multimedia}",
+                                itemImage = article.multimedia,
                                 itemId = article.id,
                                 onFavClick = onFavClick
                             )
