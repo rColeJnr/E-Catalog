@@ -41,7 +41,7 @@ class ArticleViewHolder(
         this.title.text = article.headline
         this.summary.text = article.leadParagraph
         val src = article.multimedia
-        if (src.isNotBlank()) provideGlide(this.image, "https://www.nytimes.com/$src")
+        if (src.isNotBlank()) provideGlide(this.image, src)
         favorite.foreground = if (article.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,

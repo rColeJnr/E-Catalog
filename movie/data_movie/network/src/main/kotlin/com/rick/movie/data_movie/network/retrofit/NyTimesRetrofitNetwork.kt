@@ -55,7 +55,7 @@ internal class NyTimesRetrofitNetwork @Inject constructor() : ArticleNetworkData
             sort = "newest",
             page = page,
             apikey = apikey,
-            section_name = "section_name:\"Movies\" AND type_of_material:\"Review\""
+            section_name = "section.name:\"movies\" AND typeOfMaterials:\"review\""
         )
 
     override suspend fun searchMovieArticles(
@@ -67,7 +67,7 @@ internal class NyTimesRetrofitNetwork @Inject constructor() : ArticleNetworkData
         networkApi.searchMovieArticles(
             query = query,
             apikey = apiKey,
-            section_name = "section_name:\"Movies\" AND type_of_material:\"Review\"",
+            section_name = "section.name:\"movies\" AND typeOfMaterials:\"review\"",
             sort = "relevance",
         )
 }

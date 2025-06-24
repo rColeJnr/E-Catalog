@@ -8,7 +8,7 @@ interface ArticleNetworkDataSource {
     suspend fun fetchMovieArticles(
         page: Int,
         apikey: String,
-        section_name: String = "section_name:\"Movies\" AND type_of_material:\"Review\"",
+        section_name: String = "section.name:\"movies\" AND typeOfMaterials:\"review\"",
         sort: String = "newest",
     ): ArticleResponse
 
@@ -16,7 +16,7 @@ interface ArticleNetworkDataSource {
         apiKey: String,
         query: String,
         sort: String = "relevance",
-        section_name: String = "section_name:\"Movies\" AND type_of_material:\"Review\"",
+        section_name: String = "section.name:\"movies\" AND typeOfMaterials:\"review\"",
     ): ArticleResponse
 
 }
