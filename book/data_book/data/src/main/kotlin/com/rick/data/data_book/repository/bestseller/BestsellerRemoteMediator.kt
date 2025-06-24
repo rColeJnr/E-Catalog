@@ -72,7 +72,7 @@ class BestsellerRemoteMediator(
             val nextKey = if (endOfPaginationReached) null else page + 1
             val keys = books.map {
                 BestsellerRemoteKeys(
-                    id = it.id, prevKey = prevKey, nextKey = nextKey
+                    id = it.rank.toString(), prevKey = prevKey, nextKey = nextKey
                 )
             }
             keysDao.insertAll(keys)

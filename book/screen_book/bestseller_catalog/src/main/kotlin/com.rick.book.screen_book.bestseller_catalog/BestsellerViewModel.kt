@@ -26,8 +26,7 @@ class BestsellerViewModel @Inject constructor(
 
     // private set
     private val nyKey: String
-    var position: Int = 0
-        private set
+    private var position: Int = 0
 
     init {
 

@@ -1,11 +1,11 @@
 package com.rick.book.screen_book.bestseller_catalog
 
 enum class BookGenre(val listName: String) {
-    FICTION("Hardcover Fiction"),
-    NONFICTION("Hardcover Nonfiction"),
-    MISCELLANEOUS("Advice How-To and Miscellaneous"),
-    BUSINESS("Business Books"),
-    GRAPHIC("Graphic Books and Manga");
+    FICTION("hardcover-fiction"),
+    NONFICTION("hardcover-nonfiction"),
+    MISCELLANEOUS("advice-how-to-and-miscellaneous"),
+    BUSINESS("business-books"),
+    GRAPHIC("graphic-books-and-manga");
 
     companion object {
         val DEFAULT = FICTION
