@@ -145,33 +145,36 @@ class TrendingMovieDetailsFragment : Fragment() {
                     detailsProgressBar.visibility = View.GONE
                     val trendingMovie = state.movie
                     movieTitle.text = trendingMovie.title
-                    Log.e(TAG, trendingMovie.title)
                     if (trendingMovie.image.isNotEmpty()) {
                         provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image))
                     }
                     movieSummary.text = trendingMovie.overview
 
-                    showTranslation.setOnClickListener {
-                        translationViewModel.onEvent(
-                            TranslationEvent.GetTranslation(
-                                listOf(trendingMovie.overview), translationViewModel.location.value
-                            )
-                        )
-                        lifecycleScope.launch {
-                            translationViewModel.translation.collectLatest {
-                                movieSummary.text = it.first().text
-                            }
-                        }
+                    if (translationViewModel.location.value.lowercase() == "en") {
                         showTranslation.visibility = View.GONE
-                        showOriginal.visibility = View.VISIBLE
-                    }
+                    } else {
+                        showTranslation.setOnClickListener {
+                            translationViewModel.onEvent(
+                                TranslationEvent.GetTranslation(
+                                    listOf(trendingMovie.overview),
+                                    translationViewModel.location.value
+                                )
+                            )
+                            lifecycleScope.launch {
+                                translationViewModel.translation.collectLatest {
+                                    movieSummary.text = it.first().text
+                                }
+                            }
+                            showTranslation.visibility = View.GONE
+                            showOriginal.visibility = View.VISIBLE
+                        }
 
-                    showOriginal.setOnClickListener {
-                        movieSummary.text = trendingMovie.overview
-                        showTranslation.visibility = View.VISIBLE
-                        showOriginal.visibility = View.GONE
+                        showOriginal.setOnClickListener {
+                            movieSummary.text = trendingMovie.overview
+                            showTranslation.visibility = View.VISIBLE
+                            showOriginal.visibility = View.GONE
+                        }
                     }
-
                     if (trendingMovie.adult) {
                         movieAdult.text = resources.getString(
                             R.string.movie_screen_movie_trending_movie_details_adult_content, "Yes"
@@ -216,7 +219,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     )
                     movieDbChip.text =
                         resources.getString(
-                            R.string.movie_screen_movie_trending_movie_details_imdb_rating,
+                            R.string.movie_screen_movie_trending_movie_details_db_rating,
                             trendingMovie.voteAverage.toInt()
                         )
 

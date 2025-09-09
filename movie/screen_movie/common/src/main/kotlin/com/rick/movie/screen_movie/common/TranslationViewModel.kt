@@ -26,9 +26,12 @@ class TranslationViewModel @Inject constructor(
 
     fun onEvent(event: TranslationEvent) {
         when (event) {
-            is TranslationEvent.GetTranslation -> translation =
-                getTranslation(event.texts, event.lCode)
-
+            is TranslationEvent.GetTranslation -> {
+                if ( event.lCode.lowercase() ==  "en")
+                    return
+                else
+                    translation = getTranslation(event.texts, event.lCode)
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -157,6 +158,11 @@ class BestsellerFragment : Fragment() {
     }
 
     private fun onTranslationClick(book: UserBestseller, text: List<String>) {
+        if (this.translationViewModel.location.value.lowercase() == "en") {
+            Toast.makeText(context,
+                getString(R.string.book_screen_book_bestseller_catalog_translation_is_not_available_in_english), Toast.LENGTH_SHORT).show()
+            return
+        }
         translationViewModel.onEvent(
             TranslationEvent.GetTranslation(
                 text,
