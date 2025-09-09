@@ -20,7 +20,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 34
+                defaultConfig.targetSdk = 36
                 testOptions.animationsDisabled = true
                 configureFlavors(this)
 //                configureGradleManagedDevices(this)
