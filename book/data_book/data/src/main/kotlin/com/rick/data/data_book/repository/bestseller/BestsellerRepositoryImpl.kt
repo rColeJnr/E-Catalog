@@ -34,15 +34,12 @@ internal class BestsellerRepositoryImpl @Inject constructor(
                 apiKey = apiKey
             ).results.books
 
-            print("your mom")
-            Log.d("Books", "da books network: $bestsellers")
             bestsellerDao.clearBestsellers()
 
             bestsellerDao.upsertBestsellers(bestsellers.map(BestsellerNetwork::asBestsellerEntity))
 
             bestsellerDao.getBestsellers()
                 .collectLatest { bestsellerEntities ->
-                    Log.d("Books", "da books db: $bestsellerEntities")
                     send(bestsellerEntities.map(BestsellerEntity::asBestseller)) }
         } catch (e: IOException) {
             Log.e(TAG, e.localizedMessage ?: "IOException")
