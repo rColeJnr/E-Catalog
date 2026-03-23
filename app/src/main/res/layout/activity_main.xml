@@ -18,15 +18,18 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingTop="@dimen/data_ui_components_auth_16dp"
+            >
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/toolbar_text"
                 android:layout_width="282dp"
                 android:layout_height="?attr/actionBarSize"
-                android:gravity="start|center_vertical"
-                android:textAlignment="gravity"
+                android:paddingBottom="@dimen/data_ui_components_auth_2dp"
+                android:gravity="start|center"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -45,7 +48,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/data_ui_components_auth_282dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?attr/colorOnSurface"

@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.rick.data.model_anime.FavoriteUiState
 import com.rick.data.ui_components.anime_favorite.R
 import com.rick.data.ui_components.common.EcsCatalogCard

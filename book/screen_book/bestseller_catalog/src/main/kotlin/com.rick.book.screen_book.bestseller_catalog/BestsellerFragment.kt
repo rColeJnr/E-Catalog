@@ -138,8 +138,8 @@ class BestsellerFragment : Fragment() {
     private fun initAdapter() {
         adapter =
             BestsellerAdapter(this::onBookClick, this::onFavoriteClick, this::onTranslationClick)
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//        binding.recyclerView.layoutManager =
+//            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
         binding.recyclerView.adapter = adapter
     }
