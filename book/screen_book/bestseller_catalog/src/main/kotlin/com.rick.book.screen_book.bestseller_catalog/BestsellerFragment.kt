@@ -1,5 +1,8 @@
 package com.rick.book.screen_book.bestseller_catalog
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +11,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,7 +20,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
 import com.rick.book.screen_book.bestseller_catalog.databinding.BookScreenBookBestsellerCatalogFragmentBestsellerBinding
 import com.rick.book.screen_book.common.TranslationEvent
 import com.rick.book.screen_book.common.TranslationViewModel
@@ -30,8 +33,10 @@ import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_book.bestseller.UserBestseller
 import com.rick.data.ui_components.common.ErrorMessage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Locale
@@ -46,6 +51,8 @@ class BestsellerFragment : Fragment() {
     private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var adapter: BestsellerAdapter
+    private lateinit var carouselAdapter: BestsellerCarouselAdapter
+    private lateinit var categoryAdapter: BestsellerCategoryAdapter
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -68,46 +75,46 @@ class BestsellerFragment : Fragment() {
             translationViewModel.setLocation(Locale.getDefault().language)
         }
 
-        initAdapter()
+        initAdapters()
 
-        binding.bindSpinner()
+        binding.bindList(
+            viewModel.bestsellerUiState.asLiveData(),
+            onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(0)) }
+        )
 
         analyticsHelper.logScreenView("bestsellerCatalog")
 
         return binding.root
     }
 
-    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindSpinner() {
-        ArrayAdapter.createFromResource(
-            this@BestsellerFragment.requireContext(),
-            R.array.book_screen_book_bestseller_catalog_bestseller_categories,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
+    private fun initAdapters() {
+        // Main RecyclerView Adapter
+        adapter =
+            BestsellerAdapter(this::onBookClick, this::onFavoriteClick, this::onTranslationClick)
+        binding.recyclerView.layoutManager =
+            GridLayoutManager(requireContext(), 2)
+        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.adapter = adapter
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
-                viewModel.onEvent(BestsellerEvents.SelectedGenre(pos))
-                bindList(
-                    adapter,
-                    viewModel.bestsellerUiState.asLiveData(),
-                    onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(pos)) })
-            }
+        carouselAdapter = BestsellerCarouselAdapter(this::onBookClick, this::onFavoriteClick)
+        binding.carouselView.adapter = carouselAdapter
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                //Do nothing
-            }
+        categoryAdapter = BestsellerCategoryAdapter { position ->
+            viewModel.onEvent(BestsellerEvents.SelectedGenre(position))
+            binding.bindList(
+                uiState = viewModel.bestsellerUiState.asLiveData(),
+                onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(position)) }
+            )
         }
+        binding.categoryList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.categoryList.adapter = categoryAdapter
     }
 
     private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList(
-        adapter: BestsellerAdapter,
         uiState: LiveData<BestsellerUIState>,
         onRetry: () -> Unit
     ) {
-
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 BestsellerUIState.Loading -> {
@@ -116,9 +123,43 @@ class BestsellerFragment : Fragment() {
                 }
 
                 is BestsellerUIState.Success -> {
+                    runBlocking {
+                        delay(300L)
+                    }
                     progressBar.visibility = View.GONE
                     bookComposeView.visibility = View.GONE
+
+                    val viewsToAnimate = listOf(
+                        carouselTitle,
+                        carouselView,
+                        categoryLabel,
+                        categoryList,
+                        bestsellersLabel,
+                        recyclerView
+                    )
+
+                    viewsToAnimate.forEachIndexed { index, view ->
+                        if (view.visibility != View.VISIBLE) {
+                            view.apply {
+                                alpha = 0f
+                                visibility = View.VISIBLE
+                                translationY = 50f
+
+                                animate()
+                                    .alpha(1f)
+                                    .translationY(0f)
+                                    .setDuration(1000L)
+                                    .setStartDelay(index * 100L)
+                                    .setInterpolator(android.view.animation.DecelerateInterpolator())
+                                    .start()
+                            }
+                        }
+                    }
+
                     adapter.differ.submitList(state.bestsellers)
+                    carouselAdapter.submitList(state.bestsellers.sortedByDescending { it.weeksOnList }
+                        .take(5))
+                    categoryAdapter.submitList(BookGenre.entries)
                 }
 
                 BestsellerUIState.Error -> {
@@ -135,17 +176,35 @@ class BestsellerFragment : Fragment() {
         }
     }
 
-    private fun initAdapter() {
-        adapter =
-            BestsellerAdapter(this::onBookClick, this::onFavoriteClick, this::onTranslationClick)
-//        binding.recyclerView.layoutManager =
-//            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
-        binding.recyclerView.adapter = adapter
-    }
-
     private fun onFavoriteClick(view: View, id: String, isFavorite: Boolean) {
-        //TODO add animation to indicate favorited
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            R.animator.book_screen_book_bestseller_catalog_favorite_animator
+        ) as AnimatorSet
+
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    R.drawable.book_screen_book_bestseller_catalog_ic_fav_outlined // Going from Favorite to Not
+                } else {
+                    R.drawable.book_screen_book_bestseller_catalog_ic_fav_filled // Going from Not to Favorite
+                }
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
         viewModel.onEvent(BestsellerEvents.UpdateBestsellerFavorite(id, !isFavorite))
     }
 
@@ -159,8 +218,11 @@ class BestsellerFragment : Fragment() {
 
     private fun onTranslationClick(book: UserBestseller, text: List<String>) {
         if (this.translationViewModel.location.value.lowercase() == "en") {
-            Toast.makeText(context,
-                getString(R.string.book_screen_book_bestseller_catalog_translation_is_not_available_in_english), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                getString(R.string.book_screen_book_bestseller_catalog_translation_is_not_available_in_english),
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
         translationViewModel.onEvent(
@@ -193,13 +255,7 @@ class BestsellerFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-//            R.id.search_books -> {
-//
-//                true
-//            }
-
             R.id.favorite -> {
-
                 navController.navigate(
                     BestsellerFragmentDirections.bookScreenBookBestsellerCatalogActionBookScreenBookBestsellerCatalogBestsellerfragmentToBookScreenBookBestsellerFavoritesNavGraph()
                 )
@@ -210,10 +266,8 @@ class BestsellerFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }
-
-private const val TAG = "BestsellerFragment"

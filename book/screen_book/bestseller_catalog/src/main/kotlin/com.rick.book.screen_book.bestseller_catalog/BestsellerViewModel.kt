@@ -7,6 +7,7 @@ import com.rick.data.data_book.repository.bestseller.UserBestsellerDataRepositor
 import com.rick.data.model_book.bestseller.UserBestseller
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -32,6 +33,7 @@ class BestsellerViewModel @Inject constructor(
 
         System.loadLibrary(LIB_NAME)
         nyKey = getNYKey()
+        onEvent(BestsellerEvents.SelectedGenre(0))
 
     }
 
@@ -46,6 +48,11 @@ class BestsellerViewModel @Inject constructor(
             }
         }
     }
+
+    private fun fetchBestsellers() {
+
+    }
+
 
     private fun fetchBestsellers(bookGenre: Int = position) {
         position = bookGenre
@@ -74,7 +81,12 @@ sealed interface BestsellerUIState {
     data object Loading : BestsellerUIState
     data object Error : BestsellerUIState
     data class Success(val bestsellers: List<UserBestseller>) : BestsellerUIState
+}
 
+sealed interface BestsellerCarouselUIState {
+    data object Loading : BestsellerCarouselUIState
+    data object Error : BestsellerCarouselUIState
+    data class Success(val bestsellers: List<UserBestseller>) : BestsellerCarouselUIState
 }
 
 private external fun getNYKey(): String
