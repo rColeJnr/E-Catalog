@@ -18,13 +18,13 @@ import javax.inject.Inject
 
 internal class BestsellerRepositoryImpl @Inject constructor(
     private val bestsellerDao: BestsellerDao,
-    private val network: BestsellerNetworkDataSource,
-//    private val apiKey: String,
-//    private val
+    private val network: BestsellerNetworkDataSource
 ) : BestsellerRepository {
 
     override fun getBestseller(
-        bookGenre: String, apiKey: String, date: String
+        bookGenre: String,
+        apiKey: String,
+        date: String
     ): Flow<List<Bestseller>> = channelFlow {
 
         try {

@@ -2,6 +2,7 @@ package com.rick.book.screen_book.bestseller_catalog
 
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +15,12 @@ class BestsellerAdapter(
 ) : RecyclerView.Adapter<BestsellerViewHolder>() {
 
     val differ = AsyncListDiffer(this, DIFF_UTIL)
+    private var lastPosition = -1
 
     override fun onBindViewHolder(holder: BestsellerViewHolder, position: Int) {
-        differ.currentList.get(position)?.let {
+        differ.currentList[position]?.let {
             holder.bind(book = it)
+            setAnimation(holder.itemView, position)
         }
     }
 
@@ -26,6 +29,14 @@ class BestsellerAdapter(
     }
 
     override fun getItemCount(): Int = differ.currentList.size
+
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.book_screen_book_bestseller_catalog_carousel_entry_anim)
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
+        }
+    }
 
     companion object {
         val DIFF_UTIL = object : DiffUtil.ItemCallback<UserBestseller>() {
