@@ -151,7 +151,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     movieSummary.text = trendingMovie.overview
 
                     if (translationViewModel.location.value.lowercase() == "en") {
-                        showTranslation.visibility = View.GONE
+                        showTranslation.visibility = View.VISIBLE
                     } else {
                         showTranslation.setOnClickListener {
                             translationViewModel.onEvent(
@@ -165,14 +165,6 @@ class TrendingMovieDetailsFragment : Fragment() {
                                     movieSummary.text = it.first().text
                                 }
                             }
-                            showTranslation.visibility = View.GONE
-                            showOriginal.visibility = View.VISIBLE
-                        }
-
-                        showOriginal.setOnClickListener {
-                            movieSummary.text = trendingMovie.overview
-                            showTranslation.visibility = View.VISIBLE
-                            showOriginal.visibility = View.GONE
                         }
                     }
                     if (trendingMovie.adult) {
@@ -191,13 +183,38 @@ class TrendingMovieDetailsFragment : Fragment() {
                         )
 
                     moviePublicationDate.text =
-                        if (trendingMovie.releaseDate.isNotEmpty()) resources.getString(
-                            R.string.movie_screen_movie_trending_movie_details_release_date,
-                            trendingMovie.releaseDate
-                        )
-                        else resources.getString(
-                            R.string.movie_screen_movie_trending_movie_details_release_date, noData
-                        )
+                        if (trendingMovie.releaseDate.isNotEmpty()) {
+                            try {
+                                val inputFormatter = java.time.format.DateTimeFormatter.ofPattern(
+                                    "yyyy-MM-dd",
+                                    Locale.ENGLISH
+                                )
+                                val date = java.time.LocalDate.parse(
+                                    trendingMovie.releaseDate,
+                                    inputFormatter
+                                )
+
+                                 val outputFormatter = java.time.format.DateTimeFormatter.ofPattern(
+                                    "d 'of' MMMM, yyyy",
+                                    Locale.getDefault()
+                                )
+
+                                resources.getString(
+                                    R.string.movie_screen_movie_trending_movie_details_release_date,
+                                    date.format(outputFormatter)
+                                )
+                            } catch (e: Exception) {
+                                resources.getString(
+                                    R.string.movie_screen_movie_trending_movie_details_release_date,
+                                    trendingMovie.releaseDate
+                                )
+                            }
+                        } else {
+                            resources.getString(
+                                R.string.movie_screen_movie_trending_movie_details_release_date,
+                                noData
+                            )
+                        }
                     movieRuntime.text = resources.getString(
                         R.string.movie_screen_movie_trending_movie_details_runtime,
                         trendingMovie.runtime
@@ -205,12 +222,12 @@ class TrendingMovieDetailsFragment : Fragment() {
 
                     movieBudget.text = resources.getString(
                         R.string.movie_screen_movie_trending_movie_details_budget,
-                        trendingMovie.budget
+                        trendingMovie.budget.toDouble() / 1_000_000.0
                     )
 
                     movieRevenue.text = resources.getString(
                         R.string.movie_screen_movie_trending_movie_details_revenue,
-                        trendingMovie.revenue
+                        trendingMovie.revenue.toDouble() / 1_000_000.0
                     )
 
                     imdbChip.text = resources.getString(
@@ -220,7 +237,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     movieDbChip.text =
                         resources.getString(
                             R.string.movie_screen_movie_trending_movie_details_db_rating,
-                            trendingMovie.voteAverage.toInt()
+                            trendingMovie.voteAverage
                         )
 
                     similarDetailsAdapter.similarsDiffer
@@ -241,10 +258,10 @@ fun stringFromList(list: List<Any>): String {
     list.forEach {
         if (it is Creator) {
             buffer.append((it).name)
-            buffer.append(" ")
+            buffer.append("; ")
         } else {
             buffer.append((it as Genre).name)
-            buffer.append(" ")
+            buffer.append("; ")
         }
     }
     return buffer.toString()

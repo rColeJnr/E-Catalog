@@ -5,21 +5,23 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:elevation="8dp"
-    app:cardBackgroundColor="?attr/colorOnSurface">
+    app:cardCornerRadius="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270"
         android:padding="@dimen/book_screen_book_bestseller_catalog_two_dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:src="@drawable/book_screen_book_bestseller_catalog_ic_app_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/BookScreenBookBestsellerCatalogRoundedBookCover" />
 
         <TextView
             android:id="@+id/title"
@@ -28,7 +30,7 @@
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="5dp"
             android:ems="8"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="@id/image" />
 
@@ -39,7 +41,7 @@
             android:layout_marginHorizontal="8dp"
             android:layout_marginBottom="5dp"
             android:maxEms="8"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintStart_toEndOf="@id/image" />
 
@@ -50,7 +52,7 @@
             android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:background="?attr/colorSecondary"
             android:padding="2dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image" />
 
@@ -69,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/summary" />
 
@@ -78,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rank" />
 
@@ -87,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rank_last_week" />
 
@@ -98,7 +100,7 @@
             android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:backgroundTint="?attr/colorSecondary"
             android:text="@string/book_screen_book_bestseller_catalog_open_link_amazon"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:cornerRadius="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/weeks_on_list" />
@@ -110,7 +112,7 @@
             android:layout_margin="@dimen/book_screen_book_bestseller_catalog_two_dp"
             android:backgroundTint="?attr/colorSecondary"
             android:text="@string/book_screen_book_bestseller_catalog_close"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:cornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

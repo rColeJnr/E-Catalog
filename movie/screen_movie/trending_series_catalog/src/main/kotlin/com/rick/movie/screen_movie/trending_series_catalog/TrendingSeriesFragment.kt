@@ -1,5 +1,8 @@
 package com.rick.movie.screen_movie.trending_series_catalog
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.imageview.ShapeableImageView
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingSeries
 import com.rick.movie.screen_movie.common.RemotePresentationState
@@ -145,6 +149,35 @@ class TrendingSeriesFragment : Fragment() {
     }
 
     private fun onFavClick(view: View, id: Int, isFavorite: Boolean) {
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            com.rick.movie.screen_movie.common.R.animator.movie_screen_movie_common_animator
+        ) as AnimatorSet
+
+        val imageView =
+            view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    R.drawable.movie_screen_movie_trending_series_catalog_star_outlined// Going from Favorite to Not
+                } else {
+                    R.drawable.movie_screen_movie_trending_series_catalog_star_filled// Going from Not to Favorite
+                }
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
         viewModel.onEvent(TrendingSeriesUiEvent.UpdateTrendingSeriesFavorite(id, !isFavorite))
     }
 

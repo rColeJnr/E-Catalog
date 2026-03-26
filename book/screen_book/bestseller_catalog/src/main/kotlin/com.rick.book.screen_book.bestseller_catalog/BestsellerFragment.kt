@@ -132,7 +132,6 @@ class BestsellerFragment : Fragment() {
                     val viewsToAnimate = listOf(
                         carouselTitle,
                         carouselView,
-                        categoryLabel,
                         categoryList,
                         bestsellersLabel,
                         recyclerView
@@ -179,7 +178,7 @@ class BestsellerFragment : Fragment() {
     private fun onFavoriteClick(view: View, id: String, isFavorite: Boolean) {
         val set = AnimatorInflater.loadAnimator(
             requireContext(),
-            R.animator.book_screen_book_bestseller_catalog_favorite_animator
+            com.rick.book.screen_book.common.R.animator.book_screen_book_common_favorite_animator
         ) as AnimatorSet
 
         val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)

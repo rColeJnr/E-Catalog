@@ -13,9 +13,10 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270"
-        app:cardCornerRadius="30dp">
+        app:cardCornerRadius="30dp"
+        app:shapeAppearanceOverlay="@style/BookScreenBookBestsellerCatalogRoundedBookCover">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/category_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -32,11 +33,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha="0.9"
-        android:textColor="@android:color/darker_gray"
         android:gravity="center"
         android:hint="@string/book_screen_book_bestseller_catalog_category"
         android:maxLines="1"
         android:textAlignment="gravity"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Tooltip"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@android:color/darker_gray"
         android:textSize="13sp" />
 </LinearLayout>

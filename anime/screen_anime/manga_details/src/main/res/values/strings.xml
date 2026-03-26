@@ -24,4 +24,5 @@
     <string name="anime_screen_anime_manga_details_anime_screen_anime_published">Published from: %1$s</string>
     <string name="anime_screen_anime_manga_details_show_translation">Show translation</string>
     <string name="anime_screen_anime_manga_details_show_original">Show original</string>
+    <string name="anime_screen_anime_manga_details_overview">Overview</string>
 </resources>

@@ -13,6 +13,8 @@
     <string name="movie_screen_movie_trending_series_details_genres">Gêneros: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_adult_content">Conteúdo adulto: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_no_data">n/a</string>
+    <string name="movie_screen_movie_trending_series_details_yes">Sim</string>
+    <string name="movie_screen_movie_trending_series_details_no">Não</string>
     <string name="movie_screen_movie_trending_series_details_transition_name">trending_series_details_transition</string>
     <string name="movie_screen_movie_trending_series_details_popularity">Popularidade: %1$d</string>
     <string name="movie_screen_movie_trending_series_details_number_of_seasons">Número de temporadas: %1$d</string>

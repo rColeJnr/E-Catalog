@@ -25,5 +25,7 @@
     <string name="movie_screen_movie_trending_movie_catalog_detail_transition_name" translatable="false">details_transition</string>
     <string name="movie_screen_movie_trending_movie_catalog_show_translation">Show translation</string>
     <string name="movie_screen_movie_trending_movie_catalog_show_original">Show original</string>
+    <string name="movie_screen_movie_trending_movie_catalog_slogan">Explore thousands of movies and find your next favorite</string>
+    <string name="movie_screen_movie_trending_movie_catalog_header">Discover Movies</string>
 
 </resources>
