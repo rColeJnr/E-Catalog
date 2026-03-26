@@ -121,7 +121,7 @@ fun EcsTextButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifi
         onClick = onClick,
 //        colors = ButtonDefaults.textButtonColors(containerColor = colorResource(id = R.color.data_ui_components_common_background))
     ) {
-        EcsTextSmaller(text = text)
+        EcsText(text = text, fontSize = 15.sp)
     }
 }
 
