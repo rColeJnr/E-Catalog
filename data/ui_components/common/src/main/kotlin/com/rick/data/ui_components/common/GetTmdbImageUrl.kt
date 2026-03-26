@@ -1,4 +1,4 @@
-package com.rick.movie.screen_movie.common.util
+package com.rick.data.ui_components.common
 
 
 fun getTmdbImageUrl(url: String): String =

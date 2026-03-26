@@ -38,11 +38,6 @@ class AnimeCatalogAdapter(
             AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, onTranslationClick)
     }
 
-    override fun getItemCount(): Int {
-        val actualCount = super.getItemCount()
-        return if (actualCount == 0) 0 else actualCount + 1
-    }
-
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<UserAnime>() {
             override fun areItemsTheSame(oldItem: UserAnime, newItem: UserAnime): Boolean {

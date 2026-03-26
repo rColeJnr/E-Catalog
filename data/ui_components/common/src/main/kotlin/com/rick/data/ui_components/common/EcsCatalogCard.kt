@@ -1,42 +1,37 @@
 package com.rick.data.ui_components.common
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Star
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-
 
 @Composable
 fun EcsCatalogCard(
@@ -49,69 +44,64 @@ fun EcsCatalogCard(
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(2.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.data_ui_components_common_background)
-        )
+            .padding(8.dp),
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
     ) {
-        ConstraintLayout(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(Color(0xFFD4D4D4), Color(0xFFFFFFFF)),
+                        start = Offset(Float.POSITIVE_INFINITY, 0f),
+                        end = Offset(0f, Float.POSITIVE_INFINITY)
+                    )
+                )
+                .padding(bottom = 16.dp)
         ) {
-            val (title, card, favorite, synopsis) = createRefs()
-            EcsText(
-                text = itemTitle,
+
+            Box(
                 modifier = Modifier
-                    .constrainAs(title) {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start)
-                    }
-            )
-            Card(
-                shape = RectangleShape,
-                colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.data_ui_components_common_background)),
-                modifier = Modifier.constrainAs(card) {
-                    top.linkTo(title.bottom)
-                    bottom.linkTo(synopsis.top)
-                }
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(itemImage)
                         .crossfade(true)
                         .build(),
-                    contentDescription = stringResource(R.string.data_ui_components_common_favorite),
+                    contentDescription = null,
                     placeholder = painterResource(id = R.drawable.data_ui_components_common_fav_filled_icon),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 250.dp),
-                    contentScale = ContentScale.FillHeight,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
                 )
             }
-            IconButton(
-                onClick = { onFavClick(itemId) },
-                modifier = Modifier.constrainAs(favorite) {
-                    bottom.linkTo(card.bottom)
-                    end.linkTo(card.end)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Star,
-                    contentDescription = stringResource(
-                        R.string.data_ui_components_common_favorite
-                    ),
-                    modifier = Modifier.size(width = 36.dp, height = 31.dp)
-                )
-            }
+
             EcsText(
+                text = itemTitle,
+                fontSize = 18.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
+                maxLines = 1
+            )
+
+            EcsTextSmaller(
                 text = itemSummary,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .constrainAs(synopsis) {
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    },
+                    .padding(horizontal = 16.dp),
+                maxLines = 5
+            )
+
+            EcsTextButton(
+                text = "Remove from favorites",
+                onClick = { onFavClick(itemId) },
+                modifier = Modifier
+                    .padding(top = 8.dp)
             )
         }
     }
@@ -129,61 +119,65 @@ fun EcsBookCatalogCard(
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .requiredHeight(92.dp)
-            .padding(2.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.data_ui_components_common_background)
-        )
+            .padding(6.dp),
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(image)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = stringResource(R.string.data_ui_components_common_favorite),
-                placeholder = painterResource(R.drawable.data_ui_components_common_fav_filled_icon),
-                modifier = Modifier.height(250.dp),
-                contentScale = ContentScale.Fit,
-            )
-            Spacer(modifier = Modifier.width(6.dp))
-            Column(
-                modifier = Modifier
-                    .wrapContentWidth(align = Alignment.Start)
-                    .fillMaxHeight()
-                    .weight(1f),
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                EcsText(
-                    text = title,
-                    modifier = Modifier,
-                    maxLines = 2
-                )
-                EcsText(
-                    text = author,
-                    modifier = Modifier,
-                    maxLines = 2
-                )
-            }
-            Spacer(modifier = Modifier.width(6.dp))
-            IconButton(
-                onClick = { onFavClick(id) },
-                modifier = Modifier
-                    .requiredSize(65.dp)
-                    .padding(end = 12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Star,
-                    contentDescription = stringResource(
-                        R.string.data_ui_components_common_favorite
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.White,
+                            Color.LightGray.copy(alpha = 0.2f)
+                        )
                     )
                 )
+                .padding(8.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(220.dp)
+                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(image)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    placeholder = painterResource(R.drawable.data_ui_components_common_fav_filled_icon),
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
             }
+
+            EcsText(
+                text = title,
+                fontSize = 17.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                maxLines = 1,
+            )
+
+            EcsTextSmaller(
+                text = author,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp, start = 1.dp, end = 1.dp),
+                maxLines = 1,
+            )
+
+            EcsTextButton(
+                text = "Remove from favorites",
+                onClick = { onFavClick(id) },
+                modifier = Modifier
+                    .padding(8.dp)
+            )
         }
     }
 }
