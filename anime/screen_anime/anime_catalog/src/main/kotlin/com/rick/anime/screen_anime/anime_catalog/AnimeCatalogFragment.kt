@@ -191,13 +191,13 @@ class AnimeCatalogFragment : Fragment() {
         findNavController().navigate(uri)
     }
 
-    private fun onAnimeFavClick(id: Int, isFavorite: Boolean) {
+    private fun onAnimeFavClick(view: View, id: Int, isFavorite: Boolean) {
         val set = AnimatorInflater.loadAnimator(
             requireContext(),
             com.rick.anime.screen_anime.common.R.animator.anime_screen_anime_common_favorite_animator
         ) as AnimatorSet
 
-        val imageView = view?.findViewById<ShapeableImageView>(R.id.favorite)
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
         var imageSwapped = false
 
         val rotationAnimator = set.childAnimations.find {
@@ -211,7 +211,7 @@ class AnimeCatalogFragment : Fragment() {
                 } else {
                     R.drawable.anime_screen_anime_anime_catalog_star_filled // Going from Not to Favorite
                 }
-                imageView?.setImageResource(nextIcon)
+                imageView.setImageResource(nextIcon)
                 imageSwapped = true
             }
         }
