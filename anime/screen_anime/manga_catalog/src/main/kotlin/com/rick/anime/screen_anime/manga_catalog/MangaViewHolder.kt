@@ -12,15 +12,14 @@ import com.rick.data.ui_components.common.provideGlide
 class MangaViewHolder(
     binding: AnimeScreenAnimeMangaCatalogMangaEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
-    private val onFavClick: (Int, Boolean) -> Unit,
+    private val onFavClick: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
-    private val favorite = binding.favButton
-    private val showTranslation = binding.showTranslation
-    private val showOriginal = binding.showOriginal
+    private val favorite = binding.favorite
+    private val showTranslation = binding.translate
     private val resources = itemView.resources
 
     init {
@@ -28,17 +27,10 @@ class MangaViewHolder(
             onItemClick(it, manga.id)
         }
         favorite.setOnClickListener {
-            onFavClick(manga.id, manga.isFavorite)
+            onFavClick(it, manga.id, manga.isFavorite)
         }
         showTranslation.setOnClickListener {
             onTranslationClick(synopsis, listOf(manga.synopsis))
-            showOriginal.visibility = View.VISIBLE
-            it.visibility = View.GONE
-        }
-        showOriginal.setOnClickListener {
-            synopsis.text = manga.synopsis
-            it.visibility = View.GONE
-            showTranslation.visibility = View.VISIBLE
         }
     }
 
@@ -51,19 +43,13 @@ class MangaViewHolder(
             provideGlide(this.image, manga.images)
         }
         this.synopsis.text = manga.synopsis
-        favorite.foreground = if (manga.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.anime_screen_anime_manga_catalog_star_filled,
-                null
-            )
-        } else {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.anime_screen_anime_manga_catalog_star_outlined,
-                null
-            )
-        }
+        favorite.setImageResource(
+            if (manga.isFavorite) {
+                R.drawable.anime_screen_anime_manga_catalog_star_filled
+            } else {
+                R.drawable.anime_screen_anime_manga_catalog_star_outlined
+            }
+        )
     }
 
 //    override fun onClick(view: View) {
@@ -74,7 +60,7 @@ class MangaViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
-            onFavClick: (Int, Boolean) -> Unit,
+            onFavClick: (View, Int, Boolean) -> Unit,
             onTranslationClick: (View, List<String>) -> Unit
         ): MangaViewHolder {
             val itemBinding =

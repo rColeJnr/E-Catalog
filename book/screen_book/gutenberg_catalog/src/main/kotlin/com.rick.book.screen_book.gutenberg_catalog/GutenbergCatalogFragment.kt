@@ -1,5 +1,10 @@
 package com.rick.book.screen_book.gutenberg_catalog
 
+import GutenbergCatalogAdapter
+import GutenbergCatalogAdapter.Companion.VIEW_TYPE_HEADER
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +25,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.book.screen_book.common.BookLoadStateAdapter
@@ -40,7 +47,6 @@ import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class GutenbergCatalogFragment : Fragment() {
@@ -114,7 +120,19 @@ class GutenbergCatalogFragment : Fragment() {
 
         binding.recyclerView.adapter =
             adapter.withLoadStateFooter(footer = BookLoadStateAdapter { adapter.retry() })
-
+        val layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val viewType = binding.recyclerView.adapter?.getItemViewType(position)
+                return if (viewType == VIEW_TYPE_HEADER) {
+                    2
+                } else {
+                    1
+                }
+            }
+        }
+        binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
     }
 
@@ -127,17 +145,14 @@ class GutenbergCatalogFragment : Fragment() {
             pagingDataFlow.collect(adapter::submitData)
         }
 
-
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
-                // show progress bar during initial load or refresh.
-                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.
                 bookComposeView.setContent {
                     ErrorMessage(getString(R.string.book_screen_book_gutenberg_catalog_no_results))
                 }
-                bookComposeView.isVisible = !swipeRefresh.isRefreshing && adapter.itemCount == 0
+                bookComposeView.isVisible = adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
@@ -149,8 +164,6 @@ class GutenbergCatalogFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
-                swipeRefresh.setOnRefreshListener { swipeRefresh.isRefreshing = false }
             }
         }
 
@@ -178,13 +191,35 @@ class GutenbergCatalogFragment : Fragment() {
 
     }
 
-    private fun onGutenbergFavClick(id: Int, isFavorite: Boolean) {
-        //how do i even begin to do this?? lol
-        // we need to call view model and add the favorite to  db
-        // at some point we'LL need to call the db for favorites
-        // and present them in the same ui as the remote data.§§  this sounds like
-        // loads of fun.
-        // It's was way too much work to do this.  I'm doing something else.
+    private fun onGutenbergFavClick(view: View, id: Int, isFavorite: Boolean) {
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            com.rick.book.screen_book.common.R.animator.book_screen_book_common_favorite_animator
+        ) as AnimatorSet
+
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    R.drawable.book_screen_book_gutenberg_catalog_ic_fav_outlined // Going from Favorite to Not
+                } else {
+                    R.drawable.book_screen_book_gutenberg_catalog_ic_fav_filled // Going from Not to Favorite
+                }
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
         viewModel.onEvent(BookUiEvents.UpdateGutenbergFavorite(id, !isFavorite))
 
     }

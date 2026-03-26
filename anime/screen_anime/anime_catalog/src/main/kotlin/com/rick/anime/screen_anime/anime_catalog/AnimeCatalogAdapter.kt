@@ -1,26 +1,46 @@
 package com.rick.anime.screen_anime.anime_catalog
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.rick.anime.screen_anime.anime_catalog.databinding.AnimeScreenAnimeAnimeCatalogHeaderBinding
 import com.rick.data.model_anime.UserAnime
 
 class AnimeCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
     private val onAnimeFavClick: (Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
-) : PagingDataAdapter<UserAnime, AnimeViewHolder>(DIFF_UTIL) {
+) : PagingDataAdapter<UserAnime, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
-    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val anime = getItem(position)
-        if (anime != null) {
-            holder.bind(anime)
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_ANIME
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is AnimeHeaderViewHolder -> {
+            }
+
+            is AnimeViewHolder -> {
+                val book = getItem(position - 1)
+                book?.let { holder.bind(it) }
+            }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        return AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, onTranslationClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_HEADER)
+            AnimeHeaderViewHolder.create(parent)
+        else
+            AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, onTranslationClick)
+    }
+
+    override fun getItemCount(): Int {
+        val actualCount = super.getItemCount()
+        return if (actualCount == 0) 0 else actualCount + 1
     }
 
     companion object {
@@ -32,6 +52,23 @@ class AnimeCatalogAdapter(
             override fun areContentsTheSame(oldItem: UserAnime, newItem: UserAnime): Boolean {
                 return oldItem == newItem
             }
+        }
+
+        const val VIEW_TYPE_HEADER = 0
+        const val VIEW_TYPE_ANIME = 1
+    }
+}
+
+class AnimeHeaderViewHolder(private val binding: AnimeScreenAnimeAnimeCatalogHeaderBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        fun create(
+            parent: ViewGroup,
+        ): AnimeHeaderViewHolder {
+            val itemBinding = AnimeScreenAnimeAnimeCatalogHeaderBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            return AnimeHeaderViewHolder(itemBinding)
         }
     }
 }

@@ -28,4 +28,5 @@
     <string name="anime_screen_anime_anime_details_not_airing">Not airing!</string>
     <string name="anime_screen_anime_anime_details_show_translation">Show translation</string>
     <string name="anime_screen_anime_anime_details_show_original">Show original</string>
+    <string name="anime_screen_anime_anime_details_overview">Overview</string>
 </resources>

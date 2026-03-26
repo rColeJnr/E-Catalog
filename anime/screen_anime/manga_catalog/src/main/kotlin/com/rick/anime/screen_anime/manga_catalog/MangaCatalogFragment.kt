@@ -1,5 +1,8 @@
 package com.rick.anime.screen_anime.manga_catalog
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
@@ -179,7 +183,35 @@ class MangaCatalogFragment : Fragment() {
         findNavController().navigate(uri)
     }
 
-    private fun onMangaFavClick(id: Int, isFavorite: Boolean) {
+    private fun onMangaFavClick(view: View, id: Int, isFavorite: Boolean) {
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            com.rick.anime.screen_anime.common.R.animator.anime_screen_anime_common_favorite_animator
+        ) as AnimatorSet
+
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    R.drawable.anime_screen_anime_manga_catalog_star_outlined // Going from Favorite to Not
+                } else {
+                    R.drawable.anime_screen_anime_manga_catalog_star_filled // Going from Not to Favorite
+                }
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
         viewModel.onEvent(JikanUiEvents.UpdateMangaFavorite(id, !isFavorite))
     }
 
