@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="@drawable/movie_screen_movie_trending_movie_details_gradient_background"
     android:orientation="vertical"
     android:transitionGroup="true">
 
@@ -12,18 +12,19 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginVertical="8dp"
         app:layout_collapseMode="pin">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/search_input"
                 android:layout_width="272dp"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center_horizontal"
                 android:autofillHints=""
                 android:hint="@string/movie_screen_movie_trending_movie_search_search"
@@ -31,13 +32,13 @@
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"
                 android:textAlignment="viewStart"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+                android:textAppearance="?attr/textAppearanceBody1" />
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"
                 style="?android:progressBarStyleHorizontal"
-                android:layout_width="282dp"
-                android:layout_height="wrap_content"
+                android:layout_width="272dp"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
                 android:indeterminate="true"
                 android:visibility="gone" />
@@ -45,11 +46,11 @@
             <TextView
                 android:id="@+id/search_error_message"
                 android:layout_width="272dp"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
                 android:layout_marginVertical="8dp"
                 android:text="@string/data_ui_components_common_nothing_found"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textAppearance="?attr/textAppearanceBody1"
                 android:visibility="gone" />
 
         </LinearLayout>

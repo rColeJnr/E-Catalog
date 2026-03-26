@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/anime_screen_anime_common_six_dp"
-    android:backgroundTint="?attr/colorSurface"
+    android:backgroundTint="?attr/colorOnSurface"
     android:elevation="@dimen/anime_screen_anime_manga_search_two_dp"
-    app:cardCornerRadius="@dimen/anime_screen_anime_manga_search_card_corner_radius">
+    app:cardCornerRadius="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,7 +48,8 @@
             android:layout_margin="@dimen/anime_screen_anime_common_six_dp"
             android:src="@drawable/anime_screen_anime_manga_search_star_outlined"
             app:layout_constraintBottom_toBottomOf="@id/image"
-            app:layout_constraintEnd_toEndOf="@id/image" />
+            app:layout_constraintEnd_toEndOf="@id/image"
+            app:shapeAppearanceOverlay="@style/AnimeScreenAnimeCommonRoundedBookCover" />
 
         <TextView
             android:id="@+id/synopsis"
