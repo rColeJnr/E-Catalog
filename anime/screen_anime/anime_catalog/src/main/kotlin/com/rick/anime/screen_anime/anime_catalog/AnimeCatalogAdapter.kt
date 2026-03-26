@@ -11,7 +11,7 @@ import com.rick.data.model_anime.UserAnime
 
 class AnimeCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
-    private val onAnimeFavClick: (Int, Boolean) -> Unit,
+    private val onAnimeFavClick: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
 ) : PagingDataAdapter<UserAnime, RecyclerView.ViewHolder>(DIFF_UTIL) {
 

@@ -1,5 +1,6 @@
 package com.rick.movie.screen_movie.trending_movie_catalog
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,6 +90,7 @@ class TrendingMovieViewHolder(
         }
 
         favorite.setOnClickListener {
+            Log.i("Movue", "movie: ${movie.isFavorite}. ${movie.title}")
             onFavClick(it, movie.id, movie.isFavorite)
         }
         showTranslation.setOnClickListener {
