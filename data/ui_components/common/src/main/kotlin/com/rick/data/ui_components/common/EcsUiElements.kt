@@ -11,6 +11,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +33,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -46,7 +53,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 
 @Composable
 fun EcsAnimatedVisibilityBox(
@@ -82,10 +88,29 @@ fun EcsText(
         maxLines = maxLines,
         fontSize = fontSize,
         overflow = TextOverflow.Ellipsis,
-        fontFamily = FontFamily(Font(R.font.high_tower_text, FontWeight.Bold)),
+        fontFamily = FontFamily(Font(R.font.high_tower_text, FontWeight.Normal)),
         textAlign = TextAlign.Start,
         color = colorResource(id = R.color.data_ui_components_common_text),
         modifier = modifier.padding(bottom = 2.dp)
+    )
+}
+
+@Composable
+fun EcsTextSmaller(
+    modifier: Modifier = Modifier,
+    text: String,
+    fontSize: TextUnit = 14.sp,
+    maxLines: Int = 1
+) {
+    Text(
+        text = text,
+        maxLines = maxLines,
+        fontSize = fontSize,
+        overflow = TextOverflow.Ellipsis,
+        fontFamily = FontFamily(Font(R.font.high_tower_text, FontWeight.Light)),
+        textAlign = TextAlign.Start,
+        color = Color.Gray,
+        modifier = modifier.padding(vertical = 1.dp)
     )
 }
 
@@ -96,7 +121,7 @@ fun EcsTextButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifi
         onClick = onClick,
 //        colors = ButtonDefaults.textButtonColors(containerColor = colorResource(id = R.color.data_ui_components_common_background))
     ) {
-        EcsText(text = text)
+        EcsTextSmaller(text = text)
     }
 }
 
@@ -165,16 +190,15 @@ fun EcsScaffold(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-    ) {
-        Column(
+    ) { paddingValues ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .background(
-                    colorResource(id = R.color.data_ui_components_common_background).copy(
-                        alpha = 0.8f
-                    )
+                    brush = BackgroundGradient
                 )
         ) {
             screenContent()
@@ -195,3 +219,13 @@ fun ErrorMessage(message: String, onClick: () -> Unit = {}) {
         }
     }
 }
+
+private val BackgroundGradient = linearGradient(
+    colors = listOf(
+        Color(0xFFD4D4D4), // startColor
+        Color(0xFFFFFFFF)  // endColor
+    ),
+    // 315 degrees corresponds to Top-Right to Bottom-Left
+    start = Offset.Infinite,
+    end = Offset.Zero
+)

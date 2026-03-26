@@ -42,11 +42,6 @@ class MangaCatalogAdapter(
         )
     }
 
-    override fun getItemCount(): Int {
-        val actualCount = super.getItemCount()
-        return if (actualCount == 0) 0 else actualCount + 1
-    }
-
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<UserManga>() {
             override fun areItemsTheSame(oldItem: UserManga, newItem: UserManga): Boolean {

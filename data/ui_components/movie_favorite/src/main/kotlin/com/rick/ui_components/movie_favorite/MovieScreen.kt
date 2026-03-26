@@ -20,6 +20,7 @@ import com.rick.data.ui_components.common.EcsCatalogCard
 import com.rick.data.ui_components.common.EcsEmptyState
 import com.rick.data.ui_components.common.EcsScaffold
 import com.rick.data.ui_components.common.EcsSnackbar
+import com.rick.data.ui_components.common.getTmdbImageUrl
 import com.rick.data.ui_components.movie_favorite.R
 
 @Composable
@@ -125,8 +126,6 @@ fun MovieFavScreen(
 
     }
 }
-
-private fun getTmdbImageUrl(url: String): String = "https://image.tmdb.org/t/p/w200$url"
 
 //
 //@Preview
