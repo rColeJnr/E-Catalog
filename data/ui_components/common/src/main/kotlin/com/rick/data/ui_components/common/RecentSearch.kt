@@ -1,5 +1,6 @@
 package com.rick.data.ui_components.common
 
+import android.R.attr.fontFamily
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -38,7 +41,16 @@ fun RecentSearchesBody(
         ) {
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    withStyle(
+                        style = SpanStyle(
+                            fontFamily = FontFamily(
+                                Font(
+                                    resId = R.font.high_tower_text,
+                                    weight = FontWeight.Light
+                                )
+                            )
+                        )
+                    ) {
                         append("Recent Searches")
                     }
                 },
@@ -64,6 +76,12 @@ fun RecentSearchesBody(
                 Text(
                     text = recentSearch,
                     style = MaterialTheme.typography.headlineSmall,
+                    fontFamily = FontFamily(
+                        Font(
+                            resId = R.font.high_tower_text,
+                            weight = FontWeight.Light
+                        )
+                    ),
                     modifier = Modifier
                         .padding(vertical = 16.dp)
                         .clickable { onRecentSearchClicked(recentSearch) }
