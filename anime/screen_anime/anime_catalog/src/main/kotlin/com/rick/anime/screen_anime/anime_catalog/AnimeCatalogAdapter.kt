@@ -25,8 +25,8 @@ class AnimeCatalogAdapter(
             }
 
             is AnimeViewHolder -> {
-                val book = getItem(position - 1)
-                book?.let { holder.bind(it) }
+                val anime = getItem(position )
+                anime?.let { holder.bind(it) }
             }
         }
     }
