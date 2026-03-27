@@ -35,16 +35,11 @@ class TrendingMovieAdapter(
         when (holder) {
             is TrendingMovieHeaderViewHolder -> {}
             is TrendingMovieViewHolder -> {
-                val book = getItem(position - 1)
-                book?.let { holder.bind(it) }
+                val movie = getItem(position)
+                movie?.let { holder.bind(it) }
             }
         }
     }
-
-//    override fun getItemCount(): Int {
-//        val actualCount = super.getItemCount()
-//        return if (actualCount == 0) 0 else actualCount
-//    }
 
     companion object {
         private val DIFF_COMPARATOR = object : DiffUtil.ItemCallback<UserTrendingMovie>() {
@@ -90,7 +85,7 @@ class TrendingMovieViewHolder(
         }
 
         favorite.setOnClickListener {
-            Log.i("Movue", "movie: ${movie.isFavorite}. ${movie.title}")
+            Log.i("Movue", "movie: ${movie.isFavorite}. ${movie.title} ${movie.id}")
             onFavClick(it, movie.id, movie.isFavorite)
         }
         showTranslation.setOnClickListener {
