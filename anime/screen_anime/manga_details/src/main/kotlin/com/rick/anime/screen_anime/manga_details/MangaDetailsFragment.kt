@@ -81,34 +81,41 @@ class MangaDetailsFragment : Fragment() {
         mangaLiveData.observe(viewLifecycleOwner) { manga ->
             title.text = manga.title
 
-            Log.e("Manga", "one")
             provideGlide(image, manga.images)
 
-            showTranslation.setOnClickListener {
-                translationViewModel.onEvent(
-                    TranslationEvent.GetTranslation(
-                        listOf(
-                            manga.synopsis,
-                            manga.background
-                        ), translationViewModel.location.value
+            if (translationViewModel.location.value == "en") {
+                showTranslation.visibility = View.GONE
+            } else {
+                showTranslation.visibility = View.VISIBLE
+                showTranslation.setOnClickListener {
+                    translationViewModel.onEvent(
+                        TranslationEvent.GetTranslation(
+                            listOf(
+                                manga.synopsis,
+                                manga.background
+                            ), translationViewModel.location.value
+                        )
                     )
-                )
-                lifecycleScope.launch {
-                    translationViewModel.translation.collectLatest {
-                        synopsis.text = it.first().text
-                        background.text = it.last().text
+                    lifecycleScope.launch {
+                        translationViewModel.translation.collectLatest {
+                            synopsis.text = it.first().text
+                            background.text = it.last().text
+                        }
                     }
                 }
             }
+            synopsis.text = manga.synopsis.trim()
 
-            synopsis.text = manga.synopsis
+            background.text = manga.background.trim()
 
-            background.text =
-                manga.background
-
+            val publishingText =
+                if (manga.publishing)
+                    getString(R.string.anime_screen_anime_manga_details_being_published)
+                else
+                    getString(R.string.anime_screen_anime_manga_details_not_publishing)
             publishing.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_publishing,
-                if (manga.publishing) "being published" else "not publishing"
+                publishingText
             )
 
             published.text = getString(
@@ -118,12 +125,12 @@ class MangaDetailsFragment : Fragment() {
 
             chapters.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_chapters,
-                if (manga.chapters == 0) "Unknown" else manga.chapters.toString()
+                if (manga.chapters == 0) "n/a" else manga.chapters.toString()
             )
 
             volumes.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_volumes,
-                if (manga.volumes == 0) "Unknown" else manga.volumes.toString()
+                if (manga.volumes == 0) "n/a" else manga.volumes.toString()
             )
 
             val themes = StringBuilder()

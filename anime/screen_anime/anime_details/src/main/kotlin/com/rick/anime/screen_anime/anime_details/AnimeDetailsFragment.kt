@@ -82,26 +82,30 @@ class AnimeDetailsFragment : Fragment() {
 
             provideGlide(image, anime.images)
 
-            showTranslation.setOnClickListener {
-                translationViewModel.onEvent(
-                    TranslationEvent.GetTranslation(
-                        listOf(
-                            anime.synopsis,
-                            anime.background
-                        ), translationViewModel.location.value
+            if (translationViewModel.location.value == "en") {
+                showTranslation.visibility = View.GONE
+            } else {
+                showTranslation.setOnClickListener {
+                    translationViewModel.onEvent(
+                        TranslationEvent.GetTranslation(
+                            listOf(
+                                anime.synopsis,
+                                anime.background
+                            ), translationViewModel.location.value
+                        )
                     )
-                )
-                lifecycleScope.launch {
-                    translationViewModel.translation.collectLatest {
-                        synopsis.text = it.first().text
-                        background.text = it.last().text
+                    lifecycleScope.launch {
+                        translationViewModel.translation.collectLatest {
+                            synopsis.text = it.first().text
+                            background.text = it.last().text
+                        }
                     }
                 }
             }
 
-            synopsis.text = anime.synopsis
+            synopsis.text = anime.synopsis.trim()
 
-            background.text = anime.background
+            background.text = anime.background.trim()
 
             pgRating.text =
                 getString(R.string.anime_screen_anime_anime_details_pg_rating, anime.rating)

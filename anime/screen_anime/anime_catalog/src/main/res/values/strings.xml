@@ -7,5 +7,5 @@
     <string name="anime_screen_anime_anime_catalog_show_original">Show original</string>
     <string name="anime_screen_anime_anime_catalog_header">Popular Anime</string>
     <string name="anime_screen_anime_anime_catalog_slogan">Explore thousands of anime and find a new favorite</string>
-    <string name="anime_screen_anime_anime_catalog_trending_anime_transition">trending_anime_transition</string>
+    <string name="anime_screen_anime_anime_catalog_trending_anime_transition" translatable="false">trending_anime_transition</string>
 </resources>

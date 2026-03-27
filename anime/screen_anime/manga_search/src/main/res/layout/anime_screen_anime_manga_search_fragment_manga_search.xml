@@ -30,7 +30,7 @@
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"
-                android:textAlignment="viewStart"
+                android:textAlignment="textStart"
                 android:textAppearance="?attr/textAppearanceBody1" />
 
             <ProgressBar

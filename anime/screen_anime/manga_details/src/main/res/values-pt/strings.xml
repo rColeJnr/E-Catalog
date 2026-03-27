@@ -4,7 +4,7 @@
     <string name="anime_screen_anime_manga_details_anime_screen_anime_chapters">Capítulos: %1$s</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_volumes">Volumes: %1$s</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_no_data">n/a</string>
-    <string name="anime_screen_anime_manga_details_anime_screen_anime_score">Pontuação: %1$f</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_score">Pontuação: %1$.1f</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_scored_by">Avaliado por %1$d usuários</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_favorites">Nos favoritos de %1$d usuários</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_popularity">Popularidade: %1$d</string>

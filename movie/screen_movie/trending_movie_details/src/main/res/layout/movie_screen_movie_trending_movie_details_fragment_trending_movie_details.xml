@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="@dimen/movie_screen_movie_trending_movie_details_two_dp"
     android:fillViewport="true"
     android:orientation="vertical">
 
@@ -17,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
+            android:paddingHorizontal="2dp"
             android:background="@drawable/movie_screen_movie_trending_movie_details_gradient_background"
             android:orientation="vertical">
 
@@ -80,7 +80,6 @@
                 android:id="@+id/movie_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="6dp"
                 android:text="@string/movie_screen_movie_trending_movie_details_overview"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textStyle="bold" />
@@ -90,7 +89,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/movie_screen_movie_trending_movie_details_six_dp"
-                android:layout_marginVertical="@dimen/movie_screen_movie_trending_movie_details_two_dp"
                 android:textAppearance="?attr/textAppearanceBody1"
                 tools:text="Set more than a decate after the events of the first film, learn the story of the Sully family, the trouble that follows them" />
 
@@ -100,12 +98,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/movie_screen_movie_trending_movie_details_six_dp"
                 android:gravity="end|center_vertical"
-                android:hint="@string/movie_screen_movie_trending_movie_details_show_translation"
+                android:text="@string/movie_screen_movie_trending_movie_details_show_translation"
                 android:padding="2dp"
                 android:textAlignment="gravity"
-                android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textStyle="bold" />
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textStyle="bold"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_adult"
