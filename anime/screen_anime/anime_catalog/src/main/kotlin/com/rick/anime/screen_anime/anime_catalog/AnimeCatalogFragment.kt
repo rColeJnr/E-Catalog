@@ -131,6 +131,8 @@ class AnimeCatalogFragment : Fragment() {
         binding.jikanRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.jikanRecyclerView.adapter = adapter
+
+
     }
 
     private fun AnimeScreenAnimeAnimeCatalogFragmentAnimeCatalogBinding.bindList(

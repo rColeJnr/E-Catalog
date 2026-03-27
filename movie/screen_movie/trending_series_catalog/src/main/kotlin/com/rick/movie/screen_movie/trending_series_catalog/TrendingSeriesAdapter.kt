@@ -80,6 +80,7 @@ class TrendingSeriesViewHolder(
     private val favorite = itemBinding.favorite
     private val showTranslation = itemBinding.showTranslation
     private val resources = itemView.resources
+    private var location: String = java.util.Locale.getDefault().language.lowercase()
 
     private lateinit var trendingSeries: UserTrendingSeries
 
@@ -110,6 +111,11 @@ class TrendingSeriesViewHolder(
             }
         )
 
+        if (location == "en") {
+            showTranslation.visibility = View.GONE
+        } else {
+            showTranslation.visibility = View.VISIBLE
+        }
     }
 
     companion object {

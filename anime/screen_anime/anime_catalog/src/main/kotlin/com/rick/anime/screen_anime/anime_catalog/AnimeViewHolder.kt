@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide.init
 import com.rick.anime.screen_anime.anime_catalog.databinding.AnimeScreenAnimeAnimeCatalogAnimeEntryBinding
 import com.rick.data.model_anime.UserAnime
 import com.rick.data.ui_components.common.provideGlide
@@ -23,6 +24,7 @@ class AnimeViewHolder(
     private val resources = itemView.resources
 
     private lateinit var anime: UserAnime
+    private val location: String = java.util.Locale.getDefault().language.lowercase()
 
     init {
         binding.root.setOnClickListener {
@@ -50,6 +52,14 @@ class AnimeViewHolder(
                 R.drawable.anime_screen_anime_anime_catalog_star_outlined
             }
         )
+
+        location.let {
+            if (it == "en") {
+                showTranslation.visibility = View.GONE
+            } else {
+                showTranslation.visibility = View.VISIBLE
+            }
+        }
     }
 
     companion object {

@@ -151,8 +151,9 @@ class TrendingMovieDetailsFragment : Fragment() {
                     movieSummary.text = trendingMovie.overview
 
                     if (translationViewModel.location.value.lowercase() == "en") {
-                        showTranslation.visibility = View.VISIBLE
+                        showTranslation.visibility = View.GONE
                     } else {
+                        showTranslation.visibility = View.VISIBLE
                         showTranslation.setOnClickListener {
                             translationViewModel.onEvent(
                                 TranslationEvent.GetTranslation(

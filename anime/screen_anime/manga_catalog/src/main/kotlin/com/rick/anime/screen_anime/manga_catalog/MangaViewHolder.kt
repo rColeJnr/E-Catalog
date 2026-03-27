@@ -21,6 +21,7 @@ class MangaViewHolder(
     private val favorite = binding.favorite
     private val showTranslation = binding.translate
     private val resources = itemView.resources
+    private var location: String = java.util.Locale.getDefault().language.lowercase()
 
     init {
         binding.root.setOnClickListener {
@@ -50,11 +51,13 @@ class MangaViewHolder(
                 R.drawable.anime_screen_anime_manga_catalog_star_outlined
             }
         )
-    }
 
-//    override fun onClick(view: View) {
-//        onItemClick(view, jikan)
-//    }
+        if (location == "en") {
+            showTranslation.visibility = View.GONE
+        } else {
+            showTranslation.visibility = View.VISIBLE
+        }
+    }
 
     companion object {
         fun create(

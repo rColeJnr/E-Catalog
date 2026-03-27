@@ -76,6 +76,7 @@ class TrendingMovieViewHolder(
     private val showTranslation = binding.showTranslation
     private val cardView = binding.movieEntryCardView
     private val resources = itemView.resources
+    private var location: String = java.util.Locale.getDefault().language.lowercase()
 
     private lateinit var movie: UserTrendingMovie
 
@@ -106,6 +107,12 @@ class TrendingMovieViewHolder(
                 R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined
             }
         )
+
+        if (location == "en") {
+            showTranslation.visibility = View.GONE
+        } else {
+            showTranslation.visibility = View.VISIBLE
+        }
     }
 
     companion object {

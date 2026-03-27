@@ -133,10 +133,7 @@ class TrendingMovieFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collect { loadState ->
-                    // show progress bar during initial load or refresh.
                     swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-
-                    // show empty list.
                     emptyList.isVisible =
                         !swipeRefresh.isRefreshing && adapter.itemCount == 0
 

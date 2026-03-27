@@ -146,26 +146,30 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     val noData =
                         getString(R.string.movie_screen_movie_trending_series_details_no_data)
                     val series = state.series
+
+                    if (translationViewModel.location.value == "en") {
+                        showTranslation.visibility = View.GONE
+                    } else {
+                        showTranslation.visibility = View.VISIBLE
+                        showTranslation.setOnClickListener {
+                            translationViewModel.onEvent(
+                                TranslationEvent.GetTranslation(
+                                    listOf(series.overview), translationViewModel.location.value
+                                )
+                            )
+
+                            lifecycleScope.launch {
+                                translationViewModel.translation.collectLatest {
+                                    summary.text = it.first().text
+                                }
+                            }
+                        }
+                    }
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
                         provideGlide(image, getTmdbImageUrl(series.image))
                     }
                     summary.text = series.overview
-
-                    showTranslation.setOnClickListener {
-                        translationViewModel.onEvent(
-                            TranslationEvent.GetTranslation(
-                                listOf(series.overview), translationViewModel.location.value
-                            )
-                        )
-
-                        lifecycleScope.launch {
-                            translationViewModel.translation.collectLatest {
-                                summary.text = it.first().text
-                            }
-                        }
-                    }
-
 
                     adult.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_adult_content,
