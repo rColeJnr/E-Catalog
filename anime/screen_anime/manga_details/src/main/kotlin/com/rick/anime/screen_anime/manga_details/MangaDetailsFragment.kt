@@ -39,14 +39,10 @@ class MangaDetailsFragment : Fragment() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = AnimeScreenAnimeMangaDetailsFragmentMangaDetailsBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
 
         arguments?.let {
@@ -81,34 +77,70 @@ class MangaDetailsFragment : Fragment() {
         mangaLiveData.observe(viewLifecycleOwner) { manga ->
             title.text = manga.title
 
-            Log.e("Manga", "one")
             provideGlide(image, manga.images)
 
-            showTranslation.setOnClickListener {
-                translationViewModel.onEvent(
-                    TranslationEvent.GetTranslation(
-                        listOf(
-                            manga.synopsis,
-                            manga.background
-                        ), translationViewModel.location.value
-                    )
-                )
-                lifecycleScope.launch {
-                    translationViewModel.translation.collectLatest {
-                        synopsis.text = it.first().text
-                        background.text = it.last().text
+            if (translationViewModel.location.value == "en") {
+                showTranslation.visibility = View.GONE
+            } else {
+                showTranslation.setOnClickListener {
+                    if (showTranslation.text == getString(R.string.anime_screen_anime_manga_details_show_original)) {
+                        synopsis.animate().alpha(0f).setDuration(200).withEndAction {
+                            synopsis.text = manga.synopsis
+                            synopsis.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+
+                        background.animate().alpha(0f).setDuration(200).withEndAction {
+                            background.text = manga.background
+                            showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
+                                showTranslation.text =
+                                    getString(R.string.anime_screen_anime_manga_details_show_translation)
+                                showTranslation.animate().alpha(1f).setDuration(200).start()
+                            }.start()
+                            background.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+                    } else {
+                        translationViewModel.onEvent(
+                            TranslationEvent.GetTranslation(
+                                listOf(manga.synopsis, manga.background),
+                                translationViewModel.location.value
+                            )
+                        )
+                        lifecycleScope.launch {
+                            translationViewModel.translation.collectLatest { translations ->
+                                if (translations.isNotEmpty()) {
+                                    synopsis.animate().alpha(0f).setDuration(200).withEndAction {
+                                        synopsis.text = translations.first().text
+                                        synopsis.animate().alpha(1f).setDuration(200).start()
+                                    }.start()
+
+                                    background.animate().alpha(0f).setDuration(200).withEndAction {
+                                        background.text = translations.last().text
+                                        showTranslation.animate().alpha(0f).setDuration(200)
+                                            .withEndAction {
+                                                showTranslation.text = getString(
+                                                    R.string.anime_screen_anime_manga_details_show_original
+                                                )
+                                                showTranslation.animate().alpha(1f).setDuration(200)
+                                                    .start()
+                                            }.start()
+                                        background.animate().alpha(1f).setDuration(200).start()
+                                    }.start()
+                                }
+                            }
+                        }
                     }
                 }
             }
+            synopsis.text = manga.synopsis.trim()
 
-            synopsis.text = manga.synopsis
+            background.text = manga.background.trim()
 
-            background.text =
-                manga.background
-
+            val publishingText =
+                if (manga.publishing) getString(R.string.anime_screen_anime_manga_details_being_published)
+                else getString(R.string.anime_screen_anime_manga_details_not_publishing)
             publishing.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_publishing,
-                if (manga.publishing) "being published" else "not publishing"
+                publishingText
             )
 
             published.text = getString(
@@ -118,12 +150,12 @@ class MangaDetailsFragment : Fragment() {
 
             chapters.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_chapters,
-                if (manga.chapters == 0) "Unknown" else manga.chapters.toString()
+                if (manga.chapters == 0) "n/a" else manga.chapters.toString()
             )
 
             volumes.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_volumes,
-                if (manga.volumes == 0) "Unknown" else manga.volumes.toString()
+                if (manga.volumes == 0) "n/a" else manga.volumes.toString()
             )
 
             val themes = StringBuilder()
@@ -137,24 +169,17 @@ class MangaDetailsFragment : Fragment() {
                 themes.toString()
             )
 
-            genreOne.text =
-                manga.genres.firstOrNull()?.name
-                    ?: ""
+            genreOne.text = manga.genres.firstOrNull()?.name ?: ""
             if (genreOne.text.isNullOrBlank()) genreOne.visibility = View.GONE
 
-            genreTwo.text =
-                manga.genres.getOrNull(1)?.name
-                    ?: ""
+            genreTwo.text = manga.genres.getOrNull(1)?.name ?: ""
             if (genreTwo.text.isNullOrBlank()) genreTwo.visibility = View.GONE
 
-            genreThree.text =
-                manga.genres.getOrNull(2)?.name
-                    ?: ""
+            genreThree.text = manga.genres.getOrNull(2)?.name ?: ""
             if (genreThree.text.isNullOrBlank()) genreOne.visibility = View.GONE
 
             score.text = getString(
-                R.string.anime_screen_anime_manga_details_anime_screen_anime_score,
-                manga.score
+                R.string.anime_screen_anime_manga_details_anime_screen_anime_score, manga.score
             )
             scoredBy.text = getString(
                 R.string.anime_screen_anime_manga_details_anime_screen_anime_scored_by,
@@ -169,8 +194,7 @@ class MangaDetailsFragment : Fragment() {
                 manga.popularity
             )
             rank.text = getString(
-                R.string.anime_screen_anime_manga_details_anime_screen_anime_rank,
-                manga.rank
+                R.string.anime_screen_anime_manga_details_anime_screen_anime_rank, manga.rank
             )
 
             val link = manga.url

@@ -28,7 +28,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.anime.anime_screen.common.JikanLoadStateAdapter
 import com.rick.anime.anime_screen.common.JikanUiEvents
 import com.rick.anime.anime_screen.common.RemotePresentationState
 import com.rick.anime.anime_screen.common.TranslationEvent
@@ -118,7 +117,6 @@ class AnimeCatalogFragment : Fragment() {
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-
     }
 
     private fun initAdapter() {
@@ -145,9 +143,7 @@ class AnimeCatalogFragment : Fragment() {
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
-                // show progress bar during initial load or refresh.
                 jikanSwipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-                // show empty list.
                 jikanEmptyList.isVisible =
                     !jikanSwipeRefresh.isRefreshing && adapter.itemCount == 0
 
@@ -223,16 +219,41 @@ class AnimeCatalogFragment : Fragment() {
         viewModel.onEvent(JikanUiEvents.UpdateAnimeFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(text: View, texts: List<String>) {
-        translationViewModel.onEvent(
-            TranslationEvent.GetTranslation(
-                texts = texts,
-                lCode = translationViewModel.location.value
+    private fun onTranslationClick(view: View, text: View, texts: List<String>) {
+        val textView = text as TextView
+        val actionView = view as TextView
+
+        if (actionView.text == getString(R.string.anime_screen_anime_anime_catalog_show_original)) {
+            textView.animate().alpha(0f).setDuration(200).withEndAction {
+                textView.text = texts.first()
+                actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                    actionView.text =
+                        getString(R.string.anime_screen_anime_anime_catalog_show_translation)
+                    actionView.animate().alpha(1f).setDuration(200).start()
+                }.start()
+                textView.animate().alpha(1f).setDuration(200).start()
+            }.start()
+        } else {
+            translationViewModel.onEvent(
+                TranslationEvent.GetTranslation(
+                    texts = texts,
+                    lCode = translationViewModel.location.value
+                )
             )
-        )
-        lifecycleScope.launch {
-            translationViewModel.translation.collectLatest {
-                (text as TextView).text = it.first().text
+            lifecycleScope.launch {
+                translationViewModel.translation.collectLatest { translations ->
+                    if (translations.isNotEmpty()) {
+                        textView.animate().alpha(0f).setDuration(200).withEndAction {
+                            textView.text = translations.first().text
+                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                                actionView.text =
+                                    getString(R.string.anime_screen_anime_anime_catalog_show_original)
+                                actionView.animate().alpha(1f).setDuration(200).start()
+                            }.start()
+                            textView.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+                    }
+                }
             }
         }
     }

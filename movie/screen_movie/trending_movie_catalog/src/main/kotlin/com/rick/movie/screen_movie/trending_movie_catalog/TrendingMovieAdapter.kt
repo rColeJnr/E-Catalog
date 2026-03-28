@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -17,7 +18,7 @@ import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScree
 class TrendingMovieAdapter(
     private val onItemClick: (Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingMovie, RecyclerView.ViewHolder>(DIFF_COMPARATOR) {
 
     override fun getItemViewType(position: Int): Int {
@@ -67,7 +68,7 @@ class TrendingMovieViewHolder(
     binding: MovieScreenMovieTrendingMovieCatalogMovieEntryBinding,
     private val onItemClick: (Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
@@ -76,6 +77,7 @@ class TrendingMovieViewHolder(
     private val showTranslation = binding.showTranslation
     private val cardView = binding.movieEntryCardView
     private val resources = itemView.resources
+    private var location: String = java.util.Locale.getDefault().language.lowercase()
 
     private lateinit var movie: UserTrendingMovie
 
@@ -85,11 +87,10 @@ class TrendingMovieViewHolder(
         }
 
         favorite.setOnClickListener {
-            Log.i("Movue", "movie: ${movie.isFavorite}. ${movie.title} ${movie.id}")
             onFavClick(it, movie.id, movie.isFavorite)
         }
         showTranslation.setOnClickListener {
-            onTranslationClick(summary, listOf(movie.overview))
+            onTranslationClick(showTranslation, summary, listOf(movie.overview))
             it.visibility = View.GONE
         }
     }
@@ -106,6 +107,12 @@ class TrendingMovieViewHolder(
                 R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined
             }
         )
+
+        if (location == "en") {
+            showTranslation.visibility = View.GONE
+        } else {
+            showTranslation.visibility = View.VISIBLE
+        }
     }
 
     companion object {
@@ -113,7 +120,7 @@ class TrendingMovieViewHolder(
             parent: ViewGroup,
             onItemClick: (Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslationClick: (View, List<String>) -> Unit
+            onTranslationClick: (TextView, TextView, List<String>) -> Unit
         ): TrendingMovieViewHolder {
             val binding =
                 MovieScreenMovieTrendingMovieCatalogMovieEntryBinding.inflate(
