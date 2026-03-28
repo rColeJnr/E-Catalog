@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat.animate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -146,26 +147,55 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     val noData =
                         getString(R.string.movie_screen_movie_trending_series_details_no_data)
                     val series = state.series
+
+                    if (translationViewModel.location.value == "en") {
+                        showTranslation.visibility = View.GONE
+                    } else {
+                        showTranslation.visibility = View.VISIBLE
+                        showTranslation.setOnClickListener {
+                            if (showTranslation.text == getString(R.string.movie_screen_movie_trending_series_details_show_original)) {
+                                summary.animate().alpha(0f).setDuration(200).withEndAction {
+                                    summary.text = series.overview
+                                    showTranslation.animate().alpha(0f).setDuration(200)
+                                        .withEndAction {
+                                            showTranslation.text =
+                                                getString(R.string.movie_screen_movie_trending_series_details_show_translation)
+                                            showTranslation.animate().alpha(1f).setDuration(200)
+                                                .start()
+                                        }.start()
+                                    summary.animate().alpha(1f).setDuration(200).start()
+                                }.start()
+                            } else {
+                                translationViewModel.onEvent(
+                                    TranslationEvent.GetTranslation(
+                                        listOf(series.overview),
+                                        translationViewModel.location.value
+                                    )
+                                )
+                                lifecycleScope.launch {
+                                    translationViewModel.translation.collectLatest {
+                                        summary.animate().alpha(0f).setDuration(200)
+                                            .withEndAction {
+                                                summary.text = it.first().text
+                                                showTranslation.animate().alpha(0f).setDuration(200)
+                                                    .withEndAction {
+                                                        showTranslation.text =
+                                                            getString(R.string.movie_screen_movie_trending_series_details_show_original)
+                                                        showTranslation.animate().alpha(1f)
+                                                            .setDuration(200).start()
+                                                    }.start()
+                                                summary  .animate().alpha(1f).setDuration(200).start()
+                                            }.start()
+                                    }
+                                }
+                            }
+                        }
+                    }
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
                         provideGlide(image, getTmdbImageUrl(series.image))
                     }
                     summary.text = series.overview
-
-                    showTranslation.setOnClickListener {
-                        translationViewModel.onEvent(
-                            TranslationEvent.GetTranslation(
-                                listOf(series.overview), translationViewModel.location.value
-                            )
-                        )
-
-                        lifecycleScope.launch {
-                            translationViewModel.translation.collectLatest {
-                                summary.text = it.first().text
-                            }
-                        }
-                    }
-
 
                     adult.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_adult_content,

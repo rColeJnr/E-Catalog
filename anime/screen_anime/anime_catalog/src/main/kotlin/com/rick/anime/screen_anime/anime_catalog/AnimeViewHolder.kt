@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide.init
 import com.rick.anime.screen_anime.anime_catalog.databinding.AnimeScreenAnimeAnimeCatalogAnimeEntryBinding
 import com.rick.data.model_anime.UserAnime
 import com.rick.data.ui_components.common.provideGlide
@@ -13,7 +14,7 @@ class AnimeViewHolder(
     binding: AnimeScreenAnimeAnimeCatalogAnimeEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (View, View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
@@ -23,6 +24,7 @@ class AnimeViewHolder(
     private val resources = itemView.resources
 
     private lateinit var anime: UserAnime
+    private val location: String = java.util.Locale.getDefault().language.lowercase()
 
     init {
         binding.root.setOnClickListener {
@@ -32,7 +34,7 @@ class AnimeViewHolder(
             onFavClick(it, anime.id, anime.isFavorite)
         }
         showTranslation.setOnClickListener {
-            onTranslationClick(synopsis, listOf(anime.synopsis))
+            onTranslationClick(showTranslation, synopsis, listOf(anime.synopsis))
         }
     }
 
@@ -50,6 +52,14 @@ class AnimeViewHolder(
                 R.drawable.anime_screen_anime_anime_catalog_star_outlined
             }
         )
+
+        location.let {
+            if (it == "en") {
+                showTranslation.visibility = View.GONE
+            } else {
+                showTranslation.visibility = View.VISIBLE
+            }
+        }
     }
 
     companion object {
@@ -57,7 +67,7 @@ class AnimeViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslateClick: (View, List<String>) -> Unit
+            onTranslateClick: (View, View, List<String>) -> Unit
         ): AnimeViewHolder {
             val itemBinding = AnimeScreenAnimeAnimeCatalogAnimeEntryBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false

@@ -82,26 +82,62 @@ class AnimeDetailsFragment : Fragment() {
 
             provideGlide(image, anime.images)
 
-            showTranslation.setOnClickListener {
-                translationViewModel.onEvent(
-                    TranslationEvent.GetTranslation(
-                        listOf(
-                            anime.synopsis,
-                            anime.background
-                        ), translationViewModel.location.value
-                    )
-                )
-                lifecycleScope.launch {
-                    translationViewModel.translation.collectLatest {
-                        synopsis.text = it.first().text
-                        background.text = it.last().text
+            if (translationViewModel.location.value == "en") {
+                showTranslation.visibility = View.GONE
+            } else {
+                val originalSynopsis = anime.synopsis
+                val originalBackground = anime.background
+                showTranslation.visibility = View.VISIBLE
+                showTranslation.setOnClickListener {
+                    if (showTranslation.text == getString(R.string.anime_screen_anime_anime_details_show_original)) {
+                        synopsis.animate().alpha(0f).setDuration(200).withEndAction {
+                            synopsis.text = originalSynopsis
+                            synopsis.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+
+                        background.animate().alpha(0f).setDuration(200).withEndAction {
+                            background.text = originalBackground
+                            showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
+                                showTranslation.text =
+                                    getString(R.string.anime_screen_anime_anime_details_show_translation)
+                                showTranslation.animate().alpha(1f).setDuration(200).start()
+                            }.start()
+                            background.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+                    } else {
+                        translationViewModel.onEvent(
+                            TranslationEvent.GetTranslation(
+                                listOf(anime.synopsis, anime.background),
+                                translationViewModel.location.value
+                            )
+                        )
+                        lifecycleScope.launch {
+                            translationViewModel.translation.collectLatest { translations ->
+                                if (translations.isNotEmpty()) {
+                                    synopsis.animate().alpha(0f).setDuration(200).withEndAction {
+                                        synopsis.text = translations.first().text
+                                        synopsis.animate().alpha(1f).setDuration(200).start()
+                                    }.start()
+
+                                    background.animate().alpha(0f).setDuration(200).withEndAction {
+                                        background.text = translations.last().text
+                                        showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
+                                            showTranslation.text =
+                                                getString(R.string.anime_screen_anime_anime_details_show_original)
+                                            showTranslation.animate().alpha(1f).setDuration(200).start()
+                                        }.start()
+                                        background.animate().alpha(1f).setDuration(200).start()
+                                    }.start()
+                                }
+                            }
+                        }
                     }
                 }
             }
 
-            synopsis.text = anime.synopsis
+            synopsis.text = anime.synopsis.trim()
 
-            background.text = anime.background
+            background.text = anime.background.trim()
 
             pgRating.text =
                 getString(R.string.anime_screen_anime_anime_details_pg_rating, anime.rating)
