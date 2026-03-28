@@ -155,15 +155,36 @@ class TrendingMovieDetailsFragment : Fragment() {
                     } else {
                         showTranslation.visibility = View.VISIBLE
                         showTranslation.setOnClickListener {
-                            translationViewModel.onEvent(
-                                TranslationEvent.GetTranslation(
-                                    listOf(trendingMovie.overview),
-                                    translationViewModel.location.value
+                            if (showTranslation.text == getString(R.string.movie_screen_movie_trending_movie_details_show_original)) {
+                                movieSummary.animate().alpha(0f).setDuration(200).withEndAction {
+                                    movieSummary.text = trendingMovie.overview
+                                    showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
+                                        showTranslation.text =
+                                            getString(R.string.movie_screen_movie_trending_movie_details_show_translation)
+                                        showTranslation.animate().alpha(1f).setDuration(200).start()
+                                    }.start()
+                                    movieSummary.animate().alpha(1f).setDuration(200).start()
+                                }.start()
+                            } else {
+                                translationViewModel.onEvent(
+                                    TranslationEvent.GetTranslation(
+                                        listOf(trendingMovie.overview),
+                                        translationViewModel.location.value
+                                    )
                                 )
-                            )
-                            lifecycleScope.launch {
-                                translationViewModel.translation.collectLatest {
-                                    movieSummary.text = it.first().text
+                                lifecycleScope.launch {
+                                    translationViewModel.translation.collectLatest {
+                                        movieSummary.animate().alpha(0f).setDuration(200)
+                                            .withEndAction {
+                                                movieSummary.text = it.first().text
+                                                showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
+                                                    showTranslation.text =
+                                                        getString(R.string.movie_screen_movie_trending_movie_details_show_original)
+                                                    showTranslation.animate().alpha(1f).setDuration(200).start()
+                                                }.start()
+                                                movieSummary.animate().alpha(1f).setDuration(200).start()
+                                            }.start()
+                                    }
                                 }
                             }
                         }
@@ -195,7 +216,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                                     inputFormatter
                                 )
 
-                                 val outputFormatter = java.time.format.DateTimeFormatter.ofPattern(
+                                val outputFormatter = java.time.format.DateTimeFormatter.ofPattern(
                                     "d 'of' MMMM, yyyy",
                                     Locale.getDefault()
                                 )

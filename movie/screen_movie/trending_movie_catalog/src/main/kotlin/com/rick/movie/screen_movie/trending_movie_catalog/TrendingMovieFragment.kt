@@ -1,5 +1,6 @@
 package com.rick.movie.screen_movie.trending_movie_catalog
 
+import android.R.attr.text
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -113,16 +114,18 @@ class TrendingMovieFragment : Fragment() {
         adapter: TrendingMovieAdapter
     ) {
 
-        uiState.observe(viewLifecycleOwner) {state ->
-            when(state) {
+        uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is TrendingMovieUiState.Loading -> {
                     swipeRefresh.isRefreshing = true
                 }
+
                 is TrendingMovieUiState.Success -> {
                     lifecycleScope.launch {
                         state.movies.collect(adapter::submitData)
                     }
                 }
+
                 is TrendingMovieUiState.Error -> {
                     swipeRefresh.isRefreshing = false
                 }
@@ -143,7 +146,10 @@ class TrendingMovieFragment : Fragment() {
                     errorState?.let {
                         Toast.makeText(
                             requireContext(),
-                            getString(R.string.movie_screen_movie_trending_movie_catalog_whoops, it.error.localizedMessage),
+                            getString(
+                                R.string.movie_screen_movie_trending_movie_catalog_whoops,
+                                it.error.localizedMessage
+                            ),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -205,16 +211,38 @@ class TrendingMovieFragment : Fragment() {
         viewModel.onEvent(TrendingMovieUiEvent.UpdateTrendingMovieFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(text: View, translation: List<String>) {
-        translationViewModel.onEvent(
-            TranslationEvent.GetTranslation(
-                translation,
-                translationViewModel.location.value
+    private fun onTranslationClick(actionView: TextView, textView: TextView, texts: List<String>) {
+        if (actionView.text == getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)) {
+            textView.animate().alpha(0f).setDuration(200).withEndAction {
+                textView.text = texts.first()
+                actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                    actionView.text =
+                        getString(R.string.movie_screen_movie_trending_movie_catalog_show_translation)
+                    actionView.animate().alpha(1f).setDuration(200).start()
+                }.start()
+                textView.animate().alpha(1f).setDuration(200).start()
+            }.start()
+        } else {
+            translationViewModel.onEvent(
+                TranslationEvent.GetTranslation(
+                    texts = texts,
+                    lCode = translationViewModel.location.value
+                )
             )
-        )
-        lifecycleScope.launch {
-            translationViewModel.translation.collectLatest {
-                (text as TextView).text = it.first().text
+            lifecycleScope.launch {
+                translationViewModel.translation.collectLatest { translations ->
+                    if (translations.isNotEmpty()) {
+                        textView.animate().alpha(0f).setDuration(200).withEndAction {
+                            textView.text = translations.first().text
+                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                                actionView.text =
+                                    getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)
+                                actionView.animate().alpha(1f).setDuration(200).start()
+                            }.start()
+                            textView.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+                    }
+                }
             }
         }
     }

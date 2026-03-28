@@ -3,6 +3,7 @@ package com.rick.anime.screen_anime.manga_catalog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import com.rick.data.model_anime.UserManga
 class MangaCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
     private val onMangaFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : PagingDataAdapter<UserManga, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
     override fun getItemViewType(position: Int): Int {
