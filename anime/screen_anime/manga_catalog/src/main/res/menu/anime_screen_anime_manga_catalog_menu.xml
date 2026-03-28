@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/favorite"
-        android:icon="@drawable/anime_screen_anime_manga_catalog_star_filled"
+        android:icon="@drawable/anime_screen_anime_manga_catalog_star_outlined"
         android:title="@string/data_ui_components_common_favorite"
         app:showAsAction="always" />
 

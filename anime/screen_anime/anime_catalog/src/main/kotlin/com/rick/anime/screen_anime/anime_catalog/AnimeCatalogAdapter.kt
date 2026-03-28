@@ -11,7 +11,7 @@ import com.rick.data.model_anime.UserAnime
 
 class AnimeCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
-    private val onAnimeFavClick: (Int, Boolean) -> Unit,
+    private val onAnimeFavClick: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
 ) : PagingDataAdapter<UserAnime, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
@@ -36,11 +36,6 @@ class AnimeCatalogAdapter(
             AnimeHeaderViewHolder.create(parent)
         else
             AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, onTranslationClick)
-    }
-
-    override fun getItemCount(): Int {
-        val actualCount = super.getItemCount()
-        return if (actualCount == 0) 0 else actualCount + 1
     }
 
     companion object {

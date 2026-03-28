@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/book_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="82dp"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="@dimen/book_screen_book_gutenberg_search_six_dp"
-    android:backgroundTint="?attr/colorSurface"
+    android:backgroundTint="?attr/colorOnSurface"
     android:elevation="@dimen/book_screen_book_gutenberg_search_two_dp"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,12 +33,12 @@
             android:layout_marginHorizontal="@dimen/book_screen_book_gutenberg_search_six_dp"
             android:layout_marginVertical="@dimen/book_screen_book_gutenberg_search_two_dp"
             android:ellipsize="end"
-            android:hint="Title is a whole long text"
             android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintEnd_toStartOf="@id/favorite"
             app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Title is a whole long text" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/author"
@@ -45,12 +46,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/book_screen_book_gutenberg_search_six_dp"
             android:layout_marginVertical="@dimen/book_screen_book_gutenberg_search_two_dp"
-            android:hint="Author name is much longer"
             android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/favorite"
-            app:layout_constraintStart_toEndOf="@id/image" />
+            app:layout_constraintStart_toEndOf="@id/image"
+            tools:text="Author name is much longer" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/favorite"

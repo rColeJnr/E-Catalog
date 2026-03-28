@@ -16,7 +16,11 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -82,7 +86,7 @@ class TrendingMovieFragment : Fragment() {
         }
 
         binding.bindList(
-            viewModel.pagingDataFlow,
+            viewModel.uiState.asLiveData(),
             adapter = adapter
         )
 
@@ -105,31 +109,47 @@ class TrendingMovieFragment : Fragment() {
     }
 
     private fun MovieScreenMovieTrendingMovieCatalogFragmentTrendingMovieCatalogBinding.bindList(
-        pagingDataFlow: Flow<PagingData<UserTrendingMovie>>,
+        uiState: LiveData<TrendingMovieUiState>,
         adapter: TrendingMovieAdapter
     ) {
-        lifecycleScope.launch {
-            pagingDataFlow.collectLatest(adapter::submitData)
+
+        uiState.observe(viewLifecycleOwner) {state ->
+            when(state) {
+                is TrendingMovieUiState.Loading -> {
+                    swipeRefresh.isRefreshing = true
+                }
+                is TrendingMovieUiState.Success -> {
+                    lifecycleScope.launch {
+                        state.movies.collect(adapter::submitData)
+                    }
+                }
+                is TrendingMovieUiState.Error -> {
+                    swipeRefresh.isRefreshing = false
+                }
+            }
+
         }
 
-        lifecycleScope.launch {
-            adapter.loadStateFlow.collect { loadState ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collect { loadState ->
+                    // show progress bar during initial load or refresh.
+                    swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
 
-                // show progress bar during initial load or refresh.
-                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-                // show empty list.
-                emptyList.isVisible =
-                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+                    // show empty list.
+                    emptyList.isVisible =
+                        !swipeRefresh.isRefreshing && adapter.itemCount == 0
 
-                val errorState = loadState.source.refresh as? LoadState.Error
-                    ?: loadState.mediator?.refresh as? LoadState.Error
+                    val errorState = loadState.source.refresh as? LoadState.Error
+                        ?: loadState.mediator?.refresh as? LoadState.Error
 
-                errorState?.let {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.movie_screen_movie_trending_movie_catalog_whoops, it),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    errorState?.let {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.movie_screen_movie_trending_movie_catalog_whoops, it.error.localizedMessage),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -161,9 +181,9 @@ class TrendingMovieFragment : Fragment() {
             com.rick.movie.screen_movie.common.R.animator.movie_screen_movie_common_animator
         ) as AnimatorSet
 
+
         val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
         var imageSwapped = false
-
         val rotationAnimator = set.childAnimations.find {
             it is ObjectAnimator && it.propertyName == "alpha"
         } as? ObjectAnimator
@@ -171,10 +191,11 @@ class TrendingMovieFragment : Fragment() {
         rotationAnimator?.addUpdateListener { anim ->
             if (anim.animatedFraction >= 0.5f && !imageSwapped) {
                 val nextIcon = if (isFavorite) {
-                    R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined // Going from Favorite to Not
+                    R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined
                 } else {
-                    R.drawable.movie_screen_movie_trending_movie_catalog_star_filled // Going from Not to Favorite
+                    R.drawable.movie_screen_movie_trending_movie_catalog_star_filled
                 }
+
                 imageView.setImageResource(nextIcon)
                 imageSwapped = true
             }

@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="4dp"
     android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="2dp"
         android:fillViewport="true">
 
         <LinearLayout
