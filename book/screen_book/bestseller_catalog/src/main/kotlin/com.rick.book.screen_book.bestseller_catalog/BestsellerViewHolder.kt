@@ -1,13 +1,17 @@
 package com.rick.book.screen_book.bestseller_catalog
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.book.screen_book.bestseller_catalog.databinding.BookScreenBookBestsellerCatalogBookEntryBinding
 import com.rick.data.model_book.bestseller.UserBestseller
 import com.rick.data.ui_components.common.provideGlide
+import java.util.Locale
+import java.util.Locale.getDefault
 
 class BestsellerViewHolder(
     binding: BookScreenBookBestsellerCatalogBookEntryBinding,
@@ -17,10 +21,10 @@ class BestsellerViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val image = binding.image
+    private val rank = binding.rank
+    private val favorite = binding.favorite
     private val title = binding.title
     private val author = binding.author
-    private val favorite = binding.favorite
-    private val showTranslation = binding.showTranslation
     private val resources = itemView.resources
 
     private lateinit var book: UserBestseller
@@ -32,9 +36,6 @@ class BestsellerViewHolder(
         binding.root.setOnClickListener {
             onBookClick(book)
         }
-        showTranslation.setOnClickListener {
-            onTranslationClick(book, listOf(book.description))
-        }
     }
 
     fun bind(book: UserBestseller) {
@@ -42,21 +43,19 @@ class BestsellerViewHolder(
         if (book.image.isNotEmpty()) {
             provideGlide(this.image, book.image)
         }
-        title.text = book.title
-        author.text = book.author
-        favorite.foreground = if (book.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.book_screen_book_bestseller_catalog_ic_fav_filled,
-                null
-            )
-        } else {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.book_screen_book_bestseller_catalog_ic_fav_outlined,
-                null
-            )
+        rank.text =
+            resources.getString(R.string.book_screen_book_bestseller_catalog_rank, book.rank)
+        title.text = run {
+            book.title.lowercase().replaceFirstChar { it.titlecase(getDefault()) }
         }
+        author.text = book.author
+        favorite.setImageResource(
+            if (book.isFavorite) {
+                R.drawable.book_screen_book_bestseller_catalog_ic_fav_filled
+            } else {
+                R.drawable.book_screen_book_bestseller_catalog_ic_fav_outlined
+            }
+        )
     }
 
     companion object {

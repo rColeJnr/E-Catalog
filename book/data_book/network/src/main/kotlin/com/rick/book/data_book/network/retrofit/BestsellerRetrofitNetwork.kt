@@ -15,6 +15,10 @@ import javax.inject.Singleton
 
 private interface NyTimesRetrofitNetworkApi {
 
+    /*
+        Fetch NYTimes list service to get one specific Best Sellers list for a given week
+        or month depending on the list type.
+     */
     @GET("svc/books/v3/lists/{date}/{list}.json")
     suspend fun getBestsellers(
         @Path("date") date: String,

@@ -26,4 +26,5 @@
     <string name="open_drawer">open</string>
     <string name="close_drawer">close</string>
     <string name="empty" translatable="false" />
+    <string name="your_username">your username</string>
 </resources>

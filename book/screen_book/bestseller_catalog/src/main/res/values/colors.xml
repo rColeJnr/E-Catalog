@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="book_screen_book_bestseller_catalog_buttons">#EBAF81</color>
-    <color name="book_screen_book_bestseller_catalog_icons">#DA8067</color>
+    <color name="book_screen_book_bestseller_catalog_icons">#E3C4A8</color>
     <color name="book_screen_book_bestseller_catalog_text">#27332D</color>
-    <color name="book_screen_book_bestseller_catalog_background">#E3C4A8</color>
+    <color name="book_screen_book_bestseller_catalog_background">#D4D4D4</color>
 </resources>

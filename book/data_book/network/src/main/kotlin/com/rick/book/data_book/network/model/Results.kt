@@ -1,9 +1,7 @@
 package com.rick.book.data_book.network.model
 
 import com.google.gson.annotations.SerializedName
-import com.rick.book.data_book.network.model.BestsellerNetwork
 import kotlinx.serialization.Serializable
-
 
 @Serializable
 data class Results(
