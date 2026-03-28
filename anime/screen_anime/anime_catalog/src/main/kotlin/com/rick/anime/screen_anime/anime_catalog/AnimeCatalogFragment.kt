@@ -1,5 +1,8 @@
 package com.rick.anime.screen_anime.anime_catalog
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,10 +23,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import com.rick.anime.anime_screen.common.JikanLoadStateAdapter
 import com.rick.anime.anime_screen.common.JikanUiEvents
 import com.rick.anime.anime_screen.common.RemotePresentationState
 import com.rick.anime.anime_screen.common.TranslationEvent
@@ -113,7 +117,6 @@ class AnimeCatalogFragment : Fragment() {
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-
     }
 
     private fun initAdapter() {
@@ -122,11 +125,10 @@ class AnimeCatalogFragment : Fragment() {
             onAnimeFavClick = this::onAnimeFavClick,
             onTranslationClick = this::onTranslationClick
         )
-
-        binding.jikanRecyclerView.adapter =
-            adapter.withLoadStateFooter(footer = JikanLoadStateAdapter { adapter.retry() })
-
         binding.jikanRecyclerView.itemAnimator = DefaultItemAnimator()
+        binding.jikanRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.jikanRecyclerView.adapter = adapter
     }
 
     private fun AnimeScreenAnimeAnimeCatalogFragmentAnimeCatalogBinding.bindList(
@@ -135,15 +137,13 @@ class AnimeCatalogFragment : Fragment() {
     ) {
 
         lifecycleScope.launch {
-            pagingDataFlow.collect(adapter::submitData)
+            pagingDataFlow.collectLatest(adapter::submitData)
         }
 
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
-                // show progress bar during initial load or refresh.
                 jikanSwipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-                // show empty list.
                 jikanEmptyList.isVisible =
                     !jikanSwipeRefresh.isRefreshing && adapter.itemCount == 0
 
@@ -187,20 +187,73 @@ class AnimeCatalogFragment : Fragment() {
         findNavController().navigate(uri)
     }
 
-    private fun onAnimeFavClick(id: Int, isFavorite: Boolean) {
+    private fun onAnimeFavClick(view: View, id: Int, isFavorite: Boolean) {
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            com.rick.anime.screen_anime.common.R.animator.anime_screen_anime_common_favorite_animator
+        ) as AnimatorSet
+
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    R.drawable.anime_screen_anime_anime_catalog_star_outlined // Going from Favorite to Not
+                } else {
+                    R.drawable.anime_screen_anime_anime_catalog_star_filled // Going from Not to Favorite
+                }
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
         viewModel.onEvent(JikanUiEvents.UpdateAnimeFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(text: View, texts: List<String>) {
-        translationViewModel.onEvent(
-            TranslationEvent.GetTranslation(
-                texts = texts,
-                lCode = translationViewModel.location.value
+    private fun onTranslationClick(view: View, text: View, texts: List<String>) {
+        val textView = text as TextView
+        val actionView = view as TextView
+
+        if (actionView.text == getString(R.string.anime_screen_anime_anime_catalog_show_original)) {
+            textView.animate().alpha(0f).setDuration(200).withEndAction {
+                textView.text = texts.first()
+                actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                    actionView.text =
+                        getString(R.string.anime_screen_anime_anime_catalog_show_translation)
+                    actionView.animate().alpha(1f).setDuration(200).start()
+                }.start()
+                textView.animate().alpha(1f).setDuration(200).start()
+            }.start()
+        } else {
+            translationViewModel.onEvent(
+                TranslationEvent.GetTranslation(
+                    texts = texts,
+                    lCode = translationViewModel.location.value
+                )
             )
-        )
-        lifecycleScope.launch {
-            translationViewModel.translation.collectLatest {
-                (text as TextView).text = it.first().text
+            lifecycleScope.launch {
+                translationViewModel.translation.collectLatest { translations ->
+                    if (translations.isNotEmpty()) {
+                        textView.animate().alpha(0f).setDuration(200).withEndAction {
+                            textView.text = translations.first().text
+                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                                actionView.text =
+                                    getString(R.string.anime_screen_anime_anime_catalog_show_original)
+                                actionView.animate().alpha(1f).setDuration(200).start()
+                            }.start()
+                            textView.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+                    }
+                }
             }
         }
     }

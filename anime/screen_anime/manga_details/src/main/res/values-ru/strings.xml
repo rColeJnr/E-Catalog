@@ -4,7 +4,7 @@
     <string name="anime_screen_anime_manga_details_anime_screen_anime_chapters">Главы: %1$s</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_volumes">Тома: %1$s</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_no_data">н/д</string>
-    <string name="anime_screen_anime_manga_details_anime_screen_anime_score">Оценка: %1$f</string>
+    <string name="anime_screen_anime_manga_details_anime_screen_anime_score">Оценка: %1$.1f</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_scored_by">Оценено %1$d пользователями</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_favorites">В избранном у %1$d пользователей</string>
     <string name="anime_screen_anime_manga_details_anime_screen_anime_popularity">Популярность: %1$d</string>

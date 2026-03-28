@@ -1,5 +1,9 @@
 package com.rick.movie.screen_movie.trending_movie_catalog
 
+import android.R.attr.text
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +17,19 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.movie.screen_movie.common.RemotePresentationState
@@ -76,7 +87,7 @@ class TrendingMovieFragment : Fragment() {
         }
 
         binding.bindList(
-            viewModel.pagingDataFlow,
+            viewModel.uiState.asLiveData(),
             adapter = adapter
         )
 
@@ -87,37 +98,61 @@ class TrendingMovieFragment : Fragment() {
 
     private fun initAdapter() {
         adapter =
-            TrendingMovieAdapter(this::onMovieClick, this::onFavClick, this::onTranslationClick)
+            TrendingMovieAdapter(
+                this::onMovieClick,
+                this::onFavClick,
+                this::onTranslationClick
+            )
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
     }
 
     private fun MovieScreenMovieTrendingMovieCatalogFragmentTrendingMovieCatalogBinding.bindList(
-        pagingDataFlow: Flow<PagingData<UserTrendingMovie>>,
+        uiState: LiveData<TrendingMovieUiState>,
         adapter: TrendingMovieAdapter
     ) {
-        lifecycleScope.launch {
-            pagingDataFlow.collectLatest(adapter::submitData)
+
+        uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is TrendingMovieUiState.Loading -> {
+                    swipeRefresh.isRefreshing = true
+                }
+
+                is TrendingMovieUiState.Success -> {
+                    lifecycleScope.launch {
+                        state.movies.collect(adapter::submitData)
+                    }
+                }
+
+                is TrendingMovieUiState.Error -> {
+                    swipeRefresh.isRefreshing = false
+                }
+            }
+
         }
 
-        lifecycleScope.launch {
-            adapter.loadStateFlow.collect { loadState ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collect { loadState ->
+                    swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                    emptyList.isVisible =
+                        !swipeRefresh.isRefreshing && adapter.itemCount == 0
 
-                // show progress bar during initial load or refresh.
-                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-                // show empty list.
-                emptyList.isVisible =
-                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+                    val errorState = loadState.source.refresh as? LoadState.Error
+                        ?: loadState.mediator?.refresh as? LoadState.Error
 
-                val errorState = loadState.source.refresh as? LoadState.Error
-                    ?: loadState.mediator?.refresh as? LoadState.Error
-
-                errorState?.let {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.movie_screen_movie_trending_movie_catalog_whoops, it),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    errorState?.let {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(
+                                R.string.movie_screen_movie_trending_movie_catalog_whoops,
+                                it.error.localizedMessage
+                            ),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -144,19 +179,70 @@ class TrendingMovieFragment : Fragment() {
     }
 
     private fun onFavClick(view: View, id: Int, isFavorite: Boolean) {
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            com.rick.movie.screen_movie.common.R.animator.movie_screen_movie_common_animator
+        ) as AnimatorSet
+
+
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined
+                } else {
+                    R.drawable.movie_screen_movie_trending_movie_catalog_star_filled
+                }
+
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
         viewModel.onEvent(TrendingMovieUiEvent.UpdateTrendingMovieFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(text: View, translation: List<String>) {
-        translationViewModel.onEvent(
-            TranslationEvent.GetTranslation(
-                translation,
-                translationViewModel.location.value
+    private fun onTranslationClick(actionView: TextView, textView: TextView, texts: List<String>) {
+        if (actionView.text == getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)) {
+            textView.animate().alpha(0f).setDuration(200).withEndAction {
+                textView.text = texts.first()
+                actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                    actionView.text =
+                        getString(R.string.movie_screen_movie_trending_movie_catalog_show_translation)
+                    actionView.animate().alpha(1f).setDuration(200).start()
+                }.start()
+                textView.animate().alpha(1f).setDuration(200).start()
+            }.start()
+        } else {
+            translationViewModel.onEvent(
+                TranslationEvent.GetTranslation(
+                    texts = texts,
+                    lCode = translationViewModel.location.value
+                )
             )
-        )
-        lifecycleScope.launch {
-            translationViewModel.translation.collectLatest {
-                (text as TextView).text = it.first().text
+            lifecycleScope.launch {
+                translationViewModel.translation.collectLatest { translations ->
+                    if (translations.isNotEmpty()) {
+                        textView.animate().alpha(0f).setDuration(200).withEndAction {
+                            textView.text = translations.first().text
+                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                                actionView.text =
+                                    getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)
+                                actionView.animate().alpha(1f).setDuration(200).start()
+                            }.start()
+                            textView.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+                    }
+                }
             }
         }
     }

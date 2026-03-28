@@ -6,4 +6,6 @@
     <string name="anime_screen_anime_manga_catalog_whoops">😨 Whoops %1$s</string>
     <string name="anime_screen_anime_manga_catalog_show_original">Show original</string>
     <string name="anime_screen_anime_manga_catalog_show_translation">Show translation</string>
+    <string name="anime_screen_anime_manga_catalog_slogan">Explore thousands of Manga and find a new favorite</string>
+    <string name="anime_screen_anime_manga_catalog_header">Popular Manga</string>
 </resources>

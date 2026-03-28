@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide.init
 import com.rick.anime.screen_anime.anime_catalog.databinding.AnimeScreenAnimeAnimeCatalogAnimeEntryBinding
 import com.rick.data.model_anime.UserAnime
 import com.rick.data.ui_components.common.provideGlide
@@ -12,37 +13,30 @@ import com.rick.data.ui_components.common.provideGlide
 class AnimeViewHolder(
     binding: AnimeScreenAnimeAnimeCatalogAnimeEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
-    private val onFavClick: (Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onFavClick: (View, Int, Boolean) -> Unit,
+    private val onTranslationClick: (View, View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
-    private val favorite = binding.favButton
+    private val favorite = binding.favorite
     private val showTranslation = binding.translate
-    private val showOriginal = binding.showOriginal
     private val resources = itemView.resources
+
+    private lateinit var anime: UserAnime
+    private val location: String = java.util.Locale.getDefault().language.lowercase()
 
     init {
         binding.root.setOnClickListener {
             onItemClick(it, anime.id)
         }
         favorite.setOnClickListener {
-            onFavClick(anime.id, anime.isFavorite)
+            onFavClick(it, anime.id, anime.isFavorite)
         }
         showTranslation.setOnClickListener {
-            onTranslationClick(synopsis, listOf(anime.synopsis))
-            showOriginal.visibility = View.VISIBLE
-            it.visibility = View.GONE
-        }
-        showOriginal.setOnClickListener {
-            synopsis.text = anime.synopsis
-            it.visibility = View.GONE
-            showTranslation.visibility = View.VISIBLE
+            onTranslationClick(showTranslation, synopsis, listOf(anime.synopsis))
         }
     }
-
-    private lateinit var anime: UserAnime
 
     fun bind(anime: UserAnime) {
         this.anime = anime
@@ -51,14 +45,20 @@ class AnimeViewHolder(
             provideGlide(this.image, anime.images)
         }
         this.synopsis.text = this.anime.synopsis
-        favorite.foreground = if (anime.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources, R.drawable.anime_screen_anime_anime_catalog_star_filled, null
-            )
-        } else {
-            ResourcesCompat.getDrawable(
-                resources, R.drawable.anime_screen_anime_anime_catalog_star_outlined, null
-            )
+        favorite.setImageResource(
+            if (anime.isFavorite) {
+                R.drawable.anime_screen_anime_anime_catalog_star_filled
+            } else {
+                R.drawable.anime_screen_anime_anime_catalog_star_outlined
+            }
+        )
+
+        location.let {
+            if (it == "en") {
+                showTranslation.visibility = View.GONE
+            } else {
+                showTranslation.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -66,8 +66,8 @@ class AnimeViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
-            onFavClick: (Int, Boolean) -> Unit,
-            onTranslateClick: (View, List<String>) -> Unit
+            onFavClick: (View, Int, Boolean) -> Unit,
+            onTranslateClick: (View, View, List<String>) -> Unit
         ): AnimeViewHolder {
             val itemBinding = AnimeScreenAnimeAnimeCatalogAnimeEntryBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
@@ -75,5 +75,4 @@ class AnimeViewHolder(
             return AnimeViewHolder(itemBinding, onItemClick, onFavClick, onTranslateClick)
         }
     }
-
 }

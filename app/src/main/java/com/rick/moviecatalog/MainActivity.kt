@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 //Movie screen1
-                com.rick.movie.screen_movie.article_catalog.R.id.movie_screen_movie_article_catalog_articlefragment,
                 com.rick.movie.screen_movie.trending_movie_catalog.R.id.movie_screen_movie_trending_movie_catalog_trendingmoviefragment,
                 com.rick.movie.screen_movie.trending_series_catalog.R.id.movie_screen_movie_trending_series_catalog_trendingseriesfragment,
                 //Book screen
@@ -84,7 +83,6 @@ class MainActivity : AppCompatActivity() {
             //Movie screen
                 destination.id == com.rick.movie.screen_movie.trending_series_search.R.id.movie_screen_movie_trending_series_search_trendingseriessearchfragment
                 || destination.id == com.rick.movie.screen_movie.trending_movie_search.R.id.movie_screen_movie_trending_movie_search_trendingmoviesearchfragment
-                || destination.id == com.rick.movie.screen_movie.article_search.R.id.movie_screen_movie_article_search_articlesearchfragment
                 || destination.id == com.rick.movie.screen_movie.trending_movie_details.R.id.movie_screen_movie_trending_movie_details_moviedetailsfragment
                 || destination.id == com.rick.movie.screen_movie.trending_series_details.R.id.movie_screen_movie_trending_series_details_trendingseriesdetailsfragment
                 //Book screen
@@ -106,10 +104,6 @@ class MainActivity : AppCompatActivity() {
             //Toolbar title
             binding.toolbarText.text = when (destination.id) {
                 //Movie screen
-                com.rick.movie.screen_movie.article_catalog.R.id.movie_screen_movie_article_catalog_articlefragment -> getString(
-                    R.string.nyt_articles
-                )
-
                 com.rick.movie.screen_movie.trending_movie_catalog.R.id.movie_screen_movie_trending_movie_catalog_trendingmoviefragment -> getString(
                     R.string.trending_movies
                 )
@@ -124,10 +118,6 @@ class MainActivity : AppCompatActivity() {
 
                 com.rick.movie.screen_movie.trending_movie_favorite.R.id.movie_screen_movie_trending_movie_favorite_trenidngmoviefavoritefragment -> getString(
                     R.string.trending_movies_favorite
-                )
-
-                com.rick.movie.screen_movie.article_favorite.R.id.movie_screen_movie_article_favorite_articlefavoritefragment -> getString(
-                    R.string.nyt_articles_favorite
                 )
 
                 //Book screen

@@ -1,8 +1,10 @@
 package com.rick.movie.screen_movie.trending_movie_catalog
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -10,21 +12,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
+import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogHeaderBinding
 import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogMovieEntryBinding
 
 class TrendingMovieAdapter(
     private val onItemClick: (Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
-) : PagingDataAdapter<UserTrendingMovie, TrendingMovieViewHolder>(DIFF_COMPARATOR) {
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
+) : PagingDataAdapter<UserTrendingMovie, RecyclerView.ViewHolder>(DIFF_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingMovieViewHolder {
-        return TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_MOVIE
     }
 
-    override fun onBindViewHolder(holder: TrendingMovieViewHolder, position: Int) {
-        val movie = (getItem(position))
-        movie?.let { holder.bind(it) }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_HEADER)
+            TrendingMovieHeaderViewHolder.create(parent)
+        else
+            TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is TrendingMovieHeaderViewHolder -> {}
+            is TrendingMovieViewHolder -> {
+                val movie = getItem(position)
+                movie?.let { holder.bind(it) }
+            }
+        }
     }
 
     companion object {
@@ -43,6 +58,9 @@ class TrendingMovieAdapter(
                 oldItem == newItem
 
         }
+
+        const val VIEW_TYPE_HEADER = 0
+        const val VIEW_TYPE_MOVIE = 1
     }
 }
 
@@ -50,16 +68,16 @@ class TrendingMovieViewHolder(
     binding: MovieScreenMovieTrendingMovieCatalogMovieEntryBinding,
     private val onItemClick: (Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
     private val summary = binding.movieSummary
-    private val favorite = binding.favButton
+    private val favorite = binding.favorite
     private val showTranslation = binding.showTranslation
-    private val showOriginal = binding.showOriginal
     private val cardView = binding.movieEntryCardView
     private val resources = itemView.resources
+    private var location: String = java.util.Locale.getDefault().language.lowercase()
 
     private lateinit var movie: UserTrendingMovie
 
@@ -72,15 +90,8 @@ class TrendingMovieViewHolder(
             onFavClick(it, movie.id, movie.isFavorite)
         }
         showTranslation.setOnClickListener {
-            onTranslationClick(summary, listOf(movie.overview))
+            onTranslationClick(showTranslation, summary, listOf(movie.overview))
             it.visibility = View.GONE
-            showOriginal.visibility = View.VISIBLE
-
-        }
-        showOriginal.setOnClickListener {
-            summary.text = movie.overview
-            it.visibility = View.GONE
-            showTranslation.visibility = View.VISIBLE
         }
     }
 
@@ -89,18 +100,18 @@ class TrendingMovieViewHolder(
         if (movie.image.isNotEmpty()) provideGlide(image, getTmdbImageUrl(movie.image))
         title.text = movie.title
         summary.text = movie.overview
-        favorite.foreground = if (movie.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.movie_screen_movie_trending_movie_catalog_star_filled,
-                null
-            )
+        favorite.setImageResource(
+            if (movie.isFavorite) {
+                R.drawable.movie_screen_movie_trending_movie_catalog_star_filled
+            } else {
+                R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined
+            }
+        )
+
+        if (location == "en") {
+            showTranslation.visibility = View.GONE
         } else {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined,
-                null
-            )
+            showTranslation.visibility = View.VISIBLE
         }
     }
 
@@ -109,7 +120,7 @@ class TrendingMovieViewHolder(
             parent: ViewGroup,
             onItemClick: (Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslationClick: (View, List<String>) -> Unit
+            onTranslationClick: (TextView, TextView, List<String>) -> Unit
         ): TrendingMovieViewHolder {
             val binding =
                 MovieScreenMovieTrendingMovieCatalogMovieEntryBinding.inflate(
@@ -118,6 +129,20 @@ class TrendingMovieViewHolder(
                     false
                 )
             return TrendingMovieViewHolder(binding, onItemClick, onFavClick, onTranslationClick)
+        }
+    }
+}
+
+class TrendingMovieHeaderViewHolder(private val binding: MovieScreenMovieTrendingMovieCatalogHeaderBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        fun create(
+            parent: ViewGroup,
+        ): TrendingMovieHeaderViewHolder {
+            val itemBinding = MovieScreenMovieTrendingMovieCatalogHeaderBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            return TrendingMovieHeaderViewHolder(itemBinding)
         }
     }
 }

@@ -33,10 +33,6 @@
                 android:id="@+id/trendingmovie_graph"
                 android:icon="@drawable/ic_movie"
                 android:title="@string/trending_movies" />
-            <item
-                android:id="@+id/movie_graph"
-                android:icon="@drawable/ic_movie"
-                android:title="@string/nyt_articles" />
 
 <!--            <item-->
 <!--                android:id="@+id/moving_pictures_favorites_graph"-->
