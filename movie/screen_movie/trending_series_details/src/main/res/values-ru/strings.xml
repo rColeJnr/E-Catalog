@@ -6,9 +6,9 @@
     <string name="movie_screen_movie_trending_series_details_db_rating">Movie db: %1$.1f</string>
     <string name="movie_screen_movie_trending_series_details_imdb_rating">tmbd: %1$.1f</string>
     <string name="movie_screen_movie_trending_series_details_ratings">Рейтинги</string>
-    <string name="movie_screen_movie_trending_series_details_revenue">Доход: %1$d$</string>
+    <string name="movie_screen_movie_trending_series_details_revenue">Доход: $%1$.1f Миллионы</string>
     <string name="movie_screen_movie_trending_series_details_runtime">Продолжительность: %1$d минут</string>
-    <string name="movie_screen_movie_trending_series_details_budget">Бюджет: %1$d долларов</string>
+    <string name="movie_screen_movie_trending_series_details_budget">Бюджет: $%1$.1f Миллионы</string>
     <string name="movie_screen_movie_trending_series_details_release_date">Дата выхода: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_genres">Жанры: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_adult_content">Контент для взрослых: %1$s</string>
@@ -17,6 +17,7 @@
     <string name="movie_screen_movie_trending_series_details_no">Нет</string>
     <string name="movie_screen_movie_trending_series_details_transition_name">trending_series_details_transition</string>
     <string name="movie_screen_movie_trending_series_details_popularity">Популярность: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_popularity">Популярность: %1$.2f</string>
     <string name="movie_screen_movie_trending_series_details_number_of_seasons">Количество сезонов: %1$d</string>
     <string name="movie_screen_movie_trending_series_details_last_air_date">Последняя дата выхода в эфир: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_first_air_date">Первая дата выхода в эфир: %1$s</string>
