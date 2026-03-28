@@ -6,9 +6,9 @@
     <string name="movie_screen_movie_trending_series_details_db_rating">Movie db: %1$.1f</string>
     <string name="movie_screen_movie_trending_series_details_imdb_rating">tmbd: %1$.1f</string>
     <string name="movie_screen_movie_trending_series_details_ratings">Classificações</string>
-    <string name="movie_screen_movie_trending_series_details_revenue">Receita: %1$d$</string>
+    <string name="movie_screen_movie_trending_series_details_revenue">Receita: $%1$.1f Milhões</string>
     <string name="movie_screen_movie_trending_series_details_runtime">Tempo de execução: %1$d minutos</string>
-    <string name="movie_screen_movie_trending_series_details_budget">Orçamento: %1$d dólares</string>
+    <string name="movie_screen_movie_trending_series_details_budget">Orçamento: $%1$.1f Milhões</string>
     <string name="movie_screen_movie_trending_series_details_release_date">Data de lançamento: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_genres">Gêneros: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_adult_content">Conteúdo adulto: %1$s</string>
@@ -16,7 +16,7 @@
     <string name="movie_screen_movie_trending_series_details_yes">Sim</string>
     <string name="movie_screen_movie_trending_series_details_no">Não</string>
     <string name="movie_screen_movie_trending_series_details_transition_name">trending_series_details_transition</string>
-    <string name="movie_screen_movie_trending_series_details_popularity">Popularidade: %1$d</string>
+    <string name="movie_screen_movie_trending_series_details_popularity">Popularidade: %1$.2f</string>
     <string name="movie_screen_movie_trending_series_details_number_of_seasons">Número de temporadas: %1$d</string>
     <string name="movie_screen_movie_trending_series_details_last_air_date">Última data de exibição: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_first_air_date">Primeira data de exibição: %1$s</string>

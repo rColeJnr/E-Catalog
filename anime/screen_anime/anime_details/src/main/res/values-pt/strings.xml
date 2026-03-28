@@ -11,7 +11,7 @@
     <string name="anime_screen_anime_anime_details_ratings">Classificações</string>
     <string name="anime_screen_anime_anime_details_airing_status">Status de exibição: %1$s</string>
     <string name="anime_screen_anime_anime_details_aired">Exibido de: %1$s</string>
-    <string name="anime_screen_anime_anime_details_score">Pontuação: %1$f</string>
+    <string name="anime_screen_anime_anime_details_score">Pontuação: %1$.1f</string>
     <string name="anime_screen_anime_anime_details_scored_by">Avaliado por %1$d usuários</string>
     <string name="anime_screen_anime_anime_details_rank">Classificação geral %1$d</string>
     <string name="anime_screen_anime_anime_details_popularity">Classificação de popularidade %1$d</string>

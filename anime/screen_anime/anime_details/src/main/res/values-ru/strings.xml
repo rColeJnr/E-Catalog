@@ -11,7 +11,7 @@
     <string name="anime_screen_anime_anime_details_ratings">Рейтинги</string>
     <string name="anime_screen_anime_anime_details_airing_status">Статус показа: %1$s</string>
     <string name="anime_screen_anime_anime_details_aired">Выходил в эфир с: %1$s</string>
-    <string name="anime_screen_anime_anime_details_score">Оценка: %1$f</string>
+    <string name="anime_screen_anime_anime_details_score">Оценка: %1$.1f</string>
     <string name="anime_screen_anime_anime_details_scored_by">Оценено %1$d пользователями</string>
     <string name="anime_screen_anime_anime_details_rank">Общий рейтинг %1$d</string>
     <string name="anime_screen_anime_anime_details_popularity">Рейтинг популярности %1$d</string>
