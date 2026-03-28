@@ -1,76 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/book_screen_book_bestseller_catalog_two_dp"
-    android:background="?attr/colorSurface"
-    tools:ignore="ResourceName">
+    android:layout_marginHorizontal="@dimen/book_screen_book_bestseller_catalog_two_dp"
+    android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270">
 
-    <TextView
-        android:id="@+id/category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/book_screen_book_bestseller_catalog_two_dp"
-        android:text="@string/book_screen_book_bestseller_catalog_bestseller_category"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="22dp"
-        android:background="?attr/colorSurface"
-        android:gravity="start"
-        android:textAlignment="gravity"
-        app:layout_constraintBottom_toBottomOf="@id/category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/category"
-        app:layout_constraintTop_toTopOf="@id/category" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner"
-        tools:listitem="@layout/book_screen_book_bestseller_catalog_book_entry" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="ResourceName">
+
+            <TextView
+                android:id="@+id/category_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="@string/book_screen_book_bestseller_catalog_bestseller_category"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/book_screen_book_bestseller_catalog_category_entry" />
+
+            <TextView
+                android:id="@+id/carousel_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:gravity="start|center_vertical"
+                android:text="@string/book_screen_book_bestseller_catalog_trending_now"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/carousel_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/book_screen_book_bestseller_catalog_carousel_book_entry" />
+
+            <TextView
+                android:id="@+id/bestsellers_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:gravity="start|center_vertical"
+                android:text="@string/book_screen_book_bestseller_catalog_bestsellers"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/book_screen_book_bestseller_catalog_book_entry" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!-- comment out text view ->
-    <TextView
-        android:id="@+id/emptyList"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/no_results"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!- end of comment -->
+        app:indicatorColor="@color/book_screen_book_bestseller_catalog_buttons"
+        app:trackColor="@color/book_screen_book_bestseller_catalog_background" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/book_compose_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

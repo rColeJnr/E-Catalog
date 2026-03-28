@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 interface BestsellerRepository {
 
     /**
-     * Returns available bestseller books that match the specified [query]
+     * Returns available bestseller books that match the specified [bookGenre]
      */
     fun getBestseller(
         bookGenre: String,
@@ -22,5 +22,8 @@ interface BestsellerRepository {
         date: String = "current"
     ): Flow<List<Bestseller>>
 
+    /**
+     * Returns user favorite bestseller books
+     */
     fun getBestsellerFavorites(favorites: Set<String>): Flow<List<Bestseller>>
 }
