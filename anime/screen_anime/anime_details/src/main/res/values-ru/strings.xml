@@ -28,4 +28,5 @@
     <string name="anime_screen_anime_anime_details_not_airing">Не в эфире!</string>
     <string name="anime_screen_anime_anime_details_show_translation">Показать перевод</string>
     <string name="anime_screen_anime_anime_details_show_original">Позазать оригинал</string>
+    <string name="anime_screen_anime_anime_details_overview">Обзор</string>
 </resources>

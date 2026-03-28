@@ -4,4 +4,6 @@
     <string name="movie_screen_movie_trending_series_catalog_favorite">Избранное</string>
     <string name="movie_screen_movie_trending_series_catalog_show_translation">Показать перевод</string>
     <string name="movie_screen_movie_trending_series_catalog_show_original">Показать оригинал</string>
+    <string name="movie_screen_movie_trending_series_catalog_header">Откройте для себя сериалы</string>
+    <string name="movie_screen_movie_trending_series_catalog_slogan">Исследуйте тысячи сериалов и найдите свой следующий любимый</string>
 </resources>

@@ -5,4 +5,6 @@
     <string name="book_screen_book_gutenberg_catalog_authors">Autores: %1$s</string>
     <string name="book_screen_book_gutenberg_catalog_favorite">Favorito</string>
     <string name="book_screen_book_gutenberg_catalog_wooops">😨 Wooops %1$s</string>
+    <string name="book_screen_book_gutenberg_catalog_slogan">Explore milhares de livros gratuitos e encontre um novo favorito</string>
+    <string name="book_screen_book_gutenberg_catalog_header">Explore livros gratuitos</string>
 </resources>

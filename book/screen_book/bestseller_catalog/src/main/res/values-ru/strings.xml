@@ -11,4 +11,9 @@
     <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Упс"\nРезультаты не найдены, 😓</string>
     <string name="book_screen_book_bestseller_catalog_show_translation">Показать перевод</string>
     <string name="book_screen_book_bestseller_catalog_show_original">Показать оригинал</string>
+    <string name="book_screen_book_bestseller_catalog_trending_now">Лучшие подборки</string>
+    <string name="book_screen_book_bestseller_catalog_category">Категория</string>
+    <string name="book_screen_book_bestseller_catalog_bestsellers">Бестселлеры</string>
+    <string name="book_screen_book_bestseller_catalog_slogan">Исследуйте бестселлеры NY Times и найдите новую любимую книгу</string>
+    <string name="book_screen_book_bestseller_catalog_header">Откройте для себя книги</string>
 </resources>

@@ -4,4 +4,6 @@
     <string name="movie_screen_movie_trending_series_catalog_favorite">Favorito</string>
     <string name="movie_screen_movie_trending_series_catalog_show_translation">Mostrar tradução</string>
     <string name="movie_screen_movie_trending_series_catalog_show_original">Mostrar original</string>
+    <string name="movie_screen_movie_trending_series_catalog_header">Explore séries de TV</string>
+    <string name="movie_screen_movie_trending_series_catalog_slogan">Explore milhares de séries e encontre a sua próxima favorita</string>
 </resources>
