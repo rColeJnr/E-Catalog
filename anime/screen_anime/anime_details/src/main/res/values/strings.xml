@@ -11,7 +11,7 @@
     <string name="anime_screen_anime_anime_details_ratings">Ratings</string>
     <string name="anime_screen_anime_anime_details_airing_status">Airing status: %1$s</string>
     <string name="anime_screen_anime_anime_details_aired">Aired from: %1$s</string>
-    <string name="anime_screen_anime_anime_details_score">Score: %1$f</string>
+    <string name="anime_screen_anime_anime_details_score">Score: %1$.1f</string>
     <string name="anime_screen_anime_anime_details_scored_by">Scored by %1$d users</string>
     <string name="anime_screen_anime_anime_details_rank">Overall rank %1$d</string>
     <string name="anime_screen_anime_anime_details_popularity">Popularity rank %1$d</string>
