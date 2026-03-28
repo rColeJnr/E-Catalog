@@ -14,7 +14,7 @@ class AnimeViewHolder(
     binding: AnimeScreenAnimeAnimeCatalogAnimeEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (View, View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
@@ -34,7 +34,7 @@ class AnimeViewHolder(
             onFavClick(it, anime.id, anime.isFavorite)
         }
         showTranslation.setOnClickListener {
-            onTranslationClick(synopsis, listOf(anime.synopsis))
+            onTranslationClick(showTranslation, synopsis, listOf(anime.synopsis))
         }
     }
 
@@ -67,7 +67,7 @@ class AnimeViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslateClick: (View, List<String>) -> Unit
+            onTranslateClick: (View, View, List<String>) -> Unit
         ): AnimeViewHolder {
             val itemBinding = AnimeScreenAnimeAnimeCatalogAnimeEntryBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false

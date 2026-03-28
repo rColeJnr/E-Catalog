@@ -3,6 +3,7 @@ package com.rick.movie.screen_movie.trending_series_catalog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -17,7 +18,7 @@ import com.rick.movie.screen_movie.trending_series_catalog.databinding.MovieScre
 class TrendingSeriesAdapter(
     private val onItemClicked: (Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingSeries, RecyclerView.ViewHolder>(RESULT_COMPARATOR) {
 
     override fun getItemViewType(position: Int): Int {
@@ -72,7 +73,7 @@ class TrendingSeriesViewHolder(
     itemBinding: MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding,
     private val onItemClicked: (Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
     private val title = itemBinding.movieName
     private val image = itemBinding.movieImage
@@ -92,7 +93,7 @@ class TrendingSeriesViewHolder(
             onFavClicked(it, trendingSeries.id, trendingSeries.isFavorite)
         }
         showTranslation.setOnClickListener {
-            onTranslationClick(overview, listOf(trendingSeries.overview))
+            onTranslationClick(showTranslation, overview, listOf(trendingSeries.overview))
         }
     }
 
@@ -123,7 +124,7 @@ class TrendingSeriesViewHolder(
             parent: ViewGroup,
             onItemClick: (Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslationClick: (View, List<String>) -> Unit
+            onTranslationClick: (TextView, TextView, List<String>) -> Unit
         ): TrendingSeriesViewHolder {
             val itemBinding =
                 MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding.inflate(

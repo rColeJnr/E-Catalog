@@ -3,6 +3,7 @@ package com.rick.anime.screen_anime.manga_catalog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.anime.screen_anime.manga_catalog.databinding.AnimeScreenAnimeMangaCatalogMangaEntryBinding
@@ -13,7 +14,7 @@ class MangaViewHolder(
     binding: AnimeScreenAnimeMangaCatalogMangaEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
@@ -31,7 +32,7 @@ class MangaViewHolder(
             onFavClick(it, manga.id, manga.isFavorite)
         }
         showTranslation.setOnClickListener {
-            onTranslationClick(synopsis, listOf(manga.synopsis))
+            onTranslationClick(showTranslation, synopsis, listOf(manga.synopsis))
         }
     }
 
@@ -64,7 +65,7 @@ class MangaViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslationClick: (View, List<String>) -> Unit
+            onTranslationClick: (TextView, TextView, List<String>) -> Unit
         ): MangaViewHolder {
             val itemBinding =
                 AnimeScreenAnimeMangaCatalogMangaEntryBinding.inflate(
