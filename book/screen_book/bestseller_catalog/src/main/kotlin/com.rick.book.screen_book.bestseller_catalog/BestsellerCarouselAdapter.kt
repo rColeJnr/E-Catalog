@@ -52,7 +52,7 @@ class BestsellerCarouselAdapter(
 
         init {
             favorite.setOnClickListener { view ->
-                onFavoriteClick(binding.frameFavorite, book.id, book.isFavorite)
+                onFavoriteClick(view, book.id, book.isFavorite)
             }
 
             binding.root.setOnClickListener {

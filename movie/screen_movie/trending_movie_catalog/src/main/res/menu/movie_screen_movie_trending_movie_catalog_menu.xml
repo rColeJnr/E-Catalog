@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/fav_imdb"
-        android:icon="@drawable/movie_screen_movie_trending_movie_catalog_ic_fav_outlined"
+        android:icon="@drawable/movie_screen_movie_trending_movie_details_ic_fav_outlined"
         android:title="@string/movie_screen_movie_trending_movie_catalog_favorite"
         app:showAsAction="ifRoom" />
 

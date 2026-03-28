@@ -80,12 +80,9 @@ class AnimeDetailsFragment : Fragment() {
         animeLiveData.observe(viewLifecycleOwner) { anime ->
             title.text = anime.title
 
-            Log.e("Anime", "one")
             provideGlide(image, anime.images)
 
             showTranslation.setOnClickListener {
-                it.visibility = View.GONE
-                showOriginal.visibility = View.VISIBLE
                 translationViewModel.onEvent(
                     TranslationEvent.GetTranslation(
                         listOf(
@@ -100,13 +97,6 @@ class AnimeDetailsFragment : Fragment() {
                         background.text = it.last().text
                     }
                 }
-            }
-
-            showOriginal.setOnClickListener {
-                synopsis.text = anime.synopsis
-                background.text = anime.background
-                it.visibility = View.GONE
-                showTranslation.visibility = View.VISIBLE
             }
 
             synopsis.text = anime.synopsis

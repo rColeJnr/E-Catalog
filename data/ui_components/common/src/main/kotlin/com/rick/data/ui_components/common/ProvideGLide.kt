@@ -13,7 +13,6 @@ fun provideGlide(view: ImageView, src: String) {
     }
     Glide.with(view)
         .load(src)
-        .centerCrop()
         .apply(
             RequestOptions().placeholder(circularProgressDrawable)
         )
