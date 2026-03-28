@@ -12,7 +12,7 @@ import com.rick.data.ui_components.common.provideGlide
 class AnimeViewHolder(
     binding: AnimeScreenAnimeAnimeCatalogAnimeEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
-    private val onFavClick: (Int, Boolean) -> Unit,
+    private val onFavClick: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
@@ -29,7 +29,7 @@ class AnimeViewHolder(
             onItemClick(it, anime.id)
         }
         favorite.setOnClickListener {
-            onFavClick(anime.id, anime.isFavorite)
+            onFavClick(it, anime.id, anime.isFavorite)
         }
         showTranslation.setOnClickListener {
             onTranslationClick(synopsis, listOf(anime.synopsis))
@@ -56,7 +56,7 @@ class AnimeViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
-            onFavClick: (Int, Boolean) -> Unit,
+            onFavClick: (View, Int, Boolean) -> Unit,
             onTranslateClick: (View, List<String>) -> Unit
         ): AnimeViewHolder {
             val itemBinding = AnimeScreenAnimeAnimeCatalogAnimeEntryBinding.inflate(

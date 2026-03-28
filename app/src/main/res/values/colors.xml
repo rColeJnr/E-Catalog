@@ -3,7 +3,7 @@
     <color name="black">#27332D</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="color_on_surface">#E2DFD2</color>
+    <color name="color_on_surface">#D4D4D4</color>
     <color name="color_on_background">#35EBAF81</color>
     <color name="color_surface">#FFFFFF</color>
     <color name="color_secondary">#E3C4A8</color>
