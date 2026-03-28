@@ -4,5 +4,4 @@
     <dimen name="book_screen_book_bestseller_catalog_six_dp">6dp</dimen>
     <dimen name="book_screen_book_bestseller_catalog_eight_dp">8dp</dimen>
     <dimen name="book_screen_book_bestseller_catalog_twelve_dp">12dp</dimen>
-    <dimen name="book_screen_book_bestseller_catalog_card_corner_radius">10dp</dimen>
 </resources>

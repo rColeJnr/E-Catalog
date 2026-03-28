@@ -1,26 +1,46 @@
 package com.rick.anime.screen_anime.manga_catalog
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.rick.anime.screen_anime.manga_catalog.databinding.AnimeScreenAnimeMangaCatalogHeaderBinding
+import com.rick.data.model_anime.UserAnime
 import com.rick.data.model_anime.UserManga
 
 class MangaCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
-    private val onMangaFavClick: (Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, List<String>) -> Unit
-) : PagingDataAdapter<UserManga, MangaViewHolder>(DIFF_UTIL) {
+    private val onMangaFavClick: (View, Int, Boolean) -> Unit,
+    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
+) : PagingDataAdapter<UserManga, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
-    override fun onBindViewHolder(holder: MangaViewHolder, position: Int) {
-        val anime = getItem(position)
-        if (anime != null) {
-            holder.bind(anime)
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_MANGA
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is MangaHeaderViewHolder -> {
+            }
+
+            is MangaViewHolder -> {
+                val manga = getItem(position)
+                manga?.let { holder.bind(it) }
+            }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
-        return MangaViewHolder.create(parent, onItemClick, onMangaFavClick, onTranslationClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_HEADER) MangaHeaderViewHolder.create(parent)
+        else MangaViewHolder.create(
+            parent = parent,
+            onItemClick = onItemClick,
+            onFavClick = onMangaFavClick,
+            onTranslationClick = onTranslationClick
+        )
     }
 
     companion object {
@@ -32,6 +52,26 @@ class MangaCatalogAdapter(
             override fun areContentsTheSame(oldItem: UserManga, newItem: UserManga): Boolean {
                 return oldItem == newItem
             }
+        }
+
+        const val VIEW_TYPE_HEADER = 0
+        const val VIEW_TYPE_MANGA = 1
+    }
+}
+
+class MangaHeaderViewHolder(private val binding: AnimeScreenAnimeMangaCatalogHeaderBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        fun create(
+            parent: ViewGroup,
+        ): MangaHeaderViewHolder {
+            val itemBinding = AnimeScreenAnimeMangaCatalogHeaderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            return MangaHeaderViewHolder(itemBinding)
         }
     }
 }

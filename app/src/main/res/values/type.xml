@@ -5,12 +5,14 @@
         <item name="fontFamily">@font/high_tower_text</item>
         <item name="android:fontFamily">@font/high_tower_text</item>
         <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/high_tower_text</item>
         <item name="android:fontFamily">@font/high_tower_text</item>
         <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">

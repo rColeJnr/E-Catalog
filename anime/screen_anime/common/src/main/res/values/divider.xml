@@ -1,0 +1,13 @@
+<resources>
+
+    <style name="AnimeScreenAnimeCommonDivider">
+        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:color">@android:color/darker_gray</item>
+    </style>
+
+    <style name="AnimeScreenAnimeCommonDivider.Horizontal" parent="AnimeScreenAnimeCommonDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+    </style>
+
+</resources>

@@ -6,4 +6,8 @@
     <string name="book_screen_book_gutenberg_catalog_authors">Authors: %1$s</string>
     <string name="book_screen_book_gutenberg_catalog_favorite">Favorite</string>
     <string name="book_screen_book_gutenberg_catalog_wooops">😨 Wooops %1$s</string>
+    <string name="book_screen_book_gutenberg_catalog_book_title">Book Title</string>
+    <string name="book_screen_book_gutenberg_catalog_book_author">Book Author</string>
+    <string name="book_screen_book_gutenberg_catalog_slogan">Explore thousands of free to read books and find a new favorite</string>
+    <string name="book_screen_book_gutenberg_catalog_header">Explore Free Books</string>
 </resources>

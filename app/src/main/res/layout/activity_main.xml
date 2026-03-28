@@ -3,49 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:layout_margin="12dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/colorSurface"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/my_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorOnSurface">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/toolbar_text"
-                android:layout_width="282dp"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:gravity="start|center_vertical"
-                android:textAlignment="gravity"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                android:paddingTop="16dp"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-        </androidx.appcompat.widget.Toolbar>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/toolbar_text"
+                    android:layout_width="282dp"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="start|center"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="?attr/colorSurface"
+            android:layout_height="match_parent"
             app:defaultNavHost="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:navGraph="@navigation/nav_graph" />
 
-    </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/data_ui_components_auth_282dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?attr/colorOnSurface"

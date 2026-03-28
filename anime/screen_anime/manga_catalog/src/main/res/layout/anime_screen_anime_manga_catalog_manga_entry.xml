@@ -1,89 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/anime_entry_card_view"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/anime_screen_anime_common_six_dp"
-    android:backgroundTint="?attr/colorSurface"
-    android:elevation="@dimen/anime_screen_anime_manga_catalog_two_dp"
-    app:cardCornerRadius="@dimen/anime_screen_anime_manga_catalog_card_corner_radius">
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:animateLayoutChanges="true">
+        android:background="@drawable/anime_screen_anime_manga_catalog_gradient_background"
+        android:paddingBottom="16dp">
 
+        <!-- Manga Cover Image -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="240dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/AnimeScreenAnimeMangaCatalogRoundedRoundedBookCover"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <!-- Favorite Button -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="12dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardElevation="6dp"
+            app:layout_constraintEnd_toEndOf="@id/image"
+            app:layout_constraintTop_toTopOf="@id/image"
+            app:shapeAppearanceOverlay="@style/AnimeScreenAnimeMangaCatalogRoundedCircleImage">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/favorite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="@dimen/anime_screen_anime_manga_catalog_two_dp"
+                android:src="@drawable/anime_screen_anime_manga_catalog_star_outlined" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Manga Title -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="0.999"
-            android:gravity="center_vertical|start"
-            android:hint="@string/anime_screen_anime_manga_catalog_no_title"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            style="@style/anime_screen_anime_manga_catalog_Divider.Horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:strokeColor="@null" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/fav_button"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_margin="@dimen/anime_screen_anime_common_six_dp"
-            android:src="@drawable/anime_screen_anime_manga_catalog_star_outlined"
-            app:layout_constraintBottom_toBottomOf="@id/image"
-            app:layout_constraintEnd_toEndOf="@id/image" />
-
-        <TextView
-            android:id="@+id/synopsis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/anime_screen_anime_manga_catalog_two_dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
             android:ellipsize="end"
-            android:ems="5"
-            android:maxLines="3"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:maxLines="1"
+            android:textAppearance="?textAppearanceHeadline6"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image" />
+            app:layout_constraintTop_toBottomOf="@id/image"
+            tools:text="One Piece" />
 
-        <TextView
-            android:id="@+id/show_translation"
-            android:layout_width="match_parent"
+        <!-- Synopsis/Description -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/synopsis"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/anime_screen_anime_manga_catalog_two_dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:alpha="0.7"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="?textAppearanceBody2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="Follow Monkey D. Luffy and his swashbuckling crew in their search for the ultimate treasure, the One Piece." />
+
+        <!-- Translation Toggle Action -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/translate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:padding="2dp"
             android:text="@string/anime_screen_anime_manga_catalog_show_translation"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/synopsis" />
-
-        <TextView
-            android:id="@+id/show_original"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/anime_screen_anime_manga_catalog_two_dp"
-            android:text="@string/anime_screen_anime_manga_details_show_original"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/synopsis" />
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/synopsis"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

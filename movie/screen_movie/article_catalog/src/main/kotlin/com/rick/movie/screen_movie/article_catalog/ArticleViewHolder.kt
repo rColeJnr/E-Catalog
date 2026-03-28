@@ -16,7 +16,7 @@ class ArticleViewHolder(
     private val onTranslationClick: (UserArticle, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.movieName
-    private val image = binding.movieImage
+    private val image = binding.image
     private val summary = binding.movieSummary
     private val favorite = binding.favButton
     private val showTranslation = binding.showTranslation
@@ -56,10 +56,6 @@ class ArticleViewHolder(
             )
         }
     }
-
-//    override fun onClick(v: View) {
-//        onItemClicked(v, movie)
-//    }
 
     companion object {
         fun create(

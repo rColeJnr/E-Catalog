@@ -13,7 +13,7 @@ import com.rick.data.ui_components.common.provideGlide
 class GutenbergCatalogViewHolder(
     binding: BookScreenBookGutenbergCatalogGutenbergEntryBinding,
     private val onItemClick: (view: View, formats: Formats) -> Unit,
-    private val onFavClick: (Int, Boolean) -> Unit,
+    private val onFavClick: (View, Int, Boolean) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val title = binding.title
@@ -31,14 +31,9 @@ class GutenbergCatalogViewHolder(
             onItemClick(it, book.formats)
         }
         favorite.setOnClickListener {
-            onFavClick(book.id, book.isFavorite)
+            onFavClick(it, book.id, book.isFavorite)
         }
     }
-
-//    override fun onClick(view: View) {
-//        onItemClick(view, book.formats)
-//        onFavClick(view, Favorite(0,"titie", "ricardo e simara"))
-//    }
 
     fun bind(book: UserGutenberg) {
         this.book = book
@@ -72,7 +67,7 @@ class GutenbergCatalogViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClick: (view: View, formats: Formats) -> Unit,
-            onFavClick: (Int, Boolean) -> Unit
+            onFavClick: (View, Int, Boolean) -> Unit
         ):
                 GutenbergCatalogViewHolder {
             val itemBinding = BookScreenBookGutenbergCatalogGutenbergEntryBinding
@@ -80,5 +75,4 @@ class GutenbergCatalogViewHolder(
             return GutenbergCatalogViewHolder(itemBinding, onItemClick, onFavClick)
         }
     }
-
 }

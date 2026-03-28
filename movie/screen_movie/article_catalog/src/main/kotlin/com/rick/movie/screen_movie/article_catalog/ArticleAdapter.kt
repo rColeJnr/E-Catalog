@@ -40,7 +40,7 @@ class ArticleAdapter(
     companion object {
         private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UserArticle>() {
             override fun areItemsTheSame(oldItem: UserArticle, newItem: UserArticle): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.leadParagraph == newItem.leadParagraph
 //                        ) ||
 //                        ((oldItem is NYMovieUiModel.SeparatorItem) && (newItem is NYMovieUiModel.SeparatorItem) &&
 //                                (oldItem.description == newItem.description))

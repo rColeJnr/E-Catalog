@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
@@ -64,7 +67,9 @@ fun BookFavScreen(
                 if (bestsellerState.favorites.isEmpty()) {
                     EcsEmptyState()
                 } else {
-                    LazyColumn {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2)
+                    ) {
                         items(bestsellerState.favorites) { book ->
                             EcsBookCatalogCard(
                                 image = book.image,

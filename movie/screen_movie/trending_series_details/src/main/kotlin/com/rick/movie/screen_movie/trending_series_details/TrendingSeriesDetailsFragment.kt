@@ -1,5 +1,6 @@
 package com.rick.movie.screen_movie.trending_series_details
 
+import com.rick.movie.screen_movie.trending_series_details.R
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat.animate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -14,6 +16,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.google.android.material.transition.MaterialContainerTransform
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.tmdb.movie.Genre
@@ -107,6 +110,8 @@ class TrendingSeriesDetailsFragment : Fragment() {
         similarsAdapter =
             SeriesSimilarDetailsAdapter(this@TrendingSeriesDetailsFragment::onSimilarClick)
         listSimilars.layoutManager = similarLayoutManager
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(listSimilars)
         listSimilars.adapter = similarsAdapter
 
         bindList(
@@ -139,35 +144,58 @@ class TrendingSeriesDetailsFragment : Fragment() {
 
                 is SeriesDetailsUiState.Success -> {
                     detailsProgressBar.visibility = View.GONE
-
+                    val noData =
+                        getString(R.string.movie_screen_movie_trending_series_details_no_data)
                     val series = state.series
+
+                    if (translationViewModel.location.value == "en") {
+                        showTranslation.visibility = View.GONE
+                    } else {
+                        showTranslation.visibility = View.VISIBLE
+                        showTranslation.setOnClickListener {
+                            if (showTranslation.text == getString(R.string.movie_screen_movie_trending_series_details_show_original)) {
+                                summary.animate().alpha(0f).setDuration(200).withEndAction {
+                                    summary.text = series.overview
+                                    showTranslation.animate().alpha(0f).setDuration(200)
+                                        .withEndAction {
+                                            showTranslation.text =
+                                                getString(R.string.movie_screen_movie_trending_series_details_show_translation)
+                                            showTranslation.animate().alpha(1f).setDuration(200)
+                                                .start()
+                                        }.start()
+                                    summary.animate().alpha(1f).setDuration(200).start()
+                                }.start()
+                            } else {
+                                translationViewModel.onEvent(
+                                    TranslationEvent.GetTranslation(
+                                        listOf(series.overview),
+                                        translationViewModel.location.value
+                                    )
+                                )
+                                lifecycleScope.launch {
+                                    translationViewModel.translation.collectLatest {
+                                        summary.animate().alpha(0f).setDuration(200)
+                                            .withEndAction {
+                                                summary.text = it.first().text
+                                                showTranslation.animate().alpha(0f).setDuration(200)
+                                                    .withEndAction {
+                                                        showTranslation.text =
+                                                            getString(R.string.movie_screen_movie_trending_series_details_show_original)
+                                                        showTranslation.animate().alpha(1f)
+                                                            .setDuration(200).start()
+                                                    }.start()
+                                                summary  .animate().alpha(1f).setDuration(200).start()
+                                            }.start()
+                                    }
+                                }
+                            }
+                        }
+                    }
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
                         provideGlide(image, getTmdbImageUrl(series.image))
                     }
                     summary.text = series.overview
-
-                    showTranslation.setOnClickListener {
-                        translationViewModel.onEvent(
-                            TranslationEvent.GetTranslation(
-                                listOf(series.overview), translationViewModel.location.value
-                            )
-                        )
-
-                        lifecycleScope.launch {
-                            translationViewModel.translation.collectLatest {
-                                summary.text = it.first().text
-                            }
-                        }
-                        it.visibility = View.GONE
-                        showOriginal.visibility = View.VISIBLE
-                    }
-
-                    showOriginal.setOnClickListener {
-                        summary.text = series.overview
-                        it.visibility = View.GONE
-                        showTranslation.visibility = View.VISIBLE
-                    }
 
                     adult.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_adult_content,
@@ -178,18 +206,45 @@ class TrendingSeriesDetailsFragment : Fragment() {
                         stringFromList(series.genres)
                     )
 
-                    firstAirDate.text = resources.getString(
-                        R.string.movie_screen_movie_trending_series_details_first_air_date,
-                        series.firstAirDate
-                    )
+                    firstAirDate.text =
+                        if (series.firstAirDate.isNotEmpty()) {
+                            try {
+                                val inputFormatter = java.time.format.DateTimeFormatter.ofPattern(
+                                    "yyyy-MM-dd",
+                                    Locale.ENGLISH
+                                )
+                                val date = java.time.LocalDate.parse(
+                                    series.firstAirDate,
+                                    inputFormatter
+                                )
+
+                                val outputFormatter = java.time.format.DateTimeFormatter.ofPattern(
+                                    "d 'of' MMMM, yyyy",
+                                    Locale.getDefault()
+                                )
+
+                                resources.getString(
+                                    R.string.movie_screen_movie_trending_series_details_first_air_date,
+                                    date.format(outputFormatter)
+                                )
+                            } catch (e: Exception) {
+                                resources.getString(
+                                    R.string.movie_screen_movie_trending_series_details_first_air_date,
+                                    series.firstAirDate
+                                )
+                            }
+                        } else {
+                            resources.getString(
+                                R.string.movie_screen_movie_trending_series_details_first_air_date,
+                                noData
+                            )
+                        }
                     inProduction.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_in_production,
-                        if (series.inProduction) "yes" else "no"
-                    )
-
-                    lastAirDate.text = resources.getString(
-                        R.string.movie_screen_movie_trending_series_details_last_air_date,
-                        series.lastAirDate
+                        if (series.inProduction)
+                            getString(R.string.movie_screen_movie_trending_series_details_yes)
+                        else
+                            getString(R.string.movie_screen_movie_trending_series_details_no)
                     )
 
                     creator.text = resources.getString(
@@ -214,11 +269,11 @@ class TrendingSeriesDetailsFragment : Fragment() {
 
                     imdbChip.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_imdb_rating,
-                        series.voteAverage.toInt()
+                        series.voteAverage
                     )
                     movieDbChip.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_popularity,
-                        series.popularity.toInt()
+                        series.popularity
                     )
 
                     similarDetailsAdapter.similarsDiffer.submitList(series.similar)
@@ -239,10 +294,10 @@ fun stringFromList(list: List<Any>): String {
     list.forEach {
         if (it is Creator) {
             buffer.append((it).name)
-            buffer.append(" ")
+            buffer.append("; ")
         } else {
             buffer.append((it as Genre).name)
-            buffer.append(" ")
+            buffer.append("; ")
         }
     }
     return buffer.toString()

@@ -2,12 +2,12 @@
 
     <style name="AnimeScreenAnimeMangaDetailsDivider">
         <item name="android:background">?android:attr/listDivider</item>
-        // can add colorur here
+        <item name="android:color">@android:color/darker_gray</item>
     </style>
 
     <style name="AnimeScreenAnimeMangaDetailsDivider.Horizontal" parent="AnimeScreenAnimeMangaDetailsDivider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_height">2dp</item>
     </style>
 
 </resources>

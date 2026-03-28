@@ -5,4 +5,6 @@
     <string name="movie_screen_movie_trending_series_catalog_transition_name" translatable="false">trending_series_transition</string>
     <string name="movie_screen_movie_trending_series_catalog_show_translation">Show translation</string>
     <string name="movie_screen_movie_trending_series_catalog_show_original">Show original</string>
+    <string name="movie_screen_movie_trending_series_catalog_header">Discover TV Series</string>
+    <string name="movie_screen_movie_trending_series_catalog_slogan">Explore thousands of series and find your next favorite</string>
 </resources>
