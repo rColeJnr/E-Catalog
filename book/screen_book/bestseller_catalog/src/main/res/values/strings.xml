@@ -14,11 +14,11 @@
     <string name="book_screen_book_bestseller_catalog_show_original">Show original</string>
     <string name="book_screen_book_bestseller_catalog_translation_is_not_available_in_english" translatable="false">Translation is not available in English</string>
     <string name="book_screen_book_bestseller_catalog_null" translatable="false">n/a</string>
-    <string name="book_screen_book_bestseller_catalog_hint_book_author">Book Author</string>
-    <string name="book_screen_book_bestseller_catalog_hint_book_title">Book Title</string>
+    <string name="book_screen_book_bestseller_catalog_hint_book_author" translatable="false">Book Author</string>
+    <string name="book_screen_book_bestseller_catalog_hint_book_title" translatable="false">Book Title</string>
     <string name="book_screen_book_bestseller_catalog_trending_now">Top Picks</string>
     <string name="book_screen_book_bestseller_catalog_category">Category</string>
-    <string name="book_screen_book_bestseller_catalog_category_image">Category Image</string>
+    <string name="book_screen_book_bestseller_catalog_category_image" translatable="false">Category Image</string>
     <string name="book_screen_book_bestseller_catalog_bestsellers">Bestsellers</string>
     <string name="book_screen_book_bestseller_catalog_slogan">Explore NY Times bestselling books, and find a new favorite</string>
     <string name="book_screen_book_bestseller_catalog_header">Discover Books</string>

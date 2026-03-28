@@ -24,4 +24,7 @@
     <string name="anime_screen_anime_manga_details_anime_screen_anime_published">Publicado de: %1$s</string>
     <string name="anime_screen_anime_manga_details_show_translation">Mostrar tradução</string>
     <string name="anime_screen_anime_manga_details_show_original">"Mostrar original "</string>
+    <string name="anime_screen_anime_manga_details_overview">Visão Geral</string>
+    <string name="anime_screen_anime_manga_details_being_published">em publicação</string>
+    <string name="anime_screen_anime_manga_details_not_publishing">não publicado</string>
 </resources>
