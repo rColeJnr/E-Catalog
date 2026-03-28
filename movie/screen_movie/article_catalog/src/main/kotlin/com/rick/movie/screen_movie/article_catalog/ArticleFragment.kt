@@ -117,9 +117,7 @@ class ArticleFragment : Fragment() {
         adapter = ArticleAdapter(this::onMovieClick, this::onFavClick, this::onTranslationClick)
 
         binding.recyclerView.adapter =
-            adapter.withLoadStateFooter(footer = MoviesLoadStateAdapter { adapter.retry() })
-
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+            adapter
 
     }
 

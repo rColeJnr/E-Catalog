@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="@dimen/book_screen_book_bestseller_catalog_two_dp"
+    android:layout_marginHorizontal="4dp"
     android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270">
 
     <androidx.core.widget.NestedScrollView
@@ -19,14 +19,24 @@
             tools:ignore="ResourceName">
 
             <TextView
-                android:id="@+id/category_label"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                android:text="@string/book_screen_book_bestseller_catalog_bestseller_category"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textStyle="bold"
-                android:visibility="invisible" />
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:text="@string/book_screen_book_bestseller_catalog_header"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/slogan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:gravity="center"
+                android:paddingBottom="16dp"
+                android:text="@string/book_screen_book_bestseller_catalog_slogan"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_list"
@@ -44,7 +54,7 @@
                 android:layout_marginVertical="4dp"
                 android:gravity="start|center_vertical"
                 android:text="@string/book_screen_book_bestseller_catalog_trending_now"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textStyle="bold"
                 android:visibility="invisible" />
 
@@ -64,7 +74,7 @@
                 android:layout_marginVertical="4dp"
                 android:gravity="start|center_vertical"
                 android:text="@string/book_screen_book_bestseller_catalog_bestsellers"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textStyle="bold"
                 android:visibility="invisible" />
 

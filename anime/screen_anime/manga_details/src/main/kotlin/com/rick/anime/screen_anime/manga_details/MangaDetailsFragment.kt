@@ -97,17 +97,8 @@ class MangaDetailsFragment : Fragment() {
                     translationViewModel.translation.collectLatest {
                         synopsis.text = it.first().text
                         background.text = it.last().text
-                        showTranslation.visibility = View.GONE
-                        showOriginal.visibility = View.VISIBLE
                     }
                 }
-            }
-
-            showOriginal.setOnClickListener {
-                synopsis.text = manga.synopsis
-                background.text = manga.background
-                showOriginal.visibility = View.GONE
-                showTranslation.visibility = View.VISIBLE
             }
 
             synopsis.text = manga.synopsis
@@ -191,14 +182,6 @@ class MangaDetailsFragment : Fragment() {
                     findNavController().navigate(uri)
                 }
             }
-
-            val series = StringBuilder()
-            manga.serializations.forEach {
-                series.append(it.name)
-                series.append("\n")
-            }
-
-            serializationName.text = series.toString().trim()
         }
     }
 

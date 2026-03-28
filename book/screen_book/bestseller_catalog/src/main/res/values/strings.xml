@@ -6,7 +6,7 @@
     <string name="book_screen_book_bestseller_catalog_rank">Rank # %1$d</string>
     <string name="book_screen_book_bestseller_catalog_rankLastWeek">Rank last week: %1$d</string>
     <string name="book_screen_book_bestseller_catalog_weeksOnList">Trending for %1$d wks</string>
-    <string name="book_screen_book_bestseller_catalog_bestseller_category">Explore categories</string>
+    <string name="book_screen_book_bestseller_catalog_bestseller_category">Categories</string>
     <string name="book_screen_book_bestseller_catalog_search">Search</string>
     <string name="book_screen_book_bestseller_catalog_open_link_amazon">Open amazon web page</string>
     <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Wooops"\nNo results found, 😓</string>
@@ -20,4 +20,6 @@
     <string name="book_screen_book_bestseller_catalog_category">Category</string>
     <string name="book_screen_book_bestseller_catalog_category_image">Category Image</string>
     <string name="book_screen_book_bestseller_catalog_bestsellers">Bestsellers</string>
+    <string name="book_screen_book_bestseller_catalog_slogan">Explore NY Times bestselling books, and find a new favorite</string>
+    <string name="book_screen_book_bestseller_catalog_header">Discover Books</string>
 </resources>

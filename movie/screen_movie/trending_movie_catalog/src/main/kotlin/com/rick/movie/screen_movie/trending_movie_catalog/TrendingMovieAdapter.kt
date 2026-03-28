@@ -10,22 +10,40 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.movie.screen_movie.common.util.provideGlide
+import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogHeaderBinding
 import com.rick.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogMovieEntryBinding
 
 class TrendingMovieAdapter(
     private val onItemClick: (Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (View, List<String>) -> Unit
-) : PagingDataAdapter<UserTrendingMovie, TrendingMovieViewHolder>(DIFF_COMPARATOR) {
+) : PagingDataAdapter<UserTrendingMovie, RecyclerView.ViewHolder>(DIFF_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingMovieViewHolder {
-        return TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_MOVIE
     }
 
-    override fun onBindViewHolder(holder: TrendingMovieViewHolder, position: Int) {
-        val movie = (getItem(position))
-        movie?.let { holder.bind(it) }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_HEADER)
+            TrendingMovieHeaderViewHolder.create(parent)
+        else
+            TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
     }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is TrendingMovieHeaderViewHolder -> {}
+            is TrendingMovieViewHolder -> {
+                val book = getItem(position - 1)
+                book?.let { holder.bind(it) }
+            }
+        }
+    }
+
+//    override fun getItemCount(): Int {
+//        val actualCount = super.getItemCount()
+//        return if (actualCount == 0) 0 else actualCount
+//    }
 
     companion object {
         private val DIFF_COMPARATOR = object : DiffUtil.ItemCallback<UserTrendingMovie>() {
@@ -43,6 +61,9 @@ class TrendingMovieAdapter(
                 oldItem == newItem
 
         }
+
+        const val VIEW_TYPE_HEADER = 0
+        const val VIEW_TYPE_MOVIE = 1
     }
 }
 
@@ -55,9 +76,8 @@ class TrendingMovieViewHolder(
     private val image = binding.movieImage
     private val title = binding.movieName
     private val summary = binding.movieSummary
-    private val favorite = binding.favButton
+    private val favorite = binding.favorite
     private val showTranslation = binding.showTranslation
-    private val showOriginal = binding.showOriginal
     private val cardView = binding.movieEntryCardView
     private val resources = itemView.resources
 
@@ -74,13 +94,6 @@ class TrendingMovieViewHolder(
         showTranslation.setOnClickListener {
             onTranslationClick(summary, listOf(movie.overview))
             it.visibility = View.GONE
-            showOriginal.visibility = View.VISIBLE
-
-        }
-        showOriginal.setOnClickListener {
-            summary.text = movie.overview
-            it.visibility = View.GONE
-            showTranslation.visibility = View.VISIBLE
         }
     }
 
@@ -89,19 +102,13 @@ class TrendingMovieViewHolder(
         if (movie.image.isNotEmpty()) provideGlide(image, getTmdbImageUrl(movie.image))
         title.text = movie.title
         summary.text = movie.overview
-        favorite.foreground = if (movie.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.movie_screen_movie_trending_movie_catalog_star_filled,
-                null
-            )
-        } else {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined,
-                null
-            )
-        }
+        favorite.setImageResource(
+            if (movie.isFavorite) {
+                R.drawable.movie_screen_movie_trending_movie_catalog_star_filled
+            } else {
+                R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined
+            }
+        )
     }
 
     companion object {
@@ -118,6 +125,20 @@ class TrendingMovieViewHolder(
                     false
                 )
             return TrendingMovieViewHolder(binding, onItemClick, onFavClick, onTranslationClick)
+        }
+    }
+}
+
+class TrendingMovieHeaderViewHolder(private val binding: MovieScreenMovieTrendingMovieCatalogHeaderBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        fun create(
+            parent: ViewGroup,
+        ): TrendingMovieHeaderViewHolder {
+            val itemBinding = MovieScreenMovieTrendingMovieCatalogHeaderBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            return TrendingMovieHeaderViewHolder(itemBinding)
         }
     }
 }

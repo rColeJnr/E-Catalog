@@ -17,7 +17,7 @@ data class ArticleNetwork(
     @SerialName("web_url")
     val webUrl: String,
     @SerializedName("snippet")
-    @SerialName("lead_paragraph")
+    @SerialName("snippet")
     val leadParagraph: String,
     val source: String,
     val multimedia: Multimedia?,

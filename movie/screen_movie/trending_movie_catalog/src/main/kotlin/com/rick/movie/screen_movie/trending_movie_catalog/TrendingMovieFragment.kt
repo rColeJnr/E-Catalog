@@ -1,5 +1,8 @@
 package com.rick.movie.screen_movie.trending_movie_catalog
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +22,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
 import com.rick.data.analytics.AnalyticsHelper
 import com.rick.data.model_movie.UserTrendingMovie
 import com.rick.movie.screen_movie.common.RemotePresentationState
@@ -87,8 +93,14 @@ class TrendingMovieFragment : Fragment() {
 
     private fun initAdapter() {
         adapter =
-            TrendingMovieAdapter(this::onMovieClick, this::onFavClick, this::onTranslationClick)
+            TrendingMovieAdapter(
+                this::onMovieClick,
+                this::onFavClick,
+                this::onTranslationClick
+            )
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
     }
 
@@ -144,6 +156,34 @@ class TrendingMovieFragment : Fragment() {
     }
 
     private fun onFavClick(view: View, id: Int, isFavorite: Boolean) {
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            com.rick.movie.screen_movie.common.R.animator.movie_screen_movie_common_animator
+        ) as AnimatorSet
+
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined // Going from Favorite to Not
+                } else {
+                    R.drawable.movie_screen_movie_trending_movie_catalog_star_filled // Going from Not to Favorite
+                }
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
         viewModel.onEvent(TrendingMovieUiEvent.UpdateTrendingMovieFavorite(id, !isFavorite))
     }
 

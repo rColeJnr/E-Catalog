@@ -18,10 +18,11 @@ class AnimeViewHolder(
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
-    private val favorite = binding.favButton
+    private val favorite = binding.favorite
     private val showTranslation = binding.translate
-    private val showOriginal = binding.showOriginal
     private val resources = itemView.resources
+
+    private lateinit var anime: UserAnime
 
     init {
         binding.root.setOnClickListener {
@@ -32,17 +33,8 @@ class AnimeViewHolder(
         }
         showTranslation.setOnClickListener {
             onTranslationClick(synopsis, listOf(anime.synopsis))
-            showOriginal.visibility = View.VISIBLE
-            it.visibility = View.GONE
-        }
-        showOriginal.setOnClickListener {
-            synopsis.text = anime.synopsis
-            it.visibility = View.GONE
-            showTranslation.visibility = View.VISIBLE
         }
     }
-
-    private lateinit var anime: UserAnime
 
     fun bind(anime: UserAnime) {
         this.anime = anime
@@ -51,15 +43,13 @@ class AnimeViewHolder(
             provideGlide(this.image, anime.images)
         }
         this.synopsis.text = this.anime.synopsis
-        favorite.foreground = if (anime.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources, R.drawable.anime_screen_anime_anime_catalog_star_filled, null
-            )
-        } else {
-            ResourcesCompat.getDrawable(
-                resources, R.drawable.anime_screen_anime_anime_catalog_star_outlined, null
-            )
-        }
+        favorite.setImageResource(
+            if (anime.isFavorite) {
+                R.drawable.anime_screen_anime_anime_catalog_star_filled
+            } else {
+                R.drawable.anime_screen_anime_anime_catalog_star_outlined
+            }
+        )
     }
 
     companion object {
@@ -75,5 +65,4 @@ class AnimeViewHolder(
             return AnimeViewHolder(itemBinding, onItemClick, onFavClick, onTranslateClick)
         }
     }
-
 }
