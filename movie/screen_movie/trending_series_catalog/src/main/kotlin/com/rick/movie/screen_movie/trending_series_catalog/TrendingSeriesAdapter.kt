@@ -40,16 +40,11 @@ class TrendingSeriesAdapter(
         when (holder) {
             is TrendingSeriesHeaderViewHolder -> {}
             is TrendingSeriesViewHolder -> {
-                val book = getItem(position - 1)
-                book?.let { holder.bind(it) }
+                val series = getItem(position)
+                series?.let { holder.bind(it) }
             }
         }
     }
-
-//    override fun getItemCount(): Int {
-//        val actualCount = super.getItemCount()
-//        return if (actualCount == 0) 0 else actualCount
-//    }
 
     companion object {
         private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UserTrendingSeries>() {

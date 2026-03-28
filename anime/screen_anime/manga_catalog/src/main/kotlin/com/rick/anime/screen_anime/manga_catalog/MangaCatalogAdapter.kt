@@ -26,8 +26,8 @@ class MangaCatalogAdapter(
             }
 
             is MangaViewHolder -> {
-                val book = getItem(position - 1)
-                book?.let { holder.bind(it) }
+                val manga = getItem(position)
+                manga?.let { holder.bind(it) }
             }
         }
     }
