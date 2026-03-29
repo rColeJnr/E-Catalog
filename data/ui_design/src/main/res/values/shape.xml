@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DataUiDesignShapeAppearance.ECatalog.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/DataUiDesignReply_small_component_corner_radius</item>
+    </style>
+
+    <style name="DataUiDesignShapeAppearance.ECatalog.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/DataUiDesignReply_medium_component_corner_radius</item>
+    </style>
+
+    <style name="DataUiDesignShapeAppearance.ECatalog.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/DataUiDesignReply_large_component_corner_radius</item>
+    </style>
+
+    <dimen name="DataUiDesignReply_small_component_corner_radius">8dp</dimen>
+    <dimen name="DataUiDesignReply_medium_component_corner_radius">12dp</dimen>
+    <dimen name="DataUiDesignReply_large_component_corner_radius">24dp</dimen>
+
+</resources>

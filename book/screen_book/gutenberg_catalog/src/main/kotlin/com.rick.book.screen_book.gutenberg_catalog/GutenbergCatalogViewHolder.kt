@@ -38,19 +38,12 @@ class GutenbergCatalogViewHolder(
     fun bind(book: UserGutenberg) {
         this.book = book
         book.formats.imageJpeg?.let { provideGlide(this.image, it) }
-        favorite.foreground = if (book.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.book_screen_book_gutenberg_catalog_ic_fav_filled,
-                null
-            )
+        val icon = if (book.isFavorite) {
+            com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled
         } else {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.book_screen_book_gutenberg_catalog_ic_fav_outlined,
-                null
-            )
+            com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined
         }
+        favorite.setImageResource(icon)
         val authors = StringBuilder()
         book.authors.forEach {
             authors.append("${it.name}\nbirth year: ${it.birthYear}, death year: ${it.deathYear}")

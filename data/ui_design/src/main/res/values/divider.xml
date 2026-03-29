@@ -1,0 +1,13 @@
+<resources>
+
+    <style name="data_ui_design_divider">
+        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:color">@android:color/darker_gray</item>
+    </style>
+
+    <style name="data_ui_design_divider.horizontal" parent="data_ui_design_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+    </style>
+
+</resources>

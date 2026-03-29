@@ -50,12 +50,12 @@ class TrendingSeriesSearchFragment : Fragment() {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
             duration =
-                resources.getInteger(R.integer.movie_screen_movie_trending_series_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration =
-                resources.getInteger(R.integer.movie_screen_movie_trending_series_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
     }
@@ -89,7 +89,7 @@ class TrendingSeriesSearchFragment : Fragment() {
                 }
             }
 
-            setNavigationIcon(R.drawable.movie_screen_movie_trending_series_search_ic_arrow_back)
+            setNavigationIcon(com.rick.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -305,8 +305,8 @@ class TrendingSeriesSearchViewHolder(
     private val image = binding.movieImage
     private val title = binding.movieName
     private val description = binding.movieSummary
-    private val rootLayout = binding.movieEntryCardView
-    private val favorite = binding.favButton
+    private val rootLayout = binding.searchEntryCardView
+    private val favorite = binding.favorite
     private val resources = itemView.resources
 
 
@@ -331,25 +331,13 @@ class TrendingSeriesSearchViewHolder(
                 this.image, getTmdbImageUrl(image)
             )
         }
-        favorite.foreground = if (searchResult.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.movie_screen_movie_trending_series_search_star_filled,
-                null
-            )
+        val icon = if (searchResult.isFavorite) {
+            com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined
         } else {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.movie_screen_movie_trending_series_search_star_outlined,
-                null
-            )
+            com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled
         }
+        favorite.setImageResource(icon)
     }
-
-//    overridee fun onClick(v: View) {
-//        onItemClicked(v, searchResult)
-//    }
-
     companion object {
         fun create(
             parent: ViewGroup,

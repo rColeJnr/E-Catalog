@@ -41,12 +41,12 @@ class SearchFragment : Fragment() {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
             duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
     }
@@ -84,7 +84,7 @@ class SearchFragment : Fragment() {
                 }
             }
 
-            setNavigationIcon(R.drawable.book_screen_book_gutenberg_search_ic_arrow_back)
+            setNavigationIcon(com.rick.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -234,12 +234,12 @@ class SearchFragment : Fragment() {
     private fun onBookClick(view: View, formats: Formats) {
         exitTransition = MaterialElevationScale(false).apply {
             duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         val searchToDetails =

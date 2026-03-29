@@ -68,7 +68,7 @@ class MangaCatalogFragment : Fragment() {
         setHasOptionsMenu(true)
         enterTransition = MaterialFadeThrough().apply {
             duration =
-                resources.getInteger(com.rick.anime.screen_anime.common.R.integer.anime_screen_anime_common_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
     }
@@ -101,12 +101,12 @@ class MangaCatalogFragment : Fragment() {
 
         eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
             duration =
-                resources.getInteger(com.rick.anime.screen_anime.common.R.integer.anime_screen_anime_common_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration =
-                resources.getInteger(com.rick.anime.screen_anime.common.R.integer.anime_screen_anime_common_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
 
@@ -176,7 +176,7 @@ class MangaCatalogFragment : Fragment() {
     private fun onMangaClick(view: View, id: Int) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration =
-                resources.getInteger(com.rick.anime.screen_anime.common.R.integer.anime_screen_anime_common_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         analyticsHelper.logMangaOpened(id.toString())
@@ -200,9 +200,9 @@ class MangaCatalogFragment : Fragment() {
         rotationAnimator?.addUpdateListener { anim ->
             if (anim.animatedFraction >= 0.5f && !imageSwapped) {
                 val nextIcon = if (isFavorite) {
-                    R.drawable.anime_screen_anime_manga_catalog_star_outlined // Going from Favorite to Not
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined // Going from Favorite to Not
                 } else {
-                    R.drawable.anime_screen_anime_manga_catalog_star_filled // Going from Not to Favorite
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled // Going from Not to Favorite
                 }
                 imageView.setImageResource(nextIcon)
                 imageSwapped = true

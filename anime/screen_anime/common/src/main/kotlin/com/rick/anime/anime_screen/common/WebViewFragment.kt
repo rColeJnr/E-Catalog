@@ -26,9 +26,7 @@ class WebViewFragment : Fragment() {
         setHasOptionsMenu(true)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
-            duration =
-                resources.getInteger(R.integer.anime_screen_anime_common_motion_duration_long)
-                    .toLong()
+            duration = 300L
             scrimColor = Color.TRANSPARENT
         }
     }

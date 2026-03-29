@@ -47,13 +47,13 @@ class SearchViewHolder(
         favorite.foreground = if (book.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.book_screen_book_gutenberg_search_ic_fav_filled,
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled,
                 null
             )
         } else {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.book_screen_book_gutenberg_search_ic_fav_outlined,
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined,
                 null
             )
         }

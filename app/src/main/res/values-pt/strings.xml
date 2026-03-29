@@ -24,4 +24,5 @@
     <string name="limited_experience">Experiência limitada</string>
     <string name="open_drawer">abrir</string>
     <string name="close_drawer">fechar</string>
+    <string name="your_username">Seu nickname</string>
 </resources>

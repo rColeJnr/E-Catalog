@@ -75,7 +75,7 @@ class TrendingMovieDetailsFragment : Fragment() {
         }
 
         binding.toolbar.apply {
-            setNavigationIcon(R.drawable.movie_screen_movie_trending_movie_details_ic_arrow_back)
+            setNavigationIcon(com.rick.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -148,7 +148,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     if (trendingMovie.image.isNotEmpty()) {
                         provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image))
                     }
-                    movieSummary.text = trendingMovie.overview
+                    movieSummary.text = trendingMovie.overview.trim()
 
                     if (translationViewModel.location.value.lowercase() == "en") {
                         showTranslation.visibility = View.GONE

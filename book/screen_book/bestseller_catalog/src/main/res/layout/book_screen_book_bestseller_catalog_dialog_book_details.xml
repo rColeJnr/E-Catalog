@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:elevation="8dp"
-    app:cardCornerRadius="24dp">
+    android:layout_margin="@dimen/data_ui_design_item_entry_margin"
+    android:elevation="@dimen/data_ui_design_background_card_elevation"
+    app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270"
-        android:padding="@dimen/book_screen_book_bestseller_catalog_two_dp">
+        android:background="@drawable/data_ui_design_gradient_background">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
-            android:src="@drawable/book_screen_book_bestseller_catalog_ic_app_icon"
+            android:layout_marginVertical="@dimen/data_ui_design_text_two_dp"
+            android:src="@drawable/data_ui_design_app_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/BookScreenBookBestsellerCatalogRoundedBookCover" />
+            app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners" />
 
         <TextView
             android:id="@+id/title"
@@ -49,22 +50,23 @@
             android:id="@+id/summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
-            android:background="?attr/colorSecondary"
+            android:layout_marginVertical="@dimen/data_ui_design_text_two_dp"
             android:padding="2dp"
             android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/favorite"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="@dimen/book_screen_book_bestseller_catalog_six_dp"
-            android:src="@drawable/book_screen_book_bestseller_catalog_ic_fav_outlined"
+            android:layout_width="@dimen/data_ui_design_favorite_button_size"
+            android:layout_height="@dimen/data_ui_design_favorite_button_size"
+            android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
+            android:padding="@dimen/data_ui_design_favorite_button_padding"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/image" />
+            app:layout_constraintTop_toTopOf="@id/image"
+            app:shapeAppearanceOverlay="@style/DataUiDesignCircleImage"
+            tools:src="@drawable/data_ui_design_favorite_outlined" />
 
         <TextView
             android:id="@+id/rank"
@@ -93,31 +95,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rank_last_week" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/amazon_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/book_screen_book_bestseller_catalog_two_dp"
-            android:backgroundTint="?attr/colorSecondary"
+            android:layout_margin="@dimen/data_ui_design_translate_margin"
             android:text="@string/book_screen_book_bestseller_catalog_open_link_amazon"
+            android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceBody1"
-            app:cornerRadius="15dp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/weeks_on_list" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/close_dialog"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/book_screen_book_bestseller_catalog_two_dp"
-            android:backgroundTint="?attr/colorSecondary"
+            android:layout_margin="@dimen/data_ui_design_translate_margin"
             android:text="@string/book_screen_book_bestseller_catalog_close"
+            android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceBody1"
-            app:cornerRadius="15dp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/amazon_link" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

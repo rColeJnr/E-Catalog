@@ -72,6 +72,7 @@
             <option value="$PROJECT_DIR$/data/ui_components/book_favorite" />
             <option value="$PROJECT_DIR$/data/ui_components/common" />
             <option value="$PROJECT_DIR$/data/ui_components/movie_favorite" />
+            <option value="$PROJECT_DIR$/data/ui_design" />
             <option value="$PROJECT_DIR$/movie" />
             <option value="$PROJECT_DIR$/movie/data_movie" />
             <option value="$PROJECT_DIR$/movie/data_movie/data" />
@@ -99,7 +100,6 @@
             <option value="$PROJECT_DIR$/settings/screen_settings" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/book_screen_book_gutenberg_search_ic_search"
+        android:icon="@drawable/data_ui_design_ic_search"
         android:title="@string/book_screen_book_gutenberg_search_search"
         app:showAsAction="always"/>
 </menu>

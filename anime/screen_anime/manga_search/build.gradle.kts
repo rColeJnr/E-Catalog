@@ -1,10 +1,8 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
-//    alias(libs.plugins.ecatalogs.android.paging)
     alias(libs.plugins.ecatalogs.android.library.jacoco)
-//    alias(libs.plugins.ecatalogs.android.room)
 }
-//
+
 dependencies {
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.dataAnime.data)
@@ -13,6 +11,7 @@ dependencies {
     implementation(projects.anime.screenAnime.mangaDetails)
     implementation(projects.data.uiComponents.common)
     implementation(projects.data.analytics)
+    implementation(projects.data.uiDesign)
 
     implementation(libs.compose.ui)
 }

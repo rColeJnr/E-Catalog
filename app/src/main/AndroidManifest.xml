@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ECatalogs"
+        android:theme="@style/DataUiDesignTheme.ECatalogs"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

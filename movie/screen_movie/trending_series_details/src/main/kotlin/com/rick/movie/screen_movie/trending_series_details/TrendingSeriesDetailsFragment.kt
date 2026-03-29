@@ -76,7 +76,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
         }
 
         binding.toolbar.apply {
-            setNavigationIcon(R.drawable.movie_screen_movie_trending_series_details_ic_arrow_back)
+            setNavigationIcon(com.rick.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -195,7 +195,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     if (series.image.isNotBlank()) {
                         provideGlide(image, getTmdbImageUrl(series.image))
                     }
-                    summary.text = series.overview
+                    summary.text = series.overview.trim()
 
                     adult.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_adult_content,

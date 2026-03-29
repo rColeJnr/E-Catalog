@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
     alias(libs.plugins.ecatalogs.android.paging)
-//    alias(libs.plugins.ecatalogs.android.room)
 }
 
 android {
@@ -22,4 +21,5 @@ dependencies {
     implementation(projects.movie.screenMovie.trendingMovieDetails)
     implementation(projects.movie.screenMovie.trendingMovieFavorite)
     implementation(projects.data.analytics)
+    implementation(projects.data.uiDesign)
 }

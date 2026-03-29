@@ -68,7 +68,7 @@ class GutenbergCatalogFragment : Fragment() {
         setHasOptionsMenu(true)
         enterTransition = MaterialFadeThrough().apply {
             duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_catalog_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
     }
@@ -102,12 +102,12 @@ class GutenbergCatalogFragment : Fragment() {
 
         eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
             duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_catalog_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration =
-                resources.getInteger(R.integer.book_screen_book_gutenberg_catalog_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         postponeEnterTransition()
@@ -207,9 +207,9 @@ class GutenbergCatalogFragment : Fragment() {
         rotationAnimator?.addUpdateListener { anim ->
             if (anim.animatedFraction >= 0.5f && !imageSwapped) {
                 val nextIcon = if (isFavorite) {
-                    R.drawable.book_screen_book_gutenberg_catalog_ic_fav_outlined // Going from Favorite to Not
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined // Going from Favorite to Not
                 } else {
-                    R.drawable.book_screen_book_gutenberg_catalog_ic_fav_filled // Going from Not to Favorite
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled // Going from Not to Favorite
                 }
                 imageView.setImageResource(nextIcon)
                 imageSwapped = true

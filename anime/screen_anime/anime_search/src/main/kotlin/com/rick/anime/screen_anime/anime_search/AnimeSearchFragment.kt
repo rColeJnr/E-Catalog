@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.anime.anime_screen.common.logAnimeOpened
 import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.anime_search.databinding.AnimeScreenAnimeAnimeSearchFragmentAnimeSearchBinding
@@ -40,12 +41,12 @@ class AnimeSearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-//        }
-//        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-//        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long).toLong()
+        }
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long).toLong()
+        }
     }
 
     override fun onCreateView(
@@ -77,7 +78,7 @@ class AnimeSearchFragment : Fragment() {
                 }
             }
 
-            setNavigationIcon(R.drawable.anime_screen_anime_anime_search_ic_arrow_back)
+            setNavigationIcon(com.rick.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -225,12 +226,12 @@ class AnimeSearchFragment : Fragment() {
     private fun onAnimeClick(view: View, id: Int) {
         exitTransition = MaterialElevationScale(false).apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_anime_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_anime_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         analyticsHelper.logAnimeOpened(id.toString())

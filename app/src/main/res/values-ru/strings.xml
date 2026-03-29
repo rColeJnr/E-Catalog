@@ -25,4 +25,5 @@
     <string name="limited_experience">Ограниченный опыт</string>
     <string name="open_drawer">открыть</string>
     <string name="close_drawer">закрыть</string>
+    <string name="your_username">Твой никнейм</string>
 </resources>

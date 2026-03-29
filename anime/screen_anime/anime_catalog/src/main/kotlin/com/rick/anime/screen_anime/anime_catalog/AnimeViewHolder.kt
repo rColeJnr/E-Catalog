@@ -47,9 +47,9 @@ class AnimeViewHolder(
         this.synopsis.text = this.anime.synopsis
         favorite.setImageResource(
             if (anime.isFavorite) {
-                R.drawable.anime_screen_anime_anime_catalog_star_filled
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled
             } else {
-                R.drawable.anime_screen_anime_anime_catalog_star_outlined
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined
             }
         )
 

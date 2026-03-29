@@ -14,7 +14,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorOnSurface">
+            android:backgroundTint="@color/data_ui_design_color_on_surface">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/my_toolbar"
@@ -25,10 +25,10 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/toolbar_text"
-                    android:layout_width="282dp"
+                    android:layout_width="@dimen/data_ui_design_toolbar_width"
                     android:layout_height="?attr/actionBarSize"
-                    android:gravity="start|center"
-                    android:textAlignment="viewStart"
+                    android:gravity="start|center_vertical"
+                    android:textAlignment="gravity"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
             </androidx.appcompat.widget.Toolbar>
@@ -50,13 +50,13 @@
         android:layout_width="@dimen/data_ui_components_auth_282dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/colorOnSurface"
+        android:backgroundTint="@color/data_ui_design_color_on_surface"
         android:clickable="true"
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/data_ui_design_black"
+        app:itemTextColor="@color/data_ui_design_black"
         app:menu="@menu/nav_menu">
 
         <androidx.compose.ui.platform.ComposeView

@@ -5,7 +5,7 @@
     android:id="@+id/jikan_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/anime_screen_anime_manga_catalog_gradient_background"
+    android:background="@drawable/data_ui_design_gradient_background"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView

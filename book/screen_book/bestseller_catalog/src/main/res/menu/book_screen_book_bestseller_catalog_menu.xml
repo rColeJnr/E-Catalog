@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/favorite"
-        android:icon="@drawable/book_screen_book_bestseller_catalog_ic_fav_outlined"
+        android:icon="@drawable/data_ui_design_favorite_outlined"
         android:title="@string/book_screen_book_bestseller_catalog_favorite"
         app:showAsAction="always" />
 </menu>

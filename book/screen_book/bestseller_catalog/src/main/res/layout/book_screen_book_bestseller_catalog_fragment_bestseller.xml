@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270">
+    android:background="@drawable/data_ui_design_gradient_background"
+    tools:context="com.rick.book.screen_book.bestseller_catalog.BestsellerFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="2dp"
+        android:layout_marginHorizontal="@dimen/data_ui_design_text_two_dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -23,18 +24,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingTop="16dp"
                 android:text="@string/book_screen_book_bestseller_catalog_header"
-                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/slogan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:alpha="0.7"
+                android:layout_marginVertical="@dimen/data_ui_design_text_extras_v_margin"
                 android:gravity="center"
-                android:paddingBottom="16dp"
                 android:text="@string/book_screen_book_bestseller_catalog_slogan"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
@@ -42,7 +41,7 @@
                 android:id="@+id/category_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_gravity="center"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/book_screen_book_bestseller_catalog_category_entry" />
@@ -51,7 +50,8 @@
                 android:id="@+id/carousel_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:layout_marginVertical="@dimen/data_ui_design_text_title_v_margin"
                 android:gravity="start|center_vertical"
                 android:text="@string/book_screen_book_bestseller_catalog_trending_now"
                 android:textAppearance="?attr/textAppearanceHeadline5"
@@ -62,7 +62,7 @@
                 android:id="@+id/carousel_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foregroundGravity="center_horizontal"
+                android:layout_gravity="center"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/book_screen_book_bestseller_catalog_carousel_book_entry" />
@@ -71,7 +71,8 @@
                 android:id="@+id/bestsellers_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:layout_marginVertical="@dimen/data_ui_design_text_title_v_margin"
                 android:gravity="start|center_vertical"
                 android:text="@string/book_screen_book_bestseller_catalog_bestsellers"
                 android:textAppearance="?attr/textAppearanceHeadline5"
@@ -94,8 +95,8 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:visibility="gone"
-        app:indicatorColor="@color/book_screen_book_bestseller_catalog_buttons"
-        app:trackColor="@color/book_screen_book_bestseller_catalog_background" />
+        app:indicatorColor="@color/data_ui_design_color_buttons"
+        app:trackColor="@color/data_ui_design_black" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/book_compose_view"

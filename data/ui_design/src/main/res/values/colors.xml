@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="data_ui_design_black">#27332D</color>
+    <color name="data_ui_design_white">#FFFFFF</color>
+
+    // Background color - White
+    <color name="data_ui_design_color_surface">#FFFFFF</color>
+    // Background Accent color - Light beige
+    <color name="data_ui_design_color_on_surface">#F3E3D0</color>
+
+    <color name="data_ui_design_chip_background">#E3C4A8</color>
+    <color name="data_ui_design_nav_header">#E3C4A8</color>
+
+    <color name="data_ui_design_color_buttons">#DA8067</color>
+
+    <color name="data_ui_design_splash_screen_background">#E3C4A8</color>
+</resources>
