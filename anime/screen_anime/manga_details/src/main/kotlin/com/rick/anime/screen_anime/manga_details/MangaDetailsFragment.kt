@@ -55,7 +55,7 @@ class MangaDetailsFragment : Fragment() {
         }
 
         binding.toolbar.apply {
-            setNavigationIcon(R.drawable.anime_screen_anime_manga_details_ic_arrow_back)
+            setNavigationIcon(com.rick.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }

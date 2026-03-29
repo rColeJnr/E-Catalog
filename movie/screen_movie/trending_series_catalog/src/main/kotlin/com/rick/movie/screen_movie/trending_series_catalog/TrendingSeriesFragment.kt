@@ -170,9 +170,9 @@ class TrendingSeriesFragment : Fragment() {
         rotationAnimator?.addUpdateListener { anim ->
             if (anim.animatedFraction >= 0.5f && !imageSwapped) {
                 val nextIcon = if (isFavorite) {
-                    R.drawable.movie_screen_movie_trending_series_catalog_star_outlined// Going from Favorite to Not
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined// Going from Favorite to Not
                 } else {
-                    R.drawable.movie_screen_movie_trending_series_catalog_star_filled// Going from Not to Favorite
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled// Going from Not to Favorite
                 }
                 imageView.setImageResource(nextIcon)
                 imageSwapped = true

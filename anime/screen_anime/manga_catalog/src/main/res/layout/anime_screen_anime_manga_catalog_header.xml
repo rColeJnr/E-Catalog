@@ -10,16 +10,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/anime_screen_anime_manga_catalog_header"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textAppearance="?attr/textAppearanceHeadline6"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/slogan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginVertical="@dimen/data_ui_design_text_extras_v_margin"
         android:gravity="center"
         android:text="@string/anime_screen_anime_manga_catalog_slogan"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+        android:textAppearance="?attr/textAppearanceBody2" />
 
 </LinearLayout>

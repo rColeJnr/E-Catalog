@@ -16,7 +16,6 @@
     <string name="movie_screen_movie_trending_series_details_yes">Да</string>
     <string name="movie_screen_movie_trending_series_details_no">Нет</string>
     <string name="movie_screen_movie_trending_series_details_transition_name">trending_series_details_transition</string>
-    <string name="movie_screen_movie_trending_series_details_popularity">Популярность: %1$d</string>
     <string name="movie_screen_movie_trending_series_details_popularity">Популярность: %1$.2f</string>
     <string name="movie_screen_movie_trending_series_details_number_of_seasons">Количество сезонов: %1$d</string>
     <string name="movie_screen_movie_trending_series_details_last_air_date">Последняя дата выхода в эфир: %1$s</string>

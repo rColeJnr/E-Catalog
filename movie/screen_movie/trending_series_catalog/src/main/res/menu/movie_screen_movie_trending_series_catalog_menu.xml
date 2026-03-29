@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/search_imdb"
-        android:icon="@drawable/movie_screen_movie_trending_series_search_ic_search"
+        android:icon="@drawable/data_ui_design_ic_search"
         android:title="@string/movie_screen_movie_trending_series_search_search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/fav_imdb"
-        android:icon="@drawable/movie_screen_movie_trending_series_catalog_star_outlined"
+        android:icon="@drawable/data_ui_design_favorite_outlined"
         android:title="@string/movie_screen_movie_trending_series_catalog_favorite"
         app:showAsAction="ifRoom" />
 

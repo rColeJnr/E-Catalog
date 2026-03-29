@@ -5,25 +5,24 @@
     android:id="@+id/book_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/book_screen_book_bestseller_catalog_six_dp"
+    android:layout_margin="@dimen/data_ui_design_item_entry_margin"
     android:transitionName="@string/book_screen_book_bestseller_catalog_transition_name"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="@dimen/book_screen_book_bestseller_catalog_two_dp">
+    app:cardCornerRadius="@dimen/data_ui_design_background_card_corner_radius"
+    app:cardElevation="@dimen/data_ui_design_background_card_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background"
-        android:padding="8dp">
+        android:background="@drawable/data_ui_design_gradient_background"
+        android:padding="@dimen/data_ui_design_item_entry_margin">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/frame_image"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
+            android:layout_height="@dimen/data_ui_design_book_image_height"
+            app:cardElevation="@dimen/data_ui_design_item_card_elevation"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/BookScreenBookBestsellerCatalogRoundedBookCover">
+            app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -41,8 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardCornerRadius="6dp"
-                    app:cardElevation="4dp">
+                    app:cardCornerRadius="@dimen/data_ui_design_text_six_dp"
+                    app:cardElevation="@dimen/data_ui_design_item_card_elevation">
 
                     <TextView
                         android:id="@+id/rank"
@@ -57,21 +56,21 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/data_ui_design_favorite_button_size"
+                    android:layout_height="@dimen/data_ui_design_favorite_button_size"
                     android:layout_gravity="end|top"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
                     app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardElevation="6dp"
-                    app:shapeAppearanceOverlay="@style/BookScreenBookBestsellerCatalogCircleImage">
+                    app:cardElevation="@dimen/data_ui_design_item_card_elevation"
+                    app:shapeAppearanceOverlay="@style/DataUiDesignCircleImage">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/favorite"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:padding="@dimen/book_screen_book_bestseller_catalog_two_dp"
-                        android:src="@drawable/book_screen_book_bestseller_catalog_ic_fav_outlined" />
+                        android:padding="@dimen/data_ui_design_favorite_button_padding"
+                        android:src="@drawable/data_ui_design_favorite_outlined" />
 
                 </com.google.android.material.card.MaterialCardView>
             </FrameLayout>
@@ -81,7 +80,8 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+            android:layout_marginTop="@dimen/data_ui_design_text_title_v_margin"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceBody1"
@@ -95,10 +95,11 @@
             android:id="@+id/author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+            android:layout_marginTop="@dimen/data_ui_design_text_extras_v_margin"
             android:ellipsize="end"
             android:maxLines="1"
-            android:padding="1dp"
+            android:padding="@dimen/data_ui_design_text_padding"
             android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"

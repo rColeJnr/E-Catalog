@@ -11,6 +11,7 @@ dependencies {
     implementation(projects.anime.dataAnime.model)
     implementation(projects.data.uiComponents.common)
     implementation(projects.data.analytics)
+    implementation(projects.data.uiDesign)
 
     implementation(libs.compose.ui)
 }

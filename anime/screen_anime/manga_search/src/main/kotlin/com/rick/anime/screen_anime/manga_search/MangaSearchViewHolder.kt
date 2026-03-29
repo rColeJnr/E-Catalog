@@ -17,7 +17,7 @@ class MangaSearchViewHolder(
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
-    private val favorite = binding.favButton
+    private val favorite = binding.favorite
     private val resources = itemView.resources
 
     init {
@@ -36,24 +36,13 @@ class MangaSearchViewHolder(
         this.title.text = manga.title
         provideGlide(this.image, manga.images)
         this.synopsis.text = manga.synopsis
-        favorite.foreground = if (manga.isFavorite) {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.anime_screen_anime_manga_search_star_filled,
-                null
-            )
+        val icon = if (manga.isFavorite) {
+            com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined
         } else {
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.anime_screen_anime_manga_search_star_outlined,
-                null
-            )
+            com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled
         }
+        favorite.setImageResource(icon)
     }
-
-//    override fun onClick(view: View) {
-//        onItemClick(view, jikan)
-//    }
 
     companion object {
         fun create(

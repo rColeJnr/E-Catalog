@@ -76,9 +76,9 @@ class BestsellerCarouselAdapter(
 
             favorite.setImageResource(
                 if (book.isFavorite) {
-                    R.drawable.book_screen_book_bestseller_catalog_ic_fav_filled
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled
                 } else {
-                    R.drawable.book_screen_book_bestseller_catalog_ic_fav_outlined
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined
                 }
             )
         }

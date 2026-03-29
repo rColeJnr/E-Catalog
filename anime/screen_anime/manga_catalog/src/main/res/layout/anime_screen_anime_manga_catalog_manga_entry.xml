@@ -5,58 +5,57 @@
     android:id="@+id/movie_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="@dimen/data_ui_design_item_entry_margin"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="@dimen/data_ui_design_background_card_corner_radius"
+    app:cardElevation="@dimen/data_ui_design_background_card_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/anime_screen_anime_manga_catalog_gradient_background"
-        android:paddingBottom="16dp">
+        android:background="@drawable/data_ui_design_gradient_background"
+        android:padding="@dimen/data_ui_design_item_entry_margin">
 
         <!-- Manga Cover Image -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
-            android:layout_width="0dp"
-            android:layout_height="240dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/data_ui_design_wide_image_height"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/AnimeScreenAnimeMangaCatalogRoundedRoundedBookCover"
+            app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <!-- Favorite Button -->
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="12dp"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardElevation="6dp"
+            android:layout_width="@dimen/data_ui_design_favorite_button_size"
+            android:layout_height="@dimen/data_ui_design_favorite_button_size"
+            android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
+            app:cardElevation="@dimen/data_ui_design_item_card_elevation"
             app:layout_constraintEnd_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="@id/image"
-            app:shapeAppearanceOverlay="@style/AnimeScreenAnimeMangaCatalogRoundedCircleImage">
+            app:shapeAppearanceOverlay="@style/DataUiDesignCircleImage">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/favorite"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:padding="@dimen/anime_screen_anime_manga_catalog_two_dp"
-                android:src="@drawable/anime_screen_anime_manga_catalog_star_outlined" />
+                android:padding="@dimen/data_ui_design_favorite_button_padding"
+                android:src="@drawable/data_ui_design_favorite_outlined" />
 
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Manga Title -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+            android:layout_marginTop="@dimen/data_ui_design_text_title_v_margin"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="?textAppearanceHeadline6"
@@ -69,11 +68,9 @@
         <!-- Synopsis/Description -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/synopsis"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="4dp"
-            android:alpha="0.7"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_extras_h_margin"
             android:ellipsize="end"
             android:maxLines="2"
             android:textAppearance="?textAppearanceBody2"
@@ -87,16 +84,16 @@
             android:id="@+id/translate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:padding="2dp"
+            android:layout_margin="@dimen/data_ui_design_translate_margin"
+            android:padding="@dimen/data_ui_design_text_padding"
             android:text="@string/anime_screen_anime_manga_catalog_show_translation"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@android:color/holo_blue_dark"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/synopsis"/>
+            app:layout_constraintTop_toBottomOf="@id/synopsis" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

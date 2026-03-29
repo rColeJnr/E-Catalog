@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="70dp"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="4dp"
-    android:background="@drawable/book_screen_book_bestseller_catalog_selector_background"
+    android:layout_margin="@dimen/data_ui_design_text_four_dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -12,9 +11,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:background="@drawable/book_screen_book_bestseller_catalog_gradient_background_270"
-        app:cardCornerRadius="30dp"
-        app:shapeAppearanceOverlay="@style/BookScreenBookBestsellerCatalogRoundedBookCover">
+        app:cardCornerRadius="@dimen/data_ui_design_background_card_corner_radius"
+        app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/category_image"
@@ -36,6 +34,7 @@
         android:gravity="center"
         android:hint="@string/book_screen_book_bestseller_catalog_category"
         android:maxLines="1"
+        android:padding="@dimen/data_ui_design_text_padding"
         android:textAlignment="gravity"
         android:textAppearance="?attr/textAppearanceCaption"
         android:textColor="@android:color/darker_gray"

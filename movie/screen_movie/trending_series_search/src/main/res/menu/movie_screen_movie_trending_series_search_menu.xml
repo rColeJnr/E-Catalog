@@ -4,6 +4,6 @@
 
     <item android:title="@string/movie_screen_movie_trending_series_search_search"
         android:id="@+id/search"
-        android:icon="@drawable/movie_screen_movie_trending_series_search_ic_search"
+        android:icon="@drawable/data_ui_design_ic_search"
         app:showAsAction="always"/>
 </menu>

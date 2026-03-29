@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/book_screen_book_common_gradient_background"
+    android:background="@drawable/data_ui_design_gradient_background"
     android:orientation="vertical"
     android:transitionGroup="true">
 
@@ -12,44 +12,45 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/data_ui_design_toolbar_margin_top"
         app:layout_collapseMode="pin">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/search_input"
-                android:layout_width="262dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/data_ui_design_toolbar_width"
+                android:layout_height="?attr/actionBarSize"
                 android:autofillHints=""
+                android:gravity="bottom"
                 android:hint="@string/book_screen_book_gutenberg_search_search"
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAlignment="textStart"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"
                 style="?android:progressBarStyleHorizontal"
-                android:layout_width="262dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/data_ui_design_toolbar_width"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
                 android:indeterminate="true"
                 android:visibility="gone" />
 
             <TextView
                 android:id="@+id/search_error_message"
-                android:layout_width="262dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/data_ui_design_toolbar_width"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_marginVertical="8dp"
                 android:gravity="center"
                 android:text="@string/book_screen_book_gutenberg_search_nothing_found"
-                android:textAppearance="?attr/textAppearanceBody1"
+                android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@android:color/holo_blue_dark"
                 android:visibility="gone" />
 
@@ -62,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginVertical="8dp" />
+        android:layout_marginVertical="@dimen/data_ui_design_recent_searches_margin" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

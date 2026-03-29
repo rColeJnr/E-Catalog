@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="book_screen_book_bestseller_catalog_two_dp">2dp</dimen>
-    <dimen name="book_screen_book_bestseller_catalog_six_dp">6dp</dimen>
-    <dimen name="book_screen_book_bestseller_catalog_eight_dp">8dp</dimen>
-    <dimen name="book_screen_book_bestseller_catalog_twelve_dp">12dp</dimen>
-</resources>

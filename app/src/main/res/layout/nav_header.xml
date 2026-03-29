@@ -5,7 +5,7 @@
     android:paddingTop="24dp"
     android:paddingBottom="12dp"
     android:layout_height="wrap_content"
-    android:background="?attr/colorSecondary">
+    android:background="@color/data_ui_design_nav_header">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"

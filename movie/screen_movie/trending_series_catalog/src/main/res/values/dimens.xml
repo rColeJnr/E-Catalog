@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="movie_screen_movie_trending_series_catalog_eight_dp">8dp</dimen>
-    <dimen name="movie_screen_movie_trending_series_catalog_movie_title">300dp</dimen>
-    <dimen name="movie_screen_movie_trending_series_catalog_image_height">215dp</dimen>
-    <dimen name="movie_screen_movie_trending_series_catalog_two_dp">2dp</dimen>
-    <dimen name="movie_screen_movie_trending_series_catalog_six_dp">6dp</dimen>
-</resources>

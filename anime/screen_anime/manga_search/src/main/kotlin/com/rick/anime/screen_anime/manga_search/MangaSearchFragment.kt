@@ -14,10 +14,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.anime.anime_screen.common.logMangaOpened
 import com.rick.anime.anime_screen.common.logScreenView
 import com.rick.anime.screen_anime.manga_search.databinding.AnimeScreenAnimeMangaSearchFragmentMangaSearchBinding
@@ -39,21 +37,23 @@ class MangaSearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-//        }
-//        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-//            duration = resources.getInteger(R.integer.catalog_motion_duration_long).toLong()
-//        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration =
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
+                    .toLong()
+        }
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration =
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
+                    .toLong()
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = AnimeScreenAnimeMangaSearchFragmentMangaSearchBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
 
         binding.toolbar.apply {
@@ -76,7 +76,7 @@ class MangaSearchFragment : Fragment() {
                 }
             }
 
-            setNavigationIcon(R.drawable.anime_screen_anime_manga_search_ic_arrow_back)
+            setNavigationIcon(com.rick.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -103,13 +103,6 @@ class MangaSearchFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val circularProgressDrawable = CircularProgressDrawable(requireContext()).apply {
-            strokeWidth = 5f
-            centerRadius = 30f
-            start()
-        }
-        val options = RequestOptions().placeholder(circularProgressDrawable)
-        val glide = Glide.with(requireContext())
         searchAdapter = MangaSearchAdapter(
             this::onMangaClick, this::onMangaFavClick
         )
@@ -130,7 +123,8 @@ class MangaSearchFragment : Fragment() {
             onQueryChanged = onQueryChanged
         )
 
-        bindList(adapter = searchAdapter,
+        bindList(
+            adapter = searchAdapter,
             uiState = uiState,
             recentSearchesUiState = recentSearchesUiState,
             onClearRecentSearches = { viewModel.onEvent(MangaSearchUiEvent.ClearRecentSearches) },
@@ -222,12 +216,12 @@ class MangaSearchFragment : Fragment() {
     private fun onMangaClick(view: View, id: Int) {
         exitTransition = MaterialElevationScale(false).apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_manga_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_manga_search_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         analyticsHelper.logMangaOpened(id.toString())

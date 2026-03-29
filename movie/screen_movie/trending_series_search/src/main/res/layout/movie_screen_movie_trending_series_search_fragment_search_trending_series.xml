@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/movie_screen_movie_trending_series_details_gradient_background"
+    android:background="@drawable/data_ui_design_gradient_background"
     android:orientation="vertical"
     android:transitionGroup="true">
 
@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/data_ui_design_toolbar_margin_top"
         app:layout_collapseMode="pin">
 
         <LinearLayout
@@ -23,21 +23,21 @@
 
             <EditText
                 android:id="@+id/search_input"
-                android:layout_width="272dp"
+                android:layout_width="@dimen/data_ui_design_toolbar_width"
                 android:layout_height="?attr/actionBarSize"
                 android:autofillHints=""
-                android:gravity="bottom"
+                android:gravity="start|center_vertical"
                 android:hint="@string/movie_screen_movie_trending_series_search_search"
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"
-                android:textAlignment="viewStart"
-                android:textAppearance="?attr/textAppearanceBody1" />
+                android:textAlignment="gravity"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"
                 style="?android:progressBarStyleHorizontal"
-                android:layout_width="272dp"
+                android:layout_width="@dimen/data_ui_design_toolbar_width"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
                 android:indeterminate="true"
@@ -45,12 +45,12 @@
 
             <TextView
                 android:id="@+id/search_error_message"
-                android:layout_width="272dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/data_ui_design_toolbar_width"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
                 android:layout_marginVertical="8dp"
                 android:text="@string/data_ui_components_common_nothing_found"
-                android:textAppearance="?attr/textAppearanceBody1"
+                android:textAppearance="?attr/textAppearanceBody2"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginVertical="8dp" />
+        android:layout_marginVertical="@dimen/data_ui_design_recent_searches_margin" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

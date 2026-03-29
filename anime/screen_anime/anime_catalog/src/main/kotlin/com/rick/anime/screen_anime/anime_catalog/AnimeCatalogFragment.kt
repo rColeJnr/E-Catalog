@@ -67,7 +67,7 @@ class AnimeCatalogFragment : Fragment() {
         setHasOptionsMenu(true)
         enterTransition = MaterialFadeThrough().apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_anime_catalog_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
     }
@@ -106,12 +106,12 @@ class AnimeCatalogFragment : Fragment() {
 
         eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_anime_catalog_motion_duration_medium)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_medium)
                     .toLong()
         }
         reTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_anime_catalog_motion_duration_medium)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_medium)
                     .toLong()
         }
 
@@ -178,7 +178,7 @@ class AnimeCatalogFragment : Fragment() {
     private fun onAnimeClick(view: View, id: Int) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration =
-                resources.getInteger(R.integer.anime_screen_anime_anime_catalog_motion_duration_long)
+                resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
         analyticsHelper.logAnimeOpened(id.toString())
@@ -203,9 +203,9 @@ class AnimeCatalogFragment : Fragment() {
         rotationAnimator?.addUpdateListener { anim ->
             if (anim.animatedFraction >= 0.5f && !imageSwapped) {
                 val nextIcon = if (isFavorite) {
-                    R.drawable.anime_screen_anime_anime_catalog_star_outlined // Going from Favorite to Not
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined // Going from Favorite to Not
                 } else {
-                    R.drawable.anime_screen_anime_anime_catalog_star_filled // Going from Not to Favorite
+                    com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled // Going from Not to Favorite
                 }
                 imageView.setImageResource(nextIcon)
                 imageSwapped = true

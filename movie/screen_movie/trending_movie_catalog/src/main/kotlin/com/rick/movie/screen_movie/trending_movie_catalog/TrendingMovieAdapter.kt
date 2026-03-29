@@ -102,9 +102,9 @@ class TrendingMovieViewHolder(
         summary.text = movie.overview
         favorite.setImageResource(
             if (movie.isFavorite) {
-                R.drawable.movie_screen_movie_trending_movie_catalog_star_filled
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled
             } else {
-                R.drawable.movie_screen_movie_trending_movie_catalog_star_outlined
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined
             }
         )
 

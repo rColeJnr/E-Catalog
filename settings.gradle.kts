@@ -17,12 +17,6 @@ rootProject.name = "ecatalogs"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 
-include("data:ui_components:common")
-include("data:ui_components:auth")
-include("data:ui_components:anime_favorite")
-include("data:ui_components:book_favorite")
-include("data:ui_components:movie_favorite")
-
 include(":authentication:auth_data")
 include(":authentication:auth_screen")
 
@@ -36,6 +30,15 @@ include(":data:datastore")
 include(":data:datastore_proto")
 include("data:translation")
 
+include("data:ui_components:common")
+include("data:ui_components:auth")
+include("data:ui_components:anime_favorite")
+include("data:ui_components:book_favorite")
+include("data:ui_components:movie_favorite")
+
+include("data:ui_design")
+
+include(":anime:screen_anime:common")
 include(":anime:screen_anime:anime_catalog")
 include(":anime:screen_anime:anime_details")
 include(":anime:screen_anime:anime_favorites")

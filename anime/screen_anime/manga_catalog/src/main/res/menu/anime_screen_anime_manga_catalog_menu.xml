@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/anime_screen_anime_manga_catalog_ic_search"
+        android:icon="@drawable/data_ui_design_ic_search"
         android:title="@string/anime_screen_anime_manga_catalog_anime_screen_anime_search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/favorite"
-        android:icon="@drawable/anime_screen_anime_manga_catalog_star_outlined"
+        android:icon="@drawable/data_ui_design_favorite_outlined"
         android:title="@string/data_ui_components_common_favorite"
         app:showAsAction="always" />
 

@@ -17,7 +17,7 @@ class AnimeSearchViewHolder(
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
-    private val favorite = binding.favButton
+    private val favorite = binding.favorite
     private val resources = itemView.resources
 
     init {
@@ -39,13 +39,13 @@ class AnimeSearchViewHolder(
         favorite.foreground = if (jikan.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.anime_screen_anime_anime_search_star_filled,
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled,
                 null
             )
         } else {
             ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.anime_screen_anime_anime_search_star_outlined,
+                com.rick.data.ui_design.R.drawable.data_ui_design_favorite_outlined,
                 null
             )
         }

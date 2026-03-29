@@ -67,12 +67,12 @@ class BestsellerCategoryAdapter(
 
             if (isSelected) {
                 name.setTypeface(null, Typeface.BOLD)
-                name.setTextColor(resources.getColor(R.color.book_screen_book_bestseller_catalog_text, null))
+                name.setTextColor(resources.getColor(com.rick.data.ui_design.R.color.data_ui_design_black, null))
                 image.alpha = 1.0f
             } else {
                 name.setTypeface(null, Typeface.NORMAL)
                 name.setTextColor(resources.getColor(android.R.color.darker_gray, null))
-                image.alpha = 0.7f
+                image.alpha = 0.8f
             }
         }
     }

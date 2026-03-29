@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="data_ui_design_text_two_dp">2dp</dimen>
+    <dimen name="data_ui_design_text_four_dp">4dp</dimen>
+    <dimen name="data_ui_design_text_six_dp">6dp</dimen>
+    <dimen name="data_ui_design_translate_margin">8dp</dimen>
+    <dimen name="data_ui_design_text_title_h_margin">2dp</dimen>
+    <dimen name="data_ui_design_text_extras_h_margin">6dp</dimen>
+    <dimen name="data_ui_design_text_title_v_margin">6dp</dimen>
+    <dimen name="data_ui_design_text_extras_v_margin">2dp</dimen>
+    <dimen name="data_ui_design_text_padding">2dp</dimen>
+    <dimen name="data_ui_design_background_card_corner_radius">24dp</dimen>
+    <dimen name="data_ui_design_favorite_button_margin">10dp</dimen>
+    <dimen name="data_ui_design_favorite_button_size">32dp</dimen>
+    <dimen name="data_ui_design_favorite_button_padding">2dp</dimen>
+    <dimen name="data_ui_design_item_card_elevation">4dp</dimen>
+    <dimen name="data_ui_design_background_card_elevation">2dp</dimen>
+    <dimen name="data_ui_design_long_image_height">450dp</dimen>
+    <dimen name="data_ui_design_wide_image_height">270dp</dimen>
+    <dimen name="data_ui_design_book_image_height">220dp</dimen>
+    <dimen name="data_ui_design_toolbar_margin">2dp</dimen>
+    <dimen name="data_ui_design_toolbar_margin_top">8dp</dimen>
+    <dimen name="data_ui_design_toolbar_width">282dp</dimen>
+    <dimen name="data_ui_design_recent_searches_margin">4dp</dimen>
+    <dimen name="data_ui_design_item_entry_margin">8dp</dimen>
+</resources>

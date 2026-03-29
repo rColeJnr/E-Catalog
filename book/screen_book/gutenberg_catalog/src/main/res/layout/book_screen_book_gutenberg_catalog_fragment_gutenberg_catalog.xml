@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/book_screen_book_gutenberg_catalog_gradient_background">
+    android:background="@drawable/data_ui_design_gradient_background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
