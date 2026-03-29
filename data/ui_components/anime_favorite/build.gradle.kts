@@ -9,8 +9,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.anime.dataAnime.model)
-    implementation(projects.data.uiComponents.common)
+    api(projects.anime.dataAnime.model)
+    api(projects.data.uiComponents.common)
+    api(projects.data.uiDesign)
 
     implementation(libs.compose.coil)
     implementation(libs.lifecycle.runtimeCompose)

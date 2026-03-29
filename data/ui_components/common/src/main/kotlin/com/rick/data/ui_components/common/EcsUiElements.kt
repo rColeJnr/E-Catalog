@@ -1,5 +1,9 @@
 package com.rick.data.ui_components.common
 
+import android.R.attr.bottom
+import android.R.attr.maxLines
+import android.R.attr.text
+import androidx.annotation.ColorRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -15,6 +19,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -81,6 +86,7 @@ fun EcsText(
     modifier: Modifier = Modifier,
     text: String,
     fontSize: TextUnit = 22.sp,
+    color: Color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black),
     maxLines: Int = 5
 ) {
     Text(
@@ -90,7 +96,7 @@ fun EcsText(
         overflow = TextOverflow.Ellipsis,
         fontFamily = FontFamily(Font(R.font.high_tower_text, FontWeight.Normal)),
         textAlign = TextAlign.Start,
-        color = colorResource(id = R.color.data_ui_components_common_text),
+        color = color,
         modifier = modifier.padding(bottom = 2.dp)
     )
 }
@@ -115,13 +121,12 @@ fun EcsTextSmaller(
 }
 
 @Composable
-fun EcsTextButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun EcsTextButton(text: String, color: Color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black), onClick: () -> Unit, modifier: Modifier = Modifier) {
     TextButton(
         modifier = modifier,
         onClick = onClick,
-//        colors = ButtonDefaults.textButtonColors(containerColor = colorResource(id = R.color.data_ui_components_common_background))
     ) {
-        EcsText(text = text, fontSize = 15.sp)
+        EcsText(text = text, fontSize = 15.sp, color = color)
     }
 }
 
@@ -158,7 +163,7 @@ fun EcsEmptyState(modifier: Modifier = Modifier) {
     ) {
         Image(
             modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.data_ui_components_common_app_icon),
+            painter = painterResource(id = com.rick.data.ui_design.R.drawable.data_ui_design_app_icon),
             contentDescription = null,
         )
 
@@ -185,20 +190,30 @@ fun EcsEmptyState(modifier: Modifier = Modifier) {
 
 @Composable
 fun EcsScaffold(
+    modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     screenContent: @Composable () -> Unit,
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
+    val backgroundGradient = linearGradient(
+        colors = listOf(
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_surface), // end color
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
+        ),
+        start = Offset.Infinite,
+        end = Offset.Zero
+    )
 
+    Scaffold(
+        modifier = modifier,
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        contentWindowInsets = WindowInsets(0.dp)
     ) { paddingValues ->
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(
-                    brush = BackgroundGradient
+                    brush = backgroundGradient
                 )
         ) {
             screenContent()
@@ -219,13 +234,3 @@ fun ErrorMessage(message: String, onClick: () -> Unit = {}) {
         }
     }
 }
-
-private val BackgroundGradient = linearGradient(
-    colors = listOf(
-        Color(0xFFD4D4D4), // startColor
-        Color(0xFFFFFFFF)  // endColor
-    ),
-    // 315 degrees corresponds to Top-Right to Bottom-Left
-    start = Offset.Infinite,
-    end = Offset.Zero
-)

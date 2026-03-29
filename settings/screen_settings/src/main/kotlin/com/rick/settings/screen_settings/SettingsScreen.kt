@@ -66,7 +66,7 @@ fun SettingsDialog(
     AlertDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 80.dp),
-        containerColor = colorResource(id = com.rick.data.ui_components.common.R.color.data_ui_components_common_background),
+        containerColor = colorResource(id = com.rick.data.ui_design.R.color.data_ui_design_color_on_surface),
         onDismissRequest = { onDismiss() },
         title = {
             EcsText(

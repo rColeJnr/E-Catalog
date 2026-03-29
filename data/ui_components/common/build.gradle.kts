@@ -9,6 +9,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.data.uiDesign)
     implementation(libs.compose.coil)
     implementation(libs.bumptech.glide)
+    implementation(libs.androidx.swiperefreshlayout)
 }
