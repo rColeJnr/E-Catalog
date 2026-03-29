@@ -22,6 +22,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -30,6 +32,7 @@ import com.rick.data.model_anime.FavoriteUiState
 import com.rick.data.ui_components.anime_favorite.R
 import com.rick.data.ui_components.common.EcsCatalogCard
 import com.rick.data.ui_components.common.EcsEmptyState
+import com.rick.data.ui_components.common.EcsScaffold
 
 @Composable
 fun AnimeFavScreen(
@@ -56,21 +59,26 @@ fun AnimeFavScreen(
         }
     }
 
-    Scaffold(
+    val backgroundGradient = linearGradient(
+        colors = listOf(
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_surface), // end color
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
+        ),
+        start = Offset.Infinite,
+        end = Offset.Zero
+    )
+
+    EcsScaffold (
         modifier = Modifier
             .fillMaxSize(),
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        snackbarHostState = snackbarHostState,
     ) {
         val density = LocalDensity.current
         Column(
             modifier = Modifier
                 .scrollable(state = rememberScrollState(), orientation = Orientation.Vertical)
                 .fillMaxSize()
-                .background(
-                    colorResource(id = R.color.data_ui_components_anime_favorite_background).copy(
-                        alpha = 0.8f
-                    )
-                )
+                .background(backgroundGradient)
         ) {
             when (state) {
                 is FavoriteUiState.Loading -> {
@@ -87,7 +95,6 @@ fun AnimeFavScreen(
                     } else {
                         LazyColumn(
                             modifier = Modifier
-                                .padding(it)
                                 .wrapContentHeight()
                         ) {
                             items(state.favorites) { anime ->
@@ -109,7 +116,6 @@ fun AnimeFavScreen(
                     } else {
                         LazyColumn(
                             modifier = Modifier
-                                .padding(it)
                                 .wrapContentHeight()
                         ) {
                             items(state.favorites) { manga ->

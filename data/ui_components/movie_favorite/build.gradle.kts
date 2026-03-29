@@ -11,5 +11,7 @@ android {
 dependencies {
     api(projects.movie.dataMovie.model)
     api(projects.data.uiComponents.common)
+    api(projects.data.uiDesign)
+
     api(libs.lifecycle.runtimeCompose)
 }

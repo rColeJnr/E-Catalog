@@ -7,26 +7,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -73,7 +68,7 @@ fun EcsCatalogCard(
                         .crossfade(true)
                         .build(),
                     contentDescription = null,
-                    placeholder = painterResource(id = R.drawable.data_ui_components_common_fav_filled_icon),
+                    placeholder = painterResource(id = com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                 )
@@ -99,6 +94,7 @@ fun EcsCatalogCard(
 
             EcsTextButton(
                 text = "Remove from favorites",
+                color = colorResource(android.R.color.holo_blue_dark),
                 onClick = { onFavClick(itemId) },
                 modifier = Modifier
                     .padding(top = 8.dp)
@@ -116,6 +112,15 @@ fun EcsBookCatalogCard(
     id: String,
     onFavClick: (String) -> Unit
 ) {
+    val backgroundGradient = linearGradient(
+        colors = listOf(
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_surface), // end color
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
+        ),
+        start = Offset.Infinite,
+        end = Offset.Zero
+    )
+
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -126,14 +131,7 @@ fun EcsBookCatalogCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.White,
-                            Color.LightGray.copy(alpha = 0.2f)
-                        )
-                    )
-                )
+                .background(brush = backgroundGradient)
                 .padding(8.dp),
             horizontalAlignment = Alignment.Start
         ) {
@@ -149,7 +147,7 @@ fun EcsBookCatalogCard(
                         .crossfade(true)
                         .build(),
                     contentDescription = null,
-                    placeholder = painterResource(R.drawable.data_ui_components_common_fav_filled_icon),
+                    placeholder = painterResource(com.rick.data.ui_design.R.drawable.data_ui_design_favorite_filled),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                 )
@@ -174,6 +172,7 @@ fun EcsBookCatalogCard(
 
             EcsTextButton(
                 text = "Remove from favorites",
+                color = colorResource(android.R.color.holo_blue_dark),
                 onClick = { onFavClick(id) },
                 modifier = Modifier
                     .padding(8.dp)
