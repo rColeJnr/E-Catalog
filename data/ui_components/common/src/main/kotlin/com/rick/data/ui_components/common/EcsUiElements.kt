@@ -68,13 +68,10 @@ fun EcsAnimatedVisibilityBox(
     composable: @Composable () -> Unit
 ) {
     AnimatedVisibility(visible = screenState, enter = slideInVertically {
-        // Slide in from 40 dp from the top.
         with(density) { fromTop.roundToPx() }
     } + expandVertically(
-        // Expand from the top.
         expandFrom = Alignment.Top
     ) + fadeIn(
-        // Fade in with the initial alpha of 0.3f.
         initialAlpha = 0.3f
     ), exit = slideOutVertically() + shrinkVertically() + fadeOut(), modifier = modifier) {
         composable()

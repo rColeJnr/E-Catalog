@@ -95,7 +95,7 @@ fun AnimeFavScreen(
                     } else {
                         LazyColumn(
                             modifier = Modifier
-                                .wrapContentHeight()
+                                .fillMaxSize()
                         ) {
                             items(state.favorites) { anime ->
                                 EcsCatalogCard(
@@ -114,10 +114,7 @@ fun AnimeFavScreen(
                     if (state.favorites.isEmpty()) {
                         EcsEmptyState()
                     } else {
-                        LazyColumn(
-                            modifier = Modifier
-                                .wrapContentHeight()
-                        ) {
+                        LazyColumn() {
                             items(state.favorites) { manga ->
                                 EcsCatalogCard(
                                     itemTitle = manga.title,

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
@@ -48,7 +49,10 @@ fun RecentSearchesBody(
                                     resId = R.font.high_tower_text,
                                     weight = FontWeight.Light
                                 )
-                            )
+                            ),
+                            color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black),
+                            fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+                            fontWeight = FontWeight.Bold
                         )
                     ) {
                         append("Recent Searches")
@@ -66,7 +70,7 @@ fun RecentSearchesBody(
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        tint = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black),
                     )
                 }
             }
@@ -76,6 +80,7 @@ fun RecentSearchesBody(
                 Text(
                     text = recentSearch,
                     style = MaterialTheme.typography.headlineSmall,
+                    color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black),
                     fontFamily = FontFamily(
                         Font(
                             resId = R.font.high_tower_text,

@@ -36,6 +36,15 @@ fun EcsCatalogCard(
     itemSummary: String,
     onFavClick: (String) -> Unit
 ) {
+    val backgroundGradient = linearGradient(
+        colors = listOf(
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_surface), // end color
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
+        ),
+        start = Offset.Infinite,
+        end = Offset.Zero
+    )
+
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,11 +56,7 @@ fun EcsCatalogCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color(0xFFD4D4D4), Color(0xFFFFFFFF)),
-                        start = Offset(Float.POSITIVE_INFINITY, 0f),
-                        end = Offset(0f, Float.POSITIVE_INFINITY)
-                    )
+                    brush = backgroundGradient
                 )
                 .padding(bottom = 16.dp)
         ) {
