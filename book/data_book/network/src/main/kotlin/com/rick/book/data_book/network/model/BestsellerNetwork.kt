@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BestsellerNetwork(
-    @SerializedName("primary_isbn10")
-    @SerialName("primary_isbn10")
+    @SerializedName("primary_isbn13")
+    @SerialName("primary_isbn13")
     val id: String,
     val rank: Int,
     @SerializedName("rank_last_week")
@@ -29,5 +29,5 @@ data class BestsellerNetwork(
     val amazonUrl: String,
     @SerializedName("buy_links")
     @SerialName("buy_links")
-    val buyLinks: List<BuyLink>
+    val buyLinks: List<BuyLink>?
 )

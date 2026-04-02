@@ -62,8 +62,8 @@
                 android:id="@+id/overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/data_ui_design_text_title_v_margin"
                 android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:layout_marginVertical="@dimen/data_ui_design_text_title_v_margin"
                 android:text="@string/anime_screen_anime_manga_details_overview"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
 
@@ -88,12 +88,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/data_ui_design_translate_margin"
                 android:gravity="end|center_vertical"
-                android:text="@string/anime_screen_anime_manga_details_show_translation"
                 android:padding="2dp"
+                android:text="@string/anime_screen_anime_manga_details_show_translation"
                 android:textAlignment="gravity"
-                android:textColor="@android:color/holo_blue_dark"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="bold" />
+                android:textColor="@android:color/holo_blue_dark"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/publishing"
