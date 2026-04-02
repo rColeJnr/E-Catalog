@@ -21,6 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -43,18 +45,26 @@ fun PasswordResetDialog(
     val invalidEmail = rememberSaveable {
         mutableStateOf(false)
     }
-    val container = colorResource(id = R.color.data_ui_components_auth_background)
-    val content = colorResource(id = R.color.data_ui_components_auth_text)
-    val button = colorResource(id = R.color.data_ui_components_auth_onBackground)
+    val container = linearGradient(
+        colors = listOf(
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_surface), // end color
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
+        ),
+        start = Offset.Infinite,
+        end = Offset.Zero
+    )
+    val content = colorResource(id = com.rick.data.ui_design.R.color.data_ui_design_black)
+    val button = colorResource(id = com.rick.data.ui_design.R.color.data_ui_design_color_on_surface)
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(container)
                 .clip(shape = RoundedCornerShape(16.dp))
                 .padding(16.dp)
                 .wrapContentHeight(),
-            colors = CardDefaults.cardColors(containerColor = container, contentColor = content)
+            colors = CardDefaults.cardColors(contentColor = content)
         ) {
             Column {
                 Text(

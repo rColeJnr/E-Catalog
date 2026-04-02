@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -52,8 +53,8 @@ fun TextInputRoundRect(
         OutlinedTextField(
             value = value,
             onValueChange = { onValueChange(it) },
-            label = { Text(text = label) },
-            placeholder = { Text(text = placeholder) },
+            label = { Text(text = label, color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black),) },
+            placeholder = { Text(text = placeholder, color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black),) },
             visualTransformation = if (visualTransformation) {
                 PasswordVisualTransformation()
             } else {
