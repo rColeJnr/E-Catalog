@@ -7,3 +7,7 @@ plugins {
 android {
     namespace = "com.rick.data.ui_components.auth"
 }
+
+dependencies {
+    api(projects.data.uiDesign)
+}
