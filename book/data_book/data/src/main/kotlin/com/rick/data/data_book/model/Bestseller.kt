@@ -14,5 +14,5 @@ fun BestsellerNetwork.asBestsellerEntity(): BestsellerEntity = BestsellerEntity(
     author = author,
     image = image,
     amazonLink = amazonUrl,
-    buyLinks = buyLinks
+    buyLinks = buyLinks ?: emptyList()
 )

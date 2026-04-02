@@ -1,0 +1,530 @@
+{
+  "status": "OK",
+  "copyright": "Copyright (c) 2026 The New York Times Company. All Rights Reserved.",
+  "num_results": 10,
+  "last_modified": "2026-04-01T22:38:01Z",
+  "results": {
+    "display_name": "Advice, How-To & Miscellaneous",
+    "list_name": "Advice, How-To & Miscellaneous",
+    "list_name_encoded": "advice-how-to-and-miscellaneous",
+    "previous_published_date": "2026-04-05",
+    "published_date": "2026-04-12",
+    "bestsellers_date": "2026-03-28",
+    "normal_list_ends_at": 10,
+    "updated": "WEEKLY",
+    "list_id": 24,
+    "uri": "nyt://bestsellerslist/0df93524-ff8c-55f7-ab61-9402dedab360",
+    "books": [
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/1401971369?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Mel Robbins",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9781401971366.jpg",
+        "book_image_height": 0,
+        "book_image_width": 0,
+        "book_review_link": "",
+        "book_uri": "nyt://book/9639c9a8-e41f-50f7-beca-289f3fdd52af",
+        "contributor": "by Mel Robbins",
+        "contributor_note": "",
+        "created_date": "2026-03-04T23:40:19.513Z",
+        "dagger": 0,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9781401971366",
+        "publisher": "Hay House",
+        "rank": 1,
+        "rank_last_week": 1,
+        "sunday_review_link": "",
+        "title": "THE LET THEM THEORY",
+        "updated_date": "2026-03-04T23:40:19.513Z",
+        "weeks_on_list": 66,
+        "isbns": [],
+        "buy_links": []
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/1250393132?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Nicole LePera",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9781250393135.jpg",
+        "book_image_height": 500,
+        "book_image_width": 329,
+        "book_review_link": "",
+        "book_uri": "nyt://book/9324589f-ce60-5b7c-82b5-d6b5c5227425",
+        "contributor": "by Nicole LePera",
+        "contributor_note": "",
+        "created_date": "2026-04-01T19:27:25.037Z",
+        "dagger": 0,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9781250393135",
+        "publisher": "Flatiron",
+        "rank": 2,
+        "rank_last_week": 0,
+        "sunday_review_link": "",
+        "title": "REPARENTING THE INNER CHILD",
+        "updated_date": "2026-04-01T19:27:25.037Z",
+        "weeks_on_list": 1,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9781250393135"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1250393132?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781250393135?at=10lIEQ"
+          },
+          {
+            "name": "Barnes & Noble",
+            "url": "https://barnesandnoble.sjv.io/c/197432/1961179/22009?prodsku=9781250393135&u=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2Freparenting-the-inner-child-nicole-lepera%2F1148742425%3Fean%3D9781250393135&intsrc=APIG_15890"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FReparenting-Inner-Child%2FFlatiron-Author-to-Be-Revealed%2F9781250393135"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/a/3546/9781250393135"
+          }
+        ]
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/Atomic-Habits-Proven-Build-Break/dp/0735211299?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "James Clear",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9780735211292.jpg",
+        "book_image_height": 495,
+        "book_image_width": 328,
+        "book_review_link": "",
+        "book_uri": "nyt://book/0398a355-c032-534e-a0af-647b06f0840d",
+        "contributor": "by James Clear",
+        "contributor_note": "",
+        "created_date": "2026-03-04T23:40:19.644Z",
+        "dagger": 1,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9780735211292",
+        "publisher": "Avery",
+        "rank": 3,
+        "rank_last_week": 3,
+        "sunday_review_link": "",
+        "title": "ATOMIC HABITS",
+        "updated_date": "2026-03-04T23:40:19.644Z",
+        "weeks_on_list": 331,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9780735211292"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/Atomic-Habits-Proven-Build-Break/dp/0735211299?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780735211292?at=10lIEQ"
+          },
+          {
+            "name": "Barnes & Noble",
+            "url": "https://barnesandnoble.sjv.io/c/197432/1961179/22009?prodsku=9780735211292&u=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2Fatomic-habits-james-clear%2F1129201155%3Fean%3D9780735211292&intsrc=APIG_15890"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FATOMIC%2BHABITS%2FJames%2BClear%2F9780735211292"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/a/3546/9780735211292"
+          }
+        ]
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Tim Tebow with Wyatt Kenyon Edwards",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9781400256396.jpg",
+        "book_image_height": 400,
+        "book_image_width": 312,
+        "book_review_link": "",
+        "book_uri": "nyt://book/869fc174-4f6b-51e8-a371-f593d2b0e767",
+        "contributor": "by Tim Tebow with Wyatt Kenyon Edwards. Illustrated by Rommel Ruiz",
+        "contributor_note": "Illustrated by Rommel Ruiz",
+        "created_date": "2026-04-02T01:23:57.933Z",
+        "dagger": 0,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9781400256396",
+        "publisher": "Thomas Nelson",
+        "rank": 4,
+        "rank_last_week": 0,
+        "sunday_review_link": "",
+        "title": "IF THE TREE COULD SPEAK",
+        "updated_date": "2026-04-02T01:23:57.933Z",
+        "weeks_on_list": 2,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9781400256396"
+          }
+        ],
+        "buy_links": null
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/0063487659?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Shannon Bream",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9780063487659.jpg",
+        "book_image_height": 500,
+        "book_image_width": 333,
+        "book_review_link": "",
+        "book_uri": "nyt://book/3f9991b2-3436-5734-b8d1-fe91759fc3b6",
+        "contributor": "by Shannon Bream",
+        "contributor_note": "",
+        "created_date": "2026-03-18T22:38:16.252Z",
+        "dagger": 0,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9780063487659",
+        "publisher": "Fox News",
+        "rank": 5,
+        "rank_last_week": 4,
+        "sunday_review_link": "",
+        "title": "NOTHING IS IMPOSSIBLE WITH GOD",
+        "updated_date": "2026-03-18T22:38:16.252Z",
+        "weeks_on_list": 3,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9780063487659"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0063487659?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Barnes & Noble",
+            "url": "https://barnesandnoble.sjv.io/c/197432/1961179/22009?prodsku=9780063487659&u=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2Fnothing-is-impossible-with-god-shannon-bream%2F1149277477%3Fean%3D9780063487659&intsrc=APIG_15890"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FNothing-Impossible-God%2FShannon-Bream%2F9780063487659"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/a/3546/9780063487659"
+          }
+        ]
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/0593418573?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Will Guidara",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9780593418574.jpg",
+        "book_image_height": 0,
+        "book_image_width": 0,
+        "book_review_link": "",
+        "book_uri": "nyt://book/bc1ec950-e54a-57a5-a404-c9007374b508",
+        "contributor": "by Will Guidara",
+        "contributor_note": "",
+        "created_date": "2026-03-04T23:40:19.771Z",
+        "dagger": 1,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9780593418574",
+        "publisher": "Optimism",
+        "rank": 6,
+        "rank_last_week": 6,
+        "sunday_review_link": "",
+        "title": "UNREASONABLE HOSPITALITY",
+        "updated_date": "2026-03-04T23:40:19.771Z",
+        "weeks_on_list": 33,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9780593418574"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0593418573?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780593418574?at=10lIEQ"
+          },
+          {
+            "name": "Barnes & Noble",
+            "url": "https://barnesandnoble.sjv.io/c/197432/1961179/22009?prodsku=9780593418574&u=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2Funreasonable-hospitality-will-guidara%2F1140825098%3Fean%3D9780593418574&intsrc=APIG_15890"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FUNREASONABLE%2BHOSPITALITY%2FWill%2BGuidara%2F9780593418574"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/a/3546/9780593418574"
+          }
+        ]
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/1668091720?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Rachael DeVaux",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9781668091722.jpg",
+        "book_image_height": 400,
+        "book_image_width": 312,
+        "book_review_link": "",
+        "book_uri": "nyt://book/ba7f737f-f274-5ac3-a061-c84de0734e2f",
+        "contributor": "by Rachael DeVaux",
+        "contributor_note": "",
+        "created_date": "2026-04-02T01:25:13.467Z",
+        "dagger": 0,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9781668091722",
+        "publisher": "Simon Element",
+        "rank": 7,
+        "rank_last_week": 0,
+        "sunday_review_link": "",
+        "title": "THE HIGH-PROTEIN PLATE",
+        "updated_date": "2026-04-02T01:25:13.467Z",
+        "weeks_on_list": 3,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9781668091722"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1668091720?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781668091722?at=10lIEQ"
+          },
+          {
+            "name": "Barnes and Noble",
+            "url": "https://www.barnesandnoble.com/w/the-high-protein-plate-rachael-devaux/1147556391?ean=9781668091722"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.booksamillion.com/p/High-Protein-Plate/Rachael-Devaux/9781668091722"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/p/books/the-high-protein-plate-100-satisfying-everyday-recipes-rachael-devaux/bf48d4cd3c5a2d92?ean=9781668091722&next=t"
+          }
+        ]
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/1401998607?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Sue Morter",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9781401998608.jpg",
+        "book_image_height": 500,
+        "book_image_width": 333,
+        "book_review_link": "",
+        "book_uri": "nyt://book/b2f213bc-0f87-540f-9d02-345eb126d455",
+        "contributor": "by Sue Morter",
+        "contributor_note": "",
+        "created_date": "2026-04-01T19:27:25.231Z",
+        "dagger": 1,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9781401998608",
+        "publisher": "Hay House",
+        "rank": 8,
+        "rank_last_week": 0,
+        "sunday_review_link": "",
+        "title": "THE ANATOMY OF AWAKENING",
+        "updated_date": "2026-04-01T19:27:25.231Z",
+        "weeks_on_list": 1,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9781401998608"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/1401998607?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9781401998608?at=10lIEQ"
+          },
+          {
+            "name": "Barnes & Noble",
+            "url": "https://barnesandnoble.sjv.io/c/197432/1961179/22009?prodsku=9781401998608&u=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2Fthe-anatomy-of-awakening-sue-morter%2F1148733533%3Fean%3D9781401998608&intsrc=APIG_15890"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FAnatomy-Awakening%2FSue-Morter%2F9781401998608"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/a/3546/9781401998608"
+          }
+        ]
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/0593801644?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Danielle Sepsy",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9780593801642.jpg",
+        "book_image_height": 500,
+        "book_image_width": 400,
+        "book_review_link": "",
+        "book_uri": "nyt://book/e76f0dfb-f2be-5312-a95b-1cbc01e89339",
+        "contributor": "by Danielle Sepsy",
+        "contributor_note": "",
+        "created_date": "2026-04-01T19:27:25.36Z",
+        "dagger": 0,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9780593801642",
+        "publisher": "Knopf",
+        "rank": 9,
+        "rank_last_week": 0,
+        "sunday_review_link": "",
+        "title": "THE SCONE QUEEN BAKES",
+        "updated_date": "2026-04-01T19:27:25.36Z",
+        "weeks_on_list": 1,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9780593801642"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0593801644?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780593801642?at=10lIEQ"
+          },
+          {
+            "name": "Barnes & Noble",
+            "url": "https://barnesandnoble.sjv.io/c/197432/1961179/22009?prodsku=9780593801642&u=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2Fthe-scone-queen-bakes-danielle-sepsy%2F1147717169%3Fean%3D9780593801642&intsrc=APIG_15890"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FScone-Queen-Bakes%2FDanielle-Sepsy%2F9780593801642"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/a/3546/9780593801642"
+          }
+        ]
+      },
+      {
+        "age_group": "",
+        "amazon_product_url": "https://www.amazon.com/dp/0306836696?tag=thenewyorktim-20",
+        "article_chapter_link": "",
+        "asterisk": 0,
+        "author": "Javant Benton",
+        "book_image": "https://static01.nyt.com/bestsellers/images/9780306836695.jpg",
+        "book_image_height": 500,
+        "book_image_width": 400,
+        "book_review_link": "",
+        "book_uri": "nyt://book/a2ffb72b-5e4a-5081-8216-e03bb4e39a32",
+        "contributor": "by Javant Benton",
+        "contributor_note": "",
+        "created_date": "2026-03-25T22:37:43.854Z",
+        "dagger": 0,
+        "description": "",
+        "first_chapter_link": "",
+        "price": "0.00",
+        "primary_isbn10": "",
+        "primary_isbn13": "9780306836695",
+        "publisher": "Balance",
+        "rank": 10,
+        "rank_last_week": 5,
+        "sunday_review_link": "",
+        "title": "MAKE YOUR OWN",
+        "updated_date": "2026-03-25T22:37:43.854Z",
+        "weeks_on_list": 2,
+        "isbns": [
+          {
+            "isbn10": "",
+            "isbn13": "9780306836695"
+          }
+        ],
+        "buy_links": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.com/dp/0306836696?tag=thenewyorktim-20"
+          },
+          {
+            "name": "Apple Books",
+            "url": "https://goto.applebooks.apple/9780306836695?at=10lIEQ"
+          },
+          {
+            "name": "Barnes & Noble",
+            "url": "https://barnesandnoble.sjv.io/c/197432/1961179/22009?prodsku=9780306836695&u=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2Fmake-your-own-javant-benton%2F1147790426%3Fean%3D9780306836695&intsrc=APIG_15890"
+          },
+          {
+            "name": "Books-A-Million",
+            "url": "https://www.anrdoezrs.net/click-7990613-35140?url=https%3A%2F%2Fwww.booksamillion.com%2Fp%2FMake-Your-Own%2FJavant-Benton%2F9780306836695"
+          },
+          {
+            "name": "Bookshop.org",
+            "url": "https://bookshop.org/a/3546/9780306836695"
+          }
+        ]
+      }
+    ],
+    "corrections": []
+  }
+}

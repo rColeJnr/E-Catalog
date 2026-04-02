@@ -36,7 +36,7 @@ class DemoBestsellerNetworkDataSource @Inject constructor(
 //        }
 
     companion object {
-        private const val BESTSELLER_ASSET = "bestseller.json"
+        private const val BESTSELLER_ASSET = "bestseller_miscellan.json"
         private const val SEARCH_GUTENBERG = "searchgutenberg.json"
     }
 }

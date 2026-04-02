@@ -98,7 +98,8 @@
                 android:textAlignment="gravity"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/pg_rating"
