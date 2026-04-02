@@ -14,7 +14,7 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.rick.moviecatalog"
-        versionCode = 6
+        versionCode = 7
         versionName = "1.1.1"
 
         testInstrumentationRunner =
