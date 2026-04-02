@@ -82,7 +82,7 @@ fun BulletListCard(modifier: Modifier = Modifier, composable: @Composable() () -
         modifier = modifier
             .width(dimensionResource(id = R.dimen.data_ui_components_auth_280dp))
             .wrapContentHeight(),
-        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.data_ui_components_auth_white))
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = com.rick.data.ui_design.R.color.data_ui_design_color_on_surface))
     ) {
         Box(modifier = modifier.padding(6.dp)) { composable() }
     }
@@ -98,7 +98,7 @@ fun CrossfadeText(state: String, label: String, padding: Dp) {
             text = text,
             textAlign = TextAlign.Center,
             fontSize = integerResource(id = R.integer.data_ui_components_auth_22).sp,
-            color = colorResource(id = R.color.data_ui_components_auth_text),
+            color = colorResource(id = com.rick.data.ui_design.R.color.data_ui_design_black),
             fontStyle = FontStyle.Italic
         )
     }
