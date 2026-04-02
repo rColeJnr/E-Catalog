@@ -26,8 +26,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalConfiguration
@@ -104,7 +107,8 @@ fun LoginScreen(
             else
                 40.toFloat().div(100)// Sign in mode
 
-    val buttonsColor = colorResource(id = R.color.data_ui_components_auth_onBackground)
+    val buttonsColor =
+        colorResource(id = com.rick.data.ui_design.R.color.data_ui_design_color_on_surface)
 
     val density = LocalDensity.current
 
@@ -113,17 +117,25 @@ fun LoginScreen(
     }
 
     val constraintSet = authConstraintSet(guidelineFromTop)
-
+    val backgroundGradient = linearGradient(
+        colors = listOf(
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_surface), // end color
+            colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
+        ),
+        start = Offset.Infinite,
+        end = Offset.Zero
+    )
     ConstraintLayout(
         constraintSet = constraintSet,
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(R.color.data_ui_components_auth_background))
+            .background(brush = backgroundGradient)
             .verticalScroll(rememberScrollState())
     ) {
         Image(
-            painterResource(id = R.drawable.data_ui_components_auth_ic_app_icon),
+            painterResource(id = com.rick.data.ui_design.R.drawable.data_ui_design_app_icon),
             contentDescription = null,
+            colorFilter = ColorFilter.tint(color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_buttons)),
             modifier = Modifier
                 .layoutId(LayoutRefs.Icon)
                 .size(dimensionResource(id = R.dimen.data_ui_components_auth_40dp))
@@ -133,6 +145,7 @@ fun LoginScreen(
             text = stringResource(R.string.data_ui_components_auth_catalogs),
             fontSize = integerResource(id = R.integer.data_ui_components_auth_50).sp,
             style = MaterialTheme.typography.bodyLarge,
+            color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_color_buttons),
             modifier = Modifier.layoutId(LayoutRefs.Catalogs)
         )
 
@@ -141,6 +154,7 @@ fun LoginScreen(
             fontSize = integerResource(id = R.integer.data_ui_components_auth_28).sp,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.Bold,
+            color = colorResource(com.rick.data.ui_design.R.color.data_ui_design_black),
             modifier = Modifier.layoutId(LayoutRefs.Slogan)
         )
 
@@ -156,7 +170,7 @@ fun LoginScreen(
                     .padding(dimensionResource(id = R.dimen.data_ui_components_auth_4dp))
                     .size(dimensionResource(R.dimen.data_ui_components_auth_50dp)),
                 strokeWidth = 2.dp,
-                trackColor = colorResource(id = R.color.data_ui_components_auth_icons),
+                trackColor = colorResource(id = com.rick.data.ui_design.R.color.data_ui_design_color_buttons),
                 strokeCap = StrokeCap.Butt
             )
         }
@@ -188,7 +202,8 @@ fun LoginScreen(
             placeholder = stringResource(R.string.data_ui_components_auth_email_placeholder),
             leadingIcon = {
                 if (email.isNotEmpty()) {
-                    EcsLeadingIcon(visibility = isValidEmail,
+                    EcsLeadingIcon(
+                        visibility = isValidEmail,
                         icon1 = R.drawable.data_ui_components_auth_ic_check,
                         description1 = R.string.data_ui_components_auth_valid_input,
                         icon2 = R.drawable.data_ui_components_auth_ic_x,
@@ -211,7 +226,8 @@ fun LoginScreen(
             onValueChange = onPasswordValueChange,
             label = stringResource(id = R.string.data_ui_components_auth_password),
             leadingIcon = {
-                EcsLeadingIcon(visibility = passwordVisible,
+                EcsLeadingIcon(
+                    visibility = passwordVisible,
                     icon1 = R.drawable.data_ui_components_auth_ic_hide,
                     description1 = R.string.data_ui_components_auth_hide_password,
                     icon2 = R.drawable.data_ui_components_auth_ic_show,
@@ -248,7 +264,8 @@ fun LoginScreen(
             density = density,
             modifier = Modifier.layoutId(LayoutRefs.PasswordReset)
         ) {
-            Text(text = stringResource(R.string.data_ui_components_auth_forgot_password),
+            Text(
+                text = stringResource(R.string.data_ui_components_auth_forgot_password),
                 textAlign = TextAlign.End,
                 modifier = Modifier.clickable { showDialog.value = true })
         }
@@ -281,7 +298,8 @@ fun LoginScreen(
                 onValueChange = onConfirmPasswordValueChange,
                 label = stringResource(R.string.data_ui_components_auth_confirm_password),
                 leadingIcon = {
-                    EcsLeadingIcon(visibility = isValidConfirmPassword,
+                    EcsLeadingIcon(
+                        visibility = isValidConfirmPassword,
                         icon1 = R.drawable.data_ui_components_auth_ic_check,
                         description1 = R.string.data_ui_components_auth_valid_input,
                         icon2 = R.drawable.data_ui_components_auth_ic_x,
@@ -353,24 +371,25 @@ fun LoginScreen(
             }
         }
 
-        Box(modifier = Modifier
-            .layoutId(LayoutRefs.SignIn)
-            .size(
-                height = dimensionResource(id = R.dimen.data_ui_components_auth_40dp),
-                width = dimensionResource(
-                    id = R.dimen.data_ui_components_auth_120dp
-                )
-            )
-            .clickable {
-                showProgressState(true)
-                if (screenStateCreate) {
-                    onCreateAccount(
-                        email, password, username
+        Box(
+            modifier = Modifier
+                .layoutId(LayoutRefs.SignIn)
+                .size(
+                    height = dimensionResource(id = R.dimen.data_ui_components_auth_40dp),
+                    width = dimensionResource(
+                        id = R.dimen.data_ui_components_auth_120dp
                     )
-                } else {
-                    onAuthenticate(email, password)
-                }
-            }) {
+                )
+                .clickable {
+                    showProgressState(true)
+                    if (screenStateCreate) {
+                        onCreateAccount(
+                            email, password, username
+                        )
+                    } else {
+                        onAuthenticate(email, password)
+                    }
+                }) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 drawRoundRect(
                     color = buttonsColor,
@@ -442,7 +461,8 @@ fun LoginScreen(
     }
 
     if (showDialog.value) {
-        PasswordResetDialog(onPasswordReset = { onResetPassword(it) },
+        PasswordResetDialog(
+            onPasswordReset = { onResetPassword(it) },
             isValidEmail = { isEmailInputValid(it) },
             onDismissRequest = {
                 showDialog.value = false
