@@ -10,6 +10,7 @@
 /.idea/assetWizardSettings.xml
 /.idea/studiobot.xml
 .DS_Store
+/app/prod/release
 /build
 /captures
 .externalNativeBuild
