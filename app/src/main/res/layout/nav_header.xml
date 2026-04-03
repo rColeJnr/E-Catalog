@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/data_ui_design_nav_header"
-    android:paddingTop="24dp"
     android:paddingBottom="12dp">
 
     <com.google.android.material.imageview.ShapeableImageView

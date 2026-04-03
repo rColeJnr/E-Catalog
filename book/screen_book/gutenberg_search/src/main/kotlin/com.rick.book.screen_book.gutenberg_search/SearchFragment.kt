@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -61,6 +63,13 @@ class SearchFragment : Fragment() {
             container,
             false
         )
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.toolbar.setPadding(0, systemBars.top, 0, 0)
+            binding.list.setPadding(0, systemBars.top, 0, 0)
+            insets
+        }
 
         binding.toolbar.apply {
             inflateMenu(R.menu.book_screen_book_gutenberg_search_menu)

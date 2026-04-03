@@ -11,8 +11,8 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/data_ui_design_toolbar_margin_top"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
         app:layout_collapseMode="pin">
 
         <LinearLayout
@@ -46,12 +46,12 @@
             <TextView
                 android:id="@+id/search_error_message"
                 android:layout_width="@dimen/data_ui_design_toolbar_width"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginVertical="8dp"
-                android:gravity="center"
-                android:text="@string/book_screen_book_gutenberg_search_nothing_found"
+                android:minHeight="?attr/actionBarSize"
+                android:text="@string/data_ui_components_common_nothing_found"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@android:color/holo_blue_dark"
                 android:visibility="gone" />
 
         </LinearLayout>

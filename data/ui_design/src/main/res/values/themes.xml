@@ -10,7 +10,9 @@
         <item name="android:textColorHint">@color/data_ui_design_black</item>
         <item name="colorOnSurfaceVariant">@color/data_ui_design_color_on_surface</item>
         <item name="colorPrimaryContainer">@color/data_ui_design_color_on_surface</item>
-        <item name="android:statusBarColor">@color/data_ui_design_color_on_surface</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowLightStatusBar">true</item>
 
     </style>
@@ -37,6 +39,7 @@
         <item name="colorControlActivated">@color/data_ui_design_color_buttons</item>
 
         <item name="colorControlNormal">@color/data_ui_design_black</item>
+
     </style>
 
 </resources>
