@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -48,7 +50,6 @@ class AnimeSearchFragment : Fragment() {
             duration = resources.getInteger(com.rick.data.ui_design.R.integer.data_ui_design_motion_duration_long).toLong()
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -57,6 +58,13 @@ class AnimeSearchFragment : Fragment() {
             container,
             false
         )
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.toolbar.setPadding(0, systemBars.top, 0, 0)
+            binding.list.setPadding(0, systemBars.top, 0, 0)
+            insets
+        }
 
         binding.toolbar.apply {
             inflateMenu(R.menu.anime_screen_anime_anime_search_menu)

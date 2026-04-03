@@ -1,0 +1,9 @@
+<changelist name="translations" date="1775201896148" recycled="false">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/translations/shelved.patch" />
+  <option name="DESCRIPTION" value="translations" />
+  <binary>
+    <option name="BEFORE_PATH" value="app/prod/release/app-prod-release.aab" />
+    <option name="AFTER_PATH" value="app/prod/release/app-prod-release.aab" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/translations/app-prod-release.aab" />
+  </binary>
+</changelist>

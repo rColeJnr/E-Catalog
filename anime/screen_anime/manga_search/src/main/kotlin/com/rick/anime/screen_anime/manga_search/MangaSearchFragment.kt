@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -55,6 +57,13 @@ class MangaSearchFragment : Fragment() {
         _binding = AnimeScreenAnimeMangaSearchFragmentMangaSearchBinding.inflate(
             inflater, container, false
         )
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.toolbar.setPadding(0, systemBars.top, 0, 0)
+            binding.list.setPadding(0, systemBars.top, 0, 0)
+            insets
+        }
 
         binding.toolbar.apply {
             inflateMenu(R.menu.anime_screen_anime_manga_search_menu)
@@ -238,98 +247,3 @@ class MangaSearchFragment : Fragment() {
         _binding = null
     }
 }
-//
-//class MangaSearchAdapter(
-//    private val onItemClicked: (View, UserManga) -> Unit,
-//    private val onFavClicked: (Int, Boolean) -> Unit
-//) : RecyclerView.Adapter<MangaViewHolder>() {
-//
-//    private val searchDiffUtil = object : DiffUtil.ItemCallback<UserManga>() {
-//        override fun areItemsTheSame(
-//            oldItem: UserManga, newItem: UserManga
-//        ): Boolean {
-//            return oldItem.id == newItem.id
-//        }
-//
-//        override fun areContentsTheSame(
-//            oldItem: UserManga, newItem: UserManga
-//        ): Boolean {
-//            return oldItem == newItem
-//        }
-//    }
-//
-//    val searchDiffer = AsyncListDiffer(this, searchDiffUtil)
-//
-//    override fun onCreateViewHolder(
-//        parent: ViewGroup, viewType: Int
-//    ): MangaViewHolder {
-//        return MangaViewHolder.create(parent, onItemClicked, onFavClicked)
-//    }
-//
-//    override fun onBindViewHolder(
-//        holder: MangaViewHolder,
-//        position: Int
-//    ) {
-//        val searchResult = searchDiffer.currentList[position]
-//        (holder).bind(searchResult)
-//    }
-//
-//    override fun getItemCount(): Int = searchDiffer.currentList.size
-//}
-//
-//class MangaSearchViewHolder(
-//    binding: AnimeScreenAnimeJikanEntryBinding,
-//    private val onItemClicked: (view: View, UserManga) -> Unit,
-//    private val onFavClicked: (Int, Boolean) -> Unit
-//) : RecyclerView.ViewHolder(binding.root) {
-//    private val image = binding.image
-//    private val title = binding.title
-//    private val description = binding.synopsis
-//    private val rootLayout = binding.root
-//    private val favorite = binding.favButton
-//    private val resources = itemView.resources
-//
-//    init {
-//        binding.root.setOnClickListener {
-//            onItemClicked(it, searchResult)
-//        }
-//        favorite.setOnClickListener {
-//            onFavClicked(searchResult.id, searchResult.isFavorite)
-//        }
-//    }
-//
-//    private lateinit var searchResult: UserManga
-//
-//    fun bind(searchResult: UserManga) {
-//        this.rootLayout.transitionName = "search ${searchResult.id}"
-//        this.searchResult = searchResult
-//        this.title.text = searchResult.title
-//        this.description.text = searchResult.synopsis
-//        provideGlide(
-//            this.image, getTmdbImageUrl(searchResult.images)
-//        )
-//        favorite.foreground = if (searchResult.isFavorite) {
-//            ResourcesCompat.getDrawable(resources, R.drawable.fav_filled_icon, null)
-//        } else {
-//            ResourcesCompat.getDrawable(resources, R.drawable.fav_outline_icon, null)
-//        }
-//    }
-//
-////    overridee fun onClick(v: View) {
-////        onItemClicked(v, searchResult)
-////    }
-//
-//    companion object {
-//        fun create(
-//            parent: ViewGroup,
-//            onItemClicked: (View, UserManga) -> Unit,
-//            onFavClicked: (Long, Boolean) -> Unit
-//        ): ArticleSearchViewHolder {
-//            val itemBinding =
-//                AnimeScreenAnimeJikanEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//            return ArticleSearchViewHolder(
-//                itemBinding, onItemClicked, onFavClicked
-//            )
-//        }
-//    }
-//}

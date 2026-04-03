@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DataUiDesignBase.Theme.ECatalogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="shapeAppearanceSmallComponent">
+            @style/DataUiDesignShapeAppearance.ECatalog.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/DataUiDesignShapeAppearance.ECatalog.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/DataUiDesignShapeAppearance.ECatalog.LargeComponent
+        </item>
+
+        <item name="textAppearanceHeadline6">
+            @style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline6
+        </item>
+        <item name="textAppearanceHeadline5">
+            @style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline5
+        </item>
+        <item name="textAppearanceBody1">
+            @style/DataUiDesignTextAppearance.MdcTypographyStyles.Body1
+        </item>
+        <item name="textAppearanceBody2">
+            @style/DataUiDesignTextAppearance.MdcTypographyStyles.Body2
+        </item>
+        <item name="textAppearanceButton">
+            @style/DataUiDesignTextAppearance.MdcTypographyStyles.Button
+        </item>
+        <item name="textAppearanceCaption">
+            @style/DataUiDesignTextAppearance.MdcTypographyStyles.Caption
+        </item>
+        <item name="textAppearanceOverline">
+            @style/DataUiDesignTextAppearance.MdcTypographyStyles.Overline
+        </item>
+
+        <item name="colorControlActivated">@color/data_ui_design_color_buttons</item>
+
+        <item name="colorControlNormal">@color/data_ui_design_black</item>
+
+    </style>
+</resources>

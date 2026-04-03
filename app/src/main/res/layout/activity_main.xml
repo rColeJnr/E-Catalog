@@ -19,8 +19,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/my_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:paddingTop="16dp"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -49,7 +49,7 @@
         android:id="@+id/nav_view"
         android:layout_width="@dimen/data_ui_components_auth_282dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="start|center_vertical"
         android:backgroundTint="@color/data_ui_design_color_on_surface"
         android:clickable="true"
         android:fitsSystemWindows="true"

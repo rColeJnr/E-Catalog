@@ -18,6 +18,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
@@ -71,7 +73,13 @@ class AuthenticationFragment : Fragment() {
             inflater, container, false
         )
 
-        binding.root.setContent {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.root.setPadding(0, systemBars.top, 0, systemBars.bottom)
+            insets
+        }
+
+        binding.composeVioew.setContent {
             val screenState by viewModel.screenState.collectAsState()
             val inputState by viewModel.inputState.collectAsState()
             val passwordState by viewModel.passwordState.collectAsState()

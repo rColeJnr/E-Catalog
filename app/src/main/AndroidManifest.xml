@@ -12,7 +12,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/DataUiDesignTheme.ECatalogs"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:windowSoftInputMode="adjustResize">
         <activity
             android:name=".MainActivity"
             android:exported="true"

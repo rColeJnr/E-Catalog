@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -70,6 +72,13 @@ class ArticleSearchFragment : Fragment() {
             container,
             false
         )
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            binding.toolbar.setPadding(0, displayCutout.top, 0, 0)
+            binding.list.setPadding(0, displayCutout.top, 0, 0)
+            insets
+        }
 
         binding.toolbar.apply {
             inflateMenu(R.menu.movie_screen_movie_article_search_menu)
