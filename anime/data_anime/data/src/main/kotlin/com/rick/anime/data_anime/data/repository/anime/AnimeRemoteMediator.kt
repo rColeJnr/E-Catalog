@@ -5,6 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.rick.anime.data_anime.data.model.asEntity
+import com.rick.data.database_anime.JikanTransactionRunner
 import com.rick.data.database_anime.dao.AnimeDao
 import com.rick.data.database_anime.dao.AnimeRemoteKeysDao
 import com.rick.data.database_anime.model.AnimeEntity
@@ -18,7 +19,8 @@ import retrofit2.HttpException
 class AnimeRemoteMediator(
     private val animeDao: AnimeDao,
     private val keysDao: AnimeRemoteKeysDao,
-    private val network: JikanNetworkDataSource
+    private val network: JikanNetworkDataSource,
+    private val transactionRunner: JikanTransactionRunner,
 ) : RemoteMediator<Int, AnimeEntity>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -60,22 +62,24 @@ class AnimeRemoteMediator(
             val animes = response.data
             val endOfPaginationReached = response.data.isEmpty()
 
-            if (loadType == LoadType.REFRESH) {
-                keysDao.clearRemoteKeys()
-                animeDao.clearAnime(animes.map(AnimeNetwork::id))
+            transactionRunner {
+                if (loadType == LoadType.REFRESH) {
+                    keysDao.clearRemoteKeys()
+                    animeDao.clearAnime(animes.map(AnimeNetwork::id))
+                }
+                val prevKey =
+                    if (page == STARTING_PAGE_INDEX) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = animes.map {
+                    AnimeRemoteKeys(
+                        anime = it.id,
+                        prevKey = prevKey,
+                        nextKey = nextKey
+                    )
+                }
+                keysDao.insertAll(keys)
+                animeDao.upsertAnime(animes.map(AnimeNetwork::asEntity))
             }
-            val prevKey =
-                if (page == STARTING_PAGE_INDEX) null else page - 1
-            val nextKey = if (endOfPaginationReached) null else page + 1
-            val keys = animes.map {
-                AnimeRemoteKeys(
-                    anime = it.id,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
-            }
-            keysDao.insertAll(keys)
-            animeDao.upsertAnime(animes.map(AnimeNetwork::asEntity))
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {

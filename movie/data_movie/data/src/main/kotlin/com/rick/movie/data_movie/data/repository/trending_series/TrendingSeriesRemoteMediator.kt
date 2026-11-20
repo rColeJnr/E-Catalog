@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.rick.data.database_movie.MovieTransactionRunner
 import com.rick.data.database_movie.dao.TrendingSeriesDao
 import com.rick.data.database_movie.dao.TrendingSeriesRemoteKeysDao
 import com.rick.data.database_movie.model.TrendingSeriesEntity
@@ -20,6 +21,7 @@ class TrendingSeriesRemoteMediator(
     private val trendingSeriesDao: TrendingSeriesDao,
     private val keysDao: TrendingSeriesRemoteKeysDao,
     private val key: String,
+    private val transactionRunner: MovieTransactionRunner,
 ) : RemoteMediator<Int, TrendingSeriesEntity>() {
 
     override suspend fun load(
@@ -60,17 +62,19 @@ class TrendingSeriesRemoteMediator(
             val series = response.results
             val endOfPaginationReached = true
 
-            if (loadType == LoadType.REFRESH) {
-                trendingSeriesDao.deleteTrendingSeries(series.map(TrendingSeriesNetwork::id))
-                keysDao.clearRemoteKeys()
+            transactionRunner {
+                if (loadType == LoadType.REFRESH) {
+                    trendingSeriesDao.deleteTrendingSeries(series.map(TrendingSeriesNetwork::id))
+                    keysDao.clearRemoteKeys()
+                }
+                val prevKey = if (page == 1) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = series.map {
+                    TrendingSeriesRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                }
+                keysDao.insertAll(keys)
+                trendingSeriesDao.upsertTrendingSeries(series.map { it.asTrendingSeriesEntity() })
             }
-            val prevKey = if (page == 1) null else page - 1
-            val nextKey = if (endOfPaginationReached) null else page + 1
-            val keys = series.map {
-                TrendingSeriesRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
-            }
-            keysDao.insertAll(keys)
-            trendingSeriesDao.upsertTrendingSeries(series.map { it.asTrendingSeriesEntity() })
 
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: HttpException) {

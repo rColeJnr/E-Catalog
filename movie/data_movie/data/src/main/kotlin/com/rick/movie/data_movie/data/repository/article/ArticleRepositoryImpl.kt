@@ -5,6 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.rick.data.database_movie.MovieTransactionRunner
 import com.rick.data.database_movie.dao.ArticleDao
 import com.rick.data.database_movie.dao.ArticleRemoteKeysDao
 import com.rick.data.database_movie.model.ArticleEntity
@@ -25,6 +26,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
     private val articleDao: ArticleDao,
     private val keysDao: ArticleRemoteKeysDao,
     private val network: ArticleNetworkDataSource,
+    private val transactionRunner: MovieTransactionRunner,
 ) : ArticleRepository {
     override fun getArticles(apiKey: String): Flow<PagingData<ArticleEntity>> {
         val pagingSourceFactory = { articleDao.getArticles() }
@@ -40,7 +42,8 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 network = network,
                 articleDao = articleDao,
                 keysDao = keysDao,
-                key = apiKey
+                key = apiKey,
+                transactionRunner = transactionRunner,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow

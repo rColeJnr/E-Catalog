@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.rick.data.database_movie.MovieTransactionRunner
 import com.rick.data.database_movie.dao.TrendingMovieDao
 import com.rick.data.database_movie.dao.TrendingMovieRemoteKeysDao
 import com.rick.data.database_movie.model.TrendingMovieEntity
@@ -20,6 +21,7 @@ class TrendingMovieRemoteMediator(
     private val keysDao: TrendingMovieRemoteKeysDao,
     private val trendingMovieDao: TrendingMovieDao,
     private val key: String,
+    private val transactionRunner: MovieTransactionRunner,
 ) : RemoteMediator<Int, TrendingMovieEntity>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -63,23 +65,24 @@ class TrendingMovieRemoteMediator(
             )
             val movies = response.results
             val endOfPaginationReached = true /*response.page == TOTAL_NETWORK_PAGES*/
+            transactionRunner {
+                if (loadType == LoadType.REFRESH) {
+                    trendingMovieDao.deleteTrendingMovie(movies.map(TrendingMovieNetwork::id))
+                    keysDao.clearRemoteKeys()
+                }
+                val prevKey = if (page == 1) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = movies.map {
+                    TrendingMovieRemoteKeys(
+                        id = it.id,
+                        prevKey = prevKey,
+                        nextKey = nextKey
+                    )
+                }
 
-            if (loadType == LoadType.REFRESH) {
-                trendingMovieDao.deleteTrendingMovie(movies.map(TrendingMovieNetwork::id))
-                keysDao.clearRemoteKeys()
+                keysDao.insertAll(keys)
+                trendingMovieDao.upsertTrendingMovie(movies.map { it.asTrendingMovieEntity() })
             }
-            val prevKey = if (page == 1) null else page - 1
-            val nextKey = if (endOfPaginationReached) null else page + 1
-            val keys = movies.map {
-                TrendingMovieRemoteKeys(
-                    id = it.id,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
-            }
-
-            keysDao.insertAll(keys)
-            trendingMovieDao.upsertTrendingMovie(movies.map { it.asTrendingMovieEntity() })
 
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: HttpException) {
