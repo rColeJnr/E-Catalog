@@ -1,7 +1,11 @@
 *.iml
 .gradle
-/local.properties
-/gradle.properties
+/build
+/captures
+.DS_Store
+.externalNativeBuild
+.cxx
+
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -9,16 +13,19 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /.idea/studiobot.xml
-.DS_Store
-/app/prod/release
-/build
-/captures
-.externalNativeBuild
-.cxx
+/.idea/shelf/
+
+# Secrets
 local.properties
-gradle.properties
-movie/screen-movie/src/main/jni
-book/screen-book/src/main/jni
-anime/screen-anime/src/main/jni
-ecskey.jks
-upload_certificate.pem
+keystore.properties
+
+# Signing keys and certificates
+*.jks
+*.JKS
+*.keystore
+*.pem
+
+# Release outputs
+/app/prod/release
+*.aab
+*.apk
