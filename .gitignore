@@ -18,6 +18,7 @@
 # Secrets
 local.properties
 keystore.properties
+*-keys.c
 
 # Signing keys and certificates
 *.jks
