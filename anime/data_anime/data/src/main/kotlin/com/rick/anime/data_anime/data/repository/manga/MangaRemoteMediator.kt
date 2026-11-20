@@ -5,6 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.rick.anime.data_anime.data.model.asEntity
+import com.rick.data.database_anime.JikanTransactionRunner
 import com.rick.data.database_anime.dao.MangaDao
 import com.rick.data.database_anime.dao.MangaRemoteKeysDao
 import com.rick.data.database_anime.model.MangaEntity
@@ -18,7 +19,8 @@ import java.io.IOException
 class MangaRemoteMediator(
     private val mangaDao: MangaDao,
     private val keysDao: MangaRemoteKeysDao,
-    private val network: JikanNetworkDataSource
+    private val network: JikanNetworkDataSource,
+    private val transactionRunner: JikanTransactionRunner,
 ) : RemoteMediator<Int, MangaEntity>() {
 
 
@@ -63,21 +65,23 @@ class MangaRemoteMediator(
             val mangas = response.data
             val endOfPaginationReached = response.data.isEmpty()
 
-            if (loadType == LoadType.REFRESH) {
-                keysDao.clearRemoteKeys()
-                mangaDao.clearManga(mangas.map(MangaNetwork::id))
+            transactionRunner {
+                if (loadType == LoadType.REFRESH) {
+                    keysDao.clearRemoteKeys()
+                    mangaDao.clearManga(mangas.map(MangaNetwork::id))
+                }
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = mangas.map {
+                    MangaRemoteKeys(
+                        manga = it.id,
+                        prevKey = prevKey,
+                        nextKey = nextKey
+                    )
+                }
+                keysDao.insertAll(keys)
+                mangaDao.upsertManga(mangas.map(MangaNetwork::asEntity))
             }
-            val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
-            val nextKey = if (endOfPaginationReached) null else page + 1
-            val keys = mangas.map {
-                MangaRemoteKeys(
-                    manga = it.id,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
-            }
-            keysDao.insertAll(keys)
-            mangaDao.upsertManga(mangas.map(MangaNetwork::asEntity))
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {

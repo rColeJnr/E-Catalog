@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.rick.anime.data_anime.data.model.asEntity
+import com.rick.data.database_anime.JikanTransactionRunner
 import com.rick.data.database_anime.dao.MangaDao
 import com.rick.data.database_anime.dao.MangaRemoteKeysDao
 import com.rick.data.database_anime.model.MangaEntity
@@ -26,6 +27,7 @@ internal class MangaRepositoryImpl @Inject constructor(
     private val keysDao: MangaRemoteKeysDao,
     private val mangaDao: MangaDao,
     private val network: JikanNetworkDataSource,
+    private val transactionRunner: JikanTransactionRunner,
 ) : MangaRepository {
     override fun getMangas(): Flow<PagingData<MangaEntity>> {
         val pagingSourceFactory = { mangaDao.getManga() }
@@ -41,7 +43,8 @@ internal class MangaRepositoryImpl @Inject constructor(
             remoteMediator = MangaRemoteMediator(
                 network = network,
                 mangaDao = mangaDao,
-                keysDao = keysDao
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow

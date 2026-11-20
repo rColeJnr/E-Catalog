@@ -5,6 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.rick.data.database_movie.MovieTransactionRunner
 import com.rick.data.database_movie.dao.TrendingSeriesDao
 import com.rick.data.database_movie.dao.TrendingSeriesRemoteKeysDao
 import com.rick.data.database_movie.model.TrendingSeriesEntity
@@ -25,6 +26,7 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
     private val trendingSeriesDao: TrendingSeriesDao,
     private val keysDao: TrendingSeriesRemoteKeysDao,
     private val network: TmdbNetworkDataSource,
+    private val transactionRunner: MovieTransactionRunner,
 ) : TrendingSeriesRepository {
     override fun getTrendingSeries(apiKey: String): Flow<PagingData<TrendingSeriesEntity>> {
         val pagingSourceFactory = { trendingSeriesDao.getTrendingSeries() }
@@ -41,7 +43,8 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
                 network = network,
                 trendingSeriesDao = trendingSeriesDao,
                 keysDao = keysDao,
-                key = apiKey
+                key = apiKey,
+                transactionRunner = transactionRunner,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow

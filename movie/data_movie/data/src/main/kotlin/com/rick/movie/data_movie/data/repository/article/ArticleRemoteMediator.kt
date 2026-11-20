@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.rick.data.database_movie.MovieTransactionRunner
 import com.rick.data.database_movie.dao.ArticleDao
 import com.rick.data.database_movie.dao.ArticleRemoteKeysDao
 import com.rick.data.database_movie.model.ArticleEntity
@@ -19,7 +20,8 @@ class ArticleRemoteMediator(
     private val network: ArticleNetworkDataSource,
     private val articleDao: ArticleDao,
     private val keysDao: ArticleRemoteKeysDao,
-    private val key: String
+    private val key: String,
+    private val transactionRunner: MovieTransactionRunner,
 ) : RemoteMediator<Int, ArticleEntity>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -62,30 +64,32 @@ class ArticleRemoteMediator(
 //            offset += 20
             val endOfPaginationReached = articles.isEmpty()
 
-            if (loadType == LoadType.REFRESH) {
-                keysDao.clearRemoteKeys()
-            }
-
-            val offset = response.response.meta.offset
-
-            val prevKey = if (page == STARTING_PAGE_INDEX) null else (offset / 10) - 1
-            val nextKey = if (endOfPaginationReached) null else {
-                when (offset) {
-                    0 -> {
-                        1
-                    }
-
-                    else -> {
-                        (offset / 10) + 1
-                    }
+            transactionRunner {
+                if (loadType == LoadType.REFRESH) {
+                    keysDao.clearRemoteKeys()
                 }
 
+                val offset = response.response.meta.offset
+
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else (offset / 10) - 1
+                val nextKey = if (endOfPaginationReached) null else {
+                    when (offset) {
+                        0 -> {
+                            1
+                        }
+
+                        else -> {
+                            (offset / 10) + 1
+                        }
+                    }
+
+                }
+                val keys = articles.map {
+                    ArticleRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                }
+                keysDao.insertAll(keys)
+                articleDao.upsertArticles(articles.map(ArticleNetwork::asArticleEntity))
             }
-            val keys = articles.map {
-                ArticleRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
-            }
-            keysDao.insertAll(keys)
-            articleDao.upsertArticles(articles.map(ArticleNetwork::asArticleEntity))
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: IOException) {

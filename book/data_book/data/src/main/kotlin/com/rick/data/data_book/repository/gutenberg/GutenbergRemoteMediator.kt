@@ -7,6 +7,7 @@ import androidx.paging.RemoteMediator
 import com.rick.book.data_book.network.GutenbergNetworkDataSource
 import com.rick.book.data_book.network.model.GutenbergNetwork
 import com.rick.data.data_book.model.asGutenbergEntity
+import com.rick.data.database_book.BookTransactionRunner
 import com.rick.data.database_book.dao.GutenbergDao
 import com.rick.data.database_book.dao.GutenbergRemoteKeysDao
 import com.rick.data.database_book.model.GutenbergEntity
@@ -19,7 +20,8 @@ import java.io.IOException
 class GutenbergRemoteMediator(
     private val gutenbergDao: GutenbergDao,
     private val keysDao: GutenbergRemoteKeysDao,
-    private val network: GutenbergNetworkDataSource
+    private val network: GutenbergNetworkDataSource,
+    private val transactionRunner: BookTransactionRunner,
 ) : RemoteMediator<Int, GutenbergEntity>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -65,22 +67,24 @@ class GutenbergRemoteMediator(
             val books = response.results
             val endOfPaginationReached = books.isEmpty()
 
-            if (loadType == LoadType.REFRESH) {
-                keysDao.clearRemoteKeys()
-                gutenbergDao.clearGutenbergs(books.map(GutenbergNetwork::id))
+            transactionRunner {
+                if (loadType == LoadType.REFRESH) {
+                    keysDao.clearRemoteKeys()
+                    gutenbergDao.clearGutenbergs(books.map(GutenbergNetwork::id))
+                }
+                val prevKey = if (page == 1) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = books.map {
+                    GutenbergRemoteKeys(
+                        book = it.id,
+                        prevKey = prevKey,
+                        nextKey = nextKey
+                    )
+                }
+                keysDao.insertAll(keys)
+                gutenbergDao.upsertGutenberg(books.sortedByDescending { it.downloads }
+                    .map(GutenbergNetwork::asGutenbergEntity))
             }
-            val prevKey = if (page == 1) null else page - 1
-            val nextKey = if (endOfPaginationReached) null else page + 1
-            val keys = books.map {
-                GutenbergRemoteKeys(
-                    book = it.id,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
-            }
-            keysDao.insertAll(keys)
-            gutenbergDao.upsertGutenberg(books.sortedByDescending { it.downloads }
-                .map(GutenbergNetwork::asGutenbergEntity))
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
