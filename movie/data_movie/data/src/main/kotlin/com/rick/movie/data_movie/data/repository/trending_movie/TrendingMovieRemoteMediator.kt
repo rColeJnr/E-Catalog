@@ -29,8 +29,7 @@ class TrendingMovieRemoteMediator(
     }
 
     override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, TrendingMovieEntity>
+        loadType: LoadType, state: PagingState<Int, TrendingMovieEntity>
     ): MediatorResult {
 
         val page = when (loadType) {
@@ -64,7 +63,8 @@ class TrendingMovieRemoteMediator(
                 apikey = key,
             )
             val movies = response.results
-            val endOfPaginationReached = true /*response.page == TOTAL_NETWORK_PAGES*/
+            val endOfPaginationReached = response.page == TOTAL_NETWORK_PAGES
+
             transactionRunner {
                 if (loadType == LoadType.REFRESH) {
                     trendingMovieDao.deleteTrendingMovie(movies.map(TrendingMovieNetwork::id))
@@ -74,9 +74,7 @@ class TrendingMovieRemoteMediator(
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = movies.map {
                     TrendingMovieRemoteKeys(
-                        id = it.id,
-                        prevKey = prevKey,
-                        nextKey = nextKey
+                        id = it.id, prevKey = prevKey, nextKey = nextKey
                     )
                 }
 
@@ -95,8 +93,7 @@ class TrendingMovieRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, TrendingMovieEntity>): TrendingMovieRemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { movie ->
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { movie ->
                 // Get the remote keys of the last item retrieved
                 keysDao.remoteKeysMovieId(movie.id)
             }
@@ -105,7 +102,7 @@ class TrendingMovieRemoteMediator(
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, TrendingMovieEntity>): TrendingMovieRemoteKeys? {
         // GEt the first page that was retrieved, that contained items.
         // From that first page, get the first item
-        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
+        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { movie ->
                 // GEt the remote keys of the first items retrieved
                 keysDao.remoteKeysMovieId(movie.id)
@@ -125,4 +122,4 @@ class TrendingMovieRemoteMediator(
 }
 
 private const val TAG = "TrendingMovieRemoteMediator"
-private const val TOTAL_NETWORK_PAGES = 1000
+private const val TOTAL_NETWORK_PAGES = 100

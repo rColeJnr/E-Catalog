@@ -62,7 +62,7 @@ class ArticleRemoteMediator(
 //            }
             val articles = response.response.docs
 //            offset += 20
-            val endOfPaginationReached = articles.isEmpty()
+            val endOfPaginationReached = articles.isEmpty() || page >= MAX_PAGE
 
             transactionRunner {
                 if (loadType == LoadType.REFRESH) {
@@ -129,6 +129,7 @@ class ArticleRemoteMediator(
 
     companion object {
         private const val STARTING_PAGE_INDEX = 0
+        private const val MAX_PAGE = 100
         private const val TAG = "ArticleRemoteMediator"
     }
 

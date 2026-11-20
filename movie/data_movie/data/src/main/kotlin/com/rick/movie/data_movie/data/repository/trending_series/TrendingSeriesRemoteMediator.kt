@@ -25,8 +25,7 @@ class TrendingSeriesRemoteMediator(
 ) : RemoteMediator<Int, TrendingSeriesEntity>() {
 
     override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, TrendingSeriesEntity>
+        loadType: LoadType, state: PagingState<Int, TrendingSeriesEntity>
     ): MediatorResult {
 
         val page = when (loadType) {
@@ -60,7 +59,7 @@ class TrendingSeriesRemoteMediator(
                 apikey = key,
             )
             val series = response.results
-            val endOfPaginationReached = true
+            val endOfPaginationReached = response.page == TOTAL_NETWORK_PAGES
 
             transactionRunner {
                 if (loadType == LoadType.REFRESH) {
@@ -87,8 +86,7 @@ class TrendingSeriesRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, TrendingSeriesEntity>): TrendingSeriesRemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { movie ->
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { movie ->
                 // Get the remote keys of the last item retrieved
                 keysDao.remoteKeysId(movie.id)
             }
@@ -97,8 +95,7 @@ class TrendingSeriesRemoteMediator(
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, TrendingSeriesEntity>): TrendingSeriesRemoteKeys? {
         // GEt the first page that was retrieved, that contained items.
         // From that first page, get the first item
-        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { tv ->
+        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { tv ->
                 // GEt the remote keys of the first items retrieved
                 keysDao.remoteKeysId(tv.id)
             }
@@ -115,3 +112,5 @@ class TrendingSeriesRemoteMediator(
     }
 
 }
+
+private const val TOTAL_NETWORK_PAGES = 100
