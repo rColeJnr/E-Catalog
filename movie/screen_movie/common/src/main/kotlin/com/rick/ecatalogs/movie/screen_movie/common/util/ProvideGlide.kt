@@ -1,20 +1,18 @@
 package com.rick.ecatalogs.movie.screen_movie.common.util
 
 import android.widget.ImageView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import android.graphics.drawable.ColorDrawable
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+
+/**
+ * Static placeholder color. An animated CircularProgressDrawable per item forces a redraw on
+ * every frame while images load, which kept the RenderThread busy.
+ */
+private const val PLACEHOLDER_COLOR = 0x1F808080
 
 fun provideGlide(view: ImageView, src: String) {
-    val circularProgressDrawable = CircularProgressDrawable(view.context).apply {
-        strokeWidth = 5f
-        centerRadius = 30f
-        start()
-    }
     Glide.with(view)
         .load(src)
-        .apply(
-            RequestOptions().placeholder(circularProgressDrawable)
-        )
+        .placeholder(ColorDrawable(PLACEHOLDER_COLOR))
         .into(view)
 }
