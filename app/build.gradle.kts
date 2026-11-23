@@ -89,6 +89,7 @@ dependencies {
     implementation(projects.settings.dataSettings.data)
     implementation(projects.settings.screenSettings)
     implementation(projects.data.datastore)
+    implementation(projects.data.sync)
     implementation(projects.data.uiDesign)
 
     implementation(libs.androidx.core)

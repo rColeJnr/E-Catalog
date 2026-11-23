@@ -31,6 +31,7 @@ include(":data:datastore_proto")
 include(":data:notifications")
 include(":data:sync")
 include(":data:translation")
+include(":data:util")
 
 include(":data:ui_components:common")
 include(":data:ui_components:auth")
