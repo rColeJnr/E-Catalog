@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.ecatalogs.android.room)
 //    alias(libs.plugins.gms)
 //    alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.compose)
 }
 
 android {
@@ -19,9 +20,6 @@ android {
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner"/*"com.rick.ecatalogs.data.testing.EcsTestRunner"*/
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     buildFeatures {
         viewBinding = true

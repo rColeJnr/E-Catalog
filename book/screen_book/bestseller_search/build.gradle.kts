@@ -1,13 +1,11 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
+    alias(libs.plugins.ecatalogs.android.library.compose)
 }
 
 android {
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "com.rick.ecatalogs.book.screen_book.bestseller_search"
 }

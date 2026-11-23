@@ -168,12 +168,12 @@ class NyTimesConverters(
 
     @TypeConverter
     @SuppressLint("SimpleDateFormat")
-    fun String.toDateFormat(): Date =
-        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(this)!!
+    fun toDateFormat(value: String): Date =
+        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(value)!!
 
     @TypeConverter
     @SuppressLint("SimpleDateFormat")
-    fun Date.toDateString(): String =
-        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").format(this)
+    fun toDateString(date: Date): String =
+        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").format(date)
 
 }

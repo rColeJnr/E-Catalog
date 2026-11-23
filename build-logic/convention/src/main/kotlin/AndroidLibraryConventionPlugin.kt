@@ -1,5 +1,5 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.rick.ecatalogs.buildlogic.configureFlavors
 import com.rick.ecatalogs.buildlogic.configureKotlinAndroid
 import com.rick.ecatalogs.buildlogic.disableUnnecessaryAndroidTests
@@ -14,13 +14,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
                 apply("ecatalogs.android.lint")
             }
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 36
+                testOptions.targetSdk = 36
+                lint.targetSdk = 36
                 testOptions.animationsDisabled = true
                 configureFlavors(this)
 //                configureGradleManagedDevices(this)

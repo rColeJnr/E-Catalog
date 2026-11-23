@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
+    alias(libs.plugins.ecatalogs.android.library.compose)
 }
 
 dependencies {
@@ -19,9 +20,6 @@ dependencies {
 android {
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "com.rick.ecatalogs.movie.screen_movie.trending_series_search"
 }

@@ -2,14 +2,12 @@ plugins {
     alias(libs.plugins.ecatalogs.android.feature)
 //    alias(libs.plugins.ecatalogs.android.paging)
 //    alias(libs.plugins.ecatalogs.android.room)
+    alias(libs.plugins.ecatalogs.android.library.compose)
 }
 
 android {
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "com.rick.ecatalogs.book.screen_book.gutenberg_favorites"
 }

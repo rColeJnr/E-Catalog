@@ -3,6 +3,7 @@ plugins {
 //    alias(libs.plugins.ecatalogs.android.paging)
     alias(libs.plugins.ecatalogs.android.library.jacoco)
 //    alias(libs.plugins.ecatalogs.android.room)
+    alias(libs.plugins.ecatalogs.android.library.compose)
 }
 //
 dependencies {
@@ -20,9 +21,6 @@ dependencies {
 android {
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "com.rick.ecatalogs.anime.screen_anime.anime_favorites"
 }

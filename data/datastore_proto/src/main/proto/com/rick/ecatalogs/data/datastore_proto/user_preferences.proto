@@ -13,5 +13,15 @@ message UserPreferences {
   map<int32, bool> manga_favorite_ids = 7;
 
   string user_name = 8;
-  // Next available is 9
+
+  map<int32, bool> notified_trending_movies_ids = 9;
+  map<int32, bool> notified_trending_series_ids = 10;
+  map<int32, bool> notified_articles_ids = 11;
+
+  map<int32, bool> notified_trending_anime_ids = 12;
+  map<int32, bool> notified_trending_manga_ids = 13;
+
+  map<int32, bool> notified_bestseller_ids = 14;
+
+  // Next available is 15
 }
