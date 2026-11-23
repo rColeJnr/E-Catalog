@@ -7,6 +7,7 @@ plugins {
 }
 //
 dependencies {
+    implementation(projects.data.uiDesign)
     implementation(projects.anime.dataAnime.data)
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.screenAnime.animeDetails)

@@ -27,6 +27,9 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
+                // Generates the Firebase config resources from google-services.json. Without it
+                // FirebaseApp.initializeApp() returns null and Firebase crashes at startup.
+                apply("com.google.gms.google-services")
                 apply("com.google.firebase.firebase-perf")
                 apply("com.google.firebase.crashlytics")
             }

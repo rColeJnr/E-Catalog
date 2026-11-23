@@ -1,6 +1,8 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_catalog
 
 import android.animation.AnimatorInflater
+import com.rick.ecatalogs.data.ui_design.navigateWithSharedElement
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.net.Uri
@@ -97,6 +99,9 @@ class MangaCatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Wait for the list to lay out so the return transition finds the poster
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         eTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
             duration =
@@ -173,14 +178,15 @@ class MangaCatalogFragment : Fragment() {
     }
 
     private fun onMangaClick(view: View, id: Int) {
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration =
-                resources.getInteger(com.rick.ecatalogs.data.ui_design.R.integer.data_ui_design_motion_duration_long)
-                    .toLong()
-        }
+        val motionDuration = resources
+            .getInteger(com.rick.ecatalogs.data.ui_design.R.integer.data_ui_design_motion_duration_long)
+            .toLong()
+        // The list fades back a little while the poster morphs into the details screen
+        exitTransition = MaterialElevationScale(false).apply { duration = motionDuration }
+        reenterTransition = MaterialElevationScale(true).apply { duration = motionDuration }
         analyticsHelper.logMangaOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://manga_details_fragment/$id")
-        findNavController().navigate(uri)
+        findNavController().navigateWithSharedElement(uri, view)
     }
 
     private fun onMangaFavClick(view: View, id: Int, isFavorite: Boolean) {

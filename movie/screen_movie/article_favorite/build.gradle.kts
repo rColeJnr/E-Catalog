@@ -5,6 +5,7 @@ plugins {
 
 
 dependencies {
+    implementation(projects.data.uiDesign)
     implementation(projects.movie.dataMovie.data)
     implementation(projects.movie.dataMovie.model)
     implementation(projects.movie.screenMovie.common)

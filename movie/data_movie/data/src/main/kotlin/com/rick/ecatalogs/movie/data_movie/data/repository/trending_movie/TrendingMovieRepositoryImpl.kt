@@ -5,6 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.rick.ecatalogs.data.datastore.PreferencesDataSource
 import com.rick.ecatalogs.movie.data_movie.database.MovieTransactionRunner
 import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingMovieDao
 import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingMovieRemoteKeysDao
@@ -27,6 +28,7 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
     private val keysDao: TrendingMovieRemoteKeysDao,
     private val network: TmdbNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
+    private val preferences: PreferencesDataSource,
 ) : TrendingMovieRepository {
     override fun getTrendingMovies(): Flow<PagingData<TrendingMovieEntity>> {
         val pagingSourceFactory = { trendingMovieDao.getTrendingMovie() }
@@ -56,20 +58,29 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
         )
             .map { trendingMovieEntities -> trendingMovieEntities.map { it.asTrendingMovie() } }
 
-    override suspend fun syncFirstPage(): Boolean {
+    override suspend fun syncFirstPage(): List<TrendingMovie> {
         val response = network.fetchTrendingMovies(page = TRENDING_MOVIE_FIRST_PAGE)
-        val fetchedIds = response.results.map(TrendingMovieNetwork::id).toSet()
-        if (fetchedIds.isEmpty() || fetchedIds == keysDao.firstPageIds().toSet()) return false
+        val movies = response.results
+        val fetchedIds = movies.map(TrendingMovieNetwork::id).toSet()
+        if (fetchedIds.isEmpty()) return emptyList()
 
-        writeTrendingMoviePage(
-            page = TRENDING_MOVIE_FIRST_PAGE,
-            response = response,
-            isRefresh = true,
-            trendingMovieDao = trendingMovieDao,
-            keysDao = keysDao,
-            transactionRunner = transactionRunner,
-        )
-        return true
+        if (fetchedIds != keysDao.firstPageIds().toSet()) {
+            writeTrendingMoviePage(
+                page = TRENDING_MOVIE_FIRST_PAGE,
+                response = response,
+                isRefresh = true,
+                trendingMovieDao = trendingMovieDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
+            )
+        }
+
+        val previouslySeen = preferences.notifiedTrendingMovieIds()
+        preferences.setNotifiedTrendingMovieIds(fetchedIds)
+        if (previouslySeen.isEmpty()) return emptyList()
+        return movies
+            .filter { it.id !in previouslySeen }
+            .map { it.asTrendingMovieEntity().asTrendingMovie() }
     }
 
     override fun searchTrendingMovie(query: String): Flow<List<TrendingMovie>> =

@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 
 import android.animation.AnimatorInflater
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.net.Uri
@@ -79,7 +80,7 @@ class BestsellerFragment : Fragment() {
 
         binding.bindList(
             viewModel.bestsellerUiState.asLiveData(),
-            onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(0)) }
+            onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(viewModel.selectedGenrePosition)) }
         )
 
         analyticsHelper.logScreenView("bestsellerCatalog")
@@ -109,6 +110,8 @@ class BestsellerFragment : Fragment() {
         binding.categoryList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.categoryList.adapter = categoryAdapter
+        categoryAdapter.setSelectedPosition(viewModel.selectedGenrePosition)
+        binding.categoryList.scrollToPosition(viewModel.selectedGenrePosition)
     }
 
     private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList(
@@ -245,7 +248,7 @@ class BestsellerFragment : Fragment() {
         val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
         analyticsHelper.logAmazonLinkOpened(encodedUrl)
         val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment/$encodedUrl")
-        findNavController().navigate(uri)
+        findNavController().navigateWithMotion(uri)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,13 +1,11 @@
 package com.rick.ecatalogs.book.data_book.database.model
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.rick.ecatalogs.book.data_book.model.bestseller.Bestseller
 import com.rick.ecatalogs.book.data_book.model.bestseller.BuyLink
 
-@Entity(tableName = "bestseller_table")
+@Entity(tableName = "bestseller_table", primaryKeys = ["id", "genre"])
 data class BestsellerEntity(
-    @PrimaryKey
     val id: String,
     val rank: Int,
     val rankLastWeek: Int,
@@ -18,7 +16,9 @@ data class BestsellerEntity(
     val author: String,
     val image: String,
     val amazonLink: String,
-    val buyLinks: List<BuyLink>
+    val buyLinks: List<BuyLink>,
+    /** NYT list name, see BestsellerGenre. */
+    val genre: String,
 )
 
 fun BestsellerEntity.asBestseller() = Bestseller(

@@ -15,6 +15,9 @@ dependencies {
 
     implementation(projects.data.analytics)
     implementation(projects.data.common)
+    implementation(projects.book.dataBook.data)
+    implementation(projects.data.datastore)
+    implementation(projects.data.notifications)
     implementation(projects.movie.dataMovie.data)
 
     api(projects.data.util)

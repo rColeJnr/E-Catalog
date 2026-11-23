@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_screen_settings_nav_graph"
+    app:startDestination="@id/settings_screen_settings_settingsfragment">
+
+    <fragment
+        android:id="@+id/settings_screen_settings_settingsfragment"
+        android:name="com.rick.ecatalogs.settings.screen_settings.SettingsFragment"
+        android:label="">
+        <deepLink app:uri="com.rick.ecs://settings" />
+    </fragment>
+</navigation>

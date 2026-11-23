@@ -5,6 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.rick.ecatalogs.data.datastore.PreferencesDataSource
 import com.rick.ecatalogs.movie.data_movie.database.MovieTransactionRunner
 import com.rick.ecatalogs.movie.data_movie.database.dao.ArticleDao
 import com.rick.ecatalogs.movie.data_movie.database.dao.ArticleRemoteKeysDao
@@ -27,6 +28,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
     private val keysDao: ArticleRemoteKeysDao,
     private val network: ArticleNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
+    private val preferences: PreferencesDataSource,
 ) : ArticleRepository {
     override fun getArticles(): Flow<PagingData<ArticleEntity>> {
         val pagingSourceFactory = { articleDao.getArticles() }
@@ -55,20 +57,29 @@ internal class ArticleRepositoryImpl @Inject constructor(
         )
             .map { articleEntities -> articleEntities.map { it.asArticle() } }
 
-    override suspend fun syncFirstPage(): Boolean {
+    override suspend fun syncFirstPage(): List<Article> {
         val response = network.fetchMovieArticles(page = ARTICLE_FIRST_PAGE)
-        val fetchedIds = response.response.docs.map(ArticleNetwork::id).toSet()
-        if (fetchedIds.isEmpty() || fetchedIds == keysDao.firstPageIds().toSet()) return false
+        val articles = response.response.docs
+        val fetchedIds = articles.map(ArticleNetwork::id).toSet()
+        if (fetchedIds.isEmpty()) return emptyList()
 
-        writeArticlePage(
-            page = ARTICLE_FIRST_PAGE,
-            response = response,
-            isRefresh = true,
-            articleDao = articleDao,
-            keysDao = keysDao,
-            transactionRunner = transactionRunner,
-        )
-        return true
+        if (fetchedIds != keysDao.firstPageIds().toSet()) {
+            writeArticlePage(
+                page = ARTICLE_FIRST_PAGE,
+                response = response,
+                isRefresh = true,
+                articleDao = articleDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
+            )
+        }
+
+        val previouslySeen = preferences.notifiedArticleIds()
+        preferences.setNotifiedArticleIds(fetchedIds)
+        if (previouslySeen.isEmpty()) return emptyList()
+        return articles
+            .filter { it.id !in previouslySeen }
+            .map { it.asArticleEntity().asArticle() }
     }
 
     override fun searchArticle(query: String): Flow<List<Article>> = channelFlow {

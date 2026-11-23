@@ -1,6 +1,10 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_details
 
 import android.graphics.Color
+import com.rick.ecatalogs.data.ui_design.POSTER_KIND_SERIES
+import com.rick.ecatalogs.data.ui_design.posterTransitionName
+import androidx.core.view.ViewCompat
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -67,7 +71,13 @@ class TrendingSeriesDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = TrendingSeriesDetailsFragmentArgs.fromBundle(it)
             viewModel.setSeriesId(safeArgs.series)
+            ViewCompat.setTransitionName(binding.image, posterTransitionName(POSTER_KIND_SERIES, safeArgs.series))
         }
+
+        // Hold the poster morph until the image is loaded (or a short timeout), so it doesn't
+        // land on an empty view.
+        postponeEnterTransition()
+        binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
         if (translationViewModel.location.value.isEmpty()) {
             translationViewModel.setLocation(Locale.getDefault().language)
@@ -120,7 +130,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
     private fun onSimilarClick(series: TrendingSeries) {
         analyticsHelper.logTrendingSeriesOpened(series.id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_series_details_fragment/${series.id}")
-        findNavController().navigate(uri)
+        findNavController().navigateWithMotion(uri)
     }
 
     private fun MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding.bindList(
@@ -191,7 +201,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     }
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
-                        provideGlide(image, getTmdbImageUrl(series.image))
+                        provideGlide(image, getTmdbImageUrl(series.image), onReady = { startPostponedEnterTransition() })
                     }
                     summary.text = series.overview.trim()
 
@@ -302,3 +312,5 @@ fun stringFromList(list: List<Any>): String {
 }
 
 private const val TAG = "trendingSeriesDetailsFragment"
+
+private const val MAX_POSTPONE_MILLIS = 600L

@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.data.uiDesign)
     implementation(projects.book.dataBook.data)
     implementation(projects.book.screenBook.common)
     implementation(projects.book.dataBook.model)

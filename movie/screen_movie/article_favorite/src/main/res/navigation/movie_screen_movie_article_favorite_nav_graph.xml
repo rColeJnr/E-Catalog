@@ -10,7 +10,11 @@
         android:label="">
         <action
             android:id="@+id/movie_screen_movie_article_favorite_action_movie_screen_movie_article_favorite_articlefavoritefragment_to_movie_screen_movie_common_nav_graph"
-            app:destination="@id/movie_screen_movie_common_nav_graph" />
+            app:destination="@id/movie_screen_movie_common_nav_graph"
+            app:enterAnim="@anim/data_ui_design_nav_enter"
+            app:exitAnim="@anim/data_ui_design_nav_exit"
+            app:popEnterAnim="@anim/data_ui_design_nav_pop_enter"
+            app:popExitAnim="@anim/data_ui_design_nav_pop_exit" />
     </fragment>
     <include app:graph="@navigation/movie_screen_movie_common_nav_graph" />
 </navigation>

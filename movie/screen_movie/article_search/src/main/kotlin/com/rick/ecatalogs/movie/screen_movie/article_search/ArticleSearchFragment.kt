@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.article_search
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -275,7 +276,7 @@ class ArticleSearchFragment : Fragment() {
     private fun onWebUlrClick(link: String) {
         val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
         val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
-        findNavController().navigate(uri)
+        findNavController().navigateWithMotion(uri)
     }
 
     private fun onFavClick(id: String, isFavorite: Boolean) {

@@ -1,6 +1,10 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_catalog
 
 import android.animation.AnimatorInflater
+import com.rick.ecatalogs.data.ui_design.navigateWithSharedElement
+import com.google.android.material.transition.MaterialElevationScale
+import androidx.core.view.doOnPreDraw
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.net.Uri
@@ -87,6 +91,9 @@ class TrendingSeriesFragment : Fragment() {
 
         analyticsHelper.logScreenView("trendingMovieCatalog")
 
+        // Wait for the list to lay out so the return transition finds the poster
+        postponeEnterTransition()
+        binding.root.doOnPreDraw { startPostponedEnterTransition() }
         return binding.root
     }
 
@@ -145,11 +152,16 @@ class TrendingSeriesFragment : Fragment() {
         }
     }
 
-    private fun onSeriesClick(id: Int) {
-        //TODO add animations
+    private fun onSeriesClick(poster: View, id: Int) {
+        val motionDuration = resources
+            .getInteger(com.rick.ecatalogs.data.ui_design.R.integer.data_ui_design_motion_duration_long)
+            .toLong()
+        // The list fades back a little while the poster morphs into the details screen
+        exitTransition = MaterialElevationScale(false).apply { duration = motionDuration }
+        reenterTransition = MaterialElevationScale(true).apply { duration = motionDuration }
         analyticsHelper.logTrendingSeriesOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_series_details_fragment/$id")
-        findNavController().navigate(uri)
+        findNavController().navigateWithSharedElement(uri, poster)
     }
 
     private fun onFavClick(view: View, id: Int, isFavorite: Boolean) {

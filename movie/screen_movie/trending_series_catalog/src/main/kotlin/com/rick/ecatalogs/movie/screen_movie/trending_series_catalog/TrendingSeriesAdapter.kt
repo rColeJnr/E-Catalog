@@ -1,6 +1,9 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_catalog
 
 import android.view.LayoutInflater
+import com.rick.ecatalogs.data.ui_design.POSTER_KIND_SERIES
+import com.rick.ecatalogs.data.ui_design.posterTransitionName
+import androidx.core.view.ViewCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -15,7 +18,7 @@ import com.rick.ecatalogs.movie.screen_movie.trending_series_catalog.databinding
 
 
 class TrendingSeriesAdapter(
-    private val onItemClicked: (Int) -> Unit,
+    private val onItemClicked: (View, Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingSeries, RecyclerView.ViewHolder>(RESULT_COMPARATOR) {
@@ -70,7 +73,7 @@ class TrendingSeriesAdapter(
 
 class TrendingSeriesViewHolder(
     itemBinding: MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding,
-    private val onItemClicked: (Int) -> Unit,
+    private val onItemClicked: (View, Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -86,7 +89,7 @@ class TrendingSeriesViewHolder(
 
     init {
         itemBinding.root.setOnClickListener {
-            onItemClicked(trendingSeries.id)
+            onItemClicked(image, trendingSeries.id)
         }
         favorite.setOnClickListener {
             onFavClicked(it, trendingSeries.id, trendingSeries.isFavorite)
@@ -98,6 +101,7 @@ class TrendingSeriesViewHolder(
 
     fun bind(series: UserTrendingSeries) {
         this.trendingSeries = series
+        ViewCompat.setTransitionName(image, posterTransitionName(POSTER_KIND_SERIES, trendingSeries.id))
 
         val src = series.image
         if (src.isNotBlank()) provideGlide(this.image, getTmdbImageUrl(src))
@@ -121,7 +125,7 @@ class TrendingSeriesViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (Int) -> Unit,
+            onItemClick: (View, Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
             onTranslationClick: (TextView, TextView, List<String>) -> Unit
         ): TrendingSeriesViewHolder {

@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_search
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -252,7 +253,7 @@ class TrendingMovieSearchFragment : Fragment() {
     private fun onTrendingMovieClick(view: View, id: Int) {
         analyticsHelper.logTrendingMovieOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_movie_details_fragment/$id")
-        findNavController().navigate(uri)
+        findNavController().navigateWithMotion(uri)
     }
 
     private fun onTrendingMovieFavClick(id: Int, isFavorite: Boolean) {

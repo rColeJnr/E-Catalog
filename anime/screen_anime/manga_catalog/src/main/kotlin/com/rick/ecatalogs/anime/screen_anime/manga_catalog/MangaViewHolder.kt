@@ -1,6 +1,9 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_catalog
 
 import android.view.LayoutInflater
+import com.rick.ecatalogs.data.ui_design.POSTER_KIND_MANGA
+import com.rick.ecatalogs.data.ui_design.posterTransitionName
+import androidx.core.view.ViewCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -25,7 +28,7 @@ class MangaViewHolder(
 
     init {
         binding.root.setOnClickListener {
-            onItemClick(it, manga.id)
+            onItemClick(image, manga.id)
         }
         favorite.setOnClickListener {
             onFavClick(it, manga.id, manga.isFavorite)
@@ -39,6 +42,7 @@ class MangaViewHolder(
 
     fun bind(manga: UserManga) {
         this.manga = manga
+        ViewCompat.setTransitionName(image, posterTransitionName(POSTER_KIND_MANGA, manga.id))
         this.title.text = manga.title
         if (manga.images.isNotEmpty()) {
             provideGlide(this.image, manga.images)

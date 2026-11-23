@@ -10,7 +10,11 @@
         android:label="">
         <action
             android:id="@+id/book_screen_book_gutenberg_favorites_action_book_screen_book_gutenberg_favorites_gutenbergfavoritesfragment_to_book_screen_book_common_nav_graph"
-            app:destination="@id/book_screen_book_common_nav_graph" />
+            app:destination="@id/book_screen_book_common_nav_graph"
+            app:enterAnim="@anim/data_ui_design_nav_enter"
+            app:exitAnim="@anim/data_ui_design_nav_exit"
+            app:popEnterAnim="@anim/data_ui_design_nav_pop_enter"
+            app:popExitAnim="@anim/data_ui_design_nav_pop_exit" />
     </fragment>
     <include app:graph="@navigation/book_screen_book_common_nav_graph" />
 </navigation>

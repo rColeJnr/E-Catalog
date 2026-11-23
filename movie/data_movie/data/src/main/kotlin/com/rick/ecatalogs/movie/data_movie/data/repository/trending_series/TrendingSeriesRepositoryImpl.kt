@@ -5,6 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.rick.ecatalogs.data.datastore.PreferencesDataSource
 import com.rick.ecatalogs.movie.data_movie.database.MovieTransactionRunner
 import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingSeriesDao
 import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingSeriesRemoteKeysDao
@@ -27,6 +28,7 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
     private val keysDao: TrendingSeriesRemoteKeysDao,
     private val network: TmdbNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
+    private val preferences: PreferencesDataSource,
 ) : TrendingSeriesRepository {
     override fun getTrendingSeries(): Flow<PagingData<TrendingSeriesEntity>> {
         val pagingSourceFactory = { trendingSeriesDao.getTrendingSeries() }
@@ -56,20 +58,29 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
         )
             .map { trendingSeriesEntities -> trendingSeriesEntities.map { it.asTrendingSeries() } }
 
-    override suspend fun syncFirstPage(): Boolean {
+    override suspend fun syncFirstPage(): List<TrendingSeries> {
         val response = network.fetchTrendingSeries(page = TRENDING_SERIES_FIRST_PAGE)
-        val fetchedIds = response.results.map(TrendingSeriesNetwork::id).toSet()
-        if (fetchedIds.isEmpty() || fetchedIds == keysDao.firstPageIds().toSet()) return false
+        val series = response.results
+        val fetchedIds = series.map(TrendingSeriesNetwork::id).toSet()
+        if (fetchedIds.isEmpty()) return emptyList()
 
-        writeTrendingSeriesPage(
-            page = TRENDING_SERIES_FIRST_PAGE,
-            response = response,
-            isRefresh = true,
-            trendingSeriesDao = trendingSeriesDao,
-            keysDao = keysDao,
-            transactionRunner = transactionRunner,
-        )
-        return true
+        if (fetchedIds != keysDao.firstPageIds().toSet()) {
+            writeTrendingSeriesPage(
+                page = TRENDING_SERIES_FIRST_PAGE,
+                response = response,
+                isRefresh = true,
+                trendingSeriesDao = trendingSeriesDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
+            )
+        }
+
+        val previouslySeen = preferences.notifiedTrendingSeriesIds()
+        preferences.setNotifiedTrendingSeriesIds(fetchedIds)
+        if (previouslySeen.isEmpty()) return emptyList()
+        return series
+            .filter { it.id !in previouslySeen }
+            .map { it.asTrendingSeriesEntity().asTrendingSeries() }
     }
 
     override fun searchTrendingSeries(query: String): Flow<List<TrendingSeries>> =

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_notifications_channel_trending_movies">Trending movies</string>
+    <string name="data_notifications_channel_trending_series">Trending series</string>
+    <string name="data_notifications_channel_articles">Movie reviews</string>
+    <string name="data_notifications_channel_bestsellers">NYT bestsellers</string>
+    <string name="data_notifications_channel_description">New content found by background sync</string>
+
+    <string name="data_notifications_new_trending_movies">New trending movies</string>
+    <string name="data_notifications_new_trending_series">New trending series</string>
+    <string name="data_notifications_new_articles">New movie reviews</string>
+    <string name="data_notifications_new_bestsellers">New on the NYT %1$s list</string>
+    <plurals name="data_notifications_summary">
+        <item quantity="one">%1$d new title</item>
+        <item quantity="other">%1$d new titles</item>
+    </plurals>
+
+    <string name="data_notifications_genre_fiction">Fiction</string>
+    <string name="data_notifications_genre_nonfiction">Nonfiction</string>
+    <string name="data_notifications_genre_miscellaneous">Advice &amp; miscellaneous</string>
+    <string name="data_notifications_genre_business">Business</string>
+    <string name="data_notifications_genre_graphic">Graphic books &amp; manga</string>
+</resources>

@@ -1,17 +1,20 @@
 package com.rick.ecatalogs
 
+import android.Manifest
 import android.annotation.SuppressLint
-import android.net.Uri
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -29,7 +32,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.rick.ecatalogs.databinding.ActivityMainBinding
-import com.rick.ecatalogs.settings.screen_settings.SettingsDialog
+import com.rick.ecatalogs.settings.data_settings.model.SettingsUserData
+import com.rick.ecatalogs.settings.data_settings.model.ThemeConfig
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         ) as NavHostFragment
         navController = navHostFragment.navController
 
-        val appBarConfiguration = AppBarConfiguration(
+        appBarConfiguration = AppBarConfiguration(
             setOf(
                 //Movie screen1
                 com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.R.id.movie_screen_movie_trending_movie_catalog_trendingmoviefragment,
@@ -77,6 +81,9 @@ class MainActivity : AppCompatActivity() {
                 //Anime screen
                 com.rick.ecatalogs.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_animecatalogfragment,
                 com.rick.ecatalogs.anime.screen_anime.manga_catalog.R.id.anime_screen_anime_manga_catalog_mangacatalogfragment,
+                //Movie reviews & settings
+                com.rick.ecatalogs.movie.screen_movie.article_catalog.R.id.movie_screen_movie_article_catalog_articlefragment,
+                com.rick.ecatalogs.settings.screen_settings.R.id.settings_screen_settings_settingsfragment,
             ),
             binding.drawerLayout
         )
@@ -117,6 +124,14 @@ class MainActivity : AppCompatActivity() {
                 //Movie screen
                 com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.R.id.movie_screen_movie_trending_movie_catalog_trendingmoviefragment -> getString(
                     R.string.trending_movies
+                )
+
+                com.rick.ecatalogs.movie.screen_movie.article_catalog.R.id.movie_screen_movie_article_catalog_articlefragment -> getString(
+                    R.string.movie_reviews
+                )
+
+                com.rick.ecatalogs.settings.screen_settings.R.id.settings_screen_settings_settingsfragment -> getString(
+                    R.string.settings
                 )
 
                 com.rick.ecatalogs.movie.screen_movie.trending_series_catalog.R.id.movie_screen_movie_trending_series_catalog_trendingseriesfragment -> getString(
@@ -168,63 +183,61 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.showSettingsDialog.observe(this) { show ->
-            if (show) {
-                binding.dialogView.setContent {
-                    val showUsername by viewModel.showChangeUsername.collectAsState()
-                    val showDeleteButton by viewModel.showDeleteButton.collectAsState()
-                    SettingsDialog(
-                        onDismiss = { viewModel.showSettingsDialog.value = false },
-                        username = viewModel.username.value,
-                        onUsernameChange = viewModel::onChangeUsername,
-                        showUsernameTextField = showUsername,
-                        shouldShowUsernameTextField = viewModel::shouldShowChangeUsername,
-                        onSaveUsername = viewModel::onSaveUsername,
-                        shouldShowDeleteButton = viewModel::shouldShowDeleteButton,
-                        showDeleteButton = showDeleteButton,
-                        onSignOut = this::signOut,
-                        onDeleteAccount = this::deleteUserAccount
-                    )
-                }
-            } else {
-                binding.dialogView.setContent { }
-            }
-        }
-
-        val settingsState = viewModel.uiState.asLiveData()
-
-        settingsState.observe(this) { state ->
+        viewModel.uiState.asLiveData().observe(this) { state ->
             when (state) {
                 MainActivityUiState.Loading -> {}
                 is MainActivityUiState.Success -> {
                     binding.navView.getHeaderView(0).findViewById<TextView>(R.id.name).text =
                         state.userData.userName
-                    viewModel.onChangeUsername(state.userData.userName)
+                    applyTheme(state.userData.themeConfig)
+                    requestNotificationPermissionOnce(state.userData)
                 }
             }
         }
 
-
         binding.navView.getHeaderView(0).setOnClickListener {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
-            viewModel.showSettingsDialog.value = true
+            navController.navigate(
+                com.rick.ecatalogs.settings.screen_settings.R.id.settings_screen_settings_nav_graph
+            )
         }
 
     }
 
-    private fun deleteUserAccount() {
-        auth.currentUser!!.delete().addOnCompleteListener {
-            Toast.makeText(this, "Account deleted", Toast.LENGTH_LONG).show()
-            signOut()
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // Notification taps while the app is running deliver a deep link here
+        navController.handleDeepLink(intent)
+    }
+
+    private fun applyTheme(themeConfig: ThemeConfig) {
+        val mode = when (themeConfig) {
+            ThemeConfig.FOLLOW_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            ThemeConfig.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+            ThemeConfig.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+        }
+        if (AppCompatDelegate.getDefaultNightMode() != mode) {
+            AppCompatDelegate.setDefaultNightMode(mode)
         }
     }
 
-    private fun signOut() {
-        auth.signOut()
-        navController.popBackStack()
-        viewModel.showSettingsDialog.value = false
-        val uri = Uri.parse("com.rick.ecs://authentication_fragment")
-        navController.navigate(uri)
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
+    /**
+     * Asks for the notification permission (Android 13+) the first time the app runs with any
+     * notification category enabled. Later changes go through the Settings screen.
+     */
+    private fun requestNotificationPermissionOnce(userData: SettingsUserData) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (userData.enabledNotifications.isEmpty()) return
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+            PackageManager.PERMISSION_GRANTED
+        ) return
+        val prefs = getSharedPreferences(LAUNCH_PREFS, MODE_PRIVATE)
+        if (prefs.getBoolean(KEY_ASKED_NOTIFICATIONS, false)) return
+        prefs.edit().putBoolean(KEY_ASKED_NOTIFICATIONS, true).apply()
+        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
     private fun initFirebase() {
@@ -249,3 +262,5 @@ class MainActivity : AppCompatActivity() {
 }
 
 private const val TAG = "mainActivity"
+private const val LAUNCH_PREFS = "main_activity"
+private const val KEY_ASKED_NOTIFICATIONS = "asked_notification_permission"

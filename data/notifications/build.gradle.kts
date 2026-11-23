@@ -13,4 +13,6 @@ dependencies {
     api(projects.book.dataBook.model)
     api(projects.movie.dataMovie.model)
 
+    implementation(libs.androidx.core)
+
 }

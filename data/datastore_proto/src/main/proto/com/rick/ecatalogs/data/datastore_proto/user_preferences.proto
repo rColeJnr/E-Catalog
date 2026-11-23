@@ -16,12 +16,23 @@ message UserPreferences {
 
   map<int32, bool> notified_trending_movies_ids = 9;
   map<int32, bool> notified_trending_series_ids = 10;
-  map<int32, bool> notified_articles_ids = 11;
+  map<string, bool> notified_articles_ids = 11;
 
   map<int32, bool> notified_trending_anime_ids = 12;
   map<int32, bool> notified_trending_manga_ids = 13;
 
-  map<int32, bool> notified_bestseller_ids = 14;
+  map<string, bool> notified_bestseller_ids = 14;
 
-  // Next available is 15
+  // Settings. Flags are negative so the proto default (false) means "enabled".
+  // 0 = follow system, 1 = light, 2 = dark
+  int32 theme = 15;
+  bool sync_disabled = 16;
+  // 0 = default (12 hours)
+  int32 sync_interval_hours = 17;
+  bool notifications_disabled_movies = 18;
+  bool notifications_disabled_series = 19;
+  bool notifications_disabled_articles = 20;
+  bool notifications_disabled_bestsellers = 21;
+
+  // Next available is 22
 }

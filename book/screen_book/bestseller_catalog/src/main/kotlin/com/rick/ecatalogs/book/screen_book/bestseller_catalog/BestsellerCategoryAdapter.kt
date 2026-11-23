@@ -15,6 +15,13 @@ class BestsellerCategoryAdapter(
 
     private var selectedPosition = 0
 
+    fun setSelectedPosition(position: Int) {
+        val previous = selectedPosition
+        selectedPosition = position
+        notifyItemChanged(previous)
+        notifyItemChanged(position)
+    }
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CategoryViewHolder {
         val binding = BookScreenBookBestsellerCatalogCategoryEntryBinding.inflate(
             LayoutInflater.from(p0.context), p0, false

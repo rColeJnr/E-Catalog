@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.book.screen_book.gutenberg_catalog
 
 import com.rick.ecatalogs.book.screen_book.gutenberg_catalog.GutenbergCatalogAdapter.Companion.VIEW_TYPE_HEADER
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -185,7 +186,7 @@ class GutenbergCatalogFragment : Fragment() {
             analyticsHelper.logGutenbergOpened(link)
             val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
             val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
-            findNavController().navigate(uri)
+            findNavController().navigateWithMotion(uri)
         }
 
     }

@@ -8,6 +8,8 @@ import com.rick.ecatalogs.book.data_book.database.dao.BestsellerDao
 import com.rick.ecatalogs.book.data_book.database.model.BestsellerEntity
 import com.rick.ecatalogs.book.data_book.database.model.asBestseller
 import com.rick.ecatalogs.book.data_book.model.bestseller.Bestseller
+import com.rick.ecatalogs.book.data_book.model.bestseller.BestsellerGenre
+import com.rick.ecatalogs.data.datastore.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -18,8 +20,36 @@ import javax.inject.Inject
 
 internal class BestsellerRepositoryImpl @Inject constructor(
     private val bestsellerDao: BestsellerDao,
-    private val network: BestsellerNetworkDataSource
+    private val network: BestsellerNetworkDataSource,
+    private val preferences: PreferencesDataSource,
 ) : BestsellerRepository {
+
+    override suspend fun syncAllGenres(): Map<BestsellerGenre, List<Bestseller>> = buildMap {
+        for (genre in BestsellerGenre.entries) {
+            val books = network.fetchBestsellers(
+                date = CURRENT_LIST,
+                bookGenre = genre.listName,
+            ).results.books
+            val fetchedIds = books.map(BestsellerNetwork::id).toSet()
+            if (fetchedIds.isEmpty()) continue
+
+            if (fetchedIds != bestsellerDao.bestsellerIds(genre.listName).toSet()) {
+                bestsellerDao.replaceBestsellers(
+                    genre = genre.listName,
+                    books = books.map { it.asBestsellerEntity(genre.listName) },
+                )
+            }
+
+            val previouslySeen = preferences.notifiedBestsellerIds(genre.listName)
+            preferences.setNotifiedBestsellerIds(genre.listName, fetchedIds)
+            // First sync of this genre: record it without notifying about the whole list
+            if (previouslySeen.isEmpty()) continue
+            val newBooks = books.filter { it.id !in previouslySeen }
+            if (newBooks.isNotEmpty()) {
+                put(genre, newBooks.map { it.asBestsellerEntity(genre.listName).asBestseller() })
+            }
+        }
+    }
 
     override fun getBestseller(
         bookGenre: String,
@@ -32,11 +62,12 @@ internal class BestsellerRepositoryImpl @Inject constructor(
                 bookGenre = bookGenre,
             ).results.books
 
-            bestsellerDao.clearBestsellers()
+            bestsellerDao.replaceBestsellers(
+                genre = bookGenre,
+                books = bestsellers.map { it.asBestsellerEntity(bookGenre) },
+            )
 
-            bestsellerDao.upsertBestsellers(bestsellers.map(BestsellerNetwork::asBestsellerEntity))
-
-            bestsellerDao.getBestsellers()
+            bestsellerDao.getBestsellers(bookGenre)
                 .collectLatest { bestsellerEntities ->
                     send(bestsellerEntities.map(BestsellerEntity::asBestseller)) }
         } catch (e: IOException) {
@@ -76,3 +107,4 @@ internal class BestsellerRepositoryImpl @Inject constructor(
 }
 
 private const val TAG = "BestsellerRepositoryImpl"
+private const val CURRENT_LIST = "current"

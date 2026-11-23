@@ -1,6 +1,11 @@
 package com.rick.ecatalogs.data.ui_components.anime_favorite
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -75,49 +80,62 @@ fun AnimeFavScreen(
                 .fillMaxSize()
                 .background(backgroundGradient)
         ) {
-            when (state) {
-                is FavoriteUiState.Loading -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) { CircularProgressIndicator(modifier = Modifier.wrapContentSize()) }
-                }
+            AnimatedContent(
+                targetState = state,
+                contentKey = { it::class },
+                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                label = "favoritesState",
+            ) { state ->
+                when (state) {
+                    is FavoriteUiState.Loading -> {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) { CircularProgressIndicator(modifier = Modifier.wrapContentSize()) }
+                    }
 
-                is FavoriteUiState.AnimeFavorites -> {
-                    if (state.favorites.isEmpty()) {
-                        EcsEmptyState()
-                    } else {
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxSize()
-                        ) {
-                            items(state.favorites) { anime ->
-                                EcsCatalogCard(
-                                    itemTitle = anime.title,
-                                    itemId = anime.id.toString(),
-                                    itemImage = anime.images,
-                                    itemSummary = anime.synopsis,
-                                    onFavClick = { onFavClick(it.toInt()) }
-                                )
+                    is FavoriteUiState.AnimeFavorites -> {
+                        if (state.favorites.isEmpty()) {
+                            EcsEmptyState()
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            ) {
+                                items(state.favorites, key = { it.id }) { anime ->
+                                    // Animates position changes and removals (e.g. un-favoriting)
+                                    Box(Modifier.animateItem()) {
+                                        EcsCatalogCard(
+                                            itemTitle = anime.title,
+                                            itemId = anime.id.toString(),
+                                            itemImage = anime.images,
+                                            itemSummary = anime.synopsis,
+                                            onFavClick = { onFavClick(it.toInt()) }
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
-                }
 
-                is FavoriteUiState.MangaFavorites -> {
-                    if (state.favorites.isEmpty()) {
-                        EcsEmptyState()
-                    } else {
-                        LazyColumn() {
-                            items(state.favorites) { manga ->
-                                EcsCatalogCard(
-                                    itemTitle = manga.title,
-                                    itemId = manga.id.toString(),
-                                    itemImage = manga.images,
-                                    itemSummary = manga.synopsis,
-                                    onFavClick = { onFavClick(it.toInt()) }
-                                )
+                    is FavoriteUiState.MangaFavorites -> {
+                        if (state.favorites.isEmpty()) {
+                            EcsEmptyState()
+                        } else {
+                            LazyColumn() {
+                                items(state.favorites, key = { it.id }) { manga ->
+                                    // Animates position changes and removals (e.g. un-favoriting)
+                                    Box(Modifier.animateItem()) {
+                                        EcsCatalogCard(
+                                            itemTitle = manga.title,
+                                            itemId = manga.id.toString(),
+                                            itemImage = manga.images,
+                                            itemSummary = manga.synopsis,
+                                            onFavClick = { onFavClick(it.toInt()) }
+                                        )
+                                    }
+                                }
                             }
                         }
                     }

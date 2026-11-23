@@ -1,6 +1,12 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_details
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_design.POSTER_KIND_ANIME
+import com.rick.ecatalogs.data.ui_design.posterTransitionName
+import androidx.core.view.ViewCompat
+import com.google.android.material.transition.MaterialContainerTransform
+import android.graphics.Color
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +45,15 @@ class AnimeDetailsFragment : Fragment() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
+            duration = 400L
+            scrimColor = Color.TRANSPARENT
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -51,7 +66,13 @@ class AnimeDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = AnimeDetailsFragmentArgs.fromBundle(it)
             viewModel.setAnimeId(safeArgs.anime)
+            ViewCompat.setTransitionName(binding.image, posterTransitionName(POSTER_KIND_ANIME, safeArgs.anime))
         }
+
+        // Hold the poster morph until the image is loaded (or a short timeout), so it doesn't
+        // land on an empty view.
+        postponeEnterTransition()
+        binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
         if (translationViewModel.location.value.isEmpty()) {
             translationViewModel.setLocation(Locale.getDefault().language)
@@ -79,7 +100,7 @@ class AnimeDetailsFragment : Fragment() {
         animeLiveData.observe(viewLifecycleOwner) { anime ->
             title.text = anime.title
 
-            provideGlide(image, anime.images)
+            provideGlide(image, anime.images, onReady = { startPostponedEnterTransition() })
 
             if (translationViewModel.location.value == "en") {
                 showTranslation.visibility = View.GONE
@@ -182,7 +203,7 @@ class AnimeDetailsFragment : Fragment() {
                     val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
                     analyticsHelper.logAnimeWebPageOpened(encodedUrl)
                     val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment/$encodedUrl")
-                    findNavController().navigate(uri)
+                    findNavController().navigateWithMotion(uri)
                 }
             }
 
@@ -193,7 +214,7 @@ class AnimeDetailsFragment : Fragment() {
                     val encodedUrl = URLEncoder.encode(trailer, StandardCharsets.UTF_8.toString())
                     analyticsHelper.logTrailerOpened(encodedUrl)
                     val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment/$encodedUrl")
-                    findNavController().navigate(uri)
+                    findNavController().navigateWithMotion(uri)
                 }
             }
 
@@ -206,3 +227,5 @@ class AnimeDetailsFragment : Fragment() {
     }
 
 }
+
+private const val MAX_POSTPONE_MILLIS = 600L

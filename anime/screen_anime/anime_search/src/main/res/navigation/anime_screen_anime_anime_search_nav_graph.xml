@@ -11,6 +11,10 @@
         android:label="">
         <action
             android:id="@+id/anime_screen_anime_anime_search_action_anime_screen_anime_anime_search_animesearchfragment_to_anime_screen_anime_anime_details_nav_graph2"
-            app:destination="@id/anime_screen_anime_anime_details_nav_graph" />
+            app:destination="@id/anime_screen_anime_anime_details_nav_graph"
+            app:enterAnim="@anim/data_ui_design_nav_enter"
+            app:exitAnim="@anim/data_ui_design_nav_exit"
+            app:popEnterAnim="@anim/data_ui_design_nav_pop_enter"
+            app:popExitAnim="@anim/data_ui_design_nav_pop_exit" />
     </fragment>
 </navigation>

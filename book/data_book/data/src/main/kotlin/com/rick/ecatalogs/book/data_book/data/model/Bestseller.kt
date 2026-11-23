@@ -3,8 +3,8 @@ package com.rick.ecatalogs.book.data_book.data.model
 import com.rick.ecatalogs.book.data_book.network.model.BestsellerNetwork
 import com.rick.ecatalogs.book.data_book.database.model.BestsellerEntity
 
-fun BestsellerNetwork.asBestsellerEntity(): BestsellerEntity = BestsellerEntity(
-    id = rank.toString(),
+fun BestsellerNetwork.asBestsellerEntity(genre: String): BestsellerEntity = BestsellerEntity(
+    id = id,
     rank = rank,
     rankLastWeek = rankLastWeek,
     weeksOnList = weeksOnList,
@@ -14,5 +14,6 @@ fun BestsellerNetwork.asBestsellerEntity(): BestsellerEntity = BestsellerEntity(
     author = author,
     image = image,
     amazonLink = amazonUrl,
-    buyLinks = buyLinks ?: emptyList()
+    buyLinks = buyLinks ?: emptyList(),
+    genre = genre,
 )

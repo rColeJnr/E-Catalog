@@ -32,6 +32,5 @@ class AndroidLintConventionPlugin : Plugin<Project> {
 
 // configure()
 private fun Lint.ricardo() {
-    xmlReport = true
     checkDependencies = true
 }

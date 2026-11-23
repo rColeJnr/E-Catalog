@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.ecatalogs.book.data_book.data.repository.bestseller.CompositeBestsellerRepository
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class BestsellerViewModel @Inject constructor(
     private val compositeBookRepository: CompositeBestsellerRepository,
-    private val userDataRepository: UserBestsellerDataRepository
+    private val userDataRepository: UserBestsellerDataRepository,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     lateinit var bestsellerUiState: StateFlow<BestsellerUIState>
@@ -27,8 +29,14 @@ class BestsellerViewModel @Inject constructor(
     // private set
     private var position: Int = 0
 
+    /** Index into [BookGenre.entries] of the list being shown. */
+    val selectedGenrePosition: Int get() = position
+
     init {
-        onEvent(BestsellerEvents.SelectedGenre(0))
+        // A notification deep link can open a specific genre (nav argument "genre" = NYT list name)
+        val initialGenre = BookGenre.fromListName(savedStateHandle.get<String>(GENRE_ARG))
+            ?: BookGenre.DEFAULT
+        onEvent(BestsellerEvents.SelectedGenre(initialGenre.ordinal))
 
     }
 
@@ -83,3 +91,5 @@ sealed interface BestsellerCarouselUIState {
     data object Error : BestsellerCarouselUIState
     data class Success(val bestsellers: List<UserBestseller>) : BestsellerCarouselUIState
 }
+
+private const val GENRE_ARG = "genre"

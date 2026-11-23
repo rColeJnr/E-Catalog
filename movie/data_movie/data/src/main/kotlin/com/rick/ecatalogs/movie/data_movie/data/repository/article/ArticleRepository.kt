@@ -17,8 +17,9 @@ interface ArticleRepository {
      * Fetches the first page of articles. If its ids differ from the stored first page,
      * refreshes the list the same way a pull-to-refresh does.
      *
-     * @return true if the content changed.
+     * @return the items that are new since the previous sync (empty on the very first sync,
+     * so a fresh install doesn't notify about everything).
      * @throws java.io.IOException or retrofit2.HttpException on network failure.
      */
-    suspend fun syncFirstPage(): Boolean
+    suspend fun syncFirstPage(): List<Article>
 }

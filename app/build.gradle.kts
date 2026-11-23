@@ -10,6 +10,8 @@ plugins {
 //    alias(libs.plugins.gms)
 //    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose)
+    // Generates the license data shown by OssLicensesMenuActivity (Settings > Licenses)
+    alias(libs.plugins.google.osslicenses)
 }
 
 android {
@@ -47,6 +49,14 @@ android {
     packaging {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
+        jniLibs {
+            // 16 KB page size: androidx.graphics:graphics-path (via Compose ui-graphics) ships a
+            // native lib whose RELRO segment isn't 16 KB aligned in any release up to 1.1.0.
+            // AndroidX only loads it below API 34 (newer devices use the platform PathIterator),
+            // and all 16 KB-page devices run Android 15+, so it's excluded. Remove this once a
+            // fixed graphics-path release is available.
+            excludes.add("**/libandroidx.graphics.path.so")
         }
     }
     testOptions {

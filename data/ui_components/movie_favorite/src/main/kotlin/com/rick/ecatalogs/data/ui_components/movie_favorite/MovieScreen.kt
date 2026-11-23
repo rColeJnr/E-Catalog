@@ -1,6 +1,11 @@
 package com.rick.ecatalogs.data.ui_components.movie_favorite
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -54,70 +59,86 @@ fun MovieFavScreen(
     EcsScaffold(
         snackbarHostState = snackbarHostState
     ) {
-        when (state) {
-            FavoriteUiState.Loading -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) { CircularProgressIndicator(modifier = Modifier.wrapContentSize()) }
-            }
+        AnimatedContent(
+            targetState = state,
+            contentKey = { it::class },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            label = "favoritesState",
+        ) { state ->
+            when (state) {
+                FavoriteUiState.Loading -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) { CircularProgressIndicator(modifier = Modifier.wrapContentSize()) }
+                }
 
-            is FavoriteUiState.ArticlesFavorites -> {
-                if (state.favorites.isEmpty()) {
-                    EcsEmptyState()
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.wrapContentHeight()
-                    ) {
-                        items(state.favorites) { article ->
-                            EcsCatalogCard(
-                                itemTitle = article.headline,
-                                itemSummary = article.leadParagraph,
-                                itemImage = article.multimedia,
-                                itemId = article.id,
-                                onFavClick = onFavClick
-                            )
+                is FavoriteUiState.ArticlesFavorites -> {
+                    if (state.favorites.isEmpty()) {
+                        EcsEmptyState()
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.wrapContentHeight()
+                        ) {
+                            items(state.favorites, key = { it.id }) { article ->
+                                // Animates position changes and removals (e.g. un-favoriting)
+                                Box(Modifier.animateItem()) {
+                                    EcsCatalogCard(
+                                        itemTitle = article.headline,
+                                        itemSummary = article.leadParagraph,
+                                        itemImage = article.multimedia,
+                                        itemId = article.id,
+                                        onFavClick = onFavClick
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-            }
 
-            is FavoriteUiState.TrendingMoviesFavorites -> {
-                if (state.favorites.isEmpty()) {
-                    EcsEmptyState()
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.wrapContentHeight()
-                    ) {
-                        items(state.favorites) { movie ->
-                            EcsCatalogCard(
-                                itemTitle = movie.title,
-                                itemSummary = movie.overview,
-                                itemImage = getTmdbImageUrl(movie.image),
-                                itemId = movie.id.toString(),
-                                onFavClick = onFavClick
-                            )
+                is FavoriteUiState.TrendingMoviesFavorites -> {
+                    if (state.favorites.isEmpty()) {
+                        EcsEmptyState()
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.wrapContentHeight()
+                        ) {
+                            items(state.favorites, key = { it.id }) { movie ->
+                                // Animates position changes and removals (e.g. un-favoriting)
+                                Box(Modifier.animateItem()) {
+                                    EcsCatalogCard(
+                                        itemTitle = movie.title,
+                                        itemSummary = movie.overview,
+                                        itemImage = getTmdbImageUrl(movie.image),
+                                        itemId = movie.id.toString(),
+                                        onFavClick = onFavClick
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-            }
 
-            is FavoriteUiState.TrendingSeriesFavorites -> {
-                if (state.favorites.isEmpty()) {
-                    EcsEmptyState()
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.wrapContentHeight()
-                    ) {
-                        items(state.favorites) { series ->
-                            EcsCatalogCard(
-                                itemTitle = series.name,
-                                itemSummary = series.overview,
-                                itemImage = getTmdbImageUrl(series.image),
-                                itemId = series.id.toString(),
-                                onFavClick = onFavClick
-                            )
+                is FavoriteUiState.TrendingSeriesFavorites -> {
+                    if (state.favorites.isEmpty()) {
+                        EcsEmptyState()
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.wrapContentHeight()
+                        ) {
+                            items(state.favorites, key = { it.id }) { series ->
+                                // Animates position changes and removals (e.g. un-favoriting)
+                                Box(Modifier.animateItem()) {
+                                    EcsCatalogCard(
+                                        itemTitle = series.name,
+                                        itemSummary = series.overview,
+                                        itemImage = getTmdbImageUrl(series.image),
+                                        itemId = series.id.toString(),
+                                        onFavClick = onFavClick
+                                    )
+                                }
+                            }
                         }
                     }
                 }

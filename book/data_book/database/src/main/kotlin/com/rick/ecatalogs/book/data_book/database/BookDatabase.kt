@@ -23,7 +23,7 @@ import com.rick.ecatalogs.book.data_book.database.util.BookTypeConverters
         BestsellerRemoteKeys::class,
         GutenbergRecentSearchQueryEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 

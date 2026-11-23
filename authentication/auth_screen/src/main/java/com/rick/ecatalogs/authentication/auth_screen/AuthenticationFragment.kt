@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.authentication.auth_screen
 
 import android.app.Activity
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.content.Intent
 import android.content.IntentSender
 import android.net.ConnectivityManager
@@ -156,7 +157,7 @@ class AuthenticationFragment : Fragment() {
         val request =
             NavDeepLinkRequest.Builder.fromUri("com.rick.ecs://bestseller-catalog-screen".toUri())
                 .build()
-        findNavController().navigate(request)
+        findNavController().navigateWithMotion(request)
     }
 
     private fun setupAuth() {

@@ -25,4 +25,6 @@
     <string name="open_drawer">abrir</string>
     <string name="close_drawer">fechar</string>
     <string name="your_username">Seu nickname</string>
+    <string name="movie_reviews">Críticas de Filmes</string>
+    <string name="settings">Configurações</string>
 </resources>

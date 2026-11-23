@@ -11,10 +11,23 @@
         android:label="">
         <action
             android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_bestseller_favorites_nav_graph"
-            app:destination="@id/book_screen_book_bestseller_favorites_nav_graph" />
+            app:destination="@id/book_screen_book_bestseller_favorites_nav_graph"
+            app:enterAnim="@anim/data_ui_design_nav_enter"
+            app:exitAnim="@anim/data_ui_design_nav_exit"
+            app:popEnterAnim="@anim/data_ui_design_nav_pop_enter"
+            app:popExitAnim="@anim/data_ui_design_nav_pop_exit" />
         <action
             android:id="@+id/book_screen_book_bestseller_catalog_action_book_screen_book_bestseller_catalog_bestsellerfragment_to_book_screen_book_common_nav_graph"
-            app:destination="@id/book_screen_book_common_nav_graph" />
-        <deepLink app:uri="com.rick.ecs://bestseller-catalog-screen" />
+            app:destination="@id/book_screen_book_common_nav_graph"
+            app:enterAnim="@anim/data_ui_design_nav_enter"
+            app:exitAnim="@anim/data_ui_design_nav_exit"
+            app:popEnterAnim="@anim/data_ui_design_nav_pop_enter"
+            app:popExitAnim="@anim/data_ui_design_nav_pop_exit" />
+        <argument
+            android:name="genre"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <deepLink app:uri="com.rick.ecs://bestseller-catalog-screen?genre={genre}" />
     </fragment>
 </navigation>

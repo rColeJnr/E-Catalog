@@ -1,185 +1,233 @@
 package com.rick.ecatalogs.settings.screen_settings
 
-import android.content.Intent
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.rick.ecatalogs.data.ui_components.common.EcsAnimatedVisibilityBox
-import com.rick.ecatalogs.data.ui_components.common.EcsText
-import com.rick.ecatalogs.data.ui_components.common.EcsTextButton
+import com.rick.ecatalogs.settings.data_settings.model.NotificationCategory
+import com.rick.ecatalogs.settings.data_settings.model.SYNC_INTERVAL_OPTIONS_HOURS
+import com.rick.ecatalogs.settings.data_settings.model.SettingsUserData
+import com.rick.ecatalogs.settings.data_settings.model.ThemeConfig
 import com.rick.ecatalogs.settings.screen_settings.R.string
 
-@Composable
-fun SettingsDialog(
-    onDismiss: () -> Unit,
-    username: String,
-    onUsernameChange: (String) -> Unit,
-    showUsernameTextField: Boolean,
-    shouldShowUsernameTextField: () -> Unit,
-    onSaveUsername: () -> Unit,
-    shouldShowDeleteButton: () -> Unit,
-    showDeleteButton: Boolean,
-    onDeleteAccount: () -> Unit,
-    onSignOut: () -> Unit
-) {
-    val configuration = LocalConfiguration.current
+/** Callbacks from the settings screen, handled by [SettingsFragment]. */
+class SettingsActions(
+    val onSaveUserName: (String) -> Unit,
+    val onThemeChange: (ThemeConfig) -> Unit,
+    val onNotificationsChange: (NotificationCategory, Boolean) -> Unit,
+    val onSyncEnabledChange: (Boolean) -> Unit,
+    val onSyncIntervalChange: (Int) -> Unit,
+    val onSignOut: () -> Unit,
+    val onDeleteAccount: () -> Unit,
+    val onOpenLicenses: () -> Unit,
+)
 
-    /**
-     * usePlatformDefaultWidth = false is use as a temporary fix to allow
-     * height recalculation during recomposition. This, however, causes
-     * Dialog's to occupy full width in Compact mode. Therefore max width
-     * is configured below. This should be removed when there's fix to
-     * https://issuetracker.google.com/issues/221643630
-     */
-    AlertDialog(
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-        modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 80.dp),
-        containerColor = colorResource(id = com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_on_surface),
-        onDismissRequest = { onDismiss() },
-        title = {
-            EcsText(
-                text = stringResource(string.settings_screen_settings_settings), fontSize = 30.sp
-            )
-        },
-        text = {
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                EcsText(
-                    modifier = Modifier.fillMaxWidth(), text = "Hi, $username"
-                )
-                HorizontalDivider(Modifier.padding(bottom = 8.dp))
-                OptionsPanel(
-                    username = username,
-                    onUsernameChange = onUsernameChange,
-                    shouldShowUsernameTextField = shouldShowUsernameTextField,
-                    showUsernameTextField = showUsernameTextField,
-                    onSaveUsername = onSaveUsername,
-                    shouldShowDeleteButton = shouldShowDeleteButton,
-                    showDeleteButton = showDeleteButton,
-                    onDeleteAccount = onDeleteAccount,
-                    onSignOut = onSignOut
-                )
-                HorizontalDivider(Modifier.padding(top = 8.dp))
-                LinksPanel()
+@Composable
+fun SettingsScreen(
+    uiState: SettingsUiState,
+    appVersion: String,
+    actions: SettingsActions,
+    modifier: Modifier = Modifier,
+) {
+    AnimatedContent(
+        targetState = uiState,
+        contentKey = { it is SettingsUiState.Success },
+        transitionSpec = { fadeIn() togetherWith fadeOut() },
+        label = "settingsState",
+        modifier = modifier.fillMaxSize(),
+    ) { state ->
+        when (state) {
+            SettingsUiState.Loading -> Box(Modifier.fillMaxSize(), Alignment.Center) {
+                CircularProgressIndicator()
             }
-        },
-        confirmButton = {
-            EcsText(
-                text = stringResource(string.settings_screen_settings_ok),
-                modifier = Modifier
-                    .padding(horizontal = 2.dp)
-                    .clickable { onDismiss() },
-            )
-        },
-    )
+
+            is SettingsUiState.Success -> SettingsContent(state.settings, appVersion, actions)
+        }
+    }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun OptionsPanel(
-    username: String = "Username",
-    onUsernameChange: (String) -> Unit,
-    showUsernameTextField: Boolean,
-    shouldShowUsernameTextField: () -> Unit,
-    onSaveUsername: () -> Unit,
-    shouldShowDeleteButton: () -> Unit,
-    showDeleteButton: Boolean,
-    onDeleteAccount: () -> Unit,
-    onSignOut: () -> Unit
+private fun SettingsContent(
+    settings: SettingsUserData,
+    appVersion: String,
+    actions: SettingsActions,
 ) {
-    FlowColumn(
-        verticalArrangement = Arrangement.spacedBy(
-            space = (-4).dp, alignment = Alignment.CenterVertically
-        ), modifier = Modifier.fillMaxWidth()
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
-        EcsTextButton(
-            onClick = { shouldShowUsernameTextField() }, text = "Change my username"
-        )
-        val density = LocalDensity.current
-        EcsAnimatedVisibilityBox(
-            screenState = showUsernameTextField, density = density, modifier = Modifier
-        ) {
-            Column(
-                Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End
-            ) {
-                TextField(
-                    value = username,
-                    onValueChange = { onUsernameChange(it) },
-                    placeholder = {
-                        Text(
-                            text = "Ricardo"
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(58.dp)
-                        .padding(horizontal = 16.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent
-                    ),
-                    singleLine = true,
+        AccountSection(settings.userName, actions)
+        SectionDivider()
+        NotificationsSection(settings.enabledNotifications, actions.onNotificationsChange)
+        SectionDivider()
+        SyncSection(settings, actions)
+        SectionDivider()
+        ThemeSection(settings.themeConfig, actions.onThemeChange)
+        SectionDivider()
+        AboutSection(appVersion, actions.onOpenLicenses)
+    }
+}
 
-                    )
-                Spacer(modifier = Modifier.height(2.dp))
-                EcsTextButton(
-                    text = "Save",
-                    onClick = onSaveUsername
-                )
-            }
+@Composable
+private fun AccountSection(userName: String, actions: SettingsActions) {
+    SectionTitle(stringResource(string.settings_screen_settings_account))
+    var editing by rememberSaveable { mutableStateOf(false) }
+    var name by rememberSaveable(userName) { mutableStateOf(userName) }
+    var confirmDelete by remember { mutableStateOf(false) }
+
+    Text(
+        text = stringResource(string.settings_screen_settings_greeting, userName),
+        style = MaterialTheme.typography.bodyLarge,
+        modifier = Modifier.padding(vertical = 4.dp),
+    )
+    AnimatedVisibility(
+        visible = editing,
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut(),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                singleLine = true,
+                label = { Text(stringResource(string.settings_screen_settings_username)) },
+                modifier = Modifier.weight(1f),
+            )
+            Spacer(Modifier.width(8.dp))
+            TextButton(
+                enabled = name.isNotBlank(),
+                onClick = {
+                    actions.onSaveUserName(name)
+                    editing = false
+                },
+            ) { Text(stringResource(string.settings_screen_settings_save)) }
         }
-        EcsTextButton(
-            onClick = onSignOut, text = "Sign out"
+    }
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        TextButton(onClick = { editing = !editing }) {
+            Text(stringResource(string.settings_screen_settings_change_username))
+        }
+        TextButton(onClick = actions.onSignOut) {
+            Text(stringResource(string.settings_screen_settings_sign_out))
+        }
+        TextButton(onClick = { confirmDelete = true }) {
+            Text(
+                stringResource(string.settings_screen_settings_delete_account),
+                color = MaterialTheme.colorScheme.error,
+            )
+        }
+    }
+
+    if (confirmDelete) {
+        AlertDialog(
+            onDismissRequest = { confirmDelete = false },
+            title = { Text(stringResource(string.settings_screen_settings_delete_account)) },
+            text = { Text(stringResource(string.settings_screen_settings_delete_account_message)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmDelete = false
+                    actions.onDeleteAccount()
+                }) {
+                    Text(
+                        stringResource(string.settings_screen_settings_delete),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmDelete = false }) {
+                    Text(stringResource(string.settings_screen_settings_cancel))
+                }
+            },
         )
-        EcsTextButton(
-            onClick = shouldShowDeleteButton,
-            text = "Delete my account"
+    }
+}
+
+@Composable
+private fun NotificationsSection(
+    enabled: Set<NotificationCategory>,
+    onChange: (NotificationCategory, Boolean) -> Unit,
+) {
+    SectionTitle(stringResource(string.settings_screen_settings_notifications))
+    NotificationCategory.entries.forEach { category ->
+        SwitchRow(
+            text = stringResource(category.labelRes),
+            checked = category in enabled,
+            onCheckedChange = { onChange(category, it) },
         )
-        EcsAnimatedVisibilityBox(
-            screenState = showDeleteButton,
-            density = density,
-            modifier = Modifier
-        ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.End
-            ) {
-                EcsTextButton(
-                    modifier = Modifier,
-                    onClick = onDeleteAccount,
-                    text = "Confirm",
-                )
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun SyncSection(settings: SettingsUserData, actions: SettingsActions) {
+    SectionTitle(stringResource(string.settings_screen_settings_background_sync))
+    SwitchRow(
+        text = stringResource(string.settings_screen_settings_sync_enabled),
+        supportingText = stringResource(string.settings_screen_settings_sync_description),
+        checked = settings.syncEnabled,
+        onCheckedChange = actions.onSyncEnabledChange,
+    )
+    AnimatedVisibility(
+        visible = settings.syncEnabled,
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut(),
+    ) {
+        Column {
+            Text(
+                text = stringResource(string.settings_screen_settings_sync_interval),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                SYNC_INTERVAL_OPTIONS_HOURS.forEach { hours ->
+                    FilterChip(
+                        selected = settings.syncIntervalHours == hours,
+                        onClick = { actions.onSyncIntervalChange(hours) },
+                        label = { Text(stringResource(string.settings_screen_settings_hours, hours)) },
+                    )
+                }
             }
         }
     }
@@ -187,45 +235,108 @@ fun OptionsPanel(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun LinksPanel() {
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(
-            space = 16.dp,
-            alignment = Alignment.CenterHorizontally,
-        ),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        val uriHandler = LocalUriHandler.current
-        EcsTextButton(
-            onClick = { uriHandler.openUri(PRIVACY_POLICY_URL) }, text = "Privacy policy"
-        )
-        EcsTextButton(
-            onClick = { uriHandler.openUri(TERMS_OF_USE_URL) }, text = "Terms of use"
-        )
-        val context = LocalContext.current
-        EcsTextButton(
-            onClick = {
-                context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
-            }, text = "Licenses"
-        )
+private fun ThemeSection(themeConfig: ThemeConfig, onChange: (ThemeConfig) -> Unit) {
+    SectionTitle(stringResource(string.settings_screen_settings_theme))
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        ThemeConfig.entries.forEach { option ->
+            FilterChip(
+                selected = themeConfig == option,
+                onClick = { onChange(option) },
+                label = { Text(stringResource(option.labelRes)) },
+            )
+        }
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun AboutSection(appVersion: String, onOpenLicenses: () -> Unit) {
+    SectionTitle(stringResource(string.settings_screen_settings_about))
+    val uriHandler = LocalUriHandler.current
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        TextButton(onClick = { uriHandler.openUri(PRIVACY_POLICY_URL) }) {
+            Text(stringResource(string.settings_screen_settings_privacy_policy))
+        }
+        TextButton(onClick = { uriHandler.openUri(TERMS_OF_USE_URL) }) {
+            Text(stringResource(string.settings_screen_settings_terms_of_use))
+        }
+        TextButton(onClick = onOpenLicenses) {
+            Text(stringResource(string.settings_screen_settings_licenses))
+        }
+    }
+    Text(
+        text = stringResource(string.settings_screen_settings_version, appVersion),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(vertical = 8.dp),
+    )
+}
+
+@Composable
+private fun SwitchRow(
+    text: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    supportingText: String? = null,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
+            .padding(vertical = 8.dp),
+    ) {
+        Column(Modifier.weight(1f)) {
+            Text(text, style = MaterialTheme.typography.bodyLarge)
+            if (supportingText != null) {
+                Text(
+                    supportingText,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+        // The row handles the toggle so the whole line is tappable
+        Switch(checked = checked, onCheckedChange = null)
+    }
+}
+
+@Composable
+private fun SectionTitle(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
+    )
+}
+
+@Composable
+private fun SectionDivider() = HorizontalDivider(Modifier.padding(top = 12.dp))
+
+private val NotificationCategory.labelRes: Int
+    get() = when (this) {
+        NotificationCategory.TRENDING_MOVIES -> string.settings_screen_settings_trending_movies
+        NotificationCategory.TRENDING_SERIES -> string.settings_screen_settings_trending_series
+        NotificationCategory.ARTICLES -> string.settings_screen_settings_movie_reviews
+        NotificationCategory.BESTSELLERS -> string.settings_screen_settings_bestsellers
+    }
+
+private val ThemeConfig.labelRes: Int
+    get() = when (this) {
+        ThemeConfig.FOLLOW_SYSTEM -> string.settings_screen_settings_theme_system
+        ThemeConfig.LIGHT -> string.settings_screen_settings_theme_light
+        ThemeConfig.DARK -> string.settings_screen_settings_theme_dark
+    }
+
 @Preview
 @Composable
-private fun PreviewSettingsDialog() {
+private fun PreviewSettingsScreen() {
     MaterialTheme {
-        SettingsDialog(
-            onDismiss = {},
-            onDeleteAccount = {},
-            onSignOut = {},
-            onUsernameChange = {},
-            shouldShowUsernameTextField = { },
-            showUsernameTextField = true,
-            onSaveUsername = {},
-            shouldShowDeleteButton = {},
-            showDeleteButton = true,
-            username = "rColeJnr"
+        SettingsScreen(
+            uiState = SettingsUiState.Success(SettingsUserData(userName = "rColeJnr")),
+            appVersion = "2.1",
+            actions = SettingsActions({}, {}, { _, _ -> }, {}, {}, {}, {}, {}),
         )
     }
 }

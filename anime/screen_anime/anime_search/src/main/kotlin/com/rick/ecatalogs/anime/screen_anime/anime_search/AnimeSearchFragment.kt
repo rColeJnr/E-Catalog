@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_search
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -244,7 +245,7 @@ class AnimeSearchFragment : Fragment() {
         }
         analyticsHelper.logAnimeOpened(id.toString())
         val uri = Uri.parse("com.rick.ecs://anime_details_fragment/$id")
-        findNavController().navigate(uri)
+        findNavController().navigateWithMotion(uri)
     }
 
     private fun onAnimeFavClick(id: Int, isFavorite: Boolean) {

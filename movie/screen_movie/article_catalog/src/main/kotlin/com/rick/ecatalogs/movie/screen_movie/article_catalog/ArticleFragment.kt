@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.article_catalog
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -247,7 +248,7 @@ class ArticleFragment : Fragment() {
     private fun onWebUlrClick(link: String) {
         val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
         val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
-        findNavController().navigate(uri)
+        findNavController().navigateWithMotion(uri)
     }
 
     override fun onDestroy() {

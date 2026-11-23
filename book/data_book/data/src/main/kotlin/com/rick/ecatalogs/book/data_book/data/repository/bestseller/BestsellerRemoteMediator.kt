@@ -65,7 +65,7 @@ class BestsellerRemoteMediator(
 
             if (loadType == LoadType.REFRESH) {
                 keysDao.clearRemoteKeys()
-                bestsellerDao.clearBestsellers()
+                bestsellerDao.clearBestsellers(bookGenre)
             }
             val prevKey = if (page == 1) null else page - 1
             val nextKey = if (endOfPaginationReached) null else page + 1
@@ -75,7 +75,7 @@ class BestsellerRemoteMediator(
                 )
             }
             keysDao.insertAll(keys)
-            bestsellerDao.upsertBestsellers(books.map(BestsellerNetwork::asBestsellerEntity))
+            bestsellerDao.upsertBestsellers(books.map { it.asBestsellerEntity(bookGenre) })
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: IOException) {

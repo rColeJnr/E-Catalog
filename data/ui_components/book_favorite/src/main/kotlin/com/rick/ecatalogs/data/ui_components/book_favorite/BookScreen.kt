@@ -1,6 +1,11 @@
 package com.rick.ecatalogs.data.ui_components.book_favorite
 
 import android.content.Context
+import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,49 +59,62 @@ fun BookFavScreen(
     EcsScaffold(
         snackbarHostState = snackbarHostState
     ) {
-        when (bestsellerState) {
-            FavoriteUiState.Loading -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) { CircularProgressIndicator(modifier = Modifier.wrapContentSize()) }
-            }
-
-            is FavoriteUiState.BestsellerFavorites -> {
-                if (bestsellerState.favorites.isEmpty()) {
-                    EcsEmptyState()
-                } else {
-                    LazyVerticalGrid(
+        AnimatedContent(
+            targetState = bestsellerState,
+            contentKey = { it::class },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            label = "favoritesState",
+        ) { bestsellerState ->
+            when (bestsellerState) {
+                FavoriteUiState.Loading -> {
+                    Column(
                         modifier = Modifier.fillMaxSize(),
-                        columns = GridCells.Fixed(2)
-                    ) {
-                        items(bestsellerState.favorites) { book ->
-                            EcsBookCatalogCard(
-                                image = book.image,
-                                title = book.title,
-                                author = book.author,
-                                id = book.id,
-                                onFavClick = onBestsellerFavClick
-                            )
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) { CircularProgressIndicator(modifier = Modifier.wrapContentSize()) }
+                }
+
+                is FavoriteUiState.BestsellerFavorites -> {
+                    if (bestsellerState.favorites.isEmpty()) {
+                        EcsEmptyState()
+                    } else {
+                        LazyVerticalGrid(
+                            modifier = Modifier.fillMaxSize(),
+                            columns = GridCells.Fixed(2)
+                        ) {
+                            items(bestsellerState.favorites, key = { it.id }) { book ->
+                                // Animates position changes and removals (e.g. un-favoriting)
+                                Box(Modifier.animateItem()) {
+                                    EcsBookCatalogCard(
+                                        image = book.image,
+                                        title = book.title,
+                                        author = book.author,
+                                        id = book.id,
+                                        onFavClick = onBestsellerFavClick
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-            }
 
-            is FavoriteUiState.GutenbergFavorites -> {
-                if (bestsellerState.favorites.isEmpty()) {
-                    EcsEmptyState()
-                } else {
-                    LazyColumn {
-                        items(bestsellerState.favorites) { book ->
-                            EcsBookCatalogCard(
-                                image = book.formats.imageJpeg ?: "",
-                                title = book.title,
-                                author = getAuthorsAsString(context = context, book.authors),
-                                id = book.id.toString(),
-                                onFavClick = onBestsellerFavClick
-                            )
+                is FavoriteUiState.GutenbergFavorites -> {
+                    if (bestsellerState.favorites.isEmpty()) {
+                        EcsEmptyState()
+                    } else {
+                        LazyColumn {
+                            items(bestsellerState.favorites, key = { it.id }) { book ->
+                                // Animates position changes and removals (e.g. un-favoriting)
+                                Box(Modifier.animateItem()) {
+                                    EcsBookCatalogCard(
+                                        image = book.formats.imageJpeg ?: "",
+                                        title = book.title,
+                                        author = getAuthorsAsString(context = context, book.authors),
+                                        id = book.id.toString(),
+                                        onFavClick = onBestsellerFavClick
+                                    )
+                                }
+                            }
                         }
                     }
                 }

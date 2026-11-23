@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material shared-axis X (back): the previous screen returns from the start -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/fast_out_slow_in"
+    android:shareInterpolator="true">
+    <translate
+        android:duration="300"
+        android:fromXDelta="-8%"
+        android:toXDelta="0%" />
+    <alpha
+        android:duration="210"
+        android:startOffset="90"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0" />
+</set>

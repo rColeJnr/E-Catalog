@@ -12,7 +12,7 @@ interface AnimeFtsDao {
     suspend fun upsertAnimes(newsResources: List<AnimeFtsEntity>)
 
     @Query("SELECT animeId FROM anime_fts_table WHERE anime_fts_table MATCH :query")
-    fun searchAllAnimes(query: String): Flow<List<String>>
+    fun searchAllAnimes(query: String): Flow<List<Int>>
 
     @Query("SELECT count(*) FROM anime_fts_table")
     fun getCount(): Flow<Int>

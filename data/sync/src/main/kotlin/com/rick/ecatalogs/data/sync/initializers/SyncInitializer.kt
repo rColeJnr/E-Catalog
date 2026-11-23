@@ -17,11 +17,12 @@ object Sync {
                 ExistingWorkPolicy.KEEP,
                 SyncWorker.startUpSyncWork(),
             )
-            // Keep syncing in the background. UPDATE applies interval/constraint changes on the
-            // next launch without restarting the schedule.
+            // Keep syncing in the background. KEEP so the interval chosen in Settings (applied with
+            // SyncManager.setPeriodicSync) isn't reset on every launch. If the user turned sync
+            // off, the worker returns early without touching the network.
             enqueueUniquePeriodicWork(
                 PERIODIC_SYNC_WORK_NAME,
-                ExistingPeriodicWorkPolicy.UPDATE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 SyncWorker.periodicSyncWork(),
             )
         }

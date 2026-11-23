@@ -1,6 +1,9 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_catalog
 
 import android.view.LayoutInflater
+import com.rick.ecatalogs.data.ui_design.POSTER_KIND_ANIME
+import com.rick.ecatalogs.data.ui_design.posterTransitionName
+import androidx.core.view.ViewCompat
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +29,7 @@ class AnimeViewHolder(
 
     init {
         binding.root.setOnClickListener {
-            onItemClick(it, anime.id)
+            onItemClick(image, anime.id)
         }
         favorite.setOnClickListener {
             onFavClick(it, anime.id, anime.isFavorite)
@@ -38,6 +41,7 @@ class AnimeViewHolder(
 
     fun bind(anime: UserAnime) {
         this.anime = anime
+        ViewCompat.setTransitionName(image, posterTransitionName(POSTER_KIND_ANIME, anime.id))
         this.title.text = anime.title
         if (anime.images.isNotEmpty()) {
             provideGlide(this.image, anime.images)

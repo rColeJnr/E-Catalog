@@ -27,4 +27,6 @@
     <string name="close_drawer">close</string>
     <string name="empty" translatable="false" />
     <string name="your_username">your username</string>
+    <string name="movie_reviews">Movie Reviews</string>
+    <string name="settings">Settings</string>
 </resources>

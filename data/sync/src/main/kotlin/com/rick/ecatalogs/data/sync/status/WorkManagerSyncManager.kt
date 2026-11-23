@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.data.sync.status
 
 import android.content.Context
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
@@ -36,6 +37,19 @@ internal class WorkManagerSyncManager @Inject constructor(
             ExistingWorkPolicy.KEEP,
             SyncWorker.startUpSyncWork(),
         )
+    }
+
+    override fun setPeriodicSync(enabled: Boolean, intervalHours: Int) {
+        val workManager = WorkManager.getInstance(context)
+        if (enabled) {
+            workManager.enqueueUniquePeriodicWork(
+                PERIODIC_SYNC_WORK_NAME,
+                ExistingPeriodicWorkPolicy.UPDATE,
+                SyncWorker.periodicSyncWork(intervalHours),
+            )
+        } else {
+            workManager.cancelUniqueWork(PERIODIC_SYNC_WORK_NAME)
+        }
     }
 }
 

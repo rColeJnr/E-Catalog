@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.data.uiDesign)
     implementation(projects.movie.dataMovie.data)
     implementation(projects.movie.dataMovie.domain)
     implementation(projects.movie.dataMovie.model)

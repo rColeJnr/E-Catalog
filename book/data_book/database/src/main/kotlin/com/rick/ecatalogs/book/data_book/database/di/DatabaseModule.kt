@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.rick.ecatalogs.data.common.GsonParser
 import com.rick.ecatalogs.book.data_book.database.BookDatabase
+import com.rick.ecatalogs.book.data_book.database.MIGRATION_1_2
 import com.rick.ecatalogs.book.data_book.database.util.BookTypeConverters
 import dagger.Module
 import dagger.Provides
@@ -26,5 +27,7 @@ internal object DatabaseModule {
         context,
         BookDatabase::class.java,
         "book-database"
-    ).addTypeConverter(BookTypeConverters(GsonParser(Gson()))).build()
+    ).addTypeConverter(BookTypeConverters(GsonParser(Gson())))
+        .addMigrations(MIGRATION_1_2)
+        .build()
 }

@@ -1,6 +1,9 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog
 
 import android.view.LayoutInflater
+import com.rick.ecatalogs.data.ui_design.POSTER_KIND_MOVIE
+import com.rick.ecatalogs.data.ui_design.posterTransitionName
+import androidx.core.view.ViewCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -14,7 +17,7 @@ import com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.databinding.
 import com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogMovieEntryBinding
 
 class TrendingMovieAdapter(
-    private val onItemClick: (Int) -> Unit,
+    private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingMovie, RecyclerView.ViewHolder>(DIFF_COMPARATOR) {
@@ -64,7 +67,7 @@ class TrendingMovieAdapter(
 
 class TrendingMovieViewHolder(
     binding: MovieScreenMovieTrendingMovieCatalogMovieEntryBinding,
-    private val onItemClick: (Int) -> Unit,
+    private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
     private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -81,7 +84,7 @@ class TrendingMovieViewHolder(
 
     init {
         cardView.setOnClickListener {
-            onItemClick(movie.id)
+            onItemClick(image, movie.id)
         }
 
         favorite.setOnClickListener {
@@ -95,6 +98,7 @@ class TrendingMovieViewHolder(
 
     fun bind(movie: UserTrendingMovie) {
         this.movie = movie
+        ViewCompat.setTransitionName(image, posterTransitionName(POSTER_KIND_MOVIE, movie.id))
         if (movie.image.isNotEmpty()) provideGlide(image, getTmdbImageUrl(movie.image))
         title.text = movie.title
         summary.text = movie.overview
@@ -116,7 +120,7 @@ class TrendingMovieViewHolder(
     companion object {
         internal fun create(
             parent: ViewGroup,
-            onItemClick: (Int) -> Unit,
+            onItemClick: (View, Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
             onTranslationClick: (TextView, TextView, List<String>) -> Unit
         ): TrendingMovieViewHolder {

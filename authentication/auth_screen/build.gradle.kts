@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.ecatalogs.android.library.compose)
 }
 dependencies {
+    implementation(projects.data.uiDesign)
     implementation(projects.authentication.authData)
     implementation(projects.settings.dataSettings.data)
     implementation(projects.data.uiComponents.auth)

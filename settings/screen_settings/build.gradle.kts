@@ -9,10 +9,13 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
     implementation(libs.google.oss.licenses)
     implementation(libs.lifecycle.runtimeCompose)
     implementation(projects.settings.dataSettings.data)
     implementation(projects.settings.dataSettings.model)
     implementation(projects.data.uiComponents.common)
     implementation(projects.data.uiDesign)
+    implementation(projects.data.util)
 }

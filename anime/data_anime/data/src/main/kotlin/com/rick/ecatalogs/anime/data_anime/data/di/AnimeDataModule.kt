@@ -6,6 +6,8 @@ import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRecentSear
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRecentSearchRepositoryImpl
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRepository
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRepositoryImpl
+import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeSearchRepository
+import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeSearchRepositoryImpl
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.UserAnimeDataRepository
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.UserAnimeDataRepositoryImpl
 import dagger.Binds
@@ -31,6 +33,11 @@ abstract class AnimeDataModule {
     internal abstract fun bindsAnimeRecentSearchRepository(
         animeRecentSearchRepository: AnimeRecentSearchRepositoryImpl
     ): AnimeRecentSearchRepository
+
+    @Binds
+    internal abstract fun bindsAnimeSearchRepository(
+        animeSearchRepository: AnimeSearchRepositoryImpl
+    ): AnimeSearchRepository
 
     @Binds
     internal abstract fun bindsAnimeByIdRepository(

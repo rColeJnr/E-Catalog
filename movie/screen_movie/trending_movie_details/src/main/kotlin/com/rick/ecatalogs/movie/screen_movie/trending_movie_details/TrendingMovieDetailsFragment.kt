@@ -1,6 +1,10 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_details
 
 import android.graphics.Color
+import com.rick.ecatalogs.data.ui_design.POSTER_KIND_MOVIE
+import com.rick.ecatalogs.data.ui_design.posterTransitionName
+import androidx.core.view.ViewCompat
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -71,7 +75,13 @@ class TrendingMovieDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = TrendingMovieDetailsFragmentArgs.fromBundle(it)
             viewModel.setMovieId(safeArgs.movie)
+            ViewCompat.setTransitionName(binding.movieImage, posterTransitionName(POSTER_KIND_MOVIE, safeArgs.movie))
         }
+
+        // Hold the poster morph until the image is loaded (or a short timeout), so it doesn't
+        // land on an empty view.
+        postponeEnterTransition()
+        binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
         binding.toolbar.apply {
             setNavigationIcon(com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_back_icon)
@@ -117,7 +127,7 @@ class TrendingMovieDetailsFragment : Fragment() {
     private fun onSimilarClick(similar: TrendingMovie) {
         analyticsHelper.logTrendingMovieOpened(similar.id.toString())
         val uri = Uri.parse("com.rick.ecs://trending_movie_details_fragment/${similar.id}")
-        findNavController().navigate(uri)
+        findNavController().navigateWithMotion(uri)
     }
 
     private fun MovieScreenMovieTrendingMovieDetailsFragmentTrendingMovieDetailsBinding.bindList(
@@ -145,7 +155,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     val trendingMovie = state.movie
                     movieTitle.text = trendingMovie.title
                     if (trendingMovie.image.isNotEmpty()) {
-                        provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image))
+                        provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image), onReady = { startPostponedEnterTransition() })
                     }
                     movieSummary.text = trendingMovie.overview.trim()
 
@@ -340,3 +350,5 @@ private const val TAG = "trendingMovieDetailsFragment"
 //        "8.8"
 //    )
 //)
+
+private const val MAX_POSTPONE_MILLIS = 600L
