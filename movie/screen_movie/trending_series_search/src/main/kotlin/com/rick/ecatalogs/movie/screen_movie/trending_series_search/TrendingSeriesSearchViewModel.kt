@@ -9,7 +9,6 @@ import com.rick.ecatalogs.movie.data_movie.model.UserTrendingSeries
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_series.CompositeTrendingSeriesRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_series.TrendingSeriesRecentSearchRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_series.UserTrendingSeriesDataRepository
-import com.rick.ecatalogs.movie.screen_movie.common.util.SERIES_DETAILS_LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,28 +31,17 @@ class TrendingSeriesSearchViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val nyKey: String
-
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY, initialValue = "")
 
     val searchState: StateFlow<TrendingSeriesSearchUiState>
     val recentSearchState: StateFlow<TrendingSeriesRecentSearchQueriesUiState>
 
     init {
-
-        // Load api_keys
-        System.loadLibrary(SERIES_DETAILS_LIB_NAME)
-//        imdbKey = getIMDBKey()
-        nyKey = getTmdbKey()
-
         searchState = searchQuery.flatMapLatest { query ->
             if (query.length < SEARCH_QUERY_MIN_LENGTH) {
                 flowOf(TrendingSeriesSearchUiState.EmptyQuery)
             } else {
-                compositeTrendingSeriesRepository.observeSearchTrendingSeries(
-                    query = query,
-                    apiKey = nyKey
-                )
+                compositeTrendingSeriesRepository.observeSearchTrendingSeries(query = query)
                     // Not using .asResult() here, because it emits Loading state every
                     // time the user types a letter in the search box, which flickers the screen.
 
@@ -120,8 +108,6 @@ class TrendingSeriesSearchViewModel @Inject constructor(
     }
 
 }
-
-private external fun getTmdbKey(): String
 
 sealed interface TrendingSeriesSearchUiState {
     data object EmptyQuery : TrendingSeriesSearchUiState

@@ -19,12 +19,11 @@ class CompositeBestsellerRepository @Inject constructor(
     private val userDataRepository: UserBestsellerDataRepository
 ) : UserBestsellerRepository {
     override fun observeBestseller(
-        apiKey: String,
         genre: String,
         date: String,
         viewModelScope: CoroutineScope
     ): Flow<List<UserBestseller>> =
-        bestsellerRepository.getBestseller(apiKey = apiKey, bookGenre = genre, date = date)
+        bestsellerRepository.getBestseller(bookGenre = genre, date = date)
             .combine(userDataRepository.userData) { book, userData ->
                 book.map { it.mapToUserBestseller(userData) }
             }

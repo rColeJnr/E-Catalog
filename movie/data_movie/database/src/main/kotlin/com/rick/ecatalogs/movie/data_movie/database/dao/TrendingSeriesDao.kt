@@ -16,7 +16,7 @@ interface TrendingSeriesDao {
     @Query(
         value =
         """
-            DELETE FROM trending_movie_table
+            DELETE FROM trending_series_table
             WHERE id IN (:ids)
         """
     )

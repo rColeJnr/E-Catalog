@@ -24,9 +24,9 @@ class CompositeArticleRepository @Inject constructor(
 ) : UserArticlesRepository {
 
     override fun observeArticle(
-        apiKey: String, viewModelScope: CoroutineScope
+        viewModelScope: CoroutineScope
     ): Flow<PagingData<UserArticle>> =
-        articleRepository.getArticles(apiKey).cachedIn(viewModelScope)
+        articleRepository.getArticles().cachedIn(viewModelScope)
             .combine(userDataRepository.userData) { article, userData ->
                 article.map { it.asArticle().mapToUserArticle(userData) }
             }
@@ -43,8 +43,8 @@ class CompositeArticleRepository @Inject constructor(
                 }
             }
 
-    override fun observeSearchArticle(query: String, apiKey: String): Flow<List<UserArticle>> =
-        articleRepository.searchArticle(apiKey = apiKey, query = query)
+    override fun observeSearchArticle(query: String): Flow<List<UserArticle>> =
+        articleRepository.searchArticle(query = query)
             .combine(userDataRepository.userData) { article, userData ->
                 article.map { it.mapToUserArticle(userData) }
             }

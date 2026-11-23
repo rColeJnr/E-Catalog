@@ -13,13 +13,10 @@ class TrendingMovieByIdRepositoryImpl @Inject constructor(
     private val network: TmdbNetworkDataSource
 ) : TrendingMovieByIdRepository {
 
-    override fun getTrendingMovieById(id: Int, apiKey: String): Flow<MyMovie> =
+    override fun getTrendingMovieById(id: Int): Flow<MyMovie> =
         channelFlow {
             try {
-                val response = network.fetchMovie(
-                    id = id,
-                    apikey = apiKey
-                )
+                val response = network.fetchMovie(id = id)
 
                 send(response.asMyMovie())
             } catch (e: HttpException) {

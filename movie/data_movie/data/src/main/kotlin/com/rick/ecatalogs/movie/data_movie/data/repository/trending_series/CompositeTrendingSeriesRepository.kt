@@ -23,9 +23,9 @@ class CompositeTrendingSeriesRepository @Inject constructor(
     private val userDataRepository: UserTrendingSeriesDataRepository
 ) : UserTrendingSeriesRepository {
     override fun observeTrendingSeries(
-        apiKey: String, viewModelScope: CoroutineScope
+        viewModelScope: CoroutineScope
     ): Flow<PagingData<UserTrendingSeries>> =
-        trendingSeriesRepository.getTrendingSeries(apiKey).cachedIn(viewModelScope)
+        trendingSeriesRepository.getTrendingSeries().cachedIn(viewModelScope)
             .combine(userDataRepository.userData) { trendingSeries, userData ->
                 trendingSeries.map { it.asTrendingSeries().mapToUserTrendingSeries(userData) }
             }
@@ -46,9 +46,8 @@ class CompositeTrendingSeriesRepository @Inject constructor(
 
     override fun observeSearchTrendingSeries(
         query: String,
-        apiKey: String
     ): Flow<List<UserTrendingSeries>> =
-        trendingSeriesRepository.searchTrendingSeries(apiKey = apiKey, query = query)
+        trendingSeriesRepository.searchTrendingSeries(query = query)
             .combine(userDataRepository.userData) { series, userData ->
                 series.map { it.mapToUserTrendingSeries(userData) }
             }

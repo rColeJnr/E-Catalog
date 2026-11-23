@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface TrendingMovieByIdRepository {
 
-    fun getTrendingMovieById(id: Int, apiKey: String): Flow<MyMovie>
+    fun getTrendingMovieById(id: Int): Flow<MyMovie>
 }

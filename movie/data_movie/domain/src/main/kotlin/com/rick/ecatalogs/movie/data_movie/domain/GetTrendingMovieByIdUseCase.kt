@@ -13,8 +13,8 @@ class GetTrendingMovieByIdUseCase @Inject constructor(
     private val trendingMovieByIdRepository: TrendingMovieByIdRepository,
     private val userTrendingMovieDataRepository: UserTrendingMovieDataRepository
 ) {
-    operator fun invoke(id: Int, apiKey: String): Flow<UserMovie> =
-        trendingMovieByIdRepository.getTrendingMovieById(id, apiKey)
+    operator fun invoke(id: Int): Flow<UserMovie> =
+        trendingMovieByIdRepository.getTrendingMovieById(id)
             .mapToUserMovie(userTrendingMovieDataRepository.userData)
 }
 

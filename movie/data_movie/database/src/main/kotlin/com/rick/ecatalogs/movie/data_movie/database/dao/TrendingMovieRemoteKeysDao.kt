@@ -17,4 +17,8 @@ interface TrendingMovieRemoteKeysDao {
 
     @Query("DELETE FROM trending_movie_remote_keys")
     suspend fun clearRemoteKeys()
+
+    /** Ids of the movies on the first stored page (the page with no previous key). */
+    @Query("SELECT id FROM trending_movie_remote_keys WHERE prev_key IS NULL")
+    suspend fun firstPageIds(): List<Int>
 }

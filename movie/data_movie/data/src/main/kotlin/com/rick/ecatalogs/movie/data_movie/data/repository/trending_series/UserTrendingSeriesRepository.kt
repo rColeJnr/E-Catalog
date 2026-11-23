@@ -11,7 +11,6 @@ interface UserTrendingSeriesRepository {
      * Returns available animes as a stream.
      */
     fun observeTrendingSeries(
-        apiKey: String,
         viewModelScope: CoroutineScope
     ): Flow<PagingData<UserTrendingSeries>>
 
@@ -20,6 +19,6 @@ interface UserTrendingSeriesRepository {
      * */
     fun observeTrendingSeriesFavorite(): Flow<List<UserTrendingSeries>>
 
-    fun observeSearchTrendingSeries(query: String, apiKey: String): Flow<List<UserTrendingSeries>>
+    fun observeSearchTrendingSeries(query: String): Flow<List<UserTrendingSeries>>
 
 }

@@ -23,7 +23,6 @@ internal class BestsellerRepositoryImpl @Inject constructor(
 
     override fun getBestseller(
         bookGenre: String,
-        apiKey: String,
         date: String
     ): Flow<List<Bestseller>> = channelFlow {
 
@@ -31,7 +30,6 @@ internal class BestsellerRepositoryImpl @Inject constructor(
             val bestsellers = network.fetchBestsellers(
                 date = date,
                 bookGenre = bookGenre,
-                apiKey = apiKey
             ).results.books
 
             bestsellerDao.clearBestsellers()

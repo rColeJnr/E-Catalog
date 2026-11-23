@@ -20,13 +20,16 @@ Features include:
 
 ## Getting Started
 To run the project, you need to obtain your own API keys:
-1. **NYT API**: Get a free key from [developer.nytimes.com](https://developer.nytimes.com/apis) for movie and bestseller data.
-2. **IMDB API**: Get a key from [imdb-api.com](https://imdb-api.com/).
+1. **NYT API**: Get a free key from [developer.nytimes.com](https://developer.nytimes.com/apis) for movie articles and bestseller data (enable the Article Search and Books APIs).
+2. **TMDB API**: Get a key from [themoviedb.org](https://www.themoviedb.org/settings/api) for trending movies and series.
 
 ### Adding API Keys
-You can load keys directly into the respective ViewModels or follow the [Native Development Kit (NDK) tutorial](https://medium.com/programming-lite/securing-api-keys-in-android-app-using-ndk-native-development-kit-7aaa6c0176be) to secure them.
-* Movie/Series keys: `MovieCatalogViewModel.kt`, `TvSeriesCatalogViewModel.kt`, and `DetailsViewModel.kt`.
-* Bestseller keys: Located in `book/screen_book/bestseller_catalog/src/main/jni/book-keys.c`.
+Add the keys to `local.properties` in the project root (this file is git-ignored):
+```properties
+tmdbApiKey=YOUR_TMDB_KEY
+nyTimesApiKey=YOUR_NYT_KEY
+```
+They are exposed as `BuildConfig` fields in the network modules (`:movie:data_movie:network`, `:book:data_book:network`) and added to requests there, so no other code handles keys.
 
 ## Project Structure
 The project is modularized by feature:

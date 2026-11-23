@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface TrendingSeriesByIdRepository {
 
-    fun getTrendingSeriesById(id: Int, apiKey: String): Flow<MySeries>
+    fun getTrendingSeriesById(id: Int): Flow<MySeries>
 }

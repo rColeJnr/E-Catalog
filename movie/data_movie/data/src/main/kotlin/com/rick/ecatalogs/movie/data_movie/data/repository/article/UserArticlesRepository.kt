@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface UserArticlesRepository {
 
     fun observeArticle(
-        apiKey: String,
         viewModelScope: CoroutineScope
     ): Flow<PagingData<UserArticle>>
 
@@ -17,5 +16,5 @@ interface UserArticlesRepository {
      * */
     fun observeArticleFavorite(): Flow<List<UserArticle>>
 
-    fun observeSearchArticle(query: String, apiKey: String): Flow<List<UserArticle>>
+    fun observeSearchArticle(query: String): Flow<List<UserArticle>>
 }

@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import com.rick.ecatalogs.movie.data_movie.model.UserTrendingSeries
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_series.CompositeTrendingSeriesRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_series.UserTrendingSeriesDataRepository
-import com.rick.ecatalogs.movie.screen_movie.common.util.SERIES_LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -36,21 +35,14 @@ class TrendingSeriesViewModel @Inject constructor(
 
     val pagingDataFlow: Flow<PagingData<UserTrendingSeries>>
 
-    private val tmdbKey: String
-
     init {
-
-        // Load api_key
-        System.loadLibrary(SERIES_LIB_NAME)
-//        imdbKey = getIMDBKey()
-        tmdbKey = getTMDBKey()
         pagingDataFlow = getTrendingSeries().cachedIn(viewModelScope)
 //        getTvSeries()
 
     }
 
     private fun getTrendingSeries(): Flow<PagingData<UserTrendingSeries>> =
-        compositeTrendingSeriesRepository.observeTrendingSeries(tmdbKey, viewModelScope)
+        compositeTrendingSeriesRepository.observeTrendingSeries(viewModelScope)
 
     fun onEvent(event: TrendingSeriesUiEvent) {
         when (event) {
@@ -67,8 +59,6 @@ class TrendingSeriesViewModel @Inject constructor(
     }
 
 }
-
-private external fun getTMDBKey(): String
 
 //sealed class TvSeriesUiState {
 //    data class Series(val trendingTv: TrendingTv) : TvSeriesUiState()

@@ -13,13 +13,10 @@ class TrendingSeriesByIdRepositoryImpl @Inject constructor(
     private val network: TmdbNetworkDataSource
 ) : TrendingSeriesByIdRepository {
 
-    override fun getTrendingSeriesById(id: Int, apiKey: String): Flow<MySeries> =
+    override fun getTrendingSeriesById(id: Int): Flow<MySeries> =
         channelFlow {
             try {
-                val response = network.fetchSeries(
-                    id = id,
-                    apikey = apiKey
-                )
+                val response = network.fetchSeries(id = id)
 
                 send(response.asMySeries())
             } catch (e: HttpException) {

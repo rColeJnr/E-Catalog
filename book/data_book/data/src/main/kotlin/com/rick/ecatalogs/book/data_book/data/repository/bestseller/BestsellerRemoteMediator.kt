@@ -19,7 +19,6 @@ class BestsellerRemoteMediator(
     private val bestsellerDao: BestsellerDao,
     private val keysDao: BestsellerRemoteKeysDao,
     private val network: BestsellerNetworkDataSource,
-    private val apiKey: String,
     private val bookGenre: String,
     private val date: String,
 ) : RemoteMediator<Int, BestsellerEntity>() {
@@ -59,7 +58,7 @@ class BestsellerRemoteMediator(
 
         try {
             val response =
-                network.fetchBestsellers(apiKey = apiKey, bookGenre = bookGenre, date = date)
+                network.fetchBestsellers(bookGenre = bookGenre, date = date)
             val books = response.results.books
             val endOfPaginationReached = books.isEmpty()
 

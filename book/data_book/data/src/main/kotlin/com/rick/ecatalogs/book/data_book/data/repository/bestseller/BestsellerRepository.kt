@@ -18,7 +18,6 @@ interface BestsellerRepository {
      */
     fun getBestseller(
         bookGenre: String,
-        apiKey: String,
         date: String = "current"
     ): Flow<List<Bestseller>>
 

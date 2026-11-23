@@ -9,7 +9,16 @@ import kotlinx.coroutines.flow.Flow
  * Data layer implementation for [Article] & [ArticleEntity]
  * */
 interface ArticleRepository {
-    fun getArticles(apiKey: String): Flow<PagingData<ArticleEntity>>
+    fun getArticles(): Flow<PagingData<ArticleEntity>>
     fun getArticleFavorites(favorites: Set<String>): Flow<List<Article>>
-    fun searchArticle(query: String, apiKey: String): Flow<List<Article>>
+    fun searchArticle(query: String): Flow<List<Article>>
+
+    /**
+     * Fetches the first page of articles. If its ids differ from the stored first page,
+     * refreshes the list the same way a pull-to-refresh does.
+     *
+     * @return true if the content changed.
+     * @throws java.io.IOException or retrofit2.HttpException on network failure.
+     */
+    suspend fun syncFirstPage(): Boolean
 }

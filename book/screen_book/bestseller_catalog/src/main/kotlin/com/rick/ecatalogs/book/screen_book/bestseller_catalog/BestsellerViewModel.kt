@@ -25,13 +25,9 @@ class BestsellerViewModel @Inject constructor(
     lateinit var bestsellerUiState: StateFlow<BestsellerUIState>
 
     // private set
-    private val nyKey: String
     private var position: Int = 0
 
     init {
-
-        System.loadLibrary(LIB_NAME)
-        nyKey = getNYKey()
         onEvent(BestsellerEvents.SelectedGenre(0))
 
     }
@@ -58,7 +54,7 @@ class BestsellerViewModel @Inject constructor(
         val genre = BookGenre.entries[position].listName
 
         bestsellerUiState = compositeBookRepository.observeBestseller(
-            apiKey = nyKey, genre = genre, date = "current", viewModelScope
+            genre = genre, date = "current", viewModelScope
         ).map<List<UserBestseller>, BestsellerUIState>(BestsellerUIState::Success)
             .catch { BestsellerUIState.Error }
             .onStart { emit(BestsellerUIState.Loading) }
@@ -87,6 +83,3 @@ sealed interface BestsellerCarouselUIState {
     data object Error : BestsellerCarouselUIState
     data class Success(val bestsellers: List<UserBestseller>) : BestsellerCarouselUIState
 }
-
-private external fun getNYKey(): String
-private const val LIB_NAME = "book-keys"

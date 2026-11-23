@@ -9,7 +9,6 @@ import com.rick.ecatalogs.movie.data_movie.model.UserArticle
 import com.rick.ecatalogs.movie.data_movie.data.repository.article.ArticleRecentSearchRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.article.CompositeArticleRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.article.UserArticleDataRepository
-import com.rick.ecatalogs.movie.screen_movie.common.util.ARTICLE_LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -33,25 +32,17 @@ class ArticleSearchViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val nyKey: String
-
     private val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY, initialValue = "")
 
     val searchState: StateFlow<ArticleSearchUiState>
     val recentSearchState: StateFlow<ArticleRecentSearchQueriesUiState>
 
     init {
-
-        // Load api_keys
-        System.loadLibrary(ARTICLE_LIB_NAME)
-//        imdbKey = getIMDBKey()
-        nyKey = getNyKey()
-
         searchState = searchQuery.flatMapLatest { query ->
             if (query.length < SEARCH_QUERY_MIN_LENGTH) {
                 flowOf(ArticleSearchUiState.EmptyQuery)
             } else {
-                compositeArticleRepository.observeSearchArticle(query, apiKey = nyKey)
+                compositeArticleRepository.observeSearchArticle(query)
                     // Not using .asResult() here, because it emits Loading state every
                     // time the user types a letter in the search box, which flickers the screen.
                     .map<List<UserArticle>, ArticleSearchUiState> { articles ->
@@ -113,8 +104,6 @@ class ArticleSearchViewModel @Inject constructor(
     }
 
 }
-
-private external fun getNyKey(): String
 
 sealed interface ArticleSearchUiState {
     data object EmptyQuery : ArticleSearchUiState

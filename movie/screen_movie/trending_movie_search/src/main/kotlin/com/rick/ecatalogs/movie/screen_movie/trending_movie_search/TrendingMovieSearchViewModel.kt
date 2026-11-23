@@ -9,7 +9,6 @@ import com.rick.ecatalogs.movie.data_movie.model.UserTrendingMovie
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.CompositeTrendingMovieRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.TrendingMovieRecentSearchRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.UserTrendingMovieDataRepository
-import com.rick.ecatalogs.movie.screen_movie.common.util.MOVIE_DETAILS_LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,25 +31,17 @@ class TrendingMovieSearchViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val tmdbKey: String
-
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY, initialValue = "")
 
     val searchState: StateFlow<TrendingMovieSearchUiState>
     val recentSearchState: StateFlow<TrendingMovieRecentSearchQueriesUiState>
 
     init {
-
-        // Load api_keys
-        System.loadLibrary(MOVIE_DETAILS_LIB_NAME)
-//        imdbKey = getIMDBKey()
-        tmdbKey = getTmdbKey()
-
         searchState = searchQuery.flatMapLatest { query ->
             if (query.length < SEARCH_QUERY_MIN_LENGTH) {
                 flowOf(TrendingMovieSearchUiState.EmptyQuery)
             } else {
-                compositeTrendingMovieRepository.observeSearchTrendingMovie(query, apiKey = tmdbKey)
+                compositeTrendingMovieRepository.observeSearchTrendingMovie(query)
                     // Not using .asResult() here, because it emits Loading state every
                     // time the user types a letter in the search box, which flickers the screen.
                     .map<List<UserTrendingMovie>, TrendingMovieSearchUiState> { data ->
@@ -115,8 +106,6 @@ class TrendingMovieSearchViewModel @Inject constructor(
     }
 
 }
-
-private external fun getTmdbKey(): String
 
 sealed interface TrendingMovieSearchUiState {
     data object EmptyQuery : TrendingMovieSearchUiState

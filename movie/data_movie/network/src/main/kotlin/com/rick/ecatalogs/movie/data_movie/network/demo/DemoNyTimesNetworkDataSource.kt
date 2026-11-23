@@ -17,14 +17,14 @@ class DemoNyTimesNetworkDataSource @Inject constructor(
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun fetchMovieArticles(
-        page: Int, apikey: String, section_name: String, sort: String
+        page: Int, section_name: String, sort: String
     ): ArticleResponse = withContext(Dispatchers.IO) {
         assets.open(ARTICLE_ASSET).use(networkJson::decodeFromStream)
     }
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun searchMovieArticles(
-        apiKey: String, query: String, sort: String, section_name: String
+        query: String, sort: String, section_name: String
     ): ArticleResponse = withContext(Dispatchers.IO) {
         assets.open(SEARCH_ARTICLE_ASSET).use(networkJson::decodeFromStream)
     }

@@ -20,13 +20,12 @@ class DemoBestsellerNetworkDataSource @Inject constructor(
     override suspend fun fetchBestsellers(
         date: String,
         bookGenre: String,
-        apiKey: String
     ): BestsellerResponse =
         withContext(IO) {
             assets.open(BESTSELLER_ASSET).use(networkJson::decodeFromStream)
         }
 
-    override suspend fun searchBestseller(query: String, apiKey: String): SearchBestsellerResponse {
+    override suspend fun searchBestseller(query: String): SearchBestsellerResponse {
         TODO("Not yet implemented")
     }
 //    @OptIn(ExperimentalSerializationApi::class)

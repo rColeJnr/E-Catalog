@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface UserTrendingMovieRepository {
 
     fun observeTrendingMovie(
-        apiKey: String,
         viewModelScope: CoroutineScope
     ): Flow<PagingData<UserTrendingMovie>>
 
@@ -17,6 +16,6 @@ interface UserTrendingMovieRepository {
      * */
     fun observeTrendingMovieFavorite(): Flow<List<UserTrendingMovie>>
 
-    fun observeSearchTrendingMovie(query: String, apiKey: String): Flow<List<UserTrendingMovie>>
+    fun observeSearchTrendingMovie(query: String): Flow<List<UserTrendingMovie>>
 
 }

@@ -24,9 +24,9 @@ class CompositeTrendingMovieRepository @Inject constructor(
 ) : UserTrendingMovieRepository {
 
     override fun observeTrendingMovie(
-        apiKey: String, viewModelScope: CoroutineScope
+        viewModelScope: CoroutineScope
     ): Flow<PagingData<UserTrendingMovie>> =
-        trendingMovieRepository.getTrendingMovies(apiKey).cachedIn(viewModelScope)
+        trendingMovieRepository.getTrendingMovies().cachedIn(viewModelScope)
             .combine(userDataRepository.userData) { trendingMovie, userData ->
                 trendingMovie.map { it.asTrendingMovie().mapToUserTrendingMovie(userData) }
             }
@@ -46,9 +46,9 @@ class CompositeTrendingMovieRepository @Inject constructor(
             }
 
     override fun observeSearchTrendingMovie(
-        query: String, apiKey: String
+        query: String
     ): Flow<List<UserTrendingMovie>> =
-        trendingMovieRepository.searchTrendingMovie(apiKey = apiKey, query = query)
+        trendingMovieRepository.searchTrendingMovie(query = query)
             .combine(userDataRepository.userData) { article, userData ->
                 article.map { it.mapToUserTrendingMovie(userData) }
             }

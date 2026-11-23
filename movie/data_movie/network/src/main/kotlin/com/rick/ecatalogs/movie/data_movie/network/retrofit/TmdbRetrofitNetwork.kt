@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.data_movie.network.retrofit
 
+import com.rick.ecatalogs.movie.data_movie.network.BuildConfig
 import com.rick.ecatalogs.movie.data_movie.network.TmdbNetworkDataSource
 import com.rick.ecatalogs.movie.data_movie.network.model.MovieResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.SeriesResponse
@@ -21,14 +22,12 @@ private interface TmdbRetrofitNetworkApi {
     suspend fun fetchTrendingSeries(
         @Query("page") page: Int,
         @Query("language") language: String = "en-US",
-        @Query("api_key") apikey: String
     ): TrendingSeriesResponse
 
     @GET("trending/movie/week?")
     suspend fun fetchTrendingMovie(
         @Query("page") page: Int,
         @Query("language") language: String = "en-US",
-        @Query("api_key") apikey: String
     ): TrendingMovieResponse
 
     @GET("search/movie?")
@@ -36,7 +35,6 @@ private interface TmdbRetrofitNetworkApi {
         @Query("query") query: String,
         @Query("include_adult") include_adult: Boolean = true,
         @Query("language") language: String = "en-US",
-        @Query("api_key") apikey: String
     ): TrendingMovieResponse
 
     @GET("search/tv?")
@@ -44,7 +42,6 @@ private interface TmdbRetrofitNetworkApi {
         @Query("query") query: String,
         @Query("include_adult") include_adult: Boolean = true,
         @Query("language") language: String = "en-US",
-        @Query("api_key") apikey: String
     ): TrendingSeriesResponse
 
     @GET("tv/{id}?")
@@ -52,7 +49,6 @@ private interface TmdbRetrofitNetworkApi {
         @Path("id") id: Int,
         @Query("append_to_response") appendResponse: String = APPEND_RESPONSE,
         @Query("language") language: String = LANGUAGE,
-        @Query("api_key") apikey: String
     ): SeriesResponse
 
     @GET("movie/{id}?")
@@ -60,7 +56,6 @@ private interface TmdbRetrofitNetworkApi {
         @Path("id") id: Int,
         @Query("append_to_response") appendResponse: String = APPEND_RESPONSE,
         @Query("language") language: String = LANGUAGE,
-        @Query("api_key") apikey: String,
     ): MovieResponse
 
     companion object {
@@ -70,14 +65,6 @@ private interface TmdbRetrofitNetworkApi {
     }
 
 }
-//    https://api.themoviedb.org/3/trending/movie/week?page=2/language=en-US/&api_key=
-//    https://api.themoviedb.org/3/multi/507089?append_to_response=similar,images&language=en-US/&api_key=
-//    https://api.themoviedb.org/3/tv/60625?append_to_response=similar,images&language=en-US/&api_key=
-//    https://api.themoviedb.org/3/trending/movie/week?language=en-US/&api_key=
-//    https://api.themoviedb.org/3/trending/tv/week?language=en-US/&api_key=
-//    https://api.themoviedb.org/3/search/multi?query=Jack+Reacher&api_key=
-//    https://api.themoviedb.org/3/search/multi?query=something&include_adult=true&language=en-US&page=1
-//    https://api.themoviedb.org/3/tv/157065?api_key=&append_to_response=images,similar
 
 @Singleton
 class TmdbRetrofitNetwork @Inject constructor() : TmdbNetworkDataSource {
@@ -86,6 +73,7 @@ class TmdbRetrofitNetwork @Inject constructor() : TmdbNetworkDataSource {
         .addConverterFactory(GsonConverterFactory.create())
         .client(
             OkHttpClient.Builder()
+                .addInterceptor(ApiKeyInterceptor("api_key", BuildConfig.TMDB_API_KEY))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build()
         )
@@ -95,46 +83,40 @@ class TmdbRetrofitNetwork @Inject constructor() : TmdbNetworkDataSource {
     override suspend fun fetchTrendingSeries(
         page: Int,
         language: String,
-        apikey: String
     ): TrendingSeriesResponse =
-        networkApi.fetchTrendingSeries(page, language, apikey)
+        networkApi.fetchTrendingSeries(page, language)
 
     override suspend fun fetchTrendingMovies(
         page: Int,
         language: String,
-        apikey: String
     ): TrendingMovieResponse =
-        networkApi.fetchTrendingMovie(page, language, apikey)
+        networkApi.fetchTrendingMovie(page, language)
 
     override suspend fun fetchSeries(
         id: Int,
         appendResponse: String,
         language: String,
-        apikey: String,
     ): SeriesResponse =
-        networkApi.fetchSeries(id, appendResponse, language, apikey)
+        networkApi.fetchSeries(id, appendResponse, language)
 
     override suspend fun fetchMovie(
         id: Int,
         appendResponse: String,
         language: String,
-        apikey: String,
     ): MovieResponse =
-        networkApi.fetchMovie(id, appendResponse, language, apikey)
+        networkApi.fetchMovie(id, appendResponse, language)
 
     override suspend fun searchSeries(
         query: String,
         include_adult: Boolean,
         language: String,
-        apikey: String
     ): TrendingSeriesResponse =
-        networkApi.searchSeries(query, include_adult, language, apikey)
+        networkApi.searchSeries(query, include_adult, language)
 
     override suspend fun searchMovie(
         query: String,
         include_adult: Boolean,
         language: String,
-        apikey: String
     ): TrendingMovieResponse =
-        networkApi.searchMovie(query, include_adult, language, apikey)
+        networkApi.searchMovie(query, include_adult, language)
 }

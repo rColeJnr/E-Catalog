@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.book.data_book.network.retrofit
 
 import com.rick.ecatalogs.book.data_book.network.BestsellerNetworkDataSource
+import com.rick.ecatalogs.book.data_book.network.BuildConfig
 import com.rick.ecatalogs.book.data_book.network.model.BestsellerResponse
 import com.rick.ecatalogs.book.data_book.network.model.SearchBestsellerResponse
 import okhttp3.OkHttpClient
@@ -42,11 +43,15 @@ internal class BestsellerRetrofitNetwork @Inject constructor() : BestsellerNetwo
         ).build().create(NyTimesRetrofitNetworkApi::class.java)
 
     override suspend fun fetchBestsellers(
-        date: String, bookGenre: String, apiKey: String
+        date: String, bookGenre: String
     ): BestsellerResponse =
-        networkApi.getBestsellers(date = date, bookGenre = bookGenre, apiKey = apiKey)
+        networkApi.getBestsellers(
+            date = date,
+            bookGenre = bookGenre,
+            apiKey = BuildConfig.NY_TIMES_API_KEY,
+        )
 
-    override suspend fun searchBestseller(query: String, apiKey: String): SearchBestsellerResponse {
+    override suspend fun searchBestseller(query: String): SearchBestsellerResponse {
         TODO("Not yet implemented")
     }
 }

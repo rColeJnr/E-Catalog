@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.ecatalogs.movie.data_movie.domain.GetTrendingSeriesByIdUseCase
 import com.rick.ecatalogs.movie.data_movie.model.UserSeries
-import com.rick.ecatalogs.movie.screen_movie.common.util.SERIES_DETAILS_LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,26 +24,16 @@ class SeriesDetailsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val tmdbKey: String
-
     private val seriesId = savedStateHandle.getStateFlow(key = SERIES_ID, initialValue = -1)
 
     val uiState: StateFlow<SeriesDetailsUiState>
 
     init {
-
-        // Load api_keys
-        System.loadLibrary(SERIES_DETAILS_LIB_NAME)
-        tmdbKey = getTMDBKey()
-
         uiState = seriesId.flatMapLatest { id ->
             if (id == -1) {
                 flowOf(SeriesDetailsUiState.Loading)
             } else {
-                getTrendingSeriesByIdUseCase(
-                    id = seriesId.value,
-                    apiKey = tmdbKey
-                )
+                getTrendingSeriesByIdUseCase(id = seriesId.value)
                     .map<UserSeries, SeriesDetailsUiState> {
                         SeriesDetailsUiState.Success(it)
                     }
@@ -66,7 +55,6 @@ class SeriesDetailsViewModel @Inject constructor(
 
 }
 
-private external fun getTMDBKey(): String
 private const val SERIES_ID = "seriesId"
 
 sealed interface SeriesDetailsUiState {

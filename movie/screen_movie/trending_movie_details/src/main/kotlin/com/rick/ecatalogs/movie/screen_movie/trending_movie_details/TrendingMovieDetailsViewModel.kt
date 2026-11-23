@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.ecatalogs.movie.data_movie.domain.GetTrendingMovieByIdUseCase
 import com.rick.ecatalogs.movie.data_movie.model.UserMovie
-import com.rick.ecatalogs.movie.screen_movie.common.util.MOVIE_DETAILS_LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,26 +24,16 @@ class TrendingMovieDetailsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val tmdbKey: String
-
     val movieId = savedStateHandle.getStateFlow(key = MOVIE_ID, initialValue = -1)
 
     val uiState: StateFlow<MovieDetailsUiState>
 
     init {
-
-        // Load api_keys
-        System.loadLibrary(MOVIE_DETAILS_LIB_NAME)
-        tmdbKey = getTMDBKey()
-
         uiState = movieId.flatMapLatest { id ->
             if (id == -1) {
                 flowOf(MovieDetailsUiState.Loading)
             } else {
-                getTrendingMovieByIdUseCase(
-                    id = movieId.value,
-                    apiKey = tmdbKey
-                )
+                getTrendingMovieByIdUseCase(id = movieId.value)
                     .map<UserMovie, MovieDetailsUiState> {
                         MovieDetailsUiState.Success(it)
                     }
@@ -63,7 +52,6 @@ class TrendingMovieDetailsViewModel @Inject constructor(
 
 }
 
-private external fun getTMDBKey(): String
 private const val MOVIE_ID = "movieId"
 
 sealed interface MovieDetailsUiState {

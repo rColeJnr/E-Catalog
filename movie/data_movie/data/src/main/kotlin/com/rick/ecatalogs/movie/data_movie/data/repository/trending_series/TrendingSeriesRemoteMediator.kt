@@ -9,9 +9,7 @@ import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingSeriesDao
 import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingSeriesRemoteKeysDao
 import com.rick.ecatalogs.movie.data_movie.database.model.TrendingSeriesEntity
 import com.rick.ecatalogs.movie.data_movie.database.model.TrendingSeriesRemoteKeys
-import com.rick.ecatalogs.movie.data_movie.data.model.asTrendingSeriesEntity
 import com.rick.ecatalogs.movie.data_movie.network.TmdbNetworkDataSource
-import com.rick.ecatalogs.movie.data_movie.network.model.TrendingSeriesNetwork
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -20,7 +18,6 @@ class TrendingSeriesRemoteMediator(
     private val network: TmdbNetworkDataSource,
     private val trendingSeriesDao: TrendingSeriesDao,
     private val keysDao: TrendingSeriesRemoteKeysDao,
-    private val key: String,
     private val transactionRunner: MovieTransactionRunner,
 ) : RemoteMediator<Int, TrendingSeriesEntity>() {
 
@@ -54,26 +51,15 @@ class TrendingSeriesRemoteMediator(
         }
 
         try {
-            val response = network.fetchTrendingSeries(
+            val response = network.fetchTrendingSeries(page = page)
+            writeTrendingSeriesPage(
                 page = page,
-                apikey = key,
+                response = response,
+                isRefresh = loadType == LoadType.REFRESH,
+                trendingSeriesDao = trendingSeriesDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
             )
-            val series = response.results
-            val endOfPaginationReached = response.page == TOTAL_NETWORK_PAGES
-
-            transactionRunner {
-                if (loadType == LoadType.REFRESH) {
-                    trendingSeriesDao.deleteTrendingSeries(series.map(TrendingSeriesNetwork::id))
-                    keysDao.clearRemoteKeys()
-                }
-                val prevKey = if (page == 1) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = series.map {
-                    TrendingSeriesRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
-                }
-                keysDao.insertAll(keys)
-                trendingSeriesDao.upsertTrendingSeries(series.map { it.asTrendingSeriesEntity() })
-            }
 
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: HttpException) {
@@ -112,5 +98,3 @@ class TrendingSeriesRemoteMediator(
     }
 
 }
-
-private const val TOTAL_NETWORK_PAGES = 100

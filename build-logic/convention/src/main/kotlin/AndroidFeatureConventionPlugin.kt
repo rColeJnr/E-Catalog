@@ -22,7 +22,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                     testInstrumentationRunner =
                         "com.rick.ecatalogs.data.testing.EcsTestRunner"
                 }
-                ndkVersion = "25.1.8937393"
                 testOptions.animationsDisabled = true
             }
 

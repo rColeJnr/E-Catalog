@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import com.rick.ecatalogs.movie.data_movie.model.UserTrendingMovie
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.CompositeTrendingMovieRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.UserTrendingMovieDataRepository
-import com.rick.ecatalogs.movie.screen_movie.common.util.MOVIE_LIB_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,24 +22,19 @@ class TrendingMovieViewModel @Inject constructor(
     private val userDataRepository: UserTrendingMovieDataRepository
 ) : ViewModel() {
 
-    private val apiKey: String
-
     private val _uiState: MutableStateFlow<TrendingMovieUiState> =
         MutableStateFlow(TrendingMovieUiState.Loading)
     val uiState: StateFlow<TrendingMovieUiState> = _uiState.asStateFlow()
 
 
     init {
-        System.loadLibrary(MOVIE_LIB_NAME)
-        apiKey = getTmdbKey()
-
         getTrendingMovies()
     }
 
     private fun getTrendingMovies() {
         // We catch the flow from the repository and cache it in the viewModelScope
         val pagingFlow = compositeMovieRepository
-            .observeTrendingMovie(apiKey, viewModelScope)
+            .observeTrendingMovie(viewModelScope)
             .cachedIn(viewModelScope)
 
         // Update the StateFlow to Success with the paging data flow
@@ -73,5 +67,3 @@ sealed class TrendingMovieUiEvent {
     data class UpdateTrendingMovieFavorite(val id: Int, val isFavorite: Boolean) :
         TrendingMovieUiEvent()
 }
-
-private external fun getTmdbKey(): String

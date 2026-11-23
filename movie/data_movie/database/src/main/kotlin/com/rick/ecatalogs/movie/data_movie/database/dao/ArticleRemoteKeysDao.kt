@@ -18,4 +18,8 @@ interface ArticleRemoteKeysDao {
     @Query("DELETE FROM article_remote_keys_table")
     suspend fun clearRemoteKeys()
 
+    /** Ids of the articles on the first stored page (the page with no previous key). */
+    @Query("SELECT id FROM article_remote_keys_table WHERE prev_key IS NULL")
+    suspend fun firstPageIds(): List<String>
+
 }

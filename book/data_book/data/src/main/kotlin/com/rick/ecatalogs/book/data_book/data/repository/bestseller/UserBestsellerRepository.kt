@@ -10,7 +10,6 @@ interface UserBestsellerRepository {
      * Returns available bestseller books as a stream
      */
     fun observeBestseller(
-        apiKey: String,
         genre: String,
         date: String,
         viewModelScope: CoroutineScope

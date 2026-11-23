@@ -18,4 +18,8 @@ interface TrendingSeriesRemoteKeysDao {
     @Query("DELETE FROM trending_series_remote_keys")
     suspend fun clearRemoteKeys()
 
+    /** Ids of the series on the first stored page (the page with no previous key). */
+    @Query("SELECT id FROM trending_series_remote_keys WHERE prev_key IS NULL")
+    suspend fun firstPageIds(): List<Int>
+
 }

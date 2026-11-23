@@ -28,7 +28,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
     private val network: ArticleNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
 ) : ArticleRepository {
-    override fun getArticles(apiKey: String): Flow<PagingData<ArticleEntity>> {
+    override fun getArticles(): Flow<PagingData<ArticleEntity>> {
         val pagingSourceFactory = { articleDao.getArticles() }
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
@@ -42,7 +42,6 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 network = network,
                 articleDao = articleDao,
                 keysDao = keysDao,
-                key = apiKey,
                 transactionRunner = transactionRunner,
             ),
             pagingSourceFactory = pagingSourceFactory
@@ -56,11 +55,26 @@ internal class ArticleRepositoryImpl @Inject constructor(
         )
             .map { articleEntities -> articleEntities.map { it.asArticle() } }
 
-    override fun searchArticle(query: String, apiKey: String): Flow<List<Article>> = channelFlow {
+    override suspend fun syncFirstPage(): Boolean {
+        val response = network.fetchMovieArticles(page = ARTICLE_FIRST_PAGE)
+        val fetchedIds = response.response.docs.map(ArticleNetwork::id).toSet()
+        if (fetchedIds.isEmpty() || fetchedIds == keysDao.firstPageIds().toSet()) return false
+
+        writeArticlePage(
+            page = ARTICLE_FIRST_PAGE,
+            response = response,
+            isRefresh = true,
+            articleDao = articleDao,
+            keysDao = keysDao,
+            transactionRunner = transactionRunner,
+        )
+        return true
+    }
+
+    override fun searchArticle(query: String): Flow<List<Article>> = channelFlow {
         try {
             val response = network.searchMovieArticles(
                 query = query,
-                apiKey = apiKey
             ).response.docs
 
             articleDao.clearArticles(response.map(ArticleNetwork::id))

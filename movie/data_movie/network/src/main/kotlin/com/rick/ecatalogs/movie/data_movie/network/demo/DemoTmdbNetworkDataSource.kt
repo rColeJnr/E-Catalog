@@ -21,7 +21,6 @@ class DemoTmdbNetworkDataSource @Inject constructor(
     override suspend fun fetchTrendingMovies(
         page: Int,
         language: String,
-        apikey: String
     ): TrendingMovieResponse =
         withContext(IO) {
             assets.open(TRENDING_MOVIE_ASSET).use(networkJson::decodeFromStream)
@@ -31,7 +30,6 @@ class DemoTmdbNetworkDataSource @Inject constructor(
     override suspend fun fetchTrendingSeries(
         page: Int,
         language: String,
-        apikey: String
     ): TrendingSeriesResponse = withContext(IO) {
         assets.open(TRENDING_SERIES_ASSET).use(networkJson::decodeFromStream)
     }
@@ -41,7 +39,6 @@ class DemoTmdbNetworkDataSource @Inject constructor(
         id: Int,
         appendResponse: String,
         language: String,
-        apikey: String,
     ): SeriesResponse = withContext(IO) {
         assets.open(SERIES_ASSET).use(networkJson::decodeFromStream)
     }
@@ -51,7 +48,6 @@ class DemoTmdbNetworkDataSource @Inject constructor(
         id: Int,
         appendResponse: String,
         language: String,
-        apikey: String,
     ): MovieResponse = withContext(IO) {
         assets.open(MOVIE_ASSET).use(networkJson::decodeFromStream)
     }
@@ -61,7 +57,6 @@ class DemoTmdbNetworkDataSource @Inject constructor(
         query: String,
         include_adult: Boolean,
         language: String,
-        apikey: String
     ): TrendingSeriesResponse = withContext(IO) {
         assets.open(SEARCH_SERIES_ASSET).use(networkJson::decodeFromStream)
     }
@@ -71,7 +66,6 @@ class DemoTmdbNetworkDataSource @Inject constructor(
         query: String,
         include_adult: Boolean,
         language: String,
-        apikey: String
     ): TrendingMovieResponse = withContext(IO) {
         assets.open(SEARCH_MOVIE_ASSET).use(networkJson::decodeFromStream)
     }

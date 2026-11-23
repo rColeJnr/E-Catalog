@@ -28,7 +28,7 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
     private val network: TmdbNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
 ) : TrendingMovieRepository {
-    override fun getTrendingMovies(apiKey: String): Flow<PagingData<TrendingMovieEntity>> {
+    override fun getTrendingMovies(): Flow<PagingData<TrendingMovieEntity>> {
         val pagingSourceFactory = { trendingMovieDao.getTrendingMovie() }
 
         @OptIn(ExperimentalPagingApi::class)
@@ -43,7 +43,6 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
                 network = network,
                 trendingMovieDao = trendingMovieDao,
                 keysDao = keysDao,
-                key = apiKey,
                 transactionRunner = transactionRunner,
             ),
             pagingSourceFactory = pagingSourceFactory
@@ -57,12 +56,27 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
         )
             .map { trendingMovieEntities -> trendingMovieEntities.map { it.asTrendingMovie() } }
 
-    override fun searchTrendingMovie(apiKey: String, query: String): Flow<List<TrendingMovie>> =
+    override suspend fun syncFirstPage(): Boolean {
+        val response = network.fetchTrendingMovies(page = TRENDING_MOVIE_FIRST_PAGE)
+        val fetchedIds = response.results.map(TrendingMovieNetwork::id).toSet()
+        if (fetchedIds.isEmpty() || fetchedIds == keysDao.firstPageIds().toSet()) return false
+
+        writeTrendingMoviePage(
+            page = TRENDING_MOVIE_FIRST_PAGE,
+            response = response,
+            isRefresh = true,
+            trendingMovieDao = trendingMovieDao,
+            keysDao = keysDao,
+            transactionRunner = transactionRunner,
+        )
+        return true
+    }
+
+    override fun searchTrendingMovie(query: String): Flow<List<TrendingMovie>> =
         channelFlow {
             try {
                 val response = network.searchMovie(
                     query = query,
-                    apikey = apiKey
                 ).results
 
                 trendingMovieDao.upsertTrendingMovie(response.map(TrendingMovieNetwork::asTrendingMovieEntity))

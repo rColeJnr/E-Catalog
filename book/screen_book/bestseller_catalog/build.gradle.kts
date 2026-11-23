@@ -8,11 +8,6 @@ android {
     buildFeatures {
         compose = true
     }
-    externalNativeBuild {
-        ndkBuild {
-            path = file("src/main/jni/Android.mk") //Path of android.mk
-        }
-    }
     namespace = "com.rick.ecatalogs.book.screen_book.bestseller_catalog"
 }
 

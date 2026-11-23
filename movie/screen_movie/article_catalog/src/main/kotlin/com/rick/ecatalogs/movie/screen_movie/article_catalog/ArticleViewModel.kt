@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import com.rick.ecatalogs.movie.data_movie.model.UserArticle
 import com.rick.ecatalogs.movie.data_movie.data.repository.article.CompositeArticleRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.article.UserArticleDataRepository
-import com.rick.ecatalogs.movie.screen_movie.common.util.ARTICLE_LIB_NAME
 import com.rick.ecatalogs.movie.screen_movie.common.util.TIME_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,19 +28,12 @@ class NYMovieViewModel @Inject constructor(
 
     val pagingDataFLow: Flow<PagingData<UserArticle>>
 
-    private val nyKey: String
-
     init {
-
-        // Load api_keys
-        System.loadLibrary(ARTICLE_LIB_NAME)
-        nyKey = getNYKey()
-
         pagingDataFLow = fetchMovies().cachedIn(viewModelScope)
     }
 
     private fun fetchMovies(): Flow<PagingData<UserArticle>> =
-        compositeArticleRepository.observeArticle(nyKey, viewModelScope)
+        compositeArticleRepository.observeArticle(viewModelScope)
     // Removed for consistency across application
 //            .map { pagingData -> pagingData.map { NYMovieUiModel.MovieItem(it) } }
 //            .map {
@@ -100,8 +92,6 @@ private fun getMonth(date: String?): LocalDate {
         LocalDate.now()
     }
 }
-
-private external fun getNYKey(): String
 
 sealed class NYMovieUiEvent {
     data class UpdateArticleFavorite(val id: String, val isFavorite: Boolean) : NYMovieUiEvent()

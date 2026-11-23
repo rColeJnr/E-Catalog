@@ -13,8 +13,8 @@ class GetTrendingSeriesByIdUseCase @Inject constructor(
     private val trendingSeriesByIdRepository: TrendingSeriesByIdRepository,
     private val userDataRepository: UserTrendingSeriesDataRepository
 ) {
-    operator fun invoke(id: Int, apiKey: String): Flow<UserSeries> =
-        trendingSeriesByIdRepository.getTrendingSeriesById(id, apiKey)
+    operator fun invoke(id: Int): Flow<UserSeries> =
+        trendingSeriesByIdRepository.getTrendingSeriesById(id)
             .mapToUserSeries(userDataRepository.userData)
 }
 

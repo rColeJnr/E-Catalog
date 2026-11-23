@@ -28,7 +28,7 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
     private val network: TmdbNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
 ) : TrendingSeriesRepository {
-    override fun getTrendingSeries(apiKey: String): Flow<PagingData<TrendingSeriesEntity>> {
+    override fun getTrendingSeries(): Flow<PagingData<TrendingSeriesEntity>> {
         val pagingSourceFactory = { trendingSeriesDao.getTrendingSeries() }
 
         @OptIn(ExperimentalPagingApi::class)
@@ -43,7 +43,6 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
                 network = network,
                 trendingSeriesDao = trendingSeriesDao,
                 keysDao = keysDao,
-                key = apiKey,
                 transactionRunner = transactionRunner,
             ),
             pagingSourceFactory = pagingSourceFactory
@@ -57,12 +56,27 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
         )
             .map { trendingSeriesEntities -> trendingSeriesEntities.map { it.asTrendingSeries() } }
 
-    override fun searchTrendingSeries(apiKey: String, query: String): Flow<List<TrendingSeries>> =
+    override suspend fun syncFirstPage(): Boolean {
+        val response = network.fetchTrendingSeries(page = TRENDING_SERIES_FIRST_PAGE)
+        val fetchedIds = response.results.map(TrendingSeriesNetwork::id).toSet()
+        if (fetchedIds.isEmpty() || fetchedIds == keysDao.firstPageIds().toSet()) return false
+
+        writeTrendingSeriesPage(
+            page = TRENDING_SERIES_FIRST_PAGE,
+            response = response,
+            isRefresh = true,
+            trendingSeriesDao = trendingSeriesDao,
+            keysDao = keysDao,
+            transactionRunner = transactionRunner,
+        )
+        return true
+    }
+
+    override fun searchTrendingSeries(query: String): Flow<List<TrendingSeries>> =
         channelFlow {
             try {
                 val response = network.searchSeries(
                     query = query,
-                    apikey = apiKey
                 ).results
 
                 trendingSeriesDao.upsertTrendingSeries(response.map(TrendingSeriesNetwork::asTrendingSeriesEntity))

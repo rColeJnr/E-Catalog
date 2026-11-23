@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.ecatalogs.android.library)
     alias(libs.plugins.ecatalogs.android.library.jacoco)
@@ -11,6 +13,13 @@ android {
         buildConfig = true
     }
     namespace = "com.rick.ecatalogs.book.data_book.network"
+    // API key lives in local.properties (git-ignored): nyTimesApiKey=...
+    defaultConfig {
+        buildConfigField(
+            "String", "NY_TIMES_API_KEY",
+            "\"${gradleLocalProperties(rootDir, providers).getProperty("nyTimesApiKey", "")}\""
+        )
+    }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true

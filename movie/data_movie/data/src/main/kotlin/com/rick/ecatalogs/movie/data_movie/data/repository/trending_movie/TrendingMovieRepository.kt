@@ -10,9 +10,18 @@ import kotlinx.coroutines.flow.Flow
  * */
 interface TrendingMovieRepository {
 
-    fun getTrendingMovies(apiKey: String): Flow<PagingData<TrendingMovieEntity>>
+    fun getTrendingMovies(): Flow<PagingData<TrendingMovieEntity>>
 
     fun getTrendingMovieFavorites(favorites: Set<Int>): Flow<List<TrendingMovie>>
 
-    fun searchTrendingMovie(apiKey: String, query: String): Flow<List<TrendingMovie>>
+    fun searchTrendingMovie(query: String): Flow<List<TrendingMovie>>
+
+    /**
+     * Fetches the first page of trending movies. If its ids differ from the stored first page,
+     * refreshes the list the same way a pull-to-refresh does.
+     *
+     * @return true if the content changed.
+     * @throws java.io.IOException or retrofit2.HttpException on network failure.
+     */
+    suspend fun syncFirstPage(): Boolean
 }

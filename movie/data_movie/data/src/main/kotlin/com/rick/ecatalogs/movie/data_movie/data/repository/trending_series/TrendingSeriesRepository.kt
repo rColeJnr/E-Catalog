@@ -10,9 +10,18 @@ import kotlinx.coroutines.flow.Flow
  * */
 interface TrendingSeriesRepository {
 
-    fun getTrendingSeries(apiKey: String): Flow<PagingData<TrendingSeriesEntity>>
+    fun getTrendingSeries(): Flow<PagingData<TrendingSeriesEntity>>
 
     fun getTrendingSeriesFavorites(favorites: Set<Int>): Flow<List<TrendingSeries>>
 
-    fun searchTrendingSeries(apiKey: String, query: String): Flow<List<TrendingSeries>>
+    fun searchTrendingSeries(query: String): Flow<List<TrendingSeries>>
+
+    /**
+     * Fetches the first page of trending series. If its ids differ from the stored first page,
+     * refreshes the list the same way a pull-to-refresh does.
+     *
+     * @return true if the content changed.
+     * @throws java.io.IOException or retrofit2.HttpException on network failure.
+     */
+    suspend fun syncFirstPage(): Boolean
 }

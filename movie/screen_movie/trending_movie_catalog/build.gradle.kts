@@ -4,11 +4,6 @@ plugins {
 }
 
 android {
-    externalNativeBuild {
-        ndkBuild {
-            path = file("src/main/jni/Android.mk") //Path of android.mk
-        }
-    }
     namespace = "com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog"
 }
 

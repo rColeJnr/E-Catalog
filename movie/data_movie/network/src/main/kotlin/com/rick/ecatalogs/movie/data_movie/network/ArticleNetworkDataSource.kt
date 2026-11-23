@@ -7,13 +7,11 @@ interface ArticleNetworkDataSource {
 
     suspend fun fetchMovieArticles(
         page: Int,
-        apikey: String,
         section_name: String = "section.name:\"movies\" AND typeOfMaterials:\"review\"",
         sort: String = "newest",
     ): ArticleResponse
 
     suspend fun searchMovieArticles(
-        apiKey: String,
         query: String,
         sort: String = "relevance",
         section_name: String = "section.name:\"movies\" AND typeOfMaterials:\"review\"",
