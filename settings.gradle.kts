@@ -28,6 +28,8 @@ include(":data:analytics")
 include(":data:common")
 include(":data:datastore")
 include(":data:datastore_proto")
+include(":data:notifications")
+include(":data:sync")
 include(":data:translation")
 
 include(":data:ui_components:common")

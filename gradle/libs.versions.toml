@@ -31,6 +31,7 @@ gms = "20.7.0"
 googleOss = "17.0.1"
 googleOssPlugin = "0.10.6"
 hilt = "2.51"
+hiltExt = "1.2.0"
 hiltNavigation = "1.0.0"
 jacoco = "0.8.8"
 kotlin = "1.9.22"
@@ -96,6 +97,8 @@ google-oss-licenses = { group = "com.google.android.gms", name = "play-services-
 google-oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "googleOssPlugin" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
+hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 #hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
