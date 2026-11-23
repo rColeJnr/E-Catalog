@@ -10,5 +10,5 @@ dependencies {
 }
 //
 android {
-    namespace = "com.rick.data.common"
+    namespace = "com.rick.ecatalogs.data.common"
 }

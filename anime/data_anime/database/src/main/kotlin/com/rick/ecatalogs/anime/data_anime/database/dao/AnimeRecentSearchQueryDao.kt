@@ -1,0 +1,25 @@
+package com.rick.ecatalogs.anime.data_anime.database.dao
+
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Upsert
+import com.rick.ecatalogs.anime.data_anime.database.model.AnimeRecentSearchQueryEntity
+import kotlinx.coroutines.flow.Flow
+
+
+/**
+ * Dao for [AnimeRecentSearchQueryEntity] access
+ * */
+@Dao
+interface AnimeRecentSearchQueryDao {
+
+    @Query("SELECT * FROM anime_recent_search_queries_table ORDER BY queriedDate DESC LIMIT :limit")
+    fun getAnimeRecentSearchQueryEntities(limit: Int): Flow<List<AnimeRecentSearchQueryEntity>>
+
+    @Upsert
+    suspend fun insertOrReplaceAnimeRecentSearchQuery(recentSearchQuery: AnimeRecentSearchQueryEntity)
+
+    @Query(value = "DELETE FROM anime_recent_search_queries_table")
+    suspend fun clearAnimeRecentSearchQueries()
+
+}

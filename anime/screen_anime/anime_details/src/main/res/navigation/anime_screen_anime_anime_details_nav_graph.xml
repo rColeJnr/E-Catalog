@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/anime_screen_anime_anime_details_animedetailsfragment"
-        android:name="com.rick.anime.screen_anime.anime_details.AnimeDetailsFragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.anime_details.AnimeDetailsFragment"
         android:label=""
         tools:layout="@layout/anime_screen_anime_anime_details_fragment_anime_details">
         <argument

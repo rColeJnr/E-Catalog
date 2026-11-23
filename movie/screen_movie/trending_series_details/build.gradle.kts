@@ -8,7 +8,7 @@ android {
             path = file("src/main/jni/Android.mk") //Path of android.mk
         }
     }
-    namespace = "com.rick.movie.screen_movie.trending_series_details"
+    namespace = "com.rick.ecatalogs.movie.screen_movie.trending_series_details"
 }
 
 dependencies {

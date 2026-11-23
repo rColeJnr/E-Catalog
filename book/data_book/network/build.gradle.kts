@@ -10,7 +10,7 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    namespace = "com.rick.book.data_book.network"
+    namespace = "com.rick.ecatalogs.book.data_book.network"
     testOptions {
         unitTests {
             isIncludeAndroidResources = true

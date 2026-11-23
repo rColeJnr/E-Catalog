@@ -1,8 +1,8 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import com.rick.configureFlavors
-import com.rick.configureKotlinAndroid
-import com.rick.disableUnnecessaryAndroidTests
+import com.rick.ecatalogs.buildlogic.configureFlavors
+import com.rick.ecatalogs.buildlogic.configureKotlinAndroid
+import com.rick.ecatalogs.buildlogic.disableUnnecessaryAndroidTests
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

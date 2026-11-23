@@ -7,7 +7,7 @@
     <include app:graph="@navigation/book_screen_book_common_nav_graph" />
     <fragment
         android:id="@+id/book_screen_book_bestseller_favorites_bestsellerfavoritesfragment"
-        android:name="com.rick.book.screen_book.bestseller_favorites.BestsellerFavoritesFragment"
+        android:name="com.rick.ecatalogs.book.screen_book.bestseller_favorites.BestsellerFavoritesFragment"
         android:label="">
         <action
             android:id="@+id/book_screen_book_bestseller_favorites_action_book_screen_book_bestseller_favorites_bestsellerfavoritesfragment_to_book_screen_book_common_nav_graph"

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.movie.screen_movie.common"
+    namespace = "com.rick.ecatalogs.movie.screen_movie.common"
 }
 
 dependencies {

@@ -1,0 +1,31 @@
+package com.rick.ecatalogs.anime.data_anime.data.repository.anime
+
+import com.rick.ecatalogs.anime.data_anime.data.model.asExternalModel
+import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeRecentSearchQueryDao
+import com.rick.ecatalogs.anime.data_anime.database.model.AnimeRecentSearchQueryEntity
+import com.rick.ecatalogs.anime.data_anime.model.AnimeRecentSearchQuery
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Clock
+import javax.inject.Inject
+
+class AnimeRecentSearchRepositoryImpl @Inject constructor(
+    private val recentSearchQueryDao: AnimeRecentSearchQueryDao
+) : AnimeRecentSearchRepository {
+    override fun getAnimeRecentSearchQueries(limit: Int): Flow<List<AnimeRecentSearchQuery>> =
+        recentSearchQueryDao.getAnimeRecentSearchQueryEntities(limit).map { searchQueries ->
+            searchQueries.map { it.asExternalModel() }
+        }
+
+    override suspend fun insertOrReplaceAnimeRecentSearch(searchQuery: String) {
+        recentSearchQueryDao.insertOrReplaceAnimeRecentSearchQuery(
+            AnimeRecentSearchQueryEntity(
+                query = searchQuery,
+                queriedDate = Clock.System.now(),
+            ),
+        )
+    }
+
+    override suspend fun clearAnimeRecentSearches() =
+        recentSearchQueryDao.clearAnimeRecentSearchQueries()
+}

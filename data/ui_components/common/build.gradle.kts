@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.data.ui_components.common"
+    namespace = "com.rick.ecatalogs.data.ui_components.common"
 }
 
 dependencies {

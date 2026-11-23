@@ -9,7 +9,7 @@ android {
     defaultConfig {
         consumerProguardFiles("consumer-proguard-rules.pro")
     }
-    namespace = "com.rick.data.datastore"
+    namespace = "com.rick.ecatalogs.data.datastore"
     testOptions {
         unitTests {
             isReturnDefaultValues = true

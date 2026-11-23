@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.data.analytics"
+    namespace = "com.rick.ecatalogs.data.analytics"
 }
 
 dependencies {

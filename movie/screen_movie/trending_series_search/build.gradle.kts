@@ -23,5 +23,5 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
-    namespace = "com.rick.movie.screen_movie.trending_series_search"
+    namespace = "com.rick.ecatalogs.movie.screen_movie.trending_series_search"
 }

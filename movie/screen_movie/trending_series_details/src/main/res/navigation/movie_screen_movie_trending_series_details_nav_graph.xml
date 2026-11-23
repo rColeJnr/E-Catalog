@@ -5,7 +5,7 @@
     app:startDestination="@id/movie_screen_movie_trending_series_details_trendingseriesdetailsfragment">
     <fragment
         android:id="@+id/movie_screen_movie_trending_series_details_trendingseriesdetailsfragment"
-        android:name="com.rick.movie.screen_movie.trending_series_details.TrendingSeriesDetailsFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.trending_series_details.TrendingSeriesDetailsFragment"
         android:label="">
         <deepLink
             android:id="@+id/movie_screen_movie_trending_series_details_deeplink"

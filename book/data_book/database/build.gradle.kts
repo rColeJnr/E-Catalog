@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.book.data_book.database"
+    namespace = "com.rick.ecatalogs.book.data_book.database"
 }
 
 dependencies {

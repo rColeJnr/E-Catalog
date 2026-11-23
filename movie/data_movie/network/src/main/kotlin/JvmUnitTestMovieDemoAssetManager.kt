@@ -1,4 +1,4 @@
-import com.rick.movie.data_movie.network.demo.DemoMovieAssetManager
+import com.rick.ecatalogs.movie.data_movie.network.demo.DemoMovieAssetManager
 import java.io.File
 import java.io.InputStream
 import java.util.Properties

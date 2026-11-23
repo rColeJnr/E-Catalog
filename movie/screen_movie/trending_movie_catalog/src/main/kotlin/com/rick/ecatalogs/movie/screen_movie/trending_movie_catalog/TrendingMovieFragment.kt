@@ -1,0 +1,277 @@
+package com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog
+
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
+import com.rick.ecatalogs.data.analytics.AnalyticsHelper
+import com.rick.ecatalogs.movie.screen_movie.common.RemotePresentationState
+import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
+import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
+import com.rick.ecatalogs.movie.screen_movie.common.asRemotePresentationState
+import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
+import com.rick.ecatalogs.movie.screen_movie.common.logTrendingMovieOpened
+import com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogFragmentTrendingMovieCatalogBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import java.util.Locale
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class TrendingMovieFragment : Fragment() {
+
+    private var _binding: MovieScreenMovieTrendingMovieCatalogFragmentTrendingMovieCatalogBinding? =
+        null
+    private val binding get() = _binding!!
+    private val viewModel: TrendingMovieViewModel by viewModels()
+    private val translationViewModel: TranslationViewModel by viewModels()
+
+    private lateinit var adapter: TrendingMovieAdapter
+    private lateinit var navController: NavController
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = MovieScreenMovieTrendingMovieCatalogFragmentTrendingMovieCatalogBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        navController = findNavController()
+
+        initAdapter()
+
+        if (translationViewModel.location.value.isEmpty()) {
+            translationViewModel.setLocation(Locale.getDefault().language)
+        }
+
+        binding.bindList(
+            viewModel.uiState.asLiveData(),
+            adapter = adapter
+        )
+
+        analyticsHelper.logScreenView("trendingMovieCatalog")
+
+        return binding.root
+    }
+
+    private fun initAdapter() {
+        adapter =
+            TrendingMovieAdapter(
+                this::onMovieClick,
+                this::onFavClick,
+                this::onTranslationClick
+            )
+        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = adapter
+    }
+
+    private fun MovieScreenMovieTrendingMovieCatalogFragmentTrendingMovieCatalogBinding.bindList(
+        uiState: LiveData<TrendingMovieUiState>,
+        adapter: TrendingMovieAdapter
+    ) {
+
+        uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is TrendingMovieUiState.Loading -> {
+                    swipeRefresh.isRefreshing = true
+                }
+
+                is TrendingMovieUiState.Success -> {
+                    lifecycleScope.launch {
+                        state.movies.collect(adapter::submitData)
+                    }
+                }
+
+                is TrendingMovieUiState.Error -> {
+                    swipeRefresh.isRefreshing = false
+                }
+            }
+
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collect { loadState ->
+                    swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                    emptyList.isVisible =
+                        !swipeRefresh.isRefreshing && adapter.itemCount == 0
+
+                    val errorState = loadState.source.refresh as? LoadState.Error
+                        ?: loadState.mediator?.refresh as? LoadState.Error
+
+                    errorState?.let {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(
+                                R.string.movie_screen_movie_trending_movie_catalog_whoops,
+                                it.error.localizedMessage
+                            ),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
+
+        val notLoading = adapter.loadStateFlow.asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
+
+        lifecycleScope.launch {
+            notLoading.collectLatest {
+                if (it) recyclerView.scrollToPosition(0)
+            }
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            adapter.refresh()
+        }
+    }
+
+    private fun onMovieClick(id: Int) {
+        //TODO add animations
+        analyticsHelper.logTrendingMovieOpened(id.toString())
+        val uri = Uri.parse("com.rick.ecs://trending_movie_details_fragment/$id")
+        findNavController().navigate(uri)
+    }
+
+    private fun onFavClick(view: View, id: Int, isFavorite: Boolean) {
+        val set = AnimatorInflater.loadAnimator(
+            requireContext(),
+            com.rick.ecatalogs.movie.screen_movie.common.R.animator.movie_screen_movie_common_animator
+        ) as AnimatorSet
+
+
+        val imageView = view.findViewById<ShapeableImageView>(R.id.favorite)
+        var imageSwapped = false
+        val rotationAnimator = set.childAnimations.find {
+            it is ObjectAnimator && it.propertyName == "alpha"
+        } as? ObjectAnimator
+
+        rotationAnimator?.addUpdateListener { anim ->
+            if (anim.animatedFraction >= 0.5f && !imageSwapped) {
+                val nextIcon = if (isFavorite) {
+                    com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
+                } else {
+                    com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled
+                }
+
+                imageView.setImageResource(nextIcon)
+                imageSwapped = true
+            }
+        }
+
+        set.apply {
+            setTarget(view)
+            start()
+        }
+        viewModel.onEvent(TrendingMovieUiEvent.UpdateTrendingMovieFavorite(id, !isFavorite))
+    }
+
+    private fun onTranslationClick(actionView: TextView, textView: TextView, texts: List<String>) {
+        if (actionView.text == getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)) {
+            textView.animate().alpha(0f).setDuration(200).withEndAction {
+                textView.text = texts.first()
+                actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                    actionView.text =
+                        getString(R.string.movie_screen_movie_trending_movie_catalog_show_translation)
+                    actionView.animate().alpha(1f).setDuration(200).start()
+                }.start()
+                textView.animate().alpha(1f).setDuration(200).start()
+            }.start()
+        } else {
+            translationViewModel.onEvent(
+                TranslationEvent.GetTranslation(
+                    texts = texts,
+                    lCode = translationViewModel.location.value
+                )
+            )
+            lifecycleScope.launch {
+                translationViewModel.translation.collectLatest { translations ->
+                    if (translations.isNotEmpty()) {
+                        textView.animate().alpha(0f).setDuration(200).withEndAction {
+                            textView.text = translations.first().text
+                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
+                                actionView.text =
+                                    getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)
+                                actionView.animate().alpha(1f).setDuration(200).start()
+                            }.start()
+                            textView.animate().alpha(1f).setDuration(200).start()
+                        }.start()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.movie_screen_movie_trending_movie_catalog_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_imdb -> {
+//                exitTransition = eTransition
+//                reenterTransition = reTransition
+
+                navController.navigate(
+                    TrendingMovieFragmentDirections.movieScreenMovieTrendingMovieCatalogActionMovieScreenMovieTrendingMovieCatalogTrendingmoviefragmentToMovieScreenMovieTrendingMovieSearchNavGraph()
+                )
+                true
+            }
+
+            R.id.fav_imdb -> {
+                navController.navigate(
+                    TrendingMovieFragmentDirections.movieScreenMovieTrendingMovieCatalogActionMovieScreenMovieTrendingMovieCatalogTrendingmoviefragmentToMovieScreenMovieTrendingMovieFavoriteNavGraph()
+                )
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+}

@@ -10,7 +10,7 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    namespace = "com.rick.anime.data_anime.network"
+    namespace = "com.rick.ecatalogs.anime.data_anime.network"
     testOptions {
         unitTests {
             isIncludeAndroidResources = true

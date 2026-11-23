@@ -1,0 +1,86 @@
+package com.rick.ecatalogs.movie.data_movie.data.repository.article
+
+import android.util.Log
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.rick.ecatalogs.movie.data_movie.database.MovieTransactionRunner
+import com.rick.ecatalogs.movie.data_movie.database.dao.ArticleDao
+import com.rick.ecatalogs.movie.data_movie.database.dao.ArticleRemoteKeysDao
+import com.rick.ecatalogs.movie.data_movie.database.model.ArticleEntity
+import com.rick.ecatalogs.movie.data_movie.database.model.asArticle
+import com.rick.ecatalogs.movie.data_movie.model.article_models.Article
+import com.rick.ecatalogs.movie.data_movie.data.model.asArticleEntity
+import com.rick.ecatalogs.movie.data_movie.network.ArticleNetworkDataSource
+import com.rick.ecatalogs.movie.data_movie.network.model.ArticleNetwork
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import retrofit2.HttpException
+import java.io.IOException
+import javax.inject.Inject
+
+internal class ArticleRepositoryImpl @Inject constructor(
+    private val articleDao: ArticleDao,
+    private val keysDao: ArticleRemoteKeysDao,
+    private val network: ArticleNetworkDataSource,
+    private val transactionRunner: MovieTransactionRunner,
+) : ArticleRepository {
+    override fun getArticles(apiKey: String): Flow<PagingData<ArticleEntity>> {
+        val pagingSourceFactory = { articleDao.getArticles() }
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = true,
+                prefetchDistance = 0,
+                initialLoadSize = 1
+            ),
+            remoteMediator = ArticleRemoteMediator(
+                network = network,
+                articleDao = articleDao,
+                keysDao = keysDao,
+                key = apiKey,
+                transactionRunner = transactionRunner,
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+    }
+
+    override fun getArticleFavorites(favorites: Set<String>): Flow<List<Article>> =
+        articleDao.getArticlesWithFilters(
+            filterById = true,
+            filterArticleIds = favorites
+        )
+            .map { articleEntities -> articleEntities.map { it.asArticle() } }
+
+    override fun searchArticle(query: String, apiKey: String): Flow<List<Article>> = channelFlow {
+        try {
+            val response = network.searchMovieArticles(
+                query = query,
+                apiKey = apiKey
+            ).response.docs
+
+            articleDao.clearArticles(response.map(ArticleNetwork::id))
+
+            articleDao.upsertArticles(response.map(ArticleNetwork::asArticleEntity))
+
+            // appending '%' so we can allow other characters to be before and after the query string
+            val dbQuery = "%${query.replace(' ', '%')}%"
+            articleDao.getArticlesWithFilters(
+                filterByQuery = true,
+                query = dbQuery
+            )
+                .collectLatest { articleEntities -> send(articleEntities.map(ArticleEntity::asArticle)) }
+
+        } catch (e: IOException) {
+            Log.e(TAG, e.localizedMessage ?: "IOException")
+        } catch (e: HttpException) {
+            Log.e(TAG, e.localizedMessage ?: "HTTPException")
+        }
+    }
+}
+
+private const val TAG = "ArticleRepositoryImpl"

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/anime_screen_anime_manga_details_mangadetailsfragment"
-        android:name="com.rick.anime.screen_anime.manga_details.MangaDetailsFragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.manga_details.MangaDetailsFragment"
         android:label="">
         <argument
             android:name="manga"

@@ -11,7 +11,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
-    namespace = "com.rick.book.screen_book.bestseller_favorites"
+    namespace = "com.rick.ecatalogs.book.screen_book.bestseller_favorites"
 }
 
 dependencies {

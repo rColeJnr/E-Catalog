@@ -5,7 +5,7 @@
     app:startDestination="@id/movie_screen_movie_article_catalog_articlefragment">
     <fragment
         android:id="@+id/movie_screen_movie_article_catalog_articlefragment"
-        android:name="com.rick.movie.screen_movie.article_catalog.ArticleFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.article_catalog.ArticleFragment"
         android:label="">
         <action
             android:id="@+id/movie_screen_movie_article_catalog_action_movie_screen_movie_article_catalog_articlefragment_to_movie_screen_movie_article_favorite_nav_graph"
@@ -19,6 +19,6 @@
     <include app:graph="@navigation/movie_screen_movie_article_search_nav_graph" />
     <dialog
         android:id="@+id/movie_screen_movie_article_catalog_articledetailsdialogfragment"
-        android:name="com.rick.movie.screen_movie.common.ArticleDetailsDialogFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.common.ArticleDetailsDialogFragment"
         android:label="" />
 </navigation>

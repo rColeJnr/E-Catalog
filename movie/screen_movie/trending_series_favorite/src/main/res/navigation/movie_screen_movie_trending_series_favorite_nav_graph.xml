@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/movie_screen_movie_trending_series_favorite_trendingseriesfavoritefragment"
-        android:name="com.rick.movie.screen_movie.trending_series_favorite.TrendingSeriesFavoriteFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.trending_series_favorite.TrendingSeriesFavoriteFragment"
         android:label="">
         <deepLink
             android:id="@+id/movie_screen_movie_trending_series_favorite_deeplink"

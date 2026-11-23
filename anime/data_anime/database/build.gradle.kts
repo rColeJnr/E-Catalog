@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.anime.data_anime.database"
+    namespace = "com.rick.ecatalogs.anime.data_anime.database"
 }
 
 dependencies {

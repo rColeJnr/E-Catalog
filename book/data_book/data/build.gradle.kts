@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.book.data_book.data"
+    namespace = "com.rick.ecatalogs.book.data_book.data"
 }
 
 dependencies {

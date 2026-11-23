@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.movie.data_movie.domain"
+    namespace = "com.rick.ecatalogs.movie.data_movie.domain"
 }
 
 dependencies {

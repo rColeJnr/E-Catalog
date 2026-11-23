@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.rick.buildlogic"
+group = "com.rick.ecatalogs.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

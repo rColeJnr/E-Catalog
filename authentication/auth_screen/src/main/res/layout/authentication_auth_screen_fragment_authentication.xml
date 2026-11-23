@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/data_ui_design_gradient_background"
-    tools:context="com.rick.auth_screen.AuthenticationFragment">
+    tools:context="com.rick.ecatalogs.authentication.auth_screen.AuthenticationFragment">
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_vioew"

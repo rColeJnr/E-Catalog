@@ -1,0 +1,32 @@
+package com.rick.ecatalogs.anime.data_anime.model
+
+import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Author
+import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Genre
+import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Published
+import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Serialization
+import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Theme
+
+//@Serializable
+data class Manga(
+    val id: Int,
+    val url: String,
+    val images: String,
+    val title: String,
+    val titleEnglish: String,
+    val type: String,
+    val chapters: Int,
+    val volumes: Int,
+    val publishing: Boolean,
+    val published: Published,
+    val score: Double,
+    val scoredBy: Int,
+    val rank: Int,
+    val popularity: Int,
+    val favorites: Int,
+    val synopsis: String,
+    val background: String,
+    val authors: List<Author>,
+    val serializations: List<Serialization>,
+    val genres: List<Genre>,
+    val themes: List<Theme>,
+)

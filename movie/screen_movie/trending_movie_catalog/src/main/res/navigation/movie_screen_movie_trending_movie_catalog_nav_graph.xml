@@ -5,7 +5,7 @@
     app:startDestination="@id/movie_screen_movie_trending_movie_catalog_trendingmoviefragment">
     <fragment
         android:id="@+id/movie_screen_movie_trending_movie_catalog_trendingmoviefragment"
-        android:name="com.rick.movie.screen_movie.trending_movie_catalog.TrendingMovieFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.TrendingMovieFragment"
         android:label="">
         <action
             android:id="@+id/movie_screen_movie_trending_movie_catalog_action_movie_screen_movie_trending_movie_catalog_trendingmoviefragment_to_movie_screen_movie_trending_movie_details_nav_graph"

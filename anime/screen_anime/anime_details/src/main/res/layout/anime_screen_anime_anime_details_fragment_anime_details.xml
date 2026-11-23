@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context="com.rick.anime.screen_anime.anime_details.AnimeDetailsFragment">
+    tools:context="com.rick.ecatalogs.anime.screen_anime.anime_details.AnimeDetailsFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/details_card_view"

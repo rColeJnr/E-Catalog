@@ -15,7 +15,7 @@ android {
             path = file("src/main/jni/Android.mk") //Path of android.mk
         }
     }
-    namespace = "com.rick.book.screen_book.bestseller_catalog"
+    namespace = "com.rick.ecatalogs.book.screen_book.bestseller_catalog"
 }
 
 dependencies {

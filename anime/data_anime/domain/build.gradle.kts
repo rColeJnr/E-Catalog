@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.anime.data_anime.domain"
+    namespace = "com.rick.ecatalogs.anime.data_anime.domain"
 }
 
 dependencies {

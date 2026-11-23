@@ -29,5 +29,5 @@ android {
             path = file("src/main/jni/Android.mk") //Path of android.mk
         }
     }
-    namespace = "com.rick.anime.screen_anime.anime_catalog"
+    namespace = "com.rick.ecatalogs.anime.screen_anime.anime_catalog"
 }

@@ -1,0 +1,70 @@
+package com.rick.ecatalogs.book.screen_book.gutenberg_catalog
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.rick.ecatalogs.book.screen_book.gutenberg_catalog.databinding.BookScreenBookGutenbergCatalogGutenbergEntryBinding
+import com.rick.ecatalogs.book.data_book.model.gutenberg.Formats
+import com.rick.ecatalogs.book.data_book.model.gutenberg.UserGutenberg
+import com.rick.ecatalogs.data.ui_components.common.provideGlide
+
+class GutenbergCatalogViewHolder(
+    binding: BookScreenBookGutenbergCatalogGutenbergEntryBinding,
+    private val onItemClick: (view: View, formats: Formats) -> Unit,
+    private val onFavClick: (View, Int, Boolean) -> Unit,
+) : RecyclerView.ViewHolder(binding.root) {
+
+    private val title = binding.title
+    private val image = binding.image
+    private val authors = binding.author
+    private val favorite = binding.favorite
+    private val resources = itemView.resources
+
+    private lateinit var book: UserGutenberg
+
+    init {
+        // ain't no way this gon work.
+        // this may  work now
+        binding.root.setOnClickListener {
+            onItemClick(it, book.formats)
+        }
+        favorite.setOnClickListener {
+            onFavClick(it, book.id, book.isFavorite)
+        }
+    }
+
+    fun bind(book: UserGutenberg) {
+        this.book = book
+        book.formats.imageJpeg?.let { provideGlide(this.image, it) }
+        val icon = if (book.isFavorite) {
+            com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled
+        } else {
+            com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
+        }
+        favorite.setImageResource(icon)
+        val authors = StringBuilder()
+        book.authors.forEach {
+            authors.append("${it.name}\nbirth year: ${it.birthYear}, death year: ${it.deathYear}")
+        }
+        this.title.text = book.title
+        this.authors.text = resources.getString(
+            R.string.book_screen_book_gutenberg_catalog_authors,
+            authors.toString().trim()
+        )
+
+    }
+
+    companion object {
+        fun create(
+            parent: ViewGroup,
+            onItemClick: (view: View, formats: Formats) -> Unit,
+            onFavClick: (View, Int, Boolean) -> Unit
+        ):
+                GutenbergCatalogViewHolder {
+            val itemBinding = BookScreenBookGutenbergCatalogGutenbergEntryBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            return GutenbergCatalogViewHolder(itemBinding, onItemClick, onFavClick)
+        }
+    }
+}

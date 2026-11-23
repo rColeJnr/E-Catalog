@@ -5,7 +5,7 @@
     app:startDestination="@id/anime_screen_anime_anime_catalog_animecatalogfragment">
     <fragment
         android:id="@+id/anime_screen_anime_anime_catalog_animecatalogfragment"
-        android:name="com.rick.anime.screen_anime.anime_catalog.AnimeCatalogFragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.anime_catalog.AnimeCatalogFragment"
         android:label="">
         <action
             android:id="@+id/anime_screen_anime_anime_catalog_action_anime_screen_anime_anime_catalog_animecatalogfragment_to_anime_screen_anime_anime_details_nav_graph"

@@ -23,5 +23,5 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
-    namespace = "com.rick.anime.screen_anime.manga_search"
+    namespace = "com.rick.ecatalogs.anime.screen_anime.manga_search"
 }

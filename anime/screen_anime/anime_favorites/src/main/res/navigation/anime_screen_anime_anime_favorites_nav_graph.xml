@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/anime_screen_anime_anime_favorites_animefavoritefragment"
-        android:name="com.rick.anime.screen_anime.anime_favorites.AnimeFavoriteFragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.anime_favorites.AnimeFavoriteFragment"
         android:label="">
         <action
             android:id="@+id/anime_screen_anime_anime_favorites_action_anime_screen_anime_anime_favorites_animefavoritefragment_to_anime_screen_anime_anime_details_nav_graph"

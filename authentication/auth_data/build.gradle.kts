@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.auth_data"
+    namespace = "com.rick.ecatalogs.authentication.auth_data"
 }

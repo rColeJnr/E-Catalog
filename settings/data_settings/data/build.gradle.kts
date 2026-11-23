@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.settings.data_settings.data"
+    namespace = "com.rick.ecatalogs.settings.data_settings.data"
 }
 
 dependencies {

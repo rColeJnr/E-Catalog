@@ -1,5 +1,5 @@
 import androidx.room.gradle.RoomExtension
-import com.rick.libs
+import com.rick.ecatalogs.buildlogic.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

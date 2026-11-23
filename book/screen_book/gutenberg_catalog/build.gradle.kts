@@ -10,7 +10,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
-    namespace = "com.rick.book.screen_book.gutenberg_catalog"
+    namespace = "com.rick.ecatalogs.book.screen_book.gutenberg_catalog"
 }
 
 dependencies {

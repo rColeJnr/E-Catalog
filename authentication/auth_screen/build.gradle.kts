@@ -25,5 +25,5 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
-    namespace = "com.rick.auth_screen"
+    namespace = "com.rick.ecatalogs.authentication.auth_screen"
 }

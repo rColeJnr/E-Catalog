@@ -1,4 +1,4 @@
-import com.rick.data.translation.DemoTranslationAssetManager
+import com.rick.ecatalogs.data.translation.DemoTranslationAssetManager
 import java.io.File
 import java.io.InputStream
 import java.util.Properties

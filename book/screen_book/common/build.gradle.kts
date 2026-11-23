@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.book.screen_book.common"
+    namespace = "com.rick.ecatalogs.book.screen_book.common"
 }
 
 dependencies {

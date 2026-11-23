@@ -8,7 +8,7 @@ plugins {
 
 android {
 
-    namespace = "com.rick.anime.screen_anime.common"
+    namespace = "com.rick.ecatalogs.anime.screen_anime.common"
 }
 
 dependencies {

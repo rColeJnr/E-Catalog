@@ -11,7 +11,7 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    namespace = "com.rick.data.translation"
+    namespace = "com.rick.ecatalogs.data.translation"
 
     val key: String = gradleLocalProperties(rootDir, providers).getProperty("translationApiKey")
     defaultConfig {

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/anime_screen_anime_common_webviewfragment"
-        android:name="com.rick.anime.anime_screen.common.WebViewFragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.common.WebViewFragment"
         android:label="">
         <argument
             android:name="link"

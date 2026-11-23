@@ -1,5 +1,5 @@
 import com.android.build.api.dsl.LibraryExtension
-import com.rick.libs
+import com.rick.ecatalogs.buildlogic.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -20,7 +20,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 }
                 defaultConfig {
                     testInstrumentationRunner =
-                        "com.rick.data.testing.EcsTestRunner"
+                        "com.rick.ecatalogs.data.testing.EcsTestRunner"
                 }
                 ndkVersion = "25.1.8937393"
                 testOptions.animationsDisabled = true

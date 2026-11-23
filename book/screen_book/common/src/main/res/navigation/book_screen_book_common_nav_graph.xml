@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/book_screen_book_common_webviewfragment"
-        android:name="com.rick.book.screen_book.common.WebViewFragment"
+        android:name="com.rick.ecatalogs.book.screen_book.common.WebViewFragment"
         android:label="">
         <deepLink
             android:id="@+id/book_screen_book_common_webviewfragment_deeplink"

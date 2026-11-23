@@ -18,7 +18,7 @@ android {
         versionName = "2.1"
 
         testInstrumentationRunner =
-            "androidx.test.runner.AndroidJUnitRunner"/*"com.rick.data.testing.EcsTestRunner"*/
+            "androidx.test.runner.AndroidJUnitRunner"/*"com.rick.ecatalogs.data.testing.EcsTestRunner"*/
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
@@ -56,7 +56,7 @@ android {
             isIncludeAndroidResources = true
         }
     }
-    namespace = "com.rick.moviecatalog"
+    namespace = "com.rick.ecatalogs"
 }
 
 dependencies {

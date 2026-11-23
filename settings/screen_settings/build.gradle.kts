@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.settings.screen_settings"
+    namespace = "com.rick.ecatalogs.settings.screen_settings"
 }
 
 dependencies {

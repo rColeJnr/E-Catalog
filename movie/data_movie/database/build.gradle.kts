@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.movie.data_movie.database"
+    namespace = "com.rick.ecatalogs.movie.data_movie.database"
 }
 
 dependencies {

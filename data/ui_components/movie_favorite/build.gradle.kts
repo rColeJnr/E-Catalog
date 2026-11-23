@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.data.ui_components.movie_favorite"
+    namespace = "com.rick.ecatalogs.data.ui_components.movie_favorite"
 }
 
 dependencies {

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "com.rick.ecatalogs.data.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  map<string, bool> bestseller_favorite_ids = 1;
+  map<int32, bool> gutenberg_favorite_ids = 2;
+  map<int32, bool> trending_movie_favorite_ids = 3;
+  map<int32, bool> trending_series_favorite_ids = 4;
+  map<string, bool> ny_times_articles_favorite_ids = 5;
+  map<int32, bool> anime_favorite_ids = 6;
+  map<int32, bool> manga_favorite_ids = 7;
+
+  string user_name = 8;
+  // Next available is 9
+}

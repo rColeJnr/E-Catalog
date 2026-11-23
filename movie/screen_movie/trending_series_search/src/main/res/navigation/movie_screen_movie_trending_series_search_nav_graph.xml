@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/movie_screen_movie_trending_series_search_trendingseriessearchfragment"
-        android:name="com.rick.movie.screen_movie.trending_series_search.TrendingSeriesSearchFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.trending_series_search.TrendingSeriesSearchFragment"
         android:label="">
         <action
             android:id="@+id/movie_screen_movie_trending_series_search_action_movie_screen_movie_trending_series_search_trendingseriessearchfragment_to_movie_screen_movie_trending_movie_details_nav_graph"

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/movie_screen_movie_trending_movie_favorite_trenidngmoviefavoritefragment"
-        android:name="com.rick.movie.screen_movie.trending_movie_favorite.TrenidngMovieFavoriteFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.trending_movie_favorite.TrenidngMovieFavoriteFragment"
         android:label="">
         <action
             android:id="@+id/movie_screen_movie_trending_movie_favorite_action_movie_screen_movie_trending_movie_favorite_trenidngmoviefavoritefragment_to_movie_screen_movie_trending_movie_details_nav_graph"

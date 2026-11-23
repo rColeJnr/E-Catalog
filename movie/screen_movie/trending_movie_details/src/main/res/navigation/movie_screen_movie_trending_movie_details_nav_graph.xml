@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/movie_screen_movie_trending_movie_details_moviedetailsfragment"
-        android:name="com.rick.movie.screen_movie.trending_movie_detatils.TrendingMovieDetailsFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.trending_movie_details.TrendingMovieDetailsFragment"
         android:label="">
         <argument
             android:name="movie"

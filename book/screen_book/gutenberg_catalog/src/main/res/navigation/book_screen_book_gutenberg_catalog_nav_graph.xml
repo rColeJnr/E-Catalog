@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/book_screen_book_gutenberg_catalog_gutenbergcatalogfragment"
-        android:name="com.rick.book.screen_book.gutenberg_catalog.GutenbergCatalogFragment"
+        android:name="com.rick.ecatalogs.book.screen_book.gutenberg_catalog.GutenbergCatalogFragment"
         android:label="">
         <action
             android:id="@+id/book_screen_book_gutenberg_catalog_action_book_screen_book_gutenberg_catalog_gutenbergcatalogfragment_to_book_screen_book_gutenberg_search_nav_graph"

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rick.data.datastore_proto"
+    namespace = "com.rick.ecatalogs.data.datastore_proto"
 }
 
 // Setup protobuf configuration, generating lite Java and Kotlin classes

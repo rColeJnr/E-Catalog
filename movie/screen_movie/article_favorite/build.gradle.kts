@@ -21,5 +21,5 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
-    namespace = "com.rick.movie.screen_movie.article_favorite"
+    namespace = "com.rick.ecatalogs.movie.screen_movie.article_favorite"
 }

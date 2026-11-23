@@ -1,4 +1,4 @@
-import com.rick.data.network_anime.demo.DemoJikanAssetManager
+import com.rick.ecatalogs.anime.data_anime.network.demo.DemoJikanAssetManager
 import java.io.File
 import java.io.InputStream
 import java.util.Properties

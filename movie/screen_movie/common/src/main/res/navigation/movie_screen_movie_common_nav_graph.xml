@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/movie_screen_movie_common_webviewfragment"
-        android:name="com.rick.movie.screen_movie.common.WebViewFragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.common.WebViewFragment"
         android:label="">
         <deepLink
             android:id="@+id/movie_screen_movie_common_webviewfragment_deeplink"

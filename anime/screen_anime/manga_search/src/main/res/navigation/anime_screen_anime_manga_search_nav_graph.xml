@@ -7,7 +7,7 @@
     <include app:graph="@navigation/anime_screen_anime_manga_details_nav_graph" />
     <fragment
         android:id="@+id/anime_screen_anime_manga_search_mangasearchfragment"
-        android:name="com.rick.anime.screen_anime.manga_search.MangaSearchFragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.manga_search.MangaSearchFragment"
         android:label="">
         <action
             android:id="@+id/anime_screen_anime_manga_search_action_anime_screen_anime_manga_search_mangasearchfragment_to_anime_screen_anime_manga_details_nav_graph2"

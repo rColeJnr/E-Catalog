@@ -9,7 +9,7 @@ android {
             path = file("src/main/jni/Android.mk") //Path of android.mk
         }
     }
-    namespace = "com.rick.movie.screen_movie.article_catalog"
+    namespace = "com.rick.ecatalogs.movie.screen_movie.article_catalog"
 }
 
 dependencies {

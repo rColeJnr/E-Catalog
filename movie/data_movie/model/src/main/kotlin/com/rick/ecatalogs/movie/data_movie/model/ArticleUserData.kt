@@ -1,0 +1,5 @@
+package com.rick.ecatalogs.movie.data_movie.model
+
+data class ArticleUserData(
+    val nyTimesArticlesFavoriteIds: Set<String>
+)
