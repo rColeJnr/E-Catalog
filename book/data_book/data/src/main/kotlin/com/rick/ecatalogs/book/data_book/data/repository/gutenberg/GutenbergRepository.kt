@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.data_book.data.repository.gutenberg
 
+import com.rick.ecatalogs.book.data_book.model.gutenberg.GutenbergFilter
 import androidx.paging.PagingData
 import com.rick.ecatalogs.book.data_book.database.model.GutenbergEntity
 import com.rick.ecatalogs.book.data_book.model.gutenberg.Gutenberg
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface GutenbergRepository {
 
-    fun getGutenberg(): Flow<PagingData<GutenbergEntity>>
+    fun getGutenberg(filter: GutenbergFilter = GutenbergFilter()): Flow<PagingData<GutenbergEntity>>
 
     fun getGutenbergFavorites(favorites: Set<Int>): Flow<List<Gutenberg>>
 

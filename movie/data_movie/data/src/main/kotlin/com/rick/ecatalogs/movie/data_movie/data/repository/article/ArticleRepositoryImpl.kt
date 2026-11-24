@@ -1,18 +1,20 @@
 package com.rick.ecatalogs.movie.data_movie.data.repository.article
 
+import com.rick.ecatalogs.data.datastore.ListCache
+import com.rick.ecatalogs.data.datastore.CachedList
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.rick.ecatalogs.data.datastore.PreferencesDataSource
+import com.rick.ecatalogs.movie.data_movie.data.model.asArticleEntity
 import com.rick.ecatalogs.movie.data_movie.database.MovieTransactionRunner
 import com.rick.ecatalogs.movie.data_movie.database.dao.ArticleDao
 import com.rick.ecatalogs.movie.data_movie.database.dao.ArticleRemoteKeysDao
 import com.rick.ecatalogs.movie.data_movie.database.model.ArticleEntity
 import com.rick.ecatalogs.movie.data_movie.database.model.asArticle
 import com.rick.ecatalogs.movie.data_movie.model.article_models.Article
-import com.rick.ecatalogs.movie.data_movie.data.model.asArticleEntity
 import com.rick.ecatalogs.movie.data_movie.network.ArticleNetworkDataSource
 import com.rick.ecatalogs.movie.data_movie.network.model.ArticleNetwork
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +31,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
     private val network: ArticleNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
     private val preferences: PreferencesDataSource,
+    private val listCache: ListCache,
 ) : ArticleRepository {
     override fun getArticles(): Flow<PagingData<ArticleEntity>> {
         val pagingSourceFactory = { articleDao.getArticles() }
@@ -37,14 +40,15 @@ internal class ArticleRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 10,
                 enablePlaceholders = true,
-                prefetchDistance = 0,
-                initialLoadSize = 1
+                prefetchDistance = 10,
+                initialLoadSize = 30
             ),
             remoteMediator = ArticleRemoteMediator(
                 network = network,
                 articleDao = articleDao,
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
+                listCache = listCache,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -73,6 +77,9 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 transactionRunner = transactionRunner,
             )
         }
+
+        // The first page was just checked against the server: the stored list is current
+        listCache.markRefreshed(CachedList.ARTICLES)
 
         val previouslySeen = preferences.notifiedArticleIds()
         preferences.setNotifiedArticleIds(fetchedIds)

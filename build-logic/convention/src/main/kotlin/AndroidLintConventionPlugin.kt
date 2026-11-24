@@ -10,27 +10,28 @@ class AndroidLintConventionPlugin : Plugin<Project> {
         with(target) {
             when {
                 pluginManager.hasPlugin("com.android.application") -> configure<ApplicationExtension> {
-                    lint(
-                        Lint::ricardo
-                    )
+                    lint { configure(target) }
                 }
 
                 pluginManager.hasPlugin("com.android.library") -> configure<LibraryExtension> {
-                    lint(
-                        Lint::ricardo
-                    )
+                    lint { configure(target) }
                 }
 
                 else -> {
                     pluginManager.apply("com.android.lint")
-                    configure<Lint>(Lint::ricardo)
+                    configure<Lint> { configure(target) }
                 }
             }
         }
     }
 }
 
-// configure()
-private fun Lint.ricardo() {
+private fun Lint.configure(project: Project) {
+    xmlReport = true
+    sarifReport = true
     checkDependencies = true
+    disable += "GradleDependency"
+    // Issues that already existed when lint was set up are recorded here, so lint fails only on
+    // new problems. Regenerate with ./gradlew updateLintBaseline after fixing them.
+    baseline = project.file("lint-baseline.xml")
 }

@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.article_search
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.util.Log
@@ -226,11 +227,13 @@ class ArticleSearchFragment : Fragment() {
                         if (state is ArticleRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
                             recentSearchesComposeView.setContent {
-                                RecentSearchesBody(
-                                    onClearRecentSearches = onClearRecentSearches,
-                                    onRecentSearchClicked = onRecentSearchClicked,
-                                    recentSearchQueries = state.recentQueries.map { it.query },
-                                )
+                                EcsTheme {
+                                    RecentSearchesBody(
+                                        onClearRecentSearches = onClearRecentSearches,
+                                        onRecentSearchClicked = onRecentSearchClicked,
+                                        recentSearchQueries = state.recentQueries.map { it.query },
+                                    )
+                                }
                             }
                         }
                     }

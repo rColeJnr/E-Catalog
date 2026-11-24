@@ -31,15 +31,20 @@ googleOssPlugin = "0.12.0"
 hilt = "2.59"
 hiltExt = "1.2.0"
 hiltNavigation = "1.0.0"
-jacoco = "0.8.8"
+jacoco = "0.8.14"  # 0.8.8 can't instrument JDK 21 classes; 0.8.14 is what Gradle 9.6 ships
 kotlin = "2.3.0"
+junit4 = "4.13.2"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.8.0"
 ksp = "2.3.4"
 lifecycle = "2.10.0"
 material = "1.11.0"
 moduleGraph = "2.5.0"
-navigationFragment = "2.10.0"
+# Navigation runtime stays on 2.7.7: 2.10.x pulls Lifecycle 2.11 -> Compose runtime 1.11, which
+# doesn't match the Compose UI version from the BOM (startup crash: ForgetfulRetainScope).
+navigationFragment = "2.7.7"
+# Safe Args (build-time code generator only) needs 2.10+ to work with AGP 9.
+navigationSafeArgs = "2.10.0"
 okHttp = "4.12.0"
 paging = "3.1.1"
 playServicesAuth = "20.7.0"
@@ -100,6 +105,8 @@ hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", ver
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+junit = { module = "junit:junit", version.ref = "junit4" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
@@ -134,7 +141,7 @@ firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "fir
 firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-navigation-safeargs-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigationFragment" }
+navigation-safeargs-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgs" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 
@@ -154,7 +161,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationFragment" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeArgs" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 room = { id = "androidx.room", version.ref = "room" }
 

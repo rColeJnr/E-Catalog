@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog
 
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import com.rick.ecatalogs.data.ui_design.POSTER_KIND_MOVIE
 import com.rick.ecatalogs.data.ui_design.posterTransitionName
 import androidx.core.view.ViewCompat
@@ -13,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rick.ecatalogs.movie.data_movie.model.UserTrendingMovie
 import com.rick.ecatalogs.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
-import com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogHeaderBinding
 import com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.databinding.MovieScreenMovieTrendingMovieCatalogMovieEntryBinding
 
 class TrendingMovieAdapter(
@@ -22,25 +22,13 @@ class TrendingMovieAdapter(
     private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : PagingDataAdapter<UserTrendingMovie, RecyclerView.ViewHolder>(DIFF_COMPARATOR) {
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_MOVIE
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_HEADER)
-            TrendingMovieHeaderViewHolder.create(parent)
-        else
-            TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
-    }
+    // The screen's header (title, browse rows, genres) is a separate adapter in a ConcatAdapter;
+    // it used to take position 0 here, which hid the #1 trending movie.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is TrendingMovieHeaderViewHolder -> {}
-            is TrendingMovieViewHolder -> {
-                val movie = getItem(position)
-                movie?.let { holder.bind(it) }
-            }
-        }
+        getItem(position)?.let { (holder as TrendingMovieViewHolder).bind(it) }
     }
 
     companion object {
@@ -59,9 +47,6 @@ class TrendingMovieAdapter(
                 oldItem == newItem
 
         }
-
-        const val VIEW_TYPE_HEADER = 0
-        const val VIEW_TYPE_MOVIE = 1
     }
 }
 
@@ -72,6 +57,8 @@ class TrendingMovieViewHolder(
     private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
+    private val releaseYear = binding.movieReleaseYear
+    private val rating = binding.movieRating
     private val title = binding.movieName
     private val summary = binding.movieSummary
     private val favorite = binding.favorite
@@ -101,6 +88,7 @@ class TrendingMovieViewHolder(
         ViewCompat.setTransitionName(image, posterTransitionName(POSTER_KIND_MOVIE, movie.id))
         if (movie.image.isNotEmpty()) provideGlide(image, getTmdbImageUrl(movie.image))
         title.text = movie.title
+        bindPosterChips(releaseYear, rating, movie.releaseDate, movie.voteAverage)
         summary.text = movie.overview
         favorite.setImageResource(
             if (movie.isFavorite) {
@@ -135,16 +123,11 @@ class TrendingMovieViewHolder(
     }
 }
 
-class TrendingMovieHeaderViewHolder(private val binding: MovieScreenMovieTrendingMovieCatalogHeaderBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-
-    companion object {
-        fun create(
-            parent: ViewGroup,
-        ): TrendingMovieHeaderViewHolder {
-            val itemBinding = MovieScreenMovieTrendingMovieCatalogHeaderBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            return TrendingMovieHeaderViewHolder(itemBinding)
-        }
-    }
+/** Fills the year / rating chips on a poster card, hiding a chip when there's nothing to show. */
+internal fun bindPosterChips(year: TextView, rating: TextView, date: String, voteAverage: Double) {
+    val releaseYear = date.take(4).takeIf { it.length == 4 && it.all(Char::isDigit) }
+    year.text = releaseYear.orEmpty()
+    year.isVisible = releaseYear != null
+    rating.text = String.format(java.util.Locale.getDefault(), "★ %.1f", voteAverage)
+    rating.isVisible = voteAverage > 0.0
 }

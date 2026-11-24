@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Extra details shared by the movie and series details screens (all from the same TMDB
+     request): age rating + trailer, cast, and where to watch. Sections hide when empty. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Age rating and trailer -->
+    <LinearLayout
+        android:id="@+id/extras_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/data_ui_design_text_extras_h_margin"
+        android:layout_marginVertical="@dimen/data_ui_design_text_extras_v_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/extras_age_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/movie_screen_movie_common_rating_badge"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="@color/data_ui_design_black"
+            tools:text="PG-13" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/extras_trailer"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_screen_movie_common_watch_trailer"
+            app:icon="@drawable/movie_screen_movie_common_ic_play" />
+    </LinearLayout>
+
+    <!-- Cast -->
+    <LinearLayout
+        android:id="@+id/extras_cast_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+            android:layout_marginVertical="@dimen/data_ui_design_text_title_v_margin"
+            android:text="@string/movie_screen_movie_common_cast"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/extras_cast_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/movie_screen_movie_common_cast_entry" />
+    </LinearLayout>
+
+    <!-- Where to watch -->
+    <LinearLayout
+        android:id="@+id/extras_providers_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+            android:layout_marginTop="@dimen/data_ui_design_text_title_v_margin"
+            android:text="@string/movie_screen_movie_common_where_to_watch"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/extras_providers_kind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@color/data_ui_design_text_secondary"
+            tools:text="@string/movie_screen_movie_common_stream" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/extras_providers_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/movie_screen_movie_common_provider_entry" />
+
+        <!-- Required attribution for TMDB's watch-provider data -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/extras_providers_attribution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+            android:layout_marginTop="6dp"
+            android:text="@string/movie_screen_movie_common_justwatch"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/data_ui_design_text_secondary" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One episode: still, number and name, date and runtime, overview -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/episode_still"
+        android:layout_width="128dp"
+        android:layout_height="72dp"
+        android:background="@color/data_ui_design_chip_background"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/episode_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/data_ui_design_black"
+            tools:text="3. Unexpected Guests" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/episode_meta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/data_ui_design_text_secondary"
+            tools:text="Oct 4, 2024 · 52 min · ★ 8.1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/episode_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@color/data_ui_design_text_secondary"
+            tools:text="An episode overview." />
+    </LinearLayout>
+</LinearLayout>

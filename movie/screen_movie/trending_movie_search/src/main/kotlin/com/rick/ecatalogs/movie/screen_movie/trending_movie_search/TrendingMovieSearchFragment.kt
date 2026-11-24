@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_search
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.KeyEvent
@@ -221,11 +222,13 @@ class TrendingMovieSearchFragment : Fragment() {
                         if (state is TrendingMovieRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
                             recentSearchesComposeView.setContent {
-                                RecentSearchesBody(
-                                    onClearRecentSearches = onClearRecentSearches,
-                                    onRecentSearchClicked = onRecentSearchClicked,
-                                    recentSearchQueries = state.recentQueries.map { it.query },
-                                )
+                                EcsTheme {
+                                    RecentSearchesBody(
+                                        onClearRecentSearches = onClearRecentSearches,
+                                        onRecentSearchClicked = onRecentSearchClicked,
+                                        recentSearchQueries = state.recentQueries.map { it.query },
+                                    )
+                                }
                             }
                         }
                     }

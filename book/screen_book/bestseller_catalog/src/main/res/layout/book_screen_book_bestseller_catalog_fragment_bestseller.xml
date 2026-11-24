@@ -21,19 +21,23 @@
 
             <TextView
                 android:id="@+id/title"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="start"
                 android:text="@string/book_screen_book_bestseller_catalog_header"
-                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/slogan"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/data_ui_design_text_secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/data_ui_design_text_extras_v_margin"
-                android:gravity="center"
+                android:gravity="start"
                 android:text="@string/book_screen_book_bestseller_catalog_slogan"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
@@ -50,8 +54,8 @@
                 android:id="@+id/carousel_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
-                android:layout_marginVertical="@dimen/data_ui_design_text_title_v_margin"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
                 android:text="@string/book_screen_book_bestseller_catalog_trending_now"
                 android:textAppearance="?attr/textAppearanceHeadline5"
@@ -71,8 +75,8 @@
                 android:id="@+id/bestsellers_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
-                android:layout_marginVertical="@dimen/data_ui_design_text_title_v_margin"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
                 android:gravity="start|center_vertical"
                 android:text="@string/book_screen_book_bestseller_catalog_bestsellers"
                 android:textAppearance="?attr/textAppearanceHeadline5"

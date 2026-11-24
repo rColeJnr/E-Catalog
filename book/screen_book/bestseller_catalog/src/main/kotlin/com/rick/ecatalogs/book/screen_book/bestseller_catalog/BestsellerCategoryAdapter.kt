@@ -68,14 +68,15 @@ class BestsellerCategoryAdapter(
 
             root.isSelected = isSelected
 
+            // The tile background follows isSelected (data_ui_design_category_tile selector)
             if (isSelected) {
                 name.setTypeface(null, Typeface.BOLD)
-                name.setTextColor(resources.getColor(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_black, null))
+                name.setTextColor(resources.getColor(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_on_primary, null))
                 image.alpha = 1.0f
             } else {
                 name.setTypeface(null, Typeface.NORMAL)
-                name.setTextColor(resources.getColor(android.R.color.darker_gray, null))
-                image.alpha = 0.8f
+                name.setTextColor(resources.getColor(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_text_secondary, null))
+                image.alpha = 0.85f
             }
         }
     }

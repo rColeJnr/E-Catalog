@@ -10,9 +10,11 @@ import com.rick.ecatalogs.movie.data_movie.model.ArticleUserData
 import com.rick.ecatalogs.movie.data_movie.model.TrendingMovieUserData
 import com.rick.ecatalogs.movie.data_movie.model.TrendingSeriesUserData
 import com.rick.ecatalogs.settings.data_settings.model.DEFAULT_SYNC_INTERVAL_HOURS
+import com.rick.ecatalogs.settings.data_settings.model.SYNC_INTERVAL_OPTIONS_HOURS
 import com.rick.ecatalogs.settings.data_settings.model.NotificationCategory
 import com.rick.ecatalogs.settings.data_settings.model.SettingsUserData
 import com.rick.ecatalogs.settings.data_settings.model.ThemeConfig
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
@@ -28,11 +30,14 @@ class PreferencesDataSource @Inject constructor(
                 userName = it.userName,
                 themeConfig = when (it.theme) {
                     THEME_LIGHT -> ThemeConfig.LIGHT
-                    THEME_DARK -> ThemeConfig.DARK
-                    else -> ThemeConfig.FOLLOW_SYSTEM
+                    THEME_FOLLOW_SYSTEM -> ThemeConfig.FOLLOW_SYSTEM
+                    // Unset (0): the app is dark-first
+                    else -> ThemeConfig.DARK
                 },
                 syncEnabled = !it.syncDisabled,
-                syncIntervalHours = it.syncIntervalHours.takeIf { hours -> hours > 0 }
+                // Unset (0) or anything that isn't an option: the weekly default
+                syncIntervalHours = it.syncIntervalHours
+                    .takeIf { hours -> hours in SYNC_INTERVAL_OPTIONS_HOURS }
                     ?: DEFAULT_SYNC_INTERVAL_HOURS,
                 enabledNotifications = buildSet {
                     if (!it.notificationsDisabledMovies) add(NotificationCategory.TRENDING_MOVIES)
@@ -42,6 +47,7 @@ class PreferencesDataSource @Inject constructor(
                 },
             )
         }
+        .distinctUntilChanged()
 
     val animeUserData = userPreferences.data
         .map {
@@ -49,6 +55,7 @@ class PreferencesDataSource @Inject constructor(
                 animeFavoriteIds = it.animeFavoriteIdsMap.keys
             )
         }
+        .distinctUntilChanged()
 
     val mangaUserData = userPreferences.data
         .map {
@@ -56,6 +63,7 @@ class PreferencesDataSource @Inject constructor(
                 mangaFavoriteIds = it.mangaFavoriteIdsMap.keys
             )
         }
+        .distinctUntilChanged()
 
     val bestsellerUserData = userPreferences.data
         .map {
@@ -63,6 +71,7 @@ class PreferencesDataSource @Inject constructor(
                 bestsellerFavoriteIds = it.bestsellerFavoriteIdsMap.keys,
             )
         }
+        .distinctUntilChanged()
 
     val gutenbergUserData = userPreferences.data
         .map {
@@ -70,6 +79,7 @@ class PreferencesDataSource @Inject constructor(
                 gutenbergFavoriteIds = it.gutenbergFavoriteIdsMap.keys,
             )
         }
+        .distinctUntilChanged()
 
     val articleUserData = userPreferences.data
         .map {
@@ -77,6 +87,7 @@ class PreferencesDataSource @Inject constructor(
                 nyTimesArticlesFavoriteIds = it.nyTimesArticlesFavoriteIdsMap.keys,
             )
         }
+        .distinctUntilChanged()
 
     val trendingMovieUserData = userPreferences.data
         .map {
@@ -84,6 +95,7 @@ class PreferencesDataSource @Inject constructor(
                 trendingMovieFavoriteIds = it.trendingMovieFavoriteIdsMap.keys,
             )
         }
+        .distinctUntilChanged()
 
     val trendingSeriesUserData = userPreferences.data
         .map {
@@ -91,6 +103,7 @@ class PreferencesDataSource @Inject constructor(
                 trendingSeriesFavoriteIds = it.trendingSeriesFavoriteIdsMap.keys,
             )
         }
+        .distinctUntilChanged()
 
     suspend fun setBestsellerFavoriteIds(bestsellerId: String, isFavorite: Boolean) {
         try {
@@ -237,6 +250,44 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
+    /** When background sync last completed successfully, in epoch millis (0 = never). */
+    suspend fun lastSyncEpochMillis(): Long = userPreferences.data.first().lastSyncEpochMillis
+
+    suspend fun setLastSyncEpochMillis(millis: Long) = update { lastSyncEpochMillis = millis }
+
+    /** Ids of movies with a release-day reminder. */
+    val releaseReminderIds = userPreferences.data
+        .map { it.releaseRemindersMap.keys }
+        .distinctUntilChanged()
+
+    suspend fun setReleaseReminder(movieId: Int, title: String, releaseDate: String) = update {
+        releaseReminders.put(
+            movieId,
+            releaseReminder {
+                this.title = title
+                this.releaseDate = releaseDate
+            },
+        )
+    }
+
+    suspend fun releaseReminderIdsNow(): Set<Int> = releaseReminderIds.first()
+
+    suspend fun removeReleaseReminder(movieId: Int) = update { releaseReminders.remove(movieId) }
+
+    /** When [list] was last downloaded, in epoch millis (0 = never). See [ListCache]. */
+    suspend fun listRefreshedAt(list: String): Long =
+        userPreferences.data.first().listRefreshedAtMap[list] ?: 0L
+
+    suspend fun setListRefreshedAt(list: String, millis: Long) = update {
+        listRefreshedAt.put(list, millis)
+    }
+
+    /** Removes every list key starting with [prefix], then sets [list] to [millis]. */
+    suspend fun replaceListRefreshedAt(prefix: String, list: String, millis: Long) = update {
+        listRefreshedAt.keys.filter { it.startsWith(prefix) }.forEach { listRefreshedAt.remove(it) }
+        listRefreshedAt.put(list, millis)
+    }
+
     // Ids seen by the last background sync, per category. The sync replaces each set with the ids
     // of the current first page, so "new" content is what wasn't in the previous set.
 
@@ -286,6 +337,6 @@ class PreferencesDataSource @Inject constructor(
     }
 }
 
-private const val THEME_FOLLOW_SYSTEM = 0
+private const val THEME_DARK = 0
 private const val THEME_LIGHT = 1
-private const val THEME_DARK = 2
+private const val THEME_FOLLOW_SYSTEM = 2

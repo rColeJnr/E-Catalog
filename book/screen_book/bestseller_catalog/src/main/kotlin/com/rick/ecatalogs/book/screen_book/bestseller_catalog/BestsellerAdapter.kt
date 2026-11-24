@@ -3,22 +3,20 @@ package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.rick.ecatalogs.book.data_book.model.bestseller.UserBestseller
 
 class BestsellerAdapter(
     private val onBookClick: (UserBestseller) -> Unit,
     private val onFavoriteClick: (View, String, Boolean) -> Unit,
     private val onTranslationClick: (UserBestseller, List<String>) -> Unit
-) : RecyclerView.Adapter<BestsellerViewHolder>() {
+) : PagingDataAdapter<UserBestseller, BestsellerViewHolder>(DIFF_UTIL) {
 
-    val differ = AsyncListDiffer(this, DIFF_UTIL)
     private var lastPosition = -1
 
     override fun onBindViewHolder(holder: BestsellerViewHolder, position: Int) {
-        differ.currentList[position]?.let {
+        getItem(position)?.let {
             holder.bind(book = it)
             setAnimation(holder.itemView, position)
         }
@@ -27,8 +25,6 @@ class BestsellerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BestsellerViewHolder {
         return BestsellerViewHolder.create(parent, onBookClick, onFavoriteClick, onTranslationClick)
     }
-
-    override fun getItemCount(): Int = differ.currentList.size
 
     private fun setAnimation(viewToAnimate: View, position: Int) {
         if (position > lastPosition) {
@@ -44,7 +40,7 @@ class BestsellerAdapter(
                 oldItem: UserBestseller,
                 newItem: UserBestseller
             ): Boolean =
-                oldItem.rank == newItem.rank
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: UserBestseller,

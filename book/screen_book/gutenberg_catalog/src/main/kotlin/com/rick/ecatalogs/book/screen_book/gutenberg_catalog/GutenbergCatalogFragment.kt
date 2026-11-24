@@ -1,6 +1,9 @@
 package com.rick.ecatalogs.book.screen_book.gutenberg_catalog
 
-import com.rick.ecatalogs.book.screen_book.gutenberg_catalog.GutenbergCatalogAdapter.Companion.VIEW_TYPE_HEADER
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.ConcatAdapter
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
@@ -36,9 +39,9 @@ import com.rick.ecatalogs.book.screen_book.common.logGutenbergOpened
 import com.rick.ecatalogs.book.screen_book.common.logScreenView
 import com.rick.ecatalogs.book.screen_book.gutenberg_catalog.databinding.BookScreenBookGutenbergCatalogFragmentGutenbergCatalogBinding
 import com.rick.ecatalogs.data.analytics.AnalyticsHelper
-import com.rick.ecatalogs.book.data_book.model.gutenberg.Formats
 import com.rick.ecatalogs.book.data_book.model.gutenberg.UserGutenberg
 import com.rick.ecatalogs.data.ui_components.common.ErrorMessage
+import com.rick.ecatalogs.book.screen_book.common.gutenbergReaderUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -55,6 +58,7 @@ class GutenbergCatalogFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: GutenbergCatalogViewModel by viewModels()
     private lateinit var adapter: GutenbergCatalogAdapter
+    private lateinit var headerAdapter: GutenbergHeaderAdapter
     private lateinit var navController: NavController
 
     private lateinit var eTransition: MaterialSharedAxis
@@ -118,22 +122,31 @@ class GutenbergCatalogFragment : Fragment() {
     private fun initAdapter() {
         adapter = GutenbergCatalogAdapter(this::onBookClick, this::onGutenbergFavClick)
 
-        binding.recyclerView.adapter =
-            adapter.withLoadStateFooter(footer = BookLoadStateAdapter { adapter.retry() })
+        headerAdapter = GutenbergHeaderAdapter { filter ->
+            viewModel.setFilter(filter)
+            binding.recyclerView.scrollToPosition(0)
+        }
+        binding.recyclerView.adapter = ConcatAdapter(
+            headerAdapter,
+            adapter.withLoadStateFooter(footer = BookLoadStateAdapter { adapter.retry() }),
+        )
         val layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        // The header (filters) and the loading footer span both columns
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val viewType = binding.recyclerView.adapter?.getItemViewType(position)
-                return if (viewType == VIEW_TYPE_HEADER) {
-                    2
-                } else {
-                    1
-                }
+            override fun getSpanSize(position: Int): Int =
+                if (position == 0 || position > adapter.itemCount) 2 else 1
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filter.collect { headerAdapter.filter = it }
             }
         }
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.itemAnimator = DefaultItemAnimator().apply {
+            // Rebinding the same item shouldn't fade the whole card (looked like flicker)
+            supportsChangeAnimations = false
+        }
     }
 
     private fun BookScreenBookGutenbergCatalogFragmentGutenbergCatalogBinding.bindList(
@@ -150,7 +163,9 @@ class GutenbergCatalogFragment : Fragment() {
 
                 // show empty list.
                 bookComposeView.setContent {
-                    ErrorMessage(getString(R.string.book_screen_book_gutenberg_catalog_no_results))
+                    EcsTheme {
+                        ErrorMessage(getString(R.string.book_screen_book_gutenberg_catalog_no_results))
+                    }
                 }
                 bookComposeView.isVisible = adapter.itemCount == 0
 
@@ -177,18 +192,11 @@ class GutenbergCatalogFragment : Fragment() {
         }
     }
 
-    private fun onBookClick(view: View, formats: Formats) {
-        val link: String? = formats.run {
-            this.textHtml ?: this.textPlainCharsetUtf8 ?: this.textPlain
-        }
-
-        link?.let {
-            analyticsHelper.logGutenbergOpened(link)
-            val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
-            val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
-            findNavController().navigateWithMotion(uri)
-        }
-
+    private fun onBookClick(view: View, book: UserGutenberg) {
+        // Read in the app (HTML or plain text). Never the RDF metadata or the EPUB zip.
+        val link = book.formats.readableUrl ?: return
+        analyticsHelper.logGutenbergOpened(link)
+        findNavController().navigateWithMotion(gutenbergReaderUri(book.id, book.title, link))
     }
 
     private fun onGutenbergFavClick(view: View, id: Int, isFavorite: Boolean) {

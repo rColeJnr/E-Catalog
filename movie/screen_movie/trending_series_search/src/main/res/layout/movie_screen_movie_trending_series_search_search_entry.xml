@@ -30,20 +30,15 @@
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="@dimen/data_ui_design_favorite_button_size"
-            android:layout_height="@dimen/data_ui_design_favorite_button_size"
+            style="@style/DataUiDesignFavoriteWrapper"
             android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
-            android:elevation="@dimen/data_ui_design_item_card_elevation"
             app:layout_constraintEnd_toEndOf="@id/movie_image"
-            app:layout_constraintTop_toTopOf="@id/movie_image"
-            app:shapeAppearanceOverlay="@style/DataUiDesignCircleImage">
+            app:layout_constraintTop_toTopOf="@id/movie_image">
 
             <com.google.android.material.imageview.ShapeableImageView
+                style="@style/DataUiDesignFavoriteButton.Fill"
                 android:id="@+id/favorite"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:padding="@dimen/data_ui_design_favorite_button_padding"
                 tools:src="@drawable/data_ui_design_favorite_outlined" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -71,7 +66,6 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textAppearance="?attr/textAppearanceBody2"
-            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movie_name"
@@ -84,7 +78,7 @@
             android:layout_marginHorizontal="@dimen/data_ui_design_text_extras_h_margin"
             android:layout_marginVertical="@dimen/data_ui_design_text_extras_h_margin"
             android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/data_ui_design_text_secondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movie_summary"
             tools:text="2024" />
@@ -109,7 +103,7 @@
             android:padding="2dp"
             android:text="@string/movie_screen_movie_trending_series_details_show_translation"
             android:textAppearance="?textAppearanceBody2"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/data_ui_design_color_buttons"
             android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/movie_release_year"

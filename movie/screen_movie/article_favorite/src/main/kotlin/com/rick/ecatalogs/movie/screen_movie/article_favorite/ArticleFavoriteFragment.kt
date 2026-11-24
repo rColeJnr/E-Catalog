@@ -1,6 +1,14 @@
 package com.rick.ecatalogs.movie.screen_movie.article_favorite
 
+import java.nio.charset.StandardCharsets
+import java.net.URLEncoder
+import com.rick.ecatalogs.movie.data_movie.model.FavoriteUiState
+import com.rick.ecatalogs.movie.screen_movie.common.ArticleDetailsDialogFragment
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
+import androidx.navigation.fragment.findNavController
+import android.net.Uri
 import android.os.Bundle
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,24 +45,49 @@ class ArticleFavoriteFragment : Fragment() {
         )
 
         binding.movieComposeView.setContent {
-            val articlesState by viewModel.feedArticlesUiState.collectAsStateWithLifecycle()
-            val shouldDisplayUndoArticleFavorite by viewModel.shouldDisplayUndoArticleFavorite.collectAsState()
-            MovieFavScreen(
-                state = articlesState,
-                onFavClick = {
-                    viewModel.onEvent(
-                        FavoriteUiEvents.RemoveArticleFavorite(it)
-                    )
-                },
-                shouldDisplayUndoFavorite = shouldDisplayUndoArticleFavorite,
-                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoArticleFavoriteRemoval) },
-            )
+            EcsTheme {
+                val articlesState by viewModel.feedArticlesUiState.collectAsStateWithLifecycle()
+                val shouldDisplayUndoArticleFavorite by viewModel.shouldDisplayUndoArticleFavorite.collectAsState()
+                MovieFavScreen(
+                    state = articlesState,
+                    onFavClick = {
+                        viewModel.onEvent(
+                            FavoriteUiEvents.RemoveArticleFavorite(it)
+                        )
+                    },
+                    shouldDisplayUndoFavorite = shouldDisplayUndoArticleFavorite,
+                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                    onItemClick = ::openArticle,
+                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoArticleFavoriteRemoval) },
+                )
+            }
         }
 
         analyticsHelper.logScreenView("articleFavorite")
 
         return binding.root
+    }
+
+    /** The same review dialog as the Movie Reviews list. */
+    private fun openArticle(id: String) {
+        val article = (viewModel.feedArticlesUiState.value as? FavoriteUiState.ArticlesFavorites)
+            ?.favorites?.firstOrNull { it.id == id } ?: return
+        ArticleDetailsDialogFragment(
+            article,
+            onDialogFavoriteClick = { _, articleId, isFavorite ->
+                // Un-starring removes it here (with the usual undo); starring again restores it
+                viewModel.onEvent(
+                    if (isFavorite) FavoriteUiEvents.RemoveArticleFavorite(articleId)
+                    else FavoriteUiEvents.UndoArticleFavoriteRemoval
+                )
+            },
+            onWebUrlClick = { link ->
+                val encoded = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
+                findNavController().navigateWithMotion(
+                    Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encoded")
+                )
+            },
+        ).show(requireActivity().supportFragmentManager, "article_details")
     }
 
     override fun onDestroy() {

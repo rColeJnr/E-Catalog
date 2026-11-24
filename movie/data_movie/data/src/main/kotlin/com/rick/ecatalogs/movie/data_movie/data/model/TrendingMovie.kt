@@ -47,7 +47,13 @@ fun MovieResponse.asMyMovie() = MyMovie(
     title = title,
     voteAverage = voteAverage,
     voteCount = voteCount,
-    similar = similar.results.map { it.asTrendingMovie() }
+    similar = similar.results.map { it.asTrendingMovie() },
+    extras = tmdbDetailsExtras(
+        credits = credits,
+        videos = videos,
+        watchProviders = watchProviders,
+        ageRatings = releaseDates.asAgeRatings(),
+    ),
 )
 
 fun TrendingMovieRecentSearchQueryEntity.asExternalModel() = TmdbRecentSearchQuery(

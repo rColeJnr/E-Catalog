@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.book.screen_book.gutenberg_search
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,8 +23,9 @@ import com.rick.ecatalogs.book.screen_book.common.logAmazonLinkOpened
 import com.rick.ecatalogs.book.screen_book.common.logScreenView
 import com.rick.ecatalogs.book.screen_book.gutenberg_search.databinding.BookScreenBookGutenbergSearchFragmentGutenbergSearchBinding
 import com.rick.ecatalogs.data.analytics.AnalyticsHelper
-import com.rick.ecatalogs.book.data_book.model.gutenberg.Formats
 import com.rick.ecatalogs.data.ui_components.common.RecentSearchesBody
+import com.rick.ecatalogs.book.data_book.model.gutenberg.UserGutenberg
+import com.rick.ecatalogs.book.screen_book.common.gutenbergReaderUri
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -212,11 +214,13 @@ class SearchFragment : Fragment() {
                         if (state is GutenbergRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
                             recentSearchesComposeView.setContent {
-                                RecentSearchesBody(
-                                    onClearRecentSearches = onClearRecentSearches,
-                                    onRecentSearchClicked = onRecentSearchClicked,
-                                    recentSearchQueries = state.recentQueries.map { it.query },
-                                )
+                                EcsTheme {
+                                    RecentSearchesBody(
+                                        onClearRecentSearches = onClearRecentSearches,
+                                        onRecentSearchClicked = onRecentSearchClicked,
+                                        recentSearchQueries = state.recentQueries.map { it.query },
+                                    )
+                                }
                             }
                         }
                     }
@@ -241,7 +245,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun onBookClick(view: View, formats: Formats) {
+    private fun onBookClick(view: View, book: UserGutenberg) {
         exitTransition = MaterialElevationScale(false).apply {
             duration =
                 resources.getInteger(com.rick.ecatalogs.data.ui_design.R.integer.data_ui_design_motion_duration_long)
@@ -252,18 +256,9 @@ class SearchFragment : Fragment() {
                 resources.getInteger(com.rick.ecatalogs.data.ui_design.R.integer.data_ui_design_motion_duration_long)
                     .toLong()
         }
-        val searchToDetails =
-            getString(R.string.book_screen_book_gutenberg_search_search_transition_name)
-        val extras = FragmentNavigatorExtras(view to searchToDetails)
-        val link: String? = formats.run {
-            this.textPlain ?: this.textHtml ?: this.textPlainCharsetUtf8
-        }
-        link?.let {
-            analyticsHelper.logAmazonLinkOpened(link)
-            val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
-            val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment/$encodedUrl")
-            findNavController().navigateWithMotion(uri)
-        }
+        // Read in the app (HTML or plain text). This used to open the RDF metadata file.
+        val link = book.formats.readableUrl ?: return
+        findNavController().navigateWithMotion(gutenbergReaderUri(book.id, book.title, link))
     }
 
     override fun onDestroy() {

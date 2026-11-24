@@ -5,13 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rick.ecatalogs.book.screen_book.gutenberg_catalog.databinding.BookScreenBookGutenbergCatalogGutenbergEntryBinding
-import com.rick.ecatalogs.book.data_book.model.gutenberg.Formats
 import com.rick.ecatalogs.book.data_book.model.gutenberg.UserGutenberg
 import com.rick.ecatalogs.data.ui_components.common.provideGlide
 
 class GutenbergCatalogViewHolder(
     binding: BookScreenBookGutenbergCatalogGutenbergEntryBinding,
-    private val onItemClick: (view: View, formats: Formats) -> Unit,
+    private val onItemClick: (view: View, book: UserGutenberg) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -27,7 +26,7 @@ class GutenbergCatalogViewHolder(
         // ain't no way this gon work.
         // this may  work now
         binding.root.setOnClickListener {
-            onItemClick(it, book.formats)
+            onItemClick(it, book)
         }
         favorite.setOnClickListener {
             onFavClick(it, book.id, book.isFavorite)
@@ -58,7 +57,7 @@ class GutenbergCatalogViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onItemClick: (view: View, formats: Formats) -> Unit,
+            onItemClick: (view: View, book: UserGutenberg) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit
         ):
                 GutenbergCatalogViewHolder {

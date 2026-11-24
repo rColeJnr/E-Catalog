@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.authentication.auth_screen
 
 import android.app.Activity
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.content.Intent
 import android.content.IntentSender
@@ -81,41 +82,43 @@ class AuthenticationFragment : Fragment() {
         }
 
         binding.composeVioew.setContent {
-            val screenState by viewModel.screenState.collectAsState()
-            val inputState by viewModel.inputState.collectAsState()
-            val passwordState by viewModel.passwordState.collectAsState()
-            LoginScreen(
-                email = inputState.email,
-                onEmailValueChange = viewModel::onEmailValueChange,
-                isValidEmail = inputState.isValidEmail,
-                isEmailInputValid = viewModel::isEmailInputValid,
-                password = passwordState.password,
-                onPasswordValueChange = viewModel::onPasswordValueChange,
-                passwordVisible = passwordState.passwordVisible,
-                onPasswordVisible = viewModel::onPasswordVisible,
-                showPasswordTips = passwordState.showPasswordTips,
-                showConfirmPassword = passwordState.showConfirmPassword,
-                confirmPassword = passwordState.confirmPassword,
-                onConfirmPasswordValueChange = viewModel::onConfirmPasswordValueChange,
-                isValidConfirmPassword = passwordState.password == passwordState.confirmPassword,
-                username = inputState.username,
-                onUsernameValueChange = viewModel::onUsernameValueChange,
-                isValidUsername = inputState.isValidUsername,
-                showUsernameTips = inputState.showUsernameTips,
-                screenStateCreate = screenState.authScreenState,
-                onScreenStateCreateValueChange = viewModel::onScreenStateCreateValueChange,
-                progressState = screenState.progressState,
-                showProgressState = viewModel::showProgressState,
-                onGoogleOneTap = { signIn() },
-                onAuthenticate = { email, password -> signInWithPassword(email, password) },
-                onCreateAccount = { email, password, username ->
-                    signUpWithPassword(
-                        email, password, username, saveUsername = viewModel::saveUsernameToDatastore
-                    )
-                },
-                onResetPassword = { email -> onPasswordReset(email) },
-                authErrorMsg = screenState.authErrorMsg
-            )
+            EcsTheme {
+                val screenState by viewModel.screenState.collectAsState()
+                val inputState by viewModel.inputState.collectAsState()
+                val passwordState by viewModel.passwordState.collectAsState()
+                LoginScreen(
+                    email = inputState.email,
+                    onEmailValueChange = viewModel::onEmailValueChange,
+                    isValidEmail = inputState.isValidEmail,
+                    isEmailInputValid = viewModel::isEmailInputValid,
+                    password = passwordState.password,
+                    onPasswordValueChange = viewModel::onPasswordValueChange,
+                    passwordVisible = passwordState.passwordVisible,
+                    onPasswordVisible = viewModel::onPasswordVisible,
+                    showPasswordTips = passwordState.showPasswordTips,
+                    showConfirmPassword = passwordState.showConfirmPassword,
+                    confirmPassword = passwordState.confirmPassword,
+                    onConfirmPasswordValueChange = viewModel::onConfirmPasswordValueChange,
+                    isValidConfirmPassword = passwordState.password == passwordState.confirmPassword,
+                    username = inputState.username,
+                    onUsernameValueChange = viewModel::onUsernameValueChange,
+                    isValidUsername = inputState.isValidUsername,
+                    showUsernameTips = inputState.showUsernameTips,
+                    screenStateCreate = screenState.authScreenState,
+                    onScreenStateCreateValueChange = viewModel::onScreenStateCreateValueChange,
+                    progressState = screenState.progressState,
+                    showProgressState = viewModel::showProgressState,
+                    onGoogleOneTap = { signIn() },
+                    onAuthenticate = { email, password -> signInWithPassword(email, password) },
+                    onCreateAccount = { email, password, username ->
+                        signUpWithPassword(
+                            email, password, username, saveUsername = viewModel::saveUsernameToDatastore
+                        )
+                    },
+                    onResetPassword = { email -> onPasswordReset(email) },
+                    authErrorMsg = screenState.authErrorMsg
+                )
+            }
         }
 
         setupAuth()
@@ -153,9 +156,10 @@ class AuthenticationFragment : Fragment() {
         }
     }
 
+    /** After sign-in the app opens on Trending Series (the main screen). */
     private fun navigate() {
         val request =
-            NavDeepLinkRequest.Builder.fromUri("com.rick.ecs://bestseller-catalog-screen".toUri())
+            NavDeepLinkRequest.Builder.fromUri("com.rick.ecs://trending_series_catalog".toUri())
                 .build()
         findNavController().navigateWithMotion(request)
     }

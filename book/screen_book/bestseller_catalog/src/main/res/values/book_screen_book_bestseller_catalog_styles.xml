@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Section heading on the bestseller details screen ("About this book", "Buy", …) -->
+    <style name="BookScreenBookBestsellerCatalogSectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:layout_marginEnd">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+        <item name="android:textColor">@color/data_ui_design_black</item>
+    </style>
+</resources>

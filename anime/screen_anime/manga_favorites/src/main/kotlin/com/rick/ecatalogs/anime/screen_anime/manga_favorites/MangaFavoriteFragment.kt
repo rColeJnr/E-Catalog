@@ -1,6 +1,10 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_favorites
 
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
+import androidx.navigation.fragment.findNavController
+import android.net.Uri
 import android.os.Bundle
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,19 +42,26 @@ class MangaFavoriteFragment : Fragment() {
         )
 
         binding.jikanComposeView.setContent {
-            val mangaState by viewModel.feedMangaUiState.collectAsStateWithLifecycle()
-            val shouldDisplayMangaUndoFavorite by viewModel.shouldDisplayMangaUndoFavorite.collectAsStateWithLifecycle()
-            AnimeFavScreen(
-                state = mangaState,
-                onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveMangaFavorite(it)) },
-                shouldDisplayUndoFavorite = shouldDisplayMangaUndoFavorite,
-                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoMangaFavoriteRemoval) },
-                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) }
-            )
+            EcsTheme {
+                val mangaState by viewModel.feedMangaUiState.collectAsStateWithLifecycle()
+                val shouldDisplayMangaUndoFavorite by viewModel.shouldDisplayMangaUndoFavorite.collectAsStateWithLifecycle()
+                AnimeFavScreen(
+                    state = mangaState,
+                    onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveMangaFavorite(it)) },
+                    shouldDisplayUndoFavorite = shouldDisplayMangaUndoFavorite,
+                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoMangaFavoriteRemoval) },
+                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                    onItemClick = ::openManga,
+                )
+            }
         }
 
         analyticsHelper.logScreenView("mangaFavorite")
         return binding.root
+    }
+
+    private fun openManga(id: Int) {
+        findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://manga_details_fragment/$id"))
     }
 
     override fun onDestroy() {

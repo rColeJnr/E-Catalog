@@ -15,4 +15,22 @@
             android:name="link"
             app:argType="string" />
     </fragment>
+
+    <!-- In-app reader for Project Gutenberg books -->
+    <fragment
+        android:id="@+id/book_screen_book_common_readerfragment"
+        android:name="com.rick.ecatalogs.book.screen_book.common.ReaderFragment"
+        android:label="">
+        <deepLink app:uri="com.rick.ecs://gutenberg_reader/{book}?link={link}&amp;title={title}" />
+        <argument
+            android:name="book"
+            app:argType="integer" />
+        <argument
+            android:name="link"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 </navigation>

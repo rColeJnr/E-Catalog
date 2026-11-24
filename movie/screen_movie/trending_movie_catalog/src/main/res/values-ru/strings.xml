@@ -6,7 +6,7 @@
     <string name="movie_screen_movie_trending_movie_catalog_no_rating">без рейтинга</string>
     <string name="movie_screen_movie_trending_movie_catalog_movie_summary">Этот фильм о мальчике, который в детстве мечтал стать разработчиком программного обеспечения</string>
     <string name="movie_screen_movie_trending_movie_catalog_retry">Ошибка, попробуйте еще раз</string>
-    <string name="movie_screen_movie_trending_movie_catalog_no_results">Нет результатов😓\nПроведите для обновления</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_results">Нет результатов 😓\nНажмите, чтобы повторить</string>
     <string name="movie_screen_movie_trending_movie_catalog_may_month">Май</string>
     <string name="movie_screen_movie_trending_movie_catalog_search">поиск</string>
     <string name="movie_screen_movie_trending_movie_catalog_searchOptions">параметры поиска</string>
@@ -23,4 +23,6 @@
     <string name="movie_screen_movie_trending_movie_catalog_whoops">😨 Упс %1$s</string>
     <string name="movie_screen_movie_trending_movie_catalog_show_translation">Показать перевод</string>
     <string name="movie_screen_movie_trending_movie_catalog_show_original">Показать оригинал</string>
+    <string name="movie_screen_movie_trending_movie_catalog_header">Откройте для себя фильмы</string>
+    <string name="movie_screen_movie_trending_movie_catalog_slogan">Тысячи фильмов — найдите свой новый любимый</string>
 </resources>

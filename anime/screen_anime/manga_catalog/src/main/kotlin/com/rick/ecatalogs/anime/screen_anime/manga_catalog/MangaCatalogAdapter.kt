@@ -16,31 +16,19 @@ class MangaCatalogAdapter(
     private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
 ) : PagingDataAdapter<UserManga, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_MANGA
-    }
-
+    // The header is a separate adapter in a ConcatAdapter (MangaHeaderAdapter); it used to take
+    // position 0 here, which hid the #1 manga.
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is MangaHeaderViewHolder -> {
-            }
-
-            is MangaViewHolder -> {
-                val manga = getItem(position)
-                manga?.let { holder.bind(it) }
-            }
-        }
+        getItem(position)?.let { (holder as MangaViewHolder).bind(it) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_HEADER) MangaHeaderViewHolder.create(parent)
-        else MangaViewHolder.create(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        MangaViewHolder.create(
             parent = parent,
             onItemClick = onItemClick,
             onFavClick = onMangaFavClick,
             onTranslationClick = onTranslationClick
         )
-    }
 
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<UserManga>() {
@@ -52,9 +40,6 @@ class MangaCatalogAdapter(
                 return oldItem == newItem
             }
         }
-
-        const val VIEW_TYPE_HEADER = 0
-        const val VIEW_TYPE_MANGA = 1
     }
 }
 

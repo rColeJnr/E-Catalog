@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gutenberg reader: toolbar with text size controls, reading progress, and the book -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/data_ui_design_color_surface"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/reader_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/data_ui_design_toolbar_margin_top"
+        app:titleTextAppearance="?attr/textAppearanceHeadline6" />
+
+    <!-- How far through the book the reader is -->
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/reader_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="1000"
+        app:indicatorColor="@color/data_ui_design_color_buttons"
+        app:trackColor="@color/data_ui_design_chip_background"
+        app:trackThickness="3dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <WebView
+            android:id="@+id/reader_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/data_ui_design_color_surface"
+            android:visibility="invisible" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/reader_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:indicatorColor="@color/data_ui_design_color_buttons" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reader_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="32dp"
+            android:gravity="center"
+            android:text="@string/book_screen_book_common_reader_error"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/data_ui_design_color_buttons"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>

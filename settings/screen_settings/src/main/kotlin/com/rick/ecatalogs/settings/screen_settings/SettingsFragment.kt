@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.settings.screen_settings
 
 import android.Manifest
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -11,10 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -59,9 +56,7 @@ class SettingsFragment : Fragment() {
         setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            MaterialTheme(
-                colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()
-            ) {
+            EcsTheme {
                 SettingsScreen(
                     uiState = uiState,
                     appVersion = appVersion(),

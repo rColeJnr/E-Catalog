@@ -8,6 +8,7 @@ dependencies {
     implementation(projects.authentication.authData)
     implementation(projects.settings.dataSettings.data)
     implementation(projects.data.uiComponents.auth)
+    implementation(projects.data.uiComponents.common)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)

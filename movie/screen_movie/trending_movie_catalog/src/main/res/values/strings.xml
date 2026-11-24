@@ -6,7 +6,7 @@
     <string name="movie_screen_movie_trending_movie_catalog_no_rating">no rating</string>
     <string name="movie_screen_movie_trending_movie_catalog_movie_summary">This movie is about a boy who whilst young dreamed of being a software developer</string>
     <string name="movie_screen_movie_trending_movie_catalog_retry">Error, try again</string>
-    <string name="movie_screen_movie_trending_movie_catalog_no_results">No results 😓\nSwipe to refresh</string>
+    <string name="movie_screen_movie_trending_movie_catalog_no_results">No results 😓\nTap to try again</string>
     <string name="movie_screen_movie_trending_movie_catalog_may_month">May</string>
     <string name="movie_screen_movie_trending_movie_catalog_search">search</string>
     <string name="movie_screen_movie_trending_movie_catalog_searchOptions">search options</string>

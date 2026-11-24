@@ -4,113 +4,83 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.rick.ecatalogs.book.data_book.network.BestsellerNetworkDataSource
-import com.rick.ecatalogs.book.data_book.network.model.BestsellerNetwork
-import com.rick.ecatalogs.book.data_book.data.model.asBestsellerEntity
+import com.rick.ecatalogs.book.data_book.database.BookTransactionRunner
 import com.rick.ecatalogs.book.data_book.database.dao.BestsellerDao
 import com.rick.ecatalogs.book.data_book.database.dao.BestsellerRemoteKeysDao
 import com.rick.ecatalogs.book.data_book.database.model.BestsellerEntity
-import com.rick.ecatalogs.book.data_book.database.model.BestsellerRemoteKeys
+import com.rick.ecatalogs.book.data_book.network.BestsellerNetworkDataSource
+import com.rick.ecatalogs.data.datastore.CachedList
+import com.rick.ecatalogs.data.datastore.ListCache
 import retrofit2.HttpException
 import java.io.IOException
 
+/**
+ * Pages one NYT bestseller list into Room by `offset` (0, 20, 40, …) until `num_results`.
+ * Most lists have 10-15 books and fit in the first page; longer ones load more as you scroll.
+ */
 @OptIn(ExperimentalPagingApi::class)
-class BestsellerRemoteMediator(
+internal class BestsellerRemoteMediator(
     private val bestsellerDao: BestsellerDao,
     private val keysDao: BestsellerRemoteKeysDao,
     private val network: BestsellerNetworkDataSource,
-    private val bookGenre: String,
-    private val date: String,
+    private val transactionRunner: BookTransactionRunner,
+    private val listCache: ListCache,
+    private val genre: String,
 ) : RemoteMediator<Int, BestsellerEntity>() {
 
-    override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
+    private val cacheKey = CachedList.bestseller(genre)
+
+    /**
+     * Show the stored list while it's younger than the sync interval (no download when opening
+     * the screen); otherwise refresh it. Retrying from the screen always downloads.
+     */
+    override suspend fun initialize(): InitializeAction =
+        if (listCache.isFresh(cacheKey)) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
 
     override suspend fun load(
-        loadType: LoadType, state: PagingState<Int, BestsellerEntity>
+        loadType: LoadType,
+        state: PagingState<Int, BestsellerEntity>,
     ): MediatorResult {
-
-        val page = when (loadType) {
+        val offset = when (loadType) {
+            LoadType.REFRESH -> 0
+            // Lists are always loaded from the top
+            LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
             LoadType.APPEND -> {
-                val remoteKeys = getRemoteKeyForLastItem(state)
-                val nextKey = remoteKeys?.nextKey
-                if (nextKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
-                nextKey
-            }
-
-            LoadType.PREPEND -> {
-                val remoteKeys = getRemoteKeyForFirstItem(state)
-                val prevKey = remoteKeys?.prevKey
-                if (prevKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
-                prevKey
-            }
-
-            LoadType.REFRESH -> {
-                val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: 1
+                val lastBook = state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
+                    ?: return MediatorResult.Success(endOfPaginationReached = true)
+                val keys = keysDao.remoteKeysId(bestsellerRemoteKeyId(genre, lastBook.id))
+                    ?: return MediatorResult.Success(endOfPaginationReached = true)
+                keys.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
             }
         }
 
-        try {
-            val response =
-                network.fetchBestsellers(bookGenre = bookGenre, date = date)
-            val books = response.results.books
-            val endOfPaginationReached = books.isEmpty()
-
-
-            if (loadType == LoadType.REFRESH) {
-                keysDao.clearRemoteKeys()
-                bestsellerDao.clearBestsellers(bookGenre)
-            }
-            val prevKey = if (page == 1) null else page - 1
-            val nextKey = if (endOfPaginationReached) null else page + 1
-            val keys = books.map {
-                BestsellerRemoteKeys(
-                    id = it.rank.toString(), prevKey = prevKey, nextKey = nextKey
-                )
-            }
-            keysDao.insertAll(keys)
-            bestsellerDao.upsertBestsellers(books.map { it.asBestsellerEntity(bookGenre) })
-
-            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        return try {
+            val response = network.fetchBestsellers(
+                date = CURRENT_LIST,
+                bookGenre = genre,
+                offset = offset,
+            )
+            val endReached = writeBestsellerPage(
+                genre = genre,
+                offset = offset,
+                response = response,
+                isRefresh = loadType == LoadType.REFRESH,
+                bestsellerDao = bestsellerDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
+            )
+            if (loadType == LoadType.REFRESH) listCache.markRefreshed(cacheKey)
+            MediatorResult.Success(endOfPaginationReached = endReached)
         } catch (e: IOException) {
-            return MediatorResult.Error(e)
+            MediatorResult.Error(e)
         } catch (e: HttpException) {
-            return MediatorResult.Error(e)
-        }
-    }
-
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, BestsellerEntity>): BestsellerRemoteKeys? {
-        // Get the last page that was retrieved, that contained items.
-        // From that last page, get the last item
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { book ->
-            // Get the remote keys of the last item retrieved
-            keysDao.remoteKeysId(book.id)
-        }
-    }
-
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, BestsellerEntity>): BestsellerRemoteKeys? {
-        // GEt the first page that was retrieved, that contained items.
-        // From that first page, get the first item
-        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { book ->
-                // GEt the remote keys of the first items retrieved
-                keysDao.remoteKeysId(book.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, BestsellerEntity>): BestsellerRemoteKeys? {
-        // The paging library is trying to load data after the anchor position
-        // Get the item closest to the anchor position
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { book ->
-                keysDao.remoteKeysId(book)
-            }
+            MediatorResult.Error(e)
         }
     }
 }
+
+internal const val CURRENT_LIST = "current"

@@ -35,7 +35,7 @@ internal class AnimeSearchRepositoryImpl @Inject constructor(
         try {
             val searchResponse = network.searchAnime(
                 query = query,
-                max_score = 10
+                limit = SEARCH_RESULT_LIMIT
             ).data
 
             withContext(ioDispatcher) {
@@ -77,3 +77,5 @@ internal class AnimeSearchRepositoryImpl @Inject constructor(
 }
 
 private const val TAG = "AnimeRepositoryImpl"
+/** Jikan returns at most 25 results per page. */
+private const val SEARCH_RESULT_LIMIT = 25

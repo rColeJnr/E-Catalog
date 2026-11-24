@@ -10,6 +10,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/details_card_view"
+        app:cardBackgroundColor="@color/data_ui_design_color_surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
@@ -61,6 +62,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/data_ui_design_long_image_height" />
 
+                <!-- Fades the image into the page -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/data_ui_design_hero_scrim" />
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textview.MaterialTextView
@@ -97,7 +105,7 @@
                 android:text="@string/anime_screen_anime_anime_details_show_translation"
                 android:textAlignment="gravity"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/data_ui_design_color_buttons"
                 android:textStyle="bold"
                 android:visibility="gone" />
 
@@ -298,7 +306,7 @@
                 android:gravity="start|center_vertical"
                 android:text="@string/anime_screen_anime_anime_details_link_web_page"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/data_ui_design_color_buttons"
                 android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
@@ -310,8 +318,14 @@
                 android:gravity="start|center_vertical"
                 android:text="@string/anime_screen_anime_anime_details_link_trailer"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/data_ui_design_color_buttons"
                 android:textStyle="bold" />
+
+            <!-- Where to watch, broadcast time, episodes, recommendations (Compose) -->
+            <androidx.compose.ui.platform.ComposeView
+                android:id="@+id/anime_extras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

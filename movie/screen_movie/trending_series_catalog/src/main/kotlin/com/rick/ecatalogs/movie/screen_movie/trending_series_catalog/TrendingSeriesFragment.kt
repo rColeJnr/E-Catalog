@@ -1,5 +1,15 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_catalog
 
+import com.rick.ecatalogs.movie.screen_movie.common.R as CommonR
+import kotlinx.coroutines.flow.combine
+import com.rick.ecatalogs.movie.screen_movie.common.BrowseRow
+import com.rick.ecatalogs.movie.screen_movie.common.BrowseItem
+import com.rick.ecatalogs.movie.screen_movie.common.BrowseHeaderState
+import com.rick.ecatalogs.movie.screen_movie.common.BrowseHeaderAdapter
+import com.rick.ecatalogs.movie.screen_movie.common.BrowseGenre
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.Lifecycle
 import android.animation.AnimatorInflater
 import com.rick.ecatalogs.data.ui_design.navigateWithSharedElement
 import com.google.android.material.transition.MaterialElevationScale
@@ -54,6 +64,7 @@ class TrendingSeriesFragment : Fragment() {
     private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var adapter: TrendingSeriesAdapter
+    private lateinit var headerAdapter: BrowseHeaderAdapter
     private lateinit var navController: NavController
 
     @Inject
@@ -104,8 +115,60 @@ class TrendingSeriesFragment : Fragment() {
                 this::onFavClick,
                 this::onTranslationClick
             )
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.itemAnimator = DefaultItemAnimator().apply {
+            // Rebinding the same item shouldn't fade the whole card (looked like flicker)
+            supportsChangeAnimations = false
+        }
+        headerAdapter = BrowseHeaderAdapter(
+            title = getString(R.string.movie_screen_movie_trending_series_catalog_header),
+            slogan = getString(R.string.movie_screen_movie_trending_series_catalog_slogan),
+            allGenresLabel = getString(CommonR.string.movie_screen_movie_common_browse_all),
+            onItemClick = { item ->
+                findNavController().navigateWithMotion(
+                    Uri.parse("com.rick.ecs://trending_series_details_fragment/${item.id}")
+                )
+            },
+            onBellClick = {},
+            onGenreSelected = { genreId ->
+                viewModel.selectGenre(genreId)
+                binding.recyclerView.scrollToPosition(0)
+            },
+        )
+        binding.recyclerView.adapter = ConcatAdapter(headerAdapter, adapter)
+        bindHeader()
+    }
+
+    /** "Airing today" and the genre chips. */
+    private fun bindHeader() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    viewModel.airingToday,
+                    viewModel.genres,
+                    viewModel.selectedGenre,
+                ) { airingToday, genres, selected ->
+                    BrowseHeaderState(
+                        rows = listOf(
+                            BrowseRow(
+                                getString(CommonR.string.movie_screen_movie_common_airing_today),
+                                airingToday.map { series ->
+                                    BrowseItem(
+                                        id = series.id,
+                                        title = series.name,
+                                        posterPath = series.image?.ifBlank { null },
+                                        subtitle = series.voteAverage.takeIf { it > 0 }?.let {
+                                            getString(CommonR.string.movie_screen_movie_common_rating, it)
+                                        },
+                                    )
+                                },
+                            ),
+                        ),
+                        genres = genres.map { BrowseGenre(it.id, it.name) },
+                        selectedGenreId = selected,
+                    )
+                }.collect { headerAdapter.state = it }
+            }
+        }
     }
 
     private fun MovieScreenMovieTrendingSeriesCatalogFragmentTrendingSeriesCatalogBinding.bindList(
@@ -120,10 +183,15 @@ class TrendingSeriesFragment : Fragment() {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
-                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                // Genre lists come straight from the network (no mediator)
+                loadingIndicator.isVisible =
+                    (loadState.mediator?.refresh ?: loadState.source.refresh) is LoadState.Loading
                 // show empty list.
-                emptyList.isVisible =
-                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+                // Only once the stored list has been read too, so a cached screen doesn't flash
+                // "No results" before its items appear
+                emptyList.isVisible = !loadingIndicator.isVisible &&
+                    loadState.source.refresh is LoadState.NotLoading &&
+                    adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
@@ -147,7 +215,8 @@ class TrendingSeriesFragment : Fragment() {
             }
         }
 
-        swipeRefresh.setOnRefreshListener {
+        // No pull-to-refresh (content changes weekly): tap the empty / error message to retry
+        emptyList.setOnClickListener {
             adapter.refresh()
         }
     }

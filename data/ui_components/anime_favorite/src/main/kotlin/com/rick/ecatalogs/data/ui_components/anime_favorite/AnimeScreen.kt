@@ -40,7 +40,9 @@ fun AnimeFavScreen(
     onFavClick: (Int) -> Unit,
     shouldDisplayUndoFavorite: Boolean,
     undoFavoriteRemoval: () -> Unit,
-    clearUndoState: () -> Unit
+    clearUndoState: () -> Unit,
+    /** Opens an anime or manga (by id). */
+    onItemClick: (Int) -> Unit = {},
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -111,7 +113,8 @@ fun AnimeFavScreen(
                                             itemId = anime.id.toString(),
                                             itemImage = anime.images,
                                             itemSummary = anime.synopsis,
-                                            onFavClick = { onFavClick(it.toInt()) }
+                                            onFavClick = { onFavClick(it.toInt()) },
+                                            onClick = { onItemClick(anime.id) },
                                         )
                                     }
                                 }
@@ -132,7 +135,8 @@ fun AnimeFavScreen(
                                             itemId = manga.id.toString(),
                                             itemImage = manga.images,
                                             itemSummary = manga.synopsis,
-                                            onFavClick = { onFavClick(it.toInt()) }
+                                            onFavClick = { onFavClick(it.toInt()) },
+                                            onClick = { onItemClick(manga.id) },
                                         )
                                     }
                                 }

@@ -11,5 +11,6 @@ android {
 dependencies {
     implementation(projects.book.dataBook.domain)
     implementation(projects.data.analytics)
+    implementation(projects.data.uiDesign)
     implementation(projects.data.translation)
 }

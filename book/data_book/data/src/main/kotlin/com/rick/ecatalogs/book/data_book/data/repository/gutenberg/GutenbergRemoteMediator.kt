@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.book.data_book.data.repository.gutenberg
 
+import com.rick.ecatalogs.book.data_book.model.gutenberg.GutenbergFilter
+import com.rick.ecatalogs.data.datastore.CachedList
+import com.rick.ecatalogs.data.datastore.ListCache
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -22,15 +25,21 @@ class GutenbergRemoteMediator(
     private val keysDao: GutenbergRemoteKeysDao,
     private val network: GutenbergNetworkDataSource,
     private val transactionRunner: BookTransactionRunner,
+    private val listCache: ListCache,
+    private val filter: GutenbergFilter,
 ) : RemoteMediator<Int, GutenbergEntity>() {
 
-    override suspend fun initialize(): InitializeAction {
-        // Launch remote refresh as soon as paging starts and do not trigger remote prepend or
-        // append until refresh has succeeded. In cases where we don't mind showing out-of-date,
-        // cached offline data, we can return SKIP_INITIAL_REFRESH instead to prevent paging
-        // triggering remote refresh.
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
+    /**
+     * Show the list stored on the phone while it's younger than the sync interval (no download
+     * when opening the screen); otherwise refresh it. Retrying from the screen always downloads.
+     */
+    override suspend fun initialize(): InitializeAction =
+        // Fresh only if the stored list is this filter's (one filter is stored at a time)
+        if (listCache.isFresh(filter.cacheKey)) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
 
     override suspend fun load(
         loadType: LoadType,
@@ -63,7 +72,7 @@ class GutenbergRemoteMediator(
         }
 
         try {
-            val response = network.fetchBooks(page)
+            val response = network.fetchBooks(page, languages = filter.language, topic = filter.topic)
             val books = response.results
             val endOfPaginationReached = books.isEmpty()
 
@@ -86,6 +95,9 @@ class GutenbergRemoteMediator(
                     .map(GutenbergNetwork::asGutenbergEntity))
             }
 
+            if (loadType == LoadType.REFRESH) {
+                listCache.markRefreshedExclusive(filter.cacheKey, prefix = CachedList.GUTENBERG)
+            }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)

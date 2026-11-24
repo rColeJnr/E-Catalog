@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_ui_components_common_favorite_button">Botão de favorito</string>
+    <string name="data_ui_components_common_favorite_fragment">Ecrã de favoritos</string>
+    <string name="data_ui_components_common_favorite">Favorito</string>
+    <string name="data_ui_components_common_favorites">Favoritos</string>
+    <string name="data_ui_components_common_nothing_found">Nada encontrado</string>
+</resources>

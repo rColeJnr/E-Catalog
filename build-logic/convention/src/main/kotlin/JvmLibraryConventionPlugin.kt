@@ -1,6 +1,8 @@
 import com.rick.ecatalogs.buildlogic.configureKotlinJvm
+import com.rick.ecatalogs.buildlogic.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 class JvmLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -10,6 +12,10 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
                 apply("ecatalogs.android.lint")
             }
             configureKotlinJvm()
+            dependencies {
+                "testImplementation"(libs.findLibrary("kotlin.test").get())
+                "testImplementation"(libs.findLibrary("junit").get())
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <string name="book_screen_book_bestseller_catalog_favorite">Избранное</string>
     <string name="book_screen_book_bestseller_catalog_close">Закрыть</string>
-    <string name="book_screen_book_bestseller_catalog_rank">Рейтинг: %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_rank">№%1$d</string>
     <string name="book_screen_book_bestseller_catalog_rankLastWeek">Рейтинг на прошлой неделе: %1$d</string>
     <string name="book_screen_book_bestseller_catalog_weeksOnList">Недели в списке: %1$d</string>
     <string name="book_screen_book_bestseller_catalog_bestseller_category">Выбранная категория:</string>
@@ -16,4 +16,23 @@
     <string name="book_screen_book_bestseller_catalog_bestsellers">Бестселлеры</string>
     <string name="book_screen_book_bestseller_catalog_slogan">Исследуйте бестселлеры NY Times и найдите новую любимую книгу</string>
     <string name="book_screen_book_bestseller_catalog_header">Откройте для себя книги</string>
+    <string name="book_screen_book_bestseller_catalog_details_about">О книге</string>
+    <string name="book_screen_book_bestseller_catalog_details_buy">Купить</string>
+    <string name="book_screen_book_bestseller_catalog_details_nyt_review">Рецензия The New York Times</string>
+    <string name="book_screen_book_bestseller_catalog_details_read_full_review">Читать рецензию полностью</string>
+    <string name="book_screen_book_bestseller_catalog_details_not_reviewed">The New York Times не публиковал рецензию на эту книгу.</string>
+    <string name="book_screen_book_bestseller_catalog_details_review_error">Не удалось загрузить рецензию. Нажмите, чтобы повторить.</string>
+    <string name="book_screen_book_bestseller_catalog_details_last_week">На прошлой неделе №%1$d</string>
+    <string name="book_screen_book_bestseller_catalog_details_new_this_week">Новинка недели</string>
+    <string name="book_screen_book_bestseller_catalog_details_cover">Обложка: %1$s</string>
+    <string name="book_screen_book_bestseller_catalog_details_add_favorite">Добавить в избранное</string>
+    <string name="book_screen_book_bestseller_catalog_details_remove_favorite">Удалить из избранного</string>
+    <string name="book_screen_book_bestseller_catalog_details_unavailable">Этой книги больше нет в списках.</string>
+    <string name="book_screen_book_bestseller_catalog_details_review_meta">%1$s · %2$s</string>
+    <plurals name="book_screen_book_bestseller_catalog_details_weeks_on_list">
+        <item quantity="one">%d неделя в списке</item>
+        <item quantity="few">%d недели в списке</item>
+        <item quantity="many">%d недель в списке</item>
+        <item quantity="other">%d недели в списке</item>
+    </plurals>
 </resources>

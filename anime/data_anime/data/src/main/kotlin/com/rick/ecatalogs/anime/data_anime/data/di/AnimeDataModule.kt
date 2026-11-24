@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.anime.data_anime.data.di
 
+import com.rick.ecatalogs.anime.data_anime.data.repository.browse.JikanBrowseRepository
+import com.rick.ecatalogs.anime.data_anime.data.repository.browse.JikanBrowseRepositoryImpl
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeByIdRepository
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeByIdRepositoryImpl
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRecentSearchRepository
@@ -44,4 +46,9 @@ abstract class AnimeDataModule {
         animeByIdRepositoryImpl: AnimeByIdRepositoryImpl
     ): AnimeByIdRepository
 
+
+    @Binds
+    internal abstract fun bindsJikanBrowseRepository(
+        repository: JikanBrowseRepositoryImpl
+    ): JikanBrowseRepository
 }

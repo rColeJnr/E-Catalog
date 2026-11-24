@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MovieScreenMovieCommonBrowseRowTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:layout_marginEnd">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+        <item name="android:textColor">@color/data_ui_design_black</item>
+    </style>
+
+    <style name="MovieScreenMovieCommonBrowseRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:nestedScrollingEnabled">false</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingStart">11dp</item>
+        <item name="android:paddingEnd">11dp</item>
+        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
+    </style>
+</resources>

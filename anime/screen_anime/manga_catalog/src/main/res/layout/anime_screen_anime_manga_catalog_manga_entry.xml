@@ -1,99 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Immersive poster card: the poster fills the card, the title (and chips) sit on a dark
+     gradient over its bottom, and the summary follows below. View IDs are unchanged, so the
+     view holder, click handling and shared-element transition names keep working. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movie_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/data_ui_design_item_entry_margin"
-    android:clickable="true"
-    android:focusable="true"
-    app:cardCornerRadius="@dimen/data_ui_design_background_card_corner_radius"
-    app:cardElevation="@dimen/data_ui_design_background_card_elevation">
+    android:layout_marginHorizontal="@dimen/data_ui_design_card_horizontal_margin"
+    android:layout_marginVertical="@dimen/data_ui_design_card_vertical_margin"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/movie_entry_card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/data_ui_design_gradient_background"
-        android:padding="@dimen/data_ui_design_item_entry_margin">
+        android:layout_height="@dimen/data_ui_design_poster_card_height"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+        app:cardCornerRadius="@dimen/data_ui_design_poster_card_radius"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
 
-        <!-- Manga Cover Image -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/data_ui_design_wide_image_height"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            android:layout_height="match_parent">
 
-        <!-- Favorite Button -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="@dimen/data_ui_design_favorite_button_size"
-            android:layout_height="@dimen/data_ui_design_favorite_button_size"
-            android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
-            app:cardElevation="@dimen/data_ui_design_item_card_elevation"
-            app:layout_constraintEnd_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="@id/image"
-            app:shapeAppearanceOverlay="@style/DataUiDesignCircleImage">
-
+            <!-- Poster -->
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/favorite"
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="@dimen/data_ui_design_favorite_button_padding"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <!-- Gradient that keeps the title readable on any poster -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/data_ui_design_poster_scrim_height"
+                android:layout_gravity="bottom"
+                android:background="@drawable/data_ui_design_poster_scrim" />
+
+            <!-- Title and chips over the poster -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                android:padding="@dimen/data_ui_design_poster_content_padding">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:shadowColor="#80000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="4"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="@color/data_ui_design_on_scrim"
+                    tools:text="Berserk" />
+
+            </LinearLayout>
+
+            <!-- Favorite -->
+            <com.google.android.material.imageview.ShapeableImageView
+                style="@style/DataUiDesignFavoriteButton"
+                android:id="@+id/favorite"
+                android:layout_gravity="top|end"
+                android:layout_margin="12dp"
                 android:src="@drawable/data_ui_design_favorite_outlined" />
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-        </com.google.android.material.card.MaterialCardView>
+    <!-- Summary -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/synopsis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="2"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/data_ui_design_text_secondary"
+        tools:text="Guts, a former mercenary now known as the Black Swordsman, is out for revenge." />
 
-        <!-- Manga Title -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
-            android:layout_marginTop="@dimen/data_ui_design_text_title_v_margin"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="?textAppearanceHeadline6"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image"
-            tools:text="One Piece" />
-
-        <!-- Synopsis/Description -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/synopsis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/data_ui_design_text_extras_h_margin"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="?textAppearanceBody2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="Follow Monkey D. Luffy and his swashbuckling crew in their search for the ultimate treasure, the One Piece." />
-
-        <!-- Translation Toggle Action -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/translate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/data_ui_design_translate_margin"
-            android:padding="@dimen/data_ui_design_text_padding"
-            android:text="@string/anime_screen_anime_manga_catalog_show_translation"
-            android:textAppearance="?textAppearanceBody2"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/synopsis" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    <!-- Translation action -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/translate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="4dp"
+        android:padding="4dp"
+        android:text="@string/anime_screen_anime_manga_catalog_show_translation"
+        android:textAppearance="?attr/textAppearanceButton"
+        android:textColor="@color/data_ui_design_color_buttons"
+        android:visibility="gone" />
+</LinearLayout>

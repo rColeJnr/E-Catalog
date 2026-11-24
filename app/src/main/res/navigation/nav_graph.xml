@@ -10,6 +10,7 @@
     <include app:graph="@navigation/movie_screen_movie_trending_movie_catalog_nav_graph" />
     <include app:graph="@navigation/movie_screen_movie_trending_series_catalog_nav_graph" />
     <include app:graph="@navigation/movie_screen_movie_article_catalog_nav_graph" />
+    <include app:graph="@navigation/movie_screen_movie_person_details_nav_graph" />
     <include app:graph="@navigation/authentication_auth_screen_auth_graph" />
     <include app:graph="@navigation/settings_screen_settings_nav_graph" />
 </navigation>

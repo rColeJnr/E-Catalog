@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie
 
+import com.rick.ecatalogs.data.datastore.CachedList
+import com.rick.ecatalogs.data.datastore.ListCache
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -19,11 +21,19 @@ class TrendingMovieRemoteMediator(
     private val keysDao: TrendingMovieRemoteKeysDao,
     private val trendingMovieDao: TrendingMovieDao,
     private val transactionRunner: MovieTransactionRunner,
+    private val listCache: ListCache,
 ) : RemoteMediator<Int, TrendingMovieEntity>() {
 
-    override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
+    /**
+     * Show the list stored on the phone while it's younger than the sync interval (no download
+     * when opening the screen); otherwise refresh it. Retrying from the screen always downloads.
+     */
+    override suspend fun initialize(): InitializeAction =
+        if (listCache.isFresh(CachedList.TRENDING_MOVIES)) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
 
     override suspend fun load(
         loadType: LoadType, state: PagingState<Int, TrendingMovieEntity>
@@ -65,6 +75,7 @@ class TrendingMovieRemoteMediator(
                 transactionRunner = transactionRunner,
             )
 
+            if (loadType == LoadType.REFRESH) listCache.markRefreshed(CachedList.TRENDING_MOVIES)
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: HttpException) {
             return MediatorResult.Error(e)

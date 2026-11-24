@@ -4,6 +4,9 @@
     <string name="data_notifications_channel_trending_series">Trending series</string>
     <string name="data_notifications_channel_articles">Movie reviews</string>
     <string name="data_notifications_channel_bestsellers">NYT bestsellers</string>
+    <string name="data_notifications_channel_release_reminders">Release reminders</string>
+    <string name="data_notifications_release_today">%1$s is out today</string>
+    <string name="data_notifications_release_today_text">Tap to see where to watch it</string>
     <string name="data_notifications_channel_description">New content found by background sync</string>
 
     <string name="data_notifications_new_trending_movies">New trending movies</string>

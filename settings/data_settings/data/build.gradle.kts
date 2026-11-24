@@ -14,4 +14,6 @@ dependencies {
     implementation(projects.data.analytics)
     implementation(projects.settings.dataSettings.model)
 
+    testImplementation(projects.data.datastoreTest)
+    testImplementation(projects.data.testing)
 }

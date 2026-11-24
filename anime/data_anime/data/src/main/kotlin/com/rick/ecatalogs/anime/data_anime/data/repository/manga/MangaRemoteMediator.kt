@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.manga
 
+import com.rick.ecatalogs.data.datastore.CachedList
+import com.rick.ecatalogs.data.datastore.ListCache
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -21,16 +23,20 @@ class MangaRemoteMediator(
     private val keysDao: MangaRemoteKeysDao,
     private val network: JikanNetworkDataSource,
     private val transactionRunner: JikanTransactionRunner,
+    private val listCache: ListCache,
 ) : RemoteMediator<Int, MangaEntity>() {
 
 
-    override suspend fun initialize(): InitializeAction {
-        // Launch remote refresh as soon as paging starts and do not trigger remote prepend or
-        // append until refresh has succeeded. In cases where we don't mind showing out-of-date,
-        // cached offline data, we can return SKIP_INITIAL_REFRESH instead to prevent paging
-        // triggering remote refresh.
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
+    /**
+     * Show the list stored on the phone while it's younger than the sync interval (no download
+     * when opening the screen); otherwise refresh it. Retrying from the screen always downloads.
+     */
+    override suspend fun initialize(): InitializeAction =
+        if (listCache.isFresh(CachedList.MANGA)) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
 
     override suspend fun load(
         loadType: LoadType,
@@ -83,6 +89,7 @@ class MangaRemoteMediator(
                 mangaDao.upsertManga(mangas.map(MangaNetwork::asEntity))
             }
 
+            if (loadType == LoadType.REFRESH) listCache.markRefreshed(CachedList.MANGA)
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)

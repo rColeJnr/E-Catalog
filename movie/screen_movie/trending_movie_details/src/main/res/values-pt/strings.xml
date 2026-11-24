@@ -8,14 +8,14 @@
     <string name="movie_screen_movie_trending_movie_details_db_rating">Movie db: %1$.1f</string>
     <string name="movie_screen_movie_trending_movie_details_imdb_rating">imbd: %1$d</string>
     <string name="movie_screen_movie_trending_movie_details_ratings">Classificações</string>
-    <string name="movie_screen_movie_trending_movie_details_revenue">Receita: $%1$.1f Milhões</string>
-    <string name="movie_screen_movie_trending_movie_details_runtime">Tempo de execução: %1$d minutos</string>
-    <string name="movie_screen_movie_trending_movie_details_budget">Orçamento: $%1$.1f Milhões</string>
-    <string name="movie_screen_movie_trending_movie_details_release_date">Data de lançamento: %1$s</string>
-    <string name="movie_screen_movie_trending_movie_details_genres">Gêneros: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_revenue">Receita: $%1$.1f milhões</string>
+    <string name="movie_screen_movie_trending_movie_details_runtime">Duração: %1$d minutos</string>
+    <string name="movie_screen_movie_trending_movie_details_budget">Orçamento: $%1$.1f milhões</string>
+    <string name="movie_screen_movie_trending_movie_details_release_date">Data de estreia: %1$s</string>
+    <string name="movie_screen_movie_trending_movie_details_genres">Géneros: %1$s</string>
     <string name="movie_screen_movie_trending_movie_details_adult_content">Conteúdo adulto: %1$s</string>
     <string name="movie_screen_movie_trending_movie_details_no_data">n/a</string>
     <string name="movie_screen_movie_trending_movie_details_show_translation">Mostrar tradução</string>
     <string name="movie_screen_movie_trending_movie_details_show_original">Mostrar original</string>
-    <string name="movie_screen_movie_trending_movie_details_overview">Visão Geral</string>
+    <string name="movie_screen_movie_trending_movie_details_overview">Sinopse</string>
 </resources>

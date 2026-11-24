@@ -3,7 +3,7 @@
     <string name="book_screen_book_bestseller_catalog_transition_name" translatable="false">bestseller_catalog_transition</string>
     <string name="book_screen_book_bestseller_catalog_favorite">Favorite</string>
     <string name="book_screen_book_bestseller_catalog_close">Close</string>
-    <string name="book_screen_book_bestseller_catalog_rank">Rank # %1$d</string>
+    <string name="book_screen_book_bestseller_catalog_rank">#%1$d</string>
     <string name="book_screen_book_bestseller_catalog_rankLastWeek">Rank last week: %1$d</string>
     <string name="book_screen_book_bestseller_catalog_weeksOnList">Trending for %1$d wks</string>
     <string name="book_screen_book_bestseller_catalog_bestseller_category">Categories</string>
@@ -22,4 +22,21 @@
     <string name="book_screen_book_bestseller_catalog_bestsellers">Bestsellers</string>
     <string name="book_screen_book_bestseller_catalog_slogan">Explore NY Times bestselling books, and find a new favorite</string>
     <string name="book_screen_book_bestseller_catalog_header">Discover Books</string>
+    <string name="book_screen_book_bestseller_catalog_details_about">About this book</string>
+    <string name="book_screen_book_bestseller_catalog_details_buy">Buy</string>
+    <string name="book_screen_book_bestseller_catalog_details_nyt_review">The New York Times review</string>
+    <string name="book_screen_book_bestseller_catalog_details_read_full_review">Read the full review</string>
+    <string name="book_screen_book_bestseller_catalog_details_not_reviewed">The New York Times hasn\'t reviewed this book.</string>
+    <string name="book_screen_book_bestseller_catalog_details_review_error">Couldn\'t load the review. Tap to try again.</string>
+    <string name="book_screen_book_bestseller_catalog_details_last_week">Last week #%1$d</string>
+    <string name="book_screen_book_bestseller_catalog_details_new_this_week">New this week</string>
+    <string name="book_screen_book_bestseller_catalog_details_cover">Cover of %1$s</string>
+    <string name="book_screen_book_bestseller_catalog_details_add_favorite">Add to favorites</string>
+    <string name="book_screen_book_bestseller_catalog_details_remove_favorite">Remove from favorites</string>
+    <string name="book_screen_book_bestseller_catalog_details_unavailable">This book is no longer on the lists.</string>
+    <string name="book_screen_book_bestseller_catalog_details_review_meta">%1$s · %2$s</string>
+    <plurals name="book_screen_book_bestseller_catalog_details_weeks_on_list">
+        <item quantity="one">%d week on the list</item>
+        <item quantity="other">%d weeks on the list</item>
+    </plurals>
 </resources>

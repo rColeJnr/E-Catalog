@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.movie.data_movie.model.tmdb.series
 
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.Season
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.TmdbDetailsExtras
+
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_series.TrendingSeries
 
@@ -20,5 +23,7 @@ data class MySeries(
     val popularity: Double,
     val image: String,
     val voteAverage: Double,
-    val similar: List<TrendingSeries>
+    val similar: List<TrendingSeries>,
+    val extras: TmdbDetailsExtras = TmdbDetailsExtras(),
+    val seasons: List<Season> = emptyList(),
 )

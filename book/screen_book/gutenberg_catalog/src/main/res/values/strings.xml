@@ -2,7 +2,7 @@
 <resources>
     <string name="book_screen_book_gutenberg_catalog_book_transition_name" translatable="false">gutenberg_catalog_transition</string>
     <string name="book_screen_book_gutenberg_catalog_search">Search</string>
-    <string name="book_screen_book_gutenberg_catalog_no_results">No results 😓\nSwipe to refresh</string>
+    <string name="book_screen_book_gutenberg_catalog_no_results">No results 😓\nTap to try again</string>
     <string name="book_screen_book_gutenberg_catalog_authors">Authors: %1$s</string>
     <string name="book_screen_book_gutenberg_catalog_favorite">Favorite</string>
     <string name="book_screen_book_gutenberg_catalog_wooops">😨 Wooops %1$s</string>
@@ -10,4 +10,16 @@
     <string name="book_screen_book_gutenberg_catalog_book_author" translatable="false">Book Author</string>
     <string name="book_screen_book_gutenberg_catalog_slogan">Explore thousands of free to read books and find a new favorite</string>
     <string name="book_screen_book_gutenberg_catalog_header">Explore Free Books</string>
+    <string name="book_screen_book_gutenberg_catalog_all_languages">All languages</string>
+    <string name="book_screen_book_gutenberg_catalog_all_topics">All topics</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_fiction">Fiction</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_science_fiction">Science fiction</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_poetry">Poetry</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_philosophy">Philosophy</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_history">History</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_children">Children\'s</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_mystery">Mystery</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_adventure">Adventure</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_romance">Romance</string>
+    <string name="book_screen_book_gutenberg_catalog_topic_horror">Horror</string>
 </resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_common_retry">Повторить</string>
+    <string name="anime_screen_anime_common_failed_to_load">Не удалось загрузить</string>
+    <string name="anime_screen_anime_common_this_season">Этот сезон</string>
+    <string name="anime_screen_anime_common_next_season">Следующий сезон</string>
+    <string name="anime_screen_anime_common_list_popular">Популярное</string>
+    <string name="anime_screen_anime_common_list_top_rated">Лучшие по оценкам</string>
+    <string name="anime_screen_anime_common_list_airing">Сейчас выходят</string>
+    <string name="anime_screen_anime_common_list_upcoming">Скоро</string>
+    <string name="anime_screen_anime_common_list_publishing">Выходит сейчас</string>
+    <string name="anime_screen_anime_common_list_favorites">Самые любимые</string>
+    <string name="anime_screen_anime_common_all_genres">Все жанры</string>
+    <string name="anime_screen_anime_common_watch_trailer">Смотреть трейлер</string>
+    <string name="anime_screen_anime_common_watch_on">Где смотреть</string>
+    <string name="anime_screen_anime_common_airs">Выходит: %1$s в %2$s (по вашему времени)</string>
+    <string name="anime_screen_anime_common_episodes">Эпизоды</string>
+    <string name="anime_screen_anime_common_episodes_count">Все эпизоды: %1$d</string>
+    <string name="anime_screen_anime_common_episode_title">%1$d. %2$s</string>
+    <string name="anime_screen_anime_common_filler">Филлер</string>
+    <string name="anime_screen_anime_common_recap">Рекап</string>
+    <string name="anime_screen_anime_common_if_you_liked">Если вам понравилось</string>
+    <string name="anime_screen_anime_common_episodes_error">Не удалось загрузить эпизоды. Нажмите, чтобы повторить.</string>
+    <string name="anime_screen_anime_common_no_episodes">Эпизоды пока не указаны.</string>
+    <string name="anime_screen_anime_common_score">★ %1$.2f</string>
+</resources>

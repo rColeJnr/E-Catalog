@@ -1,6 +1,10 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_favorite
 
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
+import androidx.navigation.fragment.findNavController
+import android.net.Uri
 import android.os.Bundle
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,24 +43,33 @@ class TrenidngMovieFavoriteFragment : Fragment() {
             )
 
         binding.movieComposeView.setContent {
-            val moviesState by viewModel.feedTrendingMovieUiState.collectAsStateWithLifecycle()
-            val shouldDisplayUndoMovieFavorite by viewModel.shouldDisplayUndoMovieFavorite.collectAsState()
-            MovieFavScreen(
-                state = moviesState,
-                onFavClick = {
-                    viewModel.onEvent(
-                        FavoriteUiEvents.RemoveTrendingMovieFavorite(it.toInt())
-                    )
-                },
-                shouldDisplayUndoFavorite = shouldDisplayUndoMovieFavorite,
-                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingMovieFavoriteRemoval) },
-            )
+            EcsTheme {
+                val moviesState by viewModel.feedTrendingMovieUiState.collectAsStateWithLifecycle()
+                val shouldDisplayUndoMovieFavorite by viewModel.shouldDisplayUndoMovieFavorite.collectAsState()
+                MovieFavScreen(
+                    state = moviesState,
+                    onFavClick = {
+                        viewModel.onEvent(
+                            FavoriteUiEvents.RemoveTrendingMovieFavorite(it.toInt())
+                        )
+                    },
+                    shouldDisplayUndoFavorite = shouldDisplayUndoMovieFavorite,
+                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                    onItemClick = ::openMovie,
+                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingMovieFavoriteRemoval) },
+                )
+            }
         }
 
         analyticsHelper.logScreenView("trendingMovieFavorite")
 
         return binding.root
+    }
+
+    private fun openMovie(id: String) {
+        findNavController().navigateWithMotion(
+            Uri.parse("com.rick.ecs://trending_movie_details_fragment/$id")
+        )
     }
 
     override fun onDestroy() {

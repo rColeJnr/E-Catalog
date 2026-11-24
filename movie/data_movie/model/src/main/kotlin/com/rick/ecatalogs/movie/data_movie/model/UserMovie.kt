@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.data_movie.model
 
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.TmdbDetailsExtras
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.MyMovie
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_movie.TrendingMovie
@@ -20,6 +21,7 @@ data class UserMovie internal constructor(
     val voteAverage: Double,
     val voteCount: Int,
     val similar: List<TrendingMovie>,
+    val extras: TmdbDetailsExtras,
     val isFavorite: Boolean
 ) {
 
@@ -39,6 +41,7 @@ data class UserMovie internal constructor(
         voteAverage = movie.voteAverage,
         voteCount = movie.voteCount,
         similar = movie.similar,
+        extras = movie.extras,
         isFavorite = movie.id in userData.trendingMovieFavoriteIds
     )
 }

@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.data_movie.data.model
 
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.Season
 import com.rick.ecatalogs.movie.data_movie.database.model.TrendingSeriesEntity
 import com.rick.ecatalogs.movie.data_movie.database.model.TrendingSeriesRecentSearchQueryEntity
 import com.rick.ecatalogs.movie.data_movie.model.TmdbRecentSearchQuery
@@ -13,7 +14,7 @@ fun TrendingSeriesNetwork.asTrendingSeriesEntity() = TrendingSeriesEntity(
     id = id,
     name = name,
     overview = overview,
-    image = image,
+    image = image ?: "",
     popularity = popularity,
     firstAirDate = firstAirDate,
     voteAverage = voteAverage,
@@ -25,7 +26,7 @@ fun TrendingSeriesNetwork.asTrendingSeries() = TrendingSeries(
     id = id,
     name = name,
     overview = overview,
-    image = image,
+    image = image ?: "",
     popularity = popularity,
     firstAirDate = firstAirDate,
     voteAverage = voteAverage,
@@ -48,7 +49,25 @@ fun SeriesResponse.asMySeries() = MySeries(id,
     popularity = popularity,
     image = image,
     voteAverage = voteAverage,
-    similar = similar.results.map { it.asTrendingSeries() })
+    similar = similar.results.map { it.asTrendingSeries() },
+    extras = tmdbDetailsExtras(
+        credits = credits,
+        videos = videos,
+        watchProviders = watchProviders,
+        ageRatings = contentRatings.asAgeRatings(),
+    ),
+    seasons = seasons.orEmpty()
+        .sortedBy { if (it.seasonNumber == 0) Int.MAX_VALUE else it.seasonNumber }
+        .map {
+            Season(
+                number = it.seasonNumber,
+                name = it.name.orEmpty(),
+                episodeCount = it.episodeCount ?: 0,
+                airDate = it.airDate?.takeIf { date -> date.isNotBlank() },
+                posterPath = it.posterPath?.takeIf { path -> path.isNotBlank() },
+            )
+        },
+)
 
 fun TrendingSeriesRecentSearchQueryEntity.asExternalModel() = TmdbRecentSearchQuery(
     query = query,

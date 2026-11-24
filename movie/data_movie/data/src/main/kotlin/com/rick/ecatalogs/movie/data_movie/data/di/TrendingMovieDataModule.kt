@@ -1,5 +1,11 @@
 package com.rick.ecatalogs.movie.data_movie.data.di
 
+import com.rick.ecatalogs.movie.data_movie.data.repository.browse.ReleaseReminderRepository
+import com.rick.ecatalogs.movie.data_movie.data.repository.browse.ReleaseReminderRepositoryImpl
+import com.rick.ecatalogs.movie.data_movie.data.repository.browse.TmdbBrowseRepository
+import com.rick.ecatalogs.movie.data_movie.data.repository.browse.TmdbBrowseRepositoryImpl
+import com.rick.ecatalogs.movie.data_movie.data.repository.person.PersonRepository
+import com.rick.ecatalogs.movie.data_movie.data.repository.person.PersonRepositoryImpl
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.TrendingMovieByIdRepository
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.TrendingMovieByIdRepositoryImpl
 import com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie.TrendingMovieRecentSearchRepository
@@ -37,4 +43,19 @@ abstract class TrendingMovieDataModule {
     internal abstract fun bindsTrendingMovieByIdRepository(
         trendingMovieByIdRepository: TrendingMovieByIdRepositoryImpl
     ): TrendingMovieByIdRepository
+
+    @Binds
+    internal abstract fun bindsTmdbBrowseRepository(
+        repository: TmdbBrowseRepositoryImpl
+    ): TmdbBrowseRepository
+
+    @Binds
+    internal abstract fun bindsReleaseReminderRepository(
+        repository: ReleaseReminderRepositoryImpl
+    ): ReleaseReminderRepository
+
+    @Binds
+    internal abstract fun bindsPersonRepository(
+        personRepository: PersonRepositoryImpl
+    ): PersonRepository
 }

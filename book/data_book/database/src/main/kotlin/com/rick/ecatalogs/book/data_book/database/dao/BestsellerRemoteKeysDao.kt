@@ -18,4 +18,8 @@ interface BestsellerRemoteKeysDao {
     @Query("DELETE FROM ny_book_remote_keys")
     suspend fun clearRemoteKeys()
 
+    /** Keys are "genre|isbn" (a book can be on several lists); clears one genre's keys. */
+    @Query("DELETE FROM ny_book_remote_keys WHERE id LIKE :genre || '|%'")
+    suspend fun clearRemoteKeys(genre: String)
+
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_screen_settings_settings">Definições</string>
+    <string name="settings_screen_settings_ok">OK</string>
+    <string name="settings_screen_settings_account">Conta</string>
+    <string name="settings_screen_settings_greeting">Olá, %1$s</string>
+    <string name="settings_screen_settings_username">Nome de utilizador</string>
+    <string name="settings_screen_settings_save">Guardar</string>
+    <string name="settings_screen_settings_change_username">Alterar nome de utilizador</string>
+    <string name="settings_screen_settings_sign_out">Terminar sessão</string>
+    <string name="settings_screen_settings_delete_account">Eliminar conta</string>
+    <string name="settings_screen_settings_delete_account_message">Isto elimina a sua conta permanentemente. Os seus favoritos ficam neste dispositivo.</string>
+    <string name="settings_screen_settings_delete">Eliminar</string>
+    <string name="settings_screen_settings_cancel">Cancelar</string>
+    <string name="settings_screen_settings_account_deleted">Conta eliminada</string>
+    <string name="settings_screen_settings_notifications">Notificações</string>
+    <string name="settings_screen_settings_trending_movies">Filmes em tendência</string>
+    <string name="settings_screen_settings_trending_series">Séries em tendência</string>
+    <string name="settings_screen_settings_movie_reviews">Críticas de filmes</string>
+    <string name="settings_screen_settings_bestsellers">Mais vendidos do NYT</string>
+    <string name="settings_screen_settings_notifications_denied">As notificações da E-Catalogs estão desativadas nas definições do sistema</string>
+    <string name="settings_screen_settings_background_sync">Sincronização em segundo plano</string>
+    <string name="settings_screen_settings_sync_enabled">Procurar novidades</string>
+    <string name="settings_screen_settings_sync_description">Atualiza as listas em segundo plano quando está online</string>
+    <string name="settings_screen_settings_sync_interval">Com que frequência</string>
+    <string name="settings_screen_settings_sync_weekly">Uma vez por semana</string>
+    <string name="settings_screen_settings_sync_monthly">Uma vez por mês</string>
+    <string name="settings_screen_settings_hours">%1$d horas</string>
+    <string name="settings_screen_settings_theme">Tema</string>
+    <string name="settings_screen_settings_theme_system">Predefinição do sistema</string>
+    <string name="settings_screen_settings_theme_light">Claro</string>
+    <string name="settings_screen_settings_theme_dark">Escuro</string>
+    <string name="settings_screen_settings_about">Sobre</string>
+    <string name="settings_screen_settings_privacy_policy">Política de privacidade</string>
+    <string name="settings_screen_settings_terms_of_use">Termos de utilização</string>
+    <string name="settings_screen_settings_licenses">Licenças</string>
+    <string name="settings_screen_settings_version">Versão %1$s</string>
+</resources>

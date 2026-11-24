@@ -2,7 +2,10 @@ package com.rick.ecatalogs.book.data_book.network.retrofit
 
 import com.rick.ecatalogs.book.data_book.network.BestsellerNetworkDataSource
 import com.rick.ecatalogs.book.data_book.network.BuildConfig
+import com.rick.ecatalogs.book.data_book.network.model.BestsellerOverviewResponse
 import com.rick.ecatalogs.book.data_book.network.model.BestsellerResponse
+import com.rick.ecatalogs.book.data_book.network.model.BookReviewsResponse
+import com.rick.ecatalogs.book.data_book.network.model.ReviewArticleResponse
 import com.rick.ecatalogs.book.data_book.network.model.SearchBestsellerResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,8 +27,27 @@ private interface NyTimesRetrofitNetworkApi {
     suspend fun getBestsellers(
         @Path("date") date: String,
         @Path("list") bookGenre: String,
+        @Query("offset") offset: Int,
         @Query("api-key") apiKey: String,
     ): BestsellerResponse
+
+    /* Top entries of every Best Sellers list for the current week, in one request. */
+    @GET("svc/books/v3/lists/overview.json")
+    suspend fun getOverview(
+        @Query("api-key") apiKey: String,
+    ): BestsellerOverviewResponse
+
+    @GET("svc/books/v3/reviews.json")
+    suspend fun getReviews(
+        @Query("isbn") isbn: String,
+        @Query("api-key") apiKey: String,
+    ): BookReviewsResponse
+
+    @GET("svc/search/v2/articlesearch.json")
+    suspend fun getArticle(
+        @Query("fq") filter: String,
+        @Query("api-key") apiKey: String,
+    ): ReviewArticleResponse
 
     companion object {
         private const val DATE = "current"
@@ -43,11 +65,24 @@ internal class BestsellerRetrofitNetwork @Inject constructor() : BestsellerNetwo
         ).build().create(NyTimesRetrofitNetworkApi::class.java)
 
     override suspend fun fetchBestsellers(
-        date: String, bookGenre: String
+        date: String, bookGenre: String, offset: Int,
     ): BestsellerResponse =
         networkApi.getBestsellers(
             date = date,
             bookGenre = bookGenre,
+            offset = offset,
+            apiKey = BuildConfig.NY_TIMES_API_KEY,
+        )
+
+    override suspend fun fetchOverview(): BestsellerOverviewResponse =
+        networkApi.getOverview(apiKey = BuildConfig.NY_TIMES_API_KEY)
+
+    override suspend fun fetchReviews(isbn: String): BookReviewsResponse =
+        networkApi.getReviews(isbn = isbn, apiKey = BuildConfig.NY_TIMES_API_KEY)
+
+    override suspend fun fetchArticle(url: String): ReviewArticleResponse =
+        networkApi.getArticle(
+            filter = "web_url:(\"${url.replace("\"", "")}\")",
             apiKey = BuildConfig.NY_TIMES_API_KEY,
         )
 

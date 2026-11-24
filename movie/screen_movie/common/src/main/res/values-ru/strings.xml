@@ -6,4 +6,24 @@
     <string name="movie_screen_movie_common_reporter">Сообщил: %1$s</string>
     <string name="movie_screen_movie_common_release_date">Дата выхода: %1$s</string>
     <string name="movie_screen_movie_common_close">Закрыть</string>
+    <string name="movie_screen_movie_common_watch_trailer">Смотреть трейлер</string>
+    <string name="movie_screen_movie_common_cast">В ролях</string>
+    <string name="movie_screen_movie_common_where_to_watch">Где посмотреть</string>
+    <string name="movie_screen_movie_common_stream">По подписке</string>
+    <string name="movie_screen_movie_common_rent_or_buy">Аренда или покупка</string>
+    <string name="movie_screen_movie_common_justwatch">Данные о стриминге предоставлены JustWatch</string>
+    <string name="movie_screen_movie_common_cast_photo">Фото: %1$s</string>
+    <string name="movie_screen_movie_common_browse_all">Все</string>
+    <string name="movie_screen_movie_common_coming_soon">Скоро в кино</string>
+    <string name="movie_screen_movie_common_in_theaters">Сейчас в кино</string>
+    <string name="movie_screen_movie_common_airing_today">Сегодня в эфире</string>
+    <string name="movie_screen_movie_common_opens">Премьера %1$s</string>
+    <string name="movie_screen_movie_common_rating">★ %1$.1f</string>
+    <string name="movie_screen_movie_common_remind_me">Напомнить в день премьеры</string>
+    <string name="movie_screen_movie_common_reminder_set">Напомним %1$s</string>
+    <string name="movie_screen_movie_common_reminder_removed">Напоминание удалено</string>
+    <string name="movie_screen_movie_common_seasons">Сезоны</string>
+    <string name="movie_screen_movie_common_episodes">Эпизодов: %1$d</string>
+    <string name="movie_screen_movie_common_season_error">Не удалось загрузить сезон. Нажмите, чтобы повторить.</string>
+    <string name="movie_screen_movie_common_no_episodes">Эпизоды пока не объявлены.</string>
 </resources>

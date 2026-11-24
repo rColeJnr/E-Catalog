@@ -1,207 +1,224 @@
 package com.rick.ecatalogs.data.ui_components.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush.Companion.linearGradient
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.rick.ecatalogs.data.ui_design.R
 
+/**
+ * Favorites card in the same style as the XML poster cards: the poster fills the card, the title
+ * sits on a dark gradient over it, and the summary follows below. Tapping the card opens the
+ * item ([onClick]); the heart removes it from favorites.
+ */
 @Composable
 fun EcsCatalogCard(
     itemTitle: String,
     itemImage: String,
     itemId: String,
     itemSummary: String,
-    onFavClick: (String) -> Unit
+    onFavClick: (String) -> Unit,
+    onClick: () -> Unit = {},
 ) {
-    val backgroundGradient = linearGradient(
-        colors = listOf(
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_surface), // end color
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
-        ),
-        start = Offset.Infinite,
-        end = Offset.Zero
-    )
-
-    ElevatedCard(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = backgroundGradient
-                )
-                .padding(bottom = 16.dp)
+        PosterCard(
+            image = itemImage,
+            height = 360.dp,
+            onRemove = { onFavClick(itemId) },
+            onClick = onClick,
         ) {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
-            ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(itemImage)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    placeholder = painterResource(id = com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled),
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop,
-                )
-            }
-
-            EcsText(
+            Text(
                 text = itemTitle,
-                fontSize = 18.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp),
-                maxLines = 1
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.White,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
             )
-
-            EcsTextSmaller(
+        }
+        if (itemSummary.isNotBlank()) {
+            Text(
                 text = itemSummary,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                maxLines = 5
-            )
-
-            EcsTextButton(
-                text = "Remove from favorites",
-                color = colorResource(android.R.color.holo_blue_dark),
-                onClick = { onFavClick(itemId) },
-                modifier = Modifier
-                    .padding(top = 8.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp),
             )
         }
     }
 }
 
-
+/** Book favorites card (grid / list): cover with title and author over a gradient. */
 @Composable
 fun EcsBookCatalogCard(
     image: String,
     title: String,
     author: String,
     id: String,
-    onFavClick: (String) -> Unit
+    onFavClick: (String) -> Unit,
+    onClick: () -> Unit = {},
 ) {
-    val backgroundGradient = linearGradient(
-        colors = listOf(
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_surface), // end color
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
-        ),
-        start = Offset.Infinite,
-        end = Offset.Zero
-    )
-
-    ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(6.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+    PosterCard(
+        image = image,
+        height = 260.dp,
+        onRemove = { onFavClick(id) },
+        onClick = onClick,
+        modifier = Modifier.padding(8.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(brush = backgroundGradient)
-                .padding(8.dp),
-            horizontalAlignment = Alignment.Start
-        ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            color = Color.White,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+        )
+        if (author.isNotBlank()) {
+            Text(
+                text = author,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.White.copy(alpha = 0.8f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+@Composable
+private fun PosterCard(
+    image: String,
+    height: Dp,
+    onRemove: () -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    overlay: @Composable () -> Unit,
+) {
+    Card(
+        onClick = onClick,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+    ) {
+        Box(Modifier.fillMaxSize()) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(image)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+            )
+            // Gradient that keeps the text readable on any poster
             Box(
-                modifier = Modifier
+                Modifier
                     .fillMaxWidth()
-                    .height(220.dp)
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+                    .fillMaxHeight(0.5f)
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color.Transparent,
+                                colorResource(R.color.data_ui_design_scrim_mid),
+                                colorResource(R.color.data_ui_design_scrim),
+                            )
+                        )
+                    )
+            )
+            Column(
+                Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(16.dp)
+            ) { overlay() }
+            IconButton(
+                onClick = onRemove,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(12.dp)
+                    .size(40.dp)
+                    .glass(CircleShape),
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(image)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    placeholder = painterResource(com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled),
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop,
+                Icon(
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = "Remove from favorites",
+                    tint = colorResource(R.color.data_ui_design_on_scrim),
                 )
             }
-
-            EcsText(
-                text = title,
-                fontSize = 17.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                maxLines = 1,
-            )
-
-            EcsTextSmaller(
-                text = author,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 2.dp, start = 1.dp, end = 1.dp),
-                maxLines = 1,
-            )
-
-            EcsTextButton(
-                text = "Remove from favorites",
-                color = colorResource(android.R.color.holo_blue_dark),
-                onClick = { onFavClick(id) },
-                modifier = Modifier
-                    .padding(8.dp)
-            )
         }
     }
 }
 
 @Preview
 @Composable
-private fun PreviewBookCard() {
-    EcsBookCatalogCard(image = "", title = "Book title", author = "Book authro", id = "") {
-
+private fun PreviewCatalogCard() {
+    EcsTheme {
+        EcsCatalogCard(
+            itemTitle = "Dune: Part Two",
+            itemImage = "",
+            itemId = "1",
+            itemSummary = "Paul Atreides unites with the Fremen to wage war against the conspirators.",
+            onFavClick = {},
+        )
     }
 }
 
-//@Preview
-//@Composable
-//fun PreviewBookItem() {
-//    EcsBookCatalogCard(favorite = Favorite(
-//        1,
-//        "Book title",
-//        "Book author",
-//        "https://www.nixsolutions.com/uploads/2020/07/Golang-700x395.png",
-////        type = "book",
-//        isFavorite = true
-//    ), onItemClick = {}, onFavClick = {})
-//}
+@Preview
+@Composable
+private fun PreviewBookCard() {
+    EcsTheme {
+        EcsBookCatalogCard(
+            image = "", title = "Book title", author = "Book author", id = "", onFavClick = {},
+        )
+    }
+}
 
+/** Frosted glass: translucent body, white sheen from the top, thin light rim (matches the XML). */
+@Composable
+private fun Modifier.glass(shape: Shape): Modifier {
+    val fill = colorResource(R.color.data_ui_design_glass_fill)
+    val sheen = colorResource(R.color.data_ui_design_glass_sheen)
+    val rim = colorResource(R.color.data_ui_design_glass_rim)
+    return this
+        .clip(shape)
+        .background(fill, shape)
+        .background(Brush.verticalGradient(0f to sheen, 0.5f to Color.Transparent), shape)
+        .border(1.dp, rim, shape)
+}

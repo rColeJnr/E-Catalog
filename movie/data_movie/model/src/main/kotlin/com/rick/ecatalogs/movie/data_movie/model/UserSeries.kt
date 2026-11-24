@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.data_movie.model
 
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.Season
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.TmdbDetailsExtras
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.Creator
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.MySeries
@@ -23,6 +25,8 @@ data class UserSeries internal constructor(
     val image: String,
     val voteAverage: Double,
     val similar: List<TrendingSeries>,
+    val extras: TmdbDetailsExtras,
+    val seasons: List<Season>,
     val isFavorite: Boolean
 ) {
 
@@ -44,6 +48,8 @@ data class UserSeries internal constructor(
         image = series.image,
         voteAverage = series.voteAverage,
         similar = series.similar,
+        extras = series.extras,
+        seasons = series.seasons,
         isFavorite = series.id in userData.trendingSeriesFavoriteIds
     )
 }

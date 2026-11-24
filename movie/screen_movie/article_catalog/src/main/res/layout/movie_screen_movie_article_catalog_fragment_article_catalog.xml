@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/movie_screen_movie_article_catalog_gradient_background"
+    android:background="@color/data_ui_design_color_surface"
     android:orientation="vertical">
 
     <TextView
@@ -14,41 +14,55 @@
         android:gravity="center"
         android:paddingTop="16dp"
         android:text="Movie Articles"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textAppearance="?attr/textAppearanceHeadline6"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/slogan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.7"
         android:gravity="center"
         android:paddingBottom="16dp"
         android:text="Explore what the NY Times has to say about new movies"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/data_ui_design_text_secondary" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    <!-- Catalog list. The content changes weekly, so there is no pull-to-refresh: a thin bar shows
+         while the list loads, and the empty / error message can be tapped to try again. -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
+            android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/movie_screen_movie_article_catalog_movie_entry" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/loading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/data_ui_design_color_buttons"
+            app:trackColor="@android:color/transparent" />
 
-    <TextView
-        android:id="@+id/empty_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/movie_screen_movie_article_catalog_no_results"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/empty_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="32dp"
+            android:text="@string/movie_screen_movie_article_catalog_no_results"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/data_ui_design_text_secondary"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

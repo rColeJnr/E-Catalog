@@ -17,5 +17,6 @@ data class MyMovie(
     val title: String,
     val voteAverage: Double,
     val voteCount: Int,
-    val similar: List<TrendingMovie>
+    val similar: List<TrendingMovie>,
+    val extras: TmdbDetailsExtras = TmdbDetailsExtras(),
 )

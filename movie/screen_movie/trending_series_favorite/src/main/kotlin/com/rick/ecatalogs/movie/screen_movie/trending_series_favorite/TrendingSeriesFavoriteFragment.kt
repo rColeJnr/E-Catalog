@@ -1,6 +1,10 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_favorite
 
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
+import androidx.navigation.fragment.findNavController
+import android.net.Uri
 import android.os.Bundle
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,23 +43,32 @@ class TrendingSeriesFavoriteFragment : Fragment() {
             )
 
         binding.movieComposeView.setContent {
-            val seriesState by viewModel.feedTrendingSeriesUiState.collectAsStateWithLifecycle()
-            val shouldDisplayUndoSeriesFavorite by viewModel.shouldDisplayUndoSeriesFavorite.collectAsState()
-            MovieFavScreen(
-                state = seriesState,
-                onFavClick = {
-                    viewModel.onEvent(
-                        FavoriteUiEvents.RemoveTrendingSeriesFavorite(it.toInt())
-                    )
-                },
-                shouldDisplayUndoFavorite = shouldDisplayUndoSeriesFavorite,
-                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval) },
-            )
+            EcsTheme {
+                val seriesState by viewModel.feedTrendingSeriesUiState.collectAsStateWithLifecycle()
+                val shouldDisplayUndoSeriesFavorite by viewModel.shouldDisplayUndoSeriesFavorite.collectAsState()
+                MovieFavScreen(
+                    state = seriesState,
+                    onFavClick = {
+                        viewModel.onEvent(
+                            FavoriteUiEvents.RemoveTrendingSeriesFavorite(it.toInt())
+                        )
+                    },
+                    shouldDisplayUndoFavorite = shouldDisplayUndoSeriesFavorite,
+                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                    onItemClick = ::openSeries,
+                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval) },
+                )
+            }
         }
 
         analyticsHelper.logScreenView("trendingSeriesFavorite")
         return binding.root
+    }
+
+    private fun openSeries(id: String) {
+        findNavController().navigateWithMotion(
+            Uri.parse("com.rick.ecs://trending_series_details_fragment/$id")
+        )
     }
 
     override fun onDestroy() {

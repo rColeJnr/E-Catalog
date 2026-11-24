@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Catalog list. The content changes weekly, so there is no pull-to-refresh: a thin bar shows
+     while the list loads, and the empty / error message can be tapped to try again. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/jikan_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/data_ui_design_gradient_background"
-    android:orientation="vertical">
+    android:background="@drawable/data_ui_design_gradient_background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/jikan_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/anime_screen_anime_manga_catalog_manga_entry" />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/jikan_loading_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/data_ui_design_color_buttons"
+        app:trackColor="@android:color/transparent" />
+
     <TextView
         android:id="@+id/jikan_empty_list"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="?attr/selectableItemBackground"
         android:gravity="center"
+        android:padding="32dp"
         android:text="@string/anime_screen_anime_manga_catalog_no_results"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textColor="@color/data_ui_design_text_secondary"
         android:visibility="gone" />
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</FrameLayout>

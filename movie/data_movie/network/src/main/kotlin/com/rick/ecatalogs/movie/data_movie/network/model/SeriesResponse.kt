@@ -43,5 +43,14 @@ data class SeriesResponse(
     @SerializedName("vote_average")
     @SerialName("vote_average")
     val voteAverage: Double,
-    val similar: TrendingSeriesResponse
+    val similar: TrendingSeriesResponse,
+    val credits: CreditsResponse? = null,
+    val videos: VideosResponse? = null,
+    @SerialName("watch/providers")
+    @SerializedName("watch/providers")
+    val watchProviders: WatchProvidersResponse? = null,
+    @SerialName("content_ratings")
+    @SerializedName("content_ratings")
+    val contentRatings: ContentRatingsResponse? = null,
+    val seasons: List<SeasonSummaryNetwork>? = null,
 )

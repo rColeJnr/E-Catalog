@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/reader_text_smaller"
+        android:icon="@drawable/book_screen_book_common_ic_text_smaller"
+        android:title="@string/book_screen_book_common_reader_text_smaller"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/reader_text_larger"
+        android:icon="@drawable/book_screen_book_common_ic_text_larger"
+        android:title="@string/book_screen_book_common_reader_text_larger"
+        app:showAsAction="always" />
+</menu>

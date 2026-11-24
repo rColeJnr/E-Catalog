@@ -65,8 +65,10 @@
             <option value="$PROJECT_DIR$/data/common" />
             <option value="$PROJECT_DIR$/data/datastore" />
             <option value="$PROJECT_DIR$/data/datastore_proto" />
+            <option value="$PROJECT_DIR$/data/datastore_test" />
             <option value="$PROJECT_DIR$/data/notifications" />
             <option value="$PROJECT_DIR$/data/sync" />
+            <option value="$PROJECT_DIR$/data/testing" />
             <option value="$PROJECT_DIR$/data/translation" />
             <option value="$PROJECT_DIR$/data/ui_components" />
             <option value="$PROJECT_DIR$/data/ui_components/anime_favorite" />
@@ -76,6 +78,7 @@
             <option value="$PROJECT_DIR$/data/ui_components/movie_favorite" />
             <option value="$PROJECT_DIR$/data/ui_design" />
             <option value="$PROJECT_DIR$/data/util" />
+            <option value="$PROJECT_DIR$/lint" />
             <option value="$PROJECT_DIR$/movie" />
             <option value="$PROJECT_DIR$/movie/data_movie" />
             <option value="$PROJECT_DIR$/movie/data_movie/data" />
@@ -88,6 +91,7 @@
             <option value="$PROJECT_DIR$/movie/screen_movie/article_favorite" />
             <option value="$PROJECT_DIR$/movie/screen_movie/article_search" />
             <option value="$PROJECT_DIR$/movie/screen_movie/common" />
+            <option value="$PROJECT_DIR$/movie/screen_movie/person_details" />
             <option value="$PROJECT_DIR$/movie/screen_movie/trending_movie_catalog" />
             <option value="$PROJECT_DIR$/movie/screen_movie/trending_movie_details" />
             <option value="$PROJECT_DIR$/movie/screen_movie/trending_movie_favorite" />
@@ -105,6 +109,5 @@
         </option>
       </GradleProjectSettings>
     </option>
-    <option name="offlineMode" value="true" />
   </component>
 </project>

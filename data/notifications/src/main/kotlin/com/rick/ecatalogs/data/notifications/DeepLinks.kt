@@ -10,6 +10,8 @@ object DeepLinks {
     const val BESTSELLER_CATALOG = "com.rick.ecs://bestseller-catalog-screen"
     const val BESTSELLER_GENRE_ARG = "genre"
 
+    fun movieDetails(movieId: Int) = "com.rick.ecs://trending_movie_details_fragment/$movieId"
+
     fun bestsellerCatalog(genre: BestsellerGenre) =
         "$BESTSELLER_CATALOG?$BESTSELLER_GENRE_ARG=${genre.listName}"
 }

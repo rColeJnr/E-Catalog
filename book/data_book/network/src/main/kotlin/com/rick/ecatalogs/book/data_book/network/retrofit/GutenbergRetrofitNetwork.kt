@@ -16,7 +16,10 @@ private interface GutenbergRetrofitNetworkApi {
 
     @GET("/books")
     suspend fun fetchBooks(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        // Retrofit leaves null query parameters out
+        @Query("languages") languages: String?,
+        @Query("topic") topic: String?,
     ): GutenbergResponse
 
     @GET("/books/")
@@ -40,7 +43,8 @@ internal class GutenbergRetrofitNetwork @Inject constructor() : GutenbergNetwork
                 .build()
         ).build().create(GutenbergRetrofitNetworkApi::class.java)
 
-    override suspend fun fetchBooks(page: Int): GutenbergResponse = networkApi.fetchBooks(page)
+    override suspend fun fetchBooks(page: Int, languages: String?, topic: String?): GutenbergResponse =
+        networkApi.fetchBooks(page, languages, topic)
 
     override suspend fun searchGutenberg(query: String): GutenbergResponse =
         networkApi.searchBook(query)

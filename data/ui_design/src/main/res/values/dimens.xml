@@ -11,8 +11,10 @@
     <dimen name="data_ui_design_text_padding">2dp</dimen>
     <dimen name="data_ui_design_background_card_corner_radius">24dp</dimen>
     <dimen name="data_ui_design_favorite_button_margin">10dp</dimen>
-    <dimen name="data_ui_design_favorite_button_size">32dp</dimen>
-    <dimen name="data_ui_design_favorite_button_padding">2dp</dimen>
+    <dimen name="data_ui_design_favorite_button_size">40dp</dimen>
+    <dimen name="data_ui_design_favorite_button_padding">8dp</dimen>
+    <dimen name="data_ui_design_favorite_button_size_small">32dp</dimen>
+    <dimen name="data_ui_design_favorite_button_padding_small">7dp</dimen>
     <dimen name="data_ui_design_item_card_elevation">4dp</dimen>
     <dimen name="data_ui_design_background_card_elevation">2dp</dimen>
     <dimen name="data_ui_design_long_image_height">450dp</dimen>
@@ -23,4 +25,13 @@
     <dimen name="data_ui_design_toolbar_width">282dp</dimen>
     <dimen name="data_ui_design_recent_searches_margin">4dp</dimen>
     <dimen name="data_ui_design_item_entry_margin">8dp</dimen>
+    <!-- Immersive poster cards -->
+    <dimen name="data_ui_design_poster_card_height">360dp</dimen>
+    <dimen name="data_ui_design_poster_card_radius">20dp</dimen>
+    <dimen name="data_ui_design_poster_scrim_height">170dp</dimen>
+    <dimen name="data_ui_design_poster_content_padding">16dp</dimen>
+    <dimen name="data_ui_design_poster_favorite_size">@dimen/data_ui_design_favorite_button_size</dimen>
+    <dimen name="data_ui_design_card_horizontal_margin">16dp</dimen>
+    <dimen name="data_ui_design_card_vertical_margin">10dp</dimen>
+    <dimen name="data_ui_design_book_cover_height">250dp</dimen>
 </resources>

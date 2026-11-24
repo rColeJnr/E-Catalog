@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bestseller details: cover and facts, description, where to buy, and the NYT's review -->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/data_ui_design_gradient_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/details_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="@dimen/data_ui_design_toolbar_margin_top" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_unavailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:gravity="center"
+            android:text="@string/book_screen_book_bestseller_catalog_details_unavailable"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/data_ui_design_text_secondary"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/details_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <!-- Cover and facts -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="124dp"
+                    android:layout_height="186dp"
+                    app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/details_cover"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/details_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/data_ui_design_rank_badge"
+                        android:textAppearance="@style/DataUiDesignTextAppearance.PosterChip"
+                        android:textColor="@color/data_ui_design_on_scrim"
+                        tools:text="#1" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/details_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAppearance="?attr/textAppearanceHeadline5"
+                        android:textColor="@color/data_ui_design_black"
+                        tools:text="The Let Them Theory" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/details_author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="@color/data_ui_design_color_buttons"
+                        tools:text="Mel Robbins" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/details_weeks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="@color/data_ui_design_text_secondary"
+                        tools:text="66 weeks on the list" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/details_last_week"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="@color/data_ui_design_text_secondary"
+                        tools:text="Last week #1" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/details_publisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:textAppearance="?attr/textAppearanceCaption"
+                        android:textColor="@color/data_ui_design_text_secondary"
+                        tools:text="Hay House" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- About -->
+            <LinearLayout
+                android:id="@+id/details_about_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/BookScreenBookBestsellerCatalogSectionTitle"
+                    android:text="@string/book_screen_book_bestseller_catalog_details_about" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/details_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                    android:lineSpacingExtra="2dp"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="@color/data_ui_design_black"
+                    tools:text="The bestselling author and podcast host describes a mindset that lets you stop wasting energy on what you can't control." />
+            </LinearLayout>
+
+            <!-- Where to buy -->
+            <LinearLayout
+                android:id="@+id/details_stores_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/BookScreenBookBestsellerCatalogSectionTitle"
+                    android:text="@string/book_screen_book_bestseller_catalog_details_buy" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/details_stores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                    app:chipSpacingHorizontal="8dp" />
+            </LinearLayout>
+
+            <!-- The New York Times review -->
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/BookScreenBookBestsellerCatalogSectionTitle"
+                android:text="@string/book_screen_book_bestseller_catalog_details_nyt_review" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/details_review_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:indeterminate="true"
+                app:indicatorColor="@color/data_ui_design_color_buttons"
+                app:trackColor="@color/data_ui_design_chip_background" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_review_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="8dp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/data_ui_design_text_secondary"
+                android:visibility="gone"
+                tools:text="@string/book_screen_book_bestseller_catalog_details_not_reviewed" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/details_review_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/details_review_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/details_review_headline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="@color/data_ui_design_black"
+                            tools:text="Mel Robbins Wants You to Let Them" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/details_review_meta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            android:textColor="@color/data_ui_design_text_secondary"
+                            tools:text="By Jennifer Szalai · Jan 7, 2025" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/details_review_summary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:lineSpacingExtra="2dp"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@color/data_ui_design_black"
+                            tools:text="The self-help phenomenon's new book argues that letting go is the secret to getting what you want." />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/details_review_excerpt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:lineSpacingExtra="2dp"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/data_ui_design_text_secondary"
+                            tools:text="Opening lines of the review…" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/details_review_read"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/book_screen_book_bestseller_catalog_details_read_full_review" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Featured bestseller (carousel): the cover fills the card, rank badge on top, title, author
+     and weeks-on-list over a dark gradient. IDs and types unchanged. -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/book_entry_card_view"
-    android:layout_width="220dp"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/data_ui_design_item_entry_margin"
-    app:cardCornerRadius="@dimen/data_ui_design_background_card_corner_radius"
-    app:cardElevation="@dimen/data_ui_design_background_card_elevation">
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/data_ui_design_gradient_background"
-        android:padding="@dimen/data_ui_design_item_entry_margin">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/frame_image"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:cardElevation="@dimen/data_ui_design_item_card_elevation"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners">
+            app:strokeWidth="0dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -31,93 +38,77 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@null"
                     android:scaleType="centerCrop"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
-                <com.google.android.material.card.MaterialCardView
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/data_ui_design_poster_scrim" />
+
+                <TextView
+                    android:id="@+id/rank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
-                    app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardCornerRadius="6dp"
-                    app:cardElevation="4dp">
+                    android:layout_gravity="top|start"
+                    android:layout_margin="12dp"
+                    android:background="@drawable/data_ui_design_rank_badge"
+                    android:textColor="@color/data_ui_design_on_scrim"
+                    android:textAppearance="@style/DataUiDesignTextAppearance.PosterChip"
+                    android:textStyle="bold"
+                    tools:text="#1" />
 
-                    <TextView
-                        android:id="@+id/rank"
+                <com.google.android.material.imageview.ShapeableImageView
+                    style="@style/DataUiDesignFavoriteButton.Small"
+                    android:id="@+id/favorite"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/data_ui_design_favorite_outlined" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/high_tower_text"
+                        android:maxLines="2"
+                        android:textColor="@color/data_ui_design_on_scrim"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="The Women" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:alpha="0.85"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAppearance="?attr/textAppearanceCaption"
+                        android:textColor="@color/data_ui_design_on_scrim"
+                        tools:text="Kristin Hannah" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/weeks_trending"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="6dp"
-                        android:paddingVertical="4dp"
-                        android:textAppearance="?attr/textAppearanceCaption"
-                        android:textStyle="bold"
-                        tools:text="#1" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="@dimen/data_ui_design_favorite_button_size"
-                    android:layout_height="@dimen/data_ui_design_favorite_button_size"
-                    android:layout_gravity="end|top"
-                    android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
-                    app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardElevation="@dimen/data_ui_design_item_card_elevation"
-                    app:shapeAppearanceOverlay="@style/DataUiDesignCircleImage">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/favorite"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/data_ui_design_favorite_button_padding"
-                        android:src="@drawable/data_ui_design_favorite_outlined" />
-
-                </com.google.android.material.card.MaterialCardView>
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/data_ui_design_poster_chip"
+                        android:textColor="@color/data_ui_design_on_scrim"
+                        android:textAppearance="@style/DataUiDesignTextAppearance.PosterChip"
+                        tools:text="Trending for 12 wks" />
+                </LinearLayout>
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/data_ui_design_text_title_v_margin"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBody1"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/frame_image"
-            tools:text="The Great Gatsby" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/author"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/data_ui_design_text_extras_v_margin"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="@dimen/data_ui_design_text_padding"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="F. Scott Fitzgerald" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/weeks_trending"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/data_ui_design_text_extras_v_margin"
-            android:padding="@dimen/data_ui_design_text_padding"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/author"
-            tools:text="12 weeks on list" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -1,6 +1,11 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 
+import androidx.paging.LoadState
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.Lifecycle
+import androidx.core.view.isVisible
 import android.animation.AnimatorInflater
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -16,7 +21,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -34,10 +38,8 @@ import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.book.data_book.model.bestseller.UserBestseller
 import com.rick.ecatalogs.data.ui_components.common.ErrorMessage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Locale
@@ -78,10 +80,7 @@ class BestsellerFragment : Fragment() {
 
         initAdapters()
 
-        binding.bindList(
-            viewModel.bestsellerUiState.asLiveData(),
-            onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(viewModel.selectedGenrePosition)) }
-        )
+        binding.bindList()
 
         analyticsHelper.logScreenView("bestsellerCatalog")
 
@@ -94,18 +93,19 @@ class BestsellerFragment : Fragment() {
             BestsellerAdapter(this::onBookClick, this::onFavoriteClick, this::onTranslationClick)
         binding.recyclerView.layoutManager =
             GridLayoutManager(requireContext(), 2)
-        binding.recyclerView.itemAnimator = DefaultItemAnimator()
+        binding.recyclerView.itemAnimator = DefaultItemAnimator().apply {
+            // Rebinding the same item shouldn't fade the whole card (looked like flicker)
+            supportsChangeAnimations = false
+        }
         binding.recyclerView.adapter = adapter
 
         carouselAdapter = BestsellerCarouselAdapter(this::onBookClick, this::onFavoriteClick)
         binding.carouselView.adapter = carouselAdapter
 
         categoryAdapter = BestsellerCategoryAdapter { position ->
+            // The ViewModel switches both the paged list and the carousel to this genre
             viewModel.onEvent(BestsellerEvents.SelectedGenre(position))
-            binding.bindList(
-                uiState = viewModel.bestsellerUiState.asLiveData(),
-                onRetry = { viewModel.onEvent(BestsellerEvents.SelectedGenre(position)) }
-            )
+            binding.recyclerView.scrollToPosition(0)
         }
         binding.categoryList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -114,68 +114,77 @@ class BestsellerFragment : Fragment() {
         binding.categoryList.scrollToPosition(viewModel.selectedGenrePosition)
     }
 
-    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList(
-        uiState: LiveData<BestsellerUIState>,
-        onRetry: () -> Unit
-    ) {
-        uiState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                BestsellerUIState.Loading -> {
-                    progressBar.visibility = View.VISIBLE
-                    bookComposeView.visibility = View.GONE
-                }
+    /**
+     * Binds once; switching genre only changes the ViewModel's selected genre.
+     * - the paged list (NYT pages lists 20 books at a time) feeds the grid;
+     * - the stored list feeds the "Top picks" carousel and reveals the content;
+     * - if loading fails with nothing stored, the error card offers a retry.
+     */
+    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList() {
+        categoryAdapter.submitList(BookGenre.entries)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { viewModel.bestsellerPagingData.collectLatest(adapter::submitData) }
 
-                is BestsellerUIState.Success -> {
-                    runBlocking {
-                        delay(300L)
-                    }
-                    progressBar.visibility = View.GONE
-                    bookComposeView.visibility = View.GONE
-
-                    val viewsToAnimate = listOf(
-                        carouselTitle,
-                        carouselView,
-                        categoryList,
-                        bestsellersLabel,
-                        recyclerView
-                    )
-
-                    viewsToAnimate.forEachIndexed { index, view ->
-                        if (view.visibility != View.VISIBLE) {
-                            view.apply {
-                                alpha = 0f
-                                visibility = View.VISIBLE
-                                translationY = 50f
-
-                                animate()
-                                    .alpha(1f)
-                                    .translationY(0f)
-                                    .setDuration(1000L)
-                                    .setStartDelay(index * 100L)
-                                    .setInterpolator(android.view.animation.DecelerateInterpolator())
-                                    .start()
+                launch {
+                    viewModel.bestsellerUiState.collect { state ->
+                        when (state) {
+                            BestsellerUIState.Loading -> progressBar.isVisible = true
+                            is BestsellerUIState.Success -> {
+                                progressBar.isVisible = false
+                                bookComposeView.isVisible = false
+                                revealContent()
+                                carouselAdapter.submitList(
+                                    state.bestsellers.sortedByDescending { it.weeksOnList }.take(5)
+                                )
                             }
+                            BestsellerUIState.Error -> Unit
                         }
                     }
-
-                    adapter.differ.submitList(state.bestsellers)
-                    carouselAdapter.submitList(state.bestsellers.sortedByDescending { it.weeksOnList }
-                        .take(5))
-                    categoryAdapter.submitList(BookGenre.entries)
                 }
 
-                BestsellerUIState.Error -> {
-                    progressBar.visibility = View.GONE
-                    bookComposeView.visibility = View.VISIBLE
-                    bookComposeView.setContent {
-                        ErrorMessage(
-                            getString(R.string.book_screen_book_bestseller_catalog_no_results),
-                            onRetry
-                        )
+                launch {
+                    adapter.loadStateFlow.collect { loadState ->
+                        val failed = loadState.mediator?.refresh is LoadState.Error &&
+                            adapter.itemCount == 0
+                        if (failed) {
+                            progressBar.isVisible = false
+                            bookComposeView.isVisible = true
+                            bookComposeView.setContent {
+                                EcsTheme {
+                                    ErrorMessage(
+                                        getString(R.string.book_screen_book_bestseller_catalog_no_results),
+                                    ) { adapter.refresh() }
+                                }
+                            }
+                        } else {
+                            bookComposeView.isVisible = false
+                        }
                     }
                 }
             }
         }
+    }
+
+    /** Fades the carousel, categories and grid in the first time there's something to show. */
+    private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.revealContent() {
+        listOf(carouselTitle, carouselView, categoryList, bestsellersLabel, recyclerView)
+            .forEachIndexed { index, view ->
+                if (view.visibility != View.VISIBLE) {
+                    view.apply {
+                        alpha = 0f
+                        visibility = View.VISIBLE
+                        translationY = 50f
+                        animate()
+                            .alpha(1f)
+                            .translationY(0f)
+                            .setDuration(1000L)
+                            .setStartDelay(index * 100L)
+                            .setInterpolator(android.view.animation.DecelerateInterpolator())
+                            .start()
+                    }
+                }
+            }
     }
 
     private fun onFavoriteClick(view: View, id: String, isFavorite: Boolean) {
@@ -211,11 +220,8 @@ class BestsellerFragment : Fragment() {
     }
 
     private fun onBookClick(book: UserBestseller) {
-        // Add transition to expand dialog
         analyticsHelper.logBestsellerOpened(book.id)
-        BookDetailsDialogFragment(book, this::onDialogFavoriteClick, this::onAmazonLinkClick).show(
-            requireActivity().supportFragmentManager, "book_details"
-        )
+        findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://bestseller_details/${book.id}"))
     }
 
     private fun onTranslationClick(book: UserBestseller, text: List<String>) {
@@ -238,17 +244,6 @@ class BestsellerFragment : Fragment() {
                 onBookClick(book.copy(description = it.first().text))
             }
         }
-    }
-
-    private fun onDialogFavoriteClick(view: View, book: UserBestseller) {
-        onFavoriteClick(view, book.id, book.isFavorite)
-    }
-
-    private fun onAmazonLinkClick(link: String) {
-        val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
-        analyticsHelper.logAmazonLinkOpened(encodedUrl)
-        val uri = Uri.parse("com.rick.ecs://book_common_webviewfragment/$encodedUrl")
-        findNavController().navigateWithMotion(uri)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

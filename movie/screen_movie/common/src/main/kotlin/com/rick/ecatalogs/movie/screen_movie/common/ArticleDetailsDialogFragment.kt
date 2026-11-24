@@ -26,8 +26,13 @@ class ArticleDetailsDialogFragment(
             view.closeDialog.setOnClickListener {
                 dialog?.dismiss()
             }
-            view.favorite.setOnClickListener { view ->
-                onDialogFavoriteClick(view, article.id, article.isFavorite)
+            // The dialog keeps its own copy of the state so repeated taps toggle correctly
+            var isFavorite = article.isFavorite
+            view.favorite.setFavoriteIcon(isFavorite)
+            view.favorite.setOnClickListener { fav ->
+                onDialogFavoriteClick(fav, article.id, isFavorite)
+                isFavorite = !isFavorite
+                view.favorite.setFavoriteIcon(isFavorite)
             }
             view.source.setOnClickListener {
                 onWebUrlClick(article.webUrl)
@@ -56,3 +61,11 @@ class ArticleDetailsDialogFragment(
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 }
+
+private fun android.widget.ImageView.setFavoriteIcon(isFavorite: Boolean) = setImageResource(
+    if (isFavorite) {
+        com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled
+    } else {
+        com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
+    }
+)

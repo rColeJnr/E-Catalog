@@ -9,7 +9,7 @@ data class TrendingSeriesNetwork(
     val adult: Boolean,
     @SerializedName("backdrop_path")
     @SerialName("backdrop_path")
-    val image: String,
+    val image: String?,
     val id: Int,
     val name: String,
     val overview: String,

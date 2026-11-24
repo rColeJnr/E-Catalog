@@ -1,5 +1,18 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_catalog
 
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_series.TrendingSeries
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.TmdbGenre
+import com.rick.ecatalogs.movie.data_movie.data.repository.browse.TmdbBrowseRepository
+import androidx.paging.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -13,10 +26,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class TrendingSeriesViewModel @Inject constructor(
     private val compositeTrendingSeriesRepository: CompositeTrendingSeriesRepository,
-    private val userDataRepository: UserTrendingSeriesDataRepository
+    private val userDataRepository: UserTrendingSeriesDataRepository,
+    private val browseRepository: TmdbBrowseRepository,
 ) : ViewModel() {
 
 //    private val _tvSeriesList: MutableLiveData<TvSeriesUiState.Series> by
@@ -33,16 +48,38 @@ class TrendingSeriesViewModel @Inject constructor(
 
 //    private val imdbKey: String
 
-    val pagingDataFlow: Flow<PagingData<UserTrendingSeries>>
+    /** null = trending; otherwise the TMDB genre whose most popular series are listed. */
+    private val _selectedGenre = MutableStateFlow<Int?>(null)
+    val selectedGenre: StateFlow<Int?> = _selectedGenre.asStateFlow()
 
-    init {
-        pagingDataFlow = getTrendingSeries().cachedIn(viewModelScope)
-//        getTvSeries()
+    private val trending = compositeTrendingSeriesRepository
+        .observeTrendingSeries(viewModelScope)
+        .cachedIn(viewModelScope)
 
+    val pagingDataFlow: Flow<PagingData<UserTrendingSeries>> = _selectedGenre
+        .flatMapLatest { genreId ->
+            if (genreId == null) {
+                trending
+            } else {
+                browseRepository.discoverSeries(genreId)
+                    .cachedIn(viewModelScope)
+                    .combine(userDataRepository.userData) { series, userData ->
+                        series.map { UserTrendingSeries(it, userData) }
+                    }
+            }
+        }
+        .cachedIn(viewModelScope)
+
+    /** "Airing today". */
+    val airingToday: StateFlow<List<TrendingSeries>> = browseRepository.airingTodaySeries()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val genres: StateFlow<List<TmdbGenre>> = flow { emit(browseRepository.seriesGenres()) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    fun selectGenre(genreId: Int?) {
+        _selectedGenre.value = genreId
     }
-
-    private fun getTrendingSeries(): Flow<PagingData<UserTrendingSeries>> =
-        compositeTrendingSeriesRepository.observeTrendingSeries(viewModelScope)
 
     fun onEvent(event: TrendingSeriesUiEvent) {
         when (event) {

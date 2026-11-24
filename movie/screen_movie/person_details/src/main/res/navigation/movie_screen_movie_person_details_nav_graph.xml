@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_screen_movie_person_details_nav_graph"
+    app:startDestination="@id/movie_screen_movie_person_details_persondetailsfragment">
+
+    <!-- Actor screen, opened from a cast member on the movie / series details screens -->
+    <fragment
+        android:id="@+id/movie_screen_movie_person_details_persondetailsfragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.person_details.PersonDetailsFragment"
+        android:label="">
+        <argument
+            android:name="person"
+            app:argType="integer" />
+        <deepLink app:uri="com.rick.ecs://person_details_fragment/{person}" />
+    </fragment>
+</navigation>

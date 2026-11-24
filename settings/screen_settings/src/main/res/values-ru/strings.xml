@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_screen_settings_settings">Настройки</string>
+    <string name="settings_screen_settings_ok">ОК</string>
+    <string name="settings_screen_settings_account">Аккаунт</string>
+    <string name="settings_screen_settings_greeting">Привет, %1$s</string>
+    <string name="settings_screen_settings_username">Имя пользователя</string>
+    <string name="settings_screen_settings_save">Сохранить</string>
+    <string name="settings_screen_settings_change_username">Изменить имя пользователя</string>
+    <string name="settings_screen_settings_sign_out">Выйти</string>
+    <string name="settings_screen_settings_delete_account">Удалить аккаунт</string>
+    <string name="settings_screen_settings_delete_account_message">Аккаунт будет удалён навсегда. Избранное останется на этом устройстве.</string>
+    <string name="settings_screen_settings_delete">Удалить</string>
+    <string name="settings_screen_settings_cancel">Отмена</string>
+    <string name="settings_screen_settings_account_deleted">Аккаунт удалён</string>
+    <string name="settings_screen_settings_notifications">Уведомления</string>
+    <string name="settings_screen_settings_trending_movies">Популярные фильмы</string>
+    <string name="settings_screen_settings_trending_series">Популярные сериалы</string>
+    <string name="settings_screen_settings_movie_reviews">Рецензии на фильмы</string>
+    <string name="settings_screen_settings_bestsellers">Бестселлеры NYT</string>
+    <string name="settings_screen_settings_notifications_denied">Уведомления E-Catalogs отключены в настройках системы</string>
+    <string name="settings_screen_settings_background_sync">Фоновая синхронизация</string>
+    <string name="settings_screen_settings_sync_enabled">Проверять новинки</string>
+    <string name="settings_screen_settings_sync_description">Обновляет списки в фоне, когда есть подключение к интернету</string>
+    <string name="settings_screen_settings_sync_interval">Как часто</string>
+    <string name="settings_screen_settings_sync_weekly">Раз в неделю</string>
+    <string name="settings_screen_settings_sync_monthly">Раз в месяц</string>
+    <string name="settings_screen_settings_hours">%1$d ч</string>
+    <string name="settings_screen_settings_theme">Тема</string>
+    <string name="settings_screen_settings_theme_system">Как в системе</string>
+    <string name="settings_screen_settings_theme_light">Светлая</string>
+    <string name="settings_screen_settings_theme_dark">Тёмная</string>
+    <string name="settings_screen_settings_about">О приложении</string>
+    <string name="settings_screen_settings_privacy_policy">Политика конфиденциальности</string>
+    <string name="settings_screen_settings_terms_of_use">Условия использования</string>
+    <string name="settings_screen_settings_licenses">Лицензии</string>
+    <string name="settings_screen_settings_version">Версия %1$s</string>
+</resources>

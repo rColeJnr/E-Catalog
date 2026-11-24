@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_person_details_biography">Biografia</string>
+    <string name="movie_screen_movie_person_details_known_for">Conhecido por</string>
+    <string name="movie_screen_movie_person_details_read_more">Ler mais</string>
+    <string name="movie_screen_movie_person_details_read_less">Mostrar menos</string>
+    <string name="movie_screen_movie_person_details_born">Nascimento: %1$s</string>
+    <string name="movie_screen_movie_person_details_born_age">Nascimento: %1$s (%2$d anos)</string>
+    <string name="movie_screen_movie_person_details_died">Falecimento: %1$s (aos %2$d anos)</string>
+    <string name="movie_screen_movie_person_details_error">Não foi possível carregar esta pessoa. Toque para tentar novamente.</string>
+    <string name="movie_screen_movie_person_details_photo">Foto de %1$s</string>
+    <string name="movie_screen_movie_person_details_series">Série</string>
+    <string name="movie_screen_movie_person_details_show_translation">Mostrar tradução</string>
+    <string name="movie_screen_movie_person_details_show_original">Mostrar original</string>
+</resources>

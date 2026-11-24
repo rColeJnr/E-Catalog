@@ -1,6 +1,12 @@
 package com.rick.ecatalogs.book.screen_book.gutenberg_favorites
 
+import com.rick.ecatalogs.book.data_book.model.FavoriteUiState
+import com.rick.ecatalogs.book.screen_book.common.gutenbergReaderUri
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
+import androidx.navigation.fragment.findNavController
+import android.net.Uri
 import android.os.Bundle
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,21 +44,32 @@ class GutenbergFavoritesFragment : Fragment() {
         )
 
         binding.bookComposeView.setContent {
-            val gutenbergState by viewModel.feedGutenbergUiState.collectAsStateWithLifecycle()
-            BookFavScreen(
-                bestsellerState = gutenbergState,
-                onBestsellerFavClick = {
-                    viewModel.onEvent(
-                        FavoriteUiEvents.RemoveGutenbergFavorite(it.toInt())
-                    )
-                },
-                shouldDisplayBestsellerUndoFavorite = viewModel.shouldDisplayUndoGutenbergFavorite,
-                undoBestsellerFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoGutenbergFavoriteRemoval) },
-                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-            )
+            EcsTheme {
+                val gutenbergState by viewModel.feedGutenbergUiState.collectAsStateWithLifecycle()
+                BookFavScreen(
+                    bestsellerState = gutenbergState,
+                    onBestsellerFavClick = {
+                        viewModel.onEvent(
+                            FavoriteUiEvents.RemoveGutenbergFavorite(it.toInt())
+                        )
+                    },
+                    shouldDisplayBestsellerUndoFavorite = viewModel.shouldDisplayUndoGutenbergFavorite,
+                    undoBestsellerFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoGutenbergFavoriteRemoval) },
+                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                    onGutenbergClick = ::openBook,
+                )
+            }
         }
         analyticsHelper.logScreenView("gutenbergFavorite")
         return binding.root
+    }
+
+    /** Opens the book in the reader, like the Gutenberg list does. */
+    private fun openBook(id: Int) {
+        val book = (viewModel.feedGutenbergUiState.value as? FavoriteUiState.GutenbergFavorites)
+            ?.favorites?.firstOrNull { it.id == id } ?: return
+        val link = book.formats.readableUrl ?: return
+        findNavController().navigateWithMotion(gutenbergReaderUri(book.id, book.title, link))
     }
 
     override fun onDestroy() {

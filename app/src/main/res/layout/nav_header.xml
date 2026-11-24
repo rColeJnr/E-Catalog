@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:hint="@string/your_username"
-        android:textAppearance="?attr/textAppearanceBody1"
+        android:textAppearance="?attr/textAppearanceHeadline6"
         app:layout_constraintStart_toEndOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/image" />
 

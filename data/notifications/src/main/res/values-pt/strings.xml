@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_notifications_channel_trending_movies">Filmes em tendência</string>
+    <string name="data_notifications_channel_trending_series">Séries em tendência</string>
+    <string name="data_notifications_channel_articles">Críticas de filmes</string>
+    <string name="data_notifications_channel_bestsellers">Mais vendidos do NYT</string>
+    <string name="data_notifications_channel_release_reminders">Lembretes de estreia</string>
+    <string name="data_notifications_release_today">%1$s estreia hoje</string>
+    <string name="data_notifications_release_today_text">Toque para saber onde o ver</string>
+    <string name="data_notifications_channel_description">Novidades encontradas pela sincronização em segundo plano</string>
+    <string name="data_notifications_new_trending_movies">Novos filmes em tendência</string>
+    <string name="data_notifications_new_trending_series">Novas séries em tendência</string>
+    <string name="data_notifications_new_articles">Novas críticas de filmes</string>
+    <string name="data_notifications_new_bestsellers">Novidades na lista %1$s do NYT</string>
+    <string name="data_notifications_genre_fiction">Ficção</string>
+    <string name="data_notifications_genre_nonfiction">Não ficção</string>
+    <string name="data_notifications_genre_miscellaneous">Conselhos e diversos</string>
+    <string name="data_notifications_genre_business">Negócios</string>
+    <string name="data_notifications_genre_graphic">Romances gráficos e manga</string>
+    <plurals name="data_notifications_summary">
+        <item quantity="one">%1$d novo título</item>
+        <item quantity="other">%1$d novos títulos</item>
+    </plurals>
+</resources>

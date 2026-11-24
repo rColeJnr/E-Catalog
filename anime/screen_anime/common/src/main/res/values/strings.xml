@@ -2,4 +2,25 @@
 <resources>
     <string name="anime_screen_anime_common_retry">Retry</string>
     <string name="anime_screen_anime_common_failed_to_load">Failed to load</string>
+    <string name="anime_screen_anime_common_this_season">This season</string>
+    <string name="anime_screen_anime_common_next_season">Next season</string>
+    <string name="anime_screen_anime_common_list_popular">Popular</string>
+    <string name="anime_screen_anime_common_list_top_rated">Top rated</string>
+    <string name="anime_screen_anime_common_list_airing">Airing now</string>
+    <string name="anime_screen_anime_common_list_upcoming">Upcoming</string>
+    <string name="anime_screen_anime_common_list_publishing">Publishing</string>
+    <string name="anime_screen_anime_common_list_favorites">Most favorited</string>
+    <string name="anime_screen_anime_common_all_genres">All genres</string>
+    <string name="anime_screen_anime_common_watch_trailer">Watch trailer</string>
+    <string name="anime_screen_anime_common_watch_on">Watch on</string>
+    <string name="anime_screen_anime_common_airs">Airs %1$s at %2$s (your time)</string>
+    <string name="anime_screen_anime_common_episodes">Episodes</string>
+    <string name="anime_screen_anime_common_episodes_count">See all %1$d episodes</string>
+    <string name="anime_screen_anime_common_episode_title">%1$d. %2$s</string>
+    <string name="anime_screen_anime_common_filler">Filler</string>
+    <string name="anime_screen_anime_common_recap">Recap</string>
+    <string name="anime_screen_anime_common_if_you_liked">If you liked this</string>
+    <string name="anime_screen_anime_common_episodes_error">Couldn\'t load the episodes. Tap to try again.</string>
+    <string name="anime_screen_anime_common_no_episodes">No episodes listed yet.</string>
+    <string name="anime_screen_anime_common_score">★ %1$.2f</string>
 </resources>

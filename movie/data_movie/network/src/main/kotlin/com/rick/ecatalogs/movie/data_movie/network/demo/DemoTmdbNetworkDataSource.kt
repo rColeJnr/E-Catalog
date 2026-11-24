@@ -2,7 +2,11 @@ package com.rick.ecatalogs.movie.data_movie.network.demo
 
 import JvmUnitTestMovieDemoAssetManager
 import com.rick.ecatalogs.movie.data_movie.network.TmdbNetworkDataSource
+import com.rick.ecatalogs.movie.data_movie.network.model.GenreNetwork
+import com.rick.ecatalogs.movie.data_movie.network.model.GenresResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.MovieResponse
+import com.rick.ecatalogs.movie.data_movie.network.model.SeasonResponse
+import com.rick.ecatalogs.movie.data_movie.network.model.PersonResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.SeriesResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.TrendingMovieResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.TrendingSeriesResponse
@@ -43,6 +47,36 @@ class DemoTmdbNetworkDataSource @Inject constructor(
         assets.open(SERIES_ASSET).use(networkJson::decodeFromStream)
     }
 
+    // Browse rows and genre lists reuse the bundled trending lists in the demo build
+    override suspend fun fetchUpcomingMovies(region: String?) = fetchTrendingMovies(page = 1)
+
+    override suspend fun fetchNowPlayingMovies(region: String?) = fetchTrendingMovies(page = 1)
+
+    override suspend fun fetchAiringTodaySeries() = fetchTrendingSeries(page = 1)
+
+    override suspend fun discoverMovies(genreId: Int, page: Int) = fetchTrendingMovies(page)
+
+    override suspend fun discoverSeries(genreId: Int, page: Int) = fetchTrendingSeries(page)
+
+    override suspend fun fetchMovieGenres(language: String) = GenresResponse(DEMO_MOVIE_GENRES)
+
+    override suspend fun fetchSeriesGenres(language: String) = GenresResponse(DEMO_SERIES_GENRES)
+
+    override suspend fun fetchSeason(seriesId: Int, seasonNumber: Int) =
+        SeasonResponse(seasonNumber = seasonNumber, episodes = emptyList())
+
+    /** No person asset is bundled; the demo shows a placeholder actor with no credits. */
+    override suspend fun fetchPerson(
+        id: Int,
+        appendResponse: String,
+        language: String,
+    ): PersonResponse = PersonResponse(
+        id = id,
+        name = "Demo actor",
+        biography = "Actor details are loaded from TMDB in the prod build.",
+        knownForDepartment = "Acting",
+    )
+
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun fetchMovie(
         id: Int,
@@ -79,3 +113,12 @@ class DemoTmdbNetworkDataSource @Inject constructor(
         private const val SEARCH_MOVIE_ASSET = "searchMovie.json"
     }
 }
+
+private val DEMO_MOVIE_GENRES = listOf(
+    GenreNetwork(28, "Action"), GenreNetwork(35, "Comedy"), GenreNetwork(18, "Drama"),
+    GenreNetwork(27, "Horror"), GenreNetwork(878, "Science Fiction"),
+)
+private val DEMO_SERIES_GENRES = listOf(
+    GenreNetwork(10759, "Action & Adventure"), GenreNetwork(35, "Comedy"),
+    GenreNetwork(18, "Drama"), GenreNetwork(10765, "Sci-Fi & Fantasy"),
+)

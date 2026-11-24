@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The favorite button on cards, the same everywhere except the top app bar:
+         40dp dark frosted-glass circle with a white 24dp icon centred in it.
+         ShapeableImageView ignores android:padding for the image, so the inset is set as
+         contentPadding (otherwise the star fills the whole circle and looks off-centre). -->
+    <style name="DataUiDesignFavoriteButton">
+        <item name="android:layout_width">@dimen/data_ui_design_favorite_button_size</item>
+        <item name="android:layout_height">@dimen/data_ui_design_favorite_button_size</item>
+        <item name="contentPadding">@dimen/data_ui_design_favorite_button_padding</item>
+        <item name="tint">@color/data_ui_design_on_scrim</item>
+        <item name="android:background">@drawable/data_ui_design_favorite_circle</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="shapeAppearanceOverlay">@style/DataUiDesignCircleImage</item>
+    </style>
+
+    <!-- Details dialogs: a plain accent-coloured star, like the app bar (the white icon and the
+         dark glass circle don't read on the light dialog surface). -->
+    <style name="DataUiDesignFavoriteButton.Accent">
+        <item name="android:background">@null</item>
+        <item name="tint">@color/data_ui_design_color_buttons</item>
+    </style>
+
+    <!-- Book covers are smaller than posters, so their button is too: 32dp circle, 18dp icon. -->
+    <style name="DataUiDesignFavoriteButton.Small">
+        <item name="android:layout_width">@dimen/data_ui_design_favorite_button_size_small</item>
+        <item name="android:layout_height">@dimen/data_ui_design_favorite_button_size_small</item>
+        <item name="contentPadding">@dimen/data_ui_design_favorite_button_padding_small</item>
+    </style>
+
+    <style name="DataUiDesignFavoriteButton.Small.Fill">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- The same button when the icon sits inside a wrapper card (older layouts): the card
+         provides the size and circle, the icon fills it. -->
+    <style name="DataUiDesignFavoriteButton.Fill">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="DataUiDesignFavoriteWrapper">
+        <item name="android:layout_width">@dimen/data_ui_design_favorite_button_size</item>
+        <item name="android:layout_height">@dimen/data_ui_design_favorite_button_size</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="shapeAppearanceOverlay">@style/DataUiDesignCircleImage</item>
+    </style>
+
+    <style name="DataUiDesignFavoriteWrapper.Small">
+        <item name="android:layout_width">@dimen/data_ui_design_favorite_button_size_small</item>
+        <item name="android:layout_height">@dimen/data_ui_design_favorite_button_size_small</item>
+    </style>
+</resources>

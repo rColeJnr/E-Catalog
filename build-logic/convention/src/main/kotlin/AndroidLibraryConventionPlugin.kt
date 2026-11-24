@@ -2,12 +2,12 @@ import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.rick.ecatalogs.buildlogic.configureFlavors
 import com.rick.ecatalogs.buildlogic.configureKotlinAndroid
+import com.rick.ecatalogs.buildlogic.libs
 import com.rick.ecatalogs.buildlogic.disableUnnecessaryAndroidTests
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.kotlin
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -34,7 +34,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 disableUnnecessaryAndroidTests(target)
             }
             dependencies {
-                add("testImplementation", kotlin("test"))
+                "androidTestImplementation"(libs.findLibrary("kotlin.test").get())
+                "testImplementation"(libs.findLibrary("kotlin.test").get())
+                "testImplementation"(libs.findLibrary("junit").get())
 //                add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
             }
         }

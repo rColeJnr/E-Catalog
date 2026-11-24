@@ -1,6 +1,10 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_favorites
 
+import com.rick.ecatalogs.data.ui_design.navigateWithMotion
+import androidx.navigation.fragment.findNavController
+import android.net.Uri
 import android.os.Bundle
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,20 +36,28 @@ class BestsellerFavoritesFragment : Fragment() {
         )
 
         binding.bookComposeView.setContent {
-            val bestSellerState by viewModel.feedBestsellerUiState.collectAsStateWithLifecycle()
-            BookFavScreen(
-                bestsellerState = bestSellerState,
-                onBestsellerFavClick = {
-                    viewModel.onEvent(
-                        FavoriteUiEvents.RemoveBestsellerFavorite(it)
-                    )
-                },
-                shouldDisplayBestsellerUndoFavorite = viewModel.shouldDisplayUndoBestsellerFavorite,
-                undoBestsellerFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoBestsellerFavoriteRemoval) },
-                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-            )
+            EcsTheme {
+                val bestSellerState by viewModel.feedBestsellerUiState.collectAsStateWithLifecycle()
+                BookFavScreen(
+                    bestsellerState = bestSellerState,
+                    onBestsellerFavClick = {
+                        viewModel.onEvent(
+                            FavoriteUiEvents.RemoveBestsellerFavorite(it)
+                        )
+                    },
+                    shouldDisplayBestsellerUndoFavorite = viewModel.shouldDisplayUndoBestsellerFavorite,
+                    undoBestsellerFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoBestsellerFavoriteRemoval) },
+                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                    onBestsellerClick = ::openBestseller,
+                )
+            }
         }
         return binding.root
+    }
+
+    /** The same details screen as the bestseller list (cover, stores, NYT review). */
+    private fun openBestseller(isbn: String) {
+        findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://bestseller_details/$isbn"))
     }
 
     override fun onDestroy() {

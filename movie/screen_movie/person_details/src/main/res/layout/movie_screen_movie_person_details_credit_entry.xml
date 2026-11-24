@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A movie or series in the actor's "Known for" grid: poster, title, character and year -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="6dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/credit_poster"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="2:3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/credit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/data_ui_design_black"
+        tools:text="Dune: Part Two" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/credit_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/data_ui_design_text_secondary"
+        tools:text="Chani · 2024" />
+</LinearLayout>

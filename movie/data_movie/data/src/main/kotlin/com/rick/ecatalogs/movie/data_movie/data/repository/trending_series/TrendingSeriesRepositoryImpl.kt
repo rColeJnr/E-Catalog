@@ -1,18 +1,20 @@
 package com.rick.ecatalogs.movie.data_movie.data.repository.trending_series
 
+import com.rick.ecatalogs.data.datastore.ListCache
+import com.rick.ecatalogs.data.datastore.CachedList
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.rick.ecatalogs.data.datastore.PreferencesDataSource
+import com.rick.ecatalogs.movie.data_movie.data.model.asTrendingSeriesEntity
 import com.rick.ecatalogs.movie.data_movie.database.MovieTransactionRunner
 import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingSeriesDao
 import com.rick.ecatalogs.movie.data_movie.database.dao.TrendingSeriesRemoteKeysDao
 import com.rick.ecatalogs.movie.data_movie.database.model.TrendingSeriesEntity
 import com.rick.ecatalogs.movie.data_movie.database.model.asTrendingSeries
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_series.TrendingSeries
-import com.rick.ecatalogs.movie.data_movie.data.model.asTrendingSeriesEntity
 import com.rick.ecatalogs.movie.data_movie.network.TmdbNetworkDataSource
 import com.rick.ecatalogs.movie.data_movie.network.model.TrendingSeriesNetwork
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +31,7 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
     private val network: TmdbNetworkDataSource,
     private val transactionRunner: MovieTransactionRunner,
     private val preferences: PreferencesDataSource,
+    private val listCache: ListCache,
 ) : TrendingSeriesRepository {
     override fun getTrendingSeries(): Flow<PagingData<TrendingSeriesEntity>> {
         val pagingSourceFactory = { trendingSeriesDao.getTrendingSeries() }
@@ -38,14 +41,15 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 16,
                 enablePlaceholders = true,
-                prefetchDistance = 1,
-                initialLoadSize = 1
+                prefetchDistance = 16,
+                initialLoadSize = 48
             ),
             remoteMediator = TrendingSeriesRemoteMediator(
                 network = network,
                 trendingSeriesDao = trendingSeriesDao,
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
+                listCache = listCache,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -74,6 +78,9 @@ internal class TrendingSeriesRepositoryImpl @Inject constructor(
                 transactionRunner = transactionRunner,
             )
         }
+
+        // The first page was just checked against the server: the stored list is current
+        listCache.markRefreshed(CachedList.TRENDING_SERIES)
 
         val previouslySeen = preferences.notifiedTrendingSeriesIds()
         preferences.setNotifiedTrendingSeriesIds(fetchedIds)

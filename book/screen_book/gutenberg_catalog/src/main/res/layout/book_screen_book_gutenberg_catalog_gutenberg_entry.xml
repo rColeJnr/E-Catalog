@@ -1,88 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Gutenberg grid card: clean cover with favorite, title and author below.
+     View IDs and types are unchanged so GutenbergCatalogViewHolder keeps working. -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/book_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/data_ui_design_item_entry_margin"
+    android:layout_margin="8dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="@dimen/data_ui_design_background_card_corner_radius"
-    app:cardElevation="@dimen/data_ui_design_background_card_elevation">
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/data_ui_design_gradient_background"
-        android:padding="@dimen/data_ui_design_item_entry_margin">
+        android:orientation="vertical">
 
-        <!-- Book Cover Image -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image"
-            android:layout_width="0dp"
-            android:layout_height="220dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners"
-            tools:src="@tools:sample/backgrounds/scenic" />
-
-        <!-- Favorite Button Container -->
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="@dimen/data_ui_design_favorite_button_size"
-            android:layout_height="@dimen/data_ui_design_favorite_button_size"
-            android:layout_margin="@dimen/data_ui_design_favorite_button_margin"
-            app:cardBackgroundColor="@color/data_ui_design_color_surface"
-            app:cardElevation="@dimen/data_ui_design_item_card_elevation"
-            app:layout_constraintEnd_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="@id/image"
-            app:shapeAppearanceOverlay="@style/DataUiDesignCircleImage">
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/data_ui_design_book_cover_height"
+            app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/favorite"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="@dimen/data_ui_design_favorite_button_padding"
-                tools:src="@drawable/data_ui_design_favorite_outlined" />
+                android:layout_height="match_parent">
 
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    style="@style/DataUiDesignFavoriteButton.Small"
+                    android:id="@+id/favorite"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/data_ui_design_favorite_outlined" />
+            </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Book Title -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/data_ui_design_text_title_v_margin"
+            android:layout_marginHorizontal="2dp"
+            android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBody2"
+            android:fontFamily="@font/high_tower_text"
+            android:maxLines="2"
+            android:textColor="@color/data_ui_design_black"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image"
             tools:text="Pride and Prejudice" />
 
-        <!-- Author Name -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/author"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/data_ui_design_text_extras_v_margin"
+            android:layout_marginHorizontal="2dp"
+            android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:padding="@dimen/data_ui_design_text_padding"
             android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            android:textColor="@color/data_ui_design_text_secondary"
             tools:text="Jane Austen" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

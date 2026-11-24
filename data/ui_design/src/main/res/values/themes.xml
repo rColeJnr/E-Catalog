@@ -1,45 +1,61 @@
 <resources>
+    <!-- App theme (Material 3). Dark is the default look; see values-night/colors.xml. -->
+    <style name="DataUiDesignTheme.ECatalogs" parent="DataUiDesignBase.Theme.ECatalogs" />
 
-    <style name="DataUiDesignTheme.ECatalogs" parent="DataUiDesignBase.Theme.ECatalogs">
+    <!-- Overridden in values-v27 / values-v28 to add API-specific items. -->
+    <style name="DataUiDesignBase.Theme.ECatalogs" parent="DataUiDesignCommon.Theme.ECatalogs" />
 
+    <style name="DataUiDesignCommon.Theme.ECatalogs" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Color roles, all backed by the shared tokens so XML and Compose match -->
+        <item name="colorPrimary">@color/data_ui_design_color_buttons</item>
+        <item name="colorOnPrimary">@color/data_ui_design_on_primary</item>
+        <item name="colorPrimaryContainer">@color/data_ui_design_chip_background</item>
+        <item name="colorOnPrimaryContainer">@color/data_ui_design_black</item>
+        <item name="colorSecondary">@color/data_ui_design_color_buttons</item>
+        <item name="colorOnSecondary">@color/data_ui_design_on_primary</item>
+        <item name="colorSecondaryContainer">@color/data_ui_design_chip_background</item>
+        <item name="colorOnSecondaryContainer">@color/data_ui_design_black</item>
+        <item name="android:colorBackground">@color/data_ui_design_color_surface</item>
         <item name="colorSurface">@color/data_ui_design_color_surface</item>
-        <item name="colorOnSurface">@color/data_ui_design_color_on_surface</item>
-        <item name="colorOnPrimary">@color/data_ui_design_black</item>
-        <item name="colorOnSecondary">@color/data_ui_design_black</item>
+        <item name="colorSurfaceContainerLowest">@color/data_ui_design_color_surface</item>
+        <item name="colorSurfaceContainerLow">@color/data_ui_design_color_on_surface</item>
+        <item name="colorSurfaceContainer">@color/data_ui_design_color_on_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/data_ui_design_chip_background</item>
+        <item name="colorSurfaceContainerHighest">@color/data_ui_design_chip_background</item>
+        <item name="colorOnSurface">@color/data_ui_design_black</item>
+        <item name="colorOnSurfaceVariant">@color/data_ui_design_text_secondary</item>
+        <item name="colorOutline">@color/data_ui_design_outline</item>
+        <item name="colorOutlineVariant">@color/data_ui_design_outline</item>
         <item name="android:textColor">@color/data_ui_design_black</item>
-        <item name="android:textColorHint">@color/data_ui_design_black</item>
-        <item name="colorOnSurfaceVariant">@color/data_ui_design_color_on_surface</item>
-        <item name="colorPrimaryContainer">@color/data_ui_design_color_on_surface</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColorHint">@color/data_ui_design_text_secondary</item>
+        <item name="colorControlActivated">@color/data_ui_design_color_buttons</item>
+        <item name="colorControlNormal">@color/data_ui_design_black</item>
 
-    </style>
+        <!-- Shapes -->
+        <item name="shapeAppearanceSmallComponent">@style/DataUiDesignShapeAppearance.ECatalog.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/DataUiDesignShapeAppearance.ECatalog.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/DataUiDesignShapeAppearance.ECatalog.LargeComponent</item>
 
-    <style name="DataUiDesignBase.Theme.ECatalogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="shapeAppearanceSmallComponent">@style/DataUiDesignShapeAppearance.ECatalog.SmallComponent
-        </item>
-        <item name="shapeAppearanceMediumComponent">
-            @style/DataUiDesignShapeAppearance.ECatalog.MediumComponent
-        </item>
-        <item name="shapeAppearanceLargeComponent">@style/DataUiDesignShapeAppearance.ECatalog.LargeComponent
-        </item>
-
-        <item name="textAppearanceHeadline6">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline6
-        </item>
-        <item name="textAppearanceHeadline5">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline5
-        </item>
+        <!-- Typography: serif titles, sans body. Material 2 names are kept because existing
+             layouts reference them (?attr/textAppearanceHeadline6 etc.). -->
+        <item name="textAppearanceHeadline5">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline6</item>
         <item name="textAppearanceBody1">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Body1</item>
         <item name="textAppearanceBody2">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Body2</item>
         <item name="textAppearanceButton">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Button</item>
         <item name="textAppearanceCaption">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Caption</item>
         <item name="textAppearanceOverline">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Overline</item>
+        <item name="textAppearanceHeadlineSmall">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline5</item>
+        <item name="textAppearanceTitleLarge">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Headline6</item>
+        <item name="textAppearanceBodyLarge">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Body1</item>
+        <item name="textAppearanceBodyMedium">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Body2</item>
+        <item name="textAppearanceBodySmall">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Caption</item>
+        <item name="textAppearanceLabelLarge">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Button</item>
+        <item name="textAppearanceLabelSmall">@style/DataUiDesignTextAppearance.MdcTypographyStyles.Overline</item>
 
-        <item name="colorControlActivated">@color/data_ui_design_color_buttons</item>
-
-        <item name="colorControlNormal">@color/data_ui_design_black</item>
-
+        <!-- Edge-to-edge: enableEdgeToEdge() picks status/navigation bar icon colors -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
-
 </resources>

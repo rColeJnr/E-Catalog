@@ -9,6 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/details_card_view"
+        app:cardBackgroundColor="@color/data_ui_design_color_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -54,7 +55,7 @@
                         android:layout_height="?attr/actionBarSize"
                         android:text="@string/movie_screen_movie_trending_series_details_failed_to_retrieve_data"
                         android:textAppearance="?attr/textAppearanceCaption"
-                        android:textColor="@android:color/holo_blue_light"
+                        android:textColor="@color/data_ui_design_color_buttons"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -72,6 +73,13 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <!-- Fades the image into the page -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/data_ui_design_hero_scrim" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -102,9 +110,33 @@
                 android:text="@string/movie_screen_movie_trending_series_details_show_translation"
                 android:textAlignment="gravity"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/data_ui_design_color_buttons"
                 android:textStyle="bold"
                 android:visibility="gone" />
+
+
+            <!-- Age rating, trailer, cast and where to watch (shared with the series screen) -->
+            <include
+                android:id="@+id/details_extras"
+                layout="@layout/movie_screen_movie_common_details_extras" />
+
+            <!-- Seasons; tapping one shows its episodes -->
+            <LinearLayout
+                android:id="@+id/seasons_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/MovieScreenMovieCommonBrowseRowTitle"
+                    android:text="@string/movie_screen_movie_common_seasons" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/seasons_list"
+                    style="@style/MovieScreenMovieCommonBrowseRow"
+                    tools:listitem="@layout/movie_screen_movie_common_browse_row_entry" />
+            </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/adult"

@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    lintPublish(projects.lint)
     implementation(projects.data.uiDesign)
     implementation(libs.compose.coil)
     implementation(libs.bumptech.glide)

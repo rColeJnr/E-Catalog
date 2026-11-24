@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.book.data_book.data.repository.gutenberg
 
+import com.rick.ecatalogs.book.data_book.model.gutenberg.GutenbergFilter
+import com.rick.ecatalogs.data.datastore.ListCache
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -27,8 +29,9 @@ internal class GutenbergRepositoryImpl @Inject constructor(
     private val keysDao: GutenbergRemoteKeysDao,
     private val network: GutenbergNetworkDataSource,
     private val transactionRunner: BookTransactionRunner,
+    private val listCache: ListCache,
 ) : GutenbergRepository {
-    override fun getGutenberg(): Flow<PagingData<GutenbergEntity>> {
+    override fun getGutenberg(filter: GutenbergFilter): Flow<PagingData<GutenbergEntity>> {
         val pagingSourceFactory = { gutenbergDao.getGutenbergs() }
 
         @OptIn(ExperimentalPagingApi::class)
@@ -36,14 +39,18 @@ internal class GutenbergRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 20,
                 enablePlaceholders = true,
-                prefetchDistance = 0,
-                initialLoadSize = 1
+                // Prefetch a page ahead and start with a few pages, so scrolling doesn't keep
+                // hitting the end of the loaded data (each load invalidates and rebinds the list)
+                prefetchDistance = 20,
+                initialLoadSize = 60
             ),
             remoteMediator = GutenbergRemoteMediator(
                 network = network,
                 keysDao = keysDao,
                 gutenbergDao = gutenbergDao,
                 transactionRunner = transactionRunner,
+                listCache = listCache,
+                filter = filter,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow

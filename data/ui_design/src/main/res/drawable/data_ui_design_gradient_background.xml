@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Screen background. Flat surface colour (was a diagonal gradient from the container tone),
+     so the pages continue seamlessly from the top app bar and the status bar above them. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <gradient
-        android:angle="315"
-        android:startColor="@color/data_ui_design_color_on_surface"
-        android:endColor="@color/data_ui_design_color_surface" />
+    <solid android:color="@color/data_ui_design_color_surface" />
 </shape>

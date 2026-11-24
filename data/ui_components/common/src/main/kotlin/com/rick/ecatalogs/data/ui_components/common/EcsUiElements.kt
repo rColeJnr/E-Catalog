@@ -34,8 +34,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
@@ -184,14 +182,8 @@ fun EcsScaffold(
     snackbarHostState: SnackbarHostState,
     screenContent: @Composable () -> Unit,
 ) {
-    val backgroundGradient = linearGradient(
-        colors = listOf(
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_surface), // end color
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
-        ),
-        start = Offset.Infinite,
-        end = Offset.Zero
-    )
+    // Flat surface colour, the same as the top app bar and status bar above the screen
+    val background = colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_surface)
 
     Scaffold(
         modifier = modifier.padding(bottom = 44.dp),
@@ -202,9 +194,7 @@ fun EcsScaffold(
             modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(
-                    brush = backgroundGradient
-                )
+                .background(background)
         ) {
             screenContent()
         }

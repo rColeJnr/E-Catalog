@@ -2,6 +2,8 @@ package com.rick.ecatalogs.book.data_book.data.di
 
 import com.rick.ecatalogs.book.data_book.data.repository.bestseller.CompositeBestsellerRepository
 import com.rick.ecatalogs.book.data_book.data.repository.bestseller.UserBestsellerRepository
+import com.rick.ecatalogs.book.data_book.data.repository.bestseller.BookReviewRepository
+import com.rick.ecatalogs.book.data_book.data.repository.bestseller.BookReviewRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,4 +18,8 @@ internal interface BestsellerUserCompositeRepository {
         compositeRepository: CompositeBestsellerRepository
     ): UserBestsellerRepository
 
+    @Binds
+    fun bindsBookReviewRepository(
+        bookReviewRepository: BookReviewRepositoryImpl
+    ): BookReviewRepository
 }

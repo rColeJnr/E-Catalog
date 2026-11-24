@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anime_screen_anime_common_retry">Tentar novamente</string>
+    <string name="anime_screen_anime_common_failed_to_load">Falha ao carregar</string>
+    <string name="anime_screen_anime_common_this_season">Esta temporada</string>
+    <string name="anime_screen_anime_common_next_season">Próxima temporada</string>
+    <string name="anime_screen_anime_common_list_popular">Populares</string>
+    <string name="anime_screen_anime_common_list_top_rated">Mais bem avaliados</string>
+    <string name="anime_screen_anime_common_list_airing">Em exibição</string>
+    <string name="anime_screen_anime_common_list_upcoming">Em breve</string>
+    <string name="anime_screen_anime_common_list_publishing">Em publicação</string>
+    <string name="anime_screen_anime_common_list_favorites">Mais favoritos</string>
+    <string name="anime_screen_anime_common_all_genres">Todos os géneros</string>
+    <string name="anime_screen_anime_common_watch_trailer">Ver trailer</string>
+    <string name="anime_screen_anime_common_watch_on">Ver em</string>
+    <string name="anime_screen_anime_common_airs">Transmitido %1$s às %2$s (hora local)</string>
+    <string name="anime_screen_anime_common_episodes">Episódios</string>
+    <string name="anime_screen_anime_common_episodes_count">Ver os %1$d episódios</string>
+    <string name="anime_screen_anime_common_episode_title">%1$d. %2$s</string>
+    <string name="anime_screen_anime_common_filler">Filler</string>
+    <string name="anime_screen_anime_common_recap">Resumo</string>
+    <string name="anime_screen_anime_common_if_you_liked">Se gostou deste</string>
+    <string name="anime_screen_anime_common_episodes_error">Não foi possível carregar os episódios. Toque para tentar novamente.</string>
+    <string name="anime_screen_anime_common_no_episodes">Ainda não há episódios listados.</string>
+    <string name="anime_screen_anime_common_score">★ %1$.2f</string>
+</resources>

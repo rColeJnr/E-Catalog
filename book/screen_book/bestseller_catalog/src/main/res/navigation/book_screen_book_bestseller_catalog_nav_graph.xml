@@ -30,4 +30,15 @@
             app:nullable="true" />
         <deepLink app:uri="com.rick.ecs://bestseller-catalog-screen?genre={genre}" />
     </fragment>
+
+    <!-- Book details with where to buy and the NYT's review (replaces the old dialog) -->
+    <fragment
+        android:id="@+id/book_screen_book_bestseller_catalog_detailsfragment"
+        android:name="com.rick.ecatalogs.book.screen_book.bestseller_catalog.BestsellerDetailsFragment"
+        android:label="">
+        <argument
+            android:name="isbn"
+            app:argType="string" />
+        <deepLink app:uri="com.rick.ecs://bestseller_details/{isbn}" />
+    </fragment>
 </navigation>

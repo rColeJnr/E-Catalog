@@ -24,7 +24,7 @@ message UserPreferences {
   map<string, bool> notified_bestseller_ids = 14;
 
   // Settings. Flags are negative so the proto default (false) means "enabled".
-  // 0 = follow system, 1 = light, 2 = dark
+  // 0 = dark (default, the app is dark-first), 1 = light, 2 = follow system
   int32 theme = 15;
   bool sync_disabled = 16;
   // 0 = default (12 hours)
@@ -33,6 +33,20 @@ message UserPreferences {
   bool notifications_disabled_series = 19;
   bool notifications_disabled_articles = 20;
   bool notifications_disabled_bestsellers = 21;
+  // When background sync last completed successfully (0 = never). The startup sync is skipped
+  // while this is more recent than the chosen sync interval.
+  int64 last_sync_epoch_millis = 22;
+  // When each catalog list was last downloaded (epoch millis), keyed by list (see ListCache).
+  // Screens reuse the stored list while it's younger than the sync interval.
+  map<string, int64> list_refreshed_at = 23;
+  // Movies the user asked to be reminded about on release day, by TMDB id.
+  map<int32, ReleaseReminder> release_reminders = 24;
 
-  // Next available is 22
+  // Next available is 25
+}
+
+message ReleaseReminder {
+  string title = 1;
+  // yyyy-MM-dd
+  string release_date = 2;
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_notifications_channel_trending_movies">Популярные фильмы</string>
+    <string name="data_notifications_channel_trending_series">Популярные сериалы</string>
+    <string name="data_notifications_channel_articles">Рецензии на фильмы</string>
+    <string name="data_notifications_channel_bestsellers">Бестселлеры NYT</string>
+    <string name="data_notifications_channel_release_reminders">Напоминания о премьерах</string>
+    <string name="data_notifications_release_today">«%1$s» выходит сегодня</string>
+    <string name="data_notifications_release_today_text">Нажмите, чтобы узнать, где посмотреть</string>
+    <string name="data_notifications_channel_description">Новинки, найденные фоновой синхронизацией</string>
+    <string name="data_notifications_new_trending_movies">Новые популярные фильмы</string>
+    <string name="data_notifications_new_trending_series">Новые популярные сериалы</string>
+    <string name="data_notifications_new_articles">Новые рецензии на фильмы</string>
+    <string name="data_notifications_new_bestsellers">Новинки в списке NYT «%1$s»</string>
+    <string name="data_notifications_genre_fiction">Художественная литература</string>
+    <string name="data_notifications_genre_nonfiction">Нон-фикшн</string>
+    <string name="data_notifications_genre_miscellaneous">Советы и разное</string>
+    <string name="data_notifications_genre_business">Бизнес</string>
+    <string name="data_notifications_genre_graphic">Графические романы и манга</string>
+    <plurals name="data_notifications_summary">
+        <item quantity="one">%1$d новинка</item>
+        <item quantity="few">%1$d новинки</item>
+        <item quantity="many">%1$d новинок</item>
+        <item quantity="other">%1$d новинки</item>
+    </plurals>
+</resources>

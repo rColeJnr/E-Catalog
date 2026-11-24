@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/books">
-        <menu>
-
-            <item
-                android:id="@+id/bestseller_graph"
-                android:icon="@drawable/ic_book"
-                android:title="@string/nyt_bestseller" />
-
-            <item
-                android:id="@+id/book_screen_book_gutenberg_catalog_nav_graph"
-                android:icon="@drawable/ic_book"
-                android:title="@string/the_gutenberg_project" />
-
-<!--            <item-->
-<!--                android:id="@+id/book_favorite_graph"-->
-<!--                android:icon="@drawable/fav_filled_icon"-->
-<!--                android:title="@string/favorites" />-->
-        </menu>
-    </item>
-
     <item android:title="@string/moving_pictures">
         <menu>
 
@@ -61,9 +41,24 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/settings_screen_settings_nav_graph"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
+    <item android:title="@string/books">
+        <menu>
+
+            <item
+                android:id="@+id/bestseller_graph"
+                android:icon="@drawable/ic_book"
+                android:title="@string/nyt_bestseller" />
+
+            <item
+                android:id="@+id/book_screen_book_gutenberg_catalog_nav_graph"
+                android:icon="@drawable/ic_book"
+                android:title="@string/the_gutenberg_project" />
+
+<!--            <item-->
+<!--                android:id="@+id/book_favorite_graph"-->
+<!--                android:icon="@drawable/fav_filled_icon"-->
+<!--                android:title="@string/favorites" />-->
+        </menu>
+    </item>
 
 </menu>

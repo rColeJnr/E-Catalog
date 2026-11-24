@@ -3,20 +3,25 @@ package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.rick.ecatalogs.book.data_book.data.repository.bestseller.CompositeBestsellerRepository
 import com.rick.ecatalogs.book.data_book.data.repository.bestseller.UserBestsellerDataRepository
 import com.rick.ecatalogs.book.data_book.model.bestseller.UserBestseller
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class BestsellerViewModel @Inject constructor(
     private val compositeBookRepository: CompositeBestsellerRepository,
@@ -24,53 +29,52 @@ class BestsellerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    lateinit var bestsellerUiState: StateFlow<BestsellerUIState>
-
-    // private set
-    private var position: Int = 0
-
     /** Index into [BookGenre.entries] of the list being shown. */
-    val selectedGenrePosition: Int get() = position
+    private val selectedGenre = MutableStateFlow(
+        // A notification deep link can open a specific genre (nav argument "genre" = list name)
+        (BookGenre.fromListName(savedStateHandle.get<String>(GENRE_ARG)) ?: BookGenre.DEFAULT)
+            .ordinal
+    )
 
-    init {
-        // A notification deep link can open a specific genre (nav argument "genre" = NYT list name)
-        val initialGenre = BookGenre.fromListName(savedStateHandle.get<String>(GENRE_ARG))
-            ?: BookGenre.DEFAULT
-        onEvent(BestsellerEvents.SelectedGenre(initialGenre.ordinal))
+    val selectedGenrePosition: Int get() = selectedGenre.value
 
-    }
+    /**
+     * The selected genre's stored list, for the "Top picks" carousel. It's filled by
+     * [bestsellerPagingData] (no network here), so it's Loading until the first page is stored.
+     */
+    val bestsellerUiState: StateFlow<BestsellerUIState> = selectedGenre
+        .flatMapLatest { position ->
+            compositeBookRepository.observeBestseller(
+                genre = BookGenre.entries[position].listName,
+                date = "current",
+                viewModelScope = viewModelScope,
+            )
+        }
+        .map { books ->
+            if (books.isEmpty()) BestsellerUIState.Loading else BestsellerUIState.Success(books)
+        }
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = BestsellerUIState.Loading,
+        )
+
+    /** The selected genre's list, paged (NYT pages lists 20 books at a time). */
+    val bestsellerPagingData: Flow<PagingData<UserBestseller>> = selectedGenre
+        .flatMapLatest { position ->
+            compositeBookRepository.observeBestsellerPaging(
+                genre = BookGenre.entries[position].listName,
+                scope = viewModelScope,
+            )
+        }
+        .cachedIn(viewModelScope)
 
     fun onEvent(event: BestsellerEvents) {
         when (event) {
-            is BestsellerEvents.SelectedGenre -> {
-                fetchBestsellers(event.bookGenre)
-            }
-
-            is BestsellerEvents.UpdateBestsellerFavorite -> {
+            is BestsellerEvents.SelectedGenre -> selectedGenre.value = event.bookGenre
+            is BestsellerEvents.UpdateBestsellerFavorite ->
                 updateBestsellerFavorite(event.id, event.isFavorite)
-            }
         }
-    }
-
-    private fun fetchBestsellers() {
-
-    }
-
-
-    private fun fetchBestsellers(bookGenre: Int = position) {
-        position = bookGenre
-        val genre = BookGenre.entries[position].listName
-
-        bestsellerUiState = compositeBookRepository.observeBestseller(
-            genre = genre, date = "current", viewModelScope
-        ).map<List<UserBestseller>, BestsellerUIState>(BestsellerUIState::Success)
-            .catch { BestsellerUIState.Error }
-            .onStart { emit(BestsellerUIState.Loading) }
-            .stateIn(
-                viewModelScope,
-                started = SharingStarted.WhileSubscribed(1000),
-                initialValue = BestsellerUIState.Loading
-            )
     }
 
     private fun updateBestsellerFavorite(id: String, isFavorite: Boolean) {

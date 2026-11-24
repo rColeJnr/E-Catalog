@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.article_catalog
 
 import android.net.Uri
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -115,6 +116,8 @@ class ArticleFragment : Fragment() {
 
         adapter = ArticleAdapter(this::onMovieClick, this::onFavClick, this::onTranslationClick)
 
+        // Rebinding the same item shouldn't fade the whole card (looked like flicker)
+        (binding.recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         binding.recyclerView.adapter =
             adapter
 
@@ -178,10 +181,13 @@ class ArticleFragment : Fragment() {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
-                swipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                loadingIndicator.isVisible = loadState.mediator?.refresh is LoadState.Loading
                 // show empty list.
-                emptyList.isVisible =
-                    !swipeRefresh.isRefreshing && adapter.itemCount == 0
+                // Only once the stored list has been read too, so a cached screen doesn't flash
+                // "No results" before its items appear
+                emptyList.isVisible = !loadingIndicator.isVisible &&
+                    loadState.source.refresh is LoadState.NotLoading &&
+                    adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
@@ -205,7 +211,8 @@ class ArticleFragment : Fragment() {
             }
         }
 
-        swipeRefresh.setOnRefreshListener {
+        // No pull-to-refresh (content changes weekly): tap the empty / error message to retry
+        emptyList.setOnClickListener {
             adapter.refresh()
         }
 

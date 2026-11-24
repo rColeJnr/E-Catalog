@@ -1,5 +1,9 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_details
 
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import android.content.Intent
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import com.rick.ecatalogs.data.ui_design.POSTER_KIND_ANIME
 import com.rick.ecatalogs.data.ui_design.posterTransitionName
@@ -40,6 +44,7 @@ class AnimeDetailsFragment : Fragment() {
     private var _binding: AnimeScreenAnimeAnimeDetailsFragmentAnimeDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeDetailsViewModel by viewModels()
+    private val extrasViewModel: AnimeExtrasViewModel by viewModels()
     private val translationViewModel: TranslationViewModel by viewModels()
 
     @Inject
@@ -88,6 +93,22 @@ class AnimeDetailsFragment : Fragment() {
         binding.bindState(
             viewModel.getAnime().asLiveData()
         )
+        binding.animeExtras.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                EcsTheme {
+                    AnimeExtrasSection(
+                        viewModel = extrasViewModel,
+                        onOpenUrl = ::openExternally,
+                        onRecommendationClick = { id ->
+                            findNavController().navigateWithMotion(
+                                Uri.parse("com.rick.ecs://anime_details_fragment/$id")
+                            )
+                        },
+                    )
+                }
+            }
+        }
         analyticsHelper.logScreenView("AnimeDetails")
 
         return binding.root
@@ -210,7 +231,14 @@ class AnimeDetailsFragment : Fragment() {
 
             val trailer = anime.trailer
             this.trailer.setOnClickListener {
-                if (!trailer.isNullOrBlank()) {
+                val youtubeId = trailer?.let {
+                    Regex("/embed/([A-Za-z0-9_-]{6,})").find(it)?.groupValues?.get(1)
+                }
+                if (youtubeId != null) {
+                    // Opens the YouTube app (or browser) instead of an embedded player
+                    analyticsHelper.logTrailerOpened(youtubeId)
+                    openExternally("https://www.youtube.com/watch?v=$youtubeId")
+                } else if (!trailer.isNullOrBlank()) {
                     val encodedUrl = URLEncoder.encode(trailer, StandardCharsets.UTF_8.toString())
                     analyticsHelper.logTrailerOpened(encodedUrl)
                     val uri = Uri.parse("com.rick.ecs://anime_common_webviewfragment/$encodedUrl")
@@ -218,6 +246,15 @@ class AnimeDetailsFragment : Fragment() {
                 }
             }
 
+        }
+    }
+
+    /** Streaming services and trailers open in their app or the browser. */
+    private fun openExternally(url: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (e: ActivityNotFoundException) {
+            // No app can open it
         }
     }
 

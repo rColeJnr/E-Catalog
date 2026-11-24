@@ -29,5 +29,13 @@ data class MovieResponse(
     @SerialName("vote_count")
     @SerializedName("vote_count")
     val voteCount: Int,
-    val similar: TrendingMovieResponse
+    val similar: TrendingMovieResponse,
+    val credits: CreditsResponse? = null,
+    val videos: VideosResponse? = null,
+    @SerialName("watch/providers")
+    @SerializedName("watch/providers")
+    val watchProviders: WatchProvidersResponse? = null,
+    @SerialName("release_dates")
+    @SerializedName("release_dates")
+    val releaseDates: ReleaseDatesResponse? = null,
 )

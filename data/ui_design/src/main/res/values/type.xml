@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- Titles: High Tower serif (brand) -->
     <style name="DataUiDesignTextAppearance.MdcTypographyStyles.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="fontFamily">@font/high_tower_text</item>
         <item name="android:fontFamily">@font/high_tower_text</item>
         <item name="android:textSize">26sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
     <style name="DataUiDesignTextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/high_tower_text</item>
         <item name="android:fontFamily">@font/high_tower_text</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
+    <!-- Body and labels: system sans, easier to read at small sizes -->
     <style name="DataUiDesignTextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/high_tower_text</item>
-        <item name="android:fontFamily">@font/high_tower_text</item>
-        <item name="android:textSize">21sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
-
     <style name="DataUiDesignTextAppearance.MdcTypographyStyles.Body2" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="fontFamily">@font/high_tower_text</item>
-        <item name="android:fontFamily">@font/high_tower_text</item>
-        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
-
     <style name="DataUiDesignTextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/high_tower_text</item>
-        <item name="android:fontFamily">@font/high_tower_text</item>
-        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
     </style>
-
     <style name="DataUiDesignTextAppearance.MdcTypographyStyles.Caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/high_tower_text</item>
-        <item name="android:fontFamily">@font/high_tower_text</item>
-        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
     </style>
-
     <style name="DataUiDesignTextAppearance.MdcTypographyStyles.Overline" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">@font/high_tower_text</item>
-        <item name="android:fontFamily">@font/high_tower_text</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">11sp</item>
+    </style>
+    <!-- Chip text over posters -->
+    <style name="DataUiDesignTextAppearance.PosterChip" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/data_ui_design_on_scrim</item>
     </style>
 </resources>

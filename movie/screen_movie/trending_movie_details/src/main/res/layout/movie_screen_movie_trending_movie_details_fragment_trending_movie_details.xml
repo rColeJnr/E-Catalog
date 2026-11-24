@@ -9,6 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/details_card_view"
+        app:cardBackgroundColor="@color/data_ui_design_color_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -54,7 +55,7 @@
                         android:layout_height="?attr/actionBarSize"
                         android:text="@string/movie_screen_movie_trending_movie_details_failed_to_retrieve_data"
                         android:textAppearance="?attr/textAppearanceCaption"
-                        android:textColor="@android:color/holo_blue_light"
+                        android:textColor="@color/data_ui_design_color_buttons"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -72,6 +73,13 @@
                     android:id="@+id/movie_image"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/data_ui_design_long_image_height" />
+
+                <!-- Fades the image into the page -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/data_ui_design_hero_scrim" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -102,9 +110,15 @@
                 android:text="@string/movie_screen_movie_trending_movie_details_show_translation"
                 android:textAlignment="gravity"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/data_ui_design_color_buttons"
                 android:textStyle="bold"
                 android:visibility="gone" />
+
+
+            <!-- Age rating, trailer, cast and where to watch (shared with the series screen) -->
+            <include
+                android:id="@+id/details_extras"
+                layout="@layout/movie_screen_movie_common_details_extras" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/movie_adult"
@@ -193,7 +207,7 @@
                     android:id="@+id/imdb_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#E3C4A8"
+                    android:backgroundTint="@color/data_ui_design_chip_background"
                     android:gravity="start"
                     android:text="@string/movie_screen_movie_trending_movie_details_imdb_rating"
                     android:textAppearance="?attr/textAppearanceBody2"
@@ -205,7 +219,7 @@
                     android:id="@+id/movie_db_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#E3C4A8"
+                    android:backgroundTint="@color/data_ui_design_chip_background"
                     android:gravity="end"
                     android:text="@string/movie_screen_movie_trending_movie_details_db_rating"
                     android:textAppearance="?attr/textAppearanceBody2"

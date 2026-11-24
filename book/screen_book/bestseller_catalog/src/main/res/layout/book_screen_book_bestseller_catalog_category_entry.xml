@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Genre tile; the selector background turns brand-colored when the root is selected. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="70dp"
+    android:layout_width="84dp"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/data_ui_design_text_four_dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/data_ui_design_category_tile"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="6dp"
+    android:paddingVertical="10dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="@dimen/data_ui_design_background_card_corner_radius"
-        app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/category_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@android:color/transparent"
-            android:contentDescription="@string/book_screen_book_bestseller_catalog_category_image"
-            android:scaleType="fitCenter"
-            android:src="@drawable/book_screen_book_bestseller_catalog_category_nonfiction" />
-
-    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/category_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:contentDescription="@string/book_screen_book_bestseller_catalog_category_image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/book_screen_book_bestseller_catalog_category_nonfiction" />
 
     <TextView
         android:id="@+id/category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.9"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
         android:gravity="center"
         android:hint="@string/book_screen_book_bestseller_catalog_category"
         android:maxLines="1"
-        android:padding="@dimen/data_ui_design_text_padding"
-        android:textAlignment="gravity"
         android:textAppearance="?attr/textAppearanceCaption"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="13sp" />
+        android:textColor="@color/data_ui_design_text_secondary" />
 </LinearLayout>

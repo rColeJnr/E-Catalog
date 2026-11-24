@@ -4,12 +4,12 @@
     <string name="anime">Anime</string>
     <string name="manga">Manga</string>
     <string name="nyt_articles">Artigos do NY Times</string>
-    <string name="trending_movies">Filmes em Alta</string>
-    <string name="trending_series">Séries em Alta</string>
+    <string name="trending_movies">Filmes em tendência</string>
+    <string name="trending_series">Séries em tendência</string>
     <string name="the_gutenberg_project">Projeto Gutenberg</string>
     <string name="nyt_bestseller">Mais Vendidos do NY Times</string>
     <string name="anime_favorite">Animes Favoritos</string>
-    <string name="manga_favorite">Mangás Favoritos</string>
+    <string name="manga_favorite">Mangas Favoritos</string>
     <string name="nyt_articles_favorite">Artigos Favoritos</string>
     <string name="trending_movies_favorite">Filmes Favoritos</string>
     <string name="trending_series_favorite">Séries Favoritas</string>
@@ -24,7 +24,7 @@
     <string name="limited_experience">Experiência limitada</string>
     <string name="open_drawer">abrir</string>
     <string name="close_drawer">fechar</string>
-    <string name="your_username">Seu nickname</string>
+    <string name="your_username">O seu nome de utilizador</string>
     <string name="movie_reviews">Críticas de Filmes</string>
-    <string name="settings">Configurações</string>
+    <string name="settings">Definições</string>
 </resources>

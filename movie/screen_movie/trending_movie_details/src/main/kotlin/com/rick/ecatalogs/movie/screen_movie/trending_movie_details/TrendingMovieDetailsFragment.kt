@@ -23,6 +23,8 @@ import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.Creator
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_movie.TrendingMovie
 import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
+import com.rick.ecatalogs.movie.screen_movie.common.bindExtras
+import com.rick.ecatalogs.movie.screen_movie.common.personDetailsUri
 import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.logTrendingMovieOpened
@@ -273,6 +275,9 @@ class TrendingMovieDetailsFragment : Fragment() {
 
                     similarDetailsAdapter.similarsDiffer
                         .submitList(trendingMovie.similar)
+                    detailsExtras.bindExtras(trendingMovie.extras) { member ->
+                        findNavController().navigateWithMotion(personDetailsUri(member.id))
+                    }
                 }
             }
         }

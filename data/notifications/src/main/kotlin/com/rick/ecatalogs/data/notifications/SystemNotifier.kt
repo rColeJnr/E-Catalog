@@ -70,6 +70,21 @@ internal class SystemNotifier @Inject constructor(
         group = BESTSELLERS_GROUP,
     )
 
+    override fun postReleaseReminder(movieId: Int, title: String) {
+        if (!canPostNotifications()) return
+        ensureChannelExists(Channel.RELEASE_REMINDERS)
+        val notificationId = RELEASE_REMINDER_BASE_ID + movieId
+        val notification = NotificationCompat.Builder(context, Channel.RELEASE_REMINDERS.id)
+            .setSmallIcon(R.drawable.data_notifications_ic_notification)
+            .setContentTitle(context.getString(R.string.data_notifications_release_today, title))
+            .setContentText(context.getString(R.string.data_notifications_release_today_text))
+            .setContentIntent(deepLinkIntent(DeepLinks.movieDetails(movieId), notificationId))
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+        NotificationManagerCompat.from(context).notify(notificationId, notification)
+    }
+
     private fun post(
         channel: Channel,
         notificationId: Int,
@@ -140,6 +155,7 @@ internal class SystemNotifier @Inject constructor(
         TRENDING_SERIES("trending_series", R.string.data_notifications_channel_trending_series),
         ARTICLES("articles", R.string.data_notifications_channel_articles),
         BESTSELLERS("bestsellers", R.string.data_notifications_channel_bestsellers),
+        RELEASE_REMINDERS("release_reminders", R.string.data_notifications_channel_release_reminders),
     }
 }
 
@@ -160,3 +176,4 @@ private const val TRENDING_SERIES_ID = 1002
 private const val ARTICLES_ID = 1003
 private const val BESTSELLERS_BASE_ID = 1100
 private const val BESTSELLERS_GROUP = "bestsellers"
+private const val RELEASE_REMINDER_BASE_ID = 200_000

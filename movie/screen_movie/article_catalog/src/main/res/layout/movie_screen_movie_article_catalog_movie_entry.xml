@@ -1,102 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Immersive poster card, same as the movie/series/anime lists: the photo fills the card, the
+     headline (and date/reviewer chips) sit on a dark gradient over its bottom, and the lead
+     paragraph follows below. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movie_entry_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/movie_screen_movie_article_catalog_six_dp"
-    android:clickable="true"
-    android:focusable="true"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="2dp">
+    android:layout_marginHorizontal="@dimen/data_ui_design_card_horizontal_margin"
+    android:layout_marginVertical="@dimen/data_ui_design_card_vertical_margin"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/movie_entry_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/data_ui_design_poster_card_height"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+        app:cardCornerRadius="@dimen/data_ui_design_poster_card_radius"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Article photo -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <!-- Gradient that keeps the headline readable on any photo -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/data_ui_design_poster_scrim_height"
+                android:layout_gravity="bottom"
+                android:background="@drawable/data_ui_design_poster_scrim" />
+
+            <!-- Headline and chips over the photo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                android:padding="@dimen/data_ui_design_poster_content_padding">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:shadowColor="#80000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="4"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="@color/data_ui_design_on_scrim"
+                    tools:text="‘Group: The Schopenhauer Effect’ Review" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/article_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/data_ui_design_poster_chip"
+                        android:textColor="@color/data_ui_design_on_scrim"
+                        android:textAppearance="@style/DataUiDesignTextAppearance.PosterChip"
+                        tools:text="Nov 21, 2026" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/article_byline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/data_ui_design_poster_chip"
+                        android:textColor="@color/data_ui_design_on_scrim"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAppearance="@style/DataUiDesignTextAppearance.PosterChip"
+                        tools:text="By Manohla Dargis" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Favorite -->
+            <com.google.android.material.imageview.ShapeableImageView
+                style="@style/DataUiDesignFavoriteButton"
+                android:id="@+id/favorite"
+                android:layout_gravity="top|end"
+                android:layout_margin="12dp"
+                android:src="@drawable/data_ui_design_favorite_outlined" />
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Lead paragraph -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/movie_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="2"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/data_ui_design_text_secondary"
+        tools:text="Group therapy sessions are dramatized in this absorbing film from the writer-director Alexis Lloyd." />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/frame_image"
-            android:layout_width="match_parent"
-            android:layout_height="470dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@tools:sample/backgrounds/scenic" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/fav_button"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="end|top"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardCornerRadius="18dp"
-                    app:cardElevation="4dp">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/favorite"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:padding="2dp"
-                        android:src="@drawable/movie_screen_movie_article_catalog_star_outlined"/>
-
-                </com.google.android.material.card.MaterialCardView>
-            </FrameLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movie_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/frame_image"
-            tools:text="Movie Title" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/movie_summary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:alpha="0.7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/movie_name"
-            tools:text="This is a description of the movie review article..." />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/show_translation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="4dp"
-            android:text="@string/movie_screen_movie_article_catalog_show_translation"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/movie_summary" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    <!-- Translation action -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/show_translation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="4dp"
+        android:padding="4dp"
+        android:text="@string/movie_screen_movie_article_catalog_show_translation"
+        android:textAppearance="?attr/textAppearanceButton"
+        android:textColor="@color/data_ui_design_color_buttons" />
+</LinearLayout>

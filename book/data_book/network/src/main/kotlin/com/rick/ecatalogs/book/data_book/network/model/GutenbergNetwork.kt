@@ -15,7 +15,7 @@ data class GutenbergNetwork(
     @SerializedName("media_type")
     @SerialName("media_type")
     val mediaType: String,
-    val formats: Formats? = Formats(null, null, null, null),
+    val formats: Formats? = Formats(),
     @SerializedName("download_count")
     @SerialName("download_count")
     val downloads: Int,

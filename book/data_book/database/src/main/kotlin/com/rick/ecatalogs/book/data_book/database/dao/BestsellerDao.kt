@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.data_book.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
@@ -26,6 +27,14 @@ interface BestsellerDao {
 
     @Query("SELECT * FROM bestseller_table WHERE genre = :genre ORDER BY rank ASC")
     fun getBestsellers(genre: String): Flow<List<BestsellerEntity>>
+
+    /** The genre's list in rank order, for Paging. */
+    @Query("SELECT * FROM bestseller_table WHERE genre = :genre ORDER BY rank ASC")
+    fun bestsellerPagingSource(genre: String): PagingSource<Int, BestsellerEntity>
+
+    /** One book by ISBN (it can be on several lists; any copy has the same details). */
+    @Query("SELECT * FROM bestseller_table WHERE id = :id LIMIT 1")
+    fun getBestsellerById(id: String): Flow<BestsellerEntity?>
 
     @Query("SELECT id FROM bestseller_table WHERE genre = :genre")
     suspend fun bestsellerIds(genre: String): List<String>

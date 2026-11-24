@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.ecatalogs.book.data_book.model.gutenberg.Formats
 import com.rick.ecatalogs.book.data_book.model.gutenberg.UserGutenberg
 
 class GutenbergSearchAdapter(
-    private val onItemClick: (view: View, formats: Formats) -> Unit,
+    private val onItemClick: (view: View, book: UserGutenberg) -> Unit,
     private val onFavClick: (Int, Boolean) -> Unit
 ) : RecyclerView.Adapter<SearchViewHolder>() {
 

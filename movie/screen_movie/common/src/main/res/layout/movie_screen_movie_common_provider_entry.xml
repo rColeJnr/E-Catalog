@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One streaming / rental service logo -->
+<com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/provider_logo"
+    android:layout_width="52dp"
+    android:layout_height="52dp"
+    android:layout_marginHorizontal="6dp"
+    android:background="@color/data_ui_design_chip_background"
+    android:scaleType="centerCrop"
+    app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners"
+    tools:src="@tools:sample/avatars" />

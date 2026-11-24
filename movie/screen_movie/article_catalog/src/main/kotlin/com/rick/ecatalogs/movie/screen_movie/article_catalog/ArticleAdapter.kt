@@ -16,35 +16,16 @@ class ArticleAdapter(
         return ArticleViewHolder.create(parent, onItemClicked, onFavClicked, onTranslationClicked)
     }
 
-//    override fun getItemViewType(position: Int): Int {
-//        return when (getItem(position)) {
-//            is NYMovieUiModel.MovieItem -> R.layout.movie_entry
-//            else -> R.layout.recycler_view_separator_item
-//        }
-//    }
-
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(article = it)
         }
-//        uiModel.let {
-//            when (uiModel) {
-//                is NYMovieUiModel.MovieItem ->
-//                )
-//                is NYMovieUiModel.SeparatorItem -> (holder as SeparatorViewHolder).bind(uiModel.description)
-//                else -> null
-//            }
-//        }
     }
 
     companion object {
         private val RESULT_COMPARATOR = object : DiffUtil.ItemCallback<UserArticle>() {
             override fun areItemsTheSame(oldItem: UserArticle, newItem: UserArticle): Boolean {
-                return oldItem.leadParagraph == newItem.leadParagraph
-//                        ) ||
-//                        ((oldItem is NYMovieUiModel.SeparatorItem) && (newItem is NYMovieUiModel.SeparatorItem) &&
-//                                (oldItem.description == newItem.description))
-
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: UserArticle, newItem: UserArticle): Boolean {

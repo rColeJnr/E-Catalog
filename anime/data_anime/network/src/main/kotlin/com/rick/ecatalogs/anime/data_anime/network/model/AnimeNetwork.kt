@@ -40,5 +40,9 @@ data class AnimeNetwork(
     val season: String?,
     val year: Int?,
     val genres: List<Genre> = listOf(),
+    /** Only in `anime/{id}/full`. */
+    val streaming: List<JikanLinkNetwork>? = null,
+    /** Only in `anime/{id}/full`. */
+    val broadcast: JikanBroadcastNetwork? = null,
 )
 

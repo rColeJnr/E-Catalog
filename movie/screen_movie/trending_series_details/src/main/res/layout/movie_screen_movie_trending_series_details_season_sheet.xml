@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bottom sheet: one season's episodes -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/data_ui_design_color_surface"
+    android:orientation="vertical"
+    android:paddingBottom="16dp">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/season_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/data_ui_design_black"
+        tools:text="Season 2" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/season_overview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="6dp"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/data_ui_design_text_secondary"
+        tools:text="The season overview." />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/season_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:indeterminate="true"
+        app:indicatorColor="@color/data_ui_design_color_buttons"
+        app:trackColor="@color/data_ui_design_chip_background" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/season_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?attr/selectableItemBackground"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/data_ui_design_text_secondary"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/season_episodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:nestedScrollingEnabled="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/movie_screen_movie_trending_series_details_episode_entry" />
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.manga
 
+import com.rick.ecatalogs.data.datastore.ListCache
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -28,6 +29,7 @@ internal class MangaRepositoryImpl @Inject constructor(
     private val mangaDao: MangaDao,
     private val network: JikanNetworkDataSource,
     private val transactionRunner: JikanTransactionRunner,
+    private val listCache: ListCache,
 ) : MangaRepository {
     override fun getMangas(): Flow<PagingData<MangaEntity>> {
         val pagingSourceFactory = { mangaDao.getManga() }
@@ -37,14 +39,15 @@ internal class MangaRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 20,
                 enablePlaceholders = true,
-                prefetchDistance = 1,
-                initialLoadSize = 1
+                prefetchDistance = 20,
+                initialLoadSize = 60
             ),
             remoteMediator = MangaRemoteMediator(
                 network = network,
                 mangaDao = mangaDao,
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
+                listCache = listCache,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -60,7 +63,7 @@ internal class MangaRepositoryImpl @Inject constructor(
         try {
             val searchResponse = network.searchManga(
                 query = query,
-                max_score = 10
+                limit = SEARCH_RESULT_LIMIT
             ).data
 
             mangaDao.clearManga(searchResponse.map(MangaNetwork::id))
@@ -84,3 +87,5 @@ internal class MangaRepositoryImpl @Inject constructor(
 }
 
 private const val TAG = "MangaRepositoryImpl"
+/** Jikan returns at most 25 results per page. */
+private const val SEARCH_RESULT_LIMIT = 25

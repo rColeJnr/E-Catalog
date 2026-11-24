@@ -2,4 +2,7 @@
 <resources>
     <string name="book_screen_book_common_failed_to_load">Failed to load</string>
     <string name="book_screen_book_common_retry">Retry</string>
+    <string name="book_screen_book_common_reader_error">Couldn\'t open this book. Tap to try again.</string>
+    <string name="book_screen_book_common_reader_text_smaller">Smaller text</string>
+    <string name="book_screen_book_common_reader_text_larger">Larger text</string>
 </resources>

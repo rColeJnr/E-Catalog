@@ -15,4 +15,7 @@ interface Notifier {
     fun postTrendingSeriesNotifications(series: List<TrendingSeries>)
     fun postArticlesNotifications(articles: List<Article>)
     fun postBestsellersNotification(genre: BestsellerGenre, books: List<Bestseller>)
+
+    /** "[title] is out today", opening the movie's details. */
+    fun postReleaseReminder(movieId: Int, title: String)
 }

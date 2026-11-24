@@ -27,4 +27,5 @@ dependencies {
     api(projects.settings.dataSettings.model)
 
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(projects.data.datastoreTest)
 }

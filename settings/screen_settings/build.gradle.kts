@@ -18,4 +18,5 @@ dependencies {
     implementation(projects.data.uiComponents.common)
     implementation(projects.data.uiDesign)
     implementation(projects.data.util)
+    testImplementation(projects.data.testing)
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_screen_movie_person_details_biography">Biography</string>
+    <string name="movie_screen_movie_person_details_known_for">Known for</string>
+    <string name="movie_screen_movie_person_details_read_more">Read more</string>
+    <string name="movie_screen_movie_person_details_read_less">Show less</string>
+    <string name="movie_screen_movie_person_details_born">Born %1$s</string>
+    <string name="movie_screen_movie_person_details_born_age">Born %1$s (age %2$d)</string>
+    <string name="movie_screen_movie_person_details_died">Died %1$s (aged %2$d)</string>
+    <string name="movie_screen_movie_person_details_error">Couldn\'t load this person. Tap to try again.</string>
+    <string name="movie_screen_movie_person_details_photo">Photo of %1$s</string>
+    <string name="movie_screen_movie_person_details_series">Series</string>
+    <string name="movie_screen_movie_person_details_show_translation">Show translation</string>
+    <string name="movie_screen_movie_person_details_show_original">Show original</string>
+</resources>

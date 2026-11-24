@@ -16,7 +16,8 @@ class DemoGutenbergNetworkDataSource @Inject constructor(
 ) : GutenbergNetworkDataSource {
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun fetchBooks(page: Int): GutenbergResponse =
+    // The bundled list is unfiltered
+    override suspend fun fetchBooks(page: Int, languages: String?, topic: String?): GutenbergResponse =
         withContext(IO) {
             assets.open(GUTENBERG_ASSET).use(networkJson::decodeFromStream)
         }

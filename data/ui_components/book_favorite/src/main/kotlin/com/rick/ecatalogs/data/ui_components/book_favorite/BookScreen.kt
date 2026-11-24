@@ -38,6 +38,10 @@ fun BookFavScreen(
     shouldDisplayBestsellerUndoFavorite: Boolean,
     undoBestsellerFavoriteRemoval: () -> Unit,
     clearUndoState: () -> Unit,
+    /** Opens a bestseller (by ISBN). */
+    onBestsellerClick: (String) -> Unit = {},
+    /** Opens a Gutenberg book (by id). */
+    onGutenbergClick: (Int) -> Unit = {},
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -90,7 +94,8 @@ fun BookFavScreen(
                                         title = book.title,
                                         author = book.author,
                                         id = book.id,
-                                        onFavClick = onBestsellerFavClick
+                                        onFavClick = onBestsellerFavClick,
+                                        onClick = { onBestsellerClick(book.id) },
                                     )
                                 }
                             }
@@ -111,7 +116,8 @@ fun BookFavScreen(
                                         title = book.title,
                                         author = getAuthorsAsString(context = context, book.authors),
                                         id = book.id.toString(),
-                                        onFavClick = onBestsellerFavClick
+                                        onFavClick = onBestsellerFavClick,
+                                        onClick = { onGutenbergClick(book.id) },
                                     )
                                 }
                             }

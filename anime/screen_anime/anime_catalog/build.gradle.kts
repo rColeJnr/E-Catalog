@@ -1,10 +1,12 @@
 plugins {
     alias(libs.plugins.ecatalogs.android.feature)
+    alias(libs.plugins.ecatalogs.android.library.compose)
     alias(libs.plugins.ecatalogs.android.paging)
     alias(libs.plugins.ecatalogs.android.library.jacoco)
 }
 //
 dependencies {
+    implementation(libs.lifecycle.runtimeCompose)
     implementation(projects.anime.screenAnime.common)
     implementation(projects.data.uiComponents.common)
     implementation(projects.data.uiDesign)

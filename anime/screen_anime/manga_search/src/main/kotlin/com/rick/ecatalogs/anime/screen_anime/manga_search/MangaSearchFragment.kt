@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_search
 
 import android.net.Uri
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
 import android.view.KeyEvent
@@ -194,11 +195,13 @@ class MangaSearchFragment : Fragment() {
                         if (state is MangaRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
                             recentSearchesComposeView.setContent {
-                                RecentSearchesBody(
-                                    onClearRecentSearches = onClearRecentSearches,
-                                    onRecentSearchClicked = onRecentSearchClicked,
-                                    recentSearchQueries = state.recentQueries.map { it.query },
-                                )
+                                EcsTheme {
+                                    RecentSearchesBody(
+                                        onClearRecentSearches = onClearRecentSearches,
+                                        onRecentSearchClicked = onRecentSearchClicked,
+                                        recentSearchQueries = state.recentQueries.map { it.query },
+                                    )
+                                }
                             }
                         }
                     }

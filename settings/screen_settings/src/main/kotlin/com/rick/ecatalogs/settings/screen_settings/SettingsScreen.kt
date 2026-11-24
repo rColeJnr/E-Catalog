@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.settings.screen_settings
 
 import androidx.compose.animation.AnimatedContent
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -44,7 +45,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rick.ecatalogs.settings.data_settings.model.NotificationCategory
+import com.rick.ecatalogs.settings.data_settings.model.SYNC_INTERVAL_MONTH_HOURS
 import com.rick.ecatalogs.settings.data_settings.model.SYNC_INTERVAL_OPTIONS_HOURS
+import com.rick.ecatalogs.settings.data_settings.model.SYNC_INTERVAL_WEEK_HOURS
 import com.rick.ecatalogs.settings.data_settings.model.SettingsUserData
 import com.rick.ecatalogs.settings.data_settings.model.ThemeConfig
 import com.rick.ecatalogs.settings.screen_settings.R.string
@@ -225,7 +228,7 @@ private fun SyncSection(settings: SettingsUserData, actions: SettingsActions) {
                     FilterChip(
                         selected = settings.syncIntervalHours == hours,
                         onClick = { actions.onSyncIntervalChange(hours) },
-                        label = { Text(stringResource(string.settings_screen_settings_hours, hours)) },
+                        label = { Text(syncIntervalLabel(hours)) },
                     )
                 }
             }
@@ -332,7 +335,7 @@ private val ThemeConfig.labelRes: Int
 @Preview
 @Composable
 private fun PreviewSettingsScreen() {
-    MaterialTheme {
+    EcsTheme {
         SettingsScreen(
             uiState = SettingsUiState.Success(SettingsUserData(userName = "rColeJnr")),
             appVersion = "2.1",
@@ -345,3 +348,10 @@ private const val PRIVACY_POLICY_URL =
     "https://doc-hosting.flycricket.io/e-catalogs-privacy-policy/b84b04b6-5143-43d8-ae9f-5927719e1914/privacy"
 private const val TERMS_OF_USE_URL =
     "https://doc-hosting.flycricket.io/e-catalogs-terms-of-use/c48319d6-7440-4240-b546-12bab7f55d9c/terms"
+
+@Composable
+private fun syncIntervalLabel(hours: Int): String = when (hours) {
+    SYNC_INTERVAL_WEEK_HOURS -> stringResource(string.settings_screen_settings_sync_weekly)
+    SYNC_INTERVAL_MONTH_HOURS -> stringResource(string.settings_screen_settings_sync_monthly)
+    else -> stringResource(string.settings_screen_settings_hours, hours)
+}

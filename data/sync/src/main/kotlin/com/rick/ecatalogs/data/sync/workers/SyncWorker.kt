@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
@@ -54,6 +55,14 @@ internal class SyncWorker @AssistedInject constructor(
         // run may already be queued.
         if (!settings.syncEnabled) return@withContext Result.success()
 
+        // The sync on app launch only runs when the last one is older than the chosen interval
+        // (the content changes weekly; each screen also loads its own list when opened).
+        if (inputData.getBoolean(KEY_SKIP_IF_RECENT, false)) {
+            val sinceLastSync = System.currentTimeMillis() - preferences.lastSyncEpochMillis()
+            val interval = TimeUnit.HOURS.toMillis(settings.syncIntervalHours.toLong())
+            if (sinceLastSync in 0 until interval) return@withContext Result.success()
+        }
+
         analyticsHelper.logSyncStarted()
         syncSubscriber.subscribe()
 
@@ -87,16 +96,27 @@ internal class SyncWorker @AssistedInject constructor(
         }
 
         // Retrying is safe: repositories whose content didn't change are a no-op.
-        if (syncedSuccessfully) Result.success() else Result.retry()
+        if (syncedSuccessfully) {
+            preferences.setLastSyncEpochMillis(System.currentTimeMillis())
+            Result.success()
+        } else {
+            Result.retry()
+        }
     }
 
     companion object {
         /**
-         * One time work to sync data on app startup.
+         * One time work on app startup. It skips the network when the last successful sync is
+         * more recent than the chosen interval (so opening the app doesn't re-download anything).
          */
         fun startUpSyncWork() = OneTimeWorkRequestBuilder<DelegatingWorker>()
             .setConstraints(SyncConstraints)
-            .setInputData(SyncWorker::class.delegatedData())
+            .setInputData(
+                Data.Builder()
+                    .putAll(SyncWorker::class.delegatedData())
+                    .putBoolean(KEY_SKIP_IF_RECENT, true)
+                    .build(),
+            )
             .build()
 
         /**
@@ -111,3 +131,4 @@ internal class SyncWorker @AssistedInject constructor(
 }
 
 private const val TAG = "SyncWorker"
+private const val KEY_SKIP_IF_RECENT = "skip_if_recent"

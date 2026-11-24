@@ -1,5 +1,10 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_details
 
+import com.rick.ecatalogs.movie.screen_movie.common.R as CommonR
+import com.rick.ecatalogs.movie.screen_movie.common.BrowseRowAdapter
+import com.rick.ecatalogs.movie.screen_movie.common.BrowseItem
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.Season
+import androidx.core.view.isVisible
 import android.graphics.Color
 import com.rick.ecatalogs.data.ui_design.POSTER_KIND_SERIES
 import com.rick.ecatalogs.data.ui_design.posterTransitionName
@@ -24,6 +29,8 @@ import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.Creator
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_series.TrendingSeries
+import com.rick.ecatalogs.movie.screen_movie.common.bindExtras
+import com.rick.ecatalogs.movie.screen_movie.common.personDetailsUri
 import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
 import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
@@ -285,10 +292,37 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     )
 
                     similarDetailsAdapter.similarsDiffer.submitList(series.similar)
+                    detailsExtras.bindExtras(series.extras) { member ->
+                        findNavController().navigateWithMotion(personDetailsUri(member.id))
+                    }
+                    bindSeasons(series.id, series.seasons)
 
                 }
             }
         }
+    }
+
+    /** Seasons row; tapping a season opens its episodes in a bottom sheet. */
+    private fun bindSeasons(seriesId: Int, seasons: List<Season>) {
+        binding.seasonsSection.isVisible = seasons.isNotEmpty()
+        val adapter = binding.seasonsList.adapter as? BrowseRowAdapter
+            ?: BrowseRowAdapter(onItemClick = { item ->
+                SeasonSheet.newInstance(seriesId, item.id, item.title)
+                    .show(childFragmentManager, "season_${item.id}")
+            }).also { binding.seasonsList.adapter = it }
+        adapter.submitList(
+            seasons.map { season ->
+                BrowseItem(
+                    id = season.number,
+                    title = season.name,
+                    posterPath = season.posterPath,
+                    subtitle = listOfNotNull(
+                        getString(CommonR.string.movie_screen_movie_common_episodes, season.episodeCount),
+                        season.airDate?.take(4),
+                    ).joinToString(" · "),
+                )
+            }
+        )
     }
 
     override fun onDestroy() {

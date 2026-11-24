@@ -1,5 +1,11 @@
 package com.rick.ecatalogs.book.screen_book.gutenberg_catalog
 
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.rick.ecatalogs.book.data_book.model.gutenberg.GutenbergFilter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -14,20 +20,24 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class GutenbergCatalogViewModel @Inject constructor(
     private val userDataRepository: UserGutenbergDataRepository,
     private val compositeBookRepository: CompositeGutenbergRepository
 ) : ViewModel() {
 
-    var pagingDataFlow: Flow<PagingData<UserGutenberg>>
+    /** Language and topic filters (Gutendex). The default shows the most popular books. */
+    private val _filter = MutableStateFlow(GutenbergFilter())
+    val filter: StateFlow<GutenbergFilter> = _filter.asStateFlow()
 
-    init {
-        pagingDataFlow = fetchGutenbergs().cachedIn(viewModelScope)
+    val pagingDataFlow: Flow<PagingData<UserGutenberg>> = _filter
+        .flatMapLatest { compositeBookRepository.observeGutenberg(viewModelScope, it) }
+        .cachedIn(viewModelScope)
+
+    fun setFilter(filter: GutenbergFilter) {
+        _filter.value = filter
     }
-
-    private fun fetchGutenbergs(): Flow<PagingData<UserGutenberg>> =
-        compositeBookRepository.observeGutenberg(viewModelScope)
 
     fun onEvent(event: BookUiEvents) {
         when (event) {

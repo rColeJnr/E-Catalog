@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_details
 
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import android.net.Uri
 import com.rick.ecatalogs.data.ui_design.POSTER_KIND_MANGA
 import com.rick.ecatalogs.data.ui_design.posterTransitionName
@@ -39,6 +41,7 @@ class MangaDetailsFragment : Fragment() {
     private var _binding: AnimeScreenAnimeMangaDetailsFragmentMangaDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaDetailsViewModel by viewModels()
+    private val recommendationsViewModel: MangaRecommendationsViewModel by viewModels()
     private val translationViewModel: TranslationViewModel by viewModels()
 
     @Inject
@@ -85,6 +88,18 @@ class MangaDetailsFragment : Fragment() {
             viewModel.getManga().asLiveData()
         )
 
+        binding.mangaRecommendations.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                EcsTheme {
+                    MangaRecommendationsRow(recommendationsViewModel) { id ->
+                        findNavController().navigateWithMotion(
+                            Uri.parse("com.rick.ecs://manga_details_fragment/$id")
+                        )
+                    }
+                }
+            }
+        }
         analyticsHelper.logScreenView("mangaDetails")
 
         return binding.root

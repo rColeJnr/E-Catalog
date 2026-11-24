@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="data_ui_design_black">#F5F5F5</color>
-    <color name="data_ui_design_white">#121212</color>
-
-    <color name="data_ui_design_color_surface">#121212</color>
-    <color name="data_ui_design_color_on_surface">#2C2C2C</color>
-
-    <color name="data_ui_design_chip_background">#3E3E3E</color>
-    <color name="data_ui_design_nav_header">#1F1B16</color>
-
-    <color name="data_ui_design_color_buttons">#E59A85</color>
-
-    <color name="data_ui_design_splash_screen_background">#1F1B16</color>
+    <!-- Cinematic dark palette (the app's default look) -->
+    <color name="data_ui_design_black">#F2E7E1</color>
+    <color name="data_ui_design_white">#0F0D0C</color>
+    <color name="data_ui_design_color_surface">#0F0D0C</color>
+    <color name="data_ui_design_color_on_surface">#1C1816</color>
+    <color name="data_ui_design_chip_background">#2A2320</color>
+    <color name="data_ui_design_nav_header">#171311</color>
+    <color name="data_ui_design_color_buttons">#F0A48D</color>
+    <color name="data_ui_design_on_primary">#3A1408</color>
+    <color name="data_ui_design_text_secondary">#B5A69E</color>
+    <color name="data_ui_design_outline">#4A3F3A</color>
+    <color name="data_ui_design_splash_screen_background">#0F0D0C</color>
+    <color name="data_ui_design_splash_foreground">#F2E7E1</color>
 </resources>

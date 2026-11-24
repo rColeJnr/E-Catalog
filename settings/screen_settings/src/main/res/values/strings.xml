@@ -25,7 +25,9 @@
     <string name="settings_screen_settings_background_sync">Background sync</string>
     <string name="settings_screen_settings_sync_enabled">Check for new content</string>
     <string name="settings_screen_settings_sync_description">Refreshes the lists in the background when you\'re online</string>
-    <string name="settings_screen_settings_sync_interval">Check every</string>
+    <string name="settings_screen_settings_sync_interval">How often</string>
+    <string name="settings_screen_settings_sync_weekly">Once a week</string>
+    <string name="settings_screen_settings_sync_monthly">Once a month</string>
     <string name="settings_screen_settings_hours">%1$d hours</string>
 
     <string name="settings_screen_settings_theme">Theme</string>

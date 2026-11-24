@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.data_book.data.repository.gutenberg
 
+import com.rick.ecatalogs.book.data_book.model.gutenberg.GutenbergFilter
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
@@ -23,8 +24,11 @@ class CompositeGutenbergRepository @Inject constructor(
     private val userDataRepository: UserGutenbergDataRepository
 ) : UserGutenbergRepository {
 
-    override fun observeGutenberg(scope: CoroutineScope): Flow<PagingData<UserGutenberg>> =
-        gutenbergRepository.getGutenberg().cachedIn(scope)
+    override fun observeGutenberg(
+        scope: CoroutineScope,
+        filter: GutenbergFilter,
+    ): Flow<PagingData<UserGutenberg>> =
+        gutenbergRepository.getGutenberg(filter).cachedIn(scope)
             .combine(userDataRepository.userData) { book, userData ->
                 book.map { it.asGutenberg().mapToUserGutenberg(userData) }
             }

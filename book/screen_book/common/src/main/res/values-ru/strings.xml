@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="book_screen_book_common_reader_error">Не удалось открыть книгу. Нажмите, чтобы повторить.</string>
+    <string name="book_screen_book_common_reader_text_smaller">Уменьшить текст</string>
+    <string name="book_screen_book_common_reader_text_larger">Увеличить текст</string>
+    <string name="book_screen_book_common_retry">Повторить</string>
+    <string name="book_screen_book_common_failed_to_load">Не удалось загрузить</string>
+</resources>

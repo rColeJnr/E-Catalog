@@ -103,8 +103,11 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.trending_movie_search.R.id.movie_screen_movie_trending_movie_search_trendingmoviesearchfragment
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.trending_movie_details.R.id.movie_screen_movie_trending_movie_details_moviedetailsfragment
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.trending_series_details.R.id.movie_screen_movie_trending_series_details_trendingseriesdetailsfragment
+                || destination.id == com.rick.ecatalogs.movie.screen_movie.person_details.R.id.movie_screen_movie_person_details_persondetailsfragment
                 //Book screen
                 || destination.id == com.rick.ecatalogs.book.screen_book.gutenberg_search.R.id.book_screen_book_gutenberg_search_searchfragment
+                || destination.id == com.rick.ecatalogs.book.screen_book.common.R.id.book_screen_book_common_readerfragment
+                || destination.id == com.rick.ecatalogs.book.screen_book.bestseller_catalog.R.id.book_screen_book_bestseller_catalog_detailsfragment
 
                 //Anime screen
                 || destination.id == com.rick.ecatalogs.anime.screen_anime.anime_search.R.id.anime_screen_anime_anime_search_animesearchfragment
@@ -217,6 +220,8 @@ class MainActivity : AppCompatActivity() {
             ThemeConfig.DARK -> AppCompatDelegate.MODE_NIGHT_YES
         }
         if (AppCompatDelegate.getDefaultNightMode() != mode) {
+            // Remembered so the next launch starts in this mode without a flash (see ECatalogsApplication)
+            getSharedPreferences(LAUNCH_PREFS, MODE_PRIVATE).edit().putInt(KEY_NIGHT_MODE, mode).apply()
             AppCompatDelegate.setDefaultNightMode(mode)
         }
     }
@@ -262,5 +267,6 @@ class MainActivity : AppCompatActivity() {
 }
 
 private const val TAG = "mainActivity"
-private const val LAUNCH_PREFS = "main_activity"
+internal const val LAUNCH_PREFS = "main_activity"
 private const val KEY_ASKED_NOTIFICATIONS = "asked_notification_permission"
+internal const val KEY_NIGHT_MODE = "night_mode"

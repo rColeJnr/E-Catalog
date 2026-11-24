@@ -10,7 +10,6 @@ plugins {
 //    alias(libs.plugins.gms)
 //    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose)
-    // Generates the license data shown by OssLicensesMenuActivity (Settings > Licenses)
     alias(libs.plugins.google.osslicenses)
 }
 
@@ -74,12 +73,14 @@ dependencies {
     implementation(projects.movie.screenMovie.articleSearch)
     implementation(projects.movie.screenMovie.trendingMovieCatalog)
     implementation(projects.movie.screenMovie.trendingMovieDetails)
+    implementation(projects.movie.screenMovie.personDetails)
     implementation(projects.movie.screenMovie.trendingMovieFavorite)
     implementation(projects.movie.screenMovie.trendingMovieSearch)
     implementation(projects.movie.screenMovie.trendingSeriesCatalog)
     implementation(projects.movie.screenMovie.trendingSeriesFavorite)
     implementation(projects.movie.screenMovie.trendingSeriesDetails)
     implementation(projects.movie.screenMovie.trendingSeriesSearch)
+    implementation(projects.book.screenBook.common)
     implementation(projects.book.screenBook.gutenbergSearch)
     implementation(projects.book.screenBook.gutenbergCatalog)
     implementation(projects.book.screenBook.gutenbergFavorites)

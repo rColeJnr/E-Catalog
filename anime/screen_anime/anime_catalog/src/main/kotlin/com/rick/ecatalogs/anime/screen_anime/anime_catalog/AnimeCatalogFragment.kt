@@ -1,5 +1,18 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_catalog
 
+import com.rick.ecatalogs.anime.screen_anime.common.R as CommonR
+import com.rick.ecatalogs.data.ui_components.common.EcsPosterItem
+import com.rick.ecatalogs.data.ui_components.common.EcsChip
+import com.rick.ecatalogs.anime.data_anime.model.browse.AnimeList
+import com.rick.ecatalogs.anime.screen_anime.common.JikanBrowseRow
+import com.rick.ecatalogs.anime.screen_anime.common.JikanBrowseHeader
+import com.rick.ecatalogs.anime.screen_anime.common.ComposeHeaderAdapter
+import com.rick.ecatalogs.anime.screen_anime.common.ALL_GENRES
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.Composable
+import androidx.recyclerview.widget.ConcatAdapter
 import android.animation.AnimatorInflater
 import com.rick.ecatalogs.data.ui_design.navigateWithSharedElement
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
@@ -130,10 +143,13 @@ class AnimeCatalogFragment : Fragment() {
             onAnimeFavClick = this::onAnimeFavClick,
             onTranslationClick = this::onTranslationClick
         )
-        binding.jikanRecyclerView.itemAnimator = DefaultItemAnimator()
+        binding.jikanRecyclerView.itemAnimator = DefaultItemAnimator().apply {
+            // Rebinding the same item shouldn't fade the whole card (looked like flicker)
+            supportsChangeAnimations = false
+        }
         binding.jikanRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.jikanRecyclerView.adapter = adapter
+        binding.jikanRecyclerView.adapter = ConcatAdapter(ComposeHeaderAdapter { BrowseHeader() }, adapter)
     }
 
     private fun AnimeScreenAnimeAnimeCatalogFragmentAnimeCatalogBinding.bindList(
@@ -148,9 +164,14 @@ class AnimeCatalogFragment : Fragment() {
         lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
-                jikanSwipeRefresh.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
-                jikanEmptyList.isVisible =
-                    !jikanSwipeRefresh.isRefreshing && adapter.itemCount == 0
+                // Browse lists come straight from Jikan (no mediator)
+                jikanLoadingIndicator.isVisible =
+                    (loadState.mediator?.refresh ?: loadState.source.refresh) is LoadState.Loading
+                // Only once the stored list has been read too, so a cached screen doesn't flash
+                // "No results" before its items appear
+                jikanEmptyList.isVisible = !jikanLoadingIndicator.isVisible &&
+                    loadState.source.refresh is LoadState.NotLoading &&
+                    adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
@@ -174,7 +195,8 @@ class AnimeCatalogFragment : Fragment() {
             }
         }
 
-        jikanSwipeRefresh.setOnRefreshListener {
+        // No pull-to-refresh (content changes weekly): tap the empty / error message to retry
+        jikanEmptyList.setOnClickListener {
             adapter.refresh()
         }
 
@@ -296,6 +318,55 @@ class AnimeCatalogFragment : Fragment() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    /** Compose header: browse rows, list chips and genre chips (new UI is written in Compose). */
+    @Composable
+    private fun BrowseHeader() {
+        val selectedList by viewModel.selectedList.collectAsStateWithLifecycle()
+        val selectedGenre by viewModel.selectedGenre.collectAsStateWithLifecycle()
+        val genres by viewModel.genres.collectAsStateWithLifecycle()
+        val seasonNow by viewModel.seasonNow.collectAsStateWithLifecycle()
+        val seasonUpcoming by viewModel.seasonUpcoming.collectAsStateWithLifecycle()
+        val rows = listOf(
+            JikanBrowseRow(
+                stringResource(CommonR.string.anime_screen_anime_common_this_season),
+                seasonNow.map { EcsPosterItem(it.id, it.title, it.imageUrl) },
+            ),
+            JikanBrowseRow(
+                stringResource(CommonR.string.anime_screen_anime_common_next_season),
+                seasonUpcoming.map { EcsPosterItem(it.id, it.title, it.imageUrl) },
+            ),
+        )
+        JikanBrowseHeader(
+            title = stringResource(R.string.anime_screen_anime_anime_catalog_header),
+            slogan = stringResource(R.string.anime_screen_anime_anime_catalog_slogan),
+            rows = rows,
+            lists = listOf(
+                EcsChip(AnimeList.POPULAR.name, stringResource(CommonR.string.anime_screen_anime_common_list_popular)),
+                EcsChip(AnimeList.TOP_RATED.name, stringResource(CommonR.string.anime_screen_anime_common_list_top_rated)),
+                EcsChip(AnimeList.AIRING.name, stringResource(CommonR.string.anime_screen_anime_common_list_airing)),
+                EcsChip(AnimeList.UPCOMING.name, stringResource(CommonR.string.anime_screen_anime_common_list_upcoming)),
+                EcsChip(AnimeList.FAVORITES.name, stringResource(CommonR.string.anime_screen_anime_common_list_favorites)),
+            ),
+            selectedList = selectedList.name,
+            genres = listOf(EcsChip(ALL_GENRES, stringResource(CommonR.string.anime_screen_anime_common_all_genres))) +
+                genres.map { EcsChip(it.id.toString(), it.name) },
+            selectedGenre = selectedGenre?.toString() ?: ALL_GENRES,
+            onItemClick = { item -> openAnime(item.id) },
+            onListSelected = { id ->
+                viewModel.selectList(AnimeList.valueOf(id))
+                binding.jikanRecyclerView.scrollToPosition(0)
+            },
+            onGenreSelected = { id ->
+                viewModel.selectGenre(id.takeUnless { it == ALL_GENRES }?.toInt())
+                binding.jikanRecyclerView.scrollToPosition(0)
+            },
+        )
+    }
+
+    private fun openAnime(id: Int) {
+        findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://anime_details_fragment/$id"))
     }
 
     override fun onDestroy() {

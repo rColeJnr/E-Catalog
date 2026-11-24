@@ -23,11 +23,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            style="@style/DataUiDesignFavoriteButton.Accent"
             android:id="@+id/favorite"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
             android:layout_margin="6dp"
-            android:src="@drawable/movie_screen_movie_common_ic_fav_outlined"
+            android:src="@drawable/data_ui_design_favorite_outlined"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="data_ui_design_black">#27332D</color>
+    <!-- Light theme. The app is dark-first (values-night is the default look); token names are
+         kept from the original palette so existing layouts and Compose code keep working. -->
+
+    <!-- Primary text (name kept for compatibility) -->
+    <color name="data_ui_design_black">#231A16</color>
     <color name="data_ui_design_white">#FFFFFF</color>
+    <!-- Screen background -->
+    <color name="data_ui_design_color_surface">#FFF8F5</color>
+    <!-- Cards / containers -->
+    <color name="data_ui_design_color_on_surface">#F6EBE6</color>
+    <!-- Chips / high-emphasis containers -->
+    <color name="data_ui_design_chip_background">#EADBD3</color>
+    <color name="data_ui_design_nav_header">#F6EBE6</color>
+    <!-- Brand accent (terracotta) -->
+    <color name="data_ui_design_color_buttons">#A9533B</color>
+    <color name="data_ui_design_on_primary">#FFFFFF</color>
+    <color name="data_ui_design_text_secondary">#6B5B53</color>
+    <color name="data_ui_design_outline">#D6C3BA</color>
+    <color name="data_ui_design_splash_screen_background">#FFF8F5</color>
+    <color name="data_ui_design_splash_foreground">#231A16</color>
 
-    // Background color - White
-    <color name="data_ui_design_color_surface">#FFFFFF</color>
-    // Background Accent color - Light beige
-    <color name="data_ui_design_color_on_surface">#F3E3D0</color>
-
-    <color name="data_ui_design_chip_background">#E3C4A8</color>
-    <color name="data_ui_design_nav_header">#E3C4A8</color>
-
-    <color name="data_ui_design_color_buttons">#DA8067</color>
-
-    <color name="data_ui_design_splash_screen_background">#E3C4A8</color>
+    <!-- Text over posters is always on a dark gradient, in both themes -->
+    <color name="data_ui_design_scrim">#E6000000</color>
+    <color name="data_ui_design_scrim_mid">#73000000</color>
+    <color name="data_ui_design_on_scrim">#FFFFFF</color>
+    <color name="data_ui_design_on_scrim_chip">#33FFFFFF</color>
+    <color name="data_ui_design_favorite_circle">#66000000</color>
+    <!-- Frosted glass (favorite button, rank badge, poster chips) -->
+    <color name="data_ui_design_glass_fill">#59141010</color>
+    <color name="data_ui_design_glass_sheen">#40FFFFFF</color>
+    <color name="data_ui_design_glass_rim">#4DFFFFFF</color>
 </resources>

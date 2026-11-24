@@ -35,6 +35,8 @@ fun MovieFavScreen(
     shouldDisplayUndoFavorite: Boolean,
     undoFavoriteRemoval: () -> Unit,
     clearUndoState: () -> Unit,
+    /** Opens an item (by the same id [onFavClick] receives). */
+    onItemClick: (String) -> Unit = {},
 ) {
 
     val snackbarHostState = remember {
@@ -89,7 +91,8 @@ fun MovieFavScreen(
                                         itemSummary = article.leadParagraph,
                                         itemImage = article.multimedia,
                                         itemId = article.id,
-                                        onFavClick = onFavClick
+                                        onFavClick = onFavClick,
+                                        onClick = { onItemClick(article.id) },
                                     )
                                 }
                             }
@@ -112,7 +115,8 @@ fun MovieFavScreen(
                                         itemSummary = movie.overview,
                                         itemImage = getTmdbImageUrl(movie.image),
                                         itemId = movie.id.toString(),
-                                        onFavClick = onFavClick
+                                        onFavClick = onFavClick,
+                                        onClick = { onItemClick(movie.id.toString()) },
                                     )
                                 }
                             }
@@ -135,7 +139,8 @@ fun MovieFavScreen(
                                         itemSummary = series.overview,
                                         itemImage = getTmdbImageUrl(series.image),
                                         itemId = series.id.toString(),
-                                        onFavClick = onFavClick
+                                        onFavClick = onFavClick,
+                                        onClick = { onItemClick(series.id.toString()) },
                                     )
                                 }
                             }

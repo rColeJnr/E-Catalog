@@ -11,10 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Same colour as the screens below; no lift/tint on scroll so it never changes shade -->
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/data_ui_design_color_on_surface">
+            android:background="@color/data_ui_design_color_surface"
+            app:elevation="0dp"
+            app:liftOnScroll="false"
+            app:statusBarForeground="@color/data_ui_design_color_surface">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/my_toolbar"
@@ -50,13 +54,13 @@
         android:layout_width="@dimen/data_ui_components_auth_282dp"
         android:layout_height="match_parent"
         android:layout_gravity="start|center_vertical"
-        android:backgroundTint="@color/data_ui_design_color_on_surface"
+        android:backgroundTint="@color/data_ui_design_color_surface"
         android:clickable="true"
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/data_ui_design_black"
-        app:itemTextColor="@color/data_ui_design_black"
+        app:itemIconTint="@color/data_ui_design_drawer_item_icon"
+        app:itemTextColor="@color/data_ui_design_drawer_item_text"
         app:menu="@menu/nav_menu">
 
         <androidx.compose.ui.platform.ComposeView

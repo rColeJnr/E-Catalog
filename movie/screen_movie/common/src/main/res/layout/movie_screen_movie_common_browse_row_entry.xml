@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A poster in a browse row ("Coming soon", "Airing today"…), optionally with a reminder bell -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="124dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="5dp"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="2dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/browse_poster"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="2:3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/browse_bell"
+                style="@style/DataUiDesignFavoriteButton.Small"
+                android:layout_margin="6dp"
+                android:contentDescription="@string/movie_screen_movie_common_remind_me"
+                android:src="@drawable/movie_screen_movie_common_ic_bell"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/browse_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/data_ui_design_black"
+        tools:text="Wicked: For Good" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/browse_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/data_ui_design_text_secondary"
+        tools:text="Opens Nov 21" />
+</LinearLayout>

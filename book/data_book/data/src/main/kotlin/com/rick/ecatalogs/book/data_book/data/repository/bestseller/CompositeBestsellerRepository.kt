@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.book.data_book.data.repository.bestseller
 
+import androidx.paging.map
+import androidx.paging.cachedIn
+import androidx.paging.PagingData
 import com.rick.ecatalogs.book.data_book.model.bestseller.UserBestseller
 import com.rick.ecatalogs.book.data_book.model.bestseller.mapToUserBestseller
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +29,24 @@ class CompositeBestsellerRepository @Inject constructor(
         bestsellerRepository.getBestseller(bookGenre = genre, date = date)
             .combine(userDataRepository.userData) { book, userData ->
                 book.map { it.mapToUserBestseller(userData) }
+            }
+
+    override fun observeBestsellerPaging(
+        genre: String,
+        scope: CoroutineScope,
+    ): Flow<PagingData<UserBestseller>> =
+        // cachedIn first: favorite changes re-map the same PagingData, which may only be
+        // collected once otherwise
+        bestsellerRepository.getBestsellerPaging(genre)
+            .cachedIn(scope)
+            .combine(userDataRepository.userData) { books, userData ->
+                books.map { it.mapToUserBestseller(userData) }
+            }
+
+    override fun observeBestsellerById(id: String): Flow<UserBestseller?> =
+        bestsellerRepository.getBestsellerById(id)
+            .combine(userDataRepository.userData) { book, userData ->
+                book?.mapToUserBestseller(userData)
             }
 
     override fun observeBestsellerFavorite(): Flow<List<UserBestseller>> =

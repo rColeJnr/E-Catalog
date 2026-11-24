@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.data.sync.di
 
+import com.rick.ecatalogs.data.sync.status.WorkManagerReleaseReminderScheduler
+import com.rick.ecatalogs.data.util.ReleaseReminderScheduler
 import com.rick.ecatalogs.data.sync.status.StubSyncSubscriber
 import com.rick.ecatalogs.data.sync.status.SyncSubscriber
 import com.rick.ecatalogs.data.sync.status.WorkManagerSyncManager
@@ -16,6 +18,11 @@ internal abstract class SyncModule {
     abstract fun bindsSyncStatusMonitor(
         syncStatusMonitor: WorkManagerSyncManager,
     ): SyncManager
+
+    @Binds
+    abstract fun bindsReleaseReminderScheduler(
+        scheduler: WorkManagerReleaseReminderScheduler,
+    ): ReleaseReminderScheduler
 
     @Binds
     abstract fun bindsSyncSubscriber(

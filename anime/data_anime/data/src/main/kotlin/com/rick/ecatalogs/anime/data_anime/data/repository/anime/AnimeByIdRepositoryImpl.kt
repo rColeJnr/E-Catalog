@@ -1,5 +1,10 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.anime
 
+import com.rick.ecatalogs.anime.data_anime.data.model.asEntity
+import com.rick.ecatalogs.anime.data_anime.network.JikanNetworkDataSource
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeDao
 import com.rick.ecatalogs.anime.data_anime.database.model.asAnime
 import com.rick.ecatalogs.anime.data_anime.model.Anime
@@ -9,13 +14,31 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AnimeByIdRepositoryImpl @Inject constructor(
-    private val animeDao: AnimeDao
+    private val animeDao: AnimeDao,
+    private val network: JikanNetworkDataSource,
 ) : AnimeByIdRepository {
 
-    override fun getAnimeById(id: Int): Flow<Anime> =
-        animeDao.getAnimeWithFilters(filterById = true, filterIds = setOf(id))
-            .filter { it.isNotEmpty() }
-            .map { it.first().asAnime() }
+    /**
+     * From the stored top list when it's there; otherwise (opened from a season row, a genre list
+     * or a recommendation) from Jikan, without storing it.
+     */
+    override fun getAnimeById(id: Int): Flow<Anime> = flow {
+        val stored = animeDao.getAnimeWithFilters(filterById = true, filterIds = setOf(id)).first()
+        if (stored.isNotEmpty()) {
+            emitAll(
+                animeDao.getAnimeWithFilters(filterById = true, filterIds = setOf(id))
+                    .filter { it.isNotEmpty() }
+                    .map { it.first().asAnime() }
+            )
+        } else {
+            val fetched = try {
+                network.fetchAnimeFull(id).data
+            } catch (e: Exception) {
+                null
+            }
+            fetched?.let { emit(it.asEntity().asAnime()) }
+        }
+    }
 
 
 }

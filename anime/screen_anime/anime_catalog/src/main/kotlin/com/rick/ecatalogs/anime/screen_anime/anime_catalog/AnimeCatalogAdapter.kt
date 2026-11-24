@@ -15,27 +15,13 @@ class AnimeCatalogAdapter(
     private val onTranslationClick: (View, View, List<String>) -> Unit
 ) : PagingDataAdapter<UserAnime, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_ANIME
-    }
+    // The header is a separate adapter in a ConcatAdapter (AnimeHeaderAdapter); it used to take
+    // position 0 here, which hid the #1 entry.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, onTranslationClick)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is AnimeHeaderViewHolder -> {
-            }
-
-            is AnimeViewHolder -> {
-                val anime = getItem(position )
-                anime?.let { holder.bind(it) }
-            }
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_HEADER)
-            AnimeHeaderViewHolder.create(parent)
-        else
-            AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, onTranslationClick)
+        getItem(position)?.let { (holder as AnimeViewHolder).bind(it) }
     }
 
     companion object {
@@ -48,9 +34,6 @@ class AnimeCatalogAdapter(
                 return oldItem == newItem
             }
         }
-
-        const val VIEW_TYPE_HEADER = 0
-        const val VIEW_TYPE_ANIME = 1
     }
 }
 

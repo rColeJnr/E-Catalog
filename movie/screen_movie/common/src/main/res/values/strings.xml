@@ -6,4 +6,24 @@
     <string name="movie_screen_movie_common_reporter">Reported %1$s</string>
     <string name="movie_screen_movie_common_release_date">Release date: %1$s</string>
     <string name="movie_screen_movie_common_close">Close</string>
+    <string name="movie_screen_movie_common_watch_trailer">Watch trailer</string>
+    <string name="movie_screen_movie_common_cast">Cast</string>
+    <string name="movie_screen_movie_common_where_to_watch">Where to watch</string>
+    <string name="movie_screen_movie_common_stream">Streaming</string>
+    <string name="movie_screen_movie_common_rent_or_buy">Rent or buy</string>
+    <string name="movie_screen_movie_common_justwatch">Streaming data provided by JustWatch</string>
+    <string name="movie_screen_movie_common_cast_photo">Photo of %1$s</string>
+    <string name="movie_screen_movie_common_browse_all">All</string>
+    <string name="movie_screen_movie_common_coming_soon">Coming soon</string>
+    <string name="movie_screen_movie_common_in_theaters">In theaters</string>
+    <string name="movie_screen_movie_common_airing_today">Airing today</string>
+    <string name="movie_screen_movie_common_opens">Opens %1$s</string>
+    <string name="movie_screen_movie_common_rating">★ %1$.1f</string>
+    <string name="movie_screen_movie_common_remind_me">Remind me on release day</string>
+    <string name="movie_screen_movie_common_reminder_set">We\'ll remind you on %1$s</string>
+    <string name="movie_screen_movie_common_reminder_removed">Reminder removed</string>
+    <string name="movie_screen_movie_common_seasons">Seasons</string>
+    <string name="movie_screen_movie_common_episodes">%1$d episodes</string>
+    <string name="movie_screen_movie_common_season_error">Couldn\'t load this season. Tap to try again.</string>
+    <string name="movie_screen_movie_common_no_episodes">No episodes announced yet.</string>
 </resources>

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Top of the Gutenberg list: title, then language and topic filters -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/title"
@@ -20,6 +23,36 @@
         android:layout_marginVertical="@dimen/data_ui_design_text_extras_v_margin"
         android:gravity="center"
         android:text="@string/book_screen_book_gutenberg_catalog_slogan"
-        android:textAppearance="?attr/textAppearanceBody2"/>
+        android:textAppearance="?attr/textAppearanceBody2" />
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/language_chips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true" />
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/topic_chips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true" />
+    </HorizontalScrollView>
 </LinearLayout>
