@@ -3,9 +3,6 @@
     <string name="anime_screen_anime_manga_catalog_anime_screen_anime_search">Pesquisar</string>
     <string name="anime_screen_anime_manga_catalog_no_results">Sem resultados 😓\nToque para tentar novamente</string>
     <string name="anime_screen_anime_manga_catalog_no_title">Sem título</string>
-    <string name="anime_screen_anime_manga_catalog_whoops">😨 Ups %1$s</string>
-    <string name="anime_screen_anime_manga_catalog_show_original">Mostrar original</string>
-    <string name="anime_screen_anime_manga_catalog_show_translation">Mostrar tradução</string>
     <string name="anime_screen_anime_manga_catalog_slogan">Explore milhares de mangas e encontre um novo favorito</string>
     <string name="anime_screen_anime_manga_catalog_header">Manga Popular</string>
 </resources>

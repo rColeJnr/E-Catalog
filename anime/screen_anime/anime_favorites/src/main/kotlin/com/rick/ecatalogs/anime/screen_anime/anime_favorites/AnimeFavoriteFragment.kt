@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_favorites
 
+import com.rick.ecatalogs.data.ui_components.common.LocalTextTranslator
+import androidx.compose.runtime.CompositionLocalProvider
+import com.rick.ecatalogs.data.translation.TextTranslator
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import androidx.navigation.fragment.findNavController
 import android.net.Uri
@@ -30,6 +33,9 @@ class AnimeFavoriteFragment : Fragment() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
+    @Inject
+    lateinit var textTranslator: TextTranslator
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,17 +48,20 @@ class AnimeFavoriteFragment : Fragment() {
         )
 
         binding.jikanComposeView.setContent {
-            EcsTheme {
-                val animeState by viewModel.feedAnimeUiState.collectAsStateWithLifecycle()
-                val shouldDisplayAnimeUndoFavorite by viewModel.shouldDisplayAnimeUndoFavorite.collectAsStateWithLifecycle()
-                AnimeFavScreen(
-                    state = animeState,
-                    onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
-                    shouldDisplayUndoFavorite = shouldDisplayAnimeUndoFavorite,
-                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
-                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                    onItemClick = ::openAnime,
-                )
+            // Lets each card offer "Show translation" under its summary
+            CompositionLocalProvider(LocalTextTranslator provides textTranslator) {
+                EcsTheme {
+                    val animeState by viewModel.feedAnimeUiState.collectAsStateWithLifecycle()
+                    val shouldDisplayAnimeUndoFavorite by viewModel.shouldDisplayAnimeUndoFavorite.collectAsStateWithLifecycle()
+                    AnimeFavScreen(
+                        state = animeState,
+                        onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
+                        shouldDisplayUndoFavorite = shouldDisplayAnimeUndoFavorite,
+                        undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
+                        clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                        onItemClick = ::openAnime,
+                    )
+                }
             }
         }
         analyticsHelper.logScreenView("AnimeFavorite")
@@ -63,8 +72,8 @@ class AnimeFavoriteFragment : Fragment() {
         findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://anime_details_fragment/$id"))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

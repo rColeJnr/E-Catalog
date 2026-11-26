@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_favorites
 
+import com.rick.ecatalogs.data.ui_components.common.LocalTextTranslator
+import androidx.compose.runtime.CompositionLocalProvider
+import com.rick.ecatalogs.data.translation.TextTranslator
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import androidx.navigation.fragment.findNavController
 import android.net.Uri
@@ -30,6 +33,9 @@ class MangaFavoriteFragment : Fragment() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
+    @Inject
+    lateinit var textTranslator: TextTranslator
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,17 +48,20 @@ class MangaFavoriteFragment : Fragment() {
         )
 
         binding.jikanComposeView.setContent {
-            EcsTheme {
-                val mangaState by viewModel.feedMangaUiState.collectAsStateWithLifecycle()
-                val shouldDisplayMangaUndoFavorite by viewModel.shouldDisplayMangaUndoFavorite.collectAsStateWithLifecycle()
-                AnimeFavScreen(
-                    state = mangaState,
-                    onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveMangaFavorite(it)) },
-                    shouldDisplayUndoFavorite = shouldDisplayMangaUndoFavorite,
-                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoMangaFavoriteRemoval) },
-                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                    onItemClick = ::openManga,
-                )
+            // Lets each card offer "Show translation" under its summary
+            CompositionLocalProvider(LocalTextTranslator provides textTranslator) {
+                EcsTheme {
+                    val mangaState by viewModel.feedMangaUiState.collectAsStateWithLifecycle()
+                    val shouldDisplayMangaUndoFavorite by viewModel.shouldDisplayMangaUndoFavorite.collectAsStateWithLifecycle()
+                    AnimeFavScreen(
+                        state = mangaState,
+                        onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveMangaFavorite(it)) },
+                        shouldDisplayUndoFavorite = shouldDisplayMangaUndoFavorite,
+                        undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoMangaFavoriteRemoval) },
+                        clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                        onItemClick = ::openManga,
+                    )
+                }
             }
         }
 
@@ -64,8 +73,8 @@ class MangaFavoriteFragment : Fragment() {
         findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://manga_details_fragment/$id"))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

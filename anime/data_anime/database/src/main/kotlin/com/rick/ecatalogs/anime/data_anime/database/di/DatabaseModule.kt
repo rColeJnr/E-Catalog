@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.data_anime.database.di
 
+import com.rick.ecatalogs.anime.data_anime.database.MIGRATION_1_2
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
@@ -24,5 +25,7 @@ internal object DatabaseModule {
         context,
         JikanDatabase::class.java,
         "jikan-database",
-    ).addTypeConverter(JikanConverters(GsonParser(Gson()))).build()
+    ).addTypeConverter(JikanConverters(GsonParser(Gson())))
+        .addMigrations(MIGRATION_1_2)
+        .build()
 }

@@ -39,9 +39,8 @@ internal class AnimeSearchRepositoryImpl @Inject constructor(
             ).data
 
             withContext(ioDispatcher) {
-                animeDao.clearAnime(searchResponse.map(AnimeNetwork::id))
-
-                animeDao.upsertAnime(searchResponse.map(AnimeNetwork::asEntity))
+                // Outside the catalog list: a stored row (and its place in the list) is kept
+                animeDao.insertOutsideCatalog(searchResponse.map(AnimeNetwork::asEntity))
 
                 animeFtsDao.upsertAnimes(
                     animeDao.getAnimeWithFilters()

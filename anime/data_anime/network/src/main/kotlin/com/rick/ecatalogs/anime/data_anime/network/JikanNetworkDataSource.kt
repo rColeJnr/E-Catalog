@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.anime.data_anime.network
 
+import com.rick.ecatalogs.anime.data_anime.network.model.JikanCharactersResponse
+import com.rick.ecatalogs.anime.data_anime.network.model.JikanPersonResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.AnimeFullResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanEpisodesResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanGenresResponse
@@ -63,6 +65,17 @@ interface JikanNetworkDataSource {
     suspend fun fetchAnimeRecommendations(id: Int): JikanRecommendationsResponse
 
     suspend fun fetchMangaRecommendations(id: Int): JikanRecommendationsResponse
+
+    suspend fun fetchAnimeCharacters(id: Int): JikanCharactersResponse
+
+    suspend fun fetchPerson(id: Int): JikanPersonResponse
+
+    /** Anime airing on a weekday in Japan ("monday"…"sunday"), one page of up to 25. */
+    suspend fun fetchSchedule(day: String, page: Int): AnimeResponse
+
+    suspend fun fetchRandomAnime(): AnimeFullResponse
+
+    suspend fun fetchRandomManga(): MangaFullResponse
 
     suspend fun searchAnime(
         query: String,

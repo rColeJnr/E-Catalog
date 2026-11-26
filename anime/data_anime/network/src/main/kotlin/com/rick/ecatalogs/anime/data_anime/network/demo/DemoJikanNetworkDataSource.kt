@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.anime.data_anime.network.demo
 
+import com.rick.ecatalogs.anime.data_anime.network.model.JikanCharactersResponse
+import com.rick.ecatalogs.anime.data_anime.network.model.JikanPersonNetwork
+import com.rick.ecatalogs.anime.data_anime.network.model.JikanPersonResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.AnimeFullResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanEpisodesResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanGenreNetwork
@@ -53,7 +56,10 @@ class DemoJikanNetworkDataSource @Inject constructor(
     // Browsing and richer details reuse the bundled lists in the demo build
     override suspend fun fetchSeasonNow() = fetchTopAnime(page = 1, filter = "")
 
-    override suspend fun fetchSeasonUpcoming() = fetchTopAnime(page = 1, filter = "")
+    // Reversed so the demo's two season rows don't look identical
+    override suspend fun fetchSeasonUpcoming() = fetchTopAnime(page = 1, filter = "").let {
+        it.copy(data = it.data.reversed())
+    }
 
     override suspend fun fetchAnimeGenres() = JikanGenresResponse(DEMO_GENRES)
 
@@ -76,6 +82,19 @@ class DemoJikanNetworkDataSource @Inject constructor(
     override suspend fun fetchAnimeRecommendations(id: Int) = JikanRecommendationsResponse(emptyList())
 
     override suspend fun fetchMangaRecommendations(id: Int) = JikanRecommendationsResponse(emptyList())
+
+    override suspend fun fetchAnimeCharacters(id: Int) = JikanCharactersResponse(emptyList())
+
+    override suspend fun fetchPerson(id: Int) =
+        JikanPersonResponse(JikanPersonNetwork(id = id, name = "Demo voice actor", voices = emptyList()))
+
+    override suspend fun fetchSchedule(day: String, page: Int) = fetchTopAnime(page, "")
+
+    override suspend fun fetchRandomAnime() =
+        AnimeFullResponse(fetchTopAnime(page = 1, filter = "").data.randomOrNull())
+
+    override suspend fun fetchRandomManga() =
+        MangaFullResponse(fetchTopManga(page = 1, filter = "").data.randomOrNull())
 
     companion object {
         private const val MANGA_ASSET = "manga.json"

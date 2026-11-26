@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.manga
 
+import kotlinx.coroutines.flow.first
+import com.rick.ecatalogs.data.datastore.PreferencesDataSource
 import com.rick.ecatalogs.data.datastore.ListCache
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
@@ -30,6 +32,7 @@ internal class MangaRepositoryImpl @Inject constructor(
     private val network: JikanNetworkDataSource,
     private val transactionRunner: JikanTransactionRunner,
     private val listCache: ListCache,
+    private val preferences: PreferencesDataSource,
 ) : MangaRepository {
     override fun getMangas(): Flow<PagingData<MangaEntity>> {
         val pagingSourceFactory = { mangaDao.getManga() }
@@ -48,6 +51,7 @@ internal class MangaRepositoryImpl @Inject constructor(
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
                 listCache = listCache,
+                favoriteIds = { preferences.mangaUserData.first().mangaFavoriteIds },
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -66,9 +70,8 @@ internal class MangaRepositoryImpl @Inject constructor(
                 limit = SEARCH_RESULT_LIMIT
             ).data
 
-            mangaDao.clearManga(searchResponse.map(MangaNetwork::id))
-
-            mangaDao.upsertManga(searchResponse.map(MangaNetwork::asEntity))
+            // Outside the catalog list: a stored row (and its place in the list) is kept
+            mangaDao.insertOutsideCatalog(searchResponse.map(MangaNetwork::asEntity))
 
             // appending '%' so we can allow other characters to be before and after the query string
             val dbQuery = "%${query.replace(' ', '%')}%"

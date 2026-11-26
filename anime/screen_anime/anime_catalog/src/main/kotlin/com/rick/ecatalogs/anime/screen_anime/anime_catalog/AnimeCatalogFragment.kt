@@ -1,5 +1,11 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
+import com.rick.ecatalogs.anime.screen_anime.common.JikanHeaderAction
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
 import com.rick.ecatalogs.anime.screen_anime.common.R as CommonR
 import com.rick.ecatalogs.data.ui_components.common.EcsPosterItem
 import com.rick.ecatalogs.data.ui_components.common.EcsChip
@@ -26,7 +32,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -45,8 +50,6 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.ecatalogs.anime.screen_anime.common.JikanUiEvents
 import com.rick.ecatalogs.anime.screen_anime.common.RemotePresentationState
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationEvent
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationViewModel
 import com.rick.ecatalogs.anime.screen_anime.common.asRemotePresentationState
 import com.rick.ecatalogs.anime.screen_anime.common.logAnimeOpened
 import com.rick.ecatalogs.anime.screen_anime.common.logScreenView
@@ -58,7 +61,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -67,7 +69,6 @@ class AnimeCatalogFragment : Fragment() {
     private var _binding: AnimeScreenAnimeAnimeCatalogFragmentAnimeCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeCatalogViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var adapter: AnimeCatalogAdapter
     private lateinit var navController: NavController
 
@@ -76,6 +77,9 @@ class AnimeCatalogFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,10 +103,6 @@ class AnimeCatalogFragment : Fragment() {
         )
 
         navController = findNavController()
-
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
 
         initAdapter()
 
@@ -141,7 +141,7 @@ class AnimeCatalogFragment : Fragment() {
         adapter = AnimeCatalogAdapter(
             onItemClick = this::onAnimeClick,
             onAnimeFavClick = this::onAnimeFavClick,
-            onTranslationClick = this::onTranslationClick
+            translator = textTranslator,
         )
         binding.jikanRecyclerView.itemAnimator = DefaultItemAnimator().apply {
             // Rebinding the same item shouldn't fade the whole card (looked like flicker)
@@ -149,6 +149,8 @@ class AnimeCatalogFragment : Fragment() {
         }
         binding.jikanRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        // Cards fade, rise and scale in as they scroll into view
+        binding.jikanRecyclerView.animateItemsOnScroll()
         binding.jikanRecyclerView.adapter = ConcatAdapter(ComposeHeaderAdapter { BrowseHeader() }, adapter)
     }
 
@@ -157,11 +159,11 @@ class AnimeCatalogFragment : Fragment() {
         adapter: AnimeCatalogAdapter
     ) {
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             pagingDataFlow.collectLatest(adapter::submitData)
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
                 // Browse lists come straight from Jikan (no mediator)
@@ -179,7 +181,7 @@ class AnimeCatalogFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        getString(R.string.anime_screen_anime_anime_catalog_whoops, it),
+                        getString(com.rick.ecatalogs.data.ui_components.common.R.string.data_ui_components_common_load_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -189,7 +191,7 @@ class AnimeCatalogFragment : Fragment() {
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notLoading.collectLatest {
                 if (it) jikanRecyclerView.scrollToPosition(0)
             }
@@ -247,45 +249,6 @@ class AnimeCatalogFragment : Fragment() {
         viewModel.onEvent(JikanUiEvents.UpdateAnimeFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(view: View, text: View, texts: List<String>) {
-        val textView = text as TextView
-        val actionView = view as TextView
-
-        if (actionView.text == getString(R.string.anime_screen_anime_anime_catalog_show_original)) {
-            textView.animate().alpha(0f).setDuration(200).withEndAction {
-                textView.text = texts.first()
-                actionView.animate().alpha(0f).setDuration(200).withEndAction {
-                    actionView.text =
-                        getString(R.string.anime_screen_anime_anime_catalog_show_translation)
-                    actionView.animate().alpha(1f).setDuration(200).start()
-                }.start()
-                textView.animate().alpha(1f).setDuration(200).start()
-            }.start()
-        } else {
-            translationViewModel.onEvent(
-                TranslationEvent.GetTranslation(
-                    texts = texts,
-                    lCode = translationViewModel.location.value
-                )
-            )
-            lifecycleScope.launch {
-                translationViewModel.translation.collectLatest { translations ->
-                    if (translations.isNotEmpty()) {
-                        textView.animate().alpha(0f).setDuration(200).withEndAction {
-                            textView.text = translations.first().text
-                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
-                                actionView.text =
-                                    getString(R.string.anime_screen_anime_anime_catalog_show_original)
-                                actionView.animate().alpha(1f).setDuration(200).start()
-                            }.start()
-                            textView.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-                    }
-                }
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.anime_screen_anime_anime_catalog_menu, menu)
@@ -323,19 +286,15 @@ class AnimeCatalogFragment : Fragment() {
     /** Compose header: browse rows, list chips and genre chips (new UI is written in Compose). */
     @Composable
     private fun BrowseHeader() {
+        var pickingRandom by remember { mutableStateOf(false) }
         val selectedList by viewModel.selectedList.collectAsStateWithLifecycle()
         val selectedGenre by viewModel.selectedGenre.collectAsStateWithLifecycle()
         val genres by viewModel.genres.collectAsStateWithLifecycle()
         val seasonNow by viewModel.seasonNow.collectAsStateWithLifecycle()
-        val seasonUpcoming by viewModel.seasonUpcoming.collectAsStateWithLifecycle()
         val rows = listOf(
             JikanBrowseRow(
                 stringResource(CommonR.string.anime_screen_anime_common_this_season),
                 seasonNow.map { EcsPosterItem(it.id, it.title, it.imageUrl) },
-            ),
-            JikanBrowseRow(
-                stringResource(CommonR.string.anime_screen_anime_common_next_season),
-                seasonUpcoming.map { EcsPosterItem(it.id, it.title, it.imageUrl) },
             ),
         )
         JikanBrowseHeader(
@@ -362,6 +321,30 @@ class AnimeCatalogFragment : Fragment() {
                 viewModel.selectGenre(id.takeUnless { it == ALL_GENRES }?.toInt())
                 binding.jikanRecyclerView.scrollToPosition(0)
             },
+            actions = listOf(
+                JikanHeaderAction(stringResource(CommonR.string.anime_screen_anime_common_schedule)) {
+                    findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://anime_schedule"))
+                },
+                JikanHeaderAction(
+                    label = stringResource(CommonR.string.anime_screen_anime_common_surprise_me),
+                    enabled = !pickingRandom,
+                ) {
+                    pickingRandom = true
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val id = viewModel.randomAnimeId()
+                        pickingRandom = false
+                        if (id != null) {
+                            openAnime(id)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                CommonR.string.anime_screen_anime_common_random_error,
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+                },
+            ),
         )
     }
 
@@ -369,8 +352,8 @@ class AnimeCatalogFragment : Fragment() {
         findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://anime_details_fragment/$id"))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

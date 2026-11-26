@@ -7,6 +7,7 @@ plugins {
 //
 dependencies {
     implementation(libs.lifecycle.runtimeCompose)
+    implementation(libs.compose.coil)
     implementation(projects.anime.screenAnime.common)
     implementation(projects.data.uiComponents.common)
     implementation(projects.data.uiDesign)

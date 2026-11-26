@@ -44,5 +44,7 @@ data class AnimeNetwork(
     val streaming: List<JikanLinkNetwork>? = null,
     /** Only in `anime/{id}/full`. */
     val broadcast: JikanBroadcastNetwork? = null,
+    /** Only in `anime/{id}/full`. */
+    val relations: List<JikanRelationNetwork>? = null,
 )
 

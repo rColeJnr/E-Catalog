@@ -1,5 +1,11 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
+import com.rick.ecatalogs.anime.screen_anime.common.JikanHeaderAction
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
 import com.rick.ecatalogs.anime.screen_anime.common.R as CommonR
 import com.rick.ecatalogs.data.ui_components.common.EcsPosterItem
 import com.rick.ecatalogs.data.ui_components.common.EcsChip
@@ -26,7 +32,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -45,8 +50,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.ecatalogs.anime.screen_anime.common.JikanLoadStateAdapter
 import com.rick.ecatalogs.anime.screen_anime.common.JikanUiEvents
 import com.rick.ecatalogs.anime.screen_anime.common.RemotePresentationState
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationEvent
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationViewModel
 import com.rick.ecatalogs.anime.screen_anime.common.asRemotePresentationState
 import com.rick.ecatalogs.anime.screen_anime.common.logMangaOpened
 import com.rick.ecatalogs.anime.screen_anime.common.logScreenView
@@ -58,7 +61,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -67,7 +69,6 @@ class MangaCatalogFragment : Fragment() {
     private var _binding: AnimeScreenAnimeMangaCatalogFragmentMangaCatalogBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MangaCatalogViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var adapter: MangaCatalogAdapter
     private lateinit var navController: NavController
 
@@ -76,6 +77,9 @@ class MangaCatalogFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,10 +99,6 @@ class MangaCatalogFragment : Fragment() {
         )
 
         navController = findNavController()
-
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
 
         initAdapter()
 
@@ -137,9 +137,11 @@ class MangaCatalogFragment : Fragment() {
         adapter = MangaCatalogAdapter(
             onItemClick = this::onMangaClick,
             onMangaFavClick = this::onMangaFavClick,
-            onTranslationClick = this::onTranslationClick
+            translator = textTranslator,
         )
 //
+        // Cards fade, rise and scale in as they scroll into view
+        binding.jikanRecyclerView.animateItemsOnScroll()
         binding.jikanRecyclerView.adapter = ConcatAdapter(
             ComposeHeaderAdapter { BrowseHeader() },
             adapter.withLoadStateFooter(footer = JikanLoadStateAdapter { adapter.retry() }),
@@ -155,11 +157,11 @@ class MangaCatalogFragment : Fragment() {
         pagingDataFlow: Flow<PagingData<UserManga>>, adapter: MangaCatalogAdapter
     ) {
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             pagingDataFlow.collect(adapter::submitData)
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
@@ -179,7 +181,7 @@ class MangaCatalogFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        getString(R.string.anime_screen_anime_manga_catalog_whoops, it),
+                        getString(com.rick.ecatalogs.data.ui_components.common.R.string.data_ui_components_common_load_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -189,7 +191,7 @@ class MangaCatalogFragment : Fragment() {
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notLoading.collectLatest {
                 if (it) jikanRecyclerView.scrollToPosition(0)
             }
@@ -246,42 +248,6 @@ class MangaCatalogFragment : Fragment() {
         viewModel.onEvent(JikanUiEvents.UpdateMangaFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(actionView: TextView, textView: TextView, texts: List<String>) {
-        if (actionView.text == getString(R.string.anime_screen_anime_manga_catalog_show_original)) {
-            textView.animate().alpha(0f).setDuration(200).withEndAction {
-                textView.text = texts.first()
-                actionView.animate().alpha(0f).setDuration(200).withEndAction {
-                    actionView.text =
-                        getString(R.string.anime_screen_anime_manga_catalog_show_translation)
-                    actionView.animate().alpha(1f).setDuration(200).start()
-                }.start()
-                textView.animate().alpha(1f).setDuration(200).start()
-            }.start()
-        } else {
-            translationViewModel.onEvent(
-                TranslationEvent.GetTranslation(
-                    texts = texts,
-                    lCode = translationViewModel.location.value
-                )
-            )
-            lifecycleScope.launch {
-                translationViewModel.translation.collectLatest { translations ->
-                    if (translations.isNotEmpty()) {
-                        textView.animate().alpha(0f).setDuration(200).withEndAction {
-                            textView.text = translations.first().text
-                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
-                                actionView.text =
-                                    getString(R.string.anime_screen_anime_manga_catalog_show_original)
-                                actionView.animate().alpha(1f).setDuration(200).start()
-                            }.start()
-                            textView.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-                    }
-                }
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.anime_screen_anime_manga_catalog_menu, menu)
@@ -320,10 +286,17 @@ class MangaCatalogFragment : Fragment() {
     /** Compose header: browse rows, list chips and genre chips (new UI is written in Compose). */
     @Composable
     private fun BrowseHeader() {
+        var pickingRandom by remember { mutableStateOf(false) }
         val selectedList by viewModel.selectedList.collectAsStateWithLifecycle()
         val selectedGenre by viewModel.selectedGenre.collectAsStateWithLifecycle()
         val genres by viewModel.genres.collectAsStateWithLifecycle()
-        val rows = emptyList<JikanBrowseRow>()
+        val publishingNow by viewModel.publishingNow.collectAsStateWithLifecycle()
+        val rows = listOf(
+            JikanBrowseRow(
+                stringResource(CommonR.string.anime_screen_anime_common_publishing_now),
+                publishingNow.map { EcsPosterItem(it.id, it.title, it.imageUrl) },
+            ),
+        )
         JikanBrowseHeader(
             title = stringResource(R.string.anime_screen_anime_manga_catalog_header),
             slogan = stringResource(R.string.anime_screen_anime_manga_catalog_slogan),
@@ -347,6 +320,27 @@ class MangaCatalogFragment : Fragment() {
                 viewModel.selectGenre(id.takeUnless { it == ALL_GENRES }?.toInt())
                 binding.jikanRecyclerView.scrollToPosition(0)
             },
+            actions = listOf(
+                JikanHeaderAction(
+                    label = stringResource(CommonR.string.anime_screen_anime_common_surprise_me),
+                    enabled = !pickingRandom,
+                ) {
+                    pickingRandom = true
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val id = viewModel.randomMangaId()
+                        pickingRandom = false
+                        if (id != null) {
+                            openManga(id)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                CommonR.string.anime_screen_anime_common_random_error,
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+                },
+            ),
         )
     }
 
@@ -354,8 +348,8 @@ class MangaCatalogFragment : Fragment() {
         findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://manga_details_fragment/$id"))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

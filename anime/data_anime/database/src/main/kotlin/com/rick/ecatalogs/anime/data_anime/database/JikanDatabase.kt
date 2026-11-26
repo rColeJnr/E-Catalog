@@ -26,7 +26,7 @@ import com.rick.ecatalogs.anime.data_anime.database.util.JikanConverters
         AnimeRecentSearchQueryEntity::class,
         MangaRecentSearchQueryEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(JikanConverters::class)

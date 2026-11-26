@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.anime.data_anime.network.retrofit
 
+import com.rick.ecatalogs.anime.data_anime.network.BuildConfig
+import com.rick.ecatalogs.anime.data_anime.network.model.JikanCharactersResponse
+import com.rick.ecatalogs.anime.data_anime.network.model.JikanPersonResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.AnimeFullResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanEpisodesResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanGenresResponse
@@ -110,6 +113,26 @@ private interface JikanRetrofitNetworkApi {
     @GET("/v4/manga/{id}/recommendations")
     suspend fun fetchMangaRecommendations(@Path("id") id: Int): JikanRecommendationsResponse
 
+    @GET("/v4/anime/{id}/characters")
+    suspend fun fetchAnimeCharacters(@Path("id") id: Int): JikanCharactersResponse
+
+    @GET("/v4/people/{id}/full")
+    suspend fun fetchPerson(@Path("id") id: Int): JikanPersonResponse
+
+    @GET("/v4/schedules")
+    suspend fun fetchSchedule(
+        @Query("filter") day: String,
+        @Query("page") page: Int,
+        @Query("sfw") sfw: Boolean = true,
+        @Query("limit") limit: Int = RESULT_SIZE,
+    ): AnimeResponse
+
+    @GET("/v4/random/anime")
+    suspend fun fetchRandomAnime(@Query("sfw") sfw: Boolean = true): AnimeFullResponse
+
+    @GET("/v4/random/manga")
+    suspend fun fetchRandomManga(@Query("sfw") sfw: Boolean = true): MangaFullResponse
+
     companion object {
         private const val ROW_SIZE = 20
         const val JIKAN_BASE_URL = "https://api.jikan.moe/"
@@ -126,7 +149,12 @@ internal class JikanRetrofitNetwork @Inject constructor(
         .addConverterFactory(GsonConverterFactory.create())
         .client(
             OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(
+                    // URLs carry API keys: log them only in debug builds
+                    HttpLoggingInterceptor().setLevel(
+                        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE,
+                    ),
+                )
                 .build()
         )
         .build()
@@ -184,6 +212,17 @@ internal class JikanRetrofitNetwork @Inject constructor(
 
     override suspend fun fetchMangaRecommendations(id: Int) =
         throttled { networkApi.fetchMangaRecommendations(id) }
+
+    override suspend fun fetchAnimeCharacters(id: Int) = throttled { networkApi.fetchAnimeCharacters(id) }
+
+    override suspend fun fetchPerson(id: Int) = throttled { networkApi.fetchPerson(id) }
+
+    override suspend fun fetchSchedule(day: String, page: Int) =
+        throttled { networkApi.fetchSchedule(day, page) }
+
+    override suspend fun fetchRandomAnime() = throttled { networkApi.fetchRandomAnime() }
+
+    override suspend fun fetchRandomManga() = throttled { networkApi.fetchRandomManga() }
 }
 
 private const val MIN_REQUEST_INTERVAL_MILLIS = 400L

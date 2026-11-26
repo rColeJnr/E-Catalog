@@ -7,7 +7,6 @@ import com.rick.ecatalogs.anime.data_anime.database.model.AnimeRecentSearchQuery
 import com.rick.ecatalogs.anime.data_anime.database.model.MangaRecentSearchQueryEntity
 import kotlinx.coroutines.flow.Flow
 
-
 /**
  * Dao for [AnimeRecentSearchQueryEntity] access
  * */

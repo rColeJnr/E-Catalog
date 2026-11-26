@@ -22,5 +22,15 @@
             app:popEnterAnim="@anim/data_ui_design_nav_pop_enter"
             app:popExitAnim="@anim/data_ui_design_nav_pop_exit" />
     </fragment>
+    <!-- A voice actor and their roles (Compose), opened from an anime's characters -->
+    <fragment
+        android:id="@+id/anime_screen_anime_anime_details_personfragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.anime_details.JikanPersonFragment"
+        android:label="">
+        <argument
+            android:name="person"
+            app:argType="integer" />
+        <deepLink app:uri="com.rick.ecs://jikan_person/{person}" />
+    </fragment>
     <include app:graph="@navigation/anime_screen_anime_common_nav_graph" />
 </navigation>

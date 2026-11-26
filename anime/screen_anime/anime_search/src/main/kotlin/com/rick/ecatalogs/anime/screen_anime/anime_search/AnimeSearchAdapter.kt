@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_search
 
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -10,6 +11,7 @@ import com.rick.ecatalogs.anime.data_anime.model.UserAnime
 class AnimeSearchAdapter(
     private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (Int, Boolean) -> Unit,
+    private val translator: TextTranslator,
 ) : RecyclerView.Adapter<AnimeSearchViewHolder>() {
 
     val differ = AsyncListDiffer(this, DIFF_UTIL)
@@ -24,6 +26,7 @@ class AnimeSearchAdapter(
             parent,
             onItemClick,
             onFavClick,
+            translator,
         )
     }
 

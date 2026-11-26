@@ -20,4 +20,6 @@ dependencies {
     implementation(projects.data.translation)
 
     implementation(libs.bumptech.glide)
+
+    testImplementation(libs.robolectric)
 }

@@ -1,9 +1,9 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +13,7 @@ import com.rick.ecatalogs.anime.data_anime.model.UserManga
 class MangaCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
     private val onMangaFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
+    private val translator: TextTranslator,
 ) : PagingDataAdapter<UserManga, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
     // The header is a separate adapter in a ConcatAdapter (MangaHeaderAdapter); it used to take
@@ -27,7 +27,7 @@ class MangaCatalogAdapter(
             parent = parent,
             onItemClick = onItemClick,
             onFavClick = onMangaFavClick,
-            onTranslationClick = onTranslationClick
+            translator = translator,
         )
 
     companion object {

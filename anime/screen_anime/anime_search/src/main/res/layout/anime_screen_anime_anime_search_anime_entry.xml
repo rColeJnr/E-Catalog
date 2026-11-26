@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/data_ui_design_translate_margin"
             android:padding="@dimen/data_ui_design_text_padding"
-            android:text="@string/anime_screen_anime_anime_details_show_translation"
+            android:text="@string/data_ui_components_common_show_translation"
             android:textAppearance="?textAppearanceBody2"
             android:textColor="@color/data_ui_design_color_buttons"
             android:textStyle="bold"

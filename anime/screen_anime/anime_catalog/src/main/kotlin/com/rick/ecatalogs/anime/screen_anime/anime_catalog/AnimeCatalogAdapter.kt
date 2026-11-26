@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +13,13 @@ import com.rick.ecatalogs.anime.data_anime.model.UserAnime
 class AnimeCatalogAdapter(
     private val onItemClick: (View, Int) -> Unit,
     private val onAnimeFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (View, View, List<String>) -> Unit
+    private val translator: TextTranslator,
 ) : PagingDataAdapter<UserAnime, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
     // The header is a separate adapter in a ConcatAdapter (AnimeHeaderAdapter); it used to take
     // position 0 here, which hid the #1 entry.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, onTranslationClick)
+        AnimeViewHolder.create(parent, onItemClick, onAnimeFavClick, translator)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { (holder as AnimeViewHolder).bind(it) }

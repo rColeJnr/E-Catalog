@@ -19,6 +19,8 @@ data class AnimeExtras(
     val streaming: List<StreamingService>,
     /** Only for currently airing anime. */
     val broadcast: Broadcast?,
+    /** Adaptations (e.g. the source manga), sequels, prequels… */
+    val relations: List<JikanRelation> = emptyList(),
 )
 
 data class StreamingService(val name: String, val url: String)
@@ -34,4 +36,48 @@ data class AnimeEpisode(
     val score: Double?,
     val filler: Boolean,
     val recap: Boolean,
+)
+
+/** A related title: [relation] is Jikan's label ("Adaptation", "Sequel"…). */
+data class JikanRelation(val relation: String, val id: Int, val isAnime: Boolean, val name: String)
+
+data class AnimeCharacter(
+    val id: Int,
+    val name: String,
+    val imageUrl: String?,
+    val isMain: Boolean,
+    /** The Japanese voice actor, if listed. */
+    val voiceActor: VoiceActor?,
+)
+
+data class VoiceActor(val id: Int, val name: String, val imageUrl: String?)
+
+/** A voice actor's page. */
+data class JikanPerson(
+    val id: Int,
+    val name: String,
+    /** Name in Japanese order ("family given"), when known. */
+    val nativeName: String?,
+    /** yyyy-MM-dd, or null. */
+    val birthday: String?,
+    val about: String,
+    val imageUrl: String?,
+    val roles: List<VoiceRole>,
+)
+
+data class VoiceRole(
+    val animeId: Int,
+    val animeTitle: String,
+    val animeImageUrl: String?,
+    val characterName: String,
+    val isMain: Boolean,
+)
+
+/** An anime in the weekly schedule. */
+data class ScheduledAnime(
+    val id: Int,
+    val title: String,
+    val imageUrl: String?,
+    val broadcast: Broadcast?,
+    val score: Double?,
 )

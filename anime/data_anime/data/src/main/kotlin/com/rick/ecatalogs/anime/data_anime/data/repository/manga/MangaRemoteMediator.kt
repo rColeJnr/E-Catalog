@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.manga
 
+import com.rick.ecatalogs.anime.data_anime.data.repository.catalogPosition
 import com.rick.ecatalogs.data.datastore.CachedList
 import com.rick.ecatalogs.data.datastore.ListCache
 import androidx.paging.ExperimentalPagingApi
@@ -13,7 +14,6 @@ import com.rick.ecatalogs.anime.data_anime.database.dao.MangaRemoteKeysDao
 import com.rick.ecatalogs.anime.data_anime.database.model.MangaEntity
 import com.rick.ecatalogs.anime.data_anime.database.model.MangaRemoteKeys
 import com.rick.ecatalogs.anime.data_anime.network.JikanNetworkDataSource
-import com.rick.ecatalogs.anime.data_anime.network.model.MangaNetwork
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -24,6 +24,8 @@ class MangaRemoteMediator(
     private val network: JikanNetworkDataSource,
     private val transactionRunner: JikanTransactionRunner,
     private val listCache: ListCache,
+    /** Rows a refresh keeps although they leave the list: the favorites. */
+    private val favoriteIds: suspend () -> Set<Int>,
 ) : RemoteMediator<Int, MangaEntity>() {
 
 
@@ -71,10 +73,14 @@ class MangaRemoteMediator(
             val mangas = response.data
             val endOfPaginationReached = response.data.isEmpty()
 
+            // Read before the transaction: favorites live in DataStore, not in Room
+            val keepIds = if (loadType == LoadType.REFRESH) favoriteIds() else emptySet()
             transactionRunner {
                 if (loadType == LoadType.REFRESH) {
                     keysDao.clearRemoteKeys()
-                    mangaDao.clearManga(mangas.map(MangaNetwork::id))
+                    // Written anew: rows leave the list, and those that aren't favorites are deleted
+                    mangaDao.clearCatalog()
+                    mangaDao.deleteOutsideCatalog(keepIds)
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -86,7 +92,11 @@ class MangaRemoteMediator(
                     )
                 }
                 keysDao.insertAll(keys)
-                mangaDao.upsertManga(mangas.map(MangaNetwork::asEntity))
+                mangaDao.upsertManga(
+                    mangas.mapIndexed { index, item ->
+                        item.asEntity().copy(catalogPosition = catalogPosition(page, index))
+                    },
+                )
             }
 
             if (loadType == LoadType.REFRESH) listCache.markRefreshed(CachedList.MANGA)

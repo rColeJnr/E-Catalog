@@ -39,4 +39,6 @@ data class MangaNetwork(
     val serializations: List<Serialization>,
     val genres: List<Genre>,
     val themes: List<Theme> = listOf(),
+    /** Only in `manga/{id}/full`. */
+    val relations: List<JikanRelationNetwork>? = null,
 )

@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.anime
 
+import com.rick.ecatalogs.anime.data_anime.data.repository.catalogPosition
 import com.rick.ecatalogs.data.datastore.CachedList
 import com.rick.ecatalogs.data.datastore.ListCache
 import androidx.paging.ExperimentalPagingApi
@@ -13,7 +14,6 @@ import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeRemoteKeysDao
 import com.rick.ecatalogs.anime.data_anime.database.model.AnimeEntity
 import com.rick.ecatalogs.anime.data_anime.database.model.AnimeRemoteKeys
 import com.rick.ecatalogs.anime.data_anime.network.JikanNetworkDataSource
-import com.rick.ecatalogs.anime.data_anime.network.model.AnimeNetwork
 import okio.IOException
 import retrofit2.HttpException
 
@@ -24,6 +24,8 @@ class AnimeRemoteMediator(
     private val network: JikanNetworkDataSource,
     private val transactionRunner: JikanTransactionRunner,
     private val listCache: ListCache,
+    /** Rows a refresh keeps although they leave the list: the favorites. */
+    private val favoriteIds: suspend () -> Set<Int>,
 ) : RemoteMediator<Int, AnimeEntity>() {
 
     /**
@@ -68,10 +70,14 @@ class AnimeRemoteMediator(
             val animes = response.data
             val endOfPaginationReached = response.data.isEmpty()
 
+            // Read before the transaction: favorites live in DataStore, not in Room
+            val keepIds = if (loadType == LoadType.REFRESH) favoriteIds() else emptySet()
             transactionRunner {
                 if (loadType == LoadType.REFRESH) {
                     keysDao.clearRemoteKeys()
-                    animeDao.clearAnime(animes.map(AnimeNetwork::id))
+                    // Written anew: rows leave the list, and those that aren't favorites are deleted
+                    animeDao.clearCatalog()
+                    animeDao.deleteOutsideCatalog(keepIds)
                 }
                 val prevKey =
                     if (page == STARTING_PAGE_INDEX) null else page - 1
@@ -84,7 +90,11 @@ class AnimeRemoteMediator(
                     )
                 }
                 keysDao.insertAll(keys)
-                animeDao.upsertAnime(animes.map(AnimeNetwork::asEntity))
+                animeDao.upsertAnime(
+                    animes.mapIndexed { index, item ->
+                        item.asEntity().copy(catalogPosition = catalogPosition(page, index))
+                    },
+                )
             }
 
             if (loadType == LoadType.REFRESH) listCache.markRefreshed(CachedList.ANIME)

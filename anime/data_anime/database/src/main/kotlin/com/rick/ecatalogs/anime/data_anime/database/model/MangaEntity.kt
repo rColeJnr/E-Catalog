@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.data_anime.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.rick.ecatalogs.anime.data_anime.model.Manga
@@ -33,6 +34,9 @@ data class MangaEntity(
     val serializations: List<Serialization>,
     val genres: List<Genre>,
     val themes: List<Theme>,
+    /** Place in the catalog list (the API's order); null for rows kept only as search results or favorites. */
+    @ColumnInfo("catalog_position")
+    val catalogPosition: Int? = null,
 )
 
 fun MangaEntity.asManga() = Manga(

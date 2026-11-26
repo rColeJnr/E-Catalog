@@ -67,12 +67,13 @@ class AnimeCatalogViewModel @Inject constructor(
     val seasonNow: StateFlow<List<JikanItem>> = browseRepository.seasonNow()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    val seasonUpcoming: StateFlow<List<JikanItem>> = browseRepository.seasonUpcoming()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     fun selectList(list: AnimeList) {
         _list.value = list
     }
+
+    /** "Surprise me": a random (safe for work) anime id, or null if none could be picked. */
+    suspend fun randomAnimeId(): Int? = runCatching { browseRepository.randomAnimeId() }.getOrNull()
 
     fun selectGenre(genreId: Int?) {
         _genre.value = genreId

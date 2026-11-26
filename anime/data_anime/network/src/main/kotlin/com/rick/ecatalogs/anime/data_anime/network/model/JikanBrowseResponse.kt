@@ -92,3 +92,71 @@ data class JikanEntryJpg(
     @SerialName("image_url") @SerializedName("image_url") val imageUrl: String? = null,
     @SerialName("large_image_url") @SerializedName("large_image_url") val largeImageUrl: String? = null,
 )
+
+/** Related titles (in `anime/{id}/full`, `manga/{id}/full`): adaptations, sequels… */
+@Serializable
+data class JikanRelationNetwork(
+    /** e.g. "Adaptation", "Sequel", "Prequel", "Side story". */
+    val relation: String? = null,
+    val entry: List<JikanRelatedEntryNetwork>? = null,
+)
+
+@Serializable
+data class JikanRelatedEntryNetwork(
+    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
+    /** "anime" or "manga". */
+    val type: String? = null,
+    val name: String? = null,
+)
+
+/** `anime/{id}/characters`. */
+@Serializable
+data class JikanCharactersResponse(val data: List<JikanCharacterRoleNetwork>? = null)
+
+@Serializable
+data class JikanCharacterRoleNetwork(
+    /** Jikan sends the character's `name` (not `title`), like a person entry. */
+    val character: JikanPersonEntryNetwork? = null,
+    /** "Main" or "Supporting". */
+    val role: String? = null,
+    @SerialName("voice_actors") @SerializedName("voice_actors")
+    val voiceActors: List<JikanVoiceActorNetwork>? = null,
+)
+
+@Serializable
+data class JikanVoiceActorNetwork(
+    val person: JikanPersonEntryNetwork? = null,
+    val language: String? = null,
+)
+
+/** A person in lists (`name` rather than `title`). */
+@Serializable
+data class JikanPersonEntryNetwork(
+    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
+    val name: String? = null,
+    val images: JikanEntryImages? = null,
+)
+
+/** `people/{id}/full`: a voice actor with their roles. */
+@Serializable
+data class JikanPersonResponse(val data: JikanPersonNetwork? = null)
+
+@Serializable
+data class JikanPersonNetwork(
+    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
+    val name: String? = null,
+    @SerialName("given_name") @SerializedName("given_name") val givenName: String? = null,
+    @SerialName("family_name") @SerializedName("family_name") val familyName: String? = null,
+    /** ISO date-time. */
+    val birthday: String? = null,
+    val about: String? = null,
+    val images: JikanEntryImages? = null,
+    val voices: List<JikanVoiceRoleNetwork>? = null,
+)
+
+@Serializable
+data class JikanVoiceRoleNetwork(
+    val role: String? = null,
+    val anime: JikanEntryNetwork? = null,
+    val character: JikanPersonEntryNetwork? = null,
+)

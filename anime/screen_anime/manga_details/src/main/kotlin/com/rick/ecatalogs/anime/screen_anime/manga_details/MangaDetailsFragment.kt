@@ -1,5 +1,9 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_details
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.anime.screen_anime.common.jikanDetailsUri
+import androidx.compose.foundation.layout.Column
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import android.net.Uri
@@ -17,10 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationEvent
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationViewModel
 import com.rick.ecatalogs.anime.screen_anime.common.logMangaWebPageOpened
 import com.rick.ecatalogs.anime.screen_anime.common.logScreenView
 import com.rick.ecatalogs.anime.screen_anime.manga_details.databinding.AnimeScreenAnimeMangaDetailsFragmentMangaDetailsBinding
@@ -28,11 +29,8 @@ import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.anime.data_anime.model.UserManga
 import com.rick.ecatalogs.data.ui_components.common.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,10 +40,12 @@ class MangaDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MangaDetailsViewModel by viewModels()
     private val recommendationsViewModel: MangaRecommendationsViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
@@ -73,10 +73,6 @@ class MangaDetailsFragment : Fragment() {
         postponeEnterTransition()
         binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
-
         binding.toolbar.apply {
             setNavigationIcon(com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
@@ -92,9 +88,19 @@ class MangaDetailsFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 EcsTheme {
-                    MangaRecommendationsRow(recommendationsViewModel) { id ->
-                        findNavController().navigateWithMotion(
-                            Uri.parse("com.rick.ecs://manga_details_fragment/$id")
+                    Column {
+                        MangaRecommendationsRow(
+                            viewModel = recommendationsViewModel,
+                            onClick = { id ->
+                                findNavController().navigateWithMotion(
+                                    Uri.parse("com.rick.ecs://manga_details_fragment/$id")
+                                )
+                            },
+                            onRelationClick = { relation ->
+                                findNavController().navigateWithMotion(
+                                    jikanDetailsUri(relation.id, relation.isAnime)
+                                )
+                            },
                         )
                     }
                 }
@@ -108,67 +114,13 @@ class MangaDetailsFragment : Fragment() {
     private fun AnimeScreenAnimeMangaDetailsFragmentMangaDetailsBinding.bindState(
         mangaLiveData: LiveData<UserManga>,
     ) {
+        val translation = TranslationToggle(showTranslation, listOf(synopsis, background), textTranslator)
 
         mangaLiveData.observe(viewLifecycleOwner) { manga ->
             title.text = manga.title
 
             provideGlide(image, manga.images, onReady = { startPostponedEnterTransition() })
-
-            if (translationViewModel.location.value == "en") {
-                showTranslation.visibility = View.GONE
-            } else {
-                showTranslation.setOnClickListener {
-                    if (showTranslation.text == getString(R.string.anime_screen_anime_manga_details_show_original)) {
-                        synopsis.animate().alpha(0f).setDuration(200).withEndAction {
-                            synopsis.text = manga.synopsis
-                            synopsis.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-
-                        background.animate().alpha(0f).setDuration(200).withEndAction {
-                            background.text = manga.background
-                            showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
-                                showTranslation.text =
-                                    getString(R.string.anime_screen_anime_manga_details_show_translation)
-                                showTranslation.animate().alpha(1f).setDuration(200).start()
-                            }.start()
-                            background.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-                    } else {
-                        translationViewModel.onEvent(
-                            TranslationEvent.GetTranslation(
-                                listOf(manga.synopsis, manga.background),
-                                translationViewModel.location.value
-                            )
-                        )
-                        lifecycleScope.launch {
-                            translationViewModel.translation.collectLatest { translations ->
-                                if (translations.isNotEmpty()) {
-                                    synopsis.animate().alpha(0f).setDuration(200).withEndAction {
-                                        synopsis.text = translations.first().text
-                                        synopsis.animate().alpha(1f).setDuration(200).start()
-                                    }.start()
-
-                                    background.animate().alpha(0f).setDuration(200).withEndAction {
-                                        background.text = translations.last().text
-                                        showTranslation.animate().alpha(0f).setDuration(200)
-                                            .withEndAction {
-                                                showTranslation.text = getString(
-                                                    R.string.anime_screen_anime_manga_details_show_original
-                                                )
-                                                showTranslation.animate().alpha(1f).setDuration(200)
-                                                    .start()
-                                            }.start()
-                                        background.animate().alpha(1f).setDuration(200).start()
-                                    }.start()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            synopsis.text = manga.synopsis.trim()
-
-            background.text = manga.background.trim()
+            translation.bind(manga.synopsis.trim(), manga.background.trim())
 
             val publishingText =
                 if (manga.publishing) getString(R.string.anime_screen_anime_manga_details_being_published)
@@ -244,8 +196,8 @@ class MangaDetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

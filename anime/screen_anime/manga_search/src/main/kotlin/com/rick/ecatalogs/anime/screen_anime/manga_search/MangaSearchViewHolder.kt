@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_search
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +13,13 @@ import com.rick.ecatalogs.data.ui_components.common.provideGlide
 class MangaSearchViewHolder(
     binding: AnimeScreenAnimeMangaSearchMangaEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
-    private val onFavClick: (Int, Boolean) -> Unit
+    private val onFavClick: (Int, Boolean) -> Unit,
+    translator: TextTranslator,
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
+    private val translation = TranslationToggle(binding.translate, synopsis, translator)
     private val favorite = binding.favorite
     private val resources = itemView.resources
 
@@ -34,7 +38,7 @@ class MangaSearchViewHolder(
         this.manga = manga
         this.title.text = manga.title
         provideGlide(this.image, manga.images)
-        this.synopsis.text = manga.synopsis
+        translation.bind(manga.synopsis)
         val icon = if (manga.isFavorite) {
             com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
         } else {
@@ -48,6 +52,7 @@ class MangaSearchViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (Int, Boolean) -> Unit,
+            translator: TextTranslator,
         ): MangaSearchViewHolder {
             val itemBinding =
                 AnimeScreenAnimeMangaSearchMangaEntryBinding.inflate(
@@ -55,7 +60,7 @@ class MangaSearchViewHolder(
                     parent,
                     false
                 )
-            return MangaSearchViewHolder(itemBinding, onItemClick, onFavClick)
+            return MangaSearchViewHolder(itemBinding, onItemClick, onFavClick, translator)
         }
     }
 

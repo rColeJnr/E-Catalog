@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_search
 
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.net.Uri
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
@@ -38,6 +39,9 @@ class MangaSearchFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,7 +119,7 @@ class MangaSearchFragment : Fragment() {
 
     private fun initAdapter() {
         searchAdapter = MangaSearchAdapter(
-            this::onMangaClick, this::onMangaFavClick
+            this::onMangaClick, this::onMangaFavClick, textTranslator,
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -191,6 +195,10 @@ class MangaSearchFragment : Fragment() {
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 MangaSearchUiState.EmptyQuery -> {
+                    searchErrorMessage.visibility = View.GONE
+                    searchProgressBar.visibility = View.GONE
+                    // Re-entered each time the query is cleared: keep a single observer
+                    recentSearchesUiState.removeObservers(viewLifecycleOwner)
                     recentSearchesUiState.observe(viewLifecycleOwner) { state ->
                         if (state is MangaRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
@@ -208,16 +216,16 @@ class MangaSearchFragment : Fragment() {
                 }
 
                 MangaSearchUiState.Error -> {
-                    if (adapter.differ.currentList.isEmpty()) {
-
-                        searchErrorMessage.visibility = View.VISIBLE
-                    } else {
-                        searchErrorMessage.visibility = View.GONE
-                    }
+                    searchProgressBar.visibility = View.GONE
+                    recentSearchesComposeView.visibility = View.GONE
+                    // Keep showing earlier results if there are any
+                    searchErrorMessage.visibility =
+                        if (adapter.differ.currentList.isEmpty()) View.VISIBLE else View.GONE
                 }
 
                 MangaSearchUiState.Loading -> searchProgressBar.visibility = View.VISIBLE
                 is MangaSearchUiState.Success -> {
+                    searchErrorMessage.visibility = View.GONE
                     recentSearchesComposeView.visibility = View.GONE
                     searchProgressBar.visibility = View.GONE
                     adapter.differ.submitList(state.mangas)
@@ -246,8 +254,8 @@ class MangaSearchFragment : Fragment() {
         viewModel.onEvent(MangaSearchUiEvent.UpdateFavorite(id, !isFavorite))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

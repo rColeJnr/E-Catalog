@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_search
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +14,13 @@ import com.rick.ecatalogs.data.ui_components.common.provideGlide
 class AnimeSearchViewHolder(
     binding: AnimeScreenAnimeAnimeSearchAnimeEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
-    private val onFavClick: (Int, Boolean) -> Unit
+    private val onFavClick: (Int, Boolean) -> Unit,
+    translator: TextTranslator,
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.title
     private val image = binding.image
     private val synopsis = binding.synopsis
+    private val translation = TranslationToggle(binding.translate, synopsis, translator)
     private val favorite = binding.favorite
     private val resources = itemView.resources
 
@@ -34,8 +38,8 @@ class AnimeSearchViewHolder(
     fun bind(jikan: UserAnime) {
         this.jikan = jikan
         this.title.text = jikan.title
-        jikan.background.let { provideGlide(this.image, it) }
-        this.synopsis.text = jikan.synopsis
+        if (jikan.images.isNotEmpty()) provideGlide(this.image, jikan.images)
+        translation.bind(jikan.synopsis)
         favorite.foreground = if (jikan.isFavorite) {
             ResourcesCompat.getDrawable(
                 resources,
@@ -60,6 +64,7 @@ class AnimeSearchViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (Int, Boolean) -> Unit,
+            translator: TextTranslator,
         ): AnimeSearchViewHolder {
             val itemBinding =
                 AnimeScreenAnimeAnimeSearchAnimeEntryBinding.inflate(
@@ -67,7 +72,7 @@ class AnimeSearchViewHolder(
                     parent,
                     false
                 )
-            return AnimeSearchViewHolder(itemBinding, onItemClick, onFavClick)
+            return AnimeSearchViewHolder(itemBinding, onItemClick, onFavClick, translator)
         }
     }
 

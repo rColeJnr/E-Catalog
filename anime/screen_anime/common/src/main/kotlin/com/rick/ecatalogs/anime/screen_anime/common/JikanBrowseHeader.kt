@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.anime.screen_anime.common
 
+import androidx.compose.material3.AssistChip
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rick.ecatalogs.data.ui_components.common.EcsChip
 import com.rick.ecatalogs.data.ui_components.common.EcsChipRow
 import com.rick.ecatalogs.data.ui_components.common.EcsPosterItem
-import com.rick.ecatalogs.data.ui_components.common.EcsPosterRow
+import com.rick.ecatalogs.data.ui_components.common.EcsHeroCarousel
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 
 /**
@@ -68,6 +71,7 @@ fun JikanBrowseHeader(
     onItemClick: (EcsPosterItem) -> Unit,
     onListSelected: (String) -> Unit,
     onGenreSelected: (String) -> Unit,
+    actions: List<JikanHeaderAction> = emptyList(),
 ) {
     Column(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
         Text(
@@ -85,7 +89,24 @@ fun JikanBrowseHeader(
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp),
         )
-        rows.forEach { row -> EcsPosterRow(row.title, row.items, onItemClick) }
+        if (actions.isNotEmpty()) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
+            ) {
+                actions.forEach { action ->
+                    AssistChip(
+                        onClick = action.onClick,
+                        enabled = action.enabled,
+                        label = { Text(action.label) },
+                    )
+                }
+            }
+        }
+        // A single horizontal row per screen: the first row that has items
+        rows.firstOrNull { it.items.isNotEmpty() }?.let { row ->
+            EcsHeroCarousel(row.title, row.items, onItemClick, height = 210.dp)
+        }
         Spacer(Modifier.height(12.dp))
         EcsChipRow(lists, selectedList, onSelect = { onListSelected(it.id) })
         EcsChipRow(genres, selectedGenre, onSelect = { onGenreSelected(it.id) })
@@ -93,3 +114,6 @@ fun JikanBrowseHeader(
 }
 
 const val ALL_GENRES = "all"
+
+/** A button at the top of the header ("Airing schedule", "Surprise me"). */
+data class JikanHeaderAction(val label: String, val enabled: Boolean = true, val onClick: () -> Unit)

@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_search
 
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.net.Uri
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
@@ -42,6 +43,9 @@ class AnimeSearchFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +129,7 @@ class AnimeSearchFragment : Fragment() {
         val options = RequestOptions().placeholder(circularProgressDrawable)
         val glide = Glide.with(requireContext())
         searchAdapter = AnimeSearchAdapter(
-            this::onAnimeClick, this::onAnimeFavClick
+            this::onAnimeClick, this::onAnimeFavClick, textTranslator,
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -200,6 +204,10 @@ class AnimeSearchFragment : Fragment() {
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 AnimeSearchUiState.EmptyQuery -> {
+                    searchErrorMessage.visibility = View.GONE
+                    searchProgressBar.visibility = View.GONE
+                    // Re-entered each time the query is cleared: keep a single observer
+                    recentSearchesUiState.removeObservers(viewLifecycleOwner)
                     recentSearchesUiState.observe(viewLifecycleOwner) { state ->
                         if (state is AnimeRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
@@ -217,16 +225,16 @@ class AnimeSearchFragment : Fragment() {
                 }
 
                 AnimeSearchUiState.Error -> {
-                    if (adapter.differ.currentList.isEmpty()) {
-
-                        searchErrorMessage.visibility = View.VISIBLE
-                    } else {
-                        searchErrorMessage.visibility = View.GONE
-                    }
+                    searchProgressBar.visibility = View.GONE
+                    recentSearchesComposeView.visibility = View.GONE
+                    // Keep showing earlier results if there are any
+                    searchErrorMessage.visibility =
+                        if (adapter.differ.currentList.isEmpty()) View.VISIBLE else View.GONE
                 }
 
                 AnimeSearchUiState.Loading -> searchProgressBar.visibility = View.VISIBLE
                 is AnimeSearchUiState.Success -> {
+                    searchErrorMessage.visibility = View.GONE
                     recentSearchesComposeView.visibility = View.GONE
                     searchProgressBar.visibility = View.GONE
                     adapter.differ.submitList(state.animes)
@@ -255,8 +263,8 @@ class AnimeSearchFragment : Fragment() {
         viewModel.onEvent(AnimeSearchUiEvent.UpdateFavorite(id, !isFavorite))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

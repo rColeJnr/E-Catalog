@@ -1,6 +1,8 @@
 package com.rick.ecatalogs.anime.screen_anime.manga_catalog
 
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.catch
+import com.rick.ecatalogs.anime.data_anime.model.browse.JikanItem
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.combine
@@ -62,9 +64,17 @@ class MangaCatalogViewModel @Inject constructor(
     val genres: StateFlow<List<JikanGenre>> = flow { emit(browseRepository.mangaGenres()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
+    /** The featured row above the list (cached, see [JikanBrowseRepository.featuredManga]). */
+    val publishingNow: StateFlow<List<JikanItem>> = browseRepository.featuredManga(MangaList.PUBLISHING)
+        .catch { emit(emptyList()) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
     fun selectList(list: MangaList) {
         _list.value = list
     }
+
+    /** "Surprise me": a random (safe for work) manga id, or null if none could be picked. */
+    suspend fun randomMangaId(): Int? = runCatching { browseRepository.randomMangaId() }.getOrNull()
 
     fun selectGenre(genreId: Int?) {
         _genre.value = genreId

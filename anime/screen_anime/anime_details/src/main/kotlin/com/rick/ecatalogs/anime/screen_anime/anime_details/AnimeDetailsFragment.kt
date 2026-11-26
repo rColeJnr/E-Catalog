@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_details
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.anime.screen_anime.common.jikanDetailsUri
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import android.content.Intent
@@ -19,10 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationEvent
-import com.rick.ecatalogs.anime.screen_anime.common.TranslationViewModel
 import com.rick.ecatalogs.anime.screen_anime.common.logAnimeWebPageOpened
 import com.rick.ecatalogs.anime.screen_anime.common.logScreenView
 import com.rick.ecatalogs.anime.screen_anime.common.logTrailerOpened
@@ -31,11 +31,8 @@ import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.anime.data_anime.model.UserAnime
 import com.rick.ecatalogs.data.ui_components.common.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,10 +42,12 @@ class AnimeDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: AnimeDetailsViewModel by viewModels()
     private val extrasViewModel: AnimeExtrasViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,10 +78,6 @@ class AnimeDetailsFragment : Fragment() {
         postponeEnterTransition()
         binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
-
         binding.toolbar.apply {
             setNavigationIcon(com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_back_icon)
             setNavigationOnClickListener {
@@ -105,6 +100,16 @@ class AnimeDetailsFragment : Fragment() {
                                 Uri.parse("com.rick.ecs://anime_details_fragment/$id")
                             )
                         },
+                        onVoiceActorClick = { personId ->
+                            findNavController().navigateWithMotion(
+                                Uri.parse("com.rick.ecs://jikan_person/$personId")
+                            )
+                        },
+                        onRelationClick = { relation ->
+                            findNavController().navigateWithMotion(
+                                jikanDetailsUri(relation.id, relation.isAnime)
+                            )
+                        },
                     )
                 }
             }
@@ -117,68 +122,14 @@ class AnimeDetailsFragment : Fragment() {
     private fun AnimeScreenAnimeAnimeDetailsFragmentAnimeDetailsBinding.bindState(
         animeLiveData: LiveData<UserAnime>,
     ) {
+        val translation = TranslationToggle(showTranslation, listOf(synopsis, background), textTranslator)
 
         animeLiveData.observe(viewLifecycleOwner) { anime ->
             title.text = anime.title
 
             provideGlide(image, anime.images, onReady = { startPostponedEnterTransition() })
 
-            if (translationViewModel.location.value == "en") {
-                showTranslation.visibility = View.GONE
-            } else {
-                val originalSynopsis = anime.synopsis
-                val originalBackground = anime.background
-                showTranslation.visibility = View.VISIBLE
-                showTranslation.setOnClickListener {
-                    if (showTranslation.text == getString(R.string.anime_screen_anime_anime_details_show_original)) {
-                        synopsis.animate().alpha(0f).setDuration(200).withEndAction {
-                            synopsis.text = originalSynopsis
-                            synopsis.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-
-                        background.animate().alpha(0f).setDuration(200).withEndAction {
-                            background.text = originalBackground
-                            showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
-                                showTranslation.text =
-                                    getString(R.string.anime_screen_anime_anime_details_show_translation)
-                                showTranslation.animate().alpha(1f).setDuration(200).start()
-                            }.start()
-                            background.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-                    } else {
-                        translationViewModel.onEvent(
-                            TranslationEvent.GetTranslation(
-                                listOf(anime.synopsis, anime.background),
-                                translationViewModel.location.value
-                            )
-                        )
-                        lifecycleScope.launch {
-                            translationViewModel.translation.collectLatest { translations ->
-                                if (translations.isNotEmpty()) {
-                                    synopsis.animate().alpha(0f).setDuration(200).withEndAction {
-                                        synopsis.text = translations.first().text
-                                        synopsis.animate().alpha(1f).setDuration(200).start()
-                                    }.start()
-
-                                    background.animate().alpha(0f).setDuration(200).withEndAction {
-                                        background.text = translations.last().text
-                                        showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
-                                            showTranslation.text =
-                                                getString(R.string.anime_screen_anime_anime_details_show_original)
-                                            showTranslation.animate().alpha(1f).setDuration(200).start()
-                                        }.start()
-                                        background.animate().alpha(1f).setDuration(200).start()
-                                    }.start()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            synopsis.text = anime.synopsis.trim()
-
-            background.text = anime.background.trim()
+            translation.bind(anime.synopsis.trim(), anime.background.trim())
 
             pgRating.text =
                 getString(R.string.anime_screen_anime_anime_details_pg_rating, anime.rating)
@@ -258,8 +209,8 @@ class AnimeDetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

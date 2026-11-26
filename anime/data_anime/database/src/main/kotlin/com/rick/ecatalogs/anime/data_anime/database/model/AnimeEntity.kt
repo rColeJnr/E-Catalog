@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.anime.data_anime.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.rick.ecatalogs.anime.data_anime.model.Anime
@@ -29,6 +30,9 @@ data class AnimeEntity(
     val season: String,
     val year: Int,
     val genres: List<String>,
+    /** Place in the catalog list (the API's order); null for rows kept only as search results or favorites. */
+    @ColumnInfo("catalog_position")
+    val catalogPosition: Int? = null,
 )
 
 fun AnimeEntity.asAnime() = Anime(

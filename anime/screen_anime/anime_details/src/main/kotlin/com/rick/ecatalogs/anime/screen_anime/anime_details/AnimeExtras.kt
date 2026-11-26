@@ -1,5 +1,9 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_details
 
+import com.rick.ecatalogs.data.ui_components.common.EcsHeroCarousel
+import com.rick.ecatalogs.anime.screen_anime.common.JikanRelationsSection
+import com.rick.ecatalogs.anime.data_anime.model.browse.JikanRelation
+import com.rick.ecatalogs.anime.data_anime.model.browse.AnimeCharacter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -78,6 +82,9 @@ class AnimeExtrasViewModel @Inject constructor(
     private val _recommendations = MutableStateFlow<List<JikanItem>>(emptyList())
     val recommendations: StateFlow<List<JikanItem>> = _recommendations.asStateFlow()
 
+    private val _characters = MutableStateFlow<List<AnimeCharacter>>(emptyList())
+    val characters: StateFlow<List<AnimeCharacter>> = _characters.asStateFlow()
+
     private val _episodes = MutableStateFlow<EpisodesState>(EpisodesState.NotLoaded)
     val episodes: StateFlow<EpisodesState> = _episodes.asStateFlow()
 
@@ -85,6 +92,8 @@ class AnimeExtrasViewModel @Inject constructor(
         viewModelScope.launch {
             // Optional sections: on failure they simply don't show
             _extras.value = runCatching { repository.animeExtras(animeId) }.getOrNull()
+            _characters.value =
+                runCatching { repository.animeCharacters(animeId) }.getOrDefault(emptyList())
             _recommendations.value =
                 runCatching { repository.animeRecommendations(animeId) }.getOrDefault(emptyList())
         }
@@ -118,9 +127,12 @@ fun AnimeExtrasSection(
     viewModel: AnimeExtrasViewModel,
     onOpenUrl: (String) -> Unit,
     onRecommendationClick: (Int) -> Unit,
+    onVoiceActorClick: (Int) -> Unit = {},
+    onRelationClick: (JikanRelation) -> Unit = {},
 ) {
     val extras by viewModel.extras.collectAsStateWithLifecycle()
     val recommendations by viewModel.recommendations.collectAsStateWithLifecycle()
+    val characters by viewModel.characters.collectAsStateWithLifecycle()
     val episodes by viewModel.episodes.collectAsStateWithLifecycle()
     var showEpisodes by rememberSaveable { mutableStateOf(false) }
 
@@ -159,7 +171,25 @@ fun AnimeExtrasSection(
             Text(stringResource(CommonR.string.anime_screen_anime_common_episodes))
         }
 
+        // Characters with their Japanese voice actor; tapping opens the voice actor's roles
         EcsPosterRow(
+            title = stringResource(CommonR.string.anime_screen_anime_common_characters),
+            items = characters.map { character ->
+                EcsPosterItem(
+                    id = character.id,
+                    title = character.name,
+                    imageUrl = character.imageUrl,
+                    subtitle = character.voiceActor?.name,
+                )
+            },
+            onClick = { item ->
+                characters.firstOrNull { it.id == item.id }?.voiceActor?.let { onVoiceActorClick(it.id) }
+            },
+        )
+
+        JikanRelationsSection(extras?.relations.orEmpty(), onRelationClick)
+
+        EcsHeroCarousel(
             title = stringResource(CommonR.string.anime_screen_anime_common_if_you_liked),
             items = recommendations.map { EcsPosterItem(it.id, it.title, it.imageUrl) },
             onClick = { onRecommendationClick(it.id) },

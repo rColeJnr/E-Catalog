@@ -51,15 +51,18 @@
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:elevation="@dimen/data_ui_design_item_card_elevation"
-                app:shapeAppearanceOverlay="@style/DataUiDesignRoundedCorners">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image"
-                    android:layout_width="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/data_ui_design_long_image_height" />
 
                 <!-- Fades the image into the page -->
@@ -102,7 +105,7 @@
                 android:layout_margin="@dimen/data_ui_design_translate_margin"
                 android:gravity="end|center_vertical"
                 android:padding="2dp"
-                android:text="@string/anime_screen_anime_anime_details_show_translation"
+                android:text="@string/data_ui_components_common_show_translation"
                 android:textAlignment="gravity"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/data_ui_design_color_buttons"

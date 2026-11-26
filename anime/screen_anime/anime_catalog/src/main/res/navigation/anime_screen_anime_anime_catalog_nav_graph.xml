@@ -32,4 +32,11 @@
     <include app:graph="@navigation/anime_screen_anime_anime_details_nav_graph" />
     <include app:graph="@navigation/anime_screen_anime_anime_search_nav_graph" />
     <include app:graph="@navigation/anime_screen_anime_anime_favorites_nav_graph" />
+    <!-- This week's airing schedule (Compose) -->
+    <fragment
+        android:id="@+id/anime_screen_anime_anime_catalog_schedulefragment"
+        android:name="com.rick.ecatalogs.anime.screen_anime.anime_catalog.AnimeScheduleFragment"
+        android:label="">
+        <deepLink app:uri="com.rick.ecs://anime_schedule" />
+    </fragment>
 </navigation>

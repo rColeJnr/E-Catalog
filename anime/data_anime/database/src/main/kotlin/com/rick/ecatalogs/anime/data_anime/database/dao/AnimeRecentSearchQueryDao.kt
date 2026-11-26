@@ -6,7 +6,6 @@ import androidx.room.Upsert
 import com.rick.ecatalogs.anime.data_anime.database.model.AnimeRecentSearchQueryEntity
 import kotlinx.coroutines.flow.Flow
 
-
 /**
  * Dao for [AnimeRecentSearchQueryEntity] access
  * */
