@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_game_favorites_removed">Game removed from favorites</string>
+    <string name="game_screen_game_game_favorites_undo">Undo</string>
+</resources>

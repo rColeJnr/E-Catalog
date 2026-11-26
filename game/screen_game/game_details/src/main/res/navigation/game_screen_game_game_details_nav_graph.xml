@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/game_screen_game_game_details_nav_graph"
+    app:startDestination="@id/game_screen_game_game_details_gamedetailsfragment">
+    <fragment
+        android:id="@+id/game_screen_game_game_details_gamedetailsfragment"
+        android:name="com.rick.ecatalogs.game.screen_game.game_details.GameDetailsFragment"
+        android:label="">
+        <argument
+            android:name="game"
+            app:argType="integer" />
+        <deepLink app:uri="com.rick.ecs://game_details/{game}" />
+    </fragment>
+</navigation>

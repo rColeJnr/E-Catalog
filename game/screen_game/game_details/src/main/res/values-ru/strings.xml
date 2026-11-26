@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_game_details_watch_trailer">Смотреть трейлер</string>
+    <string name="game_screen_game_game_details_summary">Об игре</string>
+    <string name="game_screen_game_game_details_storyline">Сюжет</string>
+    <string name="game_screen_game_game_details_screenshots">Скриншоты</string>
+    <string name="game_screen_game_game_details_platforms">Платформы</string>
+    <string name="game_screen_game_game_details_developers">Разработчики</string>
+    <string name="game_screen_game_game_details_publishers">Издатели</string>
+    <string name="game_screen_game_game_details_similar">Похожие игры</string>
+    <string name="game_screen_game_game_details_open_igdb">Открыть на IGDB</string>
+    <string name="game_screen_game_game_details_no_app">Нет приложения, чтобы открыть ссылку</string>
+</resources>

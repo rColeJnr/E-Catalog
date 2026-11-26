@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_game_catalog_coming_soon">Em breve</string>
+    <string name="game_screen_game_game_catalog_recently_released">Lançados recentemente</string>
+    <string name="game_screen_game_game_catalog_popular_now">Populares agora</string>
+    <string name="game_screen_game_game_catalog_most_rated">Mais avaliados</string>
+    <string name="game_screen_game_game_catalog_all_genres">Todos os gêneros</string>
+    <string name="game_screen_game_game_catalog_search">Pesquisar jogos</string>
+    <string name="game_screen_game_game_catalog_favorites">Jogos favoritos</string>
+</resources>

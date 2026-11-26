@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_common_add_favorite">Добавить в избранное</string>
+    <string name="game_screen_game_common_remove_favorite">Удалить из избранного</string>
+    <string name="game_screen_game_common_back">Назад</string>
+    <string name="game_screen_game_common_load_failed">Не удалось загрузить игры. Нажмите, чтобы повторить</string>
+    <string name="game_screen_game_common_nothing_found">Игры не найдены</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_common_add_favorite">Add to favorites</string>
+    <string name="game_screen_game_common_remove_favorite">Remove from favorites</string>
+    <string name="game_screen_game_common_back">Back</string>
+    <string name="game_screen_game_common_load_failed">Couldn\'t load games. Tap to try again</string>
+    <string name="game_screen_game_common_nothing_found">No games found</string>
+</resources>

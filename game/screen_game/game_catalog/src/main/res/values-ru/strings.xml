@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_game_catalog_coming_soon">Скоро выйдут</string>
+    <string name="game_screen_game_game_catalog_recently_released">Недавно вышли</string>
+    <string name="game_screen_game_game_catalog_popular_now">Популярное сейчас</string>
+    <string name="game_screen_game_game_catalog_most_rated">Самые оцениваемые</string>
+    <string name="game_screen_game_game_catalog_all_genres">Все жанры</string>
+    <string name="game_screen_game_game_catalog_search">Поиск игр</string>
+    <string name="game_screen_game_game_catalog_favorites">Любимые игры</string>
+</resources>

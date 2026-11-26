@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_game_details_watch_trailer">Watch the trailer</string>
+    <string name="game_screen_game_game_details_summary">About</string>
+    <string name="game_screen_game_game_details_storyline">Story</string>
+    <string name="game_screen_game_game_details_screenshots">Screenshots</string>
+    <string name="game_screen_game_game_details_platforms">Platforms</string>
+    <string name="game_screen_game_game_details_developers">Developers</string>
+    <string name="game_screen_game_game_details_publishers">Publishers</string>
+    <string name="game_screen_game_game_details_similar">Similar games</string>
+    <string name="game_screen_game_game_details_open_igdb">Open on IGDB</string>
+    <string name="game_screen_game_game_details_no_app">No app can open this link</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_common_add_favorite">Adicionar aos favoritos</string>
+    <string name="game_screen_game_common_remove_favorite">Remover dos favoritos</string>
+    <string name="game_screen_game_common_back">Voltar</string>
+    <string name="game_screen_game_common_load_failed">Não foi possível carregar os jogos. Toque para tentar de novo</string>
+    <string name="game_screen_game_common_nothing_found">Nenhum jogo encontrado</string>
+</resources>

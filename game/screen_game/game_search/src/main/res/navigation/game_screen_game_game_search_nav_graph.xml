@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/game_screen_game_game_search_nav_graph"
+    app:startDestination="@id/game_screen_game_game_search_gamesearchfragment">
+    <fragment
+        android:id="@+id/game_screen_game_game_search_gamesearchfragment"
+        android:name="com.rick.ecatalogs.game.screen_game.game_search.GameSearchFragment"
+        android:label="">
+        <deepLink app:uri="com.rick.ecs://game_search" />
+    </fragment>
+</navigation>

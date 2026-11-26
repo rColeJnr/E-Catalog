@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_game_game_details_watch_trailer">Ver o trailer</string>
+    <string name="game_screen_game_game_details_summary">Sobre</string>
+    <string name="game_screen_game_game_details_storyline">História</string>
+    <string name="game_screen_game_game_details_screenshots">Capturas de tela</string>
+    <string name="game_screen_game_game_details_platforms">Plataformas</string>
+    <string name="game_screen_game_game_details_developers">Desenvolvedores</string>
+    <string name="game_screen_game_game_details_publishers">Publicadoras</string>
+    <string name="game_screen_game_game_details_similar">Jogos parecidos</string>
+    <string name="game_screen_game_game_details_open_igdb">Abrir no IGDB</string>
+    <string name="game_screen_game_game_details_no_app">Nenhum app pode abrir este link</string>
+</resources>

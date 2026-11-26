@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/game_screen_game_game_favorites_nav_graph"
+    app:startDestination="@id/game_screen_game_game_favorites_gamefavoritesfragment">
+    <fragment
+        android:id="@+id/game_screen_game_game_favorites_gamefavoritesfragment"
+        android:name="com.rick.ecatalogs.game.screen_game.game_favorites.GameFavoritesFragment"
+        android:label="">
+        <deepLink app:uri="com.rick.ecs://game_favorites" />
+    </fragment>
+</navigation>
