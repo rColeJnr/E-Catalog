@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 
+import com.rick.ecatalogs.data.ui_design.fadeWhenSmall
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,8 @@ class BestsellerCarouselAdapter(
         private lateinit var book: UserBestseller
 
         init {
+            // Text, rank and the heart only read on the large card
+            binding.root.fadeWhenSmall(binding.carouselText, rank, favorite)
             favorite.setOnClickListener { view ->
                 onFavoriteClick(view, book.id, book.isFavorite)
             }

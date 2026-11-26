@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.book.data_book.data.repository.gutenberg
 
+import kotlinx.coroutines.flow.first
+import com.rick.ecatalogs.data.datastore.PreferencesDataSource
 import com.rick.ecatalogs.book.data_book.model.gutenberg.GutenbergFilter
 import com.rick.ecatalogs.data.datastore.ListCache
 import android.util.Log
@@ -30,6 +32,7 @@ internal class GutenbergRepositoryImpl @Inject constructor(
     private val network: GutenbergNetworkDataSource,
     private val transactionRunner: BookTransactionRunner,
     private val listCache: ListCache,
+    private val preferences: PreferencesDataSource,
 ) : GutenbergRepository {
     override fun getGutenberg(filter: GutenbergFilter): Flow<PagingData<GutenbergEntity>> {
         val pagingSourceFactory = { gutenbergDao.getGutenbergs() }
@@ -51,6 +54,7 @@ internal class GutenbergRepositoryImpl @Inject constructor(
                 transactionRunner = transactionRunner,
                 listCache = listCache,
                 filter = filter,
+                favoriteIds = { preferences.gutenbergUserData.first().gutenbergFavoriteIds },
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -63,9 +67,8 @@ internal class GutenbergRepositoryImpl @Inject constructor(
                 query = query
             ).results
 
-            gutenbergDao.clearGutenbergs(response.map(GutenbergNetwork::id))
-
-            gutenbergDao.upsertGutenberg(response.map(GutenbergNetwork::asGutenbergEntity))
+            // Outside the catalog list: a stored row (and its place in the list) is kept
+            gutenbergDao.insertOutsideCatalog(response.map(GutenbergNetwork::asGutenbergEntity))
 
             // appending '%' so we can allow other characters to be before and after the query string
             val dbQuery = "%${query.replace(' ', '%')}%"

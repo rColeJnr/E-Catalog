@@ -11,4 +11,18 @@
         <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
         <item name="android:textColor">@color/data_ui_design_black</item>
     </style>
+
+    <!-- A small fact under the title on the details screen -->
+    <style name="BookScreenBookBestsellerCatalogFactPill">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:background">@drawable/book_screen_book_bestseller_catalog_fact_pill</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceCaption</item>
+        <item name="android:textColor">@color/data_ui_design_black</item>
+    </style>
 </resources>

@@ -12,6 +12,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.movie.dataMovie.domain)
+    implementation(libs.lifecycle.runtimeCompose)
     implementation(projects.book.dataBook.data)
     implementation(projects.book.dataBook.domain)
     implementation(projects.book.dataBook.model)

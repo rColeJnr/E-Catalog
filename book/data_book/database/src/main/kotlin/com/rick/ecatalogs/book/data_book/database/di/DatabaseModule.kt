@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.data_book.database.di
 
+import com.rick.ecatalogs.book.data_book.database.MIGRATION_2_3
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
@@ -28,6 +29,6 @@ internal object DatabaseModule {
         BookDatabase::class.java,
         "book-database"
     ).addTypeConverter(BookTypeConverters(GsonParser(Gson())))
-        .addMigrations(MIGRATION_1_2)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
         .build()
 }

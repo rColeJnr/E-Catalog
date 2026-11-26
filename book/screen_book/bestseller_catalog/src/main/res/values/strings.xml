@@ -10,9 +10,6 @@
     <string name="book_screen_book_bestseller_catalog_search">Search</string>
     <string name="book_screen_book_bestseller_catalog_open_link_amazon">Open amazon web page</string>
     <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Wooops"\nNo results found, 😓</string>
-    <string name="book_screen_book_bestseller_catalog_show_translation">Show translation</string>
-    <string name="book_screen_book_bestseller_catalog_show_original">Show original</string>
-    <string name="book_screen_book_bestseller_catalog_translation_is_not_available_in_english" translatable="false">Translation is not available in English</string>
     <string name="book_screen_book_bestseller_catalog_null" translatable="false">n/a</string>
     <string name="book_screen_book_bestseller_catalog_hint_book_author" translatable="false">Book Author</string>
     <string name="book_screen_book_bestseller_catalog_hint_book_title" translatable="false">Book Title</string>

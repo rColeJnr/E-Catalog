@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.book.data_book.database.dao
 
+import androidx.room.OnConflictStrategy
+import androidx.room.Insert
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
@@ -10,18 +12,23 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GutenbergDao {
 
+    /** Rows that aren't part of the catalog list (e.g. search results); never replaces a stored row. */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertOutsideCatalog(entities: List<GutenbergEntity>)
+
+    /** Takes every row out of the catalog list, before a refresh writes the list again. */
+    @Query("UPDATE gutenberg_table SET catalog_position = NULL")
+    suspend fun clearCatalog()
+
+    /** Deletes the rows that are neither in the catalog list nor in [keepIds] (the favorites). */
+    @Query("DELETE FROM gutenberg_table WHERE catalog_position IS NULL AND id NOT IN (:keepIds)")
+    suspend fun deleteOutsideCatalog(keepIds: Set<Int>)
+
     @Upsert
     suspend fun upsertGutenberg(books: List<GutenbergEntity>)
 
-    @Query(
-        """
-            DELETE FROM gutenberg_table
-            WHERE id IN (:ids)
-        """
-    )
-    suspend fun clearGutenbergs(ids: List<Int>)
-
-    @Query("SELECT * FROM gutenberg_table ORDER BY downloads DESC")
+    // Only the catalog list: search results and kept favorites have no position
+    @Query("SELECT * FROM gutenberg_table WHERE catalog_position IS NOT NULL ORDER BY catalog_position")
     fun getGutenbergs(): PagingSource<Int, GutenbergEntity>
 
     @Query(

@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.data_book.network.retrofit
 
+import com.rick.ecatalogs.book.data_book.network.BuildConfig
 import com.rick.ecatalogs.book.data_book.network.GutenbergNetworkDataSource
 import com.rick.ecatalogs.book.data_book.network.model.GutenbergResponse
 import com.rick.ecatalogs.book.data_book.network.retrofit.GutenbergRetrofitNetworkApi.Companion.GUTENBERG_BASE_URL
@@ -39,7 +40,12 @@ internal class GutenbergRetrofitNetwork @Inject constructor() : GutenbergNetwork
         .addConverterFactory(GsonConverterFactory.create())
         .client(
             OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(
+                    // URLs carry API keys: log them only in debug builds
+                    HttpLoggingInterceptor().setLevel(
+                        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE,
+                    ),
+                )
                 .build()
         ).build().create(GutenbergRetrofitNetworkApi::class.java)
 

@@ -5,4 +5,7 @@
     <string name="book_screen_book_common_reader_text_larger">Увеличить текст</string>
     <string name="book_screen_book_common_retry">Повторить</string>
     <string name="book_screen_book_common_failed_to_load">Не удалось загрузить</string>
+    <string name="book_screen_book_common_adaptations">Экранизации</string>
+    <string name="book_screen_book_common_no_adaptations">Экранизации не найдены.</string>
+    <string name="book_screen_book_common_adaptations_error">Не удалось найти экранизации. Нажмите, чтобы повторить.</string>
 </resources>

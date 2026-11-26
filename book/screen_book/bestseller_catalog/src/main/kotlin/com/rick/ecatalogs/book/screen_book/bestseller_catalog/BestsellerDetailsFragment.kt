@@ -1,5 +1,12 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
+import javax.inject.Inject
+import com.rick.ecatalogs.movie.data_movie.data.repository.browse.TmdbBrowseRepository
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
+import com.rick.ecatalogs.book.screen_book.common.detailsUri
+import com.rick.ecatalogs.book.screen_book.common.ScreenAdaptations
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -44,6 +51,16 @@ class BestsellerDetailsFragment : Fragment() {
 
     private val viewModel: BestsellerDetailsViewModel by viewModels()
 
+    @Inject
+    lateinit var browseRepository: TmdbBrowseRepository
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
+
+    private var adaptationsFor: String? = null
+    private var descriptionTranslation: TranslationToggle? = null
+    private var reviewTranslation: TranslationToggle? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val duration = resources.getInteger(DesignR.integer.data_ui_design_motion_duration_medium)
@@ -73,6 +90,15 @@ class BestsellerDetailsFragment : Fragment() {
                 true
             }
         }
+        descriptionTranslation = TranslationToggle(
+            binding.detailsDescriptionTranslate, binding.detailsDescription, textTranslator,
+        )
+        // NYT reviews are English: the headline, summary and opening translate together
+        reviewTranslation = TranslationToggle(
+            binding.detailsReviewTranslate,
+            listOf(binding.detailsReviewHeadline, binding.detailsReviewSummary, binding.detailsReviewExcerpt),
+            textTranslator,
+        )
         binding.detailsReviewMessage.setOnClickListener {
             if (viewModel.reviewState.value is ReviewUiState.Error) viewModel.loadReview()
         }
@@ -91,7 +117,6 @@ class BestsellerDetailsFragment : Fragment() {
         detailsContent.visibility = if (book != null) View.VISIBLE else View.INVISIBLE
         if (book == null) return@with
 
-        detailsToolbar.title = book.title
         detailsCover.contentDescription =
             getString(R.string.book_screen_book_bestseller_catalog_details_cover, book.title)
         if (book.image.isNotBlank()) provideGlide(detailsCover, book.image)
@@ -112,11 +137,12 @@ class BestsellerDetailsFragment : Fragment() {
         detailsPublisher.text = book.publisher
         detailsPublisher.isVisible = book.publisher.isNotBlank()
 
-        detailsDescription.text = book.description
+        descriptionTranslation?.bind(book.description)
         detailsAboutSection.isVisible = book.description.isNotBlank()
 
         bindStores(book)
         bindFavorite(book.isFavorite)
+        bindAdaptations(book.title)
     }
 
     /** One chip per store NYT lists (Amazon, Apple Books, Bookshop.org, …). */
@@ -136,6 +162,21 @@ class BestsellerDetailsFragment : Fragment() {
             )
         }
         detailsStoresSection.isVisible = stores.isNotEmpty()
+    }
+
+    /** Films and series adapted from the book, looked up once per title. */
+    private fun bindAdaptations(title: String) {
+        if (title == adaptationsFor) return
+        adaptationsFor = title
+        binding.detailsAdaptations.setContent {
+            EcsTheme {
+                ScreenAdaptations(
+                    bookTitle = title,
+                    findAdaptations = browseRepository::screenAdaptations,
+                    onClick = { findNavController().navigateWithMotion(it.detailsUri()) },
+                )
+            }
+        }
     }
 
     private fun bindFavorite(isFavorite: Boolean) {
@@ -171,7 +212,6 @@ class BestsellerDetailsFragment : Fragment() {
     private fun bindReviewContent(review: BookReview) = with(binding) {
         detailsReviewImage.isVisible = review.imageUrl != null
         review.imageUrl?.let { provideGlide(detailsReviewImage, it) }
-        detailsReviewHeadline.text = review.headline
         detailsReviewHeadline.isVisible = review.headline.isNotBlank()
 
         val date = review.publishedDate?.formatted()
@@ -184,9 +224,8 @@ class BestsellerDetailsFragment : Fragment() {
         }
         detailsReviewMeta.isVisible = !detailsReviewMeta.text.isNullOrEmpty()
 
-        detailsReviewSummary.text = review.summary
+        reviewTranslation?.bind(review.headline, review.summary, review.excerpt)
         detailsReviewSummary.isVisible = review.summary != null
-        detailsReviewExcerpt.text = review.excerpt
         detailsReviewExcerpt.isVisible = review.excerpt != null
 
         // The rest of the article, read inside the app
@@ -209,6 +248,9 @@ class BestsellerDetailsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        adaptationsFor = null
+        descriptionTranslation = null
+        reviewTranslation = null
         _binding = null
     }
 }

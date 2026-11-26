@@ -210,6 +210,10 @@ class SearchFragment : Fragment() {
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 GutenbergSearchUiState.EmptyQuery -> {
+                    searchErrorMessage.visibility = View.GONE
+                    searchProgressBar.visibility = View.GONE
+                    // Re-entered each time the query is cleared: keep a single observer
+                    recentSearchesUiState.removeObservers(viewLifecycleOwner)
                     recentSearchesUiState.observe(viewLifecycleOwner) { state ->
                         if (state is GutenbergRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
@@ -227,16 +231,16 @@ class SearchFragment : Fragment() {
                 }
 
                 GutenbergSearchUiState.Error -> {
-                    if (adapter.differ.currentList.isEmpty()) {
-
-                        searchErrorMessage.visibility = View.VISIBLE
-                    } else {
-                        searchErrorMessage.visibility = View.GONE
-                    }
+                    searchProgressBar.visibility = View.GONE
+                    recentSearchesComposeView.visibility = View.GONE
+                    // Keep showing earlier results if there are any
+                    searchErrorMessage.visibility =
+                        if (adapter.differ.currentList.isEmpty()) View.VISIBLE else View.GONE
                 }
 
                 GutenbergSearchUiState.Loading -> searchProgressBar.visibility = View.VISIBLE
                 is GutenbergSearchUiState.Success -> {
+                    searchErrorMessage.visibility = View.GONE
                     recentSearchesComposeView.visibility = View.GONE
                     searchProgressBar.visibility = View.GONE
                     adapter.differ.submitList(state.gutenbergs)
@@ -261,8 +265,8 @@ class SearchFragment : Fragment() {
         findNavController().navigateWithMotion(gutenbergReaderUri(book.id, book.title, link))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.data_book.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.rick.ecatalogs.book.data_book.model.gutenberg.Author
@@ -16,6 +17,9 @@ data class GutenbergEntity(
     val downloads: Int,
     val formats: Formats,
     val mediaType: String,
+    /** Place in the catalog list (the API's order); null for rows kept only as search results or favorites. */
+    @ColumnInfo("catalog_position")
+    val catalogPosition: Int? = null,
 )
 
 fun GutenbergEntity.asGutenberg() = Gutenberg(

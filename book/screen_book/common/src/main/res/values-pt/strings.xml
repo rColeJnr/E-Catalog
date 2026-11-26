@@ -5,4 +5,7 @@
     <string name="book_screen_book_common_reader_text_larger">Texto maior</string>
     <string name="book_screen_book_common_retry">Tentar novamente</string>
     <string name="book_screen_book_common_failed_to_load">Falha ao carregar</string>
+    <string name="book_screen_book_common_adaptations">Adaptações ao cinema e TV</string>
+    <string name="book_screen_book_common_no_adaptations">Não foram encontradas adaptações ao cinema ou TV.</string>
+    <string name="book_screen_book_common_adaptations_error">Não foi possível procurar adaptações. Toque para tentar novamente.</string>
 </resources>

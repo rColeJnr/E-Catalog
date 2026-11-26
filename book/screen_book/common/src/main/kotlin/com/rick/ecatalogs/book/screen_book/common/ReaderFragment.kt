@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.screen_book.common
 
+import dagger.hilt.android.AndroidEntryPoint
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -32,6 +33,7 @@ import com.rick.ecatalogs.data.ui_design.R as DesignR
  * per book. Pages are served from the WebView cache when possible, so reopening a book doesn't
  * download it again.
  */
+@AndroidEntryPoint
 class ReaderFragment : Fragment() {
 
     private var _binding: BookScreenBookCommonReaderFragmentBinding? = null
@@ -43,6 +45,7 @@ class ReaderFragment : Fragment() {
 
     private var bookId = 0
     private var link = ""
+    private var bookTitle = ""
     private var loadFailed = false
 
     /** Position to return to once the page has loaded, as a fraction of the book (0..1). */
@@ -65,6 +68,7 @@ class ReaderFragment : Fragment() {
         val args = ReaderFragmentArgs.fromBundle(requireArguments())
         bookId = args.book
         link = args.link
+        bookTitle = args.title
         binding.readerToolbar.title = args.title
         return binding.root
     }
@@ -80,6 +84,8 @@ class ReaderFragment : Fragment() {
                 when (item.itemId) {
                     R.id.reader_text_smaller -> changeTextZoom(-TEXT_ZOOM_STEP)
                     R.id.reader_text_larger -> changeTextZoom(TEXT_ZOOM_STEP)
+                    R.id.reader_adaptations -> ScreenAdaptationsSheet.newInstance(bookTitle)
+                        .show(childFragmentManager, "adaptations")
                     else -> return@setOnMenuItemClickListener false
                 }
                 true

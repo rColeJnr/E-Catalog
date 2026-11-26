@@ -11,4 +11,8 @@
         android:icon="@drawable/book_screen_book_common_ic_text_larger"
         android:title="@string/book_screen_book_common_reader_text_larger"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/reader_adaptations"
+        android:title="@string/book_screen_book_common_adaptations"
+        app:showAsAction="never" />
 </menu>

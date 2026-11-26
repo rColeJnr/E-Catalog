@@ -60,7 +60,12 @@ internal class BestsellerRetrofitNetwork @Inject constructor() : BestsellerNetwo
     private val networkApi = Retrofit.Builder().baseUrl("https://api.nytimes.com/")
         .addConverterFactory(GsonConverterFactory.create()).client(
             OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(
+                    // URLs carry API keys: log them only in debug builds
+                    HttpLoggingInterceptor().setLevel(
+                        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE,
+                    ),
+                )
                 .build()
         ).build().create(NyTimesRetrofitNetworkApi::class.java)
 

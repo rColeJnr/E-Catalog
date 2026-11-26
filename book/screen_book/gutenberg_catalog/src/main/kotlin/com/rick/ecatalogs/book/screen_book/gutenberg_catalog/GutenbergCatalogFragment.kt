@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.screen_book.gutenberg_catalog
 
+import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.ConcatAdapter
@@ -126,6 +127,8 @@ class GutenbergCatalogFragment : Fragment() {
             viewModel.setFilter(filter)
             binding.recyclerView.scrollToPosition(0)
         }
+        // Cards fade, rise and scale in as they scroll into view
+        binding.recyclerView.animateItemsOnScroll()
         binding.recyclerView.adapter = ConcatAdapter(
             headerAdapter,
             adapter.withLoadStateFooter(footer = BookLoadStateAdapter { adapter.retry() }),
@@ -154,20 +157,24 @@ class GutenbergCatalogFragment : Fragment() {
     ) {
 
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             pagingDataFlow.collect(adapter::submitData)
         }
 
-        lifecycleScope.launch {
-            adapter.loadStateFlow.collect { loadState ->
-
-                // show empty list.
-                bookComposeView.setContent {
-                    EcsTheme {
-                        ErrorMessage(getString(R.string.book_screen_book_gutenberg_catalog_no_results))
-                    }
+        bookComposeView.setContent {
+            EcsTheme {
+                ErrorMessage(getString(R.string.book_screen_book_gutenberg_catalog_no_results)) {
+                    adapter.refresh()
                 }
-                bookComposeView.isVisible = adapter.itemCount == 0
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadState ->
+                // Empty list: only once loading is over (not while the first page is on its way)
+                val loading = loadState.refresh is LoadState.Loading ||
+                    loadState.mediator?.refresh is LoadState.Loading
+                bookComposeView.isVisible = !loading && adapter.itemCount == 0
 
                 val errorState = loadState.source.refresh as? LoadState.Error
                     ?: loadState.mediator?.refresh as? LoadState.Error
@@ -175,7 +182,7 @@ class GutenbergCatalogFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        getString(R.string.book_screen_book_gutenberg_catalog_wooops, it),
+                        getString(com.rick.ecatalogs.data.ui_components.common.R.string.data_ui_components_common_load_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -185,7 +192,7 @@ class GutenbergCatalogFragment : Fragment() {
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notLoading.collectLatest {
                 if (it) recyclerView.scrollToPosition(0)
             }

@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 
+import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
+import com.rick.ecatalogs.data.ui_design.useHeroCarousel
 import androidx.paging.LoadState
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
@@ -17,7 +19,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -29,8 +30,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.rick.ecatalogs.book.screen_book.bestseller_catalog.databinding.BookScreenBookBestsellerCatalogFragmentBestsellerBinding
-import com.rick.ecatalogs.book.screen_book.common.TranslationEvent
-import com.rick.ecatalogs.book.screen_book.common.TranslationViewModel
 import com.rick.ecatalogs.book.screen_book.common.logAmazonLinkOpened
 import com.rick.ecatalogs.book.screen_book.common.logBestsellerOpened
 import com.rick.ecatalogs.book.screen_book.common.logScreenView
@@ -42,7 +41,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -51,7 +49,6 @@ class BestsellerFragment : Fragment() {
     private var _binding: BookScreenBookBestsellerCatalogFragmentBestsellerBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BestsellerViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var adapter: BestsellerAdapter
     private lateinit var carouselAdapter: BestsellerCarouselAdapter
@@ -59,6 +56,13 @@ class BestsellerFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    /**
+     * Where the page was scrolled when its view was destroyed (going to details). The grid sits in
+     * a NestedScrollView and fills in after the first layout, so the scroll view's own restore
+     * would clamp to the top: it's applied once the grid has its items again.
+     */
+    private var restoreScrollY = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -74,10 +78,6 @@ class BestsellerFragment : Fragment() {
 
         navController = findNavController()
 
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
-
         initAdapters()
 
         binding.bindList()
@@ -90,16 +90,20 @@ class BestsellerFragment : Fragment() {
     private fun initAdapters() {
         // Main RecyclerView Adapter
         adapter =
-            BestsellerAdapter(this::onBookClick, this::onFavoriteClick, this::onTranslationClick)
+            BestsellerAdapter(this::onBookClick, this::onFavoriteClick)
         binding.recyclerView.layoutManager =
             GridLayoutManager(requireContext(), 2)
         binding.recyclerView.itemAnimator = DefaultItemAnimator().apply {
             // Rebinding the same item shouldn't fade the whole card (looked like flicker)
             supportsChangeAnimations = false
         }
+        // Cards fade, rise and scale in as they scroll into view
+        binding.recyclerView.animateItemsOnScroll()
         binding.recyclerView.adapter = adapter
 
         carouselAdapter = BestsellerCarouselAdapter(this::onBookClick, this::onFavoriteClick)
+        // Centered hero carousel: the featured book large in the middle, neighbours peeking
+        binding.carouselView.useHeroCarousel()
         binding.carouselView.adapter = carouselAdapter
 
         categoryAdapter = BestsellerCategoryAdapter { position ->
@@ -145,6 +149,11 @@ class BestsellerFragment : Fragment() {
 
                 launch {
                     adapter.loadStateFlow.collect { loadState ->
+                        if (restoreScrollY > 0 && adapter.itemCount > 0) {
+                            val scrollY = restoreScrollY
+                            restoreScrollY = 0
+                            restoreScroll(scrollY)
+                        }
                         val failed = loadState.mediator?.refresh is LoadState.Error &&
                             adapter.itemCount == 0
                         if (failed) {
@@ -224,28 +233,6 @@ class BestsellerFragment : Fragment() {
         findNavController().navigateWithMotion(Uri.parse("com.rick.ecs://bestseller_details/${book.id}"))
     }
 
-    private fun onTranslationClick(book: UserBestseller, text: List<String>) {
-        if (this.translationViewModel.location.value.lowercase() == "en") {
-            Toast.makeText(
-                context,
-                getString(R.string.book_screen_book_bestseller_catalog_translation_is_not_available_in_english),
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-        translationViewModel.onEvent(
-            TranslationEvent.GetTranslation(
-                text,
-                translationViewModel.location.value
-            )
-        )
-        lifecycleScope.launch {
-            translationViewModel.translation.collectLatest {
-                onBookClick(book.copy(description = it.first().text))
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.book_screen_book_bestseller_catalog_menu, menu)
     }
@@ -263,7 +250,22 @@ class BestsellerFragment : Fragment() {
         }
     }
 
+    /**
+     * Scrolls back to [scrollY] once the page is tall enough for it: the grid's rows (and cover
+     * images) fill in over a few layouts, and scrolling earlier stops short.
+     */
+    private fun restoreScroll(scrollY: Int, attemptsLeft: Int = 20) {
+        val scroll = _binding?.bestsellerScroll ?: return
+        val contentHeight = scroll.getChildAt(0)?.height ?: 0
+        if (contentHeight - scroll.height >= scrollY || attemptsLeft == 0) {
+            scroll.scrollTo(0, scrollY)
+        } else {
+            scroll.postDelayed({ restoreScroll(scrollY, attemptsLeft - 1) }, 50)
+        }
+    }
+
     override fun onDestroyView() {
+        restoreScrollY = binding.bestsellerScroll.scrollY
         super.onDestroyView()
         _binding = null
     }

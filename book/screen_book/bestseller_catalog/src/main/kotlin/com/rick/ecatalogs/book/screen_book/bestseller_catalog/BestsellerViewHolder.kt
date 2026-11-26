@@ -13,7 +13,6 @@ class BestsellerViewHolder(
     binding: BookScreenBookBestsellerCatalogBookEntryBinding,
     private val onBookClick: (UserBestseller) -> Unit,
     private val onFavoriteClick: (View, String, Boolean) -> Unit,
-    private val onTranslationClick: (UserBestseller, List<String>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val image = binding.image
@@ -59,7 +58,6 @@ class BestsellerViewHolder(
             parent: ViewGroup,
             onBookClick: (UserBestseller) -> Unit,
             onFavoriteClick: (View, String, Boolean) -> Unit,
-            onTranslationClick: (UserBestseller, List<String>) -> Unit
         ): BestsellerViewHolder {
             val itemBinding = BookScreenBookBestsellerCatalogBookEntryBinding.inflate(
                 LayoutInflater.from(
@@ -70,7 +68,6 @@ class BestsellerViewHolder(
                 itemBinding,
                 onBookClick,
                 onFavoriteClick,
-                onTranslationClick
             )
         }
     }

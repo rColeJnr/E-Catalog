@@ -40,20 +40,21 @@
             android:visibility="invisible"
             tools:visibility="visible">
 
-            <!-- Cover and facts -->
+            <!-- Hero: large centered cover, rank, title, author and list facts -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="124dp"
-                    android:layout_height="186dp"
+                    android:layout_width="168dp"
+                    android:layout_height="252dp"
+                    android:layout_marginTop="8dp"
                     app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="12dp"
                     app:strokeWidth="0dp">
 
                     <com.google.android.material.imageview.ShapeableImageView
@@ -64,66 +65,60 @@
                         tools:src="@tools:sample/backgrounds/scenic" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/details_rank"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/book_screen_book_bestseller_catalog_rank_pill"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="4dp"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textColor="@color/data_ui_design_on_primary"
+                    tools:text="#1" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_rank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/data_ui_design_rank_badge"
-                        android:textAppearance="@style/DataUiDesignTextAppearance.PosterChip"
-                        android:textColor="@color/data_ui_design_on_scrim"
-                        tools:text="#1" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/details_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="@color/data_ui_design_black"
+                    tools:text="The Let Them Theory" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textAppearance="?attr/textAppearanceHeadline5"
-                        android:textColor="@color/data_ui_design_black"
-                        tools:text="The Let Them Theory" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/details_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="@color/data_ui_design_color_buttons"
+                    tools:text="Mel Robbins" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/details_author"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/data_ui_design_color_buttons"
-                        tools:text="Mel Robbins" />
+                <!-- List facts as small tonal pills -->
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    app:chipSpacingHorizontal="8dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/details_weeks"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/data_ui_design_text_secondary"
+                        style="@style/BookScreenBookBestsellerCatalogFactPill"
                         tools:text="66 weeks on the list" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/details_last_week"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/data_ui_design_text_secondary"
+                        style="@style/BookScreenBookBestsellerCatalogFactPill"
                         tools:text="Last week #1" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/details_publisher"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:textAppearance="?attr/textAppearanceCaption"
-                        android:textColor="@color/data_ui_design_text_secondary"
+                        style="@style/BookScreenBookBestsellerCatalogFactPill"
                         tools:text="Hay House" />
-                </LinearLayout>
+                </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
 
             <!-- About -->
@@ -146,6 +141,19 @@
                     android:textAppearance="?attr/textAppearanceBody1"
                     android:textColor="@color/data_ui_design_black"
                     tools:text="The bestselling author and podcast host describes a mindset that lets you stop wasting energy on what you can't control." />
+
+                <!-- Shown by TranslationToggle when the phone isn't in English -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/details_description_translate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                    android:layout_marginTop="4dp"
+                    android:paddingVertical="4dp"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textColor="@color/data_ui_design_color_buttons"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <!-- Where to buy -->
@@ -261,6 +269,18 @@
                             android:textColor="@color/data_ui_design_text_secondary"
                             tools:text="Opening lines of the review…" />
 
+                        <!-- Shown by TranslationToggle when the phone isn't in English -->
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/details_review_translate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:paddingVertical="4dp"
+                            android:textAppearance="?textAppearanceBody2"
+                            android:textColor="@color/data_ui_design_color_buttons"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/details_review_read"
                             style="@style/Widget.Material3.Button.TextButton"
@@ -272,6 +292,13 @@
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Film & TV adaptations of the book (Compose; hidden when there are none) -->
+            <androidx.compose.ui.platform.ComposeView
+                android:id="@+id/details_adaptations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

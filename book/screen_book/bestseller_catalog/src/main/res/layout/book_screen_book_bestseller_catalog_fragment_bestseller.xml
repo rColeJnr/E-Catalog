@@ -8,6 +8,7 @@
     tools:context="com.rick.ecatalogs.book.screen_book.bestseller_catalog.BestsellerFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/bestseller_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/data_ui_design_text_two_dp"
@@ -65,10 +66,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/carousel_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="320dp"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:nestedScrollingEnabled="false"
+                android:paddingHorizontal="12dp"
                 tools:listitem="@layout/book_screen_book_bestseller_catalog_carousel_book_entry" />
 
             <TextView

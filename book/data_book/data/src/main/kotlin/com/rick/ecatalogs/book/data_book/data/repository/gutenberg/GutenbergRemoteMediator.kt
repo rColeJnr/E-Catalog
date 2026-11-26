@@ -8,7 +8,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.rick.ecatalogs.book.data_book.network.GutenbergNetworkDataSource
-import com.rick.ecatalogs.book.data_book.network.model.GutenbergNetwork
 import com.rick.ecatalogs.book.data_book.data.model.asGutenbergEntity
 import com.rick.ecatalogs.book.data_book.database.BookTransactionRunner
 import com.rick.ecatalogs.book.data_book.database.dao.GutenbergDao
@@ -27,6 +26,8 @@ class GutenbergRemoteMediator(
     private val transactionRunner: BookTransactionRunner,
     private val listCache: ListCache,
     private val filter: GutenbergFilter,
+    /** Rows a refresh keeps although they leave the list: the favorites. */
+    private val favoriteIds: suspend () -> Set<Int>,
 ) : RemoteMediator<Int, GutenbergEntity>() {
 
     /**
@@ -76,10 +77,15 @@ class GutenbergRemoteMediator(
             val books = response.results
             val endOfPaginationReached = books.isEmpty()
 
+            // Read before the transaction: favorites live in DataStore, not in Room
+            val keepIds = if (loadType == LoadType.REFRESH) favoriteIds() else emptySet()
             transactionRunner {
                 if (loadType == LoadType.REFRESH) {
                     keysDao.clearRemoteKeys()
-                    gutenbergDao.clearGutenbergs(books.map(GutenbergNetwork::id))
+                    // Written anew for this filter: the previous filter's books leave the list,
+                    // and those that aren't favorites are deleted
+                    gutenbergDao.clearCatalog()
+                    gutenbergDao.deleteOutsideCatalog(keepIds)
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -91,8 +97,11 @@ class GutenbergRemoteMediator(
                     )
                 }
                 keysDao.insertAll(keys)
-                gutenbergDao.upsertGutenberg(books.sortedByDescending { it.downloads }
-                    .map(GutenbergNetwork::asGutenbergEntity))
+                gutenbergDao.upsertGutenberg(
+                    books.sortedByDescending { it.downloads }.mapIndexed { index, book ->
+                        book.asGutenbergEntity().copy(catalogPosition = page * PAGE_STRIDE + index)
+                    },
+                )
             }
 
             if (loadType == LoadType.REFRESH) {
@@ -136,3 +145,6 @@ class GutenbergRemoteMediator(
         }
     }
 }
+
+/** Room for a page's books in catalog_position (Gutendex pages hold 32). */
+private const val PAGE_STRIDE = 1_000

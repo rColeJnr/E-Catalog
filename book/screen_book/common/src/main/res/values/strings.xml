@@ -5,4 +5,7 @@
     <string name="book_screen_book_common_reader_error">Couldn\'t open this book. Tap to try again.</string>
     <string name="book_screen_book_common_reader_text_smaller">Smaller text</string>
     <string name="book_screen_book_common_reader_text_larger">Larger text</string>
+    <string name="book_screen_book_common_adaptations">Film &amp; TV adaptations</string>
+    <string name="book_screen_book_common_no_adaptations">No film or TV adaptations found.</string>
+    <string name="book_screen_book_common_adaptations_error">Couldn\'t look for adaptations. Tap to try again.</string>
 </resources>
