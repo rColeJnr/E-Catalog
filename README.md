@@ -1,45 +1,72 @@
-# E-Catalog
-A comprehensive catalog of entertainment topics, including television, books, movies, anime, and manga.
+# E-Catalogs
 
-The project presents catalogs of:
-* **Movies**: Recent movie releases and details.
-* **TV Series**: Top 150 IMDB series.
-* **Books**: Most downloaded books from the Gutenberg project and New York Times Bestsellers (Hardcover Fiction and Miscellaneous).
-* **Anime & Manga**: Data from MyAnimeList via the Jikan API.
+**Available on Google Play:** [E-Catalogs on the Play Store](https://play.google.com/store/apps/details?id=com.rick.moviecatalog)
 
-Features include:
-* **Search**: Universal search screen for all entertainment topics.
-* **Favorites**: Save your favorite movies, books, and animations in one place.
-* **Authentication**: Sign-in and account creation to manage your personal catalogs.
+<a href="https://play.google.com/store/apps/details?id=com.rick.moviecatalog"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="80"/></a>
 
-## Tech Stack
-* **Architecture**: Clean Architecture with MVI/MVVM.
-* **Data**: Room Database, Retrofit for Networking, Paging 3 for pagination.
-* **UI**: Jetpack Compose and XML/ViewBinding.
-* **Security**: API keys are secured using NDK/JNI.
+E-Catalogs is an Android app for discovering movies, TV series, books, anime, manga and video games, built on five
+public APIs. It has been in development since 2022 and is published on Google Play.
 
-## Getting Started
-To run the project, you need to obtain your own API keys:
-1. **NYT API**: Get a free key from [developer.nytimes.com](https://developer.nytimes.com/apis) for movie articles and bestseller data (enable the Article Search and Books APIs).
-2. **TMDB API**: Get a key from [themoviedb.org](https://www.themoviedb.org/settings/api) for trending movies and series.
+## What's in the app
+| Area | Source | Highlights |
+|---|---|---|
+| **Movies & TV series** | [TMDB](https://www.themoviedb.org/) | Trending, upcoming and now playing, genre filters, cast, trailers, where to watch, similar titles, seasons and episodes |
+| **Movie reviews** | [New York Times](https://developer.nytimes.com/) | Critics' reviews, with a link to the film they review |
+| **Books** | [Project Gutenberg](https://gutendex.com/) and NYT Best Sellers | Free books with a built-in reader, best-seller lists by genre, screen adaptations |
+| **Anime & manga** | [Jikan](https://jikan.moe/) (MyAnimeList) | Top lists, genres, weekly schedule, characters and people, relations |
+| **Video games** | [IGDB](https://www.igdb.com/) | Popular now, coming soon, recently released, genres (built entirely in Jetpack Compose) |
 
-### Adding API Keys
-Add the keys to `local.properties` in the project root (this file is git-ignored):
-```properties
-tmdbApiKey=YOUR_TMDB_KEY
-nyTimesApiKey=YOUR_NYT_KEY
+In every area: search with recent queries, favorites, and translation of descriptions (Portuguese and Russian).
+The app also has:
+- **Offline-first catalogs**: lists are cached in Room and paged with Paging 3, so they load instantly and work without a connection.
+- **Background sync and notifications**: WorkManager refreshes the trending lists on a schedule you choose and notifies you about new titles, with a switch per category in Settings.
+- **Accounts**: email, Google and One Tap sign-in (Firebase Auth).
+- **Light and dark themes**, in English, Portuguese and Russian.
+
+## Tech stack
+- **Language and UI**: Kotlin, XML/ViewBinding screens moving to Jetpack Compose, a shared design system module.
+- **Architecture**: Clean Architecture with MVVM, multi-module by feature (data and screen modules per area).
+- **Data**: Retrofit (Gson, Kotlinx Serialization), Room with migrations, Paging 3 with RemoteMediator, Proto DataStore.
+- **DI and background work**: Hilt, WorkManager.
+- **Security**: API keys come from `local.properties` into `BuildConfig` (never committed); the IGDB token is stored
+  encrypted with an AES-256-GCM key in the Android Keystore.
+- **Build**: Gradle version catalog and convention plugins (`build-logic`), R8, baseline profiles, Firebase Crashlytics.
+- **Tests**: unit and Robolectric tests for the data layer, and 77 instrumented UI tests (Espresso, Compose UI Test)
+  covering navigation, login, settings and every catalog flow.
+
+## Getting started
+The **demo** flavor uses bundled sample data, so it runs without any API key:
+```bash
+./gradlew :app:installDemoDebug
 ```
-They are exposed as `BuildConfig` fields in the network modules (`:movie:data_movie:network`, `:book:data_book:network`) and added to requests there, so no other code handles keys.
 
-## Project Structure
-The project is modularized by feature:
-* `:app`: Main entry point.
-* `:movie`: Movie and TV series features.
-* `:book`: Gutenberg and NYT Bestseller features.
-* `:anime`: Anime and Manga features.
-* `:data`: Shared data modules (UI components, design system, and auth).
+The **prod** flavor calls the real APIs. Add your own keys to `local.properties` in the project root (git-ignored):
+```properties
+tmdbApiKey=YOUR_TMDB_KEY              # themoviedb.org/settings/api
+nyTimesApiKey=YOUR_NYT_KEY            # developer.nytimes.com (Article Search and Books APIs)
+translationApiKey=YOUR_TRANSLATION_KEY
+igdbClientId=YOUR_TWITCH_CLIENT_ID    # dev.twitch.tv/console
+igdbClientSecret=YOUR_TWITCH_SECRET
+```
+
+Run the tests:
+```bash
+./gradlew testDemoDebugUnitTest                  # unit tests
+./gradlew :app:connectedDemoDebugAndroidTest     # UI tests (needs a device or emulator)
+```
+
+## Project structure
+- `:app`: single activity, navigation drawer, app-wide wiring.
+- `:movie`, `:book`, `:anime`, `:game`: one area each, split into `data_*` (model, network, database, data) and
+  `screen_*` (one module per screen).
+- `:settings`, `:authentication`: settings and sign-in.
+- `:data`: shared modules (design system, UI components, DataStore, sync, notifications, translation, testing).
+- `:benchmarks`: baseline profile generation and startup and scrolling benchmarks.
+- `build-logic`: Gradle convention plugins.
 
 ## Screenshots
+Screenshots from an earlier version:
+
 ![movies](https://user-images.githubusercontent.com/72414394/196361471-b9792801-538a-4dc3-8b26-594a65700eb4.jpg)
 ![series](https://user-images.githubusercontent.com/72414394/196361540-6284ff87-19ad-450b-bb65-fa45ab31534c.jpg)
 ![books](https://user-images.githubusercontent.com/72414394/196361561-6b6faab0-d561-4e39-9e72-caf7d683bc23.jpg)
