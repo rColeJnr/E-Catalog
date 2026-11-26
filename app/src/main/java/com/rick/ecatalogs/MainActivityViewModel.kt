@@ -1,5 +1,6 @@
 package com.rick.ecatalogs
 
+import com.rick.ecatalogs.data.util.NetworkMonitor
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rick.ecatalogs.settings.data_settings.data.repository.UserSettingsDataRepository
@@ -14,7 +15,17 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     userDataRepository: UserSettingsDataRepository,
+    networkMonitor: NetworkMonitor,
 ) : ViewModel() {
+
+    /** True while the device has no internet connection. */
+    val isOffline: StateFlow<Boolean> = networkMonitor.isOnline
+        .map(Boolean::not)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false,
+        )
 
     val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {
         MainActivityUiState.Success(it)

@@ -61,4 +61,13 @@
         </menu>
     </item>
 
+    <item android:title="@string/video_games">
+        <menu>
+            <!-- Same id as the games nav graph -->
+            <item
+                android:id="@+id/game_graph"
+                android:icon="@drawable/ic_game"
+                android:title="@string/games" />
+        </menu>
+    </item>
 </menu>

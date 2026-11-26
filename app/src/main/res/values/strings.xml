@@ -29,4 +29,8 @@
     <string name="your_username">your username</string>
     <string name="movie_reviews">Movie Reviews</string>
     <string name="settings">Settings</string>
+    <string name="not_connected">You aren\'t connected to the internet</string>
+    <string name="video_games">Video games</string>
+    <string name="games">Games</string>
+    <string name="games_favorite">Games Favorites</string>
 </resources>

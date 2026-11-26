@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.ecatalogs.android.application)
     alias(libs.plugins.ecatalogs.android.application.flavors)
@@ -7,8 +9,7 @@ plugins {
     id("jacoco")
     alias(libs.plugins.ecatalogs.android.hilt)
     alias(libs.plugins.ecatalogs.android.room)
-//    alias(libs.plugins.gms)
-//    alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose)
     alias(libs.plugins.google.osslicenses)
 }
@@ -16,33 +17,46 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.rick.moviecatalog"
-        versionCode = 9
-        versionName = "2.1"
+        versionCode = 10
+        versionName = "2.2"
 
-        testInstrumentationRunner =
-            "androidx.test.runner.AndroidJUnitRunner"/*"com.rick.ecatalogs.data.testing.EcsTestRunner"*/
+        testInstrumentationRunner = "com.rick.ecatalogs.data.testing.EcsTestRunner"
     }
     buildFeatures {
         viewBinding = true
         compose = true
     }
+    // Play upload key, from local.properties (never committed): releaseStoreFile (path to the
+    // keystore), releaseStorePassword, releaseKeyAlias, releaseKeyPassword. Without them release
+    // builds are signed with the debug key, so a fresh clone can still build and run them.
+    val localProperties = gradleLocalProperties(rootDir, providers)
+    val releaseStoreFile = localProperties.getProperty("releaseStoreFile")
+    if (releaseStoreFile != null) {
+        signingConfigs.create("release") {
+            storeFile = file(releaseStoreFile)
+            storePassword = localProperties.getProperty("releaseStorePassword")
+            keyAlias = localProperties.getProperty("releaseKeyAlias")
+            keyPassword = localProperties.getProperty("releaseKeyPassword")
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = EcsBuildType.DEBUG.applicationIdSuffix
         }
         release {
             applicationIdSuffix = EcsBuildType.RELEASE.applicationIdSuffix
+            // R8: shrinks, optimizes and obfuscates (see proguard-rules.pro). -PminifyWithR8=false
+            // turns it off to tell an R8 problem from an app bug, as in Now in Android.
+            isMinifyEnabled = providers.gradleProperty("minifyWithR8")
+                .map(String::toBooleanStrict).getOrElse(true)
+            isShrinkResources = isMinifyEnabled
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
 
-            // To publish on the Play store a private signing key is required, but to allow anyone
-            // who clones the code to sign and run the release variant, use the debug signing key.
-            // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
-            signingConfig = signingConfigs.named("debug").get()
-            // Ensure Baseline Profile is fresh for release builds.
-//            baselineProfile.automaticGenerationDuringBuild = true
+            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
         }
     }
     packaging {
@@ -96,17 +110,25 @@ dependencies {
     implementation(projects.anime.screenAnime.mangaFavorites)
     implementation(projects.anime.screenAnime.mangaSearch)
 
+    implementation(projects.game.screenGame.gameCatalog)
+    implementation(projects.game.screenGame.gameDetails)
+    implementation(projects.game.screenGame.gameSearch)
+    implementation(projects.game.screenGame.gameFavorites)
     implementation(projects.authentication.authScreen)
     implementation(projects.settings.dataSettings.data)
     implementation(projects.settings.screenSettings)
     implementation(projects.data.datastore)
     implementation(projects.data.sync)
+    implementation(projects.data.util)
+    implementation(projects.data.uiComponents.common)
+implementation(libs.lifecycle.runtime.ktx)
     implementation(projects.data.uiDesign)
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.app.compat)
     implementation(libs.android.material)
     implementation(libs.androidx.splash.screen)
+    implementation(libs.androidx.profileinstaller)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
@@ -126,12 +148,33 @@ dependencies {
 //    testDemoImplementation(libs.roborazzi)
 //    testDemoImplementation(projects.core.screenshotTesting)
 
-//    androidTestImplementation(projects.data.testing)
-//    androidTestImplementation(libs.androidx.test.espresso.core)
-//    androidTestImplementation(libs.androidx.navigation.testing)
-//    androidTestImplementation(libs.hilt.testing)
+    androidTestImplementation(projects.data.testing)
+    androidTestImplementation(projects.data.datastore)
+    androidTestImplementation(projects.data.datastoreTest)
+    androidTestImplementation(projects.authentication.authData)
+    androidTestImplementation(projects.data.uiComponents.auth)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.work.testing)
+    // ConcatAdapter (CatalogRobot); 1.2.1 is already in the Gradle cache
+    androidTestImplementation(libs.androidx.recyclerview)
+    // Versions from the Compose BOM (alpha BOM 2025.09.01 → 1.10.0-alpha04, already cached)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.compose.ui.test)
+    kspAndroidTest(libs.hilt.compiler)
 
-//    baselineProfile(projects.benchmarks)
+    baselineProfile(projects.benchmarks)
+}
+
+baselineProfile {
+    // Generated on demand (./gradlew :app:generateProdReleaseBaselineProfile), not on every
+    // release build: it needs a device.
+    automaticGenerationDuringBuild = false
+
+    // Dex Layout Optimizations, from the startup profile
+    dexLayoutOptimization = true
 }
 
 dependencyGuard {

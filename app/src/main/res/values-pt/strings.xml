@@ -27,4 +27,8 @@
     <string name="your_username">O seu nome de utilizador</string>
     <string name="movie_reviews">Críticas de Filmes</string>
     <string name="settings">Definições</string>
+    <string name="not_connected">Você não está conectado à internet</string>
+    <string name="video_games">Videogames</string>
+    <string name="games">Jogos</string>
+    <string name="games_favorite">Jogos Favoritos</string>
 </resources>

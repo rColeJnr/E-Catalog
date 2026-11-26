@@ -28,4 +28,8 @@
     <string name="your_username">Твой никнейм</string>
     <string name="movie_reviews">Рецензии на фильмы</string>
     <string name="settings">Настройки</string>
+    <string name="not_connected">Нет подключения к интернету</string>
+    <string name="video_games">Видеоигры</string>
+    <string name="games">Игры</string>
+    <string name="games_favorite">Любимые игры</string>
 </resources>

@@ -1,5 +1,10 @@
 package com.rick.ecatalogs
 
+import kotlinx.coroutines.launch
+import com.google.android.material.snackbar.Snackbar
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -46,6 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
+    /** "You aren't connected to the internet", shown for as long as the device is offline. */
+    private var offlineSnackbar: Snackbar? = null
+
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -81,6 +89,8 @@ class MainActivity : AppCompatActivity() {
                 //Anime screen
                 com.rick.ecatalogs.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_animecatalogfragment,
                 com.rick.ecatalogs.anime.screen_anime.manga_catalog.R.id.anime_screen_anime_manga_catalog_mangacatalogfragment,
+                //Games
+                com.rick.ecatalogs.game.screen_game.game_catalog.R.id.game_screen_game_game_catalog_gamecatalogfragment,
                 //Movie reviews & settings
                 com.rick.ecatalogs.movie.screen_movie.article_catalog.R.id.movie_screen_movie_article_catalog_articlefragment,
                 com.rick.ecatalogs.settings.screen_settings.R.id.settings_screen_settings_settingsfragment,
@@ -104,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.trending_movie_details.R.id.movie_screen_movie_trending_movie_details_moviedetailsfragment
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.trending_series_details.R.id.movie_screen_movie_trending_series_details_trendingseriesdetailsfragment
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.person_details.R.id.movie_screen_movie_person_details_persondetailsfragment
+                || destination.id == com.rick.ecatalogs.movie.screen_movie.article_search.R.id.movie_screen_movie_article_search_articlesearchfragment
                 //Book screen
                 || destination.id == com.rick.ecatalogs.book.screen_book.gutenberg_search.R.id.book_screen_book_gutenberg_search_searchfragment
                 || destination.id == com.rick.ecatalogs.book.screen_book.common.R.id.book_screen_book_common_readerfragment
@@ -114,7 +125,12 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == com.rick.ecatalogs.anime.screen_anime.manga_search.R.id.anime_screen_anime_manga_search_mangasearchfragment
                 || destination.id == com.rick.ecatalogs.anime.screen_anime.manga_details.R.id.anime_screen_anime_manga_details_mangadetailsfragment
                 || destination.id == com.rick.ecatalogs.anime.screen_anime.anime_details.R.id.anime_screen_anime_anime_details_animedetailsfragment
+                || destination.id == com.rick.ecatalogs.anime.screen_anime.anime_details.R.id.anime_screen_anime_anime_details_personfragment
+                || destination.id == com.rick.ecatalogs.anime.screen_anime.anime_catalog.R.id.anime_screen_anime_anime_catalog_schedulefragment
 
+                //Game screen (Compose, own top bar)
+                || destination.id == com.rick.ecatalogs.game.screen_game.game_details.R.id.game_screen_game_game_details_gamedetailsfragment
+                || destination.id == com.rick.ecatalogs.game.screen_game.game_search.R.id.game_screen_game_game_search_gamesearchfragment
                 //Auth screen
                 || destination.id == com.rick.ecatalogs.authentication.auth_screen.R.id.authenticationFragment
             )
@@ -182,6 +198,13 @@ class MainActivity : AppCompatActivity() {
                     R.string.anime_favorite
                 )
 
+                //Game screen
+                com.rick.ecatalogs.game.screen_game.game_catalog.R.id.game_screen_game_game_catalog_gamecatalogfragment -> getString(
+                    R.string.games
+                )
+                com.rick.ecatalogs.game.screen_game.game_favorites.R.id.game_screen_game_game_favorites_gamefavoritesfragment -> getString(
+                    R.string.games_favorite
+                )
                 else -> getString(R.string.empty)
             }
         }
@@ -198,6 +221,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isOffline.collect(::showOffline)
+            }
+        }
+
         binding.navView.getHeaderView(0).setOnClickListener {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             navController.navigate(
@@ -211,6 +240,17 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         // Notification taps while the app is running deliver a deep link here
         navController.handleDeepLink(intent)
+    }
+
+    private fun showOffline(isOffline: Boolean) {
+        if (isOffline) {
+            if (offlineSnackbar?.isShownOrQueued == true) return
+            offlineSnackbar = Snackbar.make(binding.coordinator, R.string.not_connected, Snackbar.LENGTH_INDEFINITE)
+                .also(Snackbar::show)
+        } else {
+            offlineSnackbar?.dismiss()
+            offlineSnackbar = null
+        }
     }
 
     private fun applyTheme(themeConfig: ThemeConfig) {
