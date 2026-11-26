@@ -23,4 +23,6 @@
         <item quantity="many">%1$d новинок</item>
         <item quantity="other">%1$d новинки</item>
     </plurals>
+    <string name="data_notifications_channel_games">Скоро выйдут</string>
+    <string name="data_notifications_new_coming_soon_games">Новые игры скоро выйдут</string>
 </resources>

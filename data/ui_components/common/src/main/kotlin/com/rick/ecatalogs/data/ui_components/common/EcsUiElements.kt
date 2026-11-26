@@ -210,7 +210,7 @@ fun ErrorMessage(message: String, onClick: () -> Unit = {}) {
         TextButton(
             onClick = { onClick() },
         ) {
-            EcsText(modifier = Modifier, text = "Retry")
+            EcsText(modifier = Modifier, text = stringResource(R.string.data_ui_components_common_retry))
         }
     }
 }

@@ -23,14 +23,18 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.rick.ecatalogs.authentication.auth_data.AuthSession
 import com.rick.ecatalogs.settings.data_settings.model.NotificationCategory
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     private val viewModel: SettingsViewModel by viewModels()
+
+    @Inject
+    lateinit var authSession: AuthSession
 
     private var pendingNotificationCategory: NotificationCategory? = null
 
@@ -92,7 +96,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun signOut() {
-        FirebaseAuth.getInstance().signOut()
+        authSession.signOut()
         val navController = findNavController()
         navController.navigate(
             NavDeepLinkRequest.Builder.fromUri(Uri.parse(AUTHENTICATION_DEEP_LINK)).build(),
@@ -101,9 +105,9 @@ class SettingsFragment : Fragment() {
     }
 
     private fun deleteAccount() {
-        val user = FirebaseAuth.getInstance().currentUser ?: return signOut()
-        user.delete().addOnCompleteListener {
-            if (!isAdded) return@addOnCompleteListener
+        if (!authSession.isSignedIn) return signOut()
+        authSession.deleteAccount {
+            if (!isAdded) return@deleteAccount
             Toast.makeText(
                 requireContext(), R.string.settings_screen_settings_account_deleted, Toast.LENGTH_LONG
             ).show()

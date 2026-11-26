@@ -11,4 +11,6 @@ android {
 dependencies {
     // SyncManager exposes Flow
     api(libs.kotlinx.coroutines.core)
+    // @Dispatcher(IO) for ConnectivityManagerNetworkMonitor
+    implementation(projects.data.common)
 }

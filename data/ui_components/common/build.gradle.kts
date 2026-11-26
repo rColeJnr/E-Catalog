@@ -11,6 +11,8 @@ android {
 dependencies {
     lintPublish(projects.lint)
     implementation(projects.data.uiDesign)
+    api(projects.data.translation)
+    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.compose.coil)
     implementation(libs.bumptech.glide)
     implementation(libs.androidx.swiperefreshlayout)

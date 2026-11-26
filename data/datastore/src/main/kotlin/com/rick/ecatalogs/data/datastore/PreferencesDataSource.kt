@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import com.rick.ecatalogs.anime.data_anime.model.AnimeUserData
 import com.rick.ecatalogs.anime.data_anime.model.MangaUserData
+import com.rick.ecatalogs.game.data_game.model.GameUserData
 import com.rick.ecatalogs.book.data_book.model.bestseller.BestsellerUserData
 import com.rick.ecatalogs.book.data_book.model.gutenberg.GutenbergUserData
 import com.rick.ecatalogs.movie.data_movie.model.ArticleUserData
@@ -44,6 +45,7 @@ class PreferencesDataSource @Inject constructor(
                     if (!it.notificationsDisabledSeries) add(NotificationCategory.TRENDING_SERIES)
                     if (!it.notificationsDisabledArticles) add(NotificationCategory.ARTICLES)
                     if (!it.notificationsDisabledBestsellers) add(NotificationCategory.BESTSELLERS)
+                    if (!it.notificationsDisabledGames) add(NotificationCategory.GAMES)
                 },
             )
         }
@@ -104,6 +106,18 @@ class PreferencesDataSource @Inject constructor(
             )
         }
         .distinctUntilChanged()
+
+    val gameUserData = userPreferences.data
+        .map {
+            GameUserData(
+                gameFavoriteIds = it.gameFavoriteIdsMap.keys,
+            )
+        }
+        .distinctUntilChanged()
+
+    suspend fun setGameFavoriteIds(gameId: Int, isFavorite: Boolean) = update {
+        if (isFavorite) gameFavoriteIds.put(gameId, true) else gameFavoriteIds.remove(gameId)
+    }
 
     suspend fun setBestsellerFavoriteIds(bestsellerId: String, isFavorite: Boolean) {
         try {
@@ -247,6 +261,7 @@ class PreferencesDataSource @Inject constructor(
             NotificationCategory.TRENDING_SERIES -> notificationsDisabledSeries = !enabled
             NotificationCategory.ARTICLES -> notificationsDisabledArticles = !enabled
             NotificationCategory.BESTSELLERS -> notificationsDisabledBestsellers = !enabled
+            NotificationCategory.GAMES -> notificationsDisabledGames = !enabled
         }
     }
 
@@ -326,6 +341,14 @@ class PreferencesDataSource @Inject constructor(
         val others = notifiedBestsellerIds.filter { (key, _) -> !key.startsWith("$genre|") }
         notifiedBestsellerIds.clear()
         notifiedBestsellerIds.putAll(others + ids.associate { "$genre|$it" to true })
+    }
+
+    suspend fun notifiedComingSoonGameIds(): Set<Int> =
+        userPreferences.data.first().notifiedComingSoonGameIdsMap.keys
+
+    suspend fun setNotifiedComingSoonGameIds(ids: Set<Int>) = update {
+        notifiedComingSoonGameIds.clear()
+        notifiedComingSoonGameIds.putAll(ids.associateWith { true })
     }
 
     private suspend fun update(block: UserPreferencesKt.Dsl.() -> Unit) {

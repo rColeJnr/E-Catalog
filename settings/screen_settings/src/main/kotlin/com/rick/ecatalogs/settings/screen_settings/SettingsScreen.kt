@@ -323,6 +323,7 @@ private val NotificationCategory.labelRes: Int
         NotificationCategory.TRENDING_SERIES -> string.settings_screen_settings_trending_series
         NotificationCategory.ARTICLES -> string.settings_screen_settings_movie_reviews
         NotificationCategory.BESTSELLERS -> string.settings_screen_settings_bestsellers
+        NotificationCategory.GAMES -> string.settings_screen_settings_games
     }
 
 private val ThemeConfig.labelRes: Int

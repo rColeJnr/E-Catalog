@@ -62,6 +62,13 @@ object CachedList {
     const val AIRING_TODAY_SERIES = "airing_today_series"
     const val ANIME_SEASON_NOW = "anime_season_now"
     const val ANIME_SEASON_UPCOMING = "anime_season_upcoming"
+    const val GAMES = "games"
+    const val GAMES_COMING_SOON = "games_coming_soon"
+    const val GAMES_RECENTLY_RELEASED = "games_recently_released"
+    const val GAME_GENRES = "game_genres"
+
+    /** A featured manga row on the manga screen, per list (e.g. "PUBLISHING"). */
+    fun jikanMangaRow(list: String) = "jikan_manga_row:$list"
 
     /** Jikan genre lists, per type ("anime" / "manga"). */
     fun jikanGenres(type: String) = "jikan_genres:$type"

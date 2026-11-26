@@ -24,6 +24,7 @@ dependencies {
     api(projects.anime.dataAnime.model)
     api(projects.book.dataBook.model)
     api(projects.movie.dataMovie.model)
+    api(projects.game.dataGame.model)
     api(projects.settings.dataSettings.model)
 
     testImplementation(libs.kotlinx.coroutines.test)

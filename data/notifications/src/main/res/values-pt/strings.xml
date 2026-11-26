@@ -21,4 +21,6 @@
         <item quantity="one">%1$d novo título</item>
         <item quantity="other">%1$d novos títulos</item>
     </plurals>
+    <string name="data_notifications_channel_games">Jogos em breve</string>
+    <string name="data_notifications_new_coming_soon_games">Novos jogos em breve</string>
 </resources>

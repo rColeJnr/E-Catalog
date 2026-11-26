@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.data.notifications
 
+import com.rick.ecatalogs.game.data_game.model.Game
 import android.Manifest.permission
 import android.app.Notification
 import android.app.NotificationChannel
@@ -68,6 +69,14 @@ internal class SystemNotifier @Inject constructor(
         lines = books.map { "${it.title} – ${it.author}" },
         deepLink = DeepLinks.bestsellerCatalog(genre),
         group = BESTSELLERS_GROUP,
+    )
+
+    override fun postComingSoonGamesNotification(games: List<Game>) = post(
+        channel = Channel.GAMES,
+        notificationId = GAMES_ID,
+        title = context.getString(R.string.data_notifications_new_coming_soon_games),
+        lines = games.map(Game::name),
+        deepLink = DeepLinks.GAME_CATALOG,
     )
 
     override fun postReleaseReminder(movieId: Int, title: String) {
@@ -156,6 +165,7 @@ internal class SystemNotifier @Inject constructor(
         ARTICLES("articles", R.string.data_notifications_channel_articles),
         BESTSELLERS("bestsellers", R.string.data_notifications_channel_bestsellers),
         RELEASE_REMINDERS("release_reminders", R.string.data_notifications_channel_release_reminders),
+        GAMES("games", R.string.data_notifications_channel_games),
     }
 }
 
@@ -174,6 +184,7 @@ private const val MAX_LINES = 5
 private const val TRENDING_MOVIES_ID = 1001
 private const val TRENDING_SERIES_ID = 1002
 private const val ARTICLES_ID = 1003
+private const val GAMES_ID = 1004
 private const val BESTSELLERS_BASE_ID = 1100
 private const val BESTSELLERS_GROUP = "bestsellers"
 private const val RELEASE_REMINDER_BASE_ID = 200_000

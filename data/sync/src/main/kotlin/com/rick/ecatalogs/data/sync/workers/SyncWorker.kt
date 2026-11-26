@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.data.sync.workers
 
+import com.rick.ecatalogs.game.data_game.data.repository.GameBrowseRepository
+import com.rick.ecatalogs.game.data_game.data.repository.GameRepository
 import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
@@ -42,6 +44,8 @@ internal class SyncWorker @AssistedInject constructor(
     private val trendingSeriesRepository: TrendingSeriesRepository,
     private val articleRepository: ArticleRepository,
     private val bestsellerRepository: BestsellerRepository,
+    private val gameRepository: GameRepository,
+    private val gameBrowseRepository: GameBrowseRepository,
     private val preferences: PreferencesDataSource,
     private val notifier: Notifier,
     @Dispatcher(EcsDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
@@ -71,7 +75,14 @@ internal class SyncWorker @AssistedInject constructor(
         val series = async { runCatching { trendingSeriesRepository.syncFirstPage() } }
         val articles = async { runCatching { articleRepository.syncFirstPage() } }
         val bestsellers = async { runCatching { bestsellerRepository.syncAllGenres() } }
-        val results = listOf(movies.await(), series.await(), articles.await(), bestsellers.await())
+        // One after the other: both go through IGDB's 4-requests-a-second limit
+        val games = async {
+            runCatching {
+                gameRepository.syncFirstPage()
+                gameBrowseRepository.syncComingSoon()
+            }
+        }
+        val results = listOf(movies.await(), series.await(), articles.await(), bestsellers.await(), games.await())
 
         results.forEach { result ->
             result.exceptionOrNull()?.let { Log.e(TAG, "Sync failed", it) }
@@ -95,6 +106,9 @@ internal class SyncWorker @AssistedInject constructor(
             }
         }
 
+        if (NotificationCategory.GAMES in enabled) {
+            games.await().getOrNull()?.let(notifier::postComingSoonGamesNotification)
+        }
         // Retrying is safe: repositories whose content didn't change are a no-op.
         if (syncedSuccessfully) {
             preferences.setLastSyncEpochMillis(System.currentTimeMillis())

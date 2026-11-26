@@ -34,7 +34,12 @@ internal class TranslationNetwork @Inject constructor() : TranslationDataSource 
         )
         .client(
             OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(
+                    // URLs carry API keys: log them only in debug builds
+                    HttpLoggingInterceptor().setLevel(
+                        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE,
+                    ),
+                )
                 .build()
         )
         .build()

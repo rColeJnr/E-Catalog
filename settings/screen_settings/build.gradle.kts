@@ -9,8 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
+    implementation(projects.authentication.authData)
     implementation(libs.google.oss.licenses)
     implementation(libs.lifecycle.runtimeCompose)
     implementation(projects.settings.dataSettings.data)

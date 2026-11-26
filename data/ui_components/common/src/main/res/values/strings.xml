@@ -5,4 +5,10 @@
     <string name="data_ui_components_common_favorite">Favorite</string>
     <string name="data_ui_components_common_favorites">Favorites</string>
     <string name="data_ui_components_common_nothing_found">Nothing found</string>
+    <string name="data_ui_components_common_show_translation">Show translation</string>
+    <string name="data_ui_components_common_show_original">Show original</string>
+    <string name="data_ui_components_common_translating">Translating…</string>
+    <string name="data_ui_components_common_translation_failed">Couldn’t translate. Check your connection and try again.</string>
+    <string name="data_ui_components_common_load_failed">Couldn\'t load the list. Check your connection and try again.</string>
+    <string name="data_ui_components_common_retry">Retry</string>
 </resources>

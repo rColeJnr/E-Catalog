@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Views a centered carousel card fades out when it moves to the side (see CarouselMotion) -->
+    <item name="data_ui_design_carousel_fade_views" type="id" />
+</resources>

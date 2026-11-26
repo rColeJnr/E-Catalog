@@ -35,4 +35,5 @@
     <string name="settings_screen_settings_terms_of_use">Termos de utilização</string>
     <string name="settings_screen_settings_licenses">Licenças</string>
     <string name="settings_screen_settings_version">Versão %1$s</string>
+    <string name="settings_screen_settings_games">Jogos em breve</string>
 </resources>

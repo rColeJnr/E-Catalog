@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.data.ui_components.common
 
+import android.widget.Toast
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -20,7 +22,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,13 +39,17 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.rick.ecatalogs.data.translation.TextTranslator
 import com.rick.ecatalogs.data.ui_design.R
+import kotlinx.coroutines.launch
+import com.rick.ecatalogs.data.ui_components.common.R as UiR
 
 /**
  * Favorites card in the same style as the XML poster cards: the poster fills the card, the title
@@ -72,13 +85,71 @@ fun EcsCatalogCard(
             )
         }
         if (itemSummary.isNotBlank()) {
+            TranslatableSummary(itemSummary)
+        }
+    }
+}
+
+/**
+ * Translator for the summaries of [EcsCatalogCard]s: a screen provides one to offer
+ * "Show translation" under each summary.
+ */
+val LocalTextTranslator = staticCompositionLocalOf<TextTranslator?> { null }
+
+@Composable
+private fun TranslatableSummary(summary: String) {
+    val translator = LocalTextTranslator.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var translation by remember(summary) { mutableStateOf<String?>(null) }
+    var showingTranslation by remember(summary) { mutableStateOf(false) }
+    var translating by remember(summary) { mutableStateOf(false) }
+
+    Crossfade(
+        targetState = if (showingTranslation) translation ?: summary else summary,
+        label = "summary",
+    ) { text ->
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp),
+        )
+    }
+    if (translator != null && translator.isAvailable) {
+        TextButton(
+            enabled = !translating,
+            onClick = {
+                when {
+                    showingTranslation -> showingTranslation = false
+                    translation != null -> showingTranslation = true
+                    else -> scope.launch {
+                        translating = true
+                        translation = translator.translate(summary)
+                        translating = false
+                        if (translation != null) {
+                            showingTranslation = true
+                        } else {
+                            Toast.makeText(
+                                context,
+                                UiR.string.data_ui_components_common_translation_failed,
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+                }
+            },
+        ) {
             Text(
-                text = itemSummary,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp),
+                stringResource(
+                    when {
+                        translating -> UiR.string.data_ui_components_common_translating
+                        showingTranslation -> UiR.string.data_ui_components_common_show_original
+                        else -> UiR.string.data_ui_components_common_show_translation
+                    },
+                ),
             )
         }
     }

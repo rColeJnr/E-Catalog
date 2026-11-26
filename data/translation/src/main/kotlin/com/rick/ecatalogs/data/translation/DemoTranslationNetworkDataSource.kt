@@ -17,7 +17,12 @@ class DemoTranslationNetworkDataSource @Inject constructor(
 ) : TranslationDataSource {
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun getTranslation(body: TranslationBody): TranslationResponse =
-        assets.open("translation.json").use(networkJson::decodeFromStream)
+    override suspend fun getTranslation(body: TranslationBody): TranslationResponse {
+        val sample: TranslationResponse = assets.open("translation.json").use(networkJson::decodeFromStream)
+        // Like the real API, one translation per text sent (the sample's, repeated as needed)
+        return sample.copy(
+            translations = List(body.texts.size) { sample.translations[it % sample.translations.size] },
+        )
+    }
 
 }

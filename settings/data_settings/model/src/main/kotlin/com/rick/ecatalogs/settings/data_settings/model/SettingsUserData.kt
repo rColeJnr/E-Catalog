@@ -12,7 +12,7 @@ data class SettingsUserData(
 enum class ThemeConfig { FOLLOW_SYSTEM, LIGHT, DARK }
 
 /** Content categories the background sync can notify about. */
-enum class NotificationCategory { TRENDING_MOVIES, TRENDING_SERIES, ARTICLES, BESTSELLERS }
+enum class NotificationCategory { TRENDING_MOVIES, TRENDING_SERIES, ARTICLES, BESTSELLERS, GAMES }
 
 // The content behind the sync changes slowly: the NYT bestseller lists and TMDB's trending
 // (weekly window) update once a week, so syncing more often than that only spends data.

@@ -4,8 +4,8 @@
     <dimen name="data_ui_design_text_four_dp">4dp</dimen>
     <dimen name="data_ui_design_text_six_dp">6dp</dimen>
     <dimen name="data_ui_design_translate_margin">8dp</dimen>
-    <dimen name="data_ui_design_text_title_h_margin">2dp</dimen>
-    <dimen name="data_ui_design_text_extras_h_margin">6dp</dimen>
+    <dimen name="data_ui_design_text_title_h_margin">20dp</dimen>
+    <dimen name="data_ui_design_text_extras_h_margin">20dp</dimen>
     <dimen name="data_ui_design_text_title_v_margin">6dp</dimen>
     <dimen name="data_ui_design_text_extras_v_margin">2dp</dimen>
     <dimen name="data_ui_design_text_padding">2dp</dimen>

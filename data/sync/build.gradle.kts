@@ -19,6 +19,7 @@ dependencies {
     implementation(projects.data.datastore)
     implementation(projects.data.notifications)
     implementation(projects.movie.dataMovie.data)
+    implementation(projects.game.dataGame.data)
 
     api(projects.data.util)
 }

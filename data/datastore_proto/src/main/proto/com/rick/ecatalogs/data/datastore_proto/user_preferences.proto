@@ -41,8 +41,13 @@ message UserPreferences {
   map<string, int64> list_refreshed_at = 23;
   // Movies the user asked to be reminded about on release day, by TMDB id.
   map<int32, ReleaseReminder> release_reminders = 24;
+  // IGDB ids of the user's favorite games
+  map<int32, bool> game_favorite_ids = 25;
+  bool notifications_disabled_games = 26;
+  // "Coming soon" games seen by the last background sync (new ones are notified)
+  map<int32, bool> notified_coming_soon_game_ids = 27;
 
-  // Next available is 25
+  // Next available is 28
 }
 
 message ReleaseReminder {

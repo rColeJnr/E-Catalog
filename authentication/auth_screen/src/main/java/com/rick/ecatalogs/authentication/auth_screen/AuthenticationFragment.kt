@@ -5,9 +5,6 @@ import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.content.Intent
 import android.content.IntentSender
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +15,6 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -35,13 +31,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.rick.ecatalogs.authentication.auth_data.AuthSession
 import com.rick.ecatalogs.authentication.auth_screen.databinding.AuthenticationAuthScreenFragmentAuthenticationBinding
 import com.rick.ecatalogs.data.ui_components.auth.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthenticationFragment : Fragment() {
@@ -49,6 +46,9 @@ class AuthenticationFragment : Fragment() {
     private var _binding: AuthenticationAuthScreenFragmentAuthenticationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AuthenticationViewModel by viewModels()
+
+    @Inject
+    lateinit var authSession: AuthSession
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
@@ -62,7 +62,7 @@ class AuthenticationFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        showOneTapUI(auth.currentUser)
+        showOneTapUI()
     }
 
     override fun onCreateView(
@@ -237,26 +237,12 @@ class AuthenticationFragment : Fragment() {
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun checkIfOnline(): Boolean {
-        val cm = ContextCompat.getSystemService(requireContext(), ConnectivityManager::class.java)
-
-        return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
-            val capabilities = cm?.getNetworkCapabilities(cm.activeNetwork) ?: return false
-            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.hasCapability(
-                NetworkCapabilities.NET_CAPABILITY_VALIDATED
-            )
-        } else {
-            cm?.activeNetworkInfo?.isConnectedOrConnecting == true
-        }
-    }
-
     // Show google one tap authentication on app start
-    private fun showOneTapUI(user: FirebaseUser?) {
-        if (user != null) {
+    private fun showOneTapUI() {
+        if (authSession.isSignedIn) {
             //move forward
             navigate()
-        } else {
+        } else if (authSession.offersOneTap) {
             oneTapClient.beginSignIn(signInRequest).addOnSuccessListener { result ->
                 try {
                     val intent =
@@ -314,8 +300,8 @@ class AuthenticationFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

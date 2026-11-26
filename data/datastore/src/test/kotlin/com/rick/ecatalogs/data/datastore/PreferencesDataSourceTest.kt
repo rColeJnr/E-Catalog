@@ -116,6 +116,27 @@ class PreferencesDataSourceTest {
     }
 
     @Test
+    fun gameFavoriteIdsAreAddedAndRemoved() = testScope.runTest {
+        subject.setGameFavoriteIds(10, true)
+        subject.setGameFavoriteIds(20, true)
+        subject.setGameFavoriteIds(10, false)
+        assertEquals(setOf(20), subject.gameUserData.first().gameFavoriteIds)
+    }
+
+    @Test
+    fun gameNotifications_canBeTurnedOff() = testScope.runTest {
+        subject.setNotificationsEnabled(NotificationCategory.GAMES, false)
+        assertFalse(NotificationCategory.GAMES in subject.settingsUserData.first().enabledNotifications)
+    }
+
+    @Test
+    fun notifiedComingSoonGameIdsAreReplaced() = testScope.runTest {
+        subject.setNotifiedComingSoonGameIds(setOf(1, 2))
+        subject.setNotifiedComingSoonGameIds(setOf(3))
+        assertEquals(setOf(3), subject.notifiedComingSoonGameIds())
+    }
+
+    @Test
     fun notifiedIdsAreReplacedNotMerged() = testScope.runTest {
         subject.setNotifiedTrendingMovieIds(setOf(1, 2))
         subject.setNotifiedTrendingMovieIds(setOf(2, 3))
