@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
 import com.rick.ecatalogs.movie.screen_movie.common.R as CommonR
 import kotlinx.coroutines.flow.combine
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseRow
@@ -25,7 +27,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -39,8 +40,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.movie.data_movie.model.UserTrendingSeries
 import com.rick.ecatalogs.movie.screen_movie.common.RemotePresentationState
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.asRemotePresentationState
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.logTrendingSeriesOpened
@@ -50,7 +49,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 
@@ -61,7 +59,6 @@ class TrendingSeriesFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: TrendingSeriesViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var adapter: TrendingSeriesAdapter
     private lateinit var headerAdapter: BrowseHeaderAdapter
@@ -69,6 +66,9 @@ class TrendingSeriesFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,10 +91,6 @@ class TrendingSeriesFragment : Fragment() {
 
         initAdapter()
 
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
-
         binding.bindList(
             viewModel.pagingDataFlow,
             adapter = adapter
@@ -113,7 +109,7 @@ class TrendingSeriesFragment : Fragment() {
             TrendingSeriesAdapter(
                 this::onSeriesClick,
                 this::onFavClick,
-                this::onTranslationClick
+                textTranslator,
             )
         binding.recyclerView.itemAnimator = DefaultItemAnimator().apply {
             // Rebinding the same item shouldn't fade the whole card (looked like flicker)
@@ -134,6 +130,8 @@ class TrendingSeriesFragment : Fragment() {
                 binding.recyclerView.scrollToPosition(0)
             },
         )
+        // Cards fade, rise and scale in as they scroll into view
+        binding.recyclerView.animateItemsOnScroll()
         binding.recyclerView.adapter = ConcatAdapter(headerAdapter, adapter)
         bindHeader()
     }
@@ -175,11 +173,11 @@ class TrendingSeriesFragment : Fragment() {
         pagingDataFlow: Flow<PagingData<UserTrendingSeries>>,
         adapter: TrendingSeriesAdapter
     ) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             pagingDataFlow.collectLatest(adapter::submitData)
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
@@ -199,7 +197,7 @@ class TrendingSeriesFragment : Fragment() {
                 errorState?.let {
                     android.widget.Toast.makeText(
                         context,
-                        "😨 Whoops, ${it.error.message}",
+                        getString(com.rick.ecatalogs.data.ui_components.common.R.string.data_ui_components_common_load_failed),
                         android.widget.Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -209,7 +207,7 @@ class TrendingSeriesFragment : Fragment() {
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notLoading.collectLatest {
                 if (it) recyclerView.scrollToPosition(0)
             }
@@ -266,47 +264,6 @@ class TrendingSeriesFragment : Fragment() {
         viewModel.onEvent(TrendingSeriesUiEvent.UpdateTrendingSeriesFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(
-        actionView: TextView,
-        textView: TextView,
-        texts: List<String>
-    ) {
-        if (actionView.text ==
-            getString(R.string.movie_screen_movie_trending_series_catalog_show_original)
-        ) {
-            textView.animate().alpha(0f).setDuration(200).withEndAction {
-                textView.text = texts.first()
-                actionView.animate().alpha(0f).setDuration(200).withEndAction {
-                    actionView.text = getString(
-                        R.string.movie_screen_movie_trending_series_catalog_show_translation
-                    )
-                    actionView.animate().alpha(1f).setDuration(200).start()
-                }.start()
-                textView.animate().alpha(1f).setDuration(200).start()
-            }.start()
-        } else {
-            translationViewModel.onEvent(
-                TranslationEvent.GetTranslation(
-                    texts = texts,
-                    lCode = translationViewModel.location.value
-                )
-            )
-            lifecycleScope.launch {
-                translationViewModel.translation.collectLatest { translations ->
-                    if (translations.isNotEmpty()) {
-                        textView.animate().alpha(0f).setDuration(200).withEndAction {
-                            textView.text = translations.first().text
-                            actionView.text = getString(
-                                R.string.movie_screen_movie_trending_series_catalog_show_original
-                            )
-                            textView.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-                    }
-                }
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.movie_screen_movie_trending_series_catalog_menu, menu)
     }
@@ -334,8 +291,8 @@ class TrendingSeriesFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

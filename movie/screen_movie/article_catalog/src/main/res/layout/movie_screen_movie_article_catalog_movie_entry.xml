@@ -124,7 +124,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="4dp"
         android:padding="4dp"
-        android:text="@string/movie_screen_movie_article_catalog_show_translation"
+        android:text="@string/data_ui_components_common_show_translation"
         android:textAppearance="?attr/textAppearanceButton"
         android:textColor="@color/data_ui_design_color_buttons" />
 </LinearLayout>

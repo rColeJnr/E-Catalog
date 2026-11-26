@@ -134,7 +134,12 @@ class TmdbRetrofitNetwork @Inject constructor() : TmdbNetworkDataSource {
         .client(
             OkHttpClient.Builder()
                 .addInterceptor(ApiKeyInterceptor("api_key", BuildConfig.TMDB_API_KEY))
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(
+                    // URLs carry API keys: log them only in debug builds
+                    HttpLoggingInterceptor().setLevel(
+                        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE,
+                    ),
+                )
                 .build()
         )
         .build()

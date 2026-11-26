@@ -20,9 +20,6 @@
     <string name="movie_screen_movie_trending_movie_catalog_failed_to_retrieve_data">Falha ao recuperar dados 😓</string>
     <string name="movie_screen_movie_trending_movie_catalog_no_data">n/a</string>
     <string name="movie_screen_movie_trending_movie_catalog_favorite">Favorito</string>
-    <string name="movie_screen_movie_trending_movie_catalog_whoops">😨 Ups %1$s</string>
-    <string name="movie_screen_movie_trending_movie_catalog_show_translation">Mostrar tradução</string>
-    <string name="movie_screen_movie_trending_movie_catalog_show_original">Mostrar original</string>
     <string name="movie_screen_movie_trending_movie_catalog_header">Descubra filmes</string>
     <string name="movie_screen_movie_trending_movie_catalog_slogan">Explore milhares de filmes e encontre o seu próximo favorito</string>
 </resources>

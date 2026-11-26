@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/data_ui_design_translate_margin"
-            android:text="@string/movie_screen_movie_trending_movie_catalog_show_translation"
+            android:text="@string/data_ui_components_common_show_translation"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="@color/data_ui_design_color_buttons"
             android:textStyle="bold"

@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_details
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.data.ui_design.useHeroCarousel
 import com.rick.ecatalogs.movie.screen_movie.common.R as CommonR
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseRowAdapter
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseItem
@@ -15,12 +18,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -31,16 +32,12 @@ import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.Creator
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_series.TrendingSeries
 import com.rick.ecatalogs.movie.screen_movie.common.bindExtras
 import com.rick.ecatalogs.movie.screen_movie.common.personDetailsUri
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.logTrendingSeriesOpened
 import com.rick.ecatalogs.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
 import com.rick.ecatalogs.movie.screen_movie.trending_series_details.databinding.MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
@@ -51,12 +48,14 @@ class TrendingSeriesDetailsFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: SeriesDetailsViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var similarsAdapter: SeriesSimilarDetailsAdapter
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,10 +84,6 @@ class TrendingSeriesDetailsFragment : Fragment() {
         // land on an empty view.
         postponeEnterTransition()
         binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
-
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
 
         binding.toolbar.apply {
             setNavigationIcon(com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_back_icon)
@@ -144,6 +139,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
         similarDetailsAdapter: SeriesSimilarDetailsAdapter,
         uiState: LiveData<SeriesDetailsUiState>,
     ) {
+        val translation = TranslationToggle(showTranslation, summary, textTranslator)
 
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -151,8 +147,6 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     detailsProgressBar.visibility = View.GONE
                     if (state.msg.isNullOrBlank()) detailsErrorMessage.visibility = View.GONE
                     else detailsErrorMessage.visibility = View.VISIBLE
-                    Toast.makeText(requireContext(), "stack: ${state.msg}", Toast.LENGTH_LONG)
-                        .show()
                 }
 
                 SeriesDetailsUiState.Loading -> detailsProgressBar.visibility = View.VISIBLE
@@ -162,55 +156,11 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     val noData =
                         getString(R.string.movie_screen_movie_trending_series_details_no_data)
                     val series = state.series
-
-                    if (translationViewModel.location.value == "en") {
-                        showTranslation.visibility = View.GONE
-                    } else {
-                        showTranslation.visibility = View.VISIBLE
-                        showTranslation.setOnClickListener {
-                            if (showTranslation.text == getString(R.string.movie_screen_movie_trending_series_details_show_original)) {
-                                summary.animate().alpha(0f).setDuration(200).withEndAction {
-                                    summary.text = series.overview
-                                    showTranslation.animate().alpha(0f).setDuration(200)
-                                        .withEndAction {
-                                            showTranslation.text =
-                                                getString(R.string.movie_screen_movie_trending_series_details_show_translation)
-                                            showTranslation.animate().alpha(1f).setDuration(200)
-                                                .start()
-                                        }.start()
-                                    summary.animate().alpha(1f).setDuration(200).start()
-                                }.start()
-                            } else {
-                                translationViewModel.onEvent(
-                                    TranslationEvent.GetTranslation(
-                                        listOf(series.overview),
-                                        translationViewModel.location.value
-                                    )
-                                )
-                                lifecycleScope.launch {
-                                    translationViewModel.translation.collectLatest {
-                                        summary.animate().alpha(0f).setDuration(200)
-                                            .withEndAction {
-                                                summary.text = it.first().text
-                                                showTranslation.animate().alpha(0f).setDuration(200)
-                                                    .withEndAction {
-                                                        showTranslation.text =
-                                                            getString(R.string.movie_screen_movie_trending_series_details_show_original)
-                                                        showTranslation.animate().alpha(1f)
-                                                            .setDuration(200).start()
-                                                    }.start()
-                                                summary  .animate().alpha(1f).setDuration(200).start()
-                                            }.start()
-                                    }
-                                }
-                            }
-                        }
-                    }
                     tvTitle.text = series.name
                     if (series.image.isNotBlank()) {
                         provideGlide(image, getTmdbImageUrl(series.image), onReady = { startPostponedEnterTransition() })
                     }
-                    summary.text = series.overview.trim()
+                    translation.bind(series.overview.trim())
 
                     adult.text = resources.getString(
                         R.string.movie_screen_movie_trending_series_details_adult_content,
@@ -305,6 +255,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
     /** Seasons row; tapping a season opens its episodes in a bottom sheet. */
     private fun bindSeasons(seriesId: Int, seasons: List<Season>) {
         binding.seasonsSection.isVisible = seasons.isNotEmpty()
+        binding.seasonsList.useHeroCarousel()
         val adapter = binding.seasonsList.adapter as? BrowseRowAdapter
             ?: BrowseRowAdapter(onItemClick = { item ->
                 SeasonSheet.newInstance(seriesId, item.id, item.title)
@@ -325,8 +276,8 @@ class TrendingSeriesDetailsFragment : Fragment() {
         )
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

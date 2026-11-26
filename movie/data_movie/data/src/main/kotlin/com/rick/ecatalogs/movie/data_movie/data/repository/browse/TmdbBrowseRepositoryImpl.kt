@@ -15,6 +15,7 @@ import com.rick.ecatalogs.movie.data_movie.data.model.asTrendingSeries
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.Episode
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.SeasonDetails
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.TmdbGenre
+import com.rick.ecatalogs.movie.data_movie.model.tmdb.browse.TmdbTitle
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_movie.TrendingMovie
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_series.TrendingSeries
 import com.rick.ecatalogs.movie.data_movie.network.TmdbNetworkDataSource
@@ -50,6 +51,9 @@ internal class TmdbBrowseRepositoryImpl @Inject constructor(
     private val gson = Gson()
     private val seasons = mutableMapOf<Pair<Int, Int>, SeasonDetails>()
     private val seasonsLock = Mutex()
+
+    /** Title lookups for the cross-API links, for the session. */
+    private val linkCache = java.util.concurrent.ConcurrentHashMap<String, List<TmdbTitle>>()
 
     override fun upcomingMovies(): Flow<List<TrendingMovie>> = flow {
         val today = LocalDate.now().toString()
@@ -129,6 +133,36 @@ internal class TmdbBrowseRepositoryImpl @Inject constructor(
         return details
     }
 
+    override suspend fun findFilm(title: String, year: Int?): TmdbTitle? {
+        val key = normalizedTitle(title)
+        if (key.isEmpty()) return null
+        return linkCache.getOrPut("film:$key:$year") {
+            val matches = network.searchMovie(query = title).results
+                .map { it.asTmdbTitle() }
+                .filter { normalizedTitle(it.title) == key }
+            val nearYear = year?.let { y -> matches.filter { it.year != null && it.year in (y - 2)..y } }
+            listOfNotNull((nearYear?.firstOrNull() ?: matches.firstOrNull()))
+        }.firstOrNull()
+    }
+
+    override suspend fun screenAdaptations(bookTitle: String): List<TmdbTitle> {
+        // "Frankenstein; Or, The Modern Prometheus" -> "Frankenstein"
+        val title = bookTitle.split(';', ':', '(').first().trim()
+        val key = normalizedTitle(title)
+        if (key.length < MIN_TITLE_LENGTH) return emptyList()
+        return linkCache.getOrPut("adaptations:$key") {
+            val movies = runCatching { network.searchMovie(query = title).results }
+                .getOrDefault(emptyList()).map { it.asTmdbTitle() to (it.voteCount ?: 0) }
+            val series = runCatching { network.searchSeries(query = title).results }
+                .getOrDefault(emptyList()).map { it.asTmdbTitle() to (it.voteCount ?: 0) }
+            (movies + series)
+                .filter { (it, _) -> normalizedTitle(it.title) == key }
+                .sortedByDescending { (_, votes) -> votes }
+                .map { it.first }
+                .take(MAX_ADAPTATIONS)
+        }
+    }
+
     /**
      * The stored copy of [key] while it's fresh; otherwise downloads and stores it. If the
      * download fails, a stale copy is better than nothing; with no copy at all, an empty list.
@@ -193,5 +227,37 @@ private class NetworkPagingSource<T : Any>(
         state.anchorPosition?.let { state.closestPageToPosition(it)?.prevKey?.plus(1) }
 }
 
+/**
+ * Lowercase letters and digits only, so "The Let Them Theory" == "THE LET THEM THEORY" and
+ * "Amélie" == "Amelie". Accents are dropped from Latin letters only: in other scripts they make
+ * a different letter (Russian "й" is not "и").
+ */
+internal fun normalizedTitle(title: String): String =
+    java.text.Normalizer.normalize(
+        java.text.Normalizer.normalize(title, java.text.Normalizer.Form.NFD)
+            .replace(Regex("(?<=\\p{IsLatin})\\p{M}+"), ""),
+        java.text.Normalizer.Form.NFC,
+    )
+        .lowercase()
+        .replace(Regex("[^\\p{L}\\p{N}]+"), "")
+
+private fun com.rick.ecatalogs.movie.data_movie.network.model.TrendingMovieNetwork.asTmdbTitle() = TmdbTitle(
+    id = id,
+    isMovie = true,
+    title = title.orEmpty(),
+    posterPath = image?.takeIf { it.isNotBlank() },
+    year = releaseDate?.take(4)?.toIntOrNull(),
+)
+
+private fun com.rick.ecatalogs.movie.data_movie.network.model.TrendingSeriesNetwork.asTmdbTitle() = TmdbTitle(
+    id = id,
+    isMovie = false,
+    title = name.orEmpty(),
+    posterPath = image?.takeIf { it.isNotBlank() },
+    year = firstAirDate?.take(4)?.toIntOrNull(),
+)
+
 private const val TMDB_PAGE_SIZE = 20
+private const val MAX_ADAPTATIONS = 10
+private const val MIN_TITLE_LENGTH = 3
 private const val TMDB_MAX_PAGE = 500

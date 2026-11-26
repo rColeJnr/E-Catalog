@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_search
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.net.Uri
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
@@ -48,6 +50,9 @@ class TrendingSeriesSearchFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,7 +141,7 @@ class TrendingSeriesSearchFragment : Fragment() {
         val options = RequestOptions().placeholder(circularProgressDrawable)
         val glide = Glide.with(requireContext())
         searchAdapter = TrendingSeriesSearchAdapter(
-            this::onTrendingSeriesClick, this::onFavClick
+            this::onTrendingSeriesClick, this::onFavClick, textTranslator,
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -219,6 +224,10 @@ class TrendingSeriesSearchFragment : Fragment() {
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 TrendingSeriesSearchUiState.EmptyQuery -> {
+                    searchErrorMessage.visibility = View.GONE
+                    searchProgressBar.visibility = View.GONE
+                    // Re-entered each time the query is cleared: keep a single observer
+                    recentSearchesUiState.removeObservers(viewLifecycleOwner)
                     recentSearchesUiState.observe(viewLifecycleOwner) { state ->
                         if (state is TrendingSeriesRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
@@ -236,18 +245,16 @@ class TrendingSeriesSearchFragment : Fragment() {
                 }
 
                 is TrendingSeriesSearchUiState.Error -> {
-
                     searchProgressBar.visibility = View.GONE
-                    if (adapter.searchDiffer.currentList.isEmpty()) {
-                        recentSearchesComposeView.visibility = View.VISIBLE
-                        searchErrorMessage.visibility = View.VISIBLE
-                    } else {
-                        searchErrorMessage.visibility = View.GONE
-                    }
+                    recentSearchesComposeView.visibility = View.GONE
+                    // Keep showing earlier results if there are any
+                    searchErrorMessage.visibility =
+                        if (adapter.searchDiffer.currentList.isEmpty()) View.VISIBLE else View.GONE
                 }
 
                 TrendingSeriesSearchUiState.Loading -> searchProgressBar.visibility = View.VISIBLE
                 is TrendingSeriesSearchUiState.Success -> {
+                    searchErrorMessage.visibility = View.GONE
                     recentSearchesComposeView.visibility = View.GONE
                     searchProgressBar.visibility = View.GONE
                     adapter.searchDiffer.submitList(state.series)
@@ -266,15 +273,16 @@ class TrendingSeriesSearchFragment : Fragment() {
         viewModel.onEvent(TrendingSeriesSearchUiEvent.UpdateFavorite(id, !isFavorite))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }
 
 class TrendingSeriesSearchAdapter(
     private val onItemClicked: (Int) -> Unit,
-    private val onFavClicked: (Int, Boolean) -> Unit
+    private val onFavClicked: (Int, Boolean) -> Unit,
+    private val translator: TextTranslator,
 ) : RecyclerView.Adapter<TrendingSeriesSearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<UserTrendingSeries>() {
@@ -296,7 +304,7 @@ class TrendingSeriesSearchAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): TrendingSeriesSearchViewHolder {
-        return TrendingSeriesSearchViewHolder.create(parent, onItemClicked, onFavClicked)
+        return TrendingSeriesSearchViewHolder.create(parent, onItemClicked, onFavClicked, translator)
     }
 
     override fun onBindViewHolder(
@@ -312,11 +320,13 @@ class TrendingSeriesSearchAdapter(
 class TrendingSeriesSearchViewHolder(
     binding: MovieScreenMovieTrendingSeriesSearchSearchEntryBinding,
     private val onItemClicked: (Int) -> Unit,
-    private val onFavClicked: (Int, Boolean) -> Unit
+    private val onFavClicked: (Int, Boolean) -> Unit,
+    translator: TextTranslator,
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
     private val description = binding.movieSummary
+    private val translation = TranslationToggle(binding.showTranslation, description, translator)
     private val rootLayout = binding.searchEntryCardView
     private val favorite = binding.favorite
     private val resources = itemView.resources
@@ -337,7 +347,7 @@ class TrendingSeriesSearchViewHolder(
         this.rootLayout.transitionName = "search ${searchResult.id}"
         this.searchResult = searchResult
         this.title.text = searchResult.name
-        this.description.text = searchResult.overview
+        translation.bind(searchResult.overview)
         searchResult.image.let { image ->
             provideGlide(
                 this.image, getTmdbImageUrl(image)
@@ -354,7 +364,8 @@ class TrendingSeriesSearchViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClicked: (Int) -> Unit,
-            onFavClicked: (Int, Boolean) -> Unit
+            onFavClicked: (Int, Boolean) -> Unit,
+            translator: TextTranslator,
         ): TrendingSeriesSearchViewHolder {
             val itemBinding =
                 MovieScreenMovieTrendingSeriesSearchSearchEntryBinding.inflate(
@@ -363,7 +374,7 @@ class TrendingSeriesSearchViewHolder(
                     ), parent, false
                 )
             return TrendingSeriesSearchViewHolder(
-                itemBinding, onItemClicked, onFavClicked
+                itemBinding, onItemClicked, onFavClicked, translator
             )
         }
     }

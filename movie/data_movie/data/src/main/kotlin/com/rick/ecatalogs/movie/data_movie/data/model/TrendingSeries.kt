@@ -12,25 +12,25 @@ import com.rick.ecatalogs.movie.data_movie.network.model.TrendingSeriesNetwork
 fun TrendingSeriesNetwork.asTrendingSeriesEntity() = TrendingSeriesEntity(
     adult = adult,
     id = id,
-    name = name,
-    overview = overview,
+    name = name.orEmpty(),
+    overview = overview.orEmpty(),
     image = image ?: "",
-    popularity = popularity,
-    firstAirDate = firstAirDate,
-    voteAverage = voteAverage,
-    voteCount = voteCount
+    popularity = popularity ?: 0.0,
+    firstAirDate = firstAirDate.orEmpty(),
+    voteAverage = voteAverage ?: 0.0,
+    voteCount = voteCount ?: 0,
 )
 
 fun TrendingSeriesNetwork.asTrendingSeries() = TrendingSeries(
     adult = adult,
     id = id,
-    name = name,
-    overview = overview,
+    name = name.orEmpty(),
+    overview = overview.orEmpty(),
     image = image ?: "",
-    popularity = popularity,
-    firstAirDate = firstAirDate,
-    voteAverage = voteAverage,
-    voteCount = voteCount
+    popularity = popularity ?: 0.0,
+    firstAirDate = firstAirDate.orEmpty(),
+    voteAverage = voteAverage ?: 0.0,
+    voteCount = voteCount ?: 0,
 )
 
 fun SeriesResponse.asMySeries() = MySeries(id,

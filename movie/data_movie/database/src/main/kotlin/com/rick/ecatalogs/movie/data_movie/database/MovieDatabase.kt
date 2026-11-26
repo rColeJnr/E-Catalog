@@ -35,7 +35,7 @@ import com.rick.ecatalogs.movie.data_movie.database.util.NyTimesConverters
         TrendingMovieRecentSearchQueryEntity::class,
         TrendingSeriesRecentSearchQueryEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(

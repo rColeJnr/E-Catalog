@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.data_movie.database.di
 
+import com.rick.ecatalogs.movie.data_movie.database.MIGRATION_1_2
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
@@ -27,6 +28,7 @@ object DatabaseModule {
             MovieDatabase::class.java,
             "movie-database"
         ).addTypeConverter(NyTimesConverters(GsonParser(Gson())))
+            .addMigrations(MIGRATION_1_2)
             .build()
 
 }

@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_search
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.net.Uri
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
@@ -48,6 +50,9 @@ class TrendingMovieSearchFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +140,7 @@ class TrendingMovieSearchFragment : Fragment() {
         val options = RequestOptions().placeholder(circularProgressDrawable)
         val glide = Glide.with(requireContext())
         searchAdapter = TrendingMovieSearchAdapter(
-            this::onTrendingMovieClick, this::onTrendingMovieFavClick
+            this::onTrendingMovieClick, this::onTrendingMovieFavClick, textTranslator,
         )
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -218,6 +223,10 @@ class TrendingMovieSearchFragment : Fragment() {
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 TrendingMovieSearchUiState.EmptyQuery -> {
+                    searchErrorMessage.visibility = View.GONE
+                    searchProgressBar.visibility = View.GONE
+                    // Re-entered each time the query is cleared: keep a single observer
+                    recentSearchesUiState.removeObservers(viewLifecycleOwner)
                     recentSearchesUiState.observe(viewLifecycleOwner) { state ->
                         if (state is TrendingMovieRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
@@ -235,16 +244,16 @@ class TrendingMovieSearchFragment : Fragment() {
                 }
 
                 is TrendingMovieSearchUiState.Error -> {
-                    if (adapter.searchDiffer.currentList.isEmpty()) {
-
-                        searchErrorMessage.visibility = View.VISIBLE
-                    } else {
-                        searchErrorMessage.visibility = View.GONE
-                    }
+                    searchProgressBar.visibility = View.GONE
+                    recentSearchesComposeView.visibility = View.GONE
+                    // Keep showing earlier results if there are any
+                    searchErrorMessage.visibility =
+                        if (adapter.searchDiffer.currentList.isEmpty()) View.VISIBLE else View.GONE
                 }
 
                 TrendingMovieSearchUiState.Loading -> searchProgressBar.visibility = View.VISIBLE
                 is TrendingMovieSearchUiState.Success -> {
+                    searchErrorMessage.visibility = View.GONE
                     recentSearchesComposeView.visibility = View.GONE
                     searchProgressBar.visibility = View.GONE
                     adapter.searchDiffer.submitList(state.movies)
@@ -263,8 +272,8 @@ class TrendingMovieSearchFragment : Fragment() {
         viewModel.onEvent(TrendingMovieSearchUiEvent.UpdateFavorite(id, !isFavorite))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }
@@ -273,7 +282,8 @@ private const val TAG = "TrendingMovieSearchFragment"
 
 class TrendingMovieSearchAdapter(
     private val onItemClicked: (View, Int) -> Unit,
-    private val onFavClicked: (Int, Boolean) -> Unit
+    private val onFavClicked: (Int, Boolean) -> Unit,
+    private val translator: TextTranslator,
 ) : RecyclerView.Adapter<TrendingMovieSearchViewHolder>() {
 
     private val searchDiffUtil = object : DiffUtil.ItemCallback<UserTrendingMovie>() {
@@ -295,7 +305,7 @@ class TrendingMovieSearchAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): TrendingMovieSearchViewHolder {
-        return TrendingMovieSearchViewHolder.create(parent, onItemClicked, onFavClicked)
+        return TrendingMovieSearchViewHolder.create(parent, onItemClicked, onFavClicked, translator)
     }
 
     override fun onBindViewHolder(
@@ -311,11 +321,13 @@ class TrendingMovieSearchAdapter(
 class TrendingMovieSearchViewHolder(
     binding: MovieScreenMovieTrendingMovieSearchSearchEntryBinding,
     private val onItemClicked: (view: View, Int) -> Unit,
-    private val onFavClicked: (Int, Boolean) -> Unit
+    private val onFavClicked: (Int, Boolean) -> Unit,
+    translator: TextTranslator,
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val title = binding.movieName
     private val description = binding.movieSummary
+    private val translation = TranslationToggle(binding.showTranslation, description, translator)
     private val rootLayout = binding.movieEntryCardView
     private val favorite = binding.favorite
     private val resources = itemView.resources
@@ -336,7 +348,7 @@ class TrendingMovieSearchViewHolder(
         this.rootLayout.transitionName = "search ${searchResult.id}"
         this.searchResult = searchResult
         this.title.text = searchResult.title
-        this.description.text = searchResult.overview
+        translation.bind(searchResult.overview)
         searchResult.image.let { image ->
             provideGlide(
                 this.image, getTmdbImageUrl(image)
@@ -354,7 +366,8 @@ class TrendingMovieSearchViewHolder(
         fun create(
             parent: ViewGroup,
             onItemClicked: (View, Int) -> Unit,
-            onFavClicked: (Int, Boolean) -> Unit
+            onFavClicked: (Int, Boolean) -> Unit,
+            translator: TextTranslator,
         ): TrendingMovieSearchViewHolder {
             val itemBinding =
                 MovieScreenMovieTrendingMovieSearchSearchEntryBinding.inflate(
@@ -363,7 +376,7 @@ class TrendingMovieSearchViewHolder(
                     ), parent, false
                 )
             return TrendingMovieSearchViewHolder(
-                itemBinding, onItemClicked, onFavClicked
+                itemBinding, onItemClicked, onFavClicked, translator
             )
         }
     }

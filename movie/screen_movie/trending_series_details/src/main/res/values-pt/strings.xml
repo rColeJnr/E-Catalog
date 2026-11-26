@@ -24,8 +24,6 @@
     <string name="movie_screen_movie_trending_series_details_creators">Criadores: %1$s</string>
     <string name="movie_screen_movie_trending_series_details_overview">Sinopse desta série\n</string>
     <string name="movie_screen_movie_trending_series_details_number_of_episodes">Número de episódios: %1$d</string>
-    <string name="movie_screen_movie_trending_series_details_show_translation">Mostrar tradução</string>
-    <string name="movie_screen_movie_trending_series_details_show_original">Mostrar original</string>
     <string name="movie_screen_movie_trending_series_details_episode_title">%1$d. %2$s</string>
     <string name="movie_screen_movie_trending_series_details_season_year">%1$s</string>
     <string name="movie_screen_movie_trending_series_details_minutes">%1$d min</string>

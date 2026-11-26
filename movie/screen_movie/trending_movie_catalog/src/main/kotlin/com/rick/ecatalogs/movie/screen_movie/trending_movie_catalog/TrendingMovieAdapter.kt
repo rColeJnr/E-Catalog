@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import com.rick.ecatalogs.data.ui_design.POSTER_KIND_MOVIE
@@ -19,13 +21,13 @@ import com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog.databinding.
 class TrendingMovieAdapter(
     private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
+    private val translator: TextTranslator,
 ) : PagingDataAdapter<UserTrendingMovie, RecyclerView.ViewHolder>(DIFF_COMPARATOR) {
 
     // The screen's header (title, browse rows, genres) is a separate adapter in a ConcatAdapter;
     // it used to take position 0 here, which hid the #1 trending movie.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, onTranslationClick)
+        TrendingMovieViewHolder.create(parent, onItemClick, onFavClick, translator)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { (holder as TrendingMovieViewHolder).bind(it) }
@@ -54,7 +56,7 @@ class TrendingMovieViewHolder(
     binding: MovieScreenMovieTrendingMovieCatalogMovieEntryBinding,
     private val onItemClick: (View, Int) -> Unit,
     private val onFavClick: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
+    translator: TextTranslator,
 ) : RecyclerView.ViewHolder(binding.root) {
     private val image = binding.movieImage
     private val releaseYear = binding.movieReleaseYear
@@ -62,10 +64,9 @@ class TrendingMovieViewHolder(
     private val title = binding.movieName
     private val summary = binding.movieSummary
     private val favorite = binding.favorite
-    private val showTranslation = binding.showTranslation
+    private val translation = TranslationToggle(binding.showTranslation, summary, translator)
     private val cardView = binding.movieEntryCardView
     private val resources = itemView.resources
-    private var location: String = java.util.Locale.getDefault().language.lowercase()
 
     private lateinit var movie: UserTrendingMovie
 
@@ -77,10 +78,6 @@ class TrendingMovieViewHolder(
         favorite.setOnClickListener {
             onFavClick(it, movie.id, movie.isFavorite)
         }
-        showTranslation.setOnClickListener {
-            onTranslationClick(showTranslation, summary, listOf(movie.overview))
-            it.visibility = View.GONE
-        }
     }
 
     fun bind(movie: UserTrendingMovie) {
@@ -89,7 +86,7 @@ class TrendingMovieViewHolder(
         if (movie.image.isNotEmpty()) provideGlide(image, getTmdbImageUrl(movie.image))
         title.text = movie.title
         bindPosterChips(releaseYear, rating, movie.releaseDate, movie.voteAverage)
-        summary.text = movie.overview
+        translation.bind(movie.overview)
         favorite.setImageResource(
             if (movie.isFavorite) {
                 com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled
@@ -97,12 +94,6 @@ class TrendingMovieViewHolder(
                 com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
             }
         )
-
-        if (location == "en") {
-            showTranslation.visibility = View.GONE
-        } else {
-            showTranslation.visibility = View.VISIBLE
-        }
     }
 
     companion object {
@@ -110,7 +101,7 @@ class TrendingMovieViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslationClick: (TextView, TextView, List<String>) -> Unit
+            translator: TextTranslator,
         ): TrendingMovieViewHolder {
             val binding =
                 MovieScreenMovieTrendingMovieCatalogMovieEntryBinding.inflate(
@@ -118,7 +109,7 @@ class TrendingMovieViewHolder(
                     parent,
                     false
                 )
-            return TrendingMovieViewHolder(binding, onItemClick, onFavClick, onTranslationClick)
+            return TrendingMovieViewHolder(binding, onItemClick, onFavClick, translator)
         }
     }
 }

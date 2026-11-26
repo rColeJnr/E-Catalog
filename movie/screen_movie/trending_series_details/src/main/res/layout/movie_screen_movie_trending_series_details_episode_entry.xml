@@ -54,5 +54,17 @@
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="@color/data_ui_design_text_secondary"
             tools:text="An episode overview." />
+
+        <!-- Shown by TranslationToggle when the phone isn't in English -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/episode_translate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:paddingVertical="2dp"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/data_ui_design_color_buttons"
+            android:textStyle="bold"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

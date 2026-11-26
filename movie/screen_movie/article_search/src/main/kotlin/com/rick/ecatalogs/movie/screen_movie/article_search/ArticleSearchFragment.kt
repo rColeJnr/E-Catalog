@@ -223,6 +223,10 @@ class ArticleSearchFragment : Fragment() {
         uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 ArticleSearchUiState.EmptyQuery -> {
+                    searchErrorMessage.visibility = View.GONE
+                    searchProgressBar.visibility = View.GONE
+                    // Re-entered each time the query is cleared: keep a single observer
+                    recentSearchesUiState.removeObservers(viewLifecycleOwner)
                     recentSearchesUiState.observe(viewLifecycleOwner) { state ->
                         if (state is ArticleRecentSearchQueriesUiState.Success) {
                             recentSearchesComposeView.visibility = View.VISIBLE
@@ -240,16 +244,17 @@ class ArticleSearchFragment : Fragment() {
                 }
 
                 is ArticleSearchUiState.Error -> {
-                    if (adapter.searchDiffer.currentList.isEmpty()) {
-                        Log.e(TAG, state.msg)
-                        searchErrorMessage.visibility = View.VISIBLE
-                    } else {
-                        searchErrorMessage.visibility = View.GONE
-                    }
+                    searchProgressBar.visibility = View.GONE
+                    recentSearchesComposeView.visibility = View.GONE
+                    Log.e(TAG, state.msg)
+                    // Keep showing earlier results if there are any
+                    searchErrorMessage.visibility =
+                        if (adapter.searchDiffer.currentList.isEmpty()) View.VISIBLE else View.GONE
                 }
 
                 ArticleSearchUiState.Loading -> searchProgressBar.visibility = View.VISIBLE
                 is ArticleSearchUiState.Success -> {
+                    searchErrorMessage.visibility = View.GONE
                     recentSearchesComposeView.visibility = View.GONE
                     searchProgressBar.visibility = View.GONE
                     adapter.searchDiffer.submitList(state.articles)
@@ -263,7 +268,12 @@ class ArticleSearchFragment : Fragment() {
         ArticleDetailsDialogFragment(
             article,
             this::onDialogFavoriteClick,
-            this::onWebUlrClick
+            this::onWebUlrClick,
+            onFilmClick = { filmId ->
+                findNavController().navigateWithMotion(
+                    android.net.Uri.parse("com.rick.ecs://trending_movie_details_fragment/$filmId")
+                )
+            },
         ).show(
             requireActivity().supportFragmentManager,
             "article_details"
@@ -286,8 +296,8 @@ class ArticleSearchFragment : Fragment() {
         viewModel.onEvent(ArticleSearchUiEvent.UpdateFavorite(id, !isFavorite))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

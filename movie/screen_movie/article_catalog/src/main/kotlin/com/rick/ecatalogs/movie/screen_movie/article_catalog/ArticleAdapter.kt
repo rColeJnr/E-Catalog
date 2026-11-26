@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.screen_movie.article_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -9,11 +10,11 @@ import com.rick.ecatalogs.movie.data_movie.model.UserArticle
 class ArticleAdapter(
     private val onItemClicked: (UserArticle) -> Unit,
     private val onFavClicked: (View, String, Boolean) -> Unit,
-    private val onTranslationClicked: (UserArticle, List<String>) -> Unit
+    private val translator: TextTranslator,
 ) : PagingDataAdapter<UserArticle, ArticleViewHolder>(RESULT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        return ArticleViewHolder.create(parent, onItemClicked, onFavClicked, onTranslationClicked)
+        return ArticleViewHolder.create(parent, onItemClicked, onFavClicked, translator)
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {

@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_catalog
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import com.rick.ecatalogs.data.ui_design.POSTER_KIND_SERIES
@@ -20,7 +22,7 @@ import com.rick.ecatalogs.movie.screen_movie.trending_series_catalog.databinding
 class TrendingSeriesAdapter(
     private val onItemClicked: (View, Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
+    private val translator: TextTranslator,
 ) : PagingDataAdapter<UserTrendingSeries, RecyclerView.ViewHolder>(RESULT_COMPARATOR) {
 
     // The screen's header is a separate adapter in a ConcatAdapter; it used to take position 0
@@ -30,7 +32,7 @@ class TrendingSeriesAdapter(
             parent = parent,
             onItemClick = onItemClicked,
             onFavClick = onFavClicked,
-            onTranslationClick = onTranslationClick
+            translator = translator,
         )
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -60,7 +62,7 @@ class TrendingSeriesViewHolder(
     itemBinding: MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding,
     private val onItemClicked: (View, Int) -> Unit,
     private val onFavClicked: (View, Int, Boolean) -> Unit,
-    private val onTranslationClick: (TextView, TextView, List<String>) -> Unit
+    translator: TextTranslator,
 ) : RecyclerView.ViewHolder(itemBinding.root) {
     private val title = itemBinding.movieName
     private val image = itemBinding.movieImage
@@ -68,21 +70,19 @@ class TrendingSeriesViewHolder(
     private val rating = itemBinding.movieRating
     private val overview = itemBinding.movieSummary
     private val favorite = itemBinding.favorite
-    private val showTranslation = itemBinding.showTranslation
+    private val translation = TranslationToggle(itemBinding.showTranslation, overview, translator)
     private val resources = itemView.resources
-    private var location: String = java.util.Locale.getDefault().language.lowercase()
 
     private lateinit var trendingSeries: UserTrendingSeries
 
     init {
-        itemBinding.root.setOnClickListener {
-            onItemClicked(image, trendingSeries.id)
-        }
+        // The poster card is clickable itself (ripple) and takes its taps: listen on it too,
+        // not only on the row (which only gets taps on the overview below the card)
+        val openSeries = View.OnClickListener { onItemClicked(image, trendingSeries.id) }
+        itemBinding.movieEntryCardView.setOnClickListener(openSeries)
+        itemBinding.root.setOnClickListener(openSeries)
         favorite.setOnClickListener {
             onFavClicked(it, trendingSeries.id, trendingSeries.isFavorite)
-        }
-        showTranslation.setOnClickListener {
-            onTranslationClick(showTranslation, overview, listOf(trendingSeries.overview))
         }
     }
 
@@ -94,7 +94,7 @@ class TrendingSeriesViewHolder(
         if (src.isNotBlank()) provideGlide(this.image, getTmdbImageUrl(src))
         this.title.text = series.name
         bindPosterChips(releaseYear, rating, series.firstAirDate, series.voteAverage)
-        this.overview.text = series.overview
+        translation.bind(series.overview)
         favorite.setImageResource(
             if (series.isFavorite) {
                 com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled
@@ -102,12 +102,6 @@ class TrendingSeriesViewHolder(
                 com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
             }
         )
-
-        if (location == "en") {
-            showTranslation.visibility = View.GONE
-        } else {
-            showTranslation.visibility = View.VISIBLE
-        }
     }
 
     companion object {
@@ -115,7 +109,7 @@ class TrendingSeriesViewHolder(
             parent: ViewGroup,
             onItemClick: (View, Int) -> Unit,
             onFavClick: (View, Int, Boolean) -> Unit,
-            onTranslationClick: (TextView, TextView, List<String>) -> Unit
+            translator: TextTranslator,
         ): TrendingSeriesViewHolder {
             val itemBinding =
                 MovieScreenMovieTrendingSeriesCatalogMovieEntryBinding.inflate(
@@ -127,7 +121,7 @@ class TrendingSeriesViewHolder(
                 itemBinding,
                 onItemClick,
                 onFavClick,
-                onTranslationClick
+                translator,
             )
         }
     }

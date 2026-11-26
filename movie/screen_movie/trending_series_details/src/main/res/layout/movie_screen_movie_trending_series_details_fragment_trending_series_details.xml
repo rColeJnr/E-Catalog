@@ -107,7 +107,7 @@
                 android:layout_margin="@dimen/data_ui_design_translate_margin"
                 android:gravity="end|center_vertical"
                 android:padding="2dp"
-                android:text="@string/movie_screen_movie_trending_series_details_show_translation"
+                android:text="@string/data_ui_components_common_show_translation"
                 android:textAlignment="gravity"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/data_ui_design_color_buttons"

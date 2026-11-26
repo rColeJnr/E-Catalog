@@ -51,6 +51,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
+        <!-- Shown by TranslationToggle when the phone isn't in English -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/show_translation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/data_ui_design_translate_margin"
+            android:padding="2dp"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/data_ui_design_color_buttons"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/summary" />
+
         <TextView
             android:id="@+id/reporter"
             android:layout_width="match_parent"
@@ -59,7 +73,7 @@
             android:padding="4dp"
             android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/summary" />
+            app:layout_constraintTop_toBottomOf="@id/show_translation" />
 
         <TextView
             android:id="@+id/date"
@@ -88,6 +102,15 @@
             android:backgroundTint="?attr/colorSecondary"
             android:text="@string/movie_screen_movie_common_close"
             app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/film_link" />
+
+        <!-- "See the film": finds the reviewed film on TMDB (Compose) -->
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/film_link"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/source" />

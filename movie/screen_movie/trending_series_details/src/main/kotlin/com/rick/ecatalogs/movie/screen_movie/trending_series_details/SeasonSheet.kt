@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_details
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +47,9 @@ class SeasonSheet : BottomSheetDialogFragment() {
 
     private val viewModel: SeasonViewModel by viewModels()
 
+    @Inject
+    lateinit var textTranslator: TextTranslator
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,7 +63,9 @@ class SeasonSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.seasonTitle.text = requireArguments().getString(ARG_NAME)
-        val adapter = EpisodeAdapter()
+        val adapter = EpisodeAdapter(textTranslator)
+        val overviewTranslation =
+            TranslationToggle(binding.seasonTranslate, binding.seasonOverview, textTranslator)
         binding.seasonEpisodes.adapter = adapter
         binding.seasonMessage.setOnClickListener {
             if (viewModel.state.value is SeasonUiState.Error) viewModel.load()
@@ -70,7 +77,7 @@ class SeasonSheet : BottomSheetDialogFragment() {
                     binding.seasonLoading.isVisible = state is SeasonUiState.Loading
                     val season = (state as? SeasonUiState.Success)?.season
                     if (season != null && season.name.isNotBlank()) binding.seasonTitle.text = season.name
-                    binding.seasonOverview.text = season?.overview
+                    overviewTranslation.bind(season?.overview)
                     binding.seasonOverview.isVisible = !season?.overview.isNullOrBlank()
                     adapter.submitList(season?.episodes.orEmpty())
                     binding.seasonMessage.isVisible =
@@ -138,15 +145,23 @@ sealed interface SeasonUiState {
     data object Error : SeasonUiState
 }
 
-private class EpisodeAdapter : ListAdapter<Episode, EpisodeAdapter.ViewHolder>(DIFF) {
+private class EpisodeAdapter(
+    private val translator: TextTranslator,
+) : ListAdapter<Episode, EpisodeAdapter.ViewHolder>(DIFF) {
 
-    class ViewHolder(val binding: MovieScreenMovieTrendingSeriesDetailsEpisodeEntryBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(
+        val binding: MovieScreenMovieTrendingSeriesDetailsEpisodeEntryBinding,
+        translator: TextTranslator,
+    ) : RecyclerView.ViewHolder(binding.root) {
+        val overviewTranslation =
+            TranslationToggle(binding.episodeTranslate, binding.episodeOverview, translator)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         MovieScreenMovieTrendingSeriesDetailsEpisodeEntryBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
-        )
+        ),
+        translator,
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -170,7 +185,7 @@ private class EpisodeAdapter : ListAdapter<Episode, EpisodeAdapter.ViewHolder>(D
                     context.getString(CommonR.string.movie_screen_movie_common_rating, it)
                 },
             ).joinToString(" · ")
-            episodeOverview.text = episode.overview
+            holder.overviewTranslation.bind(episode.overview)
             episodeOverview.isVisible = episode.overview.isNotBlank()
             episode.stillPath?.let { provideGlide(episodeStill, getTmdbImageUrl(it, size = "w300")) }
                 ?: episodeStill.setImageDrawable(null)

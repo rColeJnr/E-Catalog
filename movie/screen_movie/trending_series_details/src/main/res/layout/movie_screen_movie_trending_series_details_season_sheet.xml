@@ -32,6 +32,19 @@
         android:textColor="@color/data_ui_design_text_secondary"
         tools:text="The season overview." />
 
+    <!-- Shown by TranslationToggle when the phone isn't in English -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/season_translate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="4dp"
+        android:paddingVertical="2dp"
+        android:textAppearance="?textAppearanceBody2"
+        android:textColor="@color/data_ui_design_color_buttons"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/season_loading"
         android:layout_width="match_parent"

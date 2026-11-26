@@ -23,6 +23,9 @@ data class ArticleEntity(
     @ColumnInfo("publication_date")
     val pubDate: Date,
     val byline: Byline,
+    /** Place in the catalog list (the API's order); null for rows kept only as search results or favorites. */
+    @ColumnInfo("catalog_position")
+    val catalogPosition: Int? = null,
 )
 
 fun ArticleEntity.asArticle() = Article(

@@ -20,11 +20,8 @@
     <string name="movie_screen_movie_trending_movie_catalog_failed_to_retrieve_data">Failed to retrieve data 😓</string>
     <string name="movie_screen_movie_trending_movie_catalog_no_data">n/a</string>
     <string name="movie_screen_movie_trending_movie_catalog_favorite">Favorite</string>
-    <string name="movie_screen_movie_trending_movie_catalog_whoops">😨 Whoops %1$s</string>
     <string name="movie_screen_movie_trending_movie_catalog_transition_name" translatable="false">trending_movie_transition</string>
     <string name="movie_screen_movie_trending_movie_catalog_detail_transition_name" translatable="false">details_transition</string>
-    <string name="movie_screen_movie_trending_movie_catalog_show_translation">Show translation</string>
-    <string name="movie_screen_movie_trending_movie_catalog_show_original">Show original</string>
     <string name="movie_screen_movie_trending_movie_catalog_slogan">Explore thousands of movies and find your next favorite</string>
     <string name="movie_screen_movie_trending_movie_catalog_header">Discover Movies</string>
 

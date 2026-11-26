@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_series_favorite
 
+import com.rick.ecatalogs.data.ui_components.common.LocalTextTranslator
+import androidx.compose.runtime.CompositionLocalProvider
+import com.rick.ecatalogs.data.translation.TextTranslator
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import androidx.navigation.fragment.findNavController
 import android.net.Uri
@@ -32,6 +35,9 @@ class TrendingSeriesFavoriteFragment : Fragment() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
+    @Inject
+    lateinit var textTranslator: TextTranslator
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -43,21 +49,24 @@ class TrendingSeriesFavoriteFragment : Fragment() {
             )
 
         binding.movieComposeView.setContent {
-            EcsTheme {
-                val seriesState by viewModel.feedTrendingSeriesUiState.collectAsStateWithLifecycle()
-                val shouldDisplayUndoSeriesFavorite by viewModel.shouldDisplayUndoSeriesFavorite.collectAsState()
-                MovieFavScreen(
-                    state = seriesState,
-                    onFavClick = {
-                        viewModel.onEvent(
-                            FavoriteUiEvents.RemoveTrendingSeriesFavorite(it.toInt())
-                        )
-                    },
-                    shouldDisplayUndoFavorite = shouldDisplayUndoSeriesFavorite,
-                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                    onItemClick = ::openSeries,
-                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval) },
-                )
+            // Lets each card offer "Show translation" under its summary
+            CompositionLocalProvider(LocalTextTranslator provides textTranslator) {
+                EcsTheme {
+                    val seriesState by viewModel.feedTrendingSeriesUiState.collectAsStateWithLifecycle()
+                    val shouldDisplayUndoSeriesFavorite by viewModel.shouldDisplayUndoSeriesFavorite.collectAsState()
+                    MovieFavScreen(
+                        state = seriesState,
+                        onFavClick = {
+                            viewModel.onEvent(
+                                FavoriteUiEvents.RemoveTrendingSeriesFavorite(it.toInt())
+                            )
+                        },
+                        shouldDisplayUndoFavorite = shouldDisplayUndoSeriesFavorite,
+                        clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                        onItemClick = ::openSeries,
+                        undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoTrendingSeriesFavoriteRemoval) },
+                    )
+                }
             }
         }
 
@@ -71,8 +80,8 @@ class TrendingSeriesFavoriteFragment : Fragment() {
         )
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

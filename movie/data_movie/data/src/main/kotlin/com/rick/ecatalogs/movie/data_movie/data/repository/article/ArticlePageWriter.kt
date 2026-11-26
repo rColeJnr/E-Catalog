@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.data_movie.data.repository.article
 
+import com.rick.ecatalogs.movie.data_movie.data.repository.catalogPosition
 import com.rick.ecatalogs.movie.data_movie.data.model.asArticleEntity
 import com.rick.ecatalogs.movie.data_movie.database.MovieTransactionRunner
 import com.rick.ecatalogs.movie.data_movie.database.dao.ArticleDao
@@ -26,12 +27,16 @@ internal suspend fun writeArticlePage(
     articleDao: ArticleDao,
     keysDao: ArticleRemoteKeysDao,
     transactionRunner: MovieTransactionRunner,
+    keepIds: Set<String>,
 ): Boolean {
     val articles = response.response.docs
     val endOfPaginationReached = articles.isEmpty() || page >= MAX_PAGE
 
     transactionRunner {
         if (isRefresh) {
+            // Written anew: rows leave the list, and those that aren't favorites are deleted
+            articleDao.clearCatalog()
+            articleDao.deleteOutsideCatalog(keepIds)
             keysDao.clearRemoteKeys()
         }
 
@@ -48,7 +53,11 @@ internal suspend fun writeArticlePage(
             ArticleRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
         }
         keysDao.insertAll(keys)
-        articleDao.upsertArticles(articles.map(ArticleNetwork::asArticleEntity))
+        articleDao.upsertArticles(
+            articles.mapIndexed { index, article ->
+                article.asArticleEntity().copy(catalogPosition = catalogPosition(page, index))
+            },
+        )
     }
     return endOfPaginationReached
 }

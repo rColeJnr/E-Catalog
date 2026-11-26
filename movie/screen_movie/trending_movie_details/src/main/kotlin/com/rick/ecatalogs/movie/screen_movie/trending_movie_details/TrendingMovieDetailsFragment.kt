@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_details
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.graphics.Color
 import com.rick.ecatalogs.data.ui_design.POSTER_KIND_MOVIE
 import com.rick.ecatalogs.data.ui_design.posterTransitionName
@@ -14,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialContainerTransform
@@ -22,10 +23,8 @@ import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.Creator
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_movie.TrendingMovie
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
 import com.rick.ecatalogs.movie.screen_movie.common.bindExtras
 import com.rick.ecatalogs.movie.screen_movie.common.personDetailsUri
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.logTrendingMovieOpened
 import com.rick.ecatalogs.movie.screen_movie.common.util.getTmdbImageUrl
@@ -33,8 +32,6 @@ import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
 import com.rick.ecatalogs.movie.screen_movie.trending_movie_details.R
 import com.rick.ecatalogs.movie.screen_movie.trending_movie_details.databinding.MovieScreenMovieTrendingMovieDetailsFragmentTrendingMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
@@ -45,12 +42,14 @@ class TrendingMovieDetailsFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: TrendingMovieDetailsViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var similarsAdapter: MovieSimilarDetailsAdapter
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,10 +68,6 @@ class TrendingMovieDetailsFragment : Fragment() {
             container,
             false
         )
-
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
 
         arguments?.let {
             val safeArgs = TrendingMovieDetailsFragmentArgs.fromBundle(it)
@@ -138,6 +133,7 @@ class TrendingMovieDetailsFragment : Fragment() {
     ) {
 
         val noData = getString(R.string.movie_screen_movie_trending_movie_details_no_data)
+        val translation = TranslationToggle(showTranslation, movieSummary, textTranslator)
 
         uiState.observe(viewLifecycleOwner) { state ->
 
@@ -159,47 +155,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     if (trendingMovie.image.isNotEmpty()) {
                         provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image), onReady = { startPostponedEnterTransition() })
                     }
-                    movieSummary.text = trendingMovie.overview.trim()
-
-                    if (translationViewModel.location.value.lowercase() == "en") {
-                        showTranslation.visibility = View.GONE
-                    } else {
-                        showTranslation.visibility = View.VISIBLE
-                        showTranslation.setOnClickListener {
-                            if (showTranslation.text == getString(R.string.movie_screen_movie_trending_movie_details_show_original)) {
-                                movieSummary.animate().alpha(0f).setDuration(200).withEndAction {
-                                    movieSummary.text = trendingMovie.overview
-                                    showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
-                                        showTranslation.text =
-                                            getString(R.string.movie_screen_movie_trending_movie_details_show_translation)
-                                        showTranslation.animate().alpha(1f).setDuration(200).start()
-                                    }.start()
-                                    movieSummary.animate().alpha(1f).setDuration(200).start()
-                                }.start()
-                            } else {
-                                translationViewModel.onEvent(
-                                    TranslationEvent.GetTranslation(
-                                        listOf(trendingMovie.overview),
-                                        translationViewModel.location.value
-                                    )
-                                )
-                                lifecycleScope.launch {
-                                    translationViewModel.translation.collectLatest {
-                                        movieSummary.animate().alpha(0f).setDuration(200)
-                                            .withEndAction {
-                                                movieSummary.text = it.first().text
-                                                showTranslation.animate().alpha(0f).setDuration(200).withEndAction {
-                                                    showTranslation.text =
-                                                        getString(R.string.movie_screen_movie_trending_movie_details_show_original)
-                                                    showTranslation.animate().alpha(1f).setDuration(200).start()
-                                                }.start()
-                                                movieSummary.animate().alpha(1f).setDuration(200).start()
-                                            }.start()
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    translation.bind(trendingMovie.overview.trim())
                     if (trendingMovie.adult) {
                         movieAdult.text = resources.getString(
                             R.string.movie_screen_movie_trending_movie_details_adult_content, "Yes"
@@ -283,8 +239,8 @@ class TrendingMovieDetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

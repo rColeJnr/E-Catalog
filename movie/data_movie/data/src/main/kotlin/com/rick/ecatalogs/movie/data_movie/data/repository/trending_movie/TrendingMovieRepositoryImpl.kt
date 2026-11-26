@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.data_movie.data.repository.trending_movie
 
+import kotlinx.coroutines.flow.first
 import com.rick.ecatalogs.data.datastore.ListCache
 import com.rick.ecatalogs.data.datastore.CachedList
 import android.util.Log
@@ -50,6 +51,7 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
                 listCache = listCache,
+                favoriteIds = ::favoriteIds,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -76,6 +78,7 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
                 trendingMovieDao = trendingMovieDao,
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
+                keepIds = favoriteIds(),
             )
         }
 
@@ -97,7 +100,8 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
                     query = query,
                 ).results
 
-                trendingMovieDao.upsertTrendingMovie(response.map(TrendingMovieNetwork::asTrendingMovieEntity))
+                // Outside the catalog list: a stored row (and its place in the list) is kept
+                trendingMovieDao.insertOutsideCatalog(response.map(TrendingMovieNetwork::asTrendingMovieEntity))
 
                 // appending '%' so we can allow other characters to be before and after the query string
                 val dbQuery = "%${query.replace(' ', '%')}%"
@@ -122,6 +126,8 @@ internal class TrendingMovieRepositoryImpl @Inject constructor(
                 Log.e(TAG, "HTTPException ${e.localizedMessage}")
             }
         }
+
+    private suspend fun favoriteIds(): Set<Int> = preferences.trendingMovieUserData.first().trendingMovieFavoriteIds
 }
 
 private const val TAG = "TrendingMovieRepositoryImpl"

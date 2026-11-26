@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.movie.data_movie.data.repository.article
 
+import kotlinx.coroutines.flow.first
 import com.rick.ecatalogs.data.datastore.ListCache
 import com.rick.ecatalogs.data.datastore.CachedList
 import android.util.Log
@@ -49,6 +50,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
                 listCache = listCache,
+                favoriteIds = ::favoriteIds,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -75,6 +77,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 articleDao = articleDao,
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
+                keepIds = favoriteIds(),
             )
         }
 
@@ -95,9 +98,8 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 query = query,
             ).response.docs
 
-            articleDao.clearArticles(response.map(ArticleNetwork::id))
-
-            articleDao.upsertArticles(response.map(ArticleNetwork::asArticleEntity))
+            // Outside the catalog list: a stored row (and its place in the list) is kept
+            articleDao.insertOutsideCatalog(response.map(ArticleNetwork::asArticleEntity))
 
             // appending '%' so we can allow other characters to be before and after the query string
             val dbQuery = "%${query.replace(' ', '%')}%"
@@ -111,8 +113,14 @@ internal class ArticleRepositoryImpl @Inject constructor(
             Log.e(TAG, e.localizedMessage ?: "IOException")
         } catch (e: HttpException) {
             Log.e(TAG, e.localizedMessage ?: "HTTPException")
+        } catch (e: IllegalArgumentException) {
+            // kotlinx.serialization's SerializationException: a response in an unexpected shape
+            // (NYT changed `multimedia` from a list to an object) used to end the search silently
+            Log.e(TAG, e.localizedMessage ?: "Unexpected response")
         }
     }
+
+    private suspend fun favoriteIds(): Set<String> = preferences.articleUserData.first().nyTimesArticlesFavoriteIds
 }
 
 private const val TAG = "ArticleRepositoryImpl"

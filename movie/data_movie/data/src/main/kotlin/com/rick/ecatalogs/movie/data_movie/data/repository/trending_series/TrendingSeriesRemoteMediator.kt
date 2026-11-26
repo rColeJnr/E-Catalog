@@ -22,6 +22,8 @@ class TrendingSeriesRemoteMediator(
     private val keysDao: TrendingSeriesRemoteKeysDao,
     private val transactionRunner: MovieTransactionRunner,
     private val listCache: ListCache,
+    /** Rows a refresh keeps although they leave the list: the favorites. */
+    private val favoriteIds: suspend () -> Set<Int>,
 ) : RemoteMediator<Int, TrendingSeriesEntity>() {
 
     /**
@@ -73,6 +75,7 @@ class TrendingSeriesRemoteMediator(
                 trendingSeriesDao = trendingSeriesDao,
                 keysDao = keysDao,
                 transactionRunner = transactionRunner,
+                keepIds = if (loadType == LoadType.REFRESH) favoriteIds() else emptySet(),
             )
 
             if (loadType == LoadType.REFRESH) listCache.markRefreshed(CachedList.TRENDING_SERIES)

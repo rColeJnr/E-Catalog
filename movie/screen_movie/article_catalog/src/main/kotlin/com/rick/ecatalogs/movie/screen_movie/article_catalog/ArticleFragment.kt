@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.article_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
 import android.net.Uri
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
@@ -27,8 +29,6 @@ import com.rick.ecatalogs.movie.data_movie.model.UserArticle
 import com.rick.ecatalogs.movie.screen_movie.article_catalog.databinding.MovieScreenMovieArticleCatalogFragmentArticleCatalogBinding
 import com.rick.ecatalogs.movie.screen_movie.common.ArticleDetailsDialogFragment
 import com.rick.ecatalogs.movie.screen_movie.common.RemotePresentationState
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.asRemotePresentationState
 import com.rick.ecatalogs.movie.screen_movie.common.logArticleOpened
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
@@ -39,7 +39,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,7 +48,6 @@ class ArticleFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: NYMovieViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
     private lateinit var adapter: ArticleAdapter
     private lateinit var navController: NavController
 
@@ -58,6 +56,9 @@ class ArticleFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,10 +82,6 @@ class ArticleFragment : Fragment() {
         navController = findNavController()
 
         initAdapter()
-
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
 
         binding.bindState(
             pagingData = viewModel.pagingDataFLow
@@ -114,10 +111,12 @@ class ArticleFragment : Fragment() {
 
     private fun initAdapter() {
 
-        adapter = ArticleAdapter(this::onMovieClick, this::onFavClick, this::onTranslationClick)
+        adapter = ArticleAdapter(this::onMovieClick, this::onFavClick, textTranslator)
 
         // Rebinding the same item shouldn't fade the whole card (looked like flicker)
         (binding.recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        // Cards fade, rise and scale in as they scroll into view
+        binding.recyclerView.animateItemsOnScroll()
         binding.recyclerView.adapter =
             adapter
 
@@ -173,11 +172,11 @@ class ArticleFragment : Fragment() {
         pagingData: Flow<PagingData<UserArticle>>
     ) {
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             pagingData.collectLatest(adapter::submitData)
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collect { loadState ->
 
                 // show progress bar during initial load or refresh.
@@ -195,7 +194,7 @@ class ArticleFragment : Fragment() {
                 errorState?.let {
                     Toast.makeText(
                         context,
-                        getString(R.string.movie_screen_movie_article_catalog_whoops, it),
+                        getString(com.rick.ecatalogs.data.ui_components.common.R.string.data_ui_components_common_load_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -205,7 +204,7 @@ class ArticleFragment : Fragment() {
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notLoading.collectLatest {
                 if (it) recyclerView.scrollToPosition(0)
             }
@@ -224,7 +223,12 @@ class ArticleFragment : Fragment() {
         ArticleDetailsDialogFragment(
             article,
             this::onDialogFavoriteClick,
-            this::onWebUlrClick
+            this::onWebUlrClick,
+            onFilmClick = { filmId ->
+                findNavController().navigateWithMotion(
+                    android.net.Uri.parse("com.rick.ecs://trending_movie_details_fragment/$filmId")
+                )
+            },
         ).show(
             requireActivity().supportFragmentManager,
             "article_details"
@@ -233,19 +237,6 @@ class ArticleFragment : Fragment() {
 
     private fun onFavClick(view: View, id: String, isFavorite: Boolean) {
         viewModel.onEvent(NYMovieUiEvent.UpdateArticleFavorite(id, !isFavorite))
-    }
-
-    private fun onTranslationClick(article: UserArticle, translation: List<String>) {
-        translationViewModel.onEvent(
-            TranslationEvent.GetTranslation(
-                texts = translation, lCode = translationViewModel.location.value
-            )
-        )
-        lifecycleScope.launch {
-            translationViewModel.translation.collectLatest {
-                onMovieClick(article.copy(leadParagraph = it.first().text))
-            }
-        }
     }
 
     private fun onDialogFavoriteClick(view: View, id: String, isFavorite: Boolean) {
@@ -258,8 +249,8 @@ class ArticleFragment : Fragment() {
         findNavController().navigateWithMotion(uri)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

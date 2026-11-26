@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.common
 
+import com.rick.ecatalogs.data.ui_design.fadeWhenSmall
+import com.rick.ecatalogs.data.ui_design.useHeroCarousel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -26,7 +28,7 @@ data class BrowseRow(val title: String, val items: List<BrowseItem>)
 data class BrowseGenre(val id: Int, val name: String)
 
 data class BrowseHeaderState(
-    /** Up to two rows; empty rows are hidden. */
+    /** Candidate rows in order of preference; only the first with items is shown. */
     val rows: List<BrowseRow> = emptyList(),
     val genres: List<BrowseGenre> = emptyList(),
     /** null = "All" (the trending list). */
@@ -76,15 +78,14 @@ class BrowseHeaderAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         private val row1 = BrowseRowAdapter(onItemClick, onBellClick)
-        private val row2 = BrowseRowAdapter(onItemClick, onBellClick)
         private var shownGenres: List<BrowseGenre>? = null
         private var bindingChips = false
 
         init {
             binding.browseHeaderTitle.text = title
             binding.browseHeaderSlogan.text = slogan
+            binding.browseRow1.useHeroCarousel()
             binding.browseRow1.adapter = row1
-            binding.browseRow2.adapter = row2
             binding.browseGenres.setOnCheckedStateChangeListener { group, checkedIds ->
                 if (bindingChips) return@setOnCheckedStateChangeListener
                 val chip = checkedIds.firstOrNull()?.let { group.findViewById<Chip>(it) }
@@ -95,8 +96,9 @@ class BrowseHeaderAdapter(
         }
 
         fun bind(state: BrowseHeaderState) = with(binding) {
-            bindRow(state.rows.getOrNull(0), browseRow1Section, browseRow1Title, row1)
-            bindRow(state.rows.getOrNull(1), browseRow2Section, browseRow2Title, row2)
+            // A single horizontal row per screen: the first row that has items
+            bindRow(state.rows.firstOrNull { it.items.isNotEmpty() }, browseRow1Section, browseRow1Title, row1)
+            browseRow2Section.isVisible = false
             bindGenres(state)
         }
 
@@ -140,20 +142,29 @@ class BrowseHeaderAdapter(
     }
 }
 
-/** A horizontal row of [BrowseItem] posters (also used for a series' seasons). */
+/**
+ * A horizontal row of [BrowseItem] posters (also used for a series' seasons), shown as a hero
+ * carousel.
+ */
 class BrowseRowAdapter(
     private val onItemClick: (BrowseItem) -> Unit,
     private val onBellClick: (BrowseItem) -> Unit = {},
 ) : ListAdapter<BrowseItem, BrowseRowAdapter.ViewHolder>(DIFF) {
 
     class ViewHolder(val binding: MovieScreenMovieCommonBrowseRowEntryBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            // Text and the bell only read on the large card
+            binding.root.fadeWhenSmall(binding.browseTitle, binding.browseSubtitle, binding.browseBell)
+        }
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        MovieScreenMovieCommonBrowseRowEntryBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = MovieScreenMovieCommonBrowseRowEntryBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-    )
+        return ViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -162,7 +173,7 @@ class BrowseRowAdapter(
             browseTitle.text = item.title
             browseSubtitle.text = item.subtitle
             browseSubtitle.isVisible = !item.subtitle.isNullOrBlank()
-            item.posterPath?.let { provideGlide(browsePoster, getTmdbImageUrl(it, size = "w342")) }
+            item.posterPath?.let { provideGlide(browsePoster, getTmdbImageUrl(it, size = "w500")) }
                 ?: browsePoster.setImageDrawable(null)
             browseBell.isVisible = item.reminderSet != null
             browseBell.setImageResource(

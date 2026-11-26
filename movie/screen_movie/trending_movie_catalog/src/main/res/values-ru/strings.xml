@@ -20,9 +20,6 @@
     <string name="movie_screen_movie_trending_movie_catalog_failed_to_retrieve_data">Не удалось получить данные 😓</string>
     <string name="movie_screen_movie_trending_movie_catalog_no_data">н/д</string>
     <string name="movie_screen_movie_trending_movie_catalog_favorite">Избранное</string>
-    <string name="movie_screen_movie_trending_movie_catalog_whoops">😨 Упс %1$s</string>
-    <string name="movie_screen_movie_trending_movie_catalog_show_translation">Показать перевод</string>
-    <string name="movie_screen_movie_trending_movie_catalog_show_original">Показать оригинал</string>
     <string name="movie_screen_movie_trending_movie_catalog_header">Откройте для себя фильмы</string>
     <string name="movie_screen_movie_trending_movie_catalog_slogan">Тысячи фильмов — найдите свой новый любимый</string>
 </resources>

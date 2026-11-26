@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.trending_movie_catalog
 
+import com.rick.ecatalogs.data.translation.TextTranslator
+import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
 import com.rick.ecatalogs.movie.screen_movie.common.R as CommonR
 import java.time.format.FormatStyle
 import java.time.format.DateTimeParseException
@@ -33,7 +35,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -51,8 +52,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.movie.screen_movie.common.RemotePresentationState
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.asRemotePresentationState
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.logTrendingMovieOpened
@@ -61,7 +60,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -71,7 +69,6 @@ class TrendingMovieFragment : Fragment() {
         null
     private val binding get() = _binding!!
     private val viewModel: TrendingMovieViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
 
     private lateinit var adapter: TrendingMovieAdapter
     private lateinit var headerAdapter: BrowseHeaderAdapter
@@ -79,6 +76,9 @@ class TrendingMovieFragment : Fragment() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var textTranslator: TextTranslator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,10 +100,6 @@ class TrendingMovieFragment : Fragment() {
 
         initAdapter()
 
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
-
         binding.bindList(
             viewModel.uiState.asLiveData(),
             adapter = adapter
@@ -122,7 +118,7 @@ class TrendingMovieFragment : Fragment() {
             TrendingMovieAdapter(
                 this::onMovieClick,
                 this::onFavClick,
-                this::onTranslationClick
+                textTranslator,
             )
         binding.recyclerView.itemAnimator = DefaultItemAnimator().apply {
             // Rebinding the same item shouldn't fade the whole card (looked like flicker)
@@ -141,6 +137,8 @@ class TrendingMovieFragment : Fragment() {
                 binding.recyclerView.scrollToPosition(0)
             },
         )
+        // Cards fade, rise and scale in as they scroll into view
+        binding.recyclerView.animateItemsOnScroll()
         binding.recyclerView.adapter = ConcatAdapter(headerAdapter, adapter)
         bindHeader()
     }
@@ -258,7 +256,7 @@ class TrendingMovieFragment : Fragment() {
                 }
 
                 is TrendingMovieUiState.Success -> {
-                    lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycleScope.launch {
                         state.movies.collect(adapter::submitData)
                     }
                 }
@@ -288,10 +286,7 @@ class TrendingMovieFragment : Fragment() {
                     errorState?.let {
                         Toast.makeText(
                             requireContext(),
-                            getString(
-                                R.string.movie_screen_movie_trending_movie_catalog_whoops,
-                                it.error.localizedMessage
-                            ),
+                            getString(com.rick.ecatalogs.data.ui_components.common.R.string.data_ui_components_common_load_failed),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -302,7 +297,7 @@ class TrendingMovieFragment : Fragment() {
         val notLoading = adapter.loadStateFlow.asRemotePresentationState()
             .map { it == RemotePresentationState.PRESENTED }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notLoading.collectLatest {
                 if (it) recyclerView.scrollToPosition(0)
             }
@@ -359,42 +354,6 @@ class TrendingMovieFragment : Fragment() {
         viewModel.onEvent(TrendingMovieUiEvent.UpdateTrendingMovieFavorite(id, !isFavorite))
     }
 
-    private fun onTranslationClick(actionView: TextView, textView: TextView, texts: List<String>) {
-        if (actionView.text == getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)) {
-            textView.animate().alpha(0f).setDuration(200).withEndAction {
-                textView.text = texts.first()
-                actionView.animate().alpha(0f).setDuration(200).withEndAction {
-                    actionView.text =
-                        getString(R.string.movie_screen_movie_trending_movie_catalog_show_translation)
-                    actionView.animate().alpha(1f).setDuration(200).start()
-                }.start()
-                textView.animate().alpha(1f).setDuration(200).start()
-            }.start()
-        } else {
-            translationViewModel.onEvent(
-                TranslationEvent.GetTranslation(
-                    texts = texts,
-                    lCode = translationViewModel.location.value
-                )
-            )
-            lifecycleScope.launch {
-                translationViewModel.translation.collectLatest { translations ->
-                    if (translations.isNotEmpty()) {
-                        textView.animate().alpha(0f).setDuration(200).withEndAction {
-                            textView.text = translations.first().text
-                            actionView.animate().alpha(0f).setDuration(200).withEndAction {
-                                actionView.text =
-                                    getString(R.string.movie_screen_movie_trending_movie_catalog_show_original)
-                                actionView.animate().alpha(1f).setDuration(200).start()
-                            }.start()
-                            textView.animate().alpha(1f).setDuration(200).start()
-                        }.start()
-                    }
-                }
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.movie_screen_movie_trending_movie_catalog_menu, menu)
     }
@@ -422,8 +381,8 @@ class TrendingMovieFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

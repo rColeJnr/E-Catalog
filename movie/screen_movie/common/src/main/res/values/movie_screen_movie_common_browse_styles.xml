@@ -11,14 +11,12 @@
         <item name="android:textColor">@color/data_ui_design_black</item>
     </style>
 
+    <!-- A hero carousel row (layout manager set in code: useHeroCarousel); needs a fixed height -->
     <style name="MovieScreenMovieCommonBrowseRow">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:clipToPadding">false</item>
+        <item name="android:layout_height">@dimen/movie_screen_movie_common_hero_carousel_height</item>
         <item name="android:nestedScrollingEnabled">false</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:paddingStart">11dp</item>
-        <item name="android:paddingEnd">11dp</item>
-        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
     </style>
 </resources>

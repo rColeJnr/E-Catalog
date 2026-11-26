@@ -26,4 +26,6 @@
     <string name="movie_screen_movie_common_episodes">Эпизодов: %1$d</string>
     <string name="movie_screen_movie_common_season_error">Не удалось загрузить сезон. Нажмите, чтобы повторить.</string>
     <string name="movie_screen_movie_common_no_episodes">Эпизоды пока не объявлены.</string>
+    <string name="movie_screen_movie_common_see_the_film">Открыть фильм</string>
+    <string name="movie_screen_movie_common_film_not_found">Не удалось найти этот фильм.</string>
 </resources>

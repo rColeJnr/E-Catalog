@@ -7,6 +7,7 @@ plugins {
 
 android {
     namespace = "com.rick.ecatalogs.movie.data_movie.database"
+    testOptions.unitTests.isIncludeAndroidResources = true
 }
 
 dependencies {
@@ -19,4 +20,9 @@ dependencies {
     implementation(libs.paging.common)
     implementation(libs.room.paging)
     implementation(libs.square.converter.gson)
+
+    // DAO tests on an in-memory Room database (Robolectric)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

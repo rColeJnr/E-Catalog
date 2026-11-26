@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.person_details
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,21 +20,17 @@ import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.person.MediaType
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.person.Person
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.person.PersonCredit
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationEvent
-import com.rick.ecatalogs.movie.screen_movie.common.TranslationViewModel
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
 import com.rick.ecatalogs.movie.screen_movie.person_details.databinding.MovieScreenMoviePersonDetailsFragmentPersonDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.format.FormatStyle
-import java.util.Locale
 import javax.inject.Inject
 
 /** An actor's photo, facts, biography and best-known movies and series. */
@@ -43,18 +41,16 @@ class PersonDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PersonDetailsViewModel by viewModels()
-    private val translationViewModel: TranslationViewModel by viewModels()
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
     private var biographyExpanded = false
 
-    // Biography translation: fetched once on first tap, then toggled locally
-    private var originalBiography = ""
-    private var translatedBiography: String? = null
-    private var showingTranslation = false
-    private var translating = false
+    @Inject
+    lateinit var textTranslator: TextTranslator
+
+    private var biographyTranslation: TranslationToggle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,9 +68,6 @@ class PersonDetailsFragment : Fragment() {
     ): View {
         _binding = MovieScreenMoviePersonDetailsFragmentPersonDetailsBinding
             .inflate(inflater, container, false)
-        if (translationViewModel.location.value.isEmpty()) {
-            translationViewModel.setLocation(Locale.getDefault().language)
-        }
         analyticsHelper.logScreenView("personDetails")
         return binding.root
     }
@@ -86,7 +79,13 @@ class PersonDetailsFragment : Fragment() {
             setNavigationOnClickListener { findNavController().navigateUp() }
         }
         binding.personError.setOnClickListener { viewModel.retry() }
-        binding.personBiographyTranslate.setOnClickListener { toggleTranslation() }
+        biographyTranslation = TranslationToggle(
+            binding.personBiographyTranslate,
+            binding.personBiography,
+            textTranslator,
+            // The translation may be longer or shorter: re-check "Read more"
+            onTextChanged = { if (_binding != null) bindBiographyExpansion() },
+        )
         binding.personBiographyToggle.setOnClickListener {
             biographyExpanded = !biographyExpanded
             bindBiographyExpansion()
@@ -149,20 +148,9 @@ class PersonDetailsFragment : Fragment() {
         personPlaceOfBirth.text = person.placeOfBirth
         personPlaceOfBirth.isVisible = person.placeOfBirth != null
 
-        if (person.biography != originalBiography) {
-            // A different person (or first load): drop any translation of the previous text
-            originalBiography = person.biography
-            translatedBiography = null
-            showingTranslation = false
-        }
-        personBiography.text =
-            if (showingTranslation) translatedBiography ?: originalBiography else originalBiography
         personBiographySection.isVisible = person.biography.isNotBlank()
-        // TMDB biographies are English; offer a translation to the phone's language
-        personBiographyTranslate.isVisible =
-            translationViewModel.location.value.lowercase() != "en"
-        bindTranslateLabel()
-        bindBiographyExpansion()
+        // TMDB biographies are English; the toggle offers the phone's language
+        biographyTranslation?.bind(person.biography)
 
         personCreditsSection.isVisible = person.credits.isNotEmpty()
     }
@@ -183,58 +171,6 @@ class PersonDetailsFragment : Fragment() {
         }
     }
 
-    private fun toggleTranslation() {
-        if (translating) return
-        val translated = translatedBiography
-        when {
-            showingTranslation -> showBiography(originalBiography, translated = false)
-            translated != null -> showBiography(translated, translated = true)
-            else -> {
-                translating = true
-                translationViewModel.onEvent(
-                    TranslationEvent.GetTranslation(
-                        texts = listOf(originalBiography),
-                        lCode = translationViewModel.location.value,
-                    )
-                )
-                viewLifecycleOwner.lifecycleScope.launch {
-                    val result = try {
-                        translationViewModel.translation.first { it.isNotEmpty() }
-                            .first().text
-                    } catch (e: Exception) {
-                        null // no translation (offline, or the service failed)
-                    } finally {
-                        translating = false
-                    }
-                    if (result != null && _binding != null) {
-                        translatedBiography = result
-                        showBiography(result, translated = true)
-                    }
-                }
-            }
-        }
-    }
-
-    /** Cross-fades the biography to [text] and updates the translate action's label. */
-    private fun showBiography(text: String, translated: Boolean) {
-        val bio = binding.personBiography
-        bio.animate().alpha(0f).setDuration(FADE_MILLIS).withEndAction {
-            if (_binding == null) return@withEndAction
-            bio.text = text
-            showingTranslation = translated
-            bindTranslateLabel()
-            bindBiographyExpansion()
-            bio.animate().alpha(1f).setDuration(FADE_MILLIS).start()
-        }.start()
-    }
-
-    private fun bindTranslateLabel() {
-        binding.personBiographyTranslate.setText(
-            if (showingTranslation) R.string.movie_screen_movie_person_details_show_original
-            else R.string.movie_screen_movie_person_details_show_translation
-        )
-    }
-
     private fun onCreditClick(credit: PersonCredit) {
         val uri = when (credit.mediaType) {
             MediaType.MOVIE -> "com.rick.ecs://trending_movie_details_fragment/${credit.id}"
@@ -245,6 +181,7 @@ class PersonDetailsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        biographyTranslation = null
         _binding = null
     }
 }
@@ -259,4 +196,3 @@ private fun LocalDate.formatted(): String =
     format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
 
 private const val COLLAPSED_BIO_LINES = 6
-private const val FADE_MILLIS = 200L

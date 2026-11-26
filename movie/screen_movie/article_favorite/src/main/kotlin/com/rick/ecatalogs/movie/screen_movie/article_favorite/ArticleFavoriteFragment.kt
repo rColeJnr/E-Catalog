@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.movie.screen_movie.article_favorite
 
+import com.rick.ecatalogs.data.ui_components.common.LocalTextTranslator
+import androidx.compose.runtime.CompositionLocalProvider
+import com.rick.ecatalogs.data.translation.TextTranslator
 import java.nio.charset.StandardCharsets
 import java.net.URLEncoder
 import com.rick.ecatalogs.movie.data_movie.model.FavoriteUiState
@@ -35,6 +38,9 @@ class ArticleFavoriteFragment : Fragment() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
+    @Inject
+    lateinit var textTranslator: TextTranslator
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -45,21 +51,24 @@ class ArticleFavoriteFragment : Fragment() {
         )
 
         binding.movieComposeView.setContent {
-            EcsTheme {
-                val articlesState by viewModel.feedArticlesUiState.collectAsStateWithLifecycle()
-                val shouldDisplayUndoArticleFavorite by viewModel.shouldDisplayUndoArticleFavorite.collectAsState()
-                MovieFavScreen(
-                    state = articlesState,
-                    onFavClick = {
-                        viewModel.onEvent(
-                            FavoriteUiEvents.RemoveArticleFavorite(it)
-                        )
-                    },
-                    shouldDisplayUndoFavorite = shouldDisplayUndoArticleFavorite,
-                    clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
-                    onItemClick = ::openArticle,
-                    undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoArticleFavoriteRemoval) },
-                )
+            // Lets each card offer "Show translation" under its summary
+            CompositionLocalProvider(LocalTextTranslator provides textTranslator) {
+                EcsTheme {
+                    val articlesState by viewModel.feedArticlesUiState.collectAsStateWithLifecycle()
+                    val shouldDisplayUndoArticleFavorite by viewModel.shouldDisplayUndoArticleFavorite.collectAsState()
+                    MovieFavScreen(
+                        state = articlesState,
+                        onFavClick = {
+                            viewModel.onEvent(
+                                FavoriteUiEvents.RemoveArticleFavorite(it)
+                            )
+                        },
+                        shouldDisplayUndoFavorite = shouldDisplayUndoArticleFavorite,
+                        clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) },
+                        onItemClick = ::openArticle,
+                        undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoArticleFavoriteRemoval) },
+                    )
+                }
             }
         }
 
@@ -87,11 +96,16 @@ class ArticleFavoriteFragment : Fragment() {
                     Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encoded")
                 )
             },
+            onFilmClick = { filmId ->
+                findNavController().navigateWithMotion(
+                    android.net.Uri.parse("com.rick.ecs://trending_movie_details_fragment/$filmId")
+                )
+            },
         ).show(requireActivity().supportFragmentManager, "article_details")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

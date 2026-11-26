@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.movie.screen_movie.article_catalog
 
+import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
+import com.rick.ecatalogs.data.translation.TextTranslator
 import androidx.core.view.isVisible
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -17,7 +19,7 @@ class ArticleViewHolder(
     binding: MovieScreenMovieArticleCatalogMovieEntryBinding,
     private val onItemClicked: (UserArticle) -> Unit,
     private val onFavClicked: (view: View, String, Boolean) -> Unit,
-    private val onTranslationClick: (UserArticle, List<String>) -> Unit
+    translator: TextTranslator,
 ) : RecyclerView.ViewHolder(binding.root) {
     private val title = binding.movieName
     private val image = binding.image
@@ -25,26 +27,25 @@ class ArticleViewHolder(
     private val favorite = binding.favorite
     private val date = binding.articleDate
     private val byline = binding.articleByline
-    private val showTranslation = binding.showTranslation
+    private val translation = TranslationToggle(binding.showTranslation, summary, translator)
 
     private lateinit var article: UserArticle
 
     init {
-        binding.root.setOnClickListener {
-            onItemClicked(article)
-        }
+        // The poster card is clickable itself and takes its taps: listen on it too, not only on
+        // the row (which only gets taps outside the card)
+        val open = View.OnClickListener { onItemClicked(article) }
+        binding.movieEntryCardView.setOnClickListener(open)
+        binding.root.setOnClickListener(open)
         favorite.setOnClickListener {
             onFavClicked(it, article.id, article.isFavorite)
-        }
-        showTranslation.setOnClickListener {
-            onTranslationClick(article, listOf(article.leadParagraph))
         }
     }
 
     fun bind(article: UserArticle) {
         this.article = article
         this.title.text = article.headline
-        this.summary.text = article.leadParagraph
+        translation.bind(article.leadParagraph)
         val src = article.multimedia
         if (src.isNotBlank()) provideGlide(this.image, src)
         favorite.setImageResource(
@@ -75,7 +76,7 @@ class ArticleViewHolder(
             parent: ViewGroup,
             onItemClicked: (UserArticle) -> Unit,
             onFavClicked: (view: View, String, Boolean) -> Unit,
-            onTranslationClick: (UserArticle, List<String>) -> Unit
+            translator: TextTranslator,
         ): ArticleViewHolder {
             val itemBinding = MovieScreenMovieArticleCatalogMovieEntryBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -83,7 +84,7 @@ class ArticleViewHolder(
                 itemBinding,
                 onItemClicked,
                 onFavClicked,
-                onTranslationClick
+                translator,
             )
         }
     }

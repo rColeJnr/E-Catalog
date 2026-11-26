@@ -62,6 +62,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/browse_row2"
             style="@style/MovieScreenMovieCommonBrowseRow"
+            android:layout_height="188dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="20dp"
             tools:listitem="@layout/movie_screen_movie_common_browse_row_entry" />
     </LinearLayout>
 

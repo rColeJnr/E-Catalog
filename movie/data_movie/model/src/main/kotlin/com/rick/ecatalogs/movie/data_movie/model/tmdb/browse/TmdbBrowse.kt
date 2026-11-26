@@ -36,3 +36,13 @@ data class Episode(
     val runtime: Int?,
     val voteAverage: Double,
 )
+
+/** A TMDB movie or series found by title (links from reviews and books). */
+data class TmdbTitle(
+    val id: Int,
+    val isMovie: Boolean,
+    val title: String,
+    val posterPath: String?,
+    /** Release / first-air year, or null. */
+    val year: Int?,
+)

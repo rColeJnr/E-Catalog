@@ -20,6 +20,9 @@ data class TrendingSeriesEntity(
     val voteAverage: Double,
     @ColumnInfo("vote_count")
     val voteCount: Int,
+    /** Place in the catalog list (the API's order); null for rows kept only as search results or favorites. */
+    @ColumnInfo("catalog_position")
+    val catalogPosition: Int? = null,
 )
 
 fun TrendingSeriesEntity.asTrendingSeries() = TrendingSeries(
