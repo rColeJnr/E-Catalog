@@ -1,3 +1,4 @@
+import com.rick.ecatalogs.buildlogic.allowModulesWithoutTests
 import com.android.build.api.dsl.ApplicationExtension
 import com.rick.ecatalogs.buildlogic.configureKotlinAndroid
 import org.gradle.api.Plugin
@@ -7,6 +8,7 @@ import org.gradle.kotlin.dsl.configure
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            allowModulesWithoutTests()
             with(pluginManager) {
                 apply("com.android.application")
                 apply("ecatalogs.android.lint")

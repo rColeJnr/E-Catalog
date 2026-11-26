@@ -49,11 +49,12 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
 
             extensions.configure<ApplicationExtension> {
                 buildTypes.configureEach {
-                    // Disable the Crashlytics mapping file upload. This feature should only be
-                    // enabled if a Firebase backend is available and configured in
-                    // google-services.json.
+                    // Release builds are obfuscated by R8: upload their mapping file so Crashlytics
+                    // shows readable stack traces (google-services.json has a real backend).
+                    // -PskipMappingUpload skips it, e.g. for an offline release build.
                     configure<CrashlyticsExtension> {
-                        mappingFileUploadEnabled = false
+                        mappingFileUploadEnabled = name == "release" &&
+                            !providers.gradleProperty("skipMappingUpload").isPresent
                     }
                 }
             }

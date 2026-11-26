@@ -32,6 +32,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("android.material").get())
                 add("implementation", libs.findLibrary("lifecycle.viewmodel").get())
                 add("implementation", libs.findLibrary("bumptech.glide").get())
+
+                // EcsTestRunner (set above) lives in :data:testing
+                add("testImplementation", project(":data:testing"))
+                add("androidTestImplementation", project(":data:testing"))
             }
         }
     }

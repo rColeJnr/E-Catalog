@@ -1,3 +1,4 @@
+import com.rick.ecatalogs.buildlogic.allowModulesWithoutTests
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.rick.ecatalogs.buildlogic.configureFlavors
@@ -12,6 +13,7 @@ import org.gradle.kotlin.dsl.dependencies
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            allowModulesWithoutTests()
             with(pluginManager) {
                 apply("com.android.library")
                 apply("ecatalogs.android.lint")

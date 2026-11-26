@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.data.testing.notifications
 
+import com.rick.ecatalogs.game.data_game.model.Game
 import com.rick.ecatalogs.book.data_book.model.bestseller.Bestseller
 import com.rick.ecatalogs.book.data_book.model.bestseller.BestsellerGenre
 import com.rick.ecatalogs.data.notifications.Notifier
@@ -29,6 +30,11 @@ class TestNotifier : Notifier {
 
     override fun postBestsellersNotification(genre: BestsellerGenre, books: List<Bestseller>) {
         bestsellers.add(genre to books)
+    }
+
+    val comingSoonGames = mutableListOf<List<Game>>()
+    override fun postComingSoonGamesNotification(games: List<Game>) {
+        comingSoonGames.add(games)
     }
 
     val releaseReminders = mutableListOf<Pair<Int, String>>()

@@ -75,10 +75,10 @@ gradlePlugin {
             id = "ecatalogs.android.library.jacoco"
             implementationClass = "AndroidLibraryJacocoConventionPlugin"
         }
-//        register("androidTest") {
-//            id = "ecatalogs.android.test"
-//            implementationClass = "AndroidTestConventionPlugin"
-//        }
+        register("androidTest") {
+            id = "ecatalogs.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
         register("androidHilt") {
             id = "ecatalogs.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
