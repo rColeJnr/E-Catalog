@@ -14,8 +14,6 @@
     <string name="book_screen_book_bestseller_catalog_hint_book_author" translatable="false">Book Author</string>
     <string name="book_screen_book_bestseller_catalog_hint_book_title" translatable="false">Book Title</string>
     <string name="book_screen_book_bestseller_catalog_trending_now">Top Picks</string>
-    <string name="book_screen_book_bestseller_catalog_category">Category</string>
-    <string name="book_screen_book_bestseller_catalog_category_image" translatable="false">Category Image</string>
     <string name="book_screen_book_bestseller_catalog_bestsellers">Bestsellers</string>
     <string name="book_screen_book_bestseller_catalog_slogan">Explore NY Times bestselling books, and find a new favorite</string>
     <string name="book_screen_book_bestseller_catalog_header">Discover Books</string>
@@ -36,4 +34,10 @@
         <item quantity="one">%d week on the list</item>
         <item quantity="other">%d weeks on the list</item>
     </plurals>
+    <!-- Category chips (same wording as the notifications) -->
+    <string name="book_screen_book_bestseller_catalog_genre_fiction">Fiction</string>
+    <string name="book_screen_book_bestseller_catalog_genre_nonfiction">Nonfiction</string>
+    <string name="book_screen_book_bestseller_catalog_genre_miscellaneous">Advice &amp; miscellaneous</string>
+    <string name="book_screen_book_bestseller_catalog_genre_business">Business</string>
+    <string name="book_screen_book_bestseller_catalog_genre_graphic">Graphic books &amp; manga</string>
 </resources>

@@ -26,7 +26,7 @@
                 android:paddingTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
+                android:gravity="center"
                 android:text="@string/book_screen_book_bestseller_catalog_header"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textStyle="bold" />
@@ -41,15 +41,6 @@
                 android:gravity="start"
                 android:text="@string/book_screen_book_bestseller_catalog_slogan"
                 android:textAppearance="?attr/textAppearanceBody2" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/book_screen_book_bestseller_catalog_category_entry" />
 
             <TextView
                 android:id="@+id/carousel_title"
@@ -71,6 +62,26 @@
                 android:nestedScrollingEnabled="false"
                 android:paddingHorizontal="12dp"
                 tools:listitem="@layout/book_screen_book_bestseller_catalog_carousel_book_entry" />
+
+            <!-- The NYT lists, under Top picks, as chips like the movie and series genres -->
+            <HorizontalScrollView
+                android:id="@+id/category_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:scrollbars="none"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/category_chips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    app:selectionRequired="true"
+                    app:singleLine="true"
+                    app:singleSelection="true" />
+            </HorizontalScrollView>
 
             <TextView
                 android:id="@+id/bestsellers_label"

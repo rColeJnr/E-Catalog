@@ -2,7 +2,6 @@ package com.rick.ecatalogs.movie.screen_movie.article_catalog
 
 import com.rick.ecatalogs.data.translation.TextTranslator
 import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
-import android.net.Uri
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
@@ -27,7 +26,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.movie.data_movie.model.UserArticle
 import com.rick.ecatalogs.movie.screen_movie.article_catalog.databinding.MovieScreenMovieArticleCatalogFragmentArticleCatalogBinding
-import com.rick.ecatalogs.movie.screen_movie.common.ArticleDetailsDialogFragment
+import com.rick.ecatalogs.movie.screen_movie.common.articleDetailsUri
 import com.rick.ecatalogs.movie.screen_movie.common.RemotePresentationState
 import com.rick.ecatalogs.movie.screen_movie.common.asRemotePresentationState
 import com.rick.ecatalogs.movie.screen_movie.common.logArticleOpened
@@ -37,8 +36,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -218,35 +215,12 @@ class ArticleFragment : Fragment() {
     }
 
     private fun onMovieClick(article: UserArticle) {
-        // Add dialog expand animation
         analyticsHelper.logArticleOpened(article.id.toString())
-        ArticleDetailsDialogFragment(
-            article,
-            this::onDialogFavoriteClick,
-            this::onWebUlrClick,
-            onFilmClick = { filmId ->
-                findNavController().navigateWithMotion(
-                    android.net.Uri.parse("com.rick.ecs://trending_movie_details_fragment/$filmId")
-                )
-            },
-        ).show(
-            requireActivity().supportFragmentManager,
-            "article_details"
-        )
+        findNavController().navigateWithMotion(articleDetailsUri(article.id))
     }
 
     private fun onFavClick(view: View, id: String, isFavorite: Boolean) {
         viewModel.onEvent(NYMovieUiEvent.UpdateArticleFavorite(id, !isFavorite))
-    }
-
-    private fun onDialogFavoriteClick(view: View, id: String, isFavorite: Boolean) {
-        onFavClick(view, id, isFavorite)
-    }
-
-    private fun onWebUlrClick(link: String) {
-        val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
-        val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
-        findNavController().navigateWithMotion(uri)
     }
 
     override fun onDestroyView() {

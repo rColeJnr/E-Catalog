@@ -43,6 +43,13 @@ class CompositeArticleRepository @Inject constructor(
                 }
             }
 
+    // getArticleFavorites reads the stored rows with the given ids, favorite or not
+    override fun observeArticleById(id: String): Flow<UserArticle?> =
+        articleRepository.getArticleFavorites(setOf(id))
+            .combine(userDataRepository.userData) { articles, userData ->
+                articles.firstOrNull()?.mapToUserArticle(userData)
+            }
+
     override fun observeSearchArticle(query: String): Flow<List<UserArticle>> =
         articleRepository.searchArticle(query = query)
             .combine(userDataRepository.userData) { article, userData ->

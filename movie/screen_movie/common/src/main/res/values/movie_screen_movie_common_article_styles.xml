@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The review details screen uses the bestseller details screen's look -->
+    <style name="MovieScreenMovieCommonSectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:layout_marginEnd">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+        <item name="android:textColor">@color/data_ui_design_black</item>
+    </style>
+
+    <style name="MovieScreenMovieCommonFactPill">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:background">@drawable/movie_screen_movie_common_fact_pill</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceCaption</item>
+        <item name="android:textColor">@color/data_ui_design_black</item>
+    </style>
+
+    <style name="MovieScreenMovieCommonBodyText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:layout_marginEnd">@dimen/data_ui_design_text_title_h_margin</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="android:textColor">@color/data_ui_design_black</item>
+    </style>
+</resources>

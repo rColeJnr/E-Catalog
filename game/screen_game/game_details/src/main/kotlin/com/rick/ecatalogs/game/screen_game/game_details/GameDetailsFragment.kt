@@ -1,5 +1,10 @@
 package com.rick.ecatalogs.game.screen_game.game_details
 
+import com.rick.ecatalogs.data.trailer.InlineTrailer
+import com.rick.ecatalogs.data.ui_components.common.EcsBackButton
+import com.rick.ecatalogs.data.ui_components.common.EcsGlassFavoriteButton
+import com.rick.ecatalogs.data.trailer.TrailerActivity
+import com.rick.ecatalogs.data.trailer.R as TrailerR
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -30,7 +35,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -77,7 +81,6 @@ import com.rick.ecatalogs.game.data_game.model.IgdbImageSize
 import com.rick.ecatalogs.game.data_game.model.UserGameDetails
 import com.rick.ecatalogs.game.data_game.model.coverUrl
 import com.rick.ecatalogs.game.data_game.model.igdbImageUrl
-import com.rick.ecatalogs.game.screen_game.common.FavoriteButton
 import com.rick.ecatalogs.game.screen_game.common.GameDeepLinks
 import com.rick.ecatalogs.game.screen_game.common.asPosterItem
 import com.rick.ecatalogs.game.screen_game.common.ratingText
@@ -123,6 +126,7 @@ class GameDetailsFragment : Fragment() {
                     onFavoriteChange = viewModel::setFavorite,
                     onOpenGame = { findNavController().navigateWithMotion(GameDeepLinks.details(it)) },
                     onOpenUrl = { requireContext().openUrl(it) },
+                    onWatchTrailer = { videoId, title -> TrailerActivity.start(requireContext(), videoId, title) },
                 )
             }
         }
@@ -148,6 +152,7 @@ private fun GameDetailsScreen(
     onFavoriteChange: (Boolean) -> Unit,
     onOpenGame: (Int) -> Unit,
     onOpenUrl: (String) -> Unit,
+    onWatchTrailer: (videoId: String, title: String) -> Unit,
 ) {
     Column(
         Modifier
@@ -160,17 +165,22 @@ private fun GameDetailsScreen(
                 val name = (state as? GameDetailsUiState.Loaded)?.game?.details?.game?.name.orEmpty()
                 Text(name, maxLines = 1, overflow = TextOverflow.Ellipsis)
             },
+            // The app's back arrow and glass favorite, as on the other screens
             navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(CommonR.string.game_screen_game_common_back),
-                    )
-                }
+                EcsBackButton(onClick = onBack, contentDescription = stringResource(CommonR.string.game_screen_game_common_back))
             },
             actions = {
                 if (state is GameDetailsUiState.Loaded) {
-                    FavoriteButton(state.game.isFavorite) { onFavoriteChange(!state.game.isFavorite) }
+                    val isFavorite = state.game.isFavorite
+                    EcsGlassFavoriteButton(
+                        isFavorite = isFavorite,
+                        onClick = { onFavoriteChange(!isFavorite) },
+                        contentDescription = stringResource(
+                            if (isFavorite) CommonR.string.game_screen_game_common_remove_favorite
+                            else CommonR.string.game_screen_game_common_add_favorite
+                        ),
+                        modifier = Modifier.padding(end = 12.dp),
+                    )
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
@@ -184,7 +194,8 @@ private fun GameDetailsScreen(
                     Text(stringResource(CommonR.string.game_screen_game_common_load_failed))
                 }
             }
-            is GameDetailsUiState.Loaded -> GameDetailsContent(state.game, translator, onOpenGame, onOpenUrl)
+            is GameDetailsUiState.Loaded ->
+                GameDetailsContent(state.game, translator, onOpenGame, onOpenUrl, onWatchTrailer)
         }
     }
 }
@@ -195,6 +206,7 @@ private fun GameDetailsContent(
     translator: TextTranslator,
     onOpenGame: (Int) -> Unit,
     onOpenUrl: (String) -> Unit,
+    onWatchTrailer: (videoId: String, title: String) -> Unit,
 ) {
     val details = item.details
     val game = details.game
@@ -207,7 +219,7 @@ private fun GameDetailsContent(
         Header(details)
         details.trailerYoutubeId?.let { videoId ->
             Button(
-                onClick = { onOpenUrl("https://www.youtube.com/watch?v=$videoId") },
+                onClick = { onWatchTrailer(videoId, game.name) },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Icon(Icons.Filled.PlayArrow, contentDescription = null)
@@ -223,13 +235,34 @@ private fun GameDetailsContent(
             EcsSectionTitle(stringResource(R.string.game_screen_game_game_details_storyline))
             TranslatableText(details.storyline, translator)
         }
-        if (details.screenshotIds.isNotEmpty()) {
-            EcsSectionTitle(stringResource(R.string.game_screen_game_game_details_screenshots))
+        val trailerId = details.trailerYoutubeId
+        if (trailerId != null || details.screenshotIds.isNotEmpty()) {
+            EcsSectionTitle(
+                stringResource(
+                    when {
+                        trailerId == null -> R.string.game_screen_game_game_details_screenshots
+                        details.screenshotIds.isEmpty() -> TrailerR.string.data_trailer_trailer
+                        else -> R.string.game_screen_game_game_details_trailer_and_screenshots
+                    }
+                )
+            )
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                items(details.screenshotIds) { imageId ->
+                // The trailer first; it plays here (its fullscreen button opens the trailer screen)
+                if (trailerId != null) item(key = "trailer:$trailerId") {
+                    InlineTrailer(
+                        videoId = trailerId,
+                        title = game.name,
+                        isVisible = true,
+                        modifier = Modifier
+                            .height(160.dp)
+                            .aspectRatio(16f / 9f)
+                            .clip(RoundedCornerShape(12.dp)),
+                    )
+                }
+                items(details.screenshotIds.distinct(), key = { "screenshot:$it" }) { imageId ->
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(igdbImageUrl(imageId, IgdbImageSize.SCREENSHOT_BIG))

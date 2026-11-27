@@ -15,4 +15,15 @@
             android:name="link"
             app:argType="string" />
     </fragment>
+
+    <!-- A movie review's details (replaces the old details dialog); opened with articleDetailsUri() -->
+    <fragment
+        android:id="@+id/movie_screen_movie_common_articledetailsfragment"
+        android:name="com.rick.ecatalogs.movie.screen_movie.common.ArticleDetailsFragment"
+        android:label="">
+        <deepLink app:uri="com.rick.ecs://movie_common_article_details/{articleId}" />
+        <argument
+            android:name="articleId"
+            app:argType="string" />
+    </fragment>
 </navigation>

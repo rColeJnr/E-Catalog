@@ -17,4 +17,10 @@ interface UserArticlesRepository {
     fun observeArticleFavorite(): Flow<List<UserArticle>>
 
     fun observeSearchArticle(query: String): Flow<List<UserArticle>>
+
+    /**
+     * One stored article (from the catalog, a search or the favorites) with its favorite state;
+     * null when it isn't stored (any more).
+     */
+    fun observeArticleById(id: String): Flow<UserArticle?>
 }

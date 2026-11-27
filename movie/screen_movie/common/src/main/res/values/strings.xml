@@ -2,10 +2,6 @@
 <resources>
     <string name="movie_screen_movie_common_failed_to_load">Failed to load</string>
     <string name="movie_screen_movie_common_retry">Retry</string>
-    <string name="movie_screen_movie_common_source">"Article source: %1$s"</string>
-    <string name="movie_screen_movie_common_reporter">Reported %1$s</string>
-    <string name="movie_screen_movie_common_release_date">Release date: %1$s</string>
-    <string name="movie_screen_movie_common_close">Close</string>
     <string name="movie_screen_movie_common_watch_trailer">Watch trailer</string>
     <string name="movie_screen_movie_common_cast">Cast</string>
     <string name="movie_screen_movie_common_where_to_watch">Where to watch</string>
@@ -28,4 +24,14 @@
     <string name="movie_screen_movie_common_no_episodes">No episodes announced yet.</string>
     <string name="movie_screen_movie_common_see_the_film">See the film</string>
     <string name="movie_screen_movie_common_film_not_found">Couldn\'t find this film.</string>
+
+    <!-- Review details screen -->
+    <string name="movie_screen_movie_common_article_unavailable">This review isn’t available any more</string>
+    <string name="movie_screen_movie_common_article_in_short">In short</string>
+    <string name="movie_screen_movie_common_article_from_review">From the review</string>
+    <string name="movie_screen_movie_common_article_read_full">Read the full review</string>
+    <string name="movie_screen_movie_common_article_the_film">The film</string>
+    <string name="movie_screen_movie_common_article_add_favorite">Add to favorites</string>
+    <string name="movie_screen_movie_common_article_remove_favorite">Remove from favorites</string>
+    <string name="movie_screen_movie_common_article_image">Picture for %1$s</string>
 </resources>

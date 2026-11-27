@@ -5,8 +5,8 @@
     <string name="anime">Аниме</string>
     <string name="manga">Манга</string>
     <string name="nyt_articles">Статьи NY Times</string>
-    <string name="trending_movies">Популярные фильмы</string>
-    <string name="trending_series">Популярные сериалы</string>
+    <string name="trending_movies">Фильмы</string>
+    <string name="trending_series">Сериалы</string>
     <string name="the_gutenberg_project">Проект Гутенберг</string>
     <string name="nyt_bestseller">Бестселлеры NY Times</string>
     <string name="anime_favorite">Любимые аниме</string>

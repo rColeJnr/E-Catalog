@@ -2,10 +2,6 @@
 <resources>
     <string name="movie_screen_movie_common_failed_to_load">Falha ao carregar</string>
     <string name="movie_screen_movie_common_retry">Tentar novamente</string>
-    <string name="movie_screen_movie_common_source">Fonte do artigo: %1$s</string>
-    <string name="movie_screen_movie_common_reporter">%1$s</string>
-    <string name="movie_screen_movie_common_release_date">Data de estreia: %1$s</string>
-    <string name="movie_screen_movie_common_close">Fechar</string>
     <string name="movie_screen_movie_common_watch_trailer">Ver trailer</string>
     <string name="movie_screen_movie_common_cast">Elenco</string>
     <string name="movie_screen_movie_common_where_to_watch">Onde ver</string>
@@ -28,4 +24,14 @@
     <string name="movie_screen_movie_common_no_episodes">Ainda não há episódios anunciados.</string>
     <string name="movie_screen_movie_common_see_the_film">Ver o filme</string>
     <string name="movie_screen_movie_common_film_not_found">Não foi possível encontrar este filme.</string>
+
+    <!-- Review details screen -->
+    <string name="movie_screen_movie_common_article_unavailable">Esta crítica não está mais disponível</string>
+    <string name="movie_screen_movie_common_article_in_short">Em resumo</string>
+    <string name="movie_screen_movie_common_article_from_review">Da crítica</string>
+    <string name="movie_screen_movie_common_article_read_full">Ler a crítica completa</string>
+    <string name="movie_screen_movie_common_article_the_film">O filme</string>
+    <string name="movie_screen_movie_common_article_add_favorite">Adicionar aos favoritos</string>
+    <string name="movie_screen_movie_common_article_remove_favorite">Remover dos favoritos</string>
+    <string name="movie_screen_movie_common_article_image">Imagem de %1$s</string>
 </resources>

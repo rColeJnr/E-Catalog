@@ -11,15 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -96,19 +90,67 @@ fun EcsCatalogCard(
  */
 val LocalTextTranslator = staticCompositionLocalOf<TextTranslator?> { null }
 
+/** What a "Show translation" toggle shows: the text in either language, and the toggle's label. */
+internal class TranslationToggleState(
+    val shownText: String,
+    /** Null when there's no translator (or no translation is possible): no toggle then. */
+    val label: String?,
+    val enabled: Boolean,
+    val onToggle: () -> Unit,
+)
+
+/** [text] with a toggle to its translation (via [LocalTextTranslator]), as the XML screens offer. */
 @Composable
-private fun TranslatableSummary(summary: String) {
+internal fun rememberTranslationToggle(text: String): TranslationToggleState {
     val translator = LocalTextTranslator.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var translation by remember(summary) { mutableStateOf<String?>(null) }
-    var showingTranslation by remember(summary) { mutableStateOf(false) }
-    var translating by remember(summary) { mutableStateOf(false) }
+    var translation by remember(text) { mutableStateOf<String?>(null) }
+    var showingTranslation by remember(text) { mutableStateOf(false) }
+    var translating by remember(text) { mutableStateOf(false) }
+    val label = if (translator != null && translator.isAvailable) {
+        stringResource(
+            when {
+                translating -> UiR.string.data_ui_components_common_translating
+                showingTranslation -> UiR.string.data_ui_components_common_show_original
+                else -> UiR.string.data_ui_components_common_show_translation
+            },
+        )
+    } else {
+        null
+    }
+    return TranslationToggleState(
+        shownText = if (showingTranslation) translation ?: text else text,
+        label = label,
+        enabled = !translating,
+        onToggle = {
+            when {
+                translator == null -> Unit
+                showingTranslation -> showingTranslation = false
+                translation != null -> showingTranslation = true
+                else -> scope.launch {
+                    translating = true
+                    translation = translator.translate(text)
+                    translating = false
+                    if (translation != null) {
+                        showingTranslation = true
+                    } else {
+                        Toast.makeText(
+                            context,
+                            UiR.string.data_ui_components_common_translation_failed,
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }
+                }
+            }
+        },
+    )
+}
 
-    Crossfade(
-        targetState = if (showingTranslation) translation ?: summary else summary,
-        label = "summary",
-    ) { text ->
+@Composable
+internal fun TranslatableSummary(summary: String) {
+    val toggle = rememberTranslationToggle(summary)
+    Crossfade(targetState = toggle.shownText, label = "summary") { text ->
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
@@ -118,40 +160,8 @@ private fun TranslatableSummary(summary: String) {
             modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp),
         )
     }
-    if (translator != null && translator.isAvailable) {
-        TextButton(
-            enabled = !translating,
-            onClick = {
-                when {
-                    showingTranslation -> showingTranslation = false
-                    translation != null -> showingTranslation = true
-                    else -> scope.launch {
-                        translating = true
-                        translation = translator.translate(summary)
-                        translating = false
-                        if (translation != null) {
-                            showingTranslation = true
-                        } else {
-                            Toast.makeText(
-                                context,
-                                UiR.string.data_ui_components_common_translation_failed,
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                        }
-                    }
-                }
-            },
-        ) {
-            Text(
-                stringResource(
-                    when {
-                        translating -> UiR.string.data_ui_components_common_translating
-                        showingTranslation -> UiR.string.data_ui_components_common_show_original
-                        else -> UiR.string.data_ui_components_common_show_translation
-                    },
-                ),
-            )
-        }
+    toggle.label?.let { label ->
+        TextButton(enabled = toggle.enabled, onClick = toggle.onToggle) { Text(label) }
     }
 }
 
@@ -239,20 +249,14 @@ private fun PosterCard(
                     .align(Alignment.BottomStart)
                     .padding(16.dp)
             ) { overlay() }
-            IconButton(
+            EcsGlassFavoriteButton(
+                isFavorite = true,
                 onClick = onRemove,
+                contentDescription = "Remove from favorites",
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(12.dp)
-                    .size(40.dp)
-                    .glass(CircleShape),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Favorite,
-                    contentDescription = "Remove from favorites",
-                    tint = colorResource(R.color.data_ui_design_on_scrim),
-                )
-            }
+                    .padding(12.dp),
+            )
         }
     }
 }
@@ -283,7 +287,7 @@ private fun PreviewBookCard() {
 
 /** Frosted glass: translucent body, white sheen from the top, thin light rim (matches the XML). */
 @Composable
-private fun Modifier.glass(shape: Shape): Modifier {
+internal fun Modifier.glass(shape: Shape): Modifier {
     val fill = colorResource(R.color.data_ui_design_glass_fill)
     val sheen = colorResource(R.color.data_ui_design_glass_sheen)
     val rim = colorResource(R.color.data_ui_design_glass_rim)

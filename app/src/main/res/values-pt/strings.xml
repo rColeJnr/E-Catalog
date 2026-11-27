@@ -4,8 +4,8 @@
     <string name="anime">Anime</string>
     <string name="manga">Manga</string>
     <string name="nyt_articles">Artigos do NY Times</string>
-    <string name="trending_movies">Filmes em tendência</string>
-    <string name="trending_series">Séries em tendência</string>
+    <string name="trending_movies">Filmes</string>
+    <string name="trending_series">Séries</string>
     <string name="the_gutenberg_project">Projeto Gutenberg</string>
     <string name="nyt_bestseller">Mais Vendidos do NY Times</string>
     <string name="anime_favorite">Animes Favoritos</string>

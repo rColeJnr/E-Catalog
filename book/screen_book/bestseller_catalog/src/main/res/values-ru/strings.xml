@@ -10,7 +10,6 @@
     <string name="book_screen_book_bestseller_catalog_open_link_amazon">Открыть страницу Amazon</string>
     <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Упс"\nРезультаты не найдены, 😓</string>
     <string name="book_screen_book_bestseller_catalog_trending_now">Лучшие подборки</string>
-    <string name="book_screen_book_bestseller_catalog_category">Категория</string>
     <string name="book_screen_book_bestseller_catalog_bestsellers">Бестселлеры</string>
     <string name="book_screen_book_bestseller_catalog_slogan">Исследуйте бестселлеры NY Times и найдите новую любимую книгу</string>
     <string name="book_screen_book_bestseller_catalog_header">Откройте для себя книги</string>
@@ -33,4 +32,10 @@
         <item quantity="many">%d недель в списке</item>
         <item quantity="other">%d недели в списке</item>
     </plurals>
+    <!-- Category chips (same wording as the notifications) -->
+    <string name="book_screen_book_bestseller_catalog_genre_fiction">Художественная литература</string>
+    <string name="book_screen_book_bestseller_catalog_genre_nonfiction">Нон-фикшн</string>
+    <string name="book_screen_book_bestseller_catalog_genre_miscellaneous">Советы и разное</string>
+    <string name="book_screen_book_bestseller_catalog_genre_business">Бизнес</string>
+    <string name="book_screen_book_bestseller_catalog_genre_graphic">Графические романы и манга</string>
 </resources>

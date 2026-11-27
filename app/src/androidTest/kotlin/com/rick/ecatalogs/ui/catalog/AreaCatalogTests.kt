@@ -1,16 +1,21 @@
 package com.rick.ecatalogs.ui.catalog
 
+import android.os.Build
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.filters.SdkSuppress
 import com.rick.ecatalogs.R
+import com.rick.ecatalogs.data.trailer.TAG_PLAY_TRAILER
 import com.rick.ecatalogs.ui.assertDestination
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
+import org.junit.Test
+import kotlin.test.assertEquals
 import com.rick.ecatalogs.anime.screen_anime.anime_catalog.R as AnimeCatalogR
 import com.rick.ecatalogs.anime.screen_anime.anime_details.R as AnimeDetailsR
 import com.rick.ecatalogs.anime.screen_anime.anime_favorites.R as AnimeFavoritesR
@@ -64,6 +69,32 @@ class TrendingSeriesCatalogTest : CatalogFlowTest() {
     override val favoritesItem = SeriesCatalogR.id.fav_imdb
     override val favoritesDestination =
         SeriesFavoriteR.id.movie_screen_movie_trending_series_favorite_trendingseriesfavoritefragment
+
+    @Test
+    fun seriesDetails_whenOpened_thenTrailerComesBeforeThePoster() {
+        openFirstDetails()
+        composeRule.assertGalleryStartsWithTrailer(pages = 3) // trailer, poster, backdrop (series_details.json)
+    }
+
+    @Test
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.O)
+    fun seriesDetails_whenWatchTrailerTapped_thenTrailerScreenOpens() {
+        openFirstDetails()
+
+        val launched = trailerLaunchesDuring {
+            onView(withId(MovieCommonR.id.extras_trailer)).perform(bringIntoView(), click())
+        }
+
+        assertEquals(listOf("KPLWWIOCOOQ"), launched) // series_details.json: Game of Thrones
+    }
+
+    /** The demo opens the same details for every item; they're bound once the gallery has the trailer. */
+    private fun openFirstDetails() {
+        openItemAndAssertDetails(app.scrollToItem(catalogList, index = 0))
+        composeRule.waitUntil(15_000) {
+            composeRule.onAllNodesWithTag(TAG_PLAY_TRAILER).fetchSemanticsNodes().isNotEmpty()
+        }
+    }
 }
 
 /** Trending movies. Favorited from the catalog card's heart; details have no favorite. */
@@ -92,12 +123,35 @@ class TrendingMoviesCatalogTest : CatalogFlowTest() {
     override val favoritesItem = MovieCatalogR.id.fav_imdb
     override val favoritesDestination =
         MovieFavoriteR.id.movie_screen_movie_trending_movie_favorite_trenidngmoviefavoritefragment
+
+    @Test
+    fun movieDetails_whenOpened_thenTrailerComesBeforeThePoster() {
+        openFirstDetails()
+        composeRule.assertGalleryStartsWithTrailer(pages = 3) // trailer, poster, backdrop (movie_details.json)
+    }
+
+    @Test
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.O)
+    fun movieDetails_whenWatchTrailerTapped_thenTrailerScreenOpens() {
+        openFirstDetails()
+
+        val launched = trailerLaunchesDuring {
+            onView(withId(MovieCommonR.id.extras_trailer)).perform(bringIntoView(), click())
+        }
+
+        assertEquals(listOf("d9MyW72ELq0"), launched) // movie_details.json: Avatar: The Way of Water
+    }
+
+    /** The demo opens the same details for every item; they're bound once the gallery has the trailer. */
+    private fun openFirstDetails() {
+        openItemAndAssertDetails(app.scrollToItem(catalogList, index = 0))
+        composeRule.waitUntil(15_000) {
+            composeRule.onAllNodesWithTag(TAG_PLAY_TRAILER).fetchSemanticsNodes().isNotEmpty()
+        }
+    }
 }
 
-/**
- * NYT movie reviews. Tapping a review opens a dialog (not a destination); it's favorited from
- * the dialog's heart.
- */
+/** NYT movie reviews. Tapping a review opens its details screen; favorited from its toolbar star. */
 @HiltAndroidTest
 class MovieReviewsCatalogTest : CatalogFlowTest() {
     override val drawerTitle = R.string.movie_reviews
@@ -108,7 +162,7 @@ class MovieReviewsCatalogTest : CatalogFlowTest() {
         ArticleCatalogR.id.movie_name,
         ArticleCatalogR.id.favorite,
     )
-    override val detailsDestination = catalogDestination // the dialog isn't a destination
+    override val detailsDestination = MovieCommonR.id.movie_screen_movie_common_articledetailsfragment
     override val searchItem = ArticleCatalogR.id.search_imdb
     override val searchDestination = ArticleSearchR.id.movie_screen_movie_article_search_articlesearchfragment
     override val searchQuery = "Gentleman" // search_movie_article.json
@@ -121,18 +175,17 @@ class MovieReviewsCatalogTest : CatalogFlowTest() {
     override val favoritesDestination =
         ArticleFavoriteR.id.movie_screen_movie_article_favorite_articlefavoritefragment
 
-    override fun openItemAndAssertDetails(title: String) {
-        openCard(catalogList, title)
-        onView(allOf(withId(MovieCommonR.id.title), withText(title)))
-            .inRoot(isDialog())
-            .check(matches(isDisplayed()))
-        app.assertDestination(catalogDestination)
-    }
-
+    // Favorited from the details screen's toolbar star, like a bestseller
     override fun favorite(title: String) {
         openItemAndAssertDetails(title)
-        onView(withId(MovieCommonR.id.favorite)).inRoot(isDialog()).perform(click())
-        onView(withId(MovieCommonR.id.close_dialog)).inRoot(isDialog()).perform(click())
+        onView(allOf(withId(MovieCommonR.id.article_details_headline), withText(title)))
+            .check(matches(isDisplayed()))
+        app.clickToolbarItem(
+            MovieCommonR.id.article_details_favorite,
+            toolbarId = MovieCommonR.id.article_details_toolbar,
+        )
+        androidx.test.espresso.Espresso.pressBack()
+        app.assertDestination(catalogDestination)
     }
 }
 

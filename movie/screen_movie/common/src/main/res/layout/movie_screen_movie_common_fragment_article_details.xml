@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Movie review details, laid out like the bestseller details screen: picture and facts, the
+     review's summary and opening, the full review and the film it's about -->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/data_ui_design_gradient_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/article_details_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="@dimen/data_ui_design_toolbar_margin_top" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/article_details_unavailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:gravity="center"
+            android:text="@string/movie_screen_movie_common_article_unavailable"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/data_ui_design_text_secondary"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/article_details_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <!-- Hero: the review's picture, source, headline, critic and date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/article_details_image_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="8dp"
+                    app:cardBackgroundColor="@color/data_ui_design_color_on_surface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="12dp"
+                    app:strokeWidth="0dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/article_details_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/article_details_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/movie_screen_movie_common_source_pill"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="4dp"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textColor="@color/data_ui_design_on_primary"
+                    tools:text="The New York Times" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/article_details_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="@color/data_ui_design_black"
+                    tools:text="‘The Gentleman’ Review: A Heist in Tweed" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/article_details_byline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="@color/data_ui_design_color_buttons"
+                    tools:text="By Manohla Dargis" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    app:chipSpacingHorizontal="8dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/article_details_date"
+                        style="@style/MovieScreenMovieCommonFactPill"
+                        tools:text="21 Nov 2026" />
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+            <!-- In short: NYT's abstract -->
+            <LinearLayout
+                android:id="@+id/article_details_abstract_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/MovieScreenMovieCommonSectionTitle"
+                    android:text="@string/movie_screen_movie_common_article_in_short" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/article_details_abstract"
+                    style="@style/MovieScreenMovieCommonBodyText"
+                    tools:text="A gentleman thief plans one last job in this genial caper." />
+            </LinearLayout>
+
+            <!-- From the review: its opening paragraph, and the whole review in the app -->
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/MovieScreenMovieCommonSectionTitle"
+                android:text="@string/movie_screen_movie_common_article_from_review" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/article_details_lead"
+                style="@style/MovieScreenMovieCommonBodyText"
+                tools:text="It begins, as these things do, with a man in a very good suit." />
+
+            <!-- Shown by TranslationToggle when the phone isn't in English -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/article_details_translate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:layout_marginTop="4dp"
+                android:paddingVertical="4dp"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="@color/data_ui_design_color_buttons"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/article_details_read"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/data_ui_design_text_title_h_margin"
+                android:layout_marginTop="12dp"
+                android:text="@string/movie_screen_movie_common_article_read_full" />
+
+            <!-- The film: found on TMDB from the headline ("‘Title’ Review: …") -->
+            <LinearLayout
+                android:id="@+id/article_details_film_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/MovieScreenMovieCommonSectionTitle"
+                    android:text="@string/movie_screen_movie_common_article_the_film" />
+
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/article_details_film"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -10,7 +10,6 @@
     <string name="book_screen_book_bestseller_catalog_open_link_amazon">Abrir página web da Amazon</string>
     <string name="book_screen_book_bestseller_catalog_no_results">"\uD83D\uDE28 Wooops"\nNenhum resultado encontrado, 😓</string>
     <string name="book_screen_book_bestseller_catalog_trending_now">Principais escolhas</string>
-    <string name="book_screen_book_bestseller_catalog_category">Categoria</string>
     <string name="book_screen_book_bestseller_catalog_bestsellers">Best-sellers</string>
     <string name="book_screen_book_bestseller_catalog_slogan">Explore os livros mais vendidos do NY Times e encontre um novo favorito</string>
     <string name="book_screen_book_bestseller_catalog_header">Encontre Livros</string>
@@ -31,4 +30,10 @@
         <item quantity="one">%d semana na lista</item>
         <item quantity="other">%d semanas na lista</item>
     </plurals>
+    <!-- Category chips (same wording as the notifications) -->
+    <string name="book_screen_book_bestseller_catalog_genre_fiction">Ficção</string>
+    <string name="book_screen_book_bestseller_catalog_genre_nonfiction">Não ficção</string>
+    <string name="book_screen_book_bestseller_catalog_genre_miscellaneous">Conselhos e diversos</string>
+    <string name="book_screen_book_bestseller_catalog_genre_business">Negócios</string>
+    <string name="book_screen_book_bestseller_catalog_genre_graphic">Romances gráficos e manga</string>
 </resources>

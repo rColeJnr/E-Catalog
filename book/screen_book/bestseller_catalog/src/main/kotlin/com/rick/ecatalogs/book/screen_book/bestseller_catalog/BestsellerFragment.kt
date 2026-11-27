@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.book.screen_book.bestseller_catalog
 
+import com.google.android.material.chip.Chip
 import com.rick.ecatalogs.data.ui_design.animateItemsOnScroll
 import com.rick.ecatalogs.data.ui_design.useHeroCarousel
 import androidx.paging.LoadState
@@ -27,7 +28,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.rick.ecatalogs.book.screen_book.bestseller_catalog.databinding.BookScreenBookBestsellerCatalogFragmentBestsellerBinding
 import com.rick.ecatalogs.book.screen_book.common.logAmazonLinkOpened
@@ -52,7 +52,6 @@ class BestsellerFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var adapter: BestsellerAdapter
     private lateinit var carouselAdapter: BestsellerCarouselAdapter
-    private lateinit var categoryAdapter: BestsellerCategoryAdapter
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -106,16 +105,35 @@ class BestsellerFragment : Fragment() {
         binding.carouselView.useHeroCarousel()
         binding.carouselView.adapter = carouselAdapter
 
-        categoryAdapter = BestsellerCategoryAdapter { position ->
-            // The ViewModel switches both the paged list and the carousel to this genre
-            viewModel.onEvent(BestsellerEvents.SelectedGenre(position))
-            binding.recyclerView.scrollToPosition(0)
+        bindCategories()
+    }
+
+    /**
+     * One chip per NYT list, like the genre chips of the movie and series catalogs. The ViewModel
+     * switches both the paged list and the carousel to the chosen list.
+     */
+    private fun bindCategories() = with(binding.categoryChips) {
+        removeAllViews()
+        BookGenre.entries.forEach { genre ->
+            addView(
+                Chip(requireContext(), null, com.google.android.material.R.attr.chipStyle).apply {
+                    id = View.generateViewId()
+                    text = getString(genre.labelRes)
+                    tag = genre.ordinal
+                    isCheckable = true
+                    isChecked = genre.ordinal == viewModel.selectedGenrePosition
+                }
+            )
         }
-        binding.categoryList.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.categoryList.adapter = categoryAdapter
-        categoryAdapter.setSelectedPosition(viewModel.selectedGenrePosition)
-        binding.categoryList.scrollToPosition(viewModel.selectedGenrePosition)
+        // Set after the initial check, so restoring the selection doesn't count as a choice
+        setOnCheckedStateChangeListener { group, checkedIds ->
+            val position = checkedIds.firstOrNull()?.let { group.findViewById<Chip>(it)?.tag as? Int }
+                ?: return@setOnCheckedStateChangeListener
+            if (position != viewModel.selectedGenrePosition) {
+                viewModel.onEvent(BestsellerEvents.SelectedGenre(position))
+                binding.recyclerView.scrollToPosition(0)
+            }
+        }
     }
 
     /**
@@ -125,7 +143,6 @@ class BestsellerFragment : Fragment() {
      * - if loading fails with nothing stored, the error card offers a retry.
      */
     private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.bindList() {
-        categoryAdapter.submitList(BookGenre.entries)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.bestsellerPagingData.collectLatest(adapter::submitData) }
@@ -177,7 +194,7 @@ class BestsellerFragment : Fragment() {
 
     /** Fades the carousel, categories and grid in the first time there's something to show. */
     private fun BookScreenBookBestsellerCatalogFragmentBestsellerBinding.revealContent() {
-        listOf(carouselTitle, carouselView, categoryList, bestsellersLabel, recyclerView)
+        listOf(carouselTitle, carouselView, categoryScroll, bestsellersLabel, recyclerView)
             .forEachIndexed { index, view ->
                 if (view.visibility != View.VISIBLE) {
                     view.apply {

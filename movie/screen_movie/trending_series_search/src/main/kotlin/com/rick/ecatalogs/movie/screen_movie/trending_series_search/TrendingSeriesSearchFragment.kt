@@ -353,10 +353,11 @@ class TrendingSeriesSearchViewHolder(
                 this.image, getTmdbImageUrl(image)
             )
         }
+        // Filled when it is a favorite (it was the other way round)
         val icon = if (searchResult.isFavorite) {
-            com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
-        } else {
             com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_filled
+        } else {
+            com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_favorite_outlined
         }
         favorite.setImageResource(icon)
     }

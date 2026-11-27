@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.game.screen_game.common
 
+import androidx.compose.foundation.layout.fillMaxSize
+import com.rick.ecatalogs.data.ui_components.common.EcsGlassFavoriteButton
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,11 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -54,18 +52,33 @@ fun GameListItem(
             .padding(horizontal = 16.dp, vertical = 6.dp),
     ) {
         Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(game.coverUrl())
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(84.dp)
-                    .aspectRatio(3f / 4f)
-                    .clip(RoundedCornerShape(10.dp)),
-            )
+            // The favorite sits on the cover, the glass star of the other catalogs' cards
+            // (the small size, as on book covers)
+            Box(Modifier.width(84.dp).aspectRatio(3f / 4f)) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(game.coverUrl())
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(10.dp)),
+                )
+                EcsGlassFavoriteButton(
+                    isFavorite = item.isFavorite,
+                    onClick = { onFavoriteClick(game, !item.isFavorite) },
+                    contentDescription = stringResource(
+                        if (item.isFavorite) R.string.game_screen_game_common_remove_favorite
+                        else R.string.game_screen_game_common_add_favorite
+                    ),
+                    small = true,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(4.dp),
+                )
+            }
             Column(Modifier.weight(1f)) {
                 Text(
                     text = game.name,
@@ -101,24 +114,7 @@ fun GameListItem(
                     )
                 }
             }
-            Box(contentAlignment = Alignment.TopEnd) {
-                FavoriteButton(item.isFavorite) { onFavoriteClick(game, !item.isFavorite) }
-            }
         }
-    }
-}
-
-@Composable
-fun FavoriteButton(isFavorite: Boolean, onClick: () -> Unit) {
-    IconButton(onClick = onClick) {
-        Icon(
-            imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-            contentDescription = stringResource(
-                if (isFavorite) R.string.game_screen_game_common_remove_favorite
-                else R.string.game_screen_game_common_add_favorite
-            ),
-            tint = MaterialTheme.colorScheme.primary,
-        )
     }
 }
 

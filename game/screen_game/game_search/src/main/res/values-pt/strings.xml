@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="game_screen_game_game_search_hint">Pesquisar jogos</string>
-    <string name="game_screen_game_game_search_clear">Limpar</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.rick.ecatalogs.movie.screen_movie.article_search
 
-import android.net.Uri
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.data.ui_design.navigateWithMotion
 import android.os.Bundle
@@ -32,13 +31,11 @@ import com.rick.ecatalogs.movie.data_movie.model.UserArticle
 import com.rick.ecatalogs.data.ui_components.common.RecentSearchesBody
 import com.rick.ecatalogs.movie.screen_movie.article_search.databinding.MovieScreenMovieArticleSearchFragmentArticleSearchBinding
 import com.rick.ecatalogs.movie.screen_movie.article_search.databinding.MovieScreenMovieArticleSearchSearchEntryBinding
-import com.rick.ecatalogs.movie.screen_movie.common.ArticleDetailsDialogFragment
+import com.rick.ecatalogs.movie.screen_movie.common.articleDetailsUri
 import com.rick.ecatalogs.movie.screen_movie.common.logArticleOpened
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -265,31 +262,7 @@ class ArticleSearchFragment : Fragment() {
 
     private fun onArticleClick(view: View, article: UserArticle) {
         analyticsHelper.logArticleOpened(article.id.toString())
-        ArticleDetailsDialogFragment(
-            article,
-            this::onDialogFavoriteClick,
-            this::onWebUlrClick,
-            onFilmClick = { filmId ->
-                findNavController().navigateWithMotion(
-                    android.net.Uri.parse("com.rick.ecs://trending_movie_details_fragment/$filmId")
-                )
-            },
-        ).show(
-            requireActivity().supportFragmentManager,
-            "article_details"
-        )
-
-
-    }
-
-    private fun onDialogFavoriteClick(view: View, id: String, isFavorite: Boolean) {
-        onFavClick(id, isFavorite)
-    }
-
-    private fun onWebUlrClick(link: String) {
-        val encodedUrl = URLEncoder.encode(link, StandardCharsets.UTF_8.toString())
-        val uri = Uri.parse("com.rick.ecs://movie_common_webviewfragment/$encodedUrl")
-        findNavController().navigateWithMotion(uri)
+        findNavController().navigateWithMotion(articleDetailsUri(article.id))
     }
 
     private fun onFavClick(id: String, isFavorite: Boolean) {

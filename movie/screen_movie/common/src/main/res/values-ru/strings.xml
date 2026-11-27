@@ -2,10 +2,6 @@
 <resources>
     <string name="movie_screen_movie_common_failed_to_load">Не удалось загрузить</string>
     <string name="movie_screen_movie_common_retry">Повторить попытку</string>
-    <string name="movie_screen_movie_common_source">Источник статьи: %1$s</string>
-    <string name="movie_screen_movie_common_reporter">Сообщил: %1$s</string>
-    <string name="movie_screen_movie_common_release_date">Дата выхода: %1$s</string>
-    <string name="movie_screen_movie_common_close">Закрыть</string>
     <string name="movie_screen_movie_common_watch_trailer">Смотреть трейлер</string>
     <string name="movie_screen_movie_common_cast">В ролях</string>
     <string name="movie_screen_movie_common_where_to_watch">Где посмотреть</string>
@@ -28,4 +24,14 @@
     <string name="movie_screen_movie_common_no_episodes">Эпизоды пока не объявлены.</string>
     <string name="movie_screen_movie_common_see_the_film">Открыть фильм</string>
     <string name="movie_screen_movie_common_film_not_found">Не удалось найти этот фильм.</string>
+
+    <!-- Review details screen -->
+    <string name="movie_screen_movie_common_article_unavailable">Эта рецензия больше недоступна</string>
+    <string name="movie_screen_movie_common_article_in_short">Вкратце</string>
+    <string name="movie_screen_movie_common_article_from_review">Из рецензии</string>
+    <string name="movie_screen_movie_common_article_read_full">Читать рецензию полностью</string>
+    <string name="movie_screen_movie_common_article_the_film">Фильм</string>
+    <string name="movie_screen_movie_common_article_add_favorite">Добавить в избранное</string>
+    <string name="movie_screen_movie_common_article_remove_favorite">Удалить из избранного</string>
+    <string name="movie_screen_movie_common_article_image">Изображение к «%1$s»</string>
 </resources>
