@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -98,6 +99,9 @@ private fun SettingsContent(
         Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            // The app draws behind the navigation bar (edge to edge): without this the end of the
+            // page (About: links and version) stays under it
+            .navigationBarsPadding()
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         AccountSection(settings.userName, actions)
@@ -324,6 +328,8 @@ private val NotificationCategory.labelRes: Int
         NotificationCategory.ARTICLES -> string.settings_screen_settings_movie_reviews
         NotificationCategory.BESTSELLERS -> string.settings_screen_settings_bestsellers
         NotificationCategory.GAMES -> string.settings_screen_settings_games
+        NotificationCategory.ANIME -> string.settings_screen_settings_anime
+        NotificationCategory.MANGA -> string.settings_screen_settings_manga
     }
 
 private val ThemeConfig.labelRes: Int

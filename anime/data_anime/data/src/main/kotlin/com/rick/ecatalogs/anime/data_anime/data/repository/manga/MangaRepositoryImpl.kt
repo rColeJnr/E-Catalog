@@ -2,6 +2,7 @@ package com.rick.ecatalogs.anime.data_anime.data.repository.manga
 
 import kotlinx.coroutines.flow.first
 import com.rick.ecatalogs.data.datastore.PreferencesDataSource
+import com.rick.ecatalogs.data.datastore.CachedList
 import com.rick.ecatalogs.data.datastore.ListCache
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
@@ -55,6 +56,31 @@ internal class MangaRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
+    }
+
+    override suspend fun syncFirstPage(): List<Manga> {
+        val items = network.fetchTopManga(MANGA_FIRST_PAGE).data
+        val fetchedIds = items.map(MangaNetwork::id).toSet()
+        if (fetchedIds.isEmpty()) return emptyList()
+
+        if (fetchedIds != keysDao.firstPageIds().toSet()) {
+            writeMangaPage(
+                page = MANGA_FIRST_PAGE,
+                items = items,
+                isRefresh = true,
+                mangaDao = mangaDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
+                keepIds = preferences.mangaUserData.first().mangaFavoriteIds,
+            )
+        }
+        // The first page was just checked against the server: the stored list is current
+        listCache.markRefreshed(CachedList.MANGA)
+
+        val previouslySeen = preferences.notifiedTrendingMangaIds()
+        preferences.setNotifiedTrendingMangaIds(fetchedIds)
+        if (previouslySeen.isEmpty()) return emptyList()
+        return items.filter { it.id !in previouslySeen }.map { it.asEntity().asManga() }
     }
 
     override fun getMangaFavorites(favorites: Set<Int>): Flow<List<Manga>> =

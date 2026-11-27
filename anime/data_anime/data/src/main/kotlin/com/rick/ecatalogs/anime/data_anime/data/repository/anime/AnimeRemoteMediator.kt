@@ -1,13 +1,11 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.anime
 
-import com.rick.ecatalogs.anime.data_anime.data.repository.catalogPosition
 import com.rick.ecatalogs.data.datastore.CachedList
 import com.rick.ecatalogs.data.datastore.ListCache
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.rick.ecatalogs.anime.data_anime.data.model.asEntity
 import com.rick.ecatalogs.anime.data_anime.database.JikanTransactionRunner
 import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeDao
 import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeRemoteKeysDao
@@ -61,41 +59,23 @@ class AnimeRemoteMediator(
 
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
+                remoteKeys?.nextKey?.minus(1) ?: ANIME_FIRST_PAGE
             }
         }
 
         try {
             val response = network.fetchTopAnime(page)
-            val animes = response.data
-            val endOfPaginationReached = response.data.isEmpty()
-
             // Read before the transaction: favorites live in DataStore, not in Room
             val keepIds = if (loadType == LoadType.REFRESH) favoriteIds() else emptySet()
-            transactionRunner {
-                if (loadType == LoadType.REFRESH) {
-                    keysDao.clearRemoteKeys()
-                    // Written anew: rows leave the list, and those that aren't favorites are deleted
-                    animeDao.clearCatalog()
-                    animeDao.deleteOutsideCatalog(keepIds)
-                }
-                val prevKey =
-                    if (page == STARTING_PAGE_INDEX) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = animes.map {
-                    AnimeRemoteKeys(
-                        anime = it.id,
-                        prevKey = prevKey,
-                        nextKey = nextKey
-                    )
-                }
-                keysDao.insertAll(keys)
-                animeDao.upsertAnime(
-                    animes.mapIndexed { index, item ->
-                        item.asEntity().copy(catalogPosition = catalogPosition(page, index))
-                    },
-                )
-            }
+            val endOfPaginationReached = writeAnimePage(
+                page = page,
+                items = response.data,
+                isRefresh = loadType == LoadType.REFRESH,
+                animeDao = animeDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
+                keepIds = keepIds,
+            )
 
             if (loadType == LoadType.REFRESH) listCache.markRefreshed(CachedList.ANIME)
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
@@ -138,5 +118,3 @@ class AnimeRemoteMediator(
     }
 
 }
-
-private const val STARTING_PAGE_INDEX = 1

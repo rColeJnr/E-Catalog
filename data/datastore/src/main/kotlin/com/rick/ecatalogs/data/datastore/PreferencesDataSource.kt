@@ -46,6 +46,8 @@ class PreferencesDataSource @Inject constructor(
                     if (!it.notificationsDisabledArticles) add(NotificationCategory.ARTICLES)
                     if (!it.notificationsDisabledBestsellers) add(NotificationCategory.BESTSELLERS)
                     if (!it.notificationsDisabledGames) add(NotificationCategory.GAMES)
+                    if (!it.notificationsDisabledAnime) add(NotificationCategory.ANIME)
+                    if (!it.notificationsDisabledManga) add(NotificationCategory.MANGA)
                 },
             )
         }
@@ -262,6 +264,8 @@ class PreferencesDataSource @Inject constructor(
             NotificationCategory.ARTICLES -> notificationsDisabledArticles = !enabled
             NotificationCategory.BESTSELLERS -> notificationsDisabledBestsellers = !enabled
             NotificationCategory.GAMES -> notificationsDisabledGames = !enabled
+            NotificationCategory.ANIME -> notificationsDisabledAnime = !enabled
+            NotificationCategory.MANGA -> notificationsDisabledManga = !enabled
         }
     }
 
@@ -341,6 +345,22 @@ class PreferencesDataSource @Inject constructor(
         val others = notifiedBestsellerIds.filter { (key, _) -> !key.startsWith("$genre|") }
         notifiedBestsellerIds.clear()
         notifiedBestsellerIds.putAll(others + ids.associate { "$genre|$it" to true })
+    }
+
+    suspend fun notifiedTrendingAnimeIds(): Set<Int> =
+        userPreferences.data.first().notifiedTrendingAnimeIdsMap.keys
+
+    suspend fun setNotifiedTrendingAnimeIds(ids: Set<Int>) = update {
+        notifiedTrendingAnimeIds.clear()
+        notifiedTrendingAnimeIds.putAll(ids.associateWith { true })
+    }
+
+    suspend fun notifiedTrendingMangaIds(): Set<Int> =
+        userPreferences.data.first().notifiedTrendingMangaIdsMap.keys
+
+    suspend fun setNotifiedTrendingMangaIds(ids: Set<Int>) = update {
+        notifiedTrendingMangaIds.clear()
+        notifiedTrendingMangaIds.putAll(ids.associateWith { true })
     }
 
     suspend fun notifiedComingSoonGameIds(): Set<Int> =

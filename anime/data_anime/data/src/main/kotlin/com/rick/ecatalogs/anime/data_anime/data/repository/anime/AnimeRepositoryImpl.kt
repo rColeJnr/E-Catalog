@@ -2,6 +2,7 @@ package com.rick.ecatalogs.anime.data_anime.data.repository.anime
 
 import kotlinx.coroutines.flow.first
 import com.rick.ecatalogs.data.datastore.PreferencesDataSource
+import com.rick.ecatalogs.data.datastore.CachedList
 import com.rick.ecatalogs.data.datastore.ListCache
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
@@ -56,6 +57,31 @@ internal class AnimeRepositoryImpl @Inject constructor(
         ).flow
     }
 
+
+    override suspend fun syncFirstPage(): List<Anime> {
+        val items = network.fetchTopAnime(ANIME_FIRST_PAGE).data
+        val fetchedIds = items.map(AnimeNetwork::id).toSet()
+        if (fetchedIds.isEmpty()) return emptyList()
+
+        if (fetchedIds != keysDao.firstPageIds().toSet()) {
+            writeAnimePage(
+                page = ANIME_FIRST_PAGE,
+                items = items,
+                isRefresh = true,
+                animeDao = animeDao,
+                keysDao = keysDao,
+                transactionRunner = transactionRunner,
+                keepIds = preferences.animeUserData.first().animeFavoriteIds,
+            )
+        }
+        // The first page was just checked against the server: the stored list is current
+        listCache.markRefreshed(CachedList.ANIME)
+
+        val previouslySeen = preferences.notifiedTrendingAnimeIds()
+        preferences.setNotifiedTrendingAnimeIds(fetchedIds)
+        if (previouslySeen.isEmpty()) return emptyList()
+        return items.filter { it.id !in previouslySeen }.map { it.asEntity().asAnime() }
+    }
 
     override fun getAnimeFavorites(favorites: Set<Int>): Flow<List<Anime>> =
         animeDao.getAnimeWithFilters(

@@ -25,4 +25,8 @@
     </plurals>
     <string name="data_notifications_channel_games">Скоро выйдут</string>
     <string name="data_notifications_new_coming_soon_games">Новые игры скоро выйдут</string>
+    <string name="data_notifications_channel_anime">Популярное аниме</string>
+    <string name="data_notifications_channel_manga">Популярная манга</string>
+    <string name="data_notifications_new_anime">Новое в популярном аниме</string>
+    <string name="data_notifications_new_manga">Новое в популярной манге</string>
 </resources>

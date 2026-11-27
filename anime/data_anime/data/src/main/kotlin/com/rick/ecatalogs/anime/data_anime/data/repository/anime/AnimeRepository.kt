@@ -15,4 +15,11 @@ interface AnimeRepository {
 
     fun searchAnimes(query: String): Flow<List<Anime>>
 
+    /**
+     * Background sync: downloads the first page of the top anime list and stores it when it changed
+     * (the catalog then shows it without downloading). Returns the anime that are new since the
+     * last sync, to notify about; nothing on the first sync, so a new install isn't notified about
+     * the whole list. Throws on network errors (the sync retries).
+     */
+    suspend fun syncFirstPage(): List<Anime>
 }

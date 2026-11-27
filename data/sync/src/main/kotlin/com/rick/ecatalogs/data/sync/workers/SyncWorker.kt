@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.data.sync.workers
 
+import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRepository
+import com.rick.ecatalogs.anime.data_anime.data.repository.manga.MangaRepository
 import com.rick.ecatalogs.game.data_game.data.repository.GameBrowseRepository
 import com.rick.ecatalogs.game.data_game.data.repository.GameRepository
 import android.content.Context
@@ -32,9 +34,10 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 /**
- * Syncs the first page of trending movies, trending series and articles, plus every bestseller
- * list. Each repository only rewrites its list when the content changed, and returns what's new,
- * which is posted as one notification per category (if that category's notifications are on).
+ * Syncs the first page of trending movies, trending series, articles, top anime and top manga,
+ * every bestseller list, and the games lists. Each repository only rewrites its list when the
+ * content changed, and returns what's new, which is posted as one notification per category (if
+ * that category's notifications are on).
  */
 @HiltWorker
 internal class SyncWorker @AssistedInject constructor(
@@ -46,6 +49,8 @@ internal class SyncWorker @AssistedInject constructor(
     private val bestsellerRepository: BestsellerRepository,
     private val gameRepository: GameRepository,
     private val gameBrowseRepository: GameBrowseRepository,
+    private val animeRepository: AnimeRepository,
+    private val mangaRepository: MangaRepository,
     private val preferences: PreferencesDataSource,
     private val notifier: Notifier,
     @Dispatcher(EcsDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
@@ -82,7 +87,13 @@ internal class SyncWorker @AssistedInject constructor(
                 gameBrowseRepository.syncComingSoon()
             }
         }
-        val results = listOf(movies.await(), series.await(), articles.await(), bestsellers.await(), games.await())
+        // In parallel too: the Jikan client spaces its own requests (3 a second)
+        val anime = async { runCatching { animeRepository.syncFirstPage() } }
+        val manga = async { runCatching { mangaRepository.syncFirstPage() } }
+        val results = listOf(
+            movies.await(), series.await(), articles.await(), bestsellers.await(), games.await(),
+            anime.await(), manga.await(),
+        )
 
         results.forEach { result ->
             result.exceptionOrNull()?.let { Log.e(TAG, "Sync failed", it) }
@@ -108,6 +119,12 @@ internal class SyncWorker @AssistedInject constructor(
 
         if (NotificationCategory.GAMES in enabled) {
             games.await().getOrNull()?.let(notifier::postComingSoonGamesNotification)
+        }
+        if (NotificationCategory.ANIME in enabled) {
+            anime.await().getOrNull()?.let(notifier::postAnimeNotifications)
+        }
+        if (NotificationCategory.MANGA in enabled) {
+            manga.await().getOrNull()?.let(notifier::postMangaNotifications)
         }
         // Retrying is safe: repositories whose content didn't change are a no-op.
         if (syncedSuccessfully) {

@@ -18,4 +18,11 @@ interface MangaRepository {
 
     fun searchManga(query: String): Flow<List<Manga>>
 
+    /**
+     * Background sync: downloads the first page of the top manga list and stores it when it changed
+     * (the catalog then shows it without downloading). Returns the manga that are new since the
+     * last sync, to notify about; nothing on the first sync, so a new install isn't notified about
+     * the whole list. Throws on network errors (the sync retries).
+     */
+    suspend fun syncFirstPage(): List<Manga>
 }

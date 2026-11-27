@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.data.notifications
 
+import com.rick.ecatalogs.anime.data_anime.model.Anime
+import com.rick.ecatalogs.anime.data_anime.model.Manga
 import com.rick.ecatalogs.game.data_game.model.Game
 import com.rick.ecatalogs.book.data_book.model.bestseller.Bestseller
 import com.rick.ecatalogs.book.data_book.model.bestseller.BestsellerGenre
@@ -20,4 +22,6 @@ interface Notifier {
     /** "[title] is out today", opening the movie's details. */
     fun postReleaseReminder(movieId: Int, title: String)
     fun postComingSoonGamesNotification(games: List<Game>)
+    fun postAnimeNotifications(anime: List<Anime>)
+    fun postMangaNotifications(manga: List<Manga>)
 }

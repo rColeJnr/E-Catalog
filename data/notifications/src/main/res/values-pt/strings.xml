@@ -23,4 +23,8 @@
     </plurals>
     <string name="data_notifications_channel_games">Jogos em breve</string>
     <string name="data_notifications_new_coming_soon_games">Novos jogos em breve</string>
+    <string name="data_notifications_channel_anime">Anime popular</string>
+    <string name="data_notifications_channel_manga">Manga popular</string>
+    <string name="data_notifications_new_anime">Novidades no anime popular</string>
+    <string name="data_notifications_new_manga">Novidades no manga popular</string>
 </resources>

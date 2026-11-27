@@ -36,4 +36,6 @@
     <string name="settings_screen_settings_licenses">Лицензии</string>
     <string name="settings_screen_settings_version">Версия %1$s</string>
     <string name="settings_screen_settings_games">Скоро выйдут</string>
+    <string name="settings_screen_settings_anime">Популярное аниме</string>
+    <string name="settings_screen_settings_manga">Популярная манга</string>
 </resources>

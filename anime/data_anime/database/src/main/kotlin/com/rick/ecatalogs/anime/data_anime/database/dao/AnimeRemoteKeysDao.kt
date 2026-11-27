@@ -17,4 +17,8 @@ interface AnimeRemoteKeysDao {
     @Query("DELETE FROM anime_remote_keys")
     suspend fun clearRemoteKeys()
 
+    /** Ids of the stored first page (the background sync rewrites it only when they change). */
+    @Query("SELECT anime FROM anime_remote_keys WHERE prevKey IS NULL")
+    suspend fun firstPageIds(): List<Int>
+
 }

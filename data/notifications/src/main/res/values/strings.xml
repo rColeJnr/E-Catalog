@@ -25,4 +25,8 @@
     <string name="data_notifications_genre_graphic">Graphic books &amp; manga</string>
     <string name="data_notifications_channel_games">Upcoming games</string>
     <string name="data_notifications_new_coming_soon_games">New games coming soon</string>
+    <string name="data_notifications_channel_anime">Popular anime</string>
+    <string name="data_notifications_channel_manga">Popular manga</string>
+    <string name="data_notifications_new_anime">New in popular anime</string>
+    <string name="data_notifications_new_manga">New in popular manga</string>
 </resources>

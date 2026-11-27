@@ -1,5 +1,7 @@
 package com.rick.ecatalogs.data.notifications
 
+import com.rick.ecatalogs.anime.data_anime.model.Anime
+import com.rick.ecatalogs.anime.data_anime.model.Manga
 import com.rick.ecatalogs.game.data_game.model.Game
 import android.Manifest.permission
 import android.app.Notification
@@ -77,6 +79,22 @@ internal class SystemNotifier @Inject constructor(
         title = context.getString(R.string.data_notifications_new_coming_soon_games),
         lines = games.map(Game::name),
         deepLink = DeepLinks.GAME_CATALOG,
+    )
+
+    override fun postAnimeNotifications(anime: List<Anime>) = post(
+        channel = Channel.ANIME,
+        notificationId = ANIME_ID,
+        title = context.getString(R.string.data_notifications_new_anime),
+        lines = anime.map(Anime::title),
+        deepLink = DeepLinks.ANIME_CATALOG,
+    )
+
+    override fun postMangaNotifications(manga: List<Manga>) = post(
+        channel = Channel.MANGA,
+        notificationId = MANGA_ID,
+        title = context.getString(R.string.data_notifications_new_manga),
+        lines = manga.map(Manga::title),
+        deepLink = DeepLinks.MANGA_CATALOG,
     )
 
     override fun postReleaseReminder(movieId: Int, title: String) {
@@ -166,6 +184,8 @@ internal class SystemNotifier @Inject constructor(
         BESTSELLERS("bestsellers", R.string.data_notifications_channel_bestsellers),
         RELEASE_REMINDERS("release_reminders", R.string.data_notifications_channel_release_reminders),
         GAMES("games", R.string.data_notifications_channel_games),
+        ANIME("anime", R.string.data_notifications_channel_anime),
+        MANGA("manga", R.string.data_notifications_channel_manga),
     }
 }
 
@@ -185,6 +205,8 @@ private const val TRENDING_MOVIES_ID = 1001
 private const val TRENDING_SERIES_ID = 1002
 private const val ARTICLES_ID = 1003
 private const val GAMES_ID = 1004
+private const val ANIME_ID = 1005
+private const val MANGA_ID = 1006
 private const val BESTSELLERS_BASE_ID = 1100
 private const val BESTSELLERS_GROUP = "bestsellers"
 private const val RELEASE_REMINDER_BASE_ID = 200_000

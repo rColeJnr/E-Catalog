@@ -17,4 +17,8 @@ interface MangaRemoteKeysDao {
 
     @Query("DELETE FROM manga_remote_keys")
     suspend fun clearRemoteKeys()
+
+    /** Ids of the stored first page (the background sync rewrites it only when they change). */
+    @Query("SELECT manga FROM manga_remote_keys WHERE prevKey IS NULL")
+    suspend fun firstPageIds(): List<Int>
 }

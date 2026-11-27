@@ -245,6 +245,8 @@ class SettingsTest {
             SettingsR.string.settings_screen_settings_movie_reviews to NotificationCategory.ARTICLES,
             SettingsR.string.settings_screen_settings_bestsellers to NotificationCategory.BESTSELLERS,
             SettingsR.string.settings_screen_settings_games to NotificationCategory.GAMES,
+            SettingsR.string.settings_screen_settings_anime to NotificationCategory.ANIME,
+            SettingsR.string.settings_screen_settings_manga to NotificationCategory.MANGA,
         )
     }
 }

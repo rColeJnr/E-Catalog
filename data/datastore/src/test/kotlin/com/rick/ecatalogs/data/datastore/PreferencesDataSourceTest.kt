@@ -137,6 +137,25 @@ class PreferencesDataSourceTest {
     }
 
     @Test
+    fun animeAndMangaNotifications_canBeTurnedOffSeparately() = testScope.runTest {
+        subject.setNotificationsEnabled(NotificationCategory.ANIME, false)
+
+        val enabled = subject.settingsUserData.first().enabledNotifications
+        assertFalse(NotificationCategory.ANIME in enabled)
+        assertTrue(NotificationCategory.MANGA in enabled)
+    }
+
+    @Test
+    fun notifiedAnimeAndMangaIds_areKeptApart() = testScope.runTest {
+        subject.setNotifiedTrendingAnimeIds(setOf(1, 2))
+        subject.setNotifiedTrendingMangaIds(setOf(9))
+        subject.setNotifiedTrendingAnimeIds(setOf(3))
+
+        assertEquals(setOf(3), subject.notifiedTrendingAnimeIds())
+        assertEquals(setOf(9), subject.notifiedTrendingMangaIds())
+    }
+
+    @Test
     fun notifiedIdsAreReplacedNotMerged() = testScope.runTest {
         subject.setNotifiedTrendingMovieIds(setOf(1, 2))
         subject.setNotifiedTrendingMovieIds(setOf(2, 3))

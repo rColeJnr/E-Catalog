@@ -7,6 +7,8 @@
         android:id="@+id/anime_screen_anime_manga_catalog_mangacatalogfragment"
         android:name="com.rick.ecatalogs.anime.screen_anime.manga_catalog.MangaCatalogFragment"
         android:label="">
+        <!-- Opened by the background sync's notification -->
+        <deepLink app:uri="com.rick.ecs://manga_catalog" />
         <action
             android:id="@+id/anime_screen_anime_manga_catalog_action_anime_screen_anime_manga_catalog_mangacatalogfragment_to_anime_screen_anime_manga_search_nav_graph"
             app:destination="@id/anime_screen_anime_manga_search_nav_graph"

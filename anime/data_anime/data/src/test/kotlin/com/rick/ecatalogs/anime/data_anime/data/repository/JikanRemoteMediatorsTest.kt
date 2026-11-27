@@ -11,8 +11,9 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
 import com.rick.ecatalogs.anime.data_anime.data.model.asEntity
 import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRemoteMediator
+import com.rick.ecatalogs.anime.data_anime.data.repository.anime.AnimeRepositoryImpl
 import com.rick.ecatalogs.anime.data_anime.data.repository.manga.MangaRemoteMediator
-import com.rick.ecatalogs.anime.data_anime.data.testing.testListCache
+import com.rick.ecatalogs.anime.data_anime.data.repository.manga.MangaRepositoryImpl
 import com.rick.ecatalogs.anime.data_anime.data.testing.unimplemented
 import com.rick.ecatalogs.anime.data_anime.database.JikanDatabase
 import com.rick.ecatalogs.anime.data_anime.database.JikanTransactionRunner
@@ -26,6 +27,9 @@ import com.rick.ecatalogs.anime.data_anime.network.model.MangaResponse
 import com.rick.ecatalogs.data.common.GsonParser
 import com.rick.ecatalogs.data.datastore.CachedList
 import com.rick.ecatalogs.data.datastore.ListCache
+import com.rick.ecatalogs.data.datastore.PreferencesDataSource
+import com.rick.ecatalogs.data.datastore.UserPreferences
+import com.rick.ecatalogs.data.datastore.test.InMemoryDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -35,6 +39,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import java.io.IOException
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
@@ -49,6 +54,9 @@ class JikanRemoteMediatorsTest {
     private lateinit var database: JikanDatabase
     private lateinit var network: FakeJikanNetwork
     private lateinit var listCache: ListCache
+    private lateinit var preferences: PreferencesDataSource
+    private lateinit var animeRepository: AnimeRepositoryImpl
+    private lateinit var mangaRepository: MangaRepositoryImpl
     private var favorites = emptySet<Int>()
     private lateinit var anime: AnimeRemoteMediator
     private lateinit var manga: MangaRemoteMediator
@@ -63,8 +71,25 @@ class JikanRemoteMediatorsTest {
             .allowMainThreadQueries()
             .build()
         network = FakeJikanNetwork()
-        listCache = testListCache()
+        preferences = PreferencesDataSource(InMemoryDataStore(UserPreferences.getDefaultInstance()))
+        listCache = ListCache(preferences)
         val runner = JikanTransactionRunner(database)
+        animeRepository = AnimeRepositoryImpl(
+            keysDao = database.animeRemoteKeysDao,
+            network = network,
+            animeDao = database.animeDao,
+            transactionRunner = runner,
+            listCache = listCache,
+            preferences = preferences,
+        )
+        mangaRepository = MangaRepositoryImpl(
+            keysDao = database.mangaRemoteKeysDao,
+            mangaDao = database.mangaDao,
+            network = network,
+            transactionRunner = runner,
+            listCache = listCache,
+            preferences = preferences,
+        )
         anime = AnimeRemoteMediator(
             animeDao = database.animeDao,
             keysDao = database.animeRemoteKeysDao,
@@ -177,6 +202,61 @@ class JikanRemoteMediatorsTest {
         assertEquals(setOf(5, 7), database.mangaDao.getMangaWithFilters().first().map { it.id }.toSet())
     }
 
+    @Test
+    fun animeSync_firstRun_storesThePageAndNotifiesNothing() = runTest {
+        network.anime[1] = listOf(1, 2)
+
+        val new = animeRepository.syncFirstPage()
+
+        assertTrue(new.isEmpty(), "a first sync shouldn't notify the whole list")
+        assertEquals(listOf(1, 2), animeCatalog().map { it.id })
+        assertTrue(listCache.isFresh(CachedList.ANIME))
+    }
+
+    @Test
+    fun animeSync_whenNewAnimeEnterTheList_thenOnlyTheyAreReturned() = runTest {
+        network.anime[1] = listOf(1, 2)
+        animeRepository.syncFirstPage()
+        network.anime[1] = listOf(3, 1, 4)
+
+        val new = animeRepository.syncFirstPage()
+
+        assertEquals(listOf(3, 4), new.map { it.id })
+        assertEquals(listOf(3, 1, 4), animeCatalog().map { it.id })
+    }
+
+    @Test
+    fun animeSync_whenNothingChanged_thenNothingIsReturned() = runTest {
+        network.anime[1] = listOf(1, 2)
+        animeRepository.syncFirstPage()
+
+        assertTrue(animeRepository.syncFirstPage().isEmpty())
+        assertEquals(listOf(1, 2), animeCatalog().map { it.id })
+    }
+
+    @Test
+    fun animeSync_offline_throwsAndKeepsTheList() = runTest {
+        network.anime[1] = listOf(1)
+        animeRepository.syncFirstPage()
+        network.offline = true
+
+        assertFailsWith<IOException> { animeRepository.syncFirstPage() }
+        assertEquals(listOf(1), animeCatalog().map { it.id })
+    }
+
+    @Test
+    fun mangaSync_whenNewMangaEnterTheList_thenOnlyTheyAreReturned() = runTest {
+        network.manga[1] = listOf(5, 6)
+        assertTrue(mangaRepository.syncFirstPage().isEmpty())
+        network.manga[1] = listOf(7, 5)
+
+        val new = mangaRepository.syncFirstPage()
+
+        assertEquals(listOf(7), new.map { it.id })
+        assertEquals(listOf(7, 5), mangaCatalog().map { it.id })
+        assertTrue(listCache.isFresh(CachedList.MANGA))
+    }
+
     private suspend fun animeCatalog(): List<AnimeEntity> = loadAll(database.animeDao.getAnime())
 
     private suspend fun mangaCatalog(): List<MangaEntity> = loadAll(database.mangaDao.getManga())
@@ -189,7 +269,8 @@ class JikanRemoteMediatorsTest {
     private fun <T : Any> emptyState() =
         PagingState<Int, T>(emptyList(), null, PagingConfig(pageSize = 25), 0)
 
-    private fun <T : Any> stateWith(rows: List<T>) = PagingState(
+    // The key type is explicit: inferred from the null keys it would be Nothing
+    private fun <T : Any> stateWith(rows: List<T>) = PagingState<Int, T>(
         listOf(PagingSource.LoadResult.Page(rows, null, null)), null, PagingConfig(pageSize = 25), 0,
     )
 

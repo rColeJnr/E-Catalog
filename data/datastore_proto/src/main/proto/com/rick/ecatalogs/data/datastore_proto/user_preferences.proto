@@ -18,6 +18,7 @@ message UserPreferences {
   map<int32, bool> notified_trending_series_ids = 10;
   map<string, bool> notified_articles_ids = 11;
 
+  // Top anime / manga (first page) seen by the last background sync (new ones are notified)
   map<int32, bool> notified_trending_anime_ids = 12;
   map<int32, bool> notified_trending_manga_ids = 13;
 
@@ -46,8 +47,10 @@ message UserPreferences {
   bool notifications_disabled_games = 26;
   // "Coming soon" games seen by the last background sync (new ones are notified)
   map<int32, bool> notified_coming_soon_game_ids = 27;
+  bool notifications_disabled_anime = 28;
+  bool notifications_disabled_manga = 29;
 
-  // Next available is 28
+  // Next available is 30
 }
 
 message ReleaseReminder {
