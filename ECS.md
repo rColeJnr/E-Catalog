@@ -2,7 +2,7 @@
 
 E-Catalogs (`rootProject.name = "ecatalogs"`, applicationId `com.rick.moviecatalog`, v2.2 / code 10)
 is a multi-module Android app with four content areas: **movies & series** (TMDB + NYT movie
-reviews), **books** (Project Gutenberg + NYT bestsellers), **anime & manga** (Jikan / MyAnimeList)
+reviews), **books** (Project Gutenberg + NYT bestsellers), **anime & manga** (jikan-edge / MyAnimeList)
 and **video games** (IGDB).
 Users sign in with Firebase, keep favorites, and can translate content (pt, ru).
 
@@ -113,7 +113,8 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   0 = dark/1 = light/2 = system, sync on/interval, notification categories, `last_sync_epoch_millis`,
   `list_refreshed_at`, release reminders, the ids from the last notification run).
   - `ListCache` + `CachedList` keys: screens reuse the stored list while it is younger than the sync
-    interval (`isFresh`), or from the same day (`isFreshToday`, for "airing today").
+    interval (`isFresh`), or from the same day (`isFreshToday`, for "airing today" and the TMDB "recently
+    released" rows).
     `markRefreshedExclusive(list, prefix)` keeps only one filtered variant fresh (e.g. Gutenberg filters).
 - **datastore_test**: `InMemoryDataStore<T>`.
 - **sync** (WorkManager + Hilt workers through `DelegatingWorker`):
@@ -145,7 +146,8 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
 
 ## Trailers (`:data:trailer`)
 - YouTube only, through android-youtube-player `core` (IFrame player in a WebView; YouTube allows no other
-  player). TMDB, IGDB and Jikan all give YouTube ids; `youtubeIdFromUrl` reads Jikan's embed URLs.
+  player). TMDB, IGDB and jikan-edge all give YouTube ids (jikan-edge as `trailer.youtubeId`, with `embedUrl` as a
+  fallback read by `youtubeIdFromEmbedUrl`).
 - `MediaGallery(items, title)`: the details header pager. `GalleryItem.Trailer(id)` first (thumbnail, plays in
   place via `InlineTrailer`), then `GalleryItem.Image(url, wide)` (`wide` = 16:9, shown whole over a blurred
   copy). Page dots describe "Page n of m". XML screens use `MediaGalleryHost(frameLayout, onFirstImageLoaded)`
@@ -252,7 +254,8 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
 - network: `TmdbNetworkDataSource` (`TmdbRetrofitNetwork`, base `https://api.themoviedb.org/3/`, `api_key`
   query parameter through `ApiKeyInterceptor`): trending movie/tv (week), search, movie/tv details with
   `append_to_response` (`similar,credits,videos,watch/providers,release_dates|content_ratings`), upcoming,
-  now playing, airing today, discover by genre, genres, season, person (`combined_credits`).
+  now playing, airing today, recently released (`discover/movie` by `primary_release_date`, `discover/tv` by
+  `first_air_date`, last 60 days, popularity), discover by genre, genres, season, person (`combined_credits`).
   `ArticleNetworkDataSource` (`NyTimesRetrofitNetwork`, article search filtered to movie reviews,
   `api-key`). Demo: `DemoTmdbNetworkDataSource` / `DemoNyTimesNetworkDataSource` (assets JSON).
   Keys: `tmdbApiKey`, `nyTimesApiKey` in `local.properties`.
@@ -265,8 +268,9 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   - `*ByIdRepository`: details are not cached.
   - `PersonRepository`.
   - `TmdbBrowseRepository` (`@Singleton`):
-    - upcoming (future dates only), now playing (by `Locale.country` region), airing today (fresh for the
-      same day), movie/series genres (per language). Lists are cached as JSON files in `cacheDir/tmdb_browse`
+    - upcoming (future dates only), now playing (by `Locale.country` region), airing today and
+      `recentlyReleasedMovies/Series()` (fresh for the same day, titles without a poster dropped),
+      movie/series genres (per language). Lists are cached as JSON files in `cacheDir/tmdb_browse`
       and gated by `ListCache`.
     - `discoverMovies/Series(genreId)` paging straight from the network.
     - `season()` (in-memory cache).
@@ -279,9 +283,12 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
 - screens:
   - `trending_series_catalog`: **the home screen** (`com.rick.ecs://trending_series_catalog`).
   - `trending_movie_catalog`: `TrendingMovieViewModel` adds a genre filter (`selectGenre` switches to
-    discover paging), plus upcoming (with reminder toggles) and now playing rows. The rows are shown by
-    `BrowseHeaderAdapter` / `BrowseRowAdapter` (`movie/screen_movie/common/BrowseHeader.kt`, hero carousel)
-    above the paged list.
+    discover paging), plus upcoming (with reminder toggles), now playing and recently released rows.
+  - Both catalogs share `BrowseHeaderAdapter` (`movie/screen_movie/common/BrowseHeader.kt`), the same order as
+    the games screen: title and slogan → hero carousel (`BrowseHeaderState.rows`, the first non-empty one:
+    Coming soon, else In theaters; Airing today for series) → "Recently released" (`secondRow`, a Compose
+    `EcsPosterRow` in a `ComposeView`, subtitle `releaseAndRating()` = "date · ★ rating") → `listTitle`
+    ("Trending now", or "Popular in <genre>" when a genre chip is selected) → genre chips → paged list.
   - `trending_movie_details` / `trending_series_details`: similar titles, extras (`DetailsExtras.bindExtras`:
     trailer, cast → person, providers). Series seasons are shown in a hero carousel; tapping one opens the
     `SeasonSheet` bottom sheet.
@@ -333,31 +340,52 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   - `common/WebViewFragment` (`com.rick.ecs://book_common_webviewfragment/{link}`).
   - `ScreenAdaptationsSheet` (bottom sheet).
 
-## Anime & manga (`:anime:*`): Jikan v4 (MyAnimeList)
-- network: `JikanRetrofitNetwork` (`https://api.jikan.moe/`, no key). It is a **singleton with an app-wide
-  throttle**: every request goes through `throttled {}` so requests start at least
-  `MIN_REQUEST_INTERVAL_MILLIS` apart (Jikan allows about 3/s, 60/min). Keep new endpoints inside `throttled`.
-  Top anime/manga use the popularity filter, and adult titles are excluded (`sfw`). Demo flavor:
-  `DemoJikanNetworkDataSource`.
+## Anime & manga (`:anime:*`): jikan-edge (MyAnimeList)
+- network: `JikanRetrofitNetwork` (`https://jikan.lucashdo.com/`, routes under `v1/`, no key). Contract:
+  github.com/LucasHenriqueDiniz/jikan-edge (`README.md`, `docs/api.md`). It differs from Jikan v4:
+  - Fields are camelCase (`malId`, `titleEnglish`, `scoredBy`); the envelope is `{ data, meta }` and pagination
+    is `meta.pagination.hasNextPage` (DTOs in `network/model/EdgeCommon.kt`: `EdgeMeta`, `EdgeRef`, `EdgeImages`).
+  - Images are `{small, medium, large}` (`posterUrl` picks one); dates are `"YYYY-MM-DD"` strings; genres,
+    authors, serializations… are `{malId, name, url}`; relations and recommendations are flat lists; broadcast
+    timezone is `"JST"` (mapped to `Asia/Tokyo` by `japanZoneId`); episode `aired` is `"Sep 29, 2023"` (`isoDate`).
+  - List routes (search, top, seasons, schedules) return **lean entries** (id, title, `imageUrl`, score, type,
+    `startDate`…): no genres, broadcast or English title. The details repositories fetch `anime/{id}` /
+    `manga/{id}` when the stored row is only a list entry (`isListEntryOnly`, popularity 0) and keep its
+    `catalog_position`. Room keeps its old shape; mapping happens in `data/model/Anime.kt` / `Manga.kt`.
+  - **Unknown or unsupported query parameters are refused (400)**: no `limit` (except user lists), `sfw`,
+    `order_by=favorites`. Rx titles are dropped in the app (`isAdult()`); the Favorites list uses
+    `top/*?filter=favorite` (with a genre it falls back to `members`).
+  - Errors are `{ error: { code, message, requestId } }`: `JikanEdgeErrorInterceptor` logs the `requestId` and
+    throws `JikanEdgeException` (an `IOException`); it retries once on 429/503 when `Retry-After` ≤ 10 s.
+  - `meta.stale` (a last-good copy served when upstream fails) is shown, never treated as an error, but not
+    marked refreshed in `ListCache` and not `remembered`, so the next load tries again.
+  - It is a **singleton with an app-wide throttle**: every request goes through `throttled {}`, at least
+    `MIN_REQUEST_INTERVAL_MILLIS` (1 s) apart (limit 60/min, 30 per 10 s). Keep new endpoints inside `throttled`.
+  - Demo flavor: `DemoJikanNetworkDataSource`; its assets are in the jikan-edge shape.
 - database `JikanDatabase` **v2** (`MIGRATION_1_2` adds `catalog_position` to `anime_table` and `manga_table`),
   plus recent searches and FTS.
 - data:
   - `AnimeRemoteMediator` / `MangaRemoteMediator` (start at page 1, end on an empty page, catalog pattern above).
-  - Search returns at most 25 results.
+  - Search returns at most 25 results (kept in the app; the API sends up to 50).
   - `JikanBrowseRepository`:
-    - season now/upcoming, featured manga rows (`MangaList`) and genres are cached as JSON files in
-      `cacheDir/jikan_browse` + `ListCache`.
-    - `browseAnime/Manga(list, genreId)` paging from the network (25 a page).
+    - season now/upcoming (first 20), featured manga rows (`MangaList`), genres and
+      `recentlyReleasedAnime/Manga()` are cached as JSON files in `cacheDir/jikan_browse` + `ListCache`.
+      "Recently released" = `start_date` 60 days ago and `end_date` today, by members; entries that haven't
+      started (`isReleased()`) are dropped both on download and when read from the cache.
+    - `browseAnime/Manga(list, genreId)` paging from the network (50 a page).
     - extras (broadcast time, streaming, trailer through `youtubeIdFromEmbedUrl`), episodes, recommendations
       (max 15), relations (adaptations first), characters with Japanese voice actors (max 25), person (roles,
-      max 60) and the weekly `schedule(japanDay)` (≤ 3 pages, Asia/Tokyo) are cached **in memory for the
+      max 60) and the weekly `schedule(japanDay)` (one request, Asia/Tokyo) are cached **in memory for the
       session** (`remembered`).
     - `randomAnimeId/randomMangaId` (not cached).
 - screens:
   - `anime_catalog`: `AnimeCatalogFragment`, with a Compose browse header (`JikanBrowseHeader` through
-    `ComposeHeaderAdapter`) and a "random" button.
+    `ComposeHeaderAdapter`) and a "random" button. Header order, like games: This season (hero) → Recently
+    released (`secondRow`, `EcsPosterRow`, without titles already in This season) → `listTitle` ("Popular now",
+    or the selected list's name) → list chips → genre chips. `manga_catalog` is the same with Publishing now.
   - `AnimeScheduleFragment` (Compose, `com.rick.ecs://anime_schedule`): airing times converted with
-    `Broadcast.inZone()`.
+    `Broadcast.inZone()`. jikan-edge schedule entries have **no broadcast time**, so shows without one are listed
+    under their Japan day, after the timed ones, with no time.
   - `anime_details` (`com.rick.ecs://anime_details_fragment/{anime}`): `AnimeExtrasSection` / `EpisodesSheet`
     (Compose), `JikanRelationsSection`, translatable synopsis + background.
   - `JikanPersonFragment` (Compose, `com.rick.ecs://jikan_person/{person}`).
@@ -494,3 +522,12 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   which `AuthenticationFragment` pops itself, so top-level screens stack up (Anime → Manga → Back = Anime).
 - `SyncManager.requestSync()` is never called. If a "sync now" button uses it, it reuses the start-up
   work, which skips the sync when the last one is recent.
+- jikan-edge gaps (2026-11-27, no equivalent route; decide what to do):
+  - Favorites anime/manga list with a genre selected: `order_by=favorites` is refused, so it falls back to `members`.
+  - Adult filtering: season, schedule and top entries carry no rating, and manga list entries no genres, so they
+    can't be filtered without `sfw`.
+  - Catalog cards come from lean `top/*` entries: no synopsis, genres or English title (details fetch them).
+    `/v1/anime?order_by=members` would give `url` and `synopsis` for the catalog instead.
+  - Seasons return the whole season (up to ~100 KB) although rows show 20.
+- Anime "Recently released" subtitles use the two-decimal score string (`★ %1$.2f`), which gets cut off under
+  the poster ("★ 8…."); movies, series and games use one decimal.

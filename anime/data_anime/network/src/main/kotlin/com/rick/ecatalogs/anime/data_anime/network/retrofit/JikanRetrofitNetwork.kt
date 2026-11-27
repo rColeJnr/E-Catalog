@@ -60,6 +60,7 @@ private interface JikanRetrofitNetworkApi {
     @GET("v1/anime")
     suspend fun fetchRecentAnime(
         @Query("start_date") startDate: String,
+        @Query("end_date") endDate: String,
         @Query("order_by") orderBy: String = "members",
         @Query("sort") sort: String = "desc",
     ): AnimeResponse
@@ -67,6 +68,7 @@ private interface JikanRetrofitNetworkApi {
     @GET("v1/manga")
     suspend fun fetchRecentManga(
         @Query("start_date") startDate: String,
+        @Query("end_date") endDate: String,
         @Query("order_by") orderBy: String = "members",
         @Query("sort") sort: String = "desc",
     ): MangaResponse
@@ -224,9 +226,11 @@ internal class JikanRetrofitNetwork @Inject constructor(
 
     override suspend fun fetchSeasonUpcoming() = throttled { networkApi.fetchSeasonUpcoming() }
 
-    override suspend fun fetchRecentAnime(startDate: String) = throttled { networkApi.fetchRecentAnime(startDate) }
+    override suspend fun fetchRecentAnime(startDate: String, endDate: String) =
+        throttled { networkApi.fetchRecentAnime(startDate, endDate) }
 
-    override suspend fun fetchRecentManga(startDate: String) = throttled { networkApi.fetchRecentManga(startDate) }
+    override suspend fun fetchRecentManga(startDate: String, endDate: String) =
+        throttled { networkApi.fetchRecentManga(startDate, endDate) }
 
     override suspend fun fetchAnimeGenres() = throttled { networkApi.fetchAnimeGenres() }
 

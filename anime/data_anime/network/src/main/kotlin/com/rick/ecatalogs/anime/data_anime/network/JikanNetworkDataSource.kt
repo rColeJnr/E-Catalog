@@ -28,9 +28,9 @@ interface JikanNetworkDataSource {
     /** Anime announced for next season(s). */
     suspend fun fetchSeasonUpcoming(): AnimeResponse
 
-    suspend fun fetchRecentAnime(startDate: String): AnimeResponse
+    suspend fun fetchRecentAnime(startDate: String, endDate: String): AnimeResponse
 
-    suspend fun fetchRecentManga(startDate: String): MangaResponse
+    suspend fun fetchRecentManga(startDate: String, endDate: String): MangaResponse
 
     suspend fun fetchAnimeGenres(): JikanGenresResponse
 

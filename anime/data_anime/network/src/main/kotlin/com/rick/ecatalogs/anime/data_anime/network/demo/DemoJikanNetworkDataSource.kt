@@ -61,9 +61,9 @@ class DemoJikanNetworkDataSource @Inject constructor(
         it.copy(data = it.data.reversed())
     }
 
-    override suspend fun fetchRecentAnime(startDate: String) = fetchTopAnime(page = 1, filter = "")
+    override suspend fun fetchRecentAnime(startDate: String, endDate: String) = fetchTopAnime(page = 1, filter = "")
 
-    override suspend fun fetchRecentManga(startDate: String) = fetchTopManga(page = 1, filter = "")
+    override suspend fun fetchRecentManga(startDate: String, endDate: String) = fetchTopManga(page = 1, filter = "")
 
     override suspend fun fetchAnimeGenres() = JikanGenresResponse(DEMO_GENRES)
 

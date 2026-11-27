@@ -147,21 +147,22 @@ internal class JikanBrowseRepositoryImpl @Inject constructor(
 
     override fun recentlyReleasedAnime(): Flow<List<JikanItem>> = flow {
         emit(cached(CachedList.ANIME_RECENT, itemListType) {
-            network.fetchRecentAnime(recentStartDate()).let { response ->
+            network.fetchRecentAnime(recentStartDate(), LocalDate.now().toString()).let { response ->
                 response.data
                     .filterNot { it.isAdult() }
+                    .filter { it.startDate.isReleased() }
                     .map { it.asItem().copy(date = it.startDate, score = it.score?.takeIf { s -> s > 0 }) }
                     .distinctBy { it.id }
                     .take(RECENT_ROW_SIZE) to response.meta.isStale
             }
-        })
+        }.filter { it.date.isReleased() })
     }
 
     override fun recentlyReleasedManga(): Flow<List<JikanItem>> = flow {
         emit(cached(CachedList.MANGA_RECENT, itemListType) {
-            network.fetchRecentManga(recentStartDate()).let { response ->
+            network.fetchRecentManga(recentStartDate(), LocalDate.now().toString()).let { response ->
                 response.data
-                    .filter { it.isComplete() }
+                    .filter { it.isComplete() && it.startDate.isReleased() }
                     .map {
                         JikanItem(
                             id = it.id,
@@ -174,7 +175,7 @@ internal class JikanBrowseRepositoryImpl @Inject constructor(
                     .distinctBy { it.id }
                     .take(RECENT_ROW_SIZE) to response.meta.isStale
             }
-        })
+        }.filter { it.date.isReleased() })
     }
 
     override fun featuredManga(list: MangaList): Flow<List<JikanItem>> = flow {
@@ -479,6 +480,9 @@ private const val RECENT_ROW_SIZE = 30
 private const val RECENT_DAYS = 60L
 
 private fun recentStartDate(): String = LocalDate.now().minusDays(RECENT_DAYS).toString()
+
+private fun String?.isReleased(): Boolean =
+    this?.take(10)?.let { runCatching { !LocalDate.parse(it).isAfter(LocalDate.now()) }.getOrNull() } == true
 private const val FEATURED_ROW_SIZE = 25
 private const val FAVORITE_FILTER = "favorite"
 private const val MAX_RANDOM_TRIES = 3

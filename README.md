@@ -12,10 +12,10 @@ public APIs. It has been in development since 2022 and is published on Google Pl
 ## What's in the app
 | Area | Source | Highlights |
 |---|---|---|
-| **Movies & TV series** | [TMDB](https://www.themoviedb.org/) | Trending, upcoming and now playing, genre filters, trailers you watch in the app, cast, where to watch, similar titles, seasons and episodes |
+| **Movies & TV series** | [TMDB](https://www.themoviedb.org/) | Trending, coming soon, airing today, recently released, genre filters, trailers you watch in the app, cast, where to watch, similar titles, seasons and episodes |
 | **Movie reviews** | [New York Times](https://developer.nytimes.com/) | Critics' reviews on their own page, with the full review and a link to the film they review |
 | **Books** | [Project Gutenberg](https://gutendex.com/) and NYT Best Sellers | Free books with a built-in reader, best-seller lists by genre, screen adaptations |
-| **Anime & manga** | [Jikan](https://jikan.moe/) (MyAnimeList) | Top lists, genres, weekly schedule, trailers, characters and people, relations |
+| **Anime & manga** | [jikan-edge](https://github.com/LucasHenriqueDiniz/jikan-edge) (MyAnimeList) | This season, recently released, top lists, genres, weekly schedule, trailers, characters and people, relations |
 | **Video games** | [IGDB](https://www.igdb.com/) | Popular now, coming soon, recently released, genres, trailers (built entirely in Jetpack Compose) |
 
 In every area: search with recent queries, favorites, and translation of descriptions (Portuguese and Russian).
@@ -79,12 +79,12 @@ Google Play are described in [`release.yml`](.github/workflows/release.yml).
 - `build-logic`: Gradle convention plugins.
 
 ## Screenshots
-Screenshots from an earlier version:
+Every catalog opens the same way: a featured carousel, a row of recent releases, then the main list with its filters.
 
-![movies](https://user-images.githubusercontent.com/72414394/196361471-b9792801-538a-4dc3-8b26-594a65700eb4.jpg)
-![series](https://user-images.githubusercontent.com/72414394/196361540-6284ff87-19ad-450b-bb65-fa45ab31534c.jpg)
-![books](https://user-images.githubusercontent.com/72414394/196361561-6b6faab0-d561-4e39-9e72-caf7d683bc23.jpg)
-![manga](https://user-images.githubusercontent.com/72414394/196361594-7cde645e-d57f-4c2c-afc6-a5995280e71d.jpg)
-![anime](https://user-images.githubusercontent.com/72414394/196361607-d7abfb6d-d50f-4863-928c-4ef84d72d475.jpg)
-![search](https://user-images.githubusercontent.com/72414394/196361636-01454c3d-95f1-4c96-affa-ac8975db6478.jpg)
-![nav drawer](https://user-images.githubusercontent.com/72414394/196361646-53710978-fabb-4b8a-938f-560a05866f60.jpg)
+| Movies | Series | Games |
+|---|---|---|
+| <img src="docs/screenshots/movies.jpg" width="260" alt="Movies: coming soon, recently released, trending now"/> | <img src="docs/screenshots/series.jpg" width="260" alt="Series: airing today, recently released, trending now"/> | <img src="docs/screenshots/games.jpg" width="260" alt="Games: coming soon, recently released, popular now"/> |
+
+| Anime | Manga |
+|---|---|
+| <img src="docs/screenshots/anime.jpg" width="260" alt="Anime: this season, recently released, popular now"/> | <img src="docs/screenshots/manga.jpg" width="260" alt="Manga: publishing now, recently released, popular now"/> |
