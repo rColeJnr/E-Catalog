@@ -481,5 +481,25 @@
     ],
     "total_pages": 3710,
     "total_results": 74196
+  },
+  "videos": {
+    "results": [
+      {
+        "key": "d9MyW72ELq0",
+        "name": "Official Trailer",
+        "site": "YouTube",
+        "type": "Trailer",
+        "official": true
+      }
+    ]
+  },
+  "images": {
+    "backdrops": [
+      {
+        "file_path": "/8rpDcsfLJypbO6vREc0547VKqEv.jpg",
+        "vote_average": 5.5,
+        "iso_639_1": null
+      }
+    ]
   }
 }

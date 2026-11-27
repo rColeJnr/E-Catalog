@@ -51,6 +51,7 @@ fun MovieResponse.asMyMovie() = MyMovie(
     extras = tmdbDetailsExtras(
         credits = credits,
         videos = videos,
+        images = images,
         watchProviders = watchProviders,
         ageRatings = releaseDates.asAgeRatings(),
     ),

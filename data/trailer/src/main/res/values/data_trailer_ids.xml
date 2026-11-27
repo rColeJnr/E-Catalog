@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The gallery's ComposeView: Compose saves its state (page, video position) under the view's id -->
+    <item name="data_trailer_gallery" type="id" />
+</resources>

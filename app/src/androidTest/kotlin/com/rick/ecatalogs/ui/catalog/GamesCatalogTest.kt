@@ -1,5 +1,6 @@
 package com.rick.ecatalogs.ui.catalog
 
+import android.os.Build
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasAnyAncestor
@@ -7,20 +8,26 @@ import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.filters.SdkSuppress
 import com.rick.ecatalogs.MainActivity
 import com.rick.ecatalogs.R
+import com.rick.ecatalogs.data.trailer.TAG_PLAY_TRAILER
 import com.rick.ecatalogs.ui.assertDestination
 import com.rick.ecatalogs.ui.assertToolbarTitle
 import com.rick.ecatalogs.ui.grantNotificationPermission
@@ -33,7 +40,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import com.rick.ecatalogs.data.trailer.R as TrailerR
 import com.rick.ecatalogs.game.screen_game.common.R as GameCommonR
 import com.rick.ecatalogs.game.screen_game.game_catalog.R as GameCatalogR
 import com.rick.ecatalogs.game.screen_game.game_details.R as GameDetailsR
@@ -151,6 +160,38 @@ class GamesCatalogTest {
         app.clickToolbarItem(GameCatalogR.id.game_favorites)
         app.assertDestination(FAVORITES)
         awaitText(FIRST_GAME)
+    }
+
+    @Test
+    fun gameDetails_whenOpened_thenTrailerLeadsTheMediaRow() {
+        openFirstGameDetails()
+
+        // games.json: only a trailer for The Witcher 3 (no screenshots), so the row is "Trailer"
+        composeRule.onNodeWithTag(TAG_PLAY_TRAILER).performScrollTo().assertIsDisplayed()
+        // The section title (the thumbnail has a "Trailer" label too)
+        composeRule.onNode(hasText(string(TrailerR.string.data_trailer_trailer)) and !hasTestTag(TAG_PLAY_TRAILER))
+            .assertIsDisplayed()
+    }
+
+    @Test
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.O)
+    fun gameDetails_whenWatchTrailerTapped_thenTrailerScreenOpens() {
+        openFirstGameDetails()
+
+        val launched = trailerLaunchesDuring {
+            composeRule.onNodeWithText(string(GameDetailsR.string.game_screen_game_game_details_watch_trailer))
+                .performScrollTo()
+                .performClick()
+        }
+
+        assertEquals(listOf("c0i88t0Kacs"), launched) // games.json: The Witcher 3
+    }
+
+    private fun openFirstGameDetails() {
+        scrollToRow(0)
+        listRow(FIRST_GAME).performClick()
+        app.assertDestination(DETAILS)
+        composeRule.waitUntil(15_000) { nodes(hasTestTag(TAG_PLAY_TRAILER)).isNotEmpty() }
     }
 
     /** A list row (not a header poster): clickable, titled [name], with its own heart. */

@@ -15,4 +15,5 @@ dependencies {
     implementation(projects.game.dataGame.data)
     implementation(projects.data.uiDesign)
     implementation(projects.data.translation)
+    implementation(projects.data.trailer)
 }

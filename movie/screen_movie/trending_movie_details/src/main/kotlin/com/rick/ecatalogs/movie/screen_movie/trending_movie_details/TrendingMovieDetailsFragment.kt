@@ -23,12 +23,11 @@ import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.Creator
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_movie.TrendingMovie
+import com.rick.ecatalogs.movie.screen_movie.common.DetailsGallery
 import com.rick.ecatalogs.movie.screen_movie.common.bindExtras
 import com.rick.ecatalogs.movie.screen_movie.common.personDetailsUri
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.logTrendingMovieOpened
-import com.rick.ecatalogs.movie.screen_movie.common.util.getTmdbImageUrl
-import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
 import com.rick.ecatalogs.movie.screen_movie.trending_movie_details.R
 import com.rick.ecatalogs.movie.screen_movie.trending_movie_details.databinding.MovieScreenMovieTrendingMovieDetailsFragmentTrendingMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +43,7 @@ class TrendingMovieDetailsFragment : Fragment() {
     private val viewModel: TrendingMovieDetailsViewModel by viewModels()
 
     private lateinit var similarsAdapter: MovieSimilarDetailsAdapter
+    private lateinit var gallery: DetailsGallery
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -72,12 +72,13 @@ class TrendingMovieDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = TrendingMovieDetailsFragmentArgs.fromBundle(it)
             viewModel.setMovieId(safeArgs.movie)
-            ViewCompat.setTransitionName(binding.movieImage, posterTransitionName(POSTER_KIND_MOVIE, safeArgs.movie))
+            ViewCompat.setTransitionName(binding.movieHeader, posterTransitionName(POSTER_KIND_MOVIE, safeArgs.movie))
         }
 
-        // Hold the poster morph until the image is loaded (or a short timeout), so it doesn't
-        // land on an empty view.
+        // Hold the poster morph until the gallery's first image is loaded (or a short timeout),
+        // so it doesn't land on an empty view.
         postponeEnterTransition()
+        gallery = DetailsGallery(binding.movieGallery, onFirstImageLoaded = { if (isAdded) startPostponedEnterTransition() })
         binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
         binding.toolbar.apply {
@@ -152,9 +153,7 @@ class TrendingMovieDetailsFragment : Fragment() {
                     detailsProgressBar.visibility = View.GONE
                     val trendingMovie = state.movie
                     movieTitle.text = trendingMovie.title
-                    if (trendingMovie.image.isNotEmpty()) {
-                        provideGlide(movieImage, getTmdbImageUrl(trendingMovie.image), onReady = { startPostponedEnterTransition() })
-                    }
+                    gallery.bind(trendingMovie.title, trendingMovie.image, trendingMovie.extras)
                     translation.bind(trendingMovie.overview.trim())
                     if (trendingMovie.adult) {
                         movieAdult.text = resources.getString(
@@ -231,7 +230,7 @@ class TrendingMovieDetailsFragment : Fragment() {
 
                     similarDetailsAdapter.similarsDiffer
                         .submitList(trendingMovie.similar)
-                    detailsExtras.bindExtras(trendingMovie.extras) { member ->
+                    detailsExtras.bindExtras(trendingMovie.extras, trendingMovie.title) { member ->
                         findNavController().navigateWithMotion(personDetailsUri(member.id))
                     }
                 }

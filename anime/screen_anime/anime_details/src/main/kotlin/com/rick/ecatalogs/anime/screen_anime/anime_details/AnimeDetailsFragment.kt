@@ -1,5 +1,9 @@
 package com.rick.ecatalogs.anime.screen_anime.anime_details
 
+import com.rick.ecatalogs.data.trailer.GalleryItem
+import com.rick.ecatalogs.data.trailer.MediaGalleryHost
+import com.rick.ecatalogs.data.trailer.TrailerActivity
+import com.rick.ecatalogs.data.trailer.youtubeIdFromUrl
 import com.rick.ecatalogs.data.ui_components.common.TranslationToggle
 import com.rick.ecatalogs.data.translation.TextTranslator
 import com.rick.ecatalogs.anime.screen_anime.common.jikanDetailsUri
@@ -29,7 +33,6 @@ import com.rick.ecatalogs.anime.screen_anime.common.logTrailerOpened
 import com.rick.ecatalogs.anime.screen_anime.anime_details.databinding.AnimeScreenAnimeAnimeDetailsFragmentAnimeDetailsBinding
 import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.anime.data_anime.model.UserAnime
-import com.rick.ecatalogs.data.ui_components.common.provideGlide
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -38,6 +41,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AnimeDetailsFragment : Fragment() {
 
+    private lateinit var mediaGallery: MediaGalleryHost
     private var _binding: AnimeScreenAnimeAnimeDetailsFragmentAnimeDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AnimeDetailsViewModel by viewModels()
@@ -70,12 +74,13 @@ class AnimeDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = AnimeDetailsFragmentArgs.fromBundle(it)
             viewModel.setAnimeId(safeArgs.anime)
-            ViewCompat.setTransitionName(binding.image, posterTransitionName(POSTER_KIND_ANIME, safeArgs.anime))
+            ViewCompat.setTransitionName(binding.header, posterTransitionName(POSTER_KIND_ANIME, safeArgs.anime))
         }
 
-        // Hold the poster morph until the image is loaded (or a short timeout), so it doesn't
-        // land on an empty view.
+        // Hold the poster morph until the gallery's first image is loaded (or a short timeout),
+        // so it doesn't land on an empty view.
         postponeEnterTransition()
+        mediaGallery = MediaGalleryHost(binding.gallery, onFirstImageLoaded = { if (isAdded) startPostponedEnterTransition() })
         binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
         binding.toolbar.apply {
@@ -127,7 +132,14 @@ class AnimeDetailsFragment : Fragment() {
         animeLiveData.observe(viewLifecycleOwner) { anime ->
             title.text = anime.title
 
-            provideGlide(image, anime.images, onReady = { startPostponedEnterTransition() })
+            val trailerId = youtubeIdFromUrl(anime.trailer)
+            mediaGallery.show(
+                items = listOfNotNull(
+                    trailerId?.let(GalleryItem::Trailer),
+                    anime.images.takeIf { it.isNotBlank() }?.let { GalleryItem.Image(it) },
+                ),
+                title = anime.title,
+            )
 
             translation.bind(anime.synopsis.trim(), anime.background.trim())
 
@@ -182,13 +194,10 @@ class AnimeDetailsFragment : Fragment() {
 
             val trailer = anime.trailer
             this.trailer.setOnClickListener {
-                val youtubeId = trailer?.let {
-                    Regex("/embed/([A-Za-z0-9_-]{6,})").find(it)?.groupValues?.get(1)
-                }
-                if (youtubeId != null) {
-                    // Opens the YouTube app (or browser) instead of an embedded player
-                    analyticsHelper.logTrailerOpened(youtubeId)
-                    openExternally("https://www.youtube.com/watch?v=$youtubeId")
+                if (trailerId != null) {
+                    // Plays in the app, on the trailer screen
+                    analyticsHelper.logTrailerOpened(trailerId)
+                    TrailerActivity.start(requireContext(), trailerId, anime.title)
                 } else if (!trailer.isNullOrBlank()) {
                     val encodedUrl = URLEncoder.encode(trailer, StandardCharsets.UTF_8.toString())
                     analyticsHelper.logTrailerOpened(encodedUrl)

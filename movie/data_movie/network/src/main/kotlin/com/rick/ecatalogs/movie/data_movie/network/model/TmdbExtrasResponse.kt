@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 // Extra sections TMDB returns inside the details response when they are named in
-// append_to_response (credits, videos, watch/providers, release_dates / content_ratings).
+// append_to_response (credits, videos, images, watch/providers, release_dates / content_ratings).
 // Every field is nullable with a default: Gson leaves missing fields null, and the demo JSON
 // assets don't contain these sections at all.
 
@@ -23,6 +23,25 @@ data class CastResponse(
     @SerializedName("profile_path")
     val profilePath: String? = null,
     val order: Int? = null,
+)
+
+/** `images` (append_to_response): backdrops are wide stills shown in the details gallery. */
+@Serializable
+data class ImagesResponse(
+    val backdrops: List<ImageResponse>? = null,
+)
+
+@Serializable
+data class ImageResponse(
+    @SerialName("file_path")
+    @SerializedName("file_path")
+    val filePath: String? = null,
+    @SerialName("vote_average")
+    @SerializedName("vote_average")
+    val voteAverage: Double? = null,
+    @SerialName("iso_639_1")
+    @SerializedName("iso_639_1")
+    val language: String? = null,
 )
 
 @Serializable

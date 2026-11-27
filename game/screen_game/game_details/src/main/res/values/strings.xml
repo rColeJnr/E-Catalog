@@ -4,6 +4,7 @@
     <string name="game_screen_game_game_details_summary">About</string>
     <string name="game_screen_game_game_details_storyline">Story</string>
     <string name="game_screen_game_game_details_screenshots">Screenshots</string>
+    <string name="game_screen_game_game_details_trailer_and_screenshots">Trailer and screenshots</string>
     <string name="game_screen_game_game_details_platforms">Platforms</string>
     <string name="game_screen_game_game_details_developers">Developers</string>
     <string name="game_screen_game_game_details_publishers">Publishers</string>

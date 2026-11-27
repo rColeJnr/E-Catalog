@@ -309,5 +309,25 @@
         ]
       }
     ]
+  },
+  "videos": {
+    "results": [
+      {
+        "key": "KPLWWIOCOOQ",
+        "name": "Official Series Trailer",
+        "site": "YouTube",
+        "type": "Trailer",
+        "official": true
+      }
+    ]
+  },
+  "images": {
+    "backdrops": [
+      {
+        "file_path": "/6LWy0jvMpmjoS9fojNgHIKoWL05.jpg",
+        "vote_average": 5.5,
+        "iso_639_1": null
+      }
+    ]
   }
 }

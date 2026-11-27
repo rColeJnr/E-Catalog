@@ -53,6 +53,7 @@ fun SeriesResponse.asMySeries() = MySeries(id,
     extras = tmdbDetailsExtras(
         credits = credits,
         videos = videos,
+        images = images,
         watchProviders = watchProviders,
         ageRatings = contentRatings.asAgeRatings(),
     ),

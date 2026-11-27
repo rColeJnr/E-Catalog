@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.anime.dataAnime.model)
     implementation(projects.anime.dataAnime.domain)
     implementation(projects.data.analytics)
+    implementation(projects.data.trailer)
 }
 
 android {

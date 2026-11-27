@@ -30,12 +30,11 @@ import com.rick.ecatalogs.data.analytics.AnalyticsHelper
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.Genre
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.series.Creator
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.trending_series.TrendingSeries
+import com.rick.ecatalogs.movie.screen_movie.common.DetailsGallery
 import com.rick.ecatalogs.movie.screen_movie.common.bindExtras
 import com.rick.ecatalogs.movie.screen_movie.common.personDetailsUri
 import com.rick.ecatalogs.movie.screen_movie.common.logScreenView
 import com.rick.ecatalogs.movie.screen_movie.common.logTrendingSeriesOpened
-import com.rick.ecatalogs.movie.screen_movie.common.util.getTmdbImageUrl
-import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
 import com.rick.ecatalogs.movie.screen_movie.trending_series_details.databinding.MovieScreenMovieTrendingSeriesDetailsFragmentTrendingSeriesDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -50,6 +49,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
     private val viewModel: SeriesDetailsViewModel by viewModels()
 
     private lateinit var similarsAdapter: SeriesSimilarDetailsAdapter
+    private lateinit var gallery: DetailsGallery
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
@@ -77,12 +77,13 @@ class TrendingSeriesDetailsFragment : Fragment() {
         arguments?.let {
             val safeArgs = TrendingSeriesDetailsFragmentArgs.fromBundle(it)
             viewModel.setSeriesId(safeArgs.series)
-            ViewCompat.setTransitionName(binding.image, posterTransitionName(POSTER_KIND_SERIES, safeArgs.series))
+            ViewCompat.setTransitionName(binding.seriesHeader, posterTransitionName(POSTER_KIND_SERIES, safeArgs.series))
         }
 
-        // Hold the poster morph until the image is loaded (or a short timeout), so it doesn't
-        // land on an empty view.
+        // Hold the poster morph until the gallery's first image is loaded (or a short timeout),
+        // so it doesn't land on an empty view.
         postponeEnterTransition()
+        gallery = DetailsGallery(binding.seriesGallery, onFirstImageLoaded = { if (isAdded) startPostponedEnterTransition() })
         binding.root.postDelayed({ if (isAdded) startPostponedEnterTransition() }, MAX_POSTPONE_MILLIS)
 
         binding.toolbar.apply {
@@ -157,9 +158,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
                         getString(R.string.movie_screen_movie_trending_series_details_no_data)
                     val series = state.series
                     tvTitle.text = series.name
-                    if (series.image.isNotBlank()) {
-                        provideGlide(image, getTmdbImageUrl(series.image), onReady = { startPostponedEnterTransition() })
-                    }
+                    gallery.bind(series.name, series.image, series.extras)
                     translation.bind(series.overview.trim())
 
                     adult.text = resources.getString(
@@ -242,7 +241,7 @@ class TrendingSeriesDetailsFragment : Fragment() {
                     )
 
                     similarDetailsAdapter.similarsDiffer.submitList(series.similar)
-                    detailsExtras.bindExtras(series.extras) { member ->
+                    detailsExtras.bindExtras(series.extras, series.name) { member ->
                         findNavController().navigateWithMotion(personDetailsUri(member.id))
                     }
                     bindSeasons(series.id, series.seasons)

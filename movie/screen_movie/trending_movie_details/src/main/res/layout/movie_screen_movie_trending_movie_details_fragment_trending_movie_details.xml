@@ -62,7 +62,9 @@
 
             </androidx.appcompat.widget.Toolbar>
 
+            <!-- The poster morphs into this card when the screen opens -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/movie_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -71,18 +73,11 @@
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/movie_image"
-                    android:scaleType="centerCrop"
+                <!-- Swipeable gallery (Compose): trailer, poster, backdrops -->
+                <FrameLayout
+                    android:id="@+id/movie_gallery"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/data_ui_design_long_image_height" />
-
-                <!-- Fades the image into the page -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/data_ui_design_hero_scrim" />
 
             </com.google.android.material.card.MaterialCardView>
 

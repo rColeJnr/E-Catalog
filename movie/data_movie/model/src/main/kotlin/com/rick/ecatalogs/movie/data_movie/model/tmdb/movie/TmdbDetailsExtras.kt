@@ -8,6 +8,8 @@ data class TmdbDetailsExtras(
     val cast: List<CastMember> = emptyList(),
     /** YouTube video key of the best trailer (official trailer > trailer > teaser), if any. */
     val trailerYoutubeKey: String? = null,
+    /** TMDB image paths of the best backdrops (wide stills), for the details gallery. */
+    val backdrops: List<String> = emptyList(),
     /** Keyed by ISO 3166-1 country code. */
     val watchProviders: Map<String, WatchProviders> = emptyMap(),
     /** Keyed by ISO 3166-1 country code, e.g. "US" -> "PG-13". */

@@ -4,6 +4,8 @@ import com.rick.ecatalogs.movie.data_movie.network.model.CastResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.ContentRatingResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.ContentRatingsResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.CreditsResponse
+import com.rick.ecatalogs.movie.data_movie.network.model.ImageResponse
+import com.rick.ecatalogs.movie.data_movie.network.model.ImagesResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.ReleaseDateResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.ReleaseDatesCountryResponse
 import com.rick.ecatalogs.movie.data_movie.network.model.ReleaseDatesResponse
@@ -85,11 +87,13 @@ class TmdbDetailsExtrasTest {
         val extras = tmdbDetailsExtras(
             credits = null,
             videos = null,
+            images = null,
             watchProviders = null,
             ageRatings = (null as ReleaseDatesResponse?).asAgeRatings(),
         )
         assertTrue(extras.cast.isEmpty())
         assertNull(extras.trailerYoutubeKey)
+        assertTrue(extras.backdrops.isEmpty())
         assertTrue(extras.watchProviders.isEmpty())
         assertTrue(extras.ageRatings.isEmpty())
     }
@@ -102,6 +106,7 @@ class TmdbDetailsExtrasTest {
         val extras = tmdbDetailsExtras(
             credits = CreditsResponse(cast),
             videos = VideosResponse(emptyList()),
+            images = null,
             watchProviders = null,
             ageRatings = emptyMap(),
         )
@@ -123,11 +128,30 @@ class TmdbDetailsExtrasTest {
                 ),
             ),
         )
-        val extras = tmdbDetailsExtras(null, null, providers, emptyMap())
+        val extras = tmdbDetailsExtras(null, null, null, providers, emptyMap())
 
         val us = extras.watchProviders.getValue("US")
         assertEquals(listOf("First", "Second"), us.stream.map { it.name })
         assertTrue(us.rent.isEmpty() && us.buy.isEmpty())
+    }
+
+    @Test
+    fun backdrops_textlessFirstThenBestVoted_cappedAndDistinct() {
+        val images = ImagesResponse(
+            backdrops = listOf(
+                ImageResponse("/en-low.jpg", voteAverage = 4.0, language = "en"),
+                ImageResponse("/plain-low.jpg", voteAverage = 5.0, language = null),
+                ImageResponse("/plain-high.jpg", voteAverage = 6.0, language = null),
+                ImageResponse("/en-high.jpg", voteAverage = 9.0, language = "en"),
+                ImageResponse("/plain-high.jpg", voteAverage = 6.0, language = null),
+                ImageResponse("", voteAverage = 10.0, language = null),
+            ) + (1..10).map { ImageResponse("/extra-$it.jpg", voteAverage = 1.0, language = "en") },
+        )
+
+        val backdrops = tmdbDetailsExtras(null, null, images, null, emptyMap()).backdrops
+
+        assertEquals(MAX_BACKDROPS, backdrops.size)
+        assertEquals(listOf("/plain-high.jpg", "/plain-low.jpg", "/en-high.jpg", "/en-low.jpg"), backdrops.take(4))
     }
 
     private fun video(

@@ -79,8 +79,11 @@ interface TmdbNetworkDataSource {
 
 /**
  * Sections bundled into the single details request (TMDB `append_to_response`): similar titles,
- * cast, videos (trailer), where to watch, and the age rating.
+ * cast, videos (trailer), images (backdrops), where to watch, and the age rating.
  */
-const val MOVIE_APPEND_TO_RESPONSE = "similar,credits,videos,watch/providers,release_dates"
-const val SERIES_APPEND_TO_RESPONSE = "similar,credits,videos,watch/providers,content_ratings"
+const val MOVIE_APPEND_TO_RESPONSE = "similar,credits,videos,images,watch/providers,release_dates"
+const val SERIES_APPEND_TO_RESPONSE = "similar,credits,videos,images,watch/providers,content_ratings"
 const val PERSON_APPEND_TO_RESPONSE = "combined_credits"
+
+/** With `images`: English and textless images (the defaults would follow `language` only). */
+const val IMAGE_LANGUAGES = "en,null"

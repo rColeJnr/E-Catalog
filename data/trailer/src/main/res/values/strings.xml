@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_trailer_trailer">Trailer</string>
+    <string name="data_trailer_play_trailer">Play trailer</string>
+    <string name="data_trailer_open_in_youtube">Open in YouTube</string>
+    <string name="data_trailer_unavailable">This video can’t be played here</string>
+    <string name="data_trailer_close">Close</string>
+    <string name="data_trailer_page_of">Page %1$d of %2$d</string>
+</resources>

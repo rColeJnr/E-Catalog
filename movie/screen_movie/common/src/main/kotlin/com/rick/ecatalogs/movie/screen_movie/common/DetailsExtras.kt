@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.rick.ecatalogs.data.trailer.TrailerActivity
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.CastMember
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.TmdbDetailsExtras
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.WatchProvider
@@ -24,10 +25,12 @@ import java.util.Locale
  * Binds the shared "extras" block of the movie and series details screens: age rating, trailer
  * button, cast row and where-to-watch row. Each part is hidden when TMDB has nothing for it.
  * Watch providers and age rating are for the user's country, falling back to the US.
+ * "Watch trailer" opens the trailer screen (the video plays in the app); [title] is shown on it.
  * Tapping a cast member calls [onCastClick] (the screens open the actor screen).
  */
 fun MovieScreenMovieCommonDetailsExtrasBinding.bindExtras(
     extras: TmdbDetailsExtras,
+    title: String,
     onCastClick: (CastMember) -> Unit,
 ) {
     val context = root.context
@@ -40,7 +43,7 @@ fun MovieScreenMovieCommonDetailsExtrasBinding.bindExtras(
     val trailerKey = extras.trailerYoutubeKey
     extrasTrailer.isVisible = trailerKey != null
     extrasTrailer.setOnClickListener {
-        trailerKey?.let { context.openUrl("https://www.youtube.com/watch?v=$it") }
+        trailerKey?.let { TrailerActivity.start(context, it, title) }
     }
     extrasActions.isVisible = extrasAgeRating.isVisible || extrasTrailer.isVisible
 

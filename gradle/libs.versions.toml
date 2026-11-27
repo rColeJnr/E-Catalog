@@ -40,6 +40,8 @@ kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.8.0"
 ksp = "2.3.4"
 lifecycle = "2.10.0"
+# In-app YouTube trailers (YouTube allows only its IFrame player; this wraps it in a WebView)
+youtubePlayer = "13.1.0"
 material = "1.11.0"
 moduleGraph = "2.5.0"
 # Navigation runtime stays on 2.7.7: 2.10.x pulls Lifecycle 2.11 -> Compose runtime 1.11, which
@@ -97,6 +99,7 @@ compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.2.1" }
 #compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version = "2.7.7" }
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version = "2.7.0" }
+youtube-player-core = { group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "youtubePlayer" }
 compose-constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version = "1.0.1" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = 'firebaseAuth' }

@@ -4,6 +4,7 @@
     <string name="game_screen_game_game_details_summary">Об игре</string>
     <string name="game_screen_game_game_details_storyline">Сюжет</string>
     <string name="game_screen_game_game_details_screenshots">Скриншоты</string>
+    <string name="game_screen_game_game_details_trailer_and_screenshots">Трейлер и скриншоты</string>
     <string name="game_screen_game_game_details_platforms">Платформы</string>
     <string name="game_screen_game_game_details_developers">Разработчики</string>
     <string name="game_screen_game_game_details_publishers">Издатели</string>

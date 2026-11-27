@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_trailer_trailer">Трейлер</string>
+    <string name="data_trailer_play_trailer">Смотреть трейлер</string>
+    <string name="data_trailer_open_in_youtube">Открыть в YouTube</string>
+    <string name="data_trailer_unavailable">Это видео нельзя воспроизвести здесь</string>
+    <string name="data_trailer_close">Закрыть</string>
+    <string name="data_trailer_page_of">Страница %1$d из %2$d</string>
+</resources>

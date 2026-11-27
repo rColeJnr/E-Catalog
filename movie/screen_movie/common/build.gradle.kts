@@ -16,4 +16,6 @@ dependencies {
     implementation(projects.movie.dataMovie.domain)
     implementation(projects.data.analytics)
     implementation(projects.data.translation)
+    implementation(projects.data.trailer)
+    implementation(libs.lifecycle.runtime.ktx)
 }

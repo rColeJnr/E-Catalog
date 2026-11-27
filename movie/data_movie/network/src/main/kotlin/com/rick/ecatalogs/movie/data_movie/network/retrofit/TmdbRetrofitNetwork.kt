@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.rick.ecatalogs.movie.data_movie.network.IMAGE_LANGUAGES
 import com.rick.ecatalogs.movie.data_movie.network.MOVIE_APPEND_TO_RESPONSE
 import com.rick.ecatalogs.movie.data_movie.network.SERIES_APPEND_TO_RESPONSE
 import com.rick.ecatalogs.movie.data_movie.network.PERSON_APPEND_TO_RESPONSE
@@ -55,6 +56,7 @@ private interface TmdbRetrofitNetworkApi {
         @Path("id") id: Int,
         @Query("append_to_response") appendResponse: String = SERIES_APPEND_TO_RESPONSE,
         @Query("language") language: String = LANGUAGE,
+        @Query("include_image_language") imageLanguages: String = IMAGE_LANGUAGES,
     ): SeriesResponse
 
     @GET("movie/upcoming")
@@ -117,6 +119,7 @@ private interface TmdbRetrofitNetworkApi {
         @Path("id") id: Int,
         @Query("append_to_response") appendResponse: String = MOVIE_APPEND_TO_RESPONSE,
         @Query("language") language: String = LANGUAGE,
+        @Query("include_image_language") imageLanguages: String = IMAGE_LANGUAGES,
     ): MovieResponse
 
     companion object {

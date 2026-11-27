@@ -32,6 +32,7 @@ data class MovieResponse(
     val similar: TrendingMovieResponse,
     val credits: CreditsResponse? = null,
     val videos: VideosResponse? = null,
+    val images: ImagesResponse? = null,
     @SerialName("watch/providers")
     @SerializedName("watch/providers")
     val watchProviders: WatchProvidersResponse? = null,

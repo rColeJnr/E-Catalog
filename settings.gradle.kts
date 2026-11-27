@@ -33,6 +33,7 @@ include(":data:datastore_proto")
 include(":data:datastore_test")
 include(":data:notifications")
 include(":data:sync")
+include(":data:trailer")
 include(":data:translation")
 include(":data:util")
 
