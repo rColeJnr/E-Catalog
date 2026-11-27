@@ -19,6 +19,10 @@ interface TmdbBrowseRepository {
     /** Series with an episode airing today. Empty if it can't be loaded. */
     fun airingTodaySeries(): Flow<List<TrendingSeries>>
 
+    fun recentlyReleasedMovies(): Flow<List<TrendingMovie>>
+
+    fun recentlyReleasedSeries(): Flow<List<TrendingSeries>>
+
     /** Movie genres in the user's language. Empty if they can't be loaded. */
     suspend fun movieGenres(): List<TmdbGenre>
 

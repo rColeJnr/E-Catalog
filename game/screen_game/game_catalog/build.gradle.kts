@@ -15,7 +15,6 @@ dependencies {
     implementation(projects.game.dataGame.data)
     implementation(projects.data.uiDesign)
     implementation(projects.data.analytics)
-    // Their nav graphs are included in this one
     implementation(projects.game.screenGame.gameDetails)
     implementation(projects.game.screenGame.gameSearch)
     implementation(projects.game.screenGame.gameFavorites)

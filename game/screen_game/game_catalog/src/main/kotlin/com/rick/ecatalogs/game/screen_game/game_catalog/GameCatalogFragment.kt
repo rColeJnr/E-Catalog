@@ -127,7 +127,7 @@ class GameCatalogFragment : Fragment() {
                 )
             }
         }
-        // Tap the empty / error message to retry
+
         binding.gameEmptyList.setOnClickListener { adapter.refresh() }
     }
 

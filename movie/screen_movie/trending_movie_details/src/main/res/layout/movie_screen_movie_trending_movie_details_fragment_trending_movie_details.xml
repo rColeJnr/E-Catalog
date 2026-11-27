@@ -9,9 +9,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/details_card_view"
-        app:cardBackgroundColor="@color/data_ui_design_color_surface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/data_ui_design_color_surface">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,8 +112,6 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
-
-            <!-- Age rating, trailer, cast and where to watch (shared with the series screen) -->
             <include
                 android:id="@+id/details_extras"
                 layout="@layout/movie_screen_movie_common_details_extras" />
@@ -209,6 +207,8 @@
                     android:gravity="start"
                     android:text="@string/movie_screen_movie_trending_movie_details_imdb_rating"
                     android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     app:chipBackgroundColor="?attr/colorOnSurfaceVariant"
                     app:chipStrokeColor="@android:color/black"
                     app:chipStrokeWidth="1dp" />

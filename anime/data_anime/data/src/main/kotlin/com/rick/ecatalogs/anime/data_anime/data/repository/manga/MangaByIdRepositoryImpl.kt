@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.anime.data_anime.data.repository.manga
 
 import com.rick.ecatalogs.anime.data_anime.data.model.asEntity
+import com.rick.ecatalogs.anime.data_anime.data.model.isListEntryOnly
 import com.rick.ecatalogs.anime.data_anime.network.JikanNetworkDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.emitAll
@@ -11,6 +12,7 @@ import com.rick.ecatalogs.anime.data_anime.model.Manga
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class MangaByIdRepositoryImpl @Inject constructor(
@@ -25,20 +27,29 @@ class MangaByIdRepositoryImpl @Inject constructor(
     override fun getMangaById(id: Int): Flow<Manga> = flow {
         val stored = mangaDao.getMangaWithFilters(filterById = true, filterIds = setOf(id)).first()
         if (stored.isNotEmpty()) {
+            val row = stored.first()
             emitAll(
                 mangaDao.getMangaWithFilters(filterById = true, filterIds = setOf(id))
                     .filter { it.isNotEmpty() }
                     .map { it.first().asManga() }
+                    .onStart {
+                        if (row.isListEntryOnly) {
+                            fetchFull(id)?.let { full ->
+                                mangaDao.upsertManga(
+                                    listOf(full.asEntity().copy(catalogPosition = row.catalogPosition))
+                                )
+                            }
+                        }
+                    }
             )
         } else {
-            val fetched = try {
-                network.fetchMangaFull(id).data
-            } catch (e: Exception) {
-                null
-            }
-            fetched?.let { emit(it.asEntity().asManga()) }
+            fetchFull(id)?.let { emit(it.asEntity().asManga()) }
         }
     }
 
-
+    private suspend fun fetchFull(id: Int) = try {
+        network.fetchMangaFull(id).data
+    } catch (e: Exception) {
+        null
+    }
 }

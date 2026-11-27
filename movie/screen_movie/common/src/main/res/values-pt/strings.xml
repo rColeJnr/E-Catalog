@@ -13,6 +13,9 @@
     <string name="movie_screen_movie_common_coming_soon">Em breve</string>
     <string name="movie_screen_movie_common_in_theaters">Nos cinemas</string>
     <string name="movie_screen_movie_common_airing_today">No ar hoje</string>
+    <string name="movie_screen_movie_common_recently_released">Lançamentos recentes</string>
+    <string name="movie_screen_movie_common_trending_now">Em alta agora</string>
+    <string name="movie_screen_movie_common_popular_in">Populares em %1$s</string>
     <string name="movie_screen_movie_common_opens">Estreia %1$s</string>
     <string name="movie_screen_movie_common_rating">★ %1$.1f</string>
     <string name="movie_screen_movie_common_remind_me">Lembrar no dia da estreia</string>

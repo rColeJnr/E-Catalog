@@ -77,6 +77,26 @@ private interface TmdbRetrofitNetworkApi {
     ): TrendingSeriesResponse
 
     @GET("discover/movie")
+    suspend fun fetchRecentlyReleasedMovies(
+        @Query("primary_release_date.gte") from: String,
+        @Query("primary_release_date.lte") to: String,
+        @Query("region") region: String?,
+        @Query("sort_by") sortBy: String = "popularity.desc",
+        @Query("include_adult") includeAdult: Boolean = false,
+        @Query("language") language: String = LANGUAGE,
+    ): TrendingMovieResponse
+
+    @GET("discover/tv")
+    suspend fun fetchRecentlyReleasedSeries(
+        @Query("first_air_date.gte") from: String,
+        @Query("first_air_date.lte") to: String,
+        @Query("sort_by") sortBy: String = "popularity.desc",
+        @Query("include_adult") includeAdult: Boolean = false,
+        @Query("include_null_first_air_dates") includeUndated: Boolean = false,
+        @Query("language") language: String = LANGUAGE,
+    ): TrendingSeriesResponse
+
+    @GET("discover/movie")
     suspend fun discoverMovies(
         @Query("with_genres") genreId: Int,
         @Query("page") page: Int,
@@ -181,6 +201,12 @@ class TmdbRetrofitNetwork @Inject constructor() : TmdbNetworkDataSource {
         networkApi.fetchNowPlayingMovies(region)
 
     override suspend fun fetchAiringTodaySeries() = networkApi.fetchAiringTodaySeries()
+
+    override suspend fun fetchRecentlyReleasedMovies(from: String, to: String, region: String?) =
+        networkApi.fetchRecentlyReleasedMovies(from, to, region)
+
+    override suspend fun fetchRecentlyReleasedSeries(from: String, to: String) =
+        networkApi.fetchRecentlyReleasedSeries(from, to)
 
     override suspend fun discoverMovies(genreId: Int, page: Int) =
         networkApi.discoverMovies(genreId, page)

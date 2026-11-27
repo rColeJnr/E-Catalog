@@ -275,9 +275,9 @@ class JikanRemoteMediatorsTest {
     )
 
     private fun animeNetwork(id: Int): AnimeNetwork =
-        gson.fromJson("""{"mal_id": $id, "title": "Anime $id"}""", AnimeNetwork::class.java)
+        gson.fromJson("""{"malId": $id, "title": "Anime $id"}""", AnimeNetwork::class.java)
 
-    /** Serves Jikan's top lists as Jikan sends them (JSON, parsed with Gson like the app). */
+    /** Serves the top lists as jikan-edge sends them (JSON, parsed with Gson like the app). */
     private class FakeJikanNetwork : JikanNetworkDataSource by unimplemented() {
         val anime = mutableMapOf<Int, List<Int>>()
         val manga = mutableMapOf<Int, List<Int>>()
@@ -286,7 +286,7 @@ class JikanRemoteMediatorsTest {
         override suspend fun fetchTopAnime(page: Int, filter: String): AnimeResponse {
             if (offline) throw IOException("offline")
             val items = anime[page].orEmpty().joinToString { id ->
-                """{"mal_id": $id, "title": "Anime $id", "images": {"jpg": {"image_url": "https://img/$id.jpg"}}, "genres": []}"""
+                """{"malId": $id, "title": "Anime $id", "imageUrl": "https://img/$id.jpg", "type": "TV", "score": 8.1, "members": 100}"""
             }
             return gson.fromJson(page(items), AnimeResponse::class.java)
         }
@@ -294,16 +294,15 @@ class JikanRemoteMediatorsTest {
         override suspend fun fetchTopManga(page: Int, filter: String): MangaResponse {
             if (offline) throw IOException("offline")
             val items = manga[page].orEmpty().joinToString { id ->
-                """{"mal_id": $id, "url": "https://mal/$id", "title": "Manga $id", "type": "Manga",
-                    "publishing": false, "published": {"string": "2001"}, "score": ${if (id % 2 == 0) "null" else "8.5"},
-                    "authors": [], "serializations": [], "genres": [], "themes": []}"""
+                """{"malId": $id, "title": "Manga $id", "imageUrl": "https://img/$id.jpg", "type": "Manga",
+                    "volumes": null, "startDate": "Aug 1989 -", "score": ${if (id % 2 == 0) "null" else "8.5"}, "members": 100}"""
             }
             return gson.fromJson(page(items), MangaResponse::class.java)
         }
 
         private fun page(items: String) =
-            """{"pagination": {"current_page": 1, "has_next_page": true, "last_visible_page": 9,
-                "items": {"count": 25, "total": 200, "per_page": 25}}, "data": [$items]}"""
+            """{"data": [$items], "meta": {"cached": true, "stale": false, "refreshFailed": false,
+                "pagination": {"page": 1, "limit": 50, "count": 25, "total": null, "hasNextPage": true}}}"""
     }
 }
 

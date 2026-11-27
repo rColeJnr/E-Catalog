@@ -1,10 +1,10 @@
 package com.rick.ecatalogs.data.ui_components.common
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -56,7 +56,7 @@ fun EcsGlassFavoriteButton(
     modifier: Modifier = Modifier,
     small: Boolean = false,
 ) {
-    IconButton(onClick = onClick, modifier = modifier.size(if (small) 32.dp else 40.dp).glass(CircleShape)) {
+    IconButton(onClick = onClick, modifier = modifier.size(24.dp).glass(CircleShape)) {
         Icon(
             painter = painterResource(
                 if (isFavorite) R.drawable.data_ui_design_favorite_filled
@@ -64,8 +64,7 @@ fun EcsGlassFavoriteButton(
             ),
             contentDescription = contentDescription,
             tint = colorResource(R.color.data_ui_design_on_scrim),
-            // The star drawables are wider than tall: fitted in, as the XML button's inset does
-            modifier = Modifier.size(if (small) 18.dp else 24.dp),
+            modifier = Modifier.size(22.dp),
         )
     }
 }

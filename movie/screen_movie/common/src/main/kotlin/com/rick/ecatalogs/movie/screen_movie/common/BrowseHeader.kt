@@ -2,17 +2,28 @@ package com.rick.ecatalogs.movie.screen_movie.common
 
 import com.rick.ecatalogs.data.ui_design.fadeWhenSmall
 import com.rick.ecatalogs.data.ui_design.useHeroCarousel
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.rick.ecatalogs.data.ui_components.common.EcsPosterItem
+import com.rick.ecatalogs.data.ui_components.common.EcsPosterRow
+import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.movie.screen_movie.common.databinding.MovieScreenMovieCommonBrowseHeaderBinding
 import com.rick.ecatalogs.movie.screen_movie.common.databinding.MovieScreenMovieCommonBrowseRowEntryBinding
 import com.rick.ecatalogs.movie.screen_movie.common.util.getTmdbImageUrl
 import com.rick.ecatalogs.movie.screen_movie.common.util.provideGlide
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 /** A poster in a browse row. [reminderSet] is null when the item has no reminder bell. */
 data class BrowseItem(
@@ -30,6 +41,8 @@ data class BrowseGenre(val id: Int, val name: String)
 data class BrowseHeaderState(
     /** Candidate rows in order of preference; only the first with items is shown. */
     val rows: List<BrowseRow> = emptyList(),
+    val secondRow: BrowseRow? = null,
+    val listTitle: String? = null,
     val genres: List<BrowseGenre> = emptyList(),
     /** null = "All" (the trending list). */
     val selectedGenreId: Int? = null,
@@ -78,6 +91,7 @@ class BrowseHeaderAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         private val row1 = BrowseRowAdapter(onItemClick, onBellClick)
+        private var secondRow by mutableStateOf<BrowseRow?>(null)
         private var shownGenres: List<BrowseGenre>? = null
         private var bindingChips = false
 
@@ -86,6 +100,27 @@ class BrowseHeaderAdapter(
             binding.browseHeaderSlogan.text = slogan
             binding.browseRow1.useHeroCarousel()
             binding.browseRow1.adapter = row1
+            binding.browseRow2.setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+            )
+            binding.browseRow2.setContent {
+                EcsTheme {
+                    secondRow?.let { row ->
+                        EcsPosterRow(
+                            title = row.title,
+                            items = row.items.map { item ->
+                                EcsPosterItem(
+                                    id = item.id,
+                                    title = item.title,
+                                    imageUrl = item.posterPath?.let { getTmdbImageUrl(it, size = "w342") },
+                                    subtitle = item.subtitle,
+                                )
+                            },
+                            onClick = { poster -> row.items.firstOrNull { it.id == poster.id }?.let(onItemClick) },
+                        )
+                    }
+                }
+            }
             binding.browseGenres.setOnCheckedStateChangeListener { group, checkedIds ->
                 if (bindingChips) return@setOnCheckedStateChangeListener
                 val chip = checkedIds.firstOrNull()?.let { group.findViewById<Chip>(it) }
@@ -96,9 +131,10 @@ class BrowseHeaderAdapter(
         }
 
         fun bind(state: BrowseHeaderState) = with(binding) {
-            // A single horizontal row per screen: the first row that has items
             bindRow(state.rows.firstOrNull { it.items.isNotEmpty() }, browseRow1Section, browseRow1Title, row1)
-            browseRow2Section.isVisible = false
+            secondRow = state.secondRow
+            browseListTitle.text = state.listTitle
+            browseListTitle.isVisible = !state.listTitle.isNullOrBlank()
             bindGenres(state)
         }
 
@@ -141,6 +177,11 @@ class BrowseHeaderAdapter(
         }
     }
 }
+
+fun Context.releaseAndRating(date: String?, voteAverage: Double): String? = listOfNotNull(
+    date?.let { runCatching { LocalDate.parse(it).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)) }.getOrNull() },
+    voteAverage.takeIf { it > 0 }?.let { getString(R.string.movie_screen_movie_common_rating, it) },
+).joinToString(" · ").ifEmpty { null }
 
 /**
  * A horizontal row of [BrowseItem] posters (also used for a series' seasons), shown as a hero

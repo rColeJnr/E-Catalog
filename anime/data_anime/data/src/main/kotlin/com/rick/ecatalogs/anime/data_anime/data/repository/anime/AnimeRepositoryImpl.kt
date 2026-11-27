@@ -10,6 +10,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.rick.ecatalogs.anime.data_anime.data.model.asEntity
+import com.rick.ecatalogs.anime.data_anime.data.model.isAdult
+import com.rick.ecatalogs.anime.data_anime.network.model.isStale
 import com.rick.ecatalogs.anime.data_anime.database.JikanTransactionRunner
 import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeDao
 import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeRemoteKeysDao
@@ -59,7 +61,8 @@ internal class AnimeRepositoryImpl @Inject constructor(
 
 
     override suspend fun syncFirstPage(): List<Anime> {
-        val items = network.fetchTopAnime(ANIME_FIRST_PAGE).data
+        val response = network.fetchTopAnime(ANIME_FIRST_PAGE)
+        val items = response.data
         val fetchedIds = items.map(AnimeNetwork::id).toSet()
         if (fetchedIds.isEmpty()) return emptyList()
 
@@ -75,7 +78,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
             )
         }
         // The first page was just checked against the server: the stored list is current
-        listCache.markRefreshed(CachedList.ANIME)
+        if (!response.meta.isStale) listCache.markRefreshed(CachedList.ANIME)
 
         val previouslySeen = preferences.notifiedTrendingAnimeIds()
         preferences.setNotifiedTrendingAnimeIds(fetchedIds)
@@ -92,10 +95,9 @@ internal class AnimeRepositoryImpl @Inject constructor(
 
     override fun searchAnimes(query: String): Flow<List<Anime>> = channelFlow {
         try {
-            val searchResponse = network.searchAnime(
-                query = query,
-                limit = SEARCH_RESULT_LIMIT
-            ).data
+            val searchResponse = network.searchAnime(query).data
+                .filterNot { it.isAdult() }
+                .take(SEARCH_RESULT_LIMIT)
 
             // Outside the catalog list: a stored row (and its place in the list) is kept
             animeDao.insertOutsideCatalog(searchResponse.map(AnimeNetwork::asEntity))

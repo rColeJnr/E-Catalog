@@ -12,6 +12,7 @@ import com.rick.ecatalogs.anime.data_anime.database.dao.MangaRemoteKeysDao
 import com.rick.ecatalogs.anime.data_anime.database.model.MangaEntity
 import com.rick.ecatalogs.anime.data_anime.database.model.MangaRemoteKeys
 import com.rick.ecatalogs.anime.data_anime.network.JikanNetworkDataSource
+import com.rick.ecatalogs.anime.data_anime.network.model.isStale
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -80,7 +81,7 @@ class MangaRemoteMediator(
                 keepIds = keepIds,
             )
 
-            if (loadType == LoadType.REFRESH) listCache.markRefreshed(CachedList.MANGA)
+            if (loadType == LoadType.REFRESH && !response.meta.isStale) listCache.markRefreshed(CachedList.MANGA)
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)

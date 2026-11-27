@@ -1,44 +1,42 @@
 package com.rick.ecatalogs.anime.data_anime.network.model
 
 import com.google.gson.annotations.SerializedName
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Author
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Genre
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Images
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Published
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Serialization
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Theme
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MangaNetwork(
-    @SerializedName("mal_id")
-    @SerialName("mal_id")
+    @SerializedName("malId")
+    @SerialName("malId")
     val id: Int,
-    val url: String,
-    val images: Images?,
-    val title: String,
-    @SerializedName("title_english")
-    @SerialName("title_english")
-    val titleEnglish: String?,
-    val type: String,
-    val chapters: Int?,
-    val volumes: Int?,
-    val publishing: Boolean,
-    val published: Published,
-    val score: Double,
-    @SerializedName("scored_by")
-    @SerialName("scored_by")
-    val scoredBy: Int,
-    val rank: Int,
-    val popularity: Int,
-    val favorites: Int,
-    val synopsis: String?,
-    val background: String?,
-    val authors: List<Author>,
-    val serializations: List<Serialization>,
-    val genres: List<Genre>,
-    val themes: List<Theme> = listOf(),
-    /** Only in `manga/{id}/full`. */
+    val url: String? = null,
+    val title: String? = null,
+    val titleEnglish: String? = null,
+    val imageUrl: String? = null,
+    val images: EdgeImages? = null,
+    val synopsis: String? = null,
+    val background: String? = null,
+    val type: String? = null,
+    val chapters: Int? = null,
+    val volumes: Int? = null,
+    val status: String? = null,
+    val publishing: Boolean? = null,
+    val published: EdgeDateRange? = null,
+    val score: Double? = null,
+    val scoredBy: Int? = null,
+    val rank: Int? = null,
+    val popularity: Int? = null,
+    val members: Int? = null,
+    val favorites: Int? = null,
+    val authors: List<EdgeRef>? = null,
+    val serializations: List<EdgeRef>? = null,
+    val genres: List<EdgeRef>? = null,
+    val themes: List<EdgeRef>? = null,
+    val demographics: List<EdgeRef>? = null,
     val relations: List<JikanRelationNetwork>? = null,
+    val startDate: String? = null,
+    val endDate: String? = null,
 )
+
+val MangaNetwork.posterUrl: String?
+    get() = images?.medium ?: imageUrl ?: images?.large ?: images?.small

@@ -114,7 +114,7 @@ data class ScheduleEntry(
     val id: Int,
     val title: String,
     val imageUrl: String?,
-    val localTime: LocalTime,
+    val localTime: LocalTime?,
     val score: Double?,
 )
 
@@ -160,15 +160,20 @@ class AnimeScheduleViewModel @Inject constructor(
                 val zone = ZoneId.systemDefault()
                 val japanDays = listOf(day.minusDays(1), day, day.plusDays(1)).map { it.dayOfWeek }
                 val shows = japanDays
-                    .map { japanDay -> async { repository.schedule(japanDay.jikanName) } }
+                    .map { japanDay -> async { japanDay to repository.schedule(japanDay.jikanName) } }
                     .awaitAll()
-                    .flatten()
-                    .distinctBy { it.id }
-                val entries = shows.mapNotNull { show ->
-                    val local = show.broadcast?.inZone(zone) ?: return@mapNotNull null
-                    if (local.dayOfWeek != day.dayOfWeek) return@mapNotNull null
-                    ScheduleEntry(show.id, show.title, show.imageUrl, local.toLocalTime(), show.score)
-                }.sortedBy { it.localTime }
+                    .flatMap { (japanDay, dayShows) -> dayShows.map { japanDay to it } }
+                    .distinctBy { (_, show) -> show.id }
+                val entries = shows.mapNotNull { (japanDay, show) ->
+                    val local = show.broadcast?.inZone(zone)
+                    when {
+                        local != null && local.dayOfWeek == day.dayOfWeek ->
+                            ScheduleEntry(show.id, show.title, show.imageUrl, local.toLocalTime(), show.score)
+                        local == null && japanDay == day.dayOfWeek ->
+                            ScheduleEntry(show.id, show.title, show.imageUrl, null, show.score)
+                        else -> null
+                    }
+                }.sortedWith(compareBy(nullsLast<LocalTime>()) { it.localTime })
                 ScheduleState.Loaded(entries)
             } catch (e: Exception) {
                 ScheduleState.Error
@@ -242,7 +247,7 @@ private fun AnimeScheduleScreen(
 
 @Composable
 private fun ScheduleRow(entry: ScheduleEntry, onAnimeClick: (Int) -> Unit) {
-    val time = entry.localTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+    val time = entry.localTime?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)).orEmpty()
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

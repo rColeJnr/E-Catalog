@@ -3,6 +3,8 @@
     <string name="anime_screen_anime_common_retry">Tentar novamente</string>
     <string name="anime_screen_anime_common_failed_to_load">Falha ao carregar</string>
     <string name="anime_screen_anime_common_this_season">Esta temporada</string>
+    <string name="anime_screen_anime_common_recently_released">Lançamentos recentes</string>
+    <string name="anime_screen_anime_common_popular_now">Populares agora</string>
     <string name="anime_screen_anime_common_list_popular">Populares</string>
     <string name="anime_screen_anime_common_list_top_rated">Mais bem avaliados</string>
     <string name="anime_screen_anime_common_list_airing">Em exibição</string>

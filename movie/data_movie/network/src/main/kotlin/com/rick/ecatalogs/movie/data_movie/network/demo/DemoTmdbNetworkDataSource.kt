@@ -54,6 +54,11 @@ class DemoTmdbNetworkDataSource @Inject constructor(
 
     override suspend fun fetchAiringTodaySeries() = fetchTrendingSeries(page = 1)
 
+    override suspend fun fetchRecentlyReleasedMovies(from: String, to: String, region: String?) =
+        fetchTrendingMovies(page = 1)
+
+    override suspend fun fetchRecentlyReleasedSeries(from: String, to: String) = fetchTrendingSeries(page = 1)
+
     override suspend fun discoverMovies(genreId: Int, page: Int) = fetchTrendingMovies(page)
 
     override suspend fun discoverSeries(genreId: Int, page: Int) = fetchTrendingSeries(page)

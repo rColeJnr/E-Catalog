@@ -8,6 +8,7 @@ import com.rick.ecatalogs.movie.screen_movie.common.BrowseRow
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseItem
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseHeaderState
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseHeaderAdapter
+import com.rick.ecatalogs.movie.screen_movie.common.releaseAndRating
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseGenre
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.lifecycle.repeatOnLifecycle
@@ -142,9 +143,10 @@ class TrendingSeriesFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 combine(
                     viewModel.airingToday,
+                    viewModel.recentlyReleased,
                     viewModel.genres,
                     viewModel.selectedGenre,
-                ) { airingToday, genres, selected ->
+                ) { airingToday, recentlyReleased, genres, selected ->
                     BrowseHeaderState(
                         rows = listOf(
                             BrowseRow(
@@ -161,6 +163,20 @@ class TrendingSeriesFragment : Fragment() {
                                 },
                             ),
                         ),
+                        secondRow = BrowseRow(
+                            getString(CommonR.string.movie_screen_movie_common_recently_released),
+                            recentlyReleased.map { series ->
+                                BrowseItem(
+                                    id = series.id,
+                                    title = series.name,
+                                    posterPath = series.image?.ifBlank { null },
+                                    subtitle = requireContext().releaseAndRating(series.firstAirDate, series.voteAverage),
+                                )
+                            },
+                        ),
+                        listTitle = genres.firstOrNull { it.id == selected }
+                            ?.let { getString(CommonR.string.movie_screen_movie_common_popular_in, it.name) }
+                            ?: getString(CommonR.string.movie_screen_movie_common_trending_now),
                         genres = genres.map { BrowseGenre(it.id, it.name) },
                         selectedGenreId = selected,
                     )

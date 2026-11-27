@@ -12,6 +12,7 @@ import com.rick.ecatalogs.movie.screen_movie.common.BrowseRow
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseItem
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseHeaderState
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseHeaderAdapter
+import com.rick.ecatalogs.movie.screen_movie.common.releaseAndRating
 import com.rick.ecatalogs.movie.screen_movie.common.BrowseGenre
 import com.google.android.material.snackbar.Snackbar
 import androidx.recyclerview.widget.ConcatAdapter
@@ -143,16 +144,17 @@ class TrendingMovieFragment : Fragment() {
         bindHeader()
     }
 
-    /** Coming soon (with reminders), In theaters, and the genre chips. */
+    /** Coming soon (with reminders) or In theaters, Recently released, and the genre chips. */
     private fun bindHeader() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 combine(
                     viewModel.upcoming,
                     viewModel.nowPlaying,
+                    viewModel.recentlyReleased,
                     viewModel.genres,
                     viewModel.selectedGenre,
-                ) { upcoming, nowPlaying, genres, selected ->
+                ) { upcoming, nowPlaying, recentlyReleased, genres, selected ->
                     BrowseHeaderState(
                         rows = listOf(
                             BrowseRow(
@@ -181,6 +183,20 @@ class TrendingMovieFragment : Fragment() {
                                 },
                             ),
                         ),
+                        secondRow = BrowseRow(
+                            getString(CommonR.string.movie_screen_movie_common_recently_released),
+                            recentlyReleased.map { movie ->
+                                BrowseItem(
+                                    id = movie.id,
+                                    title = movie.title,
+                                    posterPath = movie.image.ifBlank { null },
+                                    subtitle = requireContext().releaseAndRating(movie.releaseDate, movie.voteAverage),
+                                )
+                            },
+                        ),
+                        listTitle = genres.firstOrNull { it.id == selected }
+                            ?.let { getString(CommonR.string.movie_screen_movie_common_popular_in, it.name) }
+                            ?: getString(CommonR.string.movie_screen_movie_common_trending_now),
                         genres = genres.map { BrowseGenre(it.id, it.name) },
                         selectedGenreId = selected,
                     )

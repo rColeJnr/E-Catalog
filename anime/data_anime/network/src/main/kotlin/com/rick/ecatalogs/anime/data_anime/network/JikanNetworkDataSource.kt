@@ -28,14 +28,18 @@ interface JikanNetworkDataSource {
     /** Anime announced for next season(s). */
     suspend fun fetchSeasonUpcoming(): AnimeResponse
 
+    suspend fun fetchRecentAnime(startDate: String): AnimeResponse
+
+    suspend fun fetchRecentManga(startDate: String): MangaResponse
+
     suspend fun fetchAnimeGenres(): JikanGenresResponse
 
     suspend fun fetchMangaGenres(): JikanGenresResponse
 
     /**
-     * Browse anime (Jikan `anime` search without a query): ordered by [orderBy]
-     * ("members", "score", "favorites"…), optionally only one [status] ("airing", "upcoming")
-     * and genre ([genres], a Jikan genre id).
+     * Browse anime (`anime` search without a query): ordered by [orderBy]
+     * ("members", "score"…), optionally only one [status] ("airing", "upcoming")
+     * and genre ([genres], a genre id).
      */
     suspend fun browseAnime(
         page: Int,
@@ -70,23 +74,15 @@ interface JikanNetworkDataSource {
 
     suspend fun fetchPerson(id: Int): JikanPersonResponse
 
-    /** Anime airing on a weekday in Japan ("monday"…"sunday"), one page of up to 25. */
-    suspend fun fetchSchedule(day: String, page: Int): AnimeResponse
+    /** Anime airing on a weekday in Japan ("monday"…"sunday"). */
+    suspend fun fetchSchedule(day: String): AnimeResponse
 
     suspend fun fetchRandomAnime(): AnimeFullResponse
 
     suspend fun fetchRandomManga(): MangaFullResponse
 
-    suspend fun searchAnime(
-        query: String,
-        sfw: Boolean = true,
-        limit: Int
-    ): AnimeResponse
+    suspend fun searchAnime(query: String): AnimeResponse
 
-    suspend fun searchManga(
-        query: String,
-        sfw: Boolean = true,
-        limit: Int
-    ): MangaResponse
+    suspend fun searchManga(query: String): MangaResponse
 
 }

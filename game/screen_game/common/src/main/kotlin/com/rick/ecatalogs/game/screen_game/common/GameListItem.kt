@@ -1,14 +1,11 @@
 package com.rick.ecatalogs.game.screen_game.common
 
-import androidx.compose.foundation.layout.fillMaxSize
-import com.rick.ecatalogs.data.ui_components.common.EcsGlassFavoriteButton
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -28,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.rick.ecatalogs.data.ui_components.common.EcsGlassFavoriteButton
 import com.rick.ecatalogs.data.ui_components.common.EcsPosterItem
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import com.rick.ecatalogs.game.data_game.model.Game
@@ -52,20 +50,57 @@ fun GameListItem(
             .padding(horizontal = 16.dp, vertical = 6.dp),
     ) {
         Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            // The favorite sits on the cover, the glass star of the other catalogs' cards
-            // (the small size, as on book covers)
-            Box(Modifier.width(84.dp).aspectRatio(3f / 4f)) {
+            Box(
+                Modifier
+                    .width(84.dp)
+                    .aspectRatio(3f / 4f)
+            ) {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(game.coverUrl())
-                        .crossfade(true)
-                        .build(),
+                    model = ImageRequest.Builder(LocalContext.current).data(game.coverUrl())
+                        .crossfade(true).build(),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(10.dp)),
                 )
+            }
+            Box(Modifier.weight(1f)) {
+                Column(Modifier.padding(end = 36.dp)) {
+                    Text(
+                        text = game.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        text = game.subtitle(),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(top = 4.dp),
+                    )
+                    if (game.genres.isNotEmpty()) {
+                        Text(
+                            text = game.genres.joinToString(),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(top = 2.dp),
+                        )
+                    }
+                    if (game.summary.isNotBlank()) {
+                        Text(
+                            text = game.summary,
+                            style = MaterialTheme.typography.bodySmall,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(top = 6.dp),
+                        )
+                    }
+                }
                 EcsGlassFavoriteButton(
                     isFavorite = item.isFavorite,
                     onClick = { onFavoriteClick(game, !item.isFavorite) },
@@ -74,45 +109,8 @@ fun GameListItem(
                         else R.string.game_screen_game_common_add_favorite
                     ),
                     small = true,
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(4.dp),
+                    modifier = Modifier.align(Alignment.TopEnd).padding(6.dp),
                 )
-            }
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = game.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Text(
-                    text = game.subtitle(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
-                if (game.genres.isNotEmpty()) {
-                    Text(
-                        text = game.genres.joinToString(),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(top = 2.dp),
-                    )
-                }
-                if (game.summary.isNotBlank()) {
-                    Text(
-                        text = game.summary,
-                        style = MaterialTheme.typography.bodySmall,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(top = 6.dp),
-                    )
-                }
             }
         }
     }
@@ -131,8 +129,17 @@ private fun PreviewGameListItem() {
     EcsTheme {
         GameListItem(
             item = UserGame(
-                Game(1, "Hollow Knight", null, "Explore a vast ruined kingdom.", 89.0, 1500, 1488499200,
-                    listOf("Platform", "Indie"), listOf("PC", "Switch")),
+                Game(
+                    1,
+                    "Hollow Knight",
+                    null,
+                    "Explore a vast ruined kingdom.",
+                    89.0,
+                    1500,
+                    1488499200,
+                    listOf("Platform", "Indie"),
+                    listOf("PC", "Switch")
+                ),
                 isFavorite = true,
             ),
             onClick = {},

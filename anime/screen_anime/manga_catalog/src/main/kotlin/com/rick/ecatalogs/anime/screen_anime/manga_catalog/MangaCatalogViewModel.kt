@@ -69,6 +69,12 @@ class MangaCatalogViewModel @Inject constructor(
         .catch { emit(emptyList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
+    val recentlyReleased: StateFlow<List<JikanItem>> =
+        combine(browseRepository.recentlyReleasedManga().catch { emit(emptyList()) }, publishingNow) { recent, featured ->
+            val inFeaturedRow = featured.map { it.id }.toSet()
+            recent.filterNot { it.id in inFeaturedRow }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
     fun selectList(list: MangaList) {
         _list.value = list
     }

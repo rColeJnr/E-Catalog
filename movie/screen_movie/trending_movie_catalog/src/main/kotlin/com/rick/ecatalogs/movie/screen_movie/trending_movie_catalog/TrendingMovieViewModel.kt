@@ -72,6 +72,9 @@ class TrendingMovieViewModel @Inject constructor(
     val nowPlaying: StateFlow<List<TrendingMovie>> = browseRepository.nowPlayingMovies()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
+    val recentlyReleased: StateFlow<List<TrendingMovie>> = browseRepository.recentlyReleasedMovies()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
     val genres: StateFlow<List<TmdbGenre>> = flow { emit(browseRepository.movieGenres()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 

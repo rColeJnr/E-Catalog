@@ -72,6 +72,31 @@ internal class TmdbBrowseRepositoryImpl @Inject constructor(
         )
     }
 
+    override fun recentlyReleasedMovies(): Flow<List<TrendingMovie>> = flow {
+        val today = LocalDate.now()
+        emit(
+            cached(CachedList.RECENT_MOVIES, movieListType, daily = true) {
+                network.fetchRecentlyReleasedMovies(
+                    from = today.minusDays(RECENT_DAYS).toString(),
+                    to = today.toString(),
+                    region = region(),
+                ).results.map { it.asTrendingMovie() }.filter { it.image.isNotBlank() }
+            }
+        )
+    }
+
+    override fun recentlyReleasedSeries(): Flow<List<TrendingSeries>> = flow {
+        val today = LocalDate.now()
+        emit(
+            cached(CachedList.RECENT_SERIES, seriesListType, daily = true) {
+                network.fetchRecentlyReleasedSeries(
+                    from = today.minusDays(RECENT_DAYS).toString(),
+                    to = today.toString(),
+                ).results.map { it.asTrendingSeries() }.filter { !it.image.isNullOrBlank() }
+            }
+        )
+    }
+
     override fun airingTodaySeries(): Flow<List<TrendingSeries>> = flow {
         emit(
             cached(CachedList.AIRING_TODAY_SERIES, seriesListType, daily = true) {
@@ -258,6 +283,7 @@ private fun com.rick.ecatalogs.movie.data_movie.network.model.TrendingSeriesNetw
 )
 
 private const val TMDB_PAGE_SIZE = 20
+private const val RECENT_DAYS = 60L
 private const val MAX_ADAPTATIONS = 10
 private const val MIN_TITLE_LENGTH = 3
 private const val TMDB_MAX_PAGE = 500

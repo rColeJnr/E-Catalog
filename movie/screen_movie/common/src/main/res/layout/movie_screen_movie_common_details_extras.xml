@@ -8,34 +8,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- Age rating and trailer -->
-    <LinearLayout
-        android:id="@+id/extras_actions"
-        android:layout_width="match_parent"
+    <!-- Age rating -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/extras_age_rating"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/data_ui_design_text_extras_h_margin"
-        android:layout_marginVertical="@dimen/data_ui_design_text_extras_v_margin"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/extras_age_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/movie_screen_movie_common_rating_badge"
-            android:textAppearance="?attr/textAppearanceButton"
-            android:textColor="@color/data_ui_design_black"
-            tools:text="PG-13" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/extras_trailer"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/movie_screen_movie_common_watch_trailer"
-            app:icon="@drawable/movie_screen_movie_common_ic_play" />
-    </LinearLayout>
+        android:layout_margin="16dp"
+        android:background="@drawable/movie_screen_movie_common_rating_badge"
+        android:textAppearance="?attr/textAppearanceButton"
+        android:textColor="@color/data_ui_design_black"
+        tools:text="PG-13" />
 
     <!-- Cast -->
     <LinearLayout

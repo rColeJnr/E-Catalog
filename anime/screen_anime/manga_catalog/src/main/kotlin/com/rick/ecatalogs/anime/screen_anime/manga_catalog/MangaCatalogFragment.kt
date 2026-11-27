@@ -11,6 +11,7 @@ import com.rick.ecatalogs.data.ui_components.common.EcsPosterItem
 import com.rick.ecatalogs.data.ui_components.common.EcsChip
 import com.rick.ecatalogs.anime.data_anime.model.browse.MangaList
 import com.rick.ecatalogs.anime.screen_anime.common.JikanBrowseRow
+import com.rick.ecatalogs.anime.screen_anime.common.asPosterItem
 import com.rick.ecatalogs.anime.screen_anime.common.JikanBrowseHeader
 import com.rick.ecatalogs.anime.screen_anime.common.ComposeHeaderAdapter
 import com.rick.ecatalogs.anime.screen_anime.common.ALL_GENRES
@@ -291,23 +292,34 @@ class MangaCatalogFragment : Fragment() {
         val selectedGenre by viewModel.selectedGenre.collectAsStateWithLifecycle()
         val genres by viewModel.genres.collectAsStateWithLifecycle()
         val publishingNow by viewModel.publishingNow.collectAsStateWithLifecycle()
+        val recentlyReleased by viewModel.recentlyReleased.collectAsStateWithLifecycle()
         val rows = listOf(
             JikanBrowseRow(
                 stringResource(CommonR.string.anime_screen_anime_common_publishing_now),
                 publishingNow.map { EcsPosterItem(it.id, it.title, it.imageUrl) },
             ),
         )
+        val lists = listOf(
+            EcsChip(MangaList.POPULAR.name, stringResource(CommonR.string.anime_screen_anime_common_list_popular)),
+            EcsChip(MangaList.TOP_RATED.name, stringResource(CommonR.string.anime_screen_anime_common_list_top_rated)),
+            EcsChip(MangaList.PUBLISHING.name, stringResource(CommonR.string.anime_screen_anime_common_list_publishing)),
+            EcsChip(MangaList.FAVORITES.name, stringResource(CommonR.string.anime_screen_anime_common_list_favorites)),
+        )
         JikanBrowseHeader(
             title = stringResource(R.string.anime_screen_anime_manga_catalog_header),
             slogan = stringResource(R.string.anime_screen_anime_manga_catalog_slogan),
             rows = rows,
-            lists = listOf(
-                EcsChip(MangaList.POPULAR.name, stringResource(CommonR.string.anime_screen_anime_common_list_popular)),
-                EcsChip(MangaList.TOP_RATED.name, stringResource(CommonR.string.anime_screen_anime_common_list_top_rated)),
-                EcsChip(MangaList.PUBLISHING.name, stringResource(CommonR.string.anime_screen_anime_common_list_publishing)),
-                EcsChip(MangaList.FAVORITES.name, stringResource(CommonR.string.anime_screen_anime_common_list_favorites)),
-            ),
+            lists = lists,
             selectedList = selectedList.name,
+            secondRow = JikanBrowseRow(
+                stringResource(CommonR.string.anime_screen_anime_common_recently_released),
+                recentlyReleased.map { it.asPosterItem() },
+            ),
+            listTitle = if (selectedList == MangaList.POPULAR) {
+                stringResource(CommonR.string.anime_screen_anime_common_popular_now)
+            } else {
+                lists.first { it.id == selectedList.name }.label
+            },
             genres = listOf(EcsChip(ALL_GENRES, stringResource(CommonR.string.anime_screen_anime_common_all_genres))) +
                 genres.map { EcsChip(it.id.toString(), it.name) },
             selectedGenre = selectedGenre?.toString() ?: ALL_GENRES,

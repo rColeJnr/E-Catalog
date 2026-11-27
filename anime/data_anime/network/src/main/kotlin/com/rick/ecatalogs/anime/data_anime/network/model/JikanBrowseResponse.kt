@@ -4,26 +4,32 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// Jikan v4 responses used by browsing and the richer details screens. Every field is nullable
-// with a default: Jikan omits fields freely, and Gson leaves missing ones null.
-
 /** `genres/anime`, `genres/manga`. */
 @Serializable
-data class JikanGenresResponse(val data: List<JikanGenreNetwork>? = null)
+data class JikanGenresResponse(
+    val data: List<JikanGenreNetwork>? = null,
+    val meta: EdgeMeta? = null,
+)
 
 @Serializable
 data class JikanGenreNetwork(
-    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
+    @SerialName("malId") @SerializedName("malId") val id: Int,
     val name: String? = null,
 )
 
-/** `anime/{id}/full`: the anime with streaming services and broadcast time. */
+/** `anime/{id}`. */
 @Serializable
-data class AnimeFullResponse(val data: AnimeNetwork? = null)
+data class AnimeFullResponse(
+    val data: AnimeNetwork? = null,
+    val meta: EdgeMeta? = null,
+)
 
-/** `manga/{id}/full`. */
+/** `manga/{id}`. */
 @Serializable
-data class MangaFullResponse(val data: MangaNetwork? = null)
+data class MangaFullResponse(
+    val data: MangaNetwork? = null,
+    val meta: EdgeMeta? = null,
+)
 
 /** A streaming service ("Crunchyroll", url). */
 @Serializable
@@ -32,7 +38,6 @@ data class JikanLinkNetwork(
     val url: String? = null,
 )
 
-/** When a currently airing anime airs, in Japan time (timezone "Asia/Tokyo"). */
 @Serializable
 data class JikanBroadcastNetwork(
     /** e.g. "Saturdays". */
@@ -47,116 +52,95 @@ data class JikanBroadcastNetwork(
 @Serializable
 data class JikanEpisodesResponse(
     val data: List<JikanEpisodeNetwork>? = null,
-    val pagination: JikanPagination? = null,
+    val meta: EdgeMeta? = null,
 )
 
 @Serializable
 data class JikanEpisodeNetwork(
-    /** The episode number. */
-    @SerialName("mal_id") @SerializedName("mal_id") val number: Int,
+    val number: Int,
     val title: String? = null,
-    /** ISO date-time, e.g. "2024-01-06T00:00:00+00:00". */
     val aired: String? = null,
     val score: Double? = null,
     val filler: Boolean? = null,
     val recap: Boolean? = null,
 )
 
-@Serializable
-data class JikanPagination(
-    @SerialName("has_next_page") @SerializedName("has_next_page") val hasNextPage: Boolean? = null,
-)
-
 /** `anime/{id}/recommendations`, `manga/{id}/recommendations`. */
 @Serializable
-data class JikanRecommendationsResponse(val data: List<JikanRecommendationNetwork>? = null)
+data class JikanRecommendationsResponse(
+    val data: List<JikanRecommendationNetwork>? = null,
+    val meta: EdgeMeta? = null,
+)
 
 @Serializable
 data class JikanRecommendationNetwork(
-    val entry: JikanEntryNetwork? = null,
+    @SerialName("malId") @SerializedName("malId") val id: Int,
+    val title: String? = null,
+    val imageUrl: String? = null,
     val votes: Int? = null,
 )
 
 @Serializable
-data class JikanEntryNetwork(
-    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
-    val title: String? = null,
-    val images: JikanEntryImages? = null,
-)
-
-@Serializable
-data class JikanEntryImages(val jpg: JikanEntryJpg? = null)
-
-@Serializable
-data class JikanEntryJpg(
-    @SerialName("image_url") @SerializedName("image_url") val imageUrl: String? = null,
-    @SerialName("large_image_url") @SerializedName("large_image_url") val largeImageUrl: String? = null,
-)
-
-/** Related titles (in `anime/{id}/full`, `manga/{id}/full`): adaptations, sequels… */
-@Serializable
 data class JikanRelationNetwork(
     /** e.g. "Adaptation", "Sequel", "Prequel", "Side story". */
     val relation: String? = null,
-    val entry: List<JikanRelatedEntryNetwork>? = null,
-)
-
-@Serializable
-data class JikanRelatedEntryNetwork(
-    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
+    @SerialName("malId") @SerializedName("malId") val id: Int? = null,
     /** "anime" or "manga". */
     val type: String? = null,
-    val name: String? = null,
+    val title: String? = null,
 )
 
 /** `anime/{id}/characters`. */
 @Serializable
-data class JikanCharactersResponse(val data: List<JikanCharacterRoleNetwork>? = null)
+data class JikanCharactersResponse(
+    val data: List<JikanCharacterNetwork>? = null,
+    val meta: EdgeMeta? = null,
+)
 
 @Serializable
-data class JikanCharacterRoleNetwork(
-    /** Jikan sends the character's `name` (not `title`), like a person entry. */
-    val character: JikanPersonEntryNetwork? = null,
+data class JikanCharacterNetwork(
+    @SerialName("malId") @SerializedName("malId") val id: Int? = null,
+    val name: String? = null,
+    val imageUrl: String? = null,
     /** "Main" or "Supporting". */
     val role: String? = null,
-    @SerialName("voice_actors") @SerializedName("voice_actors")
     val voiceActors: List<JikanVoiceActorNetwork>? = null,
 )
 
 @Serializable
 data class JikanVoiceActorNetwork(
-    val person: JikanPersonEntryNetwork? = null,
-    val language: String? = null,
-)
-
-/** A person in lists (`name` rather than `title`). */
-@Serializable
-data class JikanPersonEntryNetwork(
-    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
+    @SerialName("malId") @SerializedName("malId") val id: Int? = null,
     val name: String? = null,
-    val images: JikanEntryImages? = null,
+    val language: String? = null,
+    val imageUrl: String? = null,
 )
 
 /** `people/{id}/full`: a voice actor with their roles. */
 @Serializable
-data class JikanPersonResponse(val data: JikanPersonNetwork? = null)
+data class JikanPersonResponse(
+    val data: JikanPersonNetwork? = null,
+    val meta: EdgeMeta? = null,
+)
 
 @Serializable
 data class JikanPersonNetwork(
-    @SerialName("mal_id") @SerializedName("mal_id") val id: Int,
+    @SerialName("malId") @SerializedName("malId") val id: Int,
     val name: String? = null,
-    @SerialName("given_name") @SerializedName("given_name") val givenName: String? = null,
-    @SerialName("family_name") @SerializedName("family_name") val familyName: String? = null,
-    /** ISO date-time. */
-    val birthday: String? = null,
+    val givenName: String? = null,
+    val familyName: String? = null,
+    val birthDate: String? = null,
     val about: String? = null,
-    val images: JikanEntryImages? = null,
+    val imageUrl: String? = null,
+    val images: EdgeImages? = null,
     val voices: List<JikanVoiceRoleNetwork>? = null,
 )
 
 @Serializable
 data class JikanVoiceRoleNetwork(
-    val role: String? = null,
-    val anime: JikanEntryNetwork? = null,
-    val character: JikanPersonEntryNetwork? = null,
+    val animeId: Int? = null,
+    val animeTitle: String? = null,
+    val animeImageUrl: String? = null,
+    val characterId: Int? = null,
+    val characterName: String? = null,
+    val characterRole: String? = null,
 )

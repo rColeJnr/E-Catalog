@@ -40,14 +40,14 @@ class DemoJikanNetworkDataSource @Inject constructor(
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun searchAnime(query: String, sfw: Boolean, limit: Int): AnimeResponse {
+    override suspend fun searchAnime(query: String): AnimeResponse {
         return withContext(IO) {
             assets.open(SEARCH_ANIME_ASSET).use(networkJson::decodeFromStream)
         }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun searchManga(query: String, sfw: Boolean, limit: Int): MangaResponse {
+    override suspend fun searchManga(query: String): MangaResponse {
         return withContext(IO) {
             assets.open(SEARCH_MANGA_ASSET).use(networkJson::decodeFromStream)
         }
@@ -60,6 +60,10 @@ class DemoJikanNetworkDataSource @Inject constructor(
     override suspend fun fetchSeasonUpcoming() = fetchTopAnime(page = 1, filter = "").let {
         it.copy(data = it.data.reversed())
     }
+
+    override suspend fun fetchRecentAnime(startDate: String) = fetchTopAnime(page = 1, filter = "")
+
+    override suspend fun fetchRecentManga(startDate: String) = fetchTopManga(page = 1, filter = "")
 
     override suspend fun fetchAnimeGenres() = JikanGenresResponse(DEMO_GENRES)
 
@@ -88,7 +92,7 @@ class DemoJikanNetworkDataSource @Inject constructor(
     override suspend fun fetchPerson(id: Int) =
         JikanPersonResponse(JikanPersonNetwork(id = id, name = "Demo voice actor", voices = emptyList()))
 
-    override suspend fun fetchSchedule(day: String, page: Int) = fetchTopAnime(page, "")
+    override suspend fun fetchSchedule(day: String) = fetchTopAnime(page = 1, filter = "")
 
     override suspend fun fetchRandomAnime() =
         AnimeFullResponse(fetchTopAnime(page = 1, filter = "").data.randomOrNull())

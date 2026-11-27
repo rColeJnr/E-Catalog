@@ -4,7 +4,13 @@ package com.rick.ecatalogs.anime.data_anime.model.browse
 data class JikanGenre(val id: Int, val name: String)
 
 /** An anime or manga in a row ("This season", "If you liked this"). */
-data class JikanItem(val id: Int, val title: String, val imageUrl: String?)
+data class JikanItem(
+    val id: Int,
+    val title: String,
+    val imageUrl: String?,
+    val date: String? = null,
+    val score: Double? = null,
+)
 
 /** Which anime list the catalog shows. */
 enum class AnimeList { POPULAR, TOP_RATED, AIRING, UPCOMING, FAVORITES }

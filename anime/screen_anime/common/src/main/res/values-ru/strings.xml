@@ -3,6 +3,8 @@
     <string name="anime_screen_anime_common_retry">Повторить</string>
     <string name="anime_screen_anime_common_failed_to_load">Не удалось загрузить</string>
     <string name="anime_screen_anime_common_this_season">Этот сезон</string>
+    <string name="anime_screen_anime_common_recently_released">Недавно вышли</string>
+    <string name="anime_screen_anime_common_popular_now">Сейчас популярно</string>
     <string name="anime_screen_anime_common_list_popular">Популярное</string>
     <string name="anime_screen_anime_common_list_top_rated">Лучшие по оценкам</string>
     <string name="anime_screen_anime_common_list_airing">Сейчас выходят</string>

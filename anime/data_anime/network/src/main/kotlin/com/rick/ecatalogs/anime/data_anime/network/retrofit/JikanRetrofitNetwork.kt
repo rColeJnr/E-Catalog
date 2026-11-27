@@ -1,6 +1,9 @@
 package com.rick.ecatalogs.anime.data_anime.network.retrofit
 
+import android.util.Log
+import com.google.gson.Gson
 import com.rick.ecatalogs.anime.data_anime.network.BuildConfig
+import com.rick.ecatalogs.anime.data_anime.network.model.EdgeErrorResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanCharactersResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanPersonResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.AnimeFullResponse
@@ -16,128 +19,160 @@ import com.rick.ecatalogs.anime.data_anime.network.JikanNetworkDataSource
 import com.rick.ecatalogs.anime.data_anime.network.model.AnimeResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.MangaResponse
 import com.rick.ecatalogs.anime.data_anime.network.retrofit.JikanRetrofitNetworkApi.Companion.JIKAN_BASE_URL
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private interface JikanRetrofitNetworkApi {
 
-    @GET("/v4/top/anime")
+    @GET("v1/top/anime")
     suspend fun fetchTopAnime(
         @Query("page") page: Int,
         @Query("filter") filter: String = POPULARITY_FILTER
     ): AnimeResponse
 
-    @GET("/v4/top/manga")
+    @GET("v1/top/manga")
     suspend fun fetchTopManga(
         @Query("page") page: Int,
         @Query("filter") filter: String = POPULARITY_FILTER
     ): MangaResponse
 
-    @GET("/v4/anime")
-    suspend fun searchAnime(
-        @Query("q") query: String,
-        // Exclude adult titles (Jikan only filters them when sfw=true)
-        @Query("sfw") sfw: Boolean = true,
-        @Query("limit") limit: Int = RESULT_SIZE
+    @GET("v1/anime")
+    suspend fun searchAnime(@Query("q") query: String): AnimeResponse
+
+    @GET("v1/manga")
+    suspend fun searchManga(@Query("q") query: String): MangaResponse
+
+    @GET("v1/seasons/now")
+    suspend fun fetchSeasonNow(): AnimeResponse
+
+    @GET("v1/seasons/upcoming")
+    suspend fun fetchSeasonUpcoming(): AnimeResponse
+
+    @GET("v1/anime")
+    suspend fun fetchRecentAnime(
+        @Query("start_date") startDate: String,
+        @Query("order_by") orderBy: String = "members",
+        @Query("sort") sort: String = "desc",
     ): AnimeResponse
 
-    @GET("/v4/manga")
-    suspend fun searchManga(
-        @Query("q") query: String,
-        // Exclude adult titles (Jikan only filters them when sfw=true)
-        @Query("sfw") sfw: Boolean = true,
-        @Query("limit") limit: Int = RESULT_SIZE
+    @GET("v1/manga")
+    suspend fun fetchRecentManga(
+        @Query("start_date") startDate: String,
+        @Query("order_by") orderBy: String = "members",
+        @Query("sort") sort: String = "desc",
     ): MangaResponse
 
-    @GET("/v4/seasons/now")
-    suspend fun fetchSeasonNow(
-        @Query("sfw") sfw: Boolean = true,
-        @Query("limit") limit: Int = ROW_SIZE,
-    ): AnimeResponse
-
-    @GET("/v4/seasons/upcoming")
-    suspend fun fetchSeasonUpcoming(
-        @Query("sfw") sfw: Boolean = true,
-        @Query("limit") limit: Int = ROW_SIZE,
-    ): AnimeResponse
-
-    @GET("/v4/genres/anime")
+    @GET("v1/genres/anime")
     suspend fun fetchAnimeGenres(@Query("filter") filter: String = "genres"): JikanGenresResponse
 
-    @GET("/v4/genres/manga")
+    @GET("v1/genres/manga")
     suspend fun fetchMangaGenres(@Query("filter") filter: String = "genres"): JikanGenresResponse
 
-    @GET("/v4/anime")
+    @GET("v1/anime")
     suspend fun browseAnime(
         @Query("page") page: Int,
         @Query("order_by") orderBy: String,
         @Query("sort") sort: String,
         @Query("status") status: String?,
         @Query("genres") genres: Int?,
-        @Query("sfw") sfw: Boolean = true,
-        @Query("limit") limit: Int = RESULT_SIZE,
     ): AnimeResponse
 
-    @GET("/v4/manga")
+    @GET("v1/manga")
     suspend fun browseManga(
         @Query("page") page: Int,
         @Query("order_by") orderBy: String,
         @Query("sort") sort: String,
         @Query("status") status: String?,
         @Query("genres") genres: Int?,
-        @Query("sfw") sfw: Boolean = true,
-        @Query("limit") limit: Int = RESULT_SIZE,
     ): MangaResponse
 
-    @GET("/v4/anime/{id}/full")
+    @GET("v1/anime/{id}")
     suspend fun fetchAnimeFull(@Path("id") id: Int): AnimeFullResponse
 
-    @GET("/v4/manga/{id}/full")
+    @GET("v1/manga/{id}")
     suspend fun fetchMangaFull(@Path("id") id: Int): MangaFullResponse
 
-    @GET("/v4/anime/{id}/episodes")
+    @GET("v1/anime/{id}/episodes")
     suspend fun fetchAnimeEpisodes(
         @Path("id") id: Int,
         @Query("page") page: Int,
     ): JikanEpisodesResponse
 
-    @GET("/v4/anime/{id}/recommendations")
+    @GET("v1/anime/{id}/recommendations")
     suspend fun fetchAnimeRecommendations(@Path("id") id: Int): JikanRecommendationsResponse
 
-    @GET("/v4/manga/{id}/recommendations")
+    @GET("v1/manga/{id}/recommendations")
     suspend fun fetchMangaRecommendations(@Path("id") id: Int): JikanRecommendationsResponse
 
-    @GET("/v4/anime/{id}/characters")
+    @GET("v1/anime/{id}/characters")
     suspend fun fetchAnimeCharacters(@Path("id") id: Int): JikanCharactersResponse
 
-    @GET("/v4/people/{id}/full")
+    @GET("v1/people/{id}/full")
     suspend fun fetchPerson(@Path("id") id: Int): JikanPersonResponse
 
-    @GET("/v4/schedules")
-    suspend fun fetchSchedule(
-        @Query("filter") day: String,
-        @Query("page") page: Int,
-        @Query("sfw") sfw: Boolean = true,
-        @Query("limit") limit: Int = RESULT_SIZE,
-    ): AnimeResponse
+    @GET("v1/schedules")
+    suspend fun fetchSchedule(@Query("filter") day: String): AnimeResponse
 
-    @GET("/v4/random/anime")
-    suspend fun fetchRandomAnime(@Query("sfw") sfw: Boolean = true): AnimeFullResponse
+    @GET("v1/random/anime")
+    suspend fun fetchRandomAnime(): AnimeFullResponse
 
-    @GET("/v4/random/manga")
-    suspend fun fetchRandomManga(@Query("sfw") sfw: Boolean = true): MangaFullResponse
+    @GET("v1/random/manga")
+    suspend fun fetchRandomManga(): MangaFullResponse
 
     companion object {
-        private const val ROW_SIZE = 20
-        const val JIKAN_BASE_URL = "https://api.jikan.moe/"
-        private const val RESULT_SIZE = 25
+        const val JIKAN_BASE_URL = "https://jikan.lucashdo.com/"
         private const val POPULARITY_FILTER = "bypopularity"
+    }
+}
+
+class JikanEdgeException(
+    val httpStatus: Int,
+    val code: String?,
+    val requestId: String?,
+    message: String?,
+) : IOException("jikan-edge $httpStatus ${code.orEmpty()}: ${message.orEmpty()} (requestId=$requestId)")
+
+private class JikanEdgeErrorInterceptor : Interceptor {
+    private val gson = Gson()
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        var response = chain.proceed(chain.request())
+        if (response.code == 429 || response.code == 503) {
+            val retryAfter = response.header("Retry-After")?.toLongOrNull()
+            if (retryAfter != null && retryAfter in 0..MAX_RETRY_AFTER_SECONDS) {
+                response.close()
+                Thread.sleep(retryAfter * 1_000)
+                response = chain.proceed(chain.request())
+            }
+        }
+        if (response.isSuccessful) return response
+
+        val error = runCatching {
+            gson.fromJson(response.peekBody(MAX_ERROR_BODY_BYTES).string(), EdgeErrorResponse::class.java)?.error
+        }.getOrNull()
+        val requestId = error?.requestId ?: response.header("X-Request-Id")
+        Log.w(
+            TAG,
+            "${chain.request().url.encodedPath} -> ${response.code} ${error?.code} " +
+                "requestId=$requestId: ${error?.message}",
+        )
+        response.close()
+        throw JikanEdgeException(response.code, error?.code, requestId, error?.message)
+    }
+
+    private companion object {
+        const val TAG = "JikanEdge"
+        const val MAX_ERROR_BODY_BYTES = 16_384L
+        const val MAX_RETRY_AFTER_SECONDS = 10L
     }
 }
 
@@ -149,6 +184,7 @@ internal class JikanRetrofitNetwork @Inject constructor(
         .addConverterFactory(GsonConverterFactory.create())
         .client(
             OkHttpClient.Builder()
+                .addInterceptor(JikanEdgeErrorInterceptor())
                 .addInterceptor(
                     // URLs carry API keys: log them only in debug builds
                     HttpLoggingInterceptor().setLevel(
@@ -160,8 +196,6 @@ internal class JikanRetrofitNetwork @Inject constructor(
         .build()
         .create(JikanRetrofitNetworkApi::class.java)
 
-    // Jikan allows about 3 requests a second (60 a minute): start requests at least
-    // MIN_REQUEST_INTERVAL_MILLIS apart, app-wide (this class is a singleton)
     private val rateLimit = Mutex()
     private var lastRequestAt = 0L
 
@@ -180,15 +214,19 @@ internal class JikanRetrofitNetwork @Inject constructor(
     override suspend fun fetchTopManga(page: Int, filter: String): MangaResponse =
         throttled { networkApi.fetchTopManga(page, filter) }
 
-    override suspend fun searchAnime(query: String, sfw: Boolean, limit: Int): AnimeResponse =
-        throttled { networkApi.searchAnime(query, sfw, limit) }
+    override suspend fun searchAnime(query: String): AnimeResponse =
+        throttled { networkApi.searchAnime(query.take(MAX_QUERY_LENGTH)) }
 
-    override suspend fun searchManga(query: String, sfw: Boolean, limit: Int): MangaResponse =
-        throttled { networkApi.searchManga(query, sfw, limit) }
+    override suspend fun searchManga(query: String): MangaResponse =
+        throttled { networkApi.searchManga(query.take(MAX_QUERY_LENGTH)) }
 
     override suspend fun fetchSeasonNow() = throttled { networkApi.fetchSeasonNow() }
 
     override suspend fun fetchSeasonUpcoming() = throttled { networkApi.fetchSeasonUpcoming() }
+
+    override suspend fun fetchRecentAnime(startDate: String) = throttled { networkApi.fetchRecentAnime(startDate) }
+
+    override suspend fun fetchRecentManga(startDate: String) = throttled { networkApi.fetchRecentManga(startDate) }
 
     override suspend fun fetchAnimeGenres() = throttled { networkApi.fetchAnimeGenres() }
 
@@ -217,12 +255,12 @@ internal class JikanRetrofitNetwork @Inject constructor(
 
     override suspend fun fetchPerson(id: Int) = throttled { networkApi.fetchPerson(id) }
 
-    override suspend fun fetchSchedule(day: String, page: Int) =
-        throttled { networkApi.fetchSchedule(day, page) }
+    override suspend fun fetchSchedule(day: String) = throttled { networkApi.fetchSchedule(day) }
 
     override suspend fun fetchRandomAnime() = throttled { networkApi.fetchRandomAnime() }
 
     override suspend fun fetchRandomManga() = throttled { networkApi.fetchRandomManga() }
 }
 
-private const val MIN_REQUEST_INTERVAL_MILLIS = 400L
+private const val MIN_REQUEST_INTERVAL_MILLIS = 1_000L
+private const val MAX_QUERY_LENGTH = 64

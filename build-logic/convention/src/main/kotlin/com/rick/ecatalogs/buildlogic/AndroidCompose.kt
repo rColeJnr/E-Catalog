@@ -39,7 +39,7 @@ internal fun Project.configureAndroidCompose(
         "implementation"(libs.findLibrary("compose.foundation.layout").get())
         "implementation"(libs.findLibrary("compose.constraint.layout").get())
         "implementation"(libs.findLibrary("compose.ui.tooling.preview").get())
-        "debugImplementation"(libs.findLibrary("compose-ui-tooling").get())
+        "implementation"(libs.findLibrary("compose-ui-tooling").get())
     }
 
     extensions.configure<ComposeCompilerGradlePluginExtension> {

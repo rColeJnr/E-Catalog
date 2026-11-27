@@ -46,34 +46,25 @@
             tools:listitem="@layout/movie_screen_movie_common_browse_row_entry" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/browse_row2_section"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/browse_row2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/browse_list_title"
+        style="@style/MovieScreenMovieCommonBrowseRowTitle"
+        android:layout_marginTop="24dp"
         android:visibility="gone"
-        tools:visibility="visible">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/browse_row2_title"
-            style="@style/MovieScreenMovieCommonBrowseRowTitle"
-            tools:text="@string/movie_screen_movie_common_in_theaters" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/browse_row2"
-            style="@style/MovieScreenMovieCommonBrowseRow"
-            android:layout_height="188dp"
-            android:clipToPadding="false"
-            android:paddingHorizontal="20dp"
-            tools:listitem="@layout/movie_screen_movie_common_browse_row_entry" />
-    </LinearLayout>
+        tools:text="@string/movie_screen_movie_common_trending_now"
+        tools:visibility="visible" />
 
     <!-- Genres: "All" shows the trending list; a genre shows its most popular titles -->
     <HorizontalScrollView
         android:id="@+id/browse_genres_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:scrollbars="none"
         android:visibility="gone"
         tools:visibility="visible">

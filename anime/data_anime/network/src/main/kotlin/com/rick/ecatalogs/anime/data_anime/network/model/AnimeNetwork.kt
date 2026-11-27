@@ -1,50 +1,55 @@
 package com.rick.ecatalogs.anime.data_anime.network.model
 
 import com.google.gson.annotations.SerializedName
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Aired
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Genre
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Images
-import com.rick.ecatalogs.anime.data_anime.model.model_jikan.Trailer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class AnimeNetwork(
-    @SerializedName("mal_id")
-    @SerialName("mal_id")
+    @SerializedName("malId")
+    @SerialName("malId")
     val id: Int,
-    val url: String?,
-    val images: Images?,
-    val trailer: Trailer?,
-    val title: String?,
-    @SerializedName("title_english")
-    @SerialName("title_english")
-    val titleEnglish: String?,
-    val type: String?,
-    val source: String?,
-    val episodes: Int?,
-    val airing: Boolean?,
-    val aired: Aired?,
-    val duration: String?,
-    val rating: String?,
-    val score: Double?,
-    @SerializedName("scored_by")
-    @SerialName("scored_by")
-    val scoredBy: Int?,
-    val rank: Int?,
-    val popularity: Int?,
-    val favorites: Int?,
-    val synopsis: String?,
-    val background: String?,
-    val season: String?,
-    val year: Int?,
-    val genres: List<Genre> = listOf(),
-    /** Only in `anime/{id}/full`. */
-    val streaming: List<JikanLinkNetwork>? = null,
-    /** Only in `anime/{id}/full`. */
+    val url: String? = null,
+    val title: String? = null,
+    val titleEnglish: String? = null,
+    val imageUrl: String? = null,
+    val images: EdgeImages? = null,
+    val trailer: EdgeTrailerNetwork? = null,
+    val synopsis: String? = null,
+    val background: String? = null,
+    val type: String? = null,
+    val source: String? = null,
+    val episodes: Int? = null,
+    val status: String? = null,
+    val airing: Boolean? = null,
+    val aired: EdgeDateRange? = null,
+    val duration: String? = null,
+    val rating: String? = null,
+    val score: Double? = null,
+    val scoredBy: Int? = null,
+    val rank: Int? = null,
+    val popularity: Int? = null,
+    val members: Int? = null,
+    val favorites: Int? = null,
+    val season: String? = null,
+    val year: Int? = null,
+    val genres: List<EdgeRef>? = null,
+    val themes: List<EdgeRef>? = null,
+    val demographics: List<EdgeRef>? = null,
+    val studios: List<EdgeRef>? = null,
     val broadcast: JikanBroadcastNetwork? = null,
-    /** Only in `anime/{id}/full`. */
     val relations: List<JikanRelationNetwork>? = null,
+    val streaming: List<JikanLinkNetwork>? = null,
+    val startDate: String? = null,
+    val endDate: String? = null,
 )
 
+val AnimeNetwork.posterUrl: String?
+    get() = images?.medium ?: imageUrl ?: images?.large ?: images?.small
+
+@Serializable
+data class EdgeTrailerNetwork(
+    val youtubeId: String? = null,
+    val url: String? = null,
+    val embedUrl: String? = null,
+)

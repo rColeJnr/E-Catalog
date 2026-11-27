@@ -10,6 +10,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.rick.ecatalogs.anime.data_anime.data.model.asEntity
+import com.rick.ecatalogs.anime.data_anime.network.model.isStale
 import com.rick.ecatalogs.anime.data_anime.database.JikanTransactionRunner
 import com.rick.ecatalogs.anime.data_anime.database.dao.MangaDao
 import com.rick.ecatalogs.anime.data_anime.database.dao.MangaRemoteKeysDao
@@ -59,7 +60,8 @@ internal class MangaRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncFirstPage(): List<Manga> {
-        val items = network.fetchTopManga(MANGA_FIRST_PAGE).data
+        val response = network.fetchTopManga(MANGA_FIRST_PAGE)
+        val items = response.data
         val fetchedIds = items.map(MangaNetwork::id).toSet()
         if (fetchedIds.isEmpty()) return emptyList()
 
@@ -75,7 +77,7 @@ internal class MangaRepositoryImpl @Inject constructor(
             )
         }
         // The first page was just checked against the server: the stored list is current
-        listCache.markRefreshed(CachedList.MANGA)
+        if (!response.meta.isStale) listCache.markRefreshed(CachedList.MANGA)
 
         val previouslySeen = preferences.notifiedTrendingMangaIds()
         preferences.setNotifiedTrendingMangaIds(fetchedIds)
@@ -91,10 +93,8 @@ internal class MangaRepositoryImpl @Inject constructor(
 
     override fun searchManga(query: String): Flow<List<Manga>> = channelFlow {
         try {
-            val searchResponse = network.searchManga(
-                query = query,
-                limit = SEARCH_RESULT_LIMIT
-            ).data
+            val searchResponse = network.searchManga(query).data
+                .take(SEARCH_RESULT_LIMIT)
 
             // Outside the catalog list: a stored row (and its place in the list) is kept
             mangaDao.insertOutsideCatalog(searchResponse.map(MangaNetwork::asEntity))

@@ -1,5 +1,13 @@
 package com.rick.ecatalogs.anime.screen_anime.common
 
+import androidx.compose.ui.res.stringResource
+import com.rick.ecatalogs.anime.data_anime.model.browse.JikanItem
+import com.rick.ecatalogs.data.ui_components.common.EcsPosterRow
+import com.rick.ecatalogs.data.ui_components.common.EcsSectionTitle
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+
 import androidx.compose.material3.AssistChip
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Arrangement
@@ -72,6 +80,8 @@ fun JikanBrowseHeader(
     onListSelected: (String) -> Unit,
     onGenreSelected: (String) -> Unit,
     actions: List<JikanHeaderAction> = emptyList(),
+    secondRow: JikanBrowseRow? = null,
+    listTitle: String? = null,
 ) {
     Column(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
         Text(
@@ -103,17 +113,32 @@ fun JikanBrowseHeader(
                 }
             }
         }
-        // A single horizontal row per screen: the first row that has items
         rows.firstOrNull { it.items.isNotEmpty() }?.let { row ->
             EcsHeroCarousel(row.title, row.items, onItemClick, height = 210.dp)
         }
-        Spacer(Modifier.height(12.dp))
+        secondRow?.let { row -> EcsPosterRow(row.title, row.items, onItemClick) }
+        if (listTitle.isNullOrBlank()) Spacer(Modifier.height(12.dp)) else EcsSectionTitle(listTitle)
         EcsChipRow(lists, selectedList, onSelect = { onListSelected(it.id) })
         EcsChipRow(genres, selectedGenre, onSelect = { onGenreSelected(it.id) })
     }
 }
 
 const val ALL_GENRES = "all"
+
+@Composable
+fun JikanItem.asPosterItem(): EcsPosterItem = EcsPosterItem(
+    id = id,
+    title = title,
+    imageUrl = imageUrl,
+    subtitle = listOfNotNull(
+        date?.let(::localizedDate),
+        score?.let { stringResource(R.string.anime_screen_anime_common_score, it) },
+    ).joinToString(" · ").ifEmpty { null },
+)
+
+private fun localizedDate(date: String): String? = runCatching {
+    LocalDate.parse(date.take(10)).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+}.getOrNull()
 
 /** A button at the top of the header ("Airing schedule", "Surprise me"). */
 data class JikanHeaderAction(val label: String, val enabled: Boolean = true, val onClick: () -> Unit)

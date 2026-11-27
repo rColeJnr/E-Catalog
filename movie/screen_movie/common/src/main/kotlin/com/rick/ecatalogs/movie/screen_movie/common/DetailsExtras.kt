@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.rick.ecatalogs.data.trailer.TrailerActivity
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.CastMember
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.TmdbDetailsExtras
 import com.rick.ecatalogs.movie.data_movie.model.tmdb.movie.WatchProvider
@@ -40,12 +39,6 @@ fun MovieScreenMovieCommonDetailsExtrasBinding.bindExtras(
     val ageRating = extras.ageRatings[country] ?: extras.ageRatings[FALLBACK_COUNTRY]
     extrasAgeRating.text = ageRating
     extrasAgeRating.isVisible = !ageRating.isNullOrBlank()
-    val trailerKey = extras.trailerYoutubeKey
-    extrasTrailer.isVisible = trailerKey != null
-    extrasTrailer.setOnClickListener {
-        trailerKey?.let { TrailerActivity.start(context, it, title) }
-    }
-    extrasActions.isVisible = extrasAgeRating.isVisible || extrasTrailer.isVisible
 
     // Cast
     val castAdapter = extrasCastList.adapter as? CastAdapter

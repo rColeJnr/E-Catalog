@@ -3,6 +3,8 @@
     <string name="anime_screen_anime_common_retry">Retry</string>
     <string name="anime_screen_anime_common_failed_to_load">Failed to load</string>
     <string name="anime_screen_anime_common_this_season">This season</string>
+    <string name="anime_screen_anime_common_recently_released">Recently released</string>
+    <string name="anime_screen_anime_common_popular_now">Popular now</string>
     <string name="anime_screen_anime_common_list_popular">Popular</string>
     <string name="anime_screen_anime_common_list_top_rated">Top rated</string>
     <string name="anime_screen_anime_common_list_airing">Airing now</string>

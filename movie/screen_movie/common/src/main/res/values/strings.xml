@@ -13,6 +13,9 @@
     <string name="movie_screen_movie_common_coming_soon">Coming soon</string>
     <string name="movie_screen_movie_common_in_theaters">In theaters</string>
     <string name="movie_screen_movie_common_airing_today">Airing today</string>
+    <string name="movie_screen_movie_common_recently_released">Recently released</string>
+    <string name="movie_screen_movie_common_trending_now">Trending now</string>
+    <string name="movie_screen_movie_common_popular_in">Popular in %1$s</string>
     <string name="movie_screen_movie_common_opens">Opens %1$s</string>
     <string name="movie_screen_movie_common_rating">★ %1$.1f</string>
     <string name="movie_screen_movie_common_remind_me">Remind me on release day</string>

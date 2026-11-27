@@ -74,6 +74,9 @@ class TrendingSeriesViewModel @Inject constructor(
     val airingToday: StateFlow<List<TrendingSeries>> = browseRepository.airingTodaySeries()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
+    val recentlyReleased: StateFlow<List<TrendingSeries>> = browseRepository.recentlyReleasedSeries()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
     val genres: StateFlow<List<TmdbGenre>> = flow { emit(browseRepository.seriesGenres()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 

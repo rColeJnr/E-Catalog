@@ -42,6 +42,10 @@ interface TmdbNetworkDataSource {
     /** Series with an episode airing today. */
     suspend fun fetchAiringTodaySeries(): TrendingSeriesResponse
 
+    suspend fun fetchRecentlyReleasedMovies(from: String, to: String, region: String?): TrendingMovieResponse
+
+    suspend fun fetchRecentlyReleasedSeries(from: String, to: String): TrendingSeriesResponse
+
     /** Most popular movies of a genre (TMDB discover). */
     suspend fun discoverMovies(genreId: Int, page: Int): TrendingMovieResponse
 

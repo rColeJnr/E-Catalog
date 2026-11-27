@@ -2,6 +2,7 @@ package com.rick.ecatalogs.anime.data_anime.data.repository.anime
 
 import android.util.Log
 import com.rick.ecatalogs.anime.data_anime.data.model.asEntity
+import com.rick.ecatalogs.anime.data_anime.data.model.isAdult
 import com.rick.ecatalogs.data.common.Dispatcher
 import com.rick.ecatalogs.data.common.EcsDispatchers
 import com.rick.ecatalogs.anime.data_anime.database.dao.AnimeDao
@@ -33,10 +34,9 @@ internal class AnimeSearchRepositoryImpl @Inject constructor(
 
     override suspend fun populateFtsAnimeData(query: String) {
         try {
-            val searchResponse = network.searchAnime(
-                query = query,
-                limit = SEARCH_RESULT_LIMIT
-            ).data
+            val searchResponse = network.searchAnime(query).data
+                .filterNot { it.isAdult() }
+                .take(SEARCH_RESULT_LIMIT)
 
             withContext(ioDispatcher) {
                 // Outside the catalog list: a stored row (and its place in the list) is kept

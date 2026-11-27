@@ -33,6 +33,10 @@ import com.rick.ecatalogs.anime.data_anime.network.model.AnimeNetwork
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanGenresResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.JikanRecommendationsResponse
 import com.rick.ecatalogs.anime.data_anime.network.model.MangaNetwork
+import com.rick.ecatalogs.anime.data_anime.network.model.hasNextPage
+import com.rick.ecatalogs.anime.data_anime.network.model.isStale
+import com.rick.ecatalogs.anime.data_anime.network.model.posterUrl
+import com.rick.ecatalogs.anime.data_anime.data.model.isAdult
 import com.rick.ecatalogs.data.datastore.CachedList
 import com.rick.ecatalogs.data.datastore.ListCache
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -44,6 +48,10 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.reflect.Type
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -54,6 +62,10 @@ interface JikanBrowseRepository {
 
     /** Anime coming next season. Empty if it can't be loaded. */
     fun seasonUpcoming(): Flow<List<JikanItem>>
+
+    fun recentlyReleasedAnime(): Flow<List<JikanItem>>
+
+    fun recentlyReleasedManga(): Flow<List<JikanItem>>
 
     /** The first page of a manga list, for a featured row on the manga screen. */
     fun featuredManga(list: MangaList): Flow<List<JikanItem>>
@@ -119,59 +131,107 @@ internal class JikanBrowseRepositoryImpl @Inject constructor(
 
     override fun seasonNow(): Flow<List<JikanItem>> = flow {
         emit(cached(CachedList.ANIME_SEASON_NOW, itemListType) {
-            network.fetchSeasonNow().data.map { it.asItem() }.distinctBy { it.id }
+            network.fetchSeasonNow().let { response ->
+                response.data.map { it.asItem() }.distinctBy { it.id }.take(SEASON_ROW_SIZE) to response.meta.isStale
+            }
         })
     }
 
     override fun seasonUpcoming(): Flow<List<JikanItem>> = flow {
         emit(cached(CachedList.ANIME_SEASON_UPCOMING, itemListType) {
-            network.fetchSeasonUpcoming().data.map { it.asItem() }.distinctBy { it.id }
+            network.fetchSeasonUpcoming().let { response ->
+                response.data.map { it.asItem() }.distinctBy { it.id }.take(SEASON_ROW_SIZE) to response.meta.isStale
+            }
+        })
+    }
+
+    override fun recentlyReleasedAnime(): Flow<List<JikanItem>> = flow {
+        emit(cached(CachedList.ANIME_RECENT, itemListType) {
+            network.fetchRecentAnime(recentStartDate()).let { response ->
+                response.data
+                    .filterNot { it.isAdult() }
+                    .map { it.asItem().copy(date = it.startDate, score = it.score?.takeIf { s -> s > 0 }) }
+                    .distinctBy { it.id }
+                    .take(RECENT_ROW_SIZE) to response.meta.isStale
+            }
+        })
+    }
+
+    override fun recentlyReleasedManga(): Flow<List<JikanItem>> = flow {
+        emit(cached(CachedList.MANGA_RECENT, itemListType) {
+            network.fetchRecentManga(recentStartDate()).let { response ->
+                response.data
+                    .filter { it.isComplete() }
+                    .map {
+                        JikanItem(
+                            id = it.id,
+                            title = (it.titleEnglish?.takeIf(String::isNotBlank) ?: it.title).orEmpty(),
+                            imageUrl = it.posterUrl,
+                            date = it.startDate,
+                            score = it.score?.takeIf { s -> s > 0 },
+                        )
+                    }
+                    .distinctBy { it.id }
+                    .take(RECENT_ROW_SIZE) to response.meta.isStale
+            }
         })
     }
 
     override fun featuredManga(list: MangaList): Flow<List<JikanItem>> = flow {
-        val (orderBy, status) = list.query()
         emit(cached(CachedList.jikanMangaRow(list.name), itemListType) {
-            network.browseManga(1, orderBy, "desc", status, null).data
-                .filter { it.isComplete() }
-                .map { JikanItem(id = it.id, title = (it.titleEnglish?.takeIf(String::isNotBlank) ?: it.title), imageUrl = it.images?.jpg?.image_url) }
-                .distinctBy { it.id }
+            mangaPage(list, page = 1, genreId = null).let { response ->
+                response.data
+                    .filter { it.isComplete() }
+                    .map { JikanItem(id = it.id, title = (it.titleEnglish?.takeIf(String::isNotBlank) ?: it.title).orEmpty(), imageUrl = it.posterUrl) }
+                    .distinctBy { it.id }
+                    .take(FEATURED_ROW_SIZE) to response.meta.isStale
+            }
         })
     }
 
     override suspend fun animeGenres(): List<JikanGenre> =
-        cached(CachedList.jikanGenres("anime"), genreListType) { network.fetchAnimeGenres().asGenres() }
+        cached(CachedList.jikanGenres("anime"), genreListType) {
+            network.fetchAnimeGenres().let { it.asGenres() to it.meta.isStale }
+        }
 
     override suspend fun mangaGenres(): List<JikanGenre> =
-        cached(CachedList.jikanGenres("manga"), genreListType) { network.fetchMangaGenres().asGenres() }
-
-    override fun browseAnime(list: AnimeList, genreId: Int?): Flow<PagingData<Anime>> {
-        val (orderBy, sort, status) = when (list) {
-            AnimeList.POPULAR -> Triple("members", "desc", null)
-            AnimeList.TOP_RATED -> Triple("score", "desc", null)
-            AnimeList.AIRING -> Triple("members", "desc", "airing")
-            AnimeList.UPCOMING -> Triple("members", "desc", "upcoming")
-            AnimeList.FAVORITES -> Triple("favorites", "desc", null)
+        cached(CachedList.jikanGenres("manga"), genreListType) {
+            network.fetchMangaGenres().let { it.asGenres() to it.meta.isStale }
         }
-        return pager { page ->
-            val response = network.browseAnime(page, orderBy, sort, status, genreId)
-            response.data.map { it.asEntity().asAnime() } to response.pagination.hasNextPage
-        }
-    }
 
-    override fun browseManga(list: MangaList, genreId: Int?): Flow<PagingData<Manga>> {
-        val (orderBy, status) = list.query()
-        return pager { page ->
-            val response = network.browseManga(page, orderBy, "desc", status, genreId)
+    override fun browseAnime(list: AnimeList, genreId: Int?): Flow<PagingData<Anime>> =
+        pager { page ->
+            val response = when {
+                list == AnimeList.FAVORITES && genreId == null -> network.fetchTopAnime(page, FAVORITE_FILTER)
+                else -> {
+                    val (orderBy, status) = list.query()
+                    network.browseAnime(page, orderBy, "desc", status, genreId)
+                }
+            }
+            response.data.filterNot { it.isAdult() }.map { it.asEntity().asAnime() } to response.meta.hasNextPage
+        }
+
+    override fun browseManga(list: MangaList, genreId: Int?): Flow<PagingData<Manga>> =
+        pager { page ->
+            val response = mangaPage(list, page, genreId)
             response.data.filter { it.isComplete() }
-                .map { it.asEntity().asManga() } to response.pagination.hasNextPage
+                .map { it.asEntity().asManga() } to response.meta.hasNextPage
+        }
+
+    private suspend fun mangaPage(list: MangaList, page: Int, genreId: Int?) = when {
+        list == MangaList.FAVORITES && genreId == null -> network.fetchTopManga(page, FAVORITE_FILTER)
+        else -> {
+            val (orderBy, status) = list.query()
+            network.browseManga(page, orderBy, "desc", status, genreId)
         }
     }
 
     override suspend fun animeExtras(id: Int): AnimeExtras = remembered("extras:$id") {
-        val anime = network.fetchAnimeFull(id).data
+        val response = network.fetchAnimeFull(id)
+        val anime = response.data
         AnimeExtras(
-            trailerYoutubeId = anime?.trailer?.embed_url?.let(::youtubeIdFromEmbedUrl),
+            trailerYoutubeId = anime?.trailer?.youtubeId?.takeIf { it.isNotBlank() }
+                ?: anime?.trailer?.embedUrl?.let(::youtubeIdFromEmbedUrl),
             streaming = anime?.streaming.orEmpty().mapNotNull { link ->
                 val name = link.name?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
                 val url = link.url?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
@@ -180,122 +240,122 @@ internal class JikanBrowseRepositoryImpl @Inject constructor(
             broadcast = anime?.broadcast?.let { b ->
                 val day = b.day?.takeIf { it.isNotBlank() } ?: return@let null
                 val time = b.time?.takeIf { it.isNotBlank() } ?: return@let null
-                Broadcast(day, time, b.timezone?.takeIf { it.isNotBlank() } ?: JAPAN_ZONE)
+                Broadcast(day, time, japanZoneId(b.timezone))
             },
             relations = anime?.relations.asRelations(),
-        )
+        ) to response.meta.isStale
     }
 
     override suspend fun mangaRelations(id: Int): List<JikanRelation> = remembered("manga_rel:$id") {
-        network.fetchMangaFull(id).data?.relations.asRelations()
+        network.fetchMangaFull(id).let { it.data?.relations.asRelations() to it.meta.isStale }
     }
 
     override suspend fun animeCharacters(id: Int): List<AnimeCharacter> = remembered("chars:$id") {
-        network.fetchAnimeCharacters(id).data.orEmpty()
-            .mapNotNull { role ->
-                val character = role.character ?: return@mapNotNull null
-                val actor = role.voiceActors.orEmpty()
+        val response = network.fetchAnimeCharacters(id)
+        response.data.orEmpty()
+            .mapNotNull { character ->
+                val characterId = character.id ?: return@mapNotNull null
+                val actor = character.voiceActors.orEmpty()
                     .firstOrNull { it.language.equals("Japanese", ignoreCase = true) }
-                    ?.person
                 AnimeCharacter(
-                    id = character.id,
+                    id = characterId,
                     name = character.name.orEmpty(),
-                    imageUrl = character.images?.jpg?.imageUrl,
-                    isMain = role.role.equals("Main", ignoreCase = true),
-                    voiceActor = actor?.let {
-                        VoiceActor(it.id, it.name.orEmpty(), it.images?.jpg?.imageUrl)
+                    imageUrl = character.imageUrl,
+                    isMain = character.role.equals("Main", ignoreCase = true),
+                    voiceActor = actor?.id?.let { actorId ->
+                        VoiceActor(actorId, actor.name.orEmpty(), actor.imageUrl)
                     },
                 )
             }
             .sortedByDescending { it.isMain }
-            .take(MAX_CHARACTERS)
+            .take(MAX_CHARACTERS) to response.meta.isStale
     }
 
     override suspend fun person(id: Int): JikanPerson = remembered("person:$id") {
-        val person = checkNotNull(network.fetchPerson(id).data) { "No person $id" }
+        val response = network.fetchPerson(id)
+        val person = checkNotNull(response.data) { "No person $id" }
         JikanPerson(
             id = person.id,
             name = person.name.orEmpty(),
             nativeName = listOfNotNull(person.familyName, person.givenName)
                 .filter { it.isNotBlank() }.joinToString("").ifBlank { null },
-            birthday = person.birthday?.take(10)?.takeIf { it.length == 10 },
+            birthday = person.birthDate?.take(10)?.takeIf { it.length == 10 },
             about = person.about.orEmpty().trim(),
-            imageUrl = person.images?.jpg?.imageUrl,
+            imageUrl = person.images?.medium ?: person.imageUrl ?: person.images?.large,
             roles = person.voices.orEmpty()
                 .mapNotNull { voice ->
-                    val anime = voice.anime ?: return@mapNotNull null
+                    val animeId = voice.animeId ?: return@mapNotNull null
                     VoiceRole(
-                        animeId = anime.id,
-                        animeTitle = anime.title.orEmpty(),
-                        animeImageUrl = anime.images?.jpg?.largeImageUrl ?: anime.images?.jpg?.imageUrl,
-                        characterName = voice.character?.name.orEmpty(),
-                        isMain = voice.role.equals("Main", ignoreCase = true),
+                        animeId = animeId,
+                        animeTitle = voice.animeTitle.orEmpty(),
+                        animeImageUrl = voice.animeImageUrl,
+                        characterName = voice.characterName.orEmpty(),
+                        isMain = voice.characterRole.equals("Main", ignoreCase = true),
                     )
                 }
                 .sortedByDescending { it.isMain }
                 .distinctBy { it.animeId }
                 .take(MAX_ROLES),
-        )
+        ) to response.meta.isStale
     }
 
     override suspend fun schedule(japanDay: String): List<ScheduledAnime> = remembered("schedule:$japanDay") {
-        val shows = mutableListOf<ScheduledAnime>()
-        var page = 1
-        while (page <= MAX_SCHEDULE_PAGES) {
-            val response = network.fetchSchedule(japanDay, page)
-            shows += response.data.map { anime ->
-                ScheduledAnime(
-                    id = anime.id,
-                    title = (anime.titleEnglish?.takeIf { it.isNotBlank() } ?: anime.title).orEmpty(),
-                    imageUrl = anime.images?.jpg?.image_url,
-                    broadcast = anime.broadcast?.let { b ->
-                        val day = b.day?.takeIf { it.isNotBlank() } ?: return@let null
-                        val time = b.time?.takeIf { it.isNotBlank() } ?: return@let null
-                        Broadcast(day, time, b.timezone?.takeIf { it.isNotBlank() } ?: JAPAN_ZONE)
-                    },
-                    score = anime.score?.takeIf { it > 0 },
-                )
-            }
-            if (!response.pagination.hasNextPage) break
-            page++
-        }
-        shows.distinctBy { it.id }
+        val response = network.fetchSchedule(japanDay)
+        response.data.map { anime ->
+            ScheduledAnime(
+                id = anime.id,
+                title = (anime.titleEnglish?.takeIf { it.isNotBlank() } ?: anime.title).orEmpty(),
+                imageUrl = anime.posterUrl,
+                broadcast = anime.broadcast?.let { b ->
+                    val day = b.day?.takeIf { it.isNotBlank() } ?: return@let null
+                    val time = b.time?.takeIf { it.isNotBlank() } ?: return@let null
+                    Broadcast(day, time, japanZoneId(b.timezone))
+                },
+                score = anime.score?.takeIf { it > 0 },
+            )
+        }.distinctBy { it.id } to response.meta.isStale
     }
 
-    // Not remembered: a new pick each time
-    override suspend fun randomAnimeId(): Int? = network.fetchRandomAnime().data?.id
+    override suspend fun randomAnimeId(): Int? {
+        repeat(MAX_RANDOM_TRIES) {
+            val anime = network.fetchRandomAnime().data ?: return null
+            if (!anime.isAdult()) return anime.id
+        }
+        return null
+    }
 
     override suspend fun randomMangaId(): Int? = network.fetchRandomManga().data?.id
 
     override suspend fun animeEpisodes(id: Int): List<AnimeEpisode> = remembered("episodes:$id") {
-        network.fetchAnimeEpisodes(id, page = 1).data.orEmpty().map {
+        val response = network.fetchAnimeEpisodes(id, page = 1)
+        response.data.orEmpty().map {
             AnimeEpisode(
                 number = it.number,
                 title = it.title.orEmpty(),
-                airDate = it.aired?.take(10)?.takeIf { date -> date.length == 10 },
+                airDate = it.aired?.let(::isoDate),
                 score = it.score?.takeIf { score -> score > 0 },
                 filler = it.filler == true,
                 recap = it.recap == true,
             )
-        }
+        } to response.meta.isStale
     }
 
     override suspend fun animeRecommendations(id: Int): List<JikanItem> =
-        remembered("anime_recs:$id") { network.fetchAnimeRecommendations(id).asItems() }
+        remembered("anime_recs:$id") { network.fetchAnimeRecommendations(id).let { it.asItems() to it.meta.isStale } }
 
     override suspend fun mangaRecommendations(id: Int): List<JikanItem> =
-        remembered("manga_recs:$id") { network.fetchMangaRecommendations(id).asItems() }
+        remembered("manga_recs:$id") { network.fetchMangaRecommendations(id).let { it.asItems() to it.meta.isStale } }
 
     @Suppress("UNCHECKED_CAST")
-    private suspend fun <T : Any> remembered(key: String, load: suspend () -> T): T {
+    private suspend fun <T : Any> remembered(key: String, load: suspend () -> Pair<T, Boolean>): T {
         memoryLock.withLock { memory[key] }?.let { return it as T }
-        val value = load()
-        memoryLock.withLock { memory[key] = value }
+        val (value, stale) = load()
+        if (!stale) memoryLock.withLock { memory[key] = value }
         return value
     }
 
     /** Stored copy while fresh; otherwise downloaded and stored. Stale copy or empty on failure. */
-    private suspend fun <T> cached(key: String, type: Type, fetch: suspend () -> List<T>): List<T> =
+    private suspend fun <T> cached(key: String, type: Type, fetch: suspend () -> Pair<List<T>, Boolean>): List<T> =
         withContext(Dispatchers.IO) {
             val file = File(cacheDir, "${key.replace(Regex("[^A-Za-z0-9_-]"), "_")}.json")
             val stored: List<T>? = if (file.exists()) {
@@ -305,10 +365,11 @@ internal class JikanBrowseRepositoryImpl @Inject constructor(
             }
             if (stored != null && listCache.isFresh(key)) return@withContext stored
             try {
-                fetch().also {
+                val (fetched, stale) = fetch()
+                fetched.also {
                     cacheDir.mkdirs()
                     file.writeText(gson.toJson(it, type))
-                    listCache.markRefreshed(key)
+                    if (!stale) listCache.markRefreshed(key)
                 }
             } catch (e: Exception) {
                 stored ?: emptyList()
@@ -348,18 +409,25 @@ private class JikanPagingSource<T : Any>(
         state.anchorPosition?.let { state.closestPageToPosition(it)?.prevKey?.plus(1) }
 }
 
-/** Jikan's order_by and status for a manga list (always sorted descending). */
+private fun AnimeList.query(): Pair<String, String?> = when (this) {
+    AnimeList.POPULAR -> "members" to null
+    AnimeList.TOP_RATED -> "score" to null
+    AnimeList.AIRING -> "members" to "airing"
+    AnimeList.UPCOMING -> "members" to "upcoming"
+    AnimeList.FAVORITES -> "members" to null
+}
+
 private fun MangaList.query(): Pair<String, String?> = when (this) {
     MangaList.POPULAR -> "members" to null
     MangaList.TOP_RATED -> "score" to null
     MangaList.PUBLISHING -> "members" to "publishing"
-    MangaList.FAVORITES -> "favorites" to null
+    MangaList.FAVORITES -> "members" to null
 }
 
 private fun AnimeNetwork.asItem() = JikanItem(
     id = id,
     title = (titleEnglish?.takeIf { it.isNotBlank() } ?: title).orEmpty(),
-    imageUrl = images?.jpg?.image_url,
+    imageUrl = posterUrl,
 )
 
 private fun JikanGenresResponse.asGenres() = data.orEmpty()
@@ -368,22 +436,12 @@ private fun JikanGenresResponse.asGenres() = data.orEmpty()
 
 private fun JikanRecommendationsResponse.asItems(): List<JikanItem> = data.orEmpty()
     .sortedByDescending { it.votes ?: 0 }
-    .mapNotNull { rec ->
-        val entry = rec.entry ?: return@mapNotNull null
-        JikanItem(
-            id = entry.id,
-            title = entry.title.orEmpty(),
-            imageUrl = entry.images?.jpg?.largeImageUrl ?: entry.images?.jpg?.imageUrl,
-        )
-    }
+    .map { rec -> JikanItem(id = rec.id, title = rec.title.orEmpty(), imageUrl = rec.imageUrl) }
     .distinctBy { it.id }
     .take(MAX_RECOMMENDATIONS)
 
 /** Browse results reach further into the catalog than the top list; skip incomplete entries. */
-@Suppress("SENSELESS_COMPARISON")
-private fun MangaNetwork.isComplete() =
-    (title as String?) != null && (type as String?) != null && (url as String?) != null &&
-        (published as Any?) != null
+private fun MangaNetwork.isComplete() = !title.isNullOrBlank() && !type.isNullOrBlank()
 
 /** "https://www.youtube-nocookie.com/embed/ID?enablejsapi=1…" -> "ID". */
 internal fun youtubeIdFromEmbedUrl(url: String): String? =
@@ -391,23 +449,40 @@ internal fun youtubeIdFromEmbedUrl(url: String): String? =
 
 /** Related titles the app can open (anime and manga only). */
 private fun List<JikanRelationNetwork>?.asRelations(): List<JikanRelation> = orEmpty()
-    .flatMap { group ->
-        val relation = group.relation?.takeIf { it.isNotBlank() } ?: return@flatMap emptyList()
-        group.entry.orEmpty().mapNotNull { entry ->
-            val isAnime = when (entry.type?.lowercase()) {
-                "anime" -> true
-                "manga" -> false
-                else -> return@mapNotNull null
-            }
-            JikanRelation(relation, entry.id, isAnime, entry.name.orEmpty())
+    .mapNotNull { entry ->
+        val relation = entry.relation?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
+        val id = entry.id ?: return@mapNotNull null
+        val isAnime = when (entry.type?.lowercase()) {
+            "anime" -> true
+            "manga" -> false
+            else -> return@mapNotNull null
         }
+        JikanRelation(relation, id, isAnime, entry.title.orEmpty())
     }
     // Adaptations first: the link between an anime and its manga
     .sortedBy { if (it.relation.equals("Adaptation", ignoreCase = true)) 0 else 1 }
 
-private const val JIKAN_PAGE_SIZE = 25
+internal fun japanZoneId(timezone: String?): String =
+    timezone?.takeIf { it.isNotBlank() }
+        ?.let { runCatching { ZoneId.of(it.trim(), ZoneId.SHORT_IDS).id }.getOrNull() }
+        ?: JAPAN_ZONE
+
+internal fun isoDate(date: String): String? =
+    runCatching { LocalDate.parse(date.trim(), MAL_DATE).toString() }.getOrNull()
+        ?: date.take(10).takeIf { it.length == 10 && runCatching { LocalDate.parse(it) }.isSuccess }
+
+private val MAL_DATE = DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.ENGLISH)
+
+private const val JIKAN_PAGE_SIZE = 50
+private const val SEASON_ROW_SIZE = 20
+private const val RECENT_ROW_SIZE = 30
+private const val RECENT_DAYS = 60L
+
+private fun recentStartDate(): String = LocalDate.now().minusDays(RECENT_DAYS).toString()
+private const val FEATURED_ROW_SIZE = 25
+private const val FAVORITE_FILTER = "favorite"
+private const val MAX_RANDOM_TRIES = 3
 private const val MAX_CHARACTERS = 25
 private const val MAX_ROLES = 60
-private const val MAX_SCHEDULE_PAGES = 3
 private const val MAX_RECOMMENDATIONS = 15
 private const val JAPAN_ZONE = "Asia/Tokyo"

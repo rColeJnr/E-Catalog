@@ -67,6 +67,12 @@ class AnimeCatalogViewModel @Inject constructor(
     val seasonNow: StateFlow<List<JikanItem>> = browseRepository.seasonNow()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
+    val recentlyReleased: StateFlow<List<JikanItem>> =
+        combine(browseRepository.recentlyReleasedAnime(), seasonNow) { recent, season ->
+            val inSeasonRow = season.map { it.id }.toSet()
+            recent.filterNot { it.id in inSeasonRow }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
 
     fun selectList(list: AnimeList) {
         _list.value = list

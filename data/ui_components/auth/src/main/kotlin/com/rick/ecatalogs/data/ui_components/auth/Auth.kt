@@ -52,11 +52,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -67,6 +70,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 
 /**
@@ -114,26 +118,42 @@ fun LoginScreen(
         else onAuthenticate(email, password)
     }
 
-    // Centred on the screen; scrolls when taller (create account, keyboard open)
     BoxWithConstraints(
         Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .imePadding()
     ) {
+        val density = LocalDensity.current
+        var headerHeight by remember { mutableStateOf(0.dp) }
+        val verticalPadding = 32.dp
+        val headerGap = 28.dp
+        val screenHeight = maxHeight
         Column(
             Modifier
                 .verticalScroll(rememberScrollState())
-                .heightIn(min = maxHeight)
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 32.dp),
+                .padding(horizontal = 20.dp, vertical = verticalPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
         ) {
-            Column(Modifier.widthIn(max = 480.dp).fillMaxWidth()) {
-                BrandHeader()
-                Spacer(Modifier.height(28.dp))
+            BrandHeader(
+                Modifier
+                    .widthIn(max = 480.dp)
+                    .fillMaxWidth()
+                    .onSizeChanged { headerHeight = with(density) { it.height.toDp() } }
+            )
+            Spacer(Modifier.height(headerGap))
 
+            Box(
+                Modifier
+                    .widthIn(max = 480.dp)
+                    .fillMaxWidth()
+                    .heightIn(
+                        min = (screenHeight - verticalPadding * 2 - headerHeight - headerGap)
+                            .coerceAtLeast(0.dp)
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
                 Card(
                     shape = RoundedCornerShape(28.dp),
                     colors = CardDefaults.cardColors(
@@ -318,8 +338,8 @@ fun LoginScreen(
 
 /** App icon and "Catalogs" in the brand serif, then the slogan. */
 @Composable
-private fun BrandHeader() {
-    Column {
+private fun BrandHeader(modifier: Modifier = Modifier) {
+    Column(modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painterResource(com.rick.ecatalogs.data.ui_design.R.drawable.data_ui_design_app_icon),
