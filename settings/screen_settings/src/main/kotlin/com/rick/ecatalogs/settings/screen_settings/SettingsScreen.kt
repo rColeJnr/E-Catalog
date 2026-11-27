@@ -1,5 +1,8 @@
 package com.rick.ecatalogs.settings.screen_settings
 
+import com.rick.ecatalogs.data.ui_components.common.EcsBackButton
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.animation.AnimatedContent
 import com.rick.ecatalogs.data.ui_components.common.EcsTheme
 import androidx.compose.animation.AnimatedVisibility
@@ -63,6 +66,8 @@ class SettingsActions(
     val onSignOut: () -> Unit,
     val onDeleteAccount: () -> Unit,
     val onOpenLicenses: () -> Unit,
+    /** The top bar's back button: closes Settings. */
+    val onClose: () -> Unit = {},
 )
 
 @Composable
@@ -72,20 +77,43 @@ fun SettingsScreen(
     actions: SettingsActions,
     modifier: Modifier = Modifier,
 ) {
-    AnimatedContent(
-        targetState = uiState,
-        contentKey = { it is SettingsUiState.Success },
-        transitionSpec = { fadeIn() togetherWith fadeOut() },
-        label = "settingsState",
-        modifier = modifier.fillMaxSize(),
-    ) { state ->
-        when (state) {
-            SettingsUiState.Loading -> Box(Modifier.fillMaxSize(), Alignment.Center) {
-                CircularProgressIndicator()
-            }
+    Column(modifier.fillMaxSize()) {
+        SettingsTopBar(onClose = actions.onClose)
+        AnimatedContent(
+            targetState = uiState,
+            contentKey = { it is SettingsUiState.Success },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            label = "settingsState",
+            modifier = Modifier.fillMaxSize(),
+        ) { state ->
+            when (state) {
+                SettingsUiState.Loading -> Box(Modifier.fillMaxSize(), Alignment.Center) {
+                    CircularProgressIndicator()
+                }
 
-            is SettingsUiState.Success -> SettingsContent(state.settings, appVersion, actions)
+                is SettingsUiState.Success -> SettingsContent(state.settings, appVersion, actions)
+            }
         }
+    }
+}
+
+/**
+ * Settings' own bar, like the details and search screens' toolbars: the app's back arrow, which
+ * closes Settings, and the title (the activity toolbar is hidden here).
+ */
+@Composable
+private fun SettingsTopBar(onClose: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .statusBarsPadding()
+            .height(56.dp)
+            .padding(horizontal = 4.dp),
+    ) {
+        EcsBackButton(onClick = onClose, contentDescription = stringResource(string.settings_screen_settings_close))
+        Spacer(Modifier.width(8.dp))
+        Text(stringResource(string.settings_screen_settings_settings), style = MaterialTheme.typography.titleLarge)
     }
 }
 

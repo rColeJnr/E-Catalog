@@ -44,11 +44,15 @@ internal fun Project.configureJacoco(
     commonExtension: CommonExtension,
     androidComponentsExtension: AndroidComponentsExtension<*, *, *>,
 ) {
-    // Records coverage in debug test runs (as in Now in Android). Only debug: it would force the
-    // debuggable flag on release builds too.
-    commonExtension.buildTypes.named("debug") {
-        enableAndroidTestCoverage = true
-        enableUnitTestCoverage = true
+    // Records coverage in debug test runs (as in Now in Android) when asked for with
+    // -PecsCoverage=true; CI sets it (.github/ci-gradle.properties). Local builds skip it: it slows
+    // debug builds and needs JaCoCo's Ant artifacts. Only debug: it would force the debuggable
+    // flag on release builds too.
+    if (providers.gradleProperty("ecsCoverage").map(String::toBoolean).getOrElse(false)) {
+        commonExtension.buildTypes.named("debug") {
+            enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
+        }
     }
 
     configure<JacocoPluginExtension> {

@@ -429,7 +429,8 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   - `./gradlew testDemoDebugUnitTest`, or one module, e.g. `:movie:data_movie:data:testDemoDebugUnitTest`.
   - `./gradlew :app:connectedDemoDebugAndroidTest` (needs a device).
   - Baseline profiles and benchmarks: see above.
-- Coverage: debug builds record it (`enableUnitTestCoverage`/`enableAndroidTestCoverage`, as in NiA);
+- Coverage: debug builds record it when `-PecsCoverage=true` (CI sets it; off locally, where it would slow builds
+  and need JaCoCo's Ant artifacts) (`enableUnitTestCoverage`/`enableAndroidTestCoverage`, as in NiA);
   `create{Variant}CombinedCoverageReport` (e.g. `createDemoDebugCombinedCoverageReport`) merges unit and
   instrumented runs.
 

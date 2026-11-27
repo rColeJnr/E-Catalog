@@ -75,6 +75,7 @@ class SettingsFragment : Fragment() {
                         onOpenLicenses = {
                             startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
                         },
+                        onClose = { findNavController().navigateUp() },
                     ),
                 )
             }

@@ -116,6 +116,8 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.person_details.R.id.movie_screen_movie_person_details_persondetailsfragment
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.article_search.R.id.movie_screen_movie_article_search_articlesearchfragment
                 || destination.id == com.rick.ecatalogs.movie.screen_movie.common.R.id.movie_screen_movie_common_articledetailsfragment
+                // Settings has its own bar (the app's back arrow closes it)
+                || destination.id == com.rick.ecatalogs.settings.screen_settings.R.id.settings_screen_settings_settingsfragment
                 //Book screen
                 || destination.id == com.rick.ecatalogs.book.screen_book.gutenberg_search.R.id.book_screen_book_gutenberg_search_searchfragment
                 || destination.id == com.rick.ecatalogs.book.screen_book.common.R.id.book_screen_book_common_readerfragment

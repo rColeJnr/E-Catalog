@@ -2,6 +2,7 @@ package com.rick.ecatalogs.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -89,6 +90,17 @@ class NavigationTest {
     }
 
     @Test
+    fun settingsBackButton_whenTapped_thenSettingsCloses() {
+        launchApp().use { app ->
+            app.openSettings()
+            app.assertDestination(SETTINGS)
+            composeRule.onNodeWithContentDescription(string(SettingsR.string.settings_screen_settings_close))
+                .performClick()
+            app.assertDestination(HOME)
+        }
+    }
+
+    @Test
     fun whenDrawerItemSelected_thenItsScreenIsShownWithItsTitle() {
         launchApp().use { app ->
             TOP_LEVEL_SCREENS.forEach { (title, destination) ->
@@ -152,7 +164,8 @@ class NavigationTest {
         launchApp().use { app ->
             app.openSettings()
             app.assertDestination(SETTINGS)
-            assertToolbarTitle(R.string.settings)
+            // Settings' own bar (Compose), not the activity toolbar
+            composeRule.onNodeWithText(string(SettingsR.string.settings_screen_settings_settings)).assertIsDisplayed()
             pressBack()
             app.assertDestination(HOME)
         }
