@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Resources that release resource shrinking must keep.
+
+  Crashlytics reads its build ID (com.google.firebase.crashlytics.mapping_file_id) and version-control
+  info by name at runtime, so nothing in the code references them. AGP 9's R8 resource shrinking
+  removed them, and release builds crashed at startup with "The Crashlytics build ID is missing".
+  The wildcards match the names with dots (as generated) or underscores (as in R).
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@string/com*google*firebase*crashlytics*mapping_file_id,@string/com*google*firebase*crashlytics*version_control_info" />
