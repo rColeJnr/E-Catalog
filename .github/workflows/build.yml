@@ -1,0 +1,206 @@
+# CI for E-Catalogs, adapted from Now in Android's Build.yaml.
+#
+# Runs on every pull request into develop or main, on every push to them, and by hand
+# (Actions tab > Build > Run workflow). Two jobs run side by side:
+#   checks:      build-logic, dependency baseline, unit tests, every APK (release with R8), lint
+#   androidTest: the instrumented tests (demo flavor) on emulators, plus the coverage report
+#
+# No secrets are needed: the demo flavor uses bundled data, API keys default to empty, release
+# builds fall back to the debug key, and the Crashlytics mapping upload is off on CI
+# (.github/ci-gradle.properties). GRADLE_ENCRYPTION_KEY is optional (see ECS.md).
+
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+    branches: [ develop, main ]
+
+# A new push to the same branch or pull request cancels the run still going
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Unit tests, lint and APKs
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    permissions:
+      contents: read
+      # Lint's SARIF reports show up under Security > Code scanning
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          # Builds of develop and main fill the cache; pull requests only read it
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/main' }}
+
+      - name: Check build-logic
+        run: ./gradlew :build-logic:convention:check
+
+      # Fails when a dependency changed without its baseline being updated
+      # (./gradlew :app:dependencyGuardBaseline, then commit app/dependencies/)
+      - name: Check dependencies against the baseline
+        run: ./gradlew :app:dependencyGuard
+
+      # Android modules (demo debug variant) and the JVM modules that have tests
+      - name: Run local tests
+        run: >
+          ./gradlew testDemoDebugUnitTest
+          :lint:test
+          :anime:data_anime:model:test
+          :book:data_book:model:test
+          :game:data_game:model:test
+
+      # demo/prod × debug/release; release is shrunk by R8 like the Play build, so R8 problems
+      # (like the Crashlytics string it removed) show up here
+      - name: Build every APK
+        run: ./gradlew :app:assemble
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: APKs
+          path: 'app/build/outputs/apk/**/*.apk'
+          retention-days: 14
+
+      - name: Upload local test results (XML)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-test-results
+          path: '**/build/test-results/test*/**.xml'
+
+      # The app checks its library modules too (checkDependencies); app/lint-baseline.xml
+      # holds the issues that were there before CI
+      - name: Lint
+        run: ./gradlew :app:lintProdRelease :lint:lint
+
+      - name: Upload lint reports (HTML)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-reports
+          path: '**/build/reports/lint-results-*.html'
+
+      - name: Upload lint reports (SARIF) for the app
+        if: ${{ !cancelled() && hashFiles('app/**/*.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: './app/'
+          category: app
+
+      - name: Upload lint reports (SARIF) for the lint rules
+        if: ${{ !cancelled() && hashFiles('lint/**/*.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: './lint/'
+          category: lint
+
+  androidTest:
+    name: Instrumented tests (API ${{ matrix.api-level }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    strategy:
+      # One API level failing doesn't cancel the other
+      fail-fast: false
+      matrix:
+        # 26: near minSdk (24), and the oldest that runs every test (some need 26);
+        # 34: a recent Android with the notification permission
+        api-level: [ 26, 34 ]
+
+    steps:
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          android: false
+          tool-cache: true
+          dotnet: true
+          haskell: true
+          swap-storage: true
+          docker-images: false
+          large-packages: false
+
+      # Hardware acceleration for the emulator
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls /dev/kvm
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/main' }}
+
+      # Built before the emulator starts, so it isn't kept waiting
+      - name: Build the app and test APKs
+        run: ./gradlew assembleDemoDebug assembleDemoDebugAndroidTest
+
+      - name: Run instrumented tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          disable-animations: true
+          disk-size: 6000M
+          heap-size: 600M
+          script: ./gradlew connectedDemoDebugAndroidTest
+
+      - name: Upload instrumented test reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-test-reports-${{ matrix.api-level }}
+          path: '**/build/reports/androidTests'
+
+      # Coverage from unit + instrumented tests, once (API 34)
+      - name: Coverage report
+        if: ${{ !cancelled() && matrix.api-level == 34 }}
+        run: |
+          ./gradlew testDemoDebugUnitTest
+          ./gradlew createDemoDebugCombinedCoverageReport
+
+      - name: Upload coverage reports (XML + HTML)
+        if: ${{ !cancelled() && matrix.api-level == 34 }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: '**/build/reports/jacoco/'

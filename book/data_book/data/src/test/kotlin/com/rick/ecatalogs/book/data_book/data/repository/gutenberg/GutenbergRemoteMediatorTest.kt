@@ -188,7 +188,8 @@ class GutenbergRemoteMediatorTest {
     private fun emptyState() =
         PagingState<Int, GutenbergEntity>(emptyList(), null, PagingConfig(pageSize = 20), 0)
 
-    private fun stateWith(rows: List<GutenbergEntity>) = PagingState(
+    // The key type is explicit: inferred from the null keys it would be Nothing
+    private fun stateWith(rows: List<GutenbergEntity>) = PagingState<Int, GutenbergEntity>(
         listOf(PagingSource.LoadResult.Page(rows, null, null)), null, PagingConfig(pageSize = 20), 0,
     )
 

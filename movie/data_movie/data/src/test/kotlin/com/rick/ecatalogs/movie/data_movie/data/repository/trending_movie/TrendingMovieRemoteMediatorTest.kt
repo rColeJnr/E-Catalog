@@ -172,7 +172,8 @@ class TrendingMovieRemoteMediatorTest {
         pages = emptyList(), anchorPosition = null, config = PagingConfig(pageSize = 20), leadingPlaceholderCount = 0,
     )
 
-    private fun stateWith(rows: List<TrendingMovieEntity>) = PagingState(
+    // The key type is explicit: inferred from the null keys it would be Nothing
+    private fun stateWith(rows: List<TrendingMovieEntity>) = PagingState<Int, TrendingMovieEntity>(
         pages = listOf(PagingSource.LoadResult.Page(data = rows, prevKey = null, nextKey = null)),
         anchorPosition = null,
         config = PagingConfig(pageSize = 20),

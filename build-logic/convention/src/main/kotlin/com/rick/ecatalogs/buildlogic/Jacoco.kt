@@ -1,6 +1,7 @@
 package com.rick.ecatalogs.buildlogic
 
 import com.android.build.api.artifact.ScopedArtifact
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.api.variant.ScopedArtifacts
 import org.gradle.api.Project
@@ -40,8 +41,16 @@ private fun String.capitalize() = replaceFirstChar {
  * tests on CI using a different Github Action or an external device farm.
  */
 internal fun Project.configureJacoco(
+    commonExtension: CommonExtension,
     androidComponentsExtension: AndroidComponentsExtension<*, *, *>,
 ) {
+    // Records coverage in debug test runs (as in Now in Android). Only debug: it would force the
+    // debuggable flag on release builds too.
+    commonExtension.buildTypes.named("debug") {
+        enableAndroidTestCoverage = true
+        enableUnitTestCoverage = true
+    }
+
     configure<JacocoPluginExtension> {
         toolVersion = libs.findVersion("jacoco").get().toString()
     }

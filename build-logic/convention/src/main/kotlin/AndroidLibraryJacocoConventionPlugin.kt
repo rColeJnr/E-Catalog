@@ -1,4 +1,5 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.rick.ecatalogs.buildlogic.configureJacoco
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -10,8 +11,10 @@ class AndroidLibraryJacocoConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("org.gradle.jacoco")
             }
-            val extension = extensions.getByType<LibraryAndroidComponentsExtension>()
-            configureJacoco(extension)
+            configureJacoco(
+                commonExtension = extensions.getByType<LibraryExtension>(),
+                androidComponentsExtension = extensions.getByType<LibraryAndroidComponentsExtension>(),
+            )
         }
     }
 }

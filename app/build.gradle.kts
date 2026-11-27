@@ -17,8 +17,10 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.rick.moviecatalog"
-        versionCode = 10
-        versionName = "2.2"
+        // Play releases set both from the git tag (.github/workflows/release.yml: v2.3.1 → 20301 /
+        // "2.3.1"); local builds keep the last hand-set values.
+        versionCode = providers.gradleProperty("ecsVersionCode").map(String::toInt).getOrElse(10)
+        versionName = providers.gradleProperty("ecsVersionName").getOrElse("2.2")
 
         testInstrumentationRunner = "com.rick.ecatalogs.data.testing.EcsTestRunner"
     }
@@ -94,6 +96,7 @@ dependencies {
     implementation(projects.movie.screenMovie.trendingSeriesFavorite)
     implementation(projects.movie.screenMovie.trendingSeriesDetails)
     implementation(projects.movie.screenMovie.trendingSeriesSearch)
+    implementation(projects.movie.screenMovie.common)
     implementation(projects.book.screenBook.common)
     implementation(projects.book.screenBook.gutenbergSearch)
     implementation(projects.book.screenBook.gutenbergCatalog)
@@ -121,7 +124,7 @@ dependencies {
     implementation(projects.data.sync)
     implementation(projects.data.util)
     implementation(projects.data.uiComponents.common)
-implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
     implementation(projects.data.uiDesign)
 
     implementation(libs.androidx.core)
@@ -137,30 +140,18 @@ implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.compose.ui)
     ksp(libs.hilt.compiler)
 
-//    kspTest(libs.hilt.compiler)
-//    testImplementation(projects.data.t)
-//    testImplementation(projects.data.testing)
-//    testImplementation(libs.accompanist.testharness)
-//    testImplementation(libs.hilt.testing)
-//    testImplementation(libs.work.testing)
-
-//    testDemoImplementation(libs.robolectric)
-//    testDemoImplementation(libs.roborazzi)
-//    testDemoImplementation(projects.core.screenshotTesting)
-
     androidTestImplementation(projects.data.testing)
     androidTestImplementation(projects.data.datastore)
     androidTestImplementation(projects.data.datastoreTest)
     androidTestImplementation(projects.authentication.authData)
     androidTestImplementation(projects.data.uiComponents.auth)
+    androidTestImplementation(projects.data.trailer)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.work.testing)
-    // ConcatAdapter (CatalogRobot); 1.2.1 is already in the Gradle cache
     androidTestImplementation(libs.androidx.recyclerview)
-    // Versions from the Compose BOM (alpha BOM 2025.09.01 → 1.10.0-alpha04, already cached)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.compose.ui.test)
     kspAndroidTest(libs.hilt.compiler)

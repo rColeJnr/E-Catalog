@@ -30,3 +30,5 @@ keystore.properties
 /app/prod/release
 *.aab
 *.apk
+# Kotlin compiler caches (Kotlin 2.x)
+/.kotlin

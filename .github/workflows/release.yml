@@ -1,0 +1,169 @@
+# CD: builds the signed Play bundle and uploads it to Google Play's internal testing track.
+#
+# Release: edit distribution/whatsnew/, merge into main, then
+#   git tag v2.3.0 && git push origin v2.3.0
+# The tag gives the version: v2.3.1 → versionName 2.3.1, versionCode 20301 (major*10000 + minor*100
+# + patch). It must point at a commit on main. Promote the build to production in Play Console.
+# A dry run without a tag: Actions > Release to Play > Run workflow, with a version like 2.3.0.
+#
+# Secrets live in the GitHub environment "play" (see ECS.md "CD"); none of them is printed.
+
+name: Release to Play
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version name, e.g. 2.3.0 (gives versionCode 20300)'
+        required: true
+
+# One release at a time; a second one waits instead of cancelling the first
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and upload to Play (internal testing)
+    # Forks have no secrets and no Play access
+    if: github.repository == 'rColeJnr/E-Catalog'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: play
+
+    permissions:
+      # The GitHub release for the tag
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # The whole history, to check the commit is on main
+          fetch-depth: 0
+
+      - name: Work out the version
+        id: version
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            raw="${GITHUB_REF_NAME#v}"
+          else
+            raw="${INPUT_VERSION#v}"
+          fi
+          if ! echo "$raw" | grep -Eq '^[0-9]+\.[0-9]+(\.[0-9]+)?$'; then
+            echo "::error::'$raw' isn't a version like 2.3 or 2.3.1 (tags are v2.3.1)"
+            exit 1
+          fi
+          IFS=. read -r major minor patch <<< "$raw"
+          patch="${patch:-0}"
+          if [ "$minor" -gt 99 ] || [ "$patch" -gt 99 ]; then
+            echo "::error::minor and patch must be 0-99 (they're two digits of the version code)"
+            exit 1
+          fi
+          name="$major.$minor.$patch"
+          code=$(( major * 10000 + minor * 100 + patch ))
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "Releasing $name (versionCode $code)"
+
+      - name: Check the commit is on main
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::$GITHUB_SHA isn't on main: merge into main first, then tag"
+            exit 1
+          fi
+
+      # The CI settings, except skipMappingUpload: a real release sends its R8 mapping to Crashlytics
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; grep -v '^skipMappingUpload' .github/ci-gradle.properties > ~/.gradle/gradle.properties
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          cache-read-only: true
+
+      # The upload key and the API keys, as the build reads them locally (app/build.gradle.kts and the
+      # network modules). Written to files only, never echoed.
+      - name: Write the signing key and local.properties
+        env:
+          UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
+          TRANSLATION_API_KEY: ${{ secrets.TRANSLATION_API_KEY }}
+          IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
+        run: |
+          for name in UPLOAD_KEYSTORE_BASE64 UPLOAD_KEYSTORE_PASSWORD UPLOAD_KEY_ALIAS UPLOAD_KEY_PASSWORD \
+                      TMDB_API_KEY NYT_API_KEY TRANSLATION_API_KEY IGDB_CLIENT_ID IGDB_CLIENT_SECRET; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Secret $name is missing in the 'play' environment"
+              exit 1
+            fi
+          done
+          echo "$UPLOAD_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload.jks"
+          {
+            echo "releaseStoreFile=$RUNNER_TEMP/upload.jks"
+            echo "releaseStorePassword=$UPLOAD_KEYSTORE_PASSWORD"
+            echo "releaseKeyAlias=$UPLOAD_KEY_ALIAS"
+            echo "releaseKeyPassword=$UPLOAD_KEY_PASSWORD"
+            echo "tmdbApiKey=$TMDB_API_KEY"
+            echo "nyTimesApiKey=$NYT_API_KEY"
+            echo "translationApiKey=$TRANSLATION_API_KEY"
+            echo "igdbClientId=$IGDB_CLIENT_ID"
+            echo "igdbClientSecret=$IGDB_CLIENT_SECRET"
+          } > local.properties
+
+      - name: Build the Play bundle
+        run: >
+          ./gradlew :app:bundleProdRelease
+          -PecsVersionCode=${{ steps.version.outputs.code }}
+          -PecsVersionName=${{ steps.version.outputs.name }}
+
+      # Without the upload key the build falls back to the debug key, which Play rejects
+      - name: Check the bundle is signed with the upload key
+        run: |
+          aab=$(ls app/build/outputs/bundle/prodRelease/*.aab)
+          certs=$(jarsigner -verify -verbose -certs "$aab")
+          if echo "$certs" | grep -q "CN=Android Debug"; then
+            echo "::error::The bundle is signed with the debug key; check the UPLOAD_* secrets"
+            exit 1
+          fi
+          echo "$certs" | grep -q "jar verified" || { echo "::error::The bundle isn't signed"; exit 1; }
+
+      - name: Upload to Google Play (internal testing)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.rick.moviecatalog
+          releaseFiles: app/build/outputs/bundle/prodRelease/*.aab
+          releaseName: ${{ steps.version.outputs.name }}
+          track: internal
+          status: completed
+          mappingFile: app/build/outputs/mapping/prodRelease/mapping.txt
+          whatsNewDirectory: distribution/whatsnew
+
+      # Notes only: the bundle contains the API keys, so it isn't attached
+      - name: GitHub release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.version.outputs.name }}
+          body_path: distribution/whatsnew/whatsnew-en-US
+
+      - name: Remove the signing key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.jks" local.properties
