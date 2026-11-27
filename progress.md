@@ -1,7 +1,7 @@
 # E-Catalogs: progress
 
-Snapshot of 2026-11-26, branch `feature/games-app-tests` (8 commits on top of `develop`, not pushed or merged),
-app version 2.2 (versionCode 10). See `ECS.md` for how the project works; this file tracks where it stands.
+Snapshot of 2026-11-27, branch `feature/games-app-tests` (9 commits on top of `develop`, not pushed or merged;
+§2.0 is uncommitted), app version 2.2 (versionCode 10). See `ECS.md` for how the project works; this file tracks where it stands.
 
 Legend: ✅ done · 🟡 done but not verified / partly done · ⬜ not started · ⚠️ problem to look at
 
@@ -11,19 +11,115 @@ Legend: ✅ done · 🟡 done but not verified / partly done · ⬜ not started 
 
 | Area | Catalog | Details | Search | Favorites | Offline cache | Background sync | Notifications | Tests |
 |---|---|---|---|---|---|---|---|---|
-| Trending movies (TMDB) | ✅ + genre filter, upcoming, now playing | ✅ cast, trailer, providers, similar | ✅ | ✅ | ✅ | ✅ | ✅ + release reminders | 🟡 data layer only |
-| Trending series (TMDB) | ✅ home screen, airing today | ✅ seasons sheet, episodes | ✅ | ✅ | ✅ | ✅ | ✅ | 🟡 data layer only |
-| Movie reviews (NYT) | ✅ | ✅ dialog + "see the film" | ✅ | ✅ | ✅ | ✅ | ✅ | 🟡 |
+| Trending movies (TMDB) | ✅ + genre filter, upcoming, now playing | ✅ cast, in-app trailer + gallery, providers, similar | ✅ | ✅ | ✅ | ✅ | ✅ + release reminders | 🟡 data layer only |
+| Trending series (TMDB) | ✅ home screen, airing today | ✅ seasons sheet, episodes, in-app trailer + gallery | ✅ | ✅ | ✅ | ✅ | ✅ | 🟡 data layer only |
+| Movie reviews (NYT) | ✅ | ✅ details screen + "see the film" | ✅ | ✅ | ✅ | ✅ | ✅ | 🟡 |
 | People (TMDB) | — | ✅ biography, credits | — | — | — | — | — | 🟡 mapping |
 | NYT bestsellers | ✅ 5 genres, carousel | ✅ review, screen adaptations | ⚠️ screen commented out, API `TODO()` | ✅ | ✅ | ✅ (5 req/min throttle) | ✅ per genre | 🟡 |
 | Gutenberg | ✅ language/topic filters | ✅ WebView reader (zoom + progress) | ✅ | ✅ | ✅ | ⬜ | ⬜ | 🟡 |
-| Anime (Jikan) | ✅ browse rows, genres, random | ✅ extras, episodes, relations, characters | ✅ | ✅ | ✅ | ⬜ **(user will do it)** | ⬜ **(user)** | 🟡 |
+| Anime (Jikan) | ✅ browse rows, genres, random | ✅ extras, episodes, relations, characters, in-app trailer | ✅ | ✅ | ✅ | 🟡 top anime, first page | 🟡 new in top anime | 🟡 |
 | Anime schedule / people | ✅ weekly schedule, Jikan person | — | — | — | session only | — | — | 🟡 |
-| Manga (Jikan) | ✅ featured rows, genres, random | ✅ recommendations, relations | ✅ | ✅ | ✅ | ⬜ **(user will do it)** | ⬜ **(user)** | 🟡 |
+| Manga (Jikan) | ✅ featured rows, genres, random | ✅ recommendations, relations | ✅ | ✅ | ✅ | 🟡 top manga, first page | 🟡 new in top manga | 🟡 |
 | **Video games (IGDB)**, new | 🟡 popular now, coming soon, recently released, genres | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 coming-soon games | 🟡 queries, mapping, DataStore (not run) |
 | Settings | ✅ account, notifications, sync, theme, about | | | | | | | ✅ VM + repository |
 | Authentication (Firebase) | ✅ email, Google, One Tap, reset | | | | | | | ⬜ (empty example test) |
 | Translation (Yandex) | ✅ shared `TextTranslator` in every area | | | | | | | ✅ |
+
+---
+
+## 2.0 Done 2026-11-27 (uncommitted)
+
+### In-app trailers (new module `:data:trailer`)
+- **Player:** android-youtube-player `core` 13.1.0 (YouTube's IFrame player in a WebView; YouTube allows no
+  other way to play its videos). `YouTubePlayerHost` (Compose `AndroidView`, inflated from XML with automatic
+  initialization off), follows the lifecycle, pauses when hidden.
+- **Details header gallery** (`MediaGallery`, `MediaGalleryHost` for XML screens): a swipeable pager with the
+  trailer first (YouTube thumbnail + play, plays in place), then the poster, then (movies/series) up to 6 TMDB
+  backdrops shown whole over a blurred copy. Page dots ("Page 2 of 3" for TalkBack). Keeps its page and the
+  video position on rotation; the player's fullscreen button opens the trailer screen at the same second.
+  Videos whose owner blocks embedding show "Open in YouTube".
+- **Trailer screen** (`TrailerActivity`): black, title, close, "Open in YouTube"; immersive in landscape;
+  handles rotation itself, so the video never reloads.
+- **Where:** movie and series details (the series header now matches the movie header: 450dp card), anime
+  details (gallery + the "Trailer" link), game details (trailer first in the media row). Every "Watch trailer"
+  opens the trailer screen instead of the YouTube app.
+- **TMDB backdrops:** `images` in `append_to_response` with `include_image_language=en,null`;
+  `TmdbDetailsExtras.backdrops` (textless first, best voted, max 6).
+- **Demo data:** trailers (checked with YouTube oEmbed: official uploads, embeddable) for the demo movie, series,
+  The Witcher 3 and Elden Ring; the demo movie/series backdrop.
+- **Tests:** unit `YouTubeTest` (3), `DetailsGalleryTest` (2) pass; backdrop mapping in `TmdbDetailsExtrasTest`
+  written but not run (that module's tests don't compile, see §5, and Robolectric's runtime jar isn't cached).
+  Instrumented (6 new): gallery starts on the trailer and swipes to the poster (movies, series); "Watch trailer"
+  opens the trailer screen (movies, series, games; launches are intercepted with an `ActivityMonitor`, so
+  nothing plays); the game media row starts with the trailer.
+- **Run on the API 37 emulator (2026-11-27): movies, series, anime, games, login, navigation, settings: 55 tests,
+  54 passed**; the failure is the known Back-to-home bug (§2.3).
+- Not checked by hand yet: playing a trailer (inline, fullscreen, rotation, "Open in YouTube"), dragging the
+  player's seek bar inside the swipeable gallery, light/dark.
+
+### Anime & manga background sync + notifications (written, not compiled or run)
+- `AnimeRepository`/`MangaRepository.syncFirstPage()`: the first page of top anime/manga, stored only when its ids
+  changed (shared `writeAnimePage`/`writeMangaPage`, also used by the remote mediators), marks the list fresh, returns
+  what's new since the last sync (nothing on the first one). `firstPageIds()` in the remote-keys DAOs (no schema change).
+- Proto: `notified_trending_anime_ids` (12) / `notified_trending_manga_ids` (13) now used; new
+  `notifications_disabled_anime` (28) and `_manga` (29); next free is 30.
+- `NotificationCategory.ANIME`/`MANGA`, Settings switches "Popular anime"/"Popular manga", channels `anime`/`manga`,
+  notifications "New in popular anime/manga" opening `com.rick.ecs://anime_catalog` / `manga_catalog` (new deep links).
+- `SyncWorker` runs both in parallel with the rest. `TestNotifier` records them.
+- Tests: 5 sync tests in `JikanRemoteMediatorsTest` (Robolectric), 2 in `PreferencesDataSourceTest`; `SettingsTest`
+  covers the two new switches.
+
+### CI (GitHub Actions; written, not run yet)
+- `.github/workflows/build.yml` replaces the broken `pull_request.yml` (invalid step, `testDebug` typo, `master`).
+  See ECS.md "CI". `.github/ci-gradle.properties` from NiA (minus isolated projects).
+- Coverage switched on for debug builds (NiA's `configureJacoco(commonExtension, …)`); before, the combined report
+  had no data.
+- Fixed unit tests that didn't compile: `stateWith()` in the movie, Gutenberg and Jikan mediator tests inferred
+  `PagingState<Nothing, …>`.
+- New local branch `main` (from `develop`, 9af01a8e), not pushed.
+- [ ] Before the first run: commit `app/lint-baseline.xml` and `app/dependencies/` (generated locally).
+- [ ] The Back-to-home `NavigationTest` failure will make the instrumented job red until the bug is fixed.
+
+### CD to Google Play (written, not run yet)
+- `.github/workflows/release.yml`: tag `v2.3.0` on main → signed `bundleProdRelease` → Play internal testing (+ R8
+  mapping, release notes) → GitHub release (notes only). Version name/code from the tag. See ECS.md "CD".
+- `app/build.gradle.kts` reads `ecsVersionCode`/`ecsVersionName` (fallback 10 / "2.2").
+- `distribution/whatsnew/whatsnew-en-US`: draft notes for 2.3; edit before tagging.
+- [ ] Ricardo: service account + Play permission; GitHub environment `play` with the secrets; push `main`;
+  commit the baseline profiles; dry run from the Actions tab.
+
+### Design consistency (written, not compiled or run)
+- **Games:** details and search use the app's back arrow (`EcsBackButton`); the details favorite is the glass one
+  (`EcsGlassFavoriteButton`); search looks like the XML searches (plain field in the bar, `EcsSearchResultCard`
+  with the game's cover, summary with "Show translation", year · rating). The Compose favorites cards use the
+  shared glass button.
+- **Games, second pass** (after Ricardo's review): the list rows (catalog, favorites) put the small glass star on the
+  cover, like book covers, instead of an orange star beside the text (`EcsGlassFavoriteButton(small = true)`); the
+  search bar has the XML toolbar's orange search action instead of a clear button; the search card's bottom line is
+  the XML one (facts left, "Show translation" right, via the shared `rememberTranslationToggle`).
+- **Fixed:** the movie, series and manga searches showed the star filled when the title was *not* a favorite.
+- **Settings:** the page now pads for the navigation bar; the About section (links, version) was hidden under it.
+- **Bestsellers:** the NYT lists are a chip row under "Top picks" (as the movie/series genre chips), instead of
+  icon tiles above it; labels translated (EN/PT/RU). Removed the tile adapter, its layout, the 5 category images
+  and the `data_ui_design_category_tile` background.
+- **Movie reviews:** tapping a review opens a details screen (`ArticleDetailsFragment`) in the bestseller details
+  style instead of the dialog; the dialog, its layout and its 4 strings are gone. `MovieReviewsCatalogTest` now
+  favorites from the details toolbar.
+
+### Other
+- **Rotation:** removed `android:screenOrientation="portrait"` from `<application>` (ignored there anyway).
+  Tablet layouts are the next step.
+- **Login screen redesign:** brand header, card with a Sign in / Create account switch, outlined fields, error
+  banner, password mismatch hint, Google button in both modes; new slogan "Your next favourite story starts
+  here" (EN/PT/RU). `TextInputRoundRect` removed; reset dialog is a Material 3 `AlertDialog`.
+- **Small visual fixes (not compiled or run yet):** games' favorite button and the Compose favorites cards use
+  the app's star instead of a heart; the login content is centred vertically (still scrolls when taller);
+  drawer/toolbar titles "Trending Movies/Series" are now "Movies"/"Series" (EN/PT/RU; notification and
+  Settings labels still say "trending", since those notify about trending titles).
+- **Release crash fix:** R8 resource shrinking removed Crashlytics' `mapping_file_id` string; kept with
+  `app/src/main/res/raw/keep.xml`. Checked 2026-11-27: `assembleProdRelease -PskipMappingUpload` passes (lint
+  clean) and the string is in the APK. The YouTube player survives R8 too (view class name and the JavaScript
+  bridge methods kept, player HTML present). Not yet run on a device.
 
 ---
 
@@ -164,10 +260,6 @@ Done before 2026-11-25:
 ## 5. Open items and known problems (whole project, including parts not touched in this session)
 
 ### To do (planned)
-- [ ] **Anime & manga background sync + notifications**: the user will do this. The proto already reserves
-  `notified_trending_anime_ids` (12) and `notified_trending_manga_ids` (13). It needs `syncFirstPage()` in
-  the anime/manga repositories, `SyncWorker`, new `NotificationCategory` values, `notifications_disabled_*`
-  fields (28+), Settings labels, `Notifier` methods and `TestNotifier`.
 - [ ] **Gutenberg** is not in the background sync either.
 - [ ] **Bestseller search**: `BestsellerRetrofitNetwork.searchBestseller` and
   `DemoBestsellerNetworkDataSource` are `TODO()`, and the `bestseller_search` screen code is fully commented out.
@@ -180,10 +272,10 @@ Done before 2026-11-25:
   profile's effect. Consider a games journey for the profile (list id `game_recycler_view`).
 - [ ] Regenerate the baseline profiles after the games feature lands.
 - [ ] Jacoco: the combined report misses `src/debug`, `src/prod`, `src/demo`… (TODO in `Jacoco.kt`).
-- [ ] README is out of date: it still says keys are secured with NDK/JNI and series are "Top 150 IMDB" and
-  promises a universal search screen. Games and the new features aren't mentioned.
-- [ ] First `dependencyGuard` run needs a baseline (`./gradlew dependencyGuardBaseline`); none is committed.
-- [ ] Lint uses a per-module `lint-baseline.xml`, but none exist yet. The first lint run creates them.
+- [ ] Tablet layouts: wider grids, list-detail, navigation rail (rotation is unlocked; screens are phone-sized).
+- [ ] README: add in-app trailers once committed.
+- [ ] `TrendingMovieRemoteMediatorTest` doesn't compile (`emptyState()`/`stateWith()` infer
+  `PagingState<Nothing, …>`), so `:movie:data_movie:data` unit tests can't run. Found 2026-11-27.
 - [ ] Optional: a `CLAUDE.md` containing `@ECS.md`, so the guide loads automatically.
 
 ### Possible bugs (found while reading; not fixed)
@@ -194,7 +286,6 @@ Done before 2026-11-25:
 - ⚠️ `SyncManager.requestSync()` is never called; if used for a "sync now" button it would be skipped while
   the last sync is recent.
 - ⚠️ IGDB secret in the APK (see §2.2).
-- ⚠️ `ArticleDetailsDialogFragment` has constructor arguments, so it can't be recreated (rotation while open).
 - ⚠️ Back from top-level screens: see §2.3.
 
 ### Housekeeping before committing

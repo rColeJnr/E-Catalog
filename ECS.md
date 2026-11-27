@@ -107,7 +107,7 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   network with internet), `SyncManager`, `ReleaseReminderScheduler`.
 - **analytics**: `AnalyticsHelper`. demo → `StubAnalyticsHelper` (logcat), prod → `FirebaseAnalyticsHelper`;
   `LocalAnalyticsHelper` for Compose.
-- **datastore_proto**: `user_preferences.proto` (proto3, lite). **The next free field number is 28.**
+- **datastore_proto**: `user_preferences.proto` (proto3, lite). **The next free field number is 30.**
   Boolean settings are stored negated (`sync_disabled`, `notifications_disabled_*`) so the default means enabled.
 - **datastore**: `PreferencesDataSource` (favorites per catalog as `map<id,bool>`, user name, theme
   0 = dark/1 = light/2 = system, sync on/interval, notification categories, `last_sync_epoch_millis`,
@@ -122,16 +122,18 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   - `SyncWorker` syncs in parallel: trending movies, trending series and articles (`syncFirstPage()`)
     and bestsellers (`syncAllGenres()`), plus games (`GameRepository.syncFirstPage()` then
     `GameBrowseRepository.syncComingSoon()`, one after the other because of the IGDB rate limit; both skip
-    themselves when the IGDB credentials aren't set). It then posts notifications for the enabled categories, records
+    themselves when the IGDB credentials aren't set), and the first page of top anime and top manga
+    (`AnimeRepository`/`MangaRepository.syncFirstPage()`; in parallel, the Jikan client spaces its own requests).
+    It then posts notifications for the enabled categories, records
     the sync time on success and retries on failure. It does nothing when sync is turned off.
   - `WorkManagerSyncManager.setPeriodicSync` re-enqueues the periodic work with UPDATE, or cancels it.
   - `ReleaseReminderWorker` / `WorkManagerReleaseReminderScheduler`: one-time work at 09:00 on the release
     day (`release_reminder_<id>`, REPLACE).
 - **notifications**: `Notifier` → `SystemNotifier` (InboxStyle, at most 5 lines; channels: trending_movies,
   trending_series, articles, bestsellers (one notification per genre), release_reminders, games (new
-  "coming soon" games)).
+  "coming soon" games), anime, manga (new in the top lists)).
   `DeepLinks`: `com.rick.ecs://trending_movie_catalog`, `…trending_series_catalog`, `…article_catalog`, `…game_catalog`,
-  `…bestseller-catalog-screen?genre=`, `…trending_movie_details_fragment/<id>`.
+  `…anime_catalog`, `…manga_catalog`, `…bestseller-catalog-screen?genre=`, `…trending_movie_details_fragment/<id>`.
 - **translation**: `TextTranslator` (singleton) translates English text into the phone's language with
   Yandex Cloud Translate. It batches the texts of one request, keeps an LRU of 200 per language, returns
   `null` when English, offline or on an error. demo → `DemoTranslationNetworkDataSource` (assets
@@ -140,6 +142,20 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
 - **testing**: `EcsTestRunner` (swaps in `HiltTestApplication`), `MainDispatcherRule`, `TestNetworkMonitor`,
   `TestSyncManager`, `TestNotifier`, `TestAnalyticsHelper`, `TestUserSettingsDataRepository`. Exposes junit,
   kotlin-test, coroutines-test, turbine and hilt-testing as `api`.
+
+## Trailers (`:data:trailer`)
+- YouTube only, through android-youtube-player `core` (IFrame player in a WebView; YouTube allows no other
+  player). TMDB, IGDB and Jikan all give YouTube ids; `youtubeIdFromUrl` reads Jikan's embed URLs.
+- `MediaGallery(items, title)`: the details header pager. `GalleryItem.Trailer(id)` first (thumbnail, plays in
+  place via `InlineTrailer`), then `GalleryItem.Image(url, wide)` (`wide` = 16:9, shown whole over a blurred
+  copy). Page dots describe "Page n of m". XML screens use `MediaGalleryHost(frameLayout, onFirstImageLoaded)`
+  (start the postponed enter transition there); movies/series build their items with `detailsGalleryItems`.
+- `TrailerActivity.start(context, videoId, title, startSeconds)`: the full screen player (`EXTRA_*` are public).
+  It handles rotation itself (`configChanges`), so the video doesn't reload. Every "Watch trailer" uses it.
+- `YouTubePlayerHost` inflates `data_trailer_player.xml` (`enableAutomaticInitialization="false"`): a
+  `YouTubePlayerView` built in code initializes itself before our options apply.
+- Tests: `trailerLaunchesDuring {}` (app androidTest) blocks and records `TrailerActivity` launches with an
+  `ActivityMonitor` (API 26+), so no test plays a video.
 
 ## Security helpers (`:data:common`)
 - `security/KeystoreCipher(alias)`: `encrypt(String)` → Base64(IV + ciphertext + GCM tag), `decrypt` → null when the
@@ -166,6 +182,8 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   `EcsHeroCarousel`, `EcsPosterRow`, `EcsChipRow`, `EcsSectionTitle`, `EcsPosterItem`/`EcsChip`,
   `EcsCatalogCard` / `EcsBookCatalogCard` (favorites cards with translatable summary through
   `LocalTextTranslator`), `EcsEmptyState`, `EcsText*`, `EcsSnackbar`, `RecentSearchesBody`.
+  - Matching the XML screens from Compose: `EcsBackButton` (the toolbars' back arrow), `EcsGlassFavoriteButton`
+    (white star on the glass circle, as on the XML cards), `EcsSearchResultCard` (the XML search result card).
   - View helpers: `TranslationToggle(button, targets, translator)` and `bind(texts…)` (cross-fades
     original ↔ translated text in XML screens), `provideGlide(imageView, url)`, `getTmdbImageUrl(path)`.
   - `installImageCaching(app)`: one 512 MB Glide disk cache; Coil loads http(s) through Glide
@@ -173,7 +191,8 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
 - **Favorites screens (Compose)**: `:data:ui_components:{movie,book,anime}_favorite` →
   `MovieFavScreen`, `BookFavScreen`, `AnimeFavScreen` (list + undo snackbar). Hosted in each feature's
   `*_favorite(s)` fragment through `ComposeView`.
-- **Auth UI**: `:data:ui_components:auth` → `LoginScreen`, `PasswordResetDialog`, `TextInputRoundRect`.
+- **Auth UI**: `:data:ui_components:auth` → `LoginScreen` (brand header + card, Sign in / Create account
+  switch; test tags `TAG_*`), `PasswordResetDialog` (M3 `AlertDialog`).
 
 ## Settings (`:settings:*`)
 - model (JVM): `SettingsUserData(userName, themeConfig = DARK, syncEnabled = true, syncIntervalHours =
@@ -267,8 +286,12 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
     trailer, cast → person, providers). Series seasons are shown in a hero carousel; tapping one opens the
     `SeasonSheet` bottom sheet.
   - `person_details`: biography with translation, credits that open movie/series details.
-  - `article_catalog`: NYT reviews; `ArticleDetailsDialogFragment` has a `FilmLinkButton` that finds the film
-    from the headline (`filmTitleFromReviewHeadline`).
+  - `article_catalog`: NYT reviews. A review opens `ArticleDetailsFragment` (`:movie:screen_movie:common`, deep link
+    `articleDetailsUri(id)` → `movie_common_article_details/{articleId}`, from catalog, search and favorites), in the
+    bestseller details style: picture, source pill, headline, critic, date pill, "In short" (abstract), "From the
+    review" (lead paragraph, translatable), "Read the full review" (in-app WebView), "The film" (`FilmLinkButton`,
+    finds the film from the headline with `filmTitleFromReviewHeadline`). Star in the toolbar.
+    `UserArticlesRepository.observeArticleById` reads any stored article.
   - `*_search` and `*_favorite` screens; favorites screens use Compose `MovieFavScreen`.
   - `common/WebViewFragment` (`com.rick.ecs://movie_common_webviewfragment/{link}`, URL-encoded).
 - Deep links: `trending_movie_catalog`, `trending_series_catalog`, `article_catalog`,
@@ -406,6 +429,43 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
   - `./gradlew testDemoDebugUnitTest`, or one module, e.g. `:movie:data_movie:data:testDemoDebugUnitTest`.
   - `./gradlew :app:connectedDemoDebugAndroidTest` (needs a device).
   - Baseline profiles and benchmarks: see above.
+- Coverage: debug builds record it (`enableUnitTestCoverage`/`enableAndroidTestCoverage`, as in NiA);
+  `create{Variant}CombinedCoverageReport` (e.g. `createDemoDebugCombinedCoverageReport`) merges unit and
+  instrumented runs.
+
+## CI (GitHub Actions, `.github/workflows/build.yml`)
+- Branches: `develop` (integration) and `main` (releases). Runs on pull requests into them, pushes to them,
+  and by hand. A newer push to the same branch cancels the older run.
+- Job **checks** (one Linux runner): `:build-logic:convention:check` → `:app:dependencyGuard` (against
+  `app/dependencies/prodReleaseRuntimeClasspath.txt`) → unit tests (`testDemoDebugUnitTest` plus the JVM modules'
+  `test`: `:lint`, anime/book/game `model`) → `:app:assemble` (all 4 variants, release shrunk by R8) →
+  `:app:lintProdRelease :lint:lint` (the app checks its libraries too; `app/lint-baseline.xml`). Uploads APKs,
+  test XML, lint HTML; lint SARIF goes to GitHub code scanning.
+- Job **androidTest** (matrix API 26 and 34, x86_64 emulator with KVM): builds the demo debug and test APKs, then
+  `connectedDemoDebugAndroidTest`; on 34 also the combined coverage report. Uploads the reports.
+- No secrets needed (demo data, empty keys, debug-key signing, `skipMappingUpload=true` in
+  `.github/ci-gradle.properties`, which CI copies to `~/.gradle`). Optional secret `GRADLE_ENCRYPTION_KEY`
+  (`openssl rand -base64 16`) lets the Gradle action keep the configuration cache.
+- The Gradle cache is written by `develop`/`main` builds and only read by pull requests.
+- Not on CI: baseline profiles (the prod app needs a signed-in account to reach the catalog), macrobenchmarks.
+- When a dependency changes: `./gradlew :app:dependencyGuardBaseline` and commit `app/dependencies/`.
+
+## CD (`.github/workflows/release.yml`, "Release to Play")
+- A tag `v<major>.<minor>[.<patch>]` on a commit in `main` builds `:app:bundleProdRelease` and uploads it to Play's
+  **internal testing** track (`com.rick.moviecatalog`) with the R8 mapping and `distribution/whatsnew/`; then a
+  GitHub release with the notes (no bundle: it contains the API keys). Production stays a manual promotion.
+- Version from the tag: `v2.3.1` → versionName `2.3.1`, versionCode `20301` (`-PecsVersionCode`/`-PecsVersionName`
+  in `app/build.gradle.kts`; without them local builds keep 10 / "2.2"). Minor and patch are 0–99.
+- To release: edit `distribution/whatsnew/whatsnew-en-US` (≤ 500 characters) → merge into `main` →
+  `git tag v2.3.0 && git push origin v2.3.0` → approve the run if the `play` environment asks → Play Console →
+  Testing → Internal testing → promote. Dry run: Actions → Release to Play → Run workflow with a version.
+- The job writes `local.properties` (signing + API keys) from the GitHub environment **`play`**'s secrets:
+  `PLAY_SERVICE_ACCOUNT_JSON`, `UPLOAD_KEYSTORE_BASE64` (`base64 -i EcsKey.jks`), `UPLOAD_KEYSTORE_PASSWORD`,
+  `UPLOAD_KEY_ALIAS`, `UPLOAD_KEY_PASSWORD`, `TMDB_API_KEY`, `NYT_API_KEY`, `TRANSLATION_API_KEY`, `IGDB_CLIENT_ID`,
+  `IGDB_CLIENT_SECRET`. It fails if one is missing or the bundle came out debug-signed.
+- Play access: a Google Cloud service account (JSON key) invited in Play Console → Users and permissions with
+  "Release apps to testing tracks".
+- The Crashlytics mapping upload is on here (CI's `skipMappingUpload` is dropped).
 
 ## Working rules for this repo
 - Ask before running `./gradlew` build, compile or test tasks. The user builds, runs and commits themselves.
@@ -431,7 +491,5 @@ All of them call `allowModulesWithoutTests()`, so modules with no tests don't fa
 - `BestsellerRetrofitNetwork.searchBestseller` is `TODO()` (it would crash if wired up).
 - Back on a top-level screen doesn't go home: the drawer's `popUpTo(startDestination)` targets the auth screen,
   which `AuthenticationFragment` pops itself, so top-level screens stack up (Anime → Manga → Back = Anime).
-- `ArticleDetailsDialogFragment` takes constructor arguments; the system can't recreate it (rotation or theme
-  change while it's open would crash).
 - `SyncManager.requestSync()` is never called. If a "sync now" button uses it, it reuses the start-up
   work, which skips the sync when the last one is recent.

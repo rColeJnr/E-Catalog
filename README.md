@@ -42,10 +42,10 @@ The **demo** flavor uses bundled sample data, so it runs without any API key:
 
 The **prod** flavor calls the real APIs. Add your own keys to `local.properties` in the project root (git-ignored):
 ```properties
-tmdbApiKey=YOUR_TMDB_KEY              # themoviedb.org/settings/api
-nyTimesApiKey=YOUR_NYT_KEY            # developer.nytimes.com (Article Search and Books APIs)
-translationApiKey=YOUR_TRANSLATION_KEY
-igdbClientId=YOUR_TWITCH_CLIENT_ID    # dev.twitch.tv/console
+tmdbApiKey=YOUR_TMDB_KEY               # themoviedb.org/settings/api
+nyTimesApiKey=YOUR_NYT_KEY             # developer.nytimes.com (Article Search and Books APIs)
+translationApiKey=YOUR_TRANSLATION_KEY # aistudio.yandex.ru
+igdbClientId=YOUR_TWITCH_CLIENT_ID     # dev.twitch.tv/console
 igdbClientSecret=YOUR_TWITCH_SECRET
 ```
 
