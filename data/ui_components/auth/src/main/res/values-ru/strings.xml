@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="data_ui_components_auth_create">Создать</string>
     <string name="data_ui_components_auth_sign_in">Войти</string>
-    <string name="data_ui_components_auth_have_an_account">Уже есть\nаккаунт?</string>
-    <string name="data_ui_components_auth_create_an_account">Создать\nаккаунт</string>
     <string name="data_ui_components_auth_catalogs">Каталоги</string>
-    <string name="data_ui_components_auth_slogan">Откройте для себя,\nчто посмотреть\nили почитать</string>
+    <string name="data_ui_components_auth_slogan">Твоя новая любимая история начинается здесь</string>
     <string name="data_ui_components_auth_show_password">Показать пароль</string>
     <string name="data_ui_components_auth_hide_password">Скрыть пароль</string>
     <string name="data_ui_components_auth_forgot_password">Забыли пароль?</string>
@@ -25,4 +22,8 @@
     <string name="data_ui_components_auth_invalid_input">Неверный ввод</string>
     <string name="data_ui_components_auth_valid_input">Верный ввод</string>
     <string name="data_ui_components_auth_confirm_password">Подтвердите пароль</string>
+    <string name="data_ui_components_auth_create_account">Создать аккаунт</string>
+    <string name="data_ui_components_auth_or">или</string>
+    <string name="data_ui_components_auth_continue_with_google">Продолжить с Google</string>
+    <string name="data_ui_components_auth_passwords_dont_match">Пароли не совпадают</string>
 </resources>

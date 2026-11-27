@@ -1,15 +1,22 @@
 package com.rick.ecatalogs.ui
 
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ActivityScenario
 import com.rick.ecatalogs.MainActivity
 import com.rick.ecatalogs.auth.TestAuthSession
+import com.rick.ecatalogs.data.ui_components.auth.TAG_FORGOT_PASSWORD
+import com.rick.ecatalogs.data.ui_components.auth.TAG_MODE_CREATE
+import com.rick.ecatalogs.data.ui_components.auth.TAG_MODE_SIGN_IN
+import com.rick.ecatalogs.data.ui_components.auth.TAG_SUBMIT
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -52,36 +59,36 @@ class LoginScreenTest {
     @After
     fun tearDown() = scenario.close()
 
-    // 1. Create mode first; the bottom button switches between create and sign in
+    // 1. Create mode first; the Sign in / Create account switch changes the form
 
     @Test
     fun whenOpened_thenCreateAccountModeIsShown() {
-        node(LoginR.string.data_ui_components_auth_create).assertIsDisplayed()
-        node(LoginR.string.data_ui_components_auth_have_an_account).assertIsDisplayed()
+        tag(TAG_MODE_CREATE).assertIsSelected()
+        tag(TAG_SUBMIT).assert(hasText(string(LoginR.string.data_ui_components_auth_create_account)))
         field(LoginR.string.data_ui_components_auth_email).assertIsDisplayed()
         field(LoginR.string.data_ui_components_auth_password).assertIsDisplayed()
         field(LoginR.string.data_ui_components_auth_username).assertIsDisplayed()
-        assertNotShown(LoginR.string.data_ui_components_auth_forgot_password)
+        tag(TAG_FORGOT_PASSWORD).assertDoesNotExist()
     }
 
     @Test
-    fun createMode_whenHaveAnAccountTapped_thenSignInModeIsShown() {
+    fun createMode_whenSignInSelected_thenSignInModeIsShown() {
         switchToSignIn()
 
-        node(LoginR.string.data_ui_components_auth_sign_in).assertIsDisplayed()
-        node(LoginR.string.data_ui_components_auth_create_an_account).assertIsDisplayed()
-        node(LoginR.string.data_ui_components_auth_forgot_password).assertIsDisplayed()
+        tag(TAG_MODE_SIGN_IN).assertIsSelected()
+        tag(TAG_SUBMIT).assert(hasText(string(LoginR.string.data_ui_components_auth_sign_in)))
+        tag(TAG_FORGOT_PASSWORD).assertIsDisplayed()
         field(LoginR.string.data_ui_components_auth_email).assertIsDisplayed()
         field(LoginR.string.data_ui_components_auth_password).assertIsDisplayed()
         assertNoField(LoginR.string.data_ui_components_auth_username)
     }
 
     @Test
-    fun signInMode_whenCreateAnAccountTapped_thenCreateModeIsShown() {
+    fun signInMode_whenCreateAccountSelected_thenCreateModeIsShown() {
         switchToSignIn()
-        node(LoginR.string.data_ui_components_auth_create_an_account).performClick()
+        tag(TAG_MODE_CREATE).performClick()
 
-        node(LoginR.string.data_ui_components_auth_create).assertIsDisplayed()
+        tag(TAG_MODE_CREATE).assertIsSelected()
         field(LoginR.string.data_ui_components_auth_username).assertIsDisplayed()
     }
 
@@ -128,7 +135,7 @@ class LoginScreenTest {
     @Test
     fun signInMode_whenSignInTappedWithEmptyFields_thenFillAllFieldsErrorIsShown() {
         switchToSignIn()
-        node(LoginR.string.data_ui_components_auth_sign_in).performClick()
+        tag(TAG_SUBMIT).performClick()
 
         node(AuthR.string.authentication_auth_screen_fill_all_fields).assertIsDisplayed()
     }
@@ -140,7 +147,7 @@ class LoginScreenTest {
         field(LoginR.string.data_ui_components_auth_email).performTextInput("not-an-email")
         field(LoginR.string.data_ui_components_auth_password).performTextInput("abc")
         field(LoginR.string.data_ui_components_auth_username).performTextInput("ab")
-        node(LoginR.string.data_ui_components_auth_create).performClick()
+        tag(TAG_SUBMIT).performClick()
 
         node(AuthR.string.authentication_auth_screen_failed_to_create_account).assertIsDisplayed()
     }
@@ -150,7 +157,7 @@ class LoginScreenTest {
     @Test
     fun signInMode_whenForgotPasswordTapped_thenResetDialogOpensAndDismissClosesIt() {
         switchToSignIn()
-        node(LoginR.string.data_ui_components_auth_forgot_password).performClick()
+        tag(TAG_FORGOT_PASSWORD).performClick()
         node(LoginR.string.data_ui_components_auth_request_password_reset).assertIsDisplayed()
 
         node(LoginR.string.data_ui_components_auth_dismiss).performClick()
@@ -158,8 +165,10 @@ class LoginScreenTest {
     }
 
     private fun switchToSignIn() {
-        node(LoginR.string.data_ui_components_auth_have_an_account).performClick()
+        tag(TAG_MODE_SIGN_IN).performClick()
     }
+
+    private fun tag(tag: String) = composeRule.onNodeWithTag(tag)
 
     private fun node(id: Int) = composeRule.onNodeWithText(string(id))
 

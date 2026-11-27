@@ -1,155 +1,98 @@
 package com.rick.ecatalogs.data.ui_components.auth
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush.Companion.linearGradient
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import com.rick.ecatalogs.data.ui_components.auth.R
 
+/** Asks for the account's email and sends the reset link (Firebase, in the fragment). */
 @Composable
 fun PasswordResetDialog(
     onPasswordReset: (String) -> Unit,
     isValidEmail: (String) -> Boolean,
     onDismissRequest: () -> Unit
 ) {
-    val email = rememberSaveable {
-        mutableStateOf("")
-    }
-    val invalidEmail = rememberSaveable {
-        mutableStateOf(false)
-    }
-    val container = linearGradient(
-        colors = listOf(
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_surface), // end color
-            colorResource(com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_on_surface), // start color
-        ),
-        start = Offset.Infinite,
-        end = Offset.Zero
-    )
-    val content = colorResource(id = com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_black)
-    val button = colorResource(id = com.rick.ecatalogs.data.ui_design.R.color.data_ui_design_color_on_surface)
-
-    Dialog(onDismissRequest = { onDismissRequest() }) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(container)
-                .clip(shape = RoundedCornerShape(16.dp))
-                .padding(16.dp)
-                .wrapContentHeight(),
-            colors = CardDefaults.cardColors(contentColor = content)
-        ) {
-            Column {
-                Text(
-                    stringResource(R.string.data_ui_components_auth_request_password_reset),
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(16.dp, vertical = 8.dp)
-                )
-                Text(
-                    stringResource(R.string.data_ui_components_auth_enter_the_email_associated),
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(16.dp, vertical = 8.dp)
-                )
-                TextField(
-                    value = email.value,
-                    onValueChange = { email.value = it },
-                    placeholder = {
-                        Text(
-                            text = stringResource(id = R.string.data_ui_components_auth_email_placeholder)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                )
-                AnimatedVisibility(visible = invalidEmail.value) {
-                    Text(
-                        text = stringResource(R.string.data_ui_components_auth_invalid_email),
-                        color = Color.Red,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                    )
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TextButton(
-                        onClick = {
-                            onDismissRequest()
-                        },
-                        modifier = Modifier
-                            .padding(6.dp)
-                            .clip(shape = RoundedCornerShape(16.dp))
-                            .background(color = button)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.data_ui_components_auth_dismiss),
-                            color = content
-                        )
-                    }
-                    TextButton(
-                        onClick = {
-                            if (isValidEmail(email.value)) {
-                                onPasswordReset(email.value)
-                                onDismissRequest()
-                            } else {
-                                invalidEmail.value = true
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .clip(shape = RoundedCornerShape(16.dp))
-                            .background(color = button)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.data_ui_components_auth_send),
-                            color = content
-                        )
-                    }
-                }
-            }
+    var email by rememberSaveable { mutableStateOf("") }
+    var invalidEmail by rememberSaveable { mutableStateOf(false) }
+    val send = {
+        if (isValidEmail(email)) {
+            onPasswordReset(email)
+            onDismissRequest()
+        } else {
+            invalidEmail = true
         }
     }
 
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        shape = RoundedCornerShape(28.dp),
+        title = { Text(stringResource(R.string.data_ui_components_auth_request_password_reset)) },
+        text = {
+            Column {
+                Text(
+                    stringResource(R.string.data_ui_components_auth_enter_the_email_associated),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Spacer(Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = {
+                        email = it
+                        invalidEmail = false
+                    },
+                    label = { Text(stringResource(R.string.data_ui_components_auth_email)) },
+                    placeholder = { Text(stringResource(R.string.data_ui_components_auth_email_placeholder)) },
+                    isError = invalidEmail,
+                    supportingText = if (invalidEmail) {
+                        {
+                            Text(
+                                stringResource(R.string.data_ui_components_auth_invalid_email)
+                                    .trimStart('\t', '•', ' ')
+                            )
+                        }
+                    } else null,
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(onSend = { send() }),
+                    shape = RoundedCornerShape(14.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = send) { Text(stringResource(R.string.data_ui_components_auth_send)) }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(stringResource(R.string.data_ui_components_auth_dismiss))
+            }
+        },
+    )
 }
 
 @Preview
 @Composable
-fun PreviewPasswordResetDialog() {
+private fun PreviewPasswordResetDialog() {
     PasswordResetDialog(onPasswordReset = {}, isValidEmail = { true }, onDismissRequest = {})
 }
